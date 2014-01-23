@@ -1,0 +1,57 @@
+[
+    {
+        "name": "symfony/console",
+        "version": "v2.4.1",
+        "version_normalized": "2.4.1.0",
+        "target-dir": "Symfony/Component/Console",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/Console.git",
+            "reference": "4c1ed2ff514bd85ee186eebb010ccbdeeab05af7"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/Console/zipball/4c1ed2ff514bd85ee186eebb010ccbdeeab05af7",
+            "reference": "4c1ed2ff514bd85ee186eebb010ccbdeeab05af7",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "require-dev": {
+            "symfony/event-dispatcher": "~2.1"
+        },
+        "suggest": {
+            "symfony/event-dispatcher": ""
+        },
+        "time": "2014-01-01 08:14:50",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.4-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Symfony\\Component\\Console\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "http://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony Console Component",
+        "homepage": "http://symfony.com"
+    }
+]

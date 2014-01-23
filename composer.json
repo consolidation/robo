@@ -1,0 +1,22 @@
+{
+    "name": "codegyre/robo",
+    "description": "Modern task runner",
+    "minimum-stability": "alpha",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Davert",
+            "email": "davert.php@resend.cc"
+        }
+    ],
+    "autoload":{
+        "psr-4":{
+            "Robo\\":"src"
+        }
+    },
+    "bin":["robo"],
+    "require": {
+        "symfony/console": "*"
+    }
+
+}

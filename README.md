@@ -1,11 +1,11 @@
 RoboTask
 ====
 
-Modern and simple task runner for PHP. Is aimed to automate common tasks:
+Modern and simple task runner for PHP aimed to automate common tasks:
 
 * executing daemons (and workers)
 * performing cleanups
-* building release
+* building releases
 * running multiple Symfony Commands
 * starting PHP server
 * running tests
@@ -145,3 +145,33 @@ function buildPhar()
 ```
 
 [This and other example tasks](https://github.com/Codeception/Codeception/blob/2.0-dev/RoboFile.php). can be found in Codeception repo
+
+## Example: Publishing New Release of Robo
+
+To create a new release new tag should be added and pushed.
+
+``` php
+<?php
+class Robofile extends \Robo\Tasks
+{
+    public function release()
+    {
+        $this->say("Releasing Robo");
+        $this->taskExec("git tag")->args(\Robo\Runner::VERSION)->run();
+        $this->taskExec("git push origin master --tags")->run();
+    }
+}
+```
+
+To create new release we run:
+
+```
+./robo release
+➜  Releasing Robo
+ [Robo\Task\Exec] running git tag 0.1.0
+ [Robo\Task\Exec] running git push origin master --tags
+Total 0 (delta 0), reused 0 (delta 0)
+To git@github.com:Codegyre/Robo.git
+ * [new tag]         0.1.0 -> 0.1.0
+
+```

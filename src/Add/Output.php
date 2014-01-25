@@ -4,29 +4,31 @@ namespace Robo\Add;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 trait Output {
-
-    /**
-     * @var \Symfony\Component\Console\Output\ConsoleOutput
-     */
-    private $output;
-
     protected function say($text)
     {
-        $this->writeln("➜  <comment>$text</comment>");
+        $this->writeln("➜  $text");
     }
 
-    protected function taskInfo($text)
+    protected function printTaskInfo($text)
     {
-        $this->writeln("<info>[".__CLASS__."]</info> $text");
+        $this->writeln(" <fg=white;bg=cyan;options=bold>[".get_class($this)."]</fg=white;bg=cyan;options=bold> $text");
     }
 
-    private function writeln($text)
+    /**
+     * @return ConsoleOutput
+     */
+    protected function getOutput()
     {
         static $output;
         if (!$output) {
             $output = new ConsoleOutput();
         }
-        $output->writeln($text);
+        return $output;
+    }
+
+    private function writeln($text)
+    {
+        $this->getOutput()->writeln($text);
     }
 
 }

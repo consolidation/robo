@@ -1,15 +1,19 @@
 <?php
 namespace Robo\Task;
+use Robo\Add\Output;
+use Robo\StopTaskInterface;
 use Robo\Task;
 use Robo\TaskException;
 use Robo\TaskInterface;
 
 class Exec implements TaskInterface {
+    use Output;
 
     protected $command;
     protected $isBackground = false;
     protected $resource;
-    protected $pipes;
+    protected $pipes = [];
+    protected $isPrinted = false;
 
     public function __construct($command)
     {
@@ -28,9 +32,15 @@ class Exec implements TaskInterface {
             $arg = func_get_args();
         }
         $this->command .= " ".implode(' ', $arg);
+        return $this;
     }
 
     public function __destruct()
+    {
+        $this->stop();
+    }
+
+    public function stop()
     {
         if ($this->isBackground && $this->resource !== null) {
             foreach ($this->pipes AS $pipe) {
@@ -38,16 +48,29 @@ class Exec implements TaskInterface {
             }
             proc_terminate($this->resource, 2);
             unset($this->resource);
-        }
+            $this->printTaskInfo("stopped <info>{$this->command}</info>");
+        }        
     }
     
     public function run()
     {
-        if (!$this->isBackground) {
-            return shell_exec($this->command);
+        $this->printTaskInfo("running <info>{$this->command}</info>");
+        if (!$this->isBackground and $this->isPrinted) {
+            system($this->command, $code);
+            return $code;
         }
 
-        $this->resource = proc_open($this->command, ['r'], $this->pipes, null, null, ['bypass_shell' => true]);
+        if (!$this->isBackground and !$this->isPrinted) {
+            exec($this->command, $output, $code);
+            return $code;
+        }
+
+        $descriptor = [
+            ['pipe', 'r'],
+            ['pipe', 'r'],
+            ['pipe', 'r']
+        ];
+        $this->resource = proc_open($this->command, $descriptor, $this->pipes, null, null, ['bypass_shell' => true]);
         if (!is_resource($this->resource)) {
             throw new TaskException($this, 'Failed to run command.');
         }

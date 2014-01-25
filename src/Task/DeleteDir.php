@@ -9,7 +9,7 @@ class DeleteDir extends BaseDir {
     {
         foreach ($this->dirs as $dir) {
             FileSystem::deleteDir($dir);
-            $this->say("deleted $dir...");
+            $this->printTaskInfo("deleted <info>$dir</info>...");
         }
     }
 

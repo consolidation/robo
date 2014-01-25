@@ -18,7 +18,11 @@ class TaskInfo {
 
     public function getDescription()
     {
-        return $this->getAnnotation('description');
+        $desc = $this->getAnnotation('description');
+        if (!$desc) {
+            $desc = $this->getAnnotation('desc');
+        }
+        return $desc;
     }
 
     public function getName()
@@ -27,6 +31,7 @@ class TaskInfo {
         if (!$name) {
             $name = $this->reflection->getName();
         }
+        $name = $this->convertName($name);
         return $name;
     }
 
@@ -53,6 +58,11 @@ class TaskInfo {
         return $matched[1];
     }
 
+    private function convertName($camel,$splitter=":")
+    {
+        $camel=preg_replace('/(?!^)[[:upper:]][[:lower:]]/', '$0', preg_replace('/(?!^)[[:upper:]]+/', $splitter.'$0', $camel));
+        return strtolower($camel);
+    }
 
 }
  

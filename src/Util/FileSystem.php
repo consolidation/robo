@@ -25,6 +25,10 @@ class FileSystem
                 if (basename($file) === '.gitignore') {
                     continue;
                 }
+                if (basename($file) === '.gitkeep') {
+                    continue;
+                }
+
                 unlink($path->__toString());
             }
         }

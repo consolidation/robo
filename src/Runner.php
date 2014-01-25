@@ -47,13 +47,16 @@ class Runner {
         $className = self::ROBOCLASS;
         $roboTasks = new $className;
         $taskNames = get_class_methods(self::ROBOCLASS);
+        $output = $this->output;
         foreach ($taskNames as $taskName) {
             $command = $this->createCommand($taskName);
+            $desc = $command->getDescription();
             $command->setCode(function(InputInterface $input) use ($roboTasks, $taskName) {
                 $args = $input->getArguments();
                 array_shift($args);
                 $args[] = $input->getOptions();
                 call_user_func_array([$roboTasks, $taskName], $args);
+
             });
             $app->add($command);
         }

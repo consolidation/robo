@@ -1,8 +1,11 @@
 <?php
 namespace Robo\Task;
+use Robo\Add\Output;
 use Robo\TaskInterface;
+use Symfony\Component\Console\Helper\ProgressHelper;
 
 class PackPhar implements TaskInterface {
+    use Output;
 
     /**
      * @var \Phar
@@ -18,25 +21,17 @@ class PackPhar implements TaskInterface {
 
     public function __construct($filename)
     {
+        $file = new \SplFileInfo($filename);
         $this->filename = $filename;
-        $this->phar = new \Phar($filename, 0);
-    }
-
-    /**
-     * @param null $compileDir
-     * @return $this
-     */
-    public function saveTo($compileDir)
-    {
-        $this->compileDir = $compileDir;
-        return $this;
+        @unlink($file->getRealPath());
+        $this->phar = new \Phar($file->getPathname(), 0, $file->getFilename());
     }
 
     /**
      * @param boolean $compress
      * @return $this
      */
-    public function compressFile($compress = true)
+    public function compress($compress = true)
     {
         $this->compress = $compress;
         return $this;
@@ -48,41 +43,41 @@ class PackPhar implements TaskInterface {
         return $this;
     }
 
-    public function bin($executable)
-    {
-        $this->bin = $executable;
-        return $this;
-    }
-
     public function run()
     {
+        $this->printTaskInfo("creating <info>{$this->filename}</info>");
         $this->phar->setSignatureAlgorithm(\Phar::SHA1);
         $this->phar->startBuffering();
 
+        $this->printTaskInfo('packing '.count($this->files).' files into phar');
+
+        $progress = new ProgressHelper();
+        $progress->start($this->output(), count($this->files));
         foreach ($this->files as $path => $content) {
             $this->phar->addFromString($path, $content);
+            $progress->advance();
         }
         $this->phar->stopBuffering();
+        $progress->finish();
 
         if($this->compress and in_array('GZ', \Phar::getSupportedCompression())) {
-            //do not use compressFiles as it has issue with temporary file when adding large amount of files
-//            $phar->compressFiles(\Phar::GZ);
-            $this->phar->compressFiles(\Phar::GZ);
-        } else {
-            $this->phar->compress(\Phar::NONE);
+            $this->taskInfo($this->filename . " compressed");
+            $this->phar = $this->phar->compressFiles(\Phar::GZ);
         }
-        unset($this->phar);
+        $this->printTaskInfo($this->filename." produced");
     }
 
 
     public function addStripped($path, $file)
     {
         $this->files[$path] = $this->stripWhitespace(file_get_contents($file));
+        return $this;
     }
 
     public function addFile($path, $file)
     {
         $this->files[$path] = file_get_contents($file);
+        return $this;
     }
 
     /**

@@ -8,7 +8,7 @@ class CopyDir extends BaseDir {
     {
         foreach ($this->dirs as $src => $dst) {
             FileSystem::copyDir($src, $dst);
-            $this->say("Copied from $src to $dst");
+            $this->printTaskInfo("Copied from <info>$src</info> to <info>$dst</info>");
         }
     }
 

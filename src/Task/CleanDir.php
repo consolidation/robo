@@ -8,7 +8,7 @@ class CleanDir extends BaseDir {
     {
         foreach ($this->dirs as $dir) {
             FileSystem::doEmptyDir($dir);
-            $this->tas("cleaned $dir");
+            $this->printTaskInfo("cleaned <info>$dir</info>");
         }
     }
 

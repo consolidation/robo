@@ -1,8 +1,10 @@
 <?php
 namespace Robo;
 
+use Robo\Command\Init;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -27,30 +29,39 @@ class Runner {
 
     protected function loadRoboFile()
     {
-        $filename = $this->currentDir.DIRECTORY_SEPARATOR.self::ROBOFILE;
-        if (!file_exists($filename)) {
-            $this->output->writeln("<error> ".self::ROBOFILE." not found in this dir </error>");
+        if (!file_exists(self::ROBOFILE)) {
+            $this->output->writeln("<comment>  ".self::ROBOFILE." not found in this dir </comment>");
+            $dialog = new DialogHelper();
+            if ($dialog->askConfirmation($this->output, "<question>  Should I create RoboFile here? (y/n)  \n</question>", false)) {
+                $this->initRoboFile();
+            }
             exit;
         }
-        require_once $filename;
+        require_once self::ROBOFILE;
 
         if (!class_exists(self::ROBOCLASS)) {
             $this->output->writeln("<error>Class ".self::ROBOCLASS." was not loaded</error>");
+            return false;
         }
+        return true;
     }
 
     public function execute()
     {
         $app = new Application('Robo', self::VERSION);
 
-        $this->loadRoboFile();
+        $loaded = $this->loadRoboFile();
+        if (!$loaded) {
+            $app->add(new Init('init'));
+            $app->run();
+            return;
+        }
+
         $className = self::ROBOCLASS;
         $roboTasks = new $className;
         $taskNames = get_class_methods(self::ROBOCLASS);
-        $output = $this->output;
         foreach ($taskNames as $taskName) {
             $command = $this->createCommand($taskName);
-            $desc = $command->getDescription();
             $command->setCode(function(InputInterface $input) use ($roboTasks, $taskName) {
                 $args = $input->getArguments();
                 array_shift($args);
@@ -80,6 +91,13 @@ class Runner {
         }
 
         return $task;
+    }
+
+    protected function initRoboFile()
+    {
+        file_put_contents(self::ROBOFILE, "<?php\n\nclass Robofile extends \\Robo\\Tasks\n{\n \n}");
+        $this->output->writeln(self::ROBOFILE . " created");
+
     }
     
     

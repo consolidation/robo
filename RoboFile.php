@@ -1,12 +1,10 @@
 <?php
-class RoboFile
+class Robofile extends \Robo\Tasks
 {
-    use \Robo\Add\Output;
-    /**
-     * @description Hello world
-     */
-    public function hello($name)
+    public function release()
     {
-        $this->say("hello $name");
+        $this->say("Releasing Robo");
+        $this->taskExec("git tag")->args(\Robo\Runner::VERSION)->run();
+        $this->taskExec("git push origin master --tags")->run();
     }
 }

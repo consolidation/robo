@@ -43,7 +43,7 @@ class Command implements TaskInterface {
     public function run()
     {
         $this->printTaskInfo("Running command ".$this->command->getName());
-        return $this->command->run(new ArrayInput($this->input), $this->output());
+        return $this->command->run(new ArrayInput($this->input), $this->getOutput());
     }
 
 }

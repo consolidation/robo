@@ -11,6 +11,8 @@ Modern and simple task runner for PHP aimed to automate common tasks:
 * running tests
 * writing cross-platform scripts
 
+Based on Symfony2 Console Component.
+
 ## Installing
 
 ### Composer
@@ -35,7 +37,7 @@ There are predefined tasks that can be executed from RoboFile
 * `taskCommand` running Symfony Command. *(requires \Robo\Add\Command trait)*
 * `taskPackPhar` creating phar archive *(requires \Robo\Add\Command trait)*
 
-## Example: running Codeception Acceptance Test
+### Example: running Codeception Acceptance Test
 
 To run test we need to start a server first, and launch a Selenium Server
 
@@ -74,7 +76,7 @@ To execute it you shoud run `robo test:acceptance`. You may change path to selen
 robo test:acceptance "C:\Downloads\selenium.jar"
 ```
 
-## Example: Cleaning Logs and Cache
+### Example: Cleaning Logs and Cache
 
 ``` php
 <?php
@@ -102,7 +104,7 @@ Can be executed by running:
 robo clean
 ```
 
-## Example: Creating Phar Archive
+### Example: Creating Phar Archive
 
 This example was extracted from Codeception and simplified:
 
@@ -146,7 +148,7 @@ function buildPhar()
 
 [This and other example tasks](https://github.com/Codeception/Codeception/blob/2.0-dev/RoboFile.php). can be found in Codeception repo
 
-## Example: Publishing New Release of Robo
+### Example: Publishing New Release of Robo
 
 To create a new release new tag should be added and pushed.
 
@@ -175,3 +177,11 @@ To git@github.com:Codegyre/Robo.git
  * [new tag]         0.1.0 -> 0.1.0
 
 ```
+
+## API
+
+Tasks are classes that implement `Robo\TaskInterface` with method `run` defined. Each other method of task should be used for specifing task options and returns `$this` for fluent interface:
+
+Tasks are including into RoboFile with traits. Traits should contain protected methods with `task` prefix that return new instance of a task.
+
+See: [Bundled Tasks](https://github.com/Codegyre/Robo/tree/master/src/Task) | [Corresponding Traits](https://github.com/Codegyre/Robo/tree/master/src/Add)

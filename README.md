@@ -1,7 +1,7 @@
 RoboTask
 ====
 
-Modern and simple task runner for PHP aimed to automate common tasks:
+Modern and simple PHP task runner inspired by Grunt and Rake aimed to automate common tasks:
 
 * executing daemons (and workers)
 * performing cleanups
@@ -10,6 +10,7 @@ Modern and simple task runner for PHP aimed to automate common tasks:
 * starting PHP server
 * running tests
 * writing cross-platform scripts
+
 
 Based on Symfony2 Console Component.
 

@@ -26,9 +26,9 @@ Based on Symfony2 Console Component.
 
 All tasks are defined as **public methods** in `RoboFile.php`. It can be created by running `robo init`.
 RoboFile has a set of predefined tasks taken from `\Robo\Tasks`. All tasks are included with traits.
-All protected methods in traits that start with `task` prefix are predefined tasks and can be configured and executed in your tasks.
+All protected methods in traits that start with `task` prefix are tasks and can be configured and executed in your tasks.
 
-There are predefined tasks that can be executed from RoboFile
+List of bundled tasks that can be executed from RoboFile
 
 * `taskExec` executes script. Optionally can be started in background.
 * `taskServer` starts PHP server. Optionally can be stopped on exit
@@ -37,6 +37,8 @@ There are predefined tasks that can be executed from RoboFile
 * `taskDeleteDir` removes dir
 * `taskCommand` running Symfony Command. *(requires \Robo\Add\Command trait)*
 * `taskPackPhar` creating phar archive *(requires \Robo\Add\Command trait)*
+
+You can write your own tasks or execute any PHP code within tasks.
 
 ### Example: running Codeception Acceptance Test
 

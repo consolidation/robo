@@ -1,15 +1,11 @@
 <?php
 namespace Robo;
 
-use Robo\Add\Command;
-use Robo\Add\Exec;
-use Robo\Add\FileSystem;
-use Robo\Add\Output;
-
 class Tasks {
     use Output;
-    use Exec;
-    use FileSystem;
-    use Command;
+    use Task\Exec;
+    use Task\FileSystem;
+    use Task\SymfonyCommand;
+    use Task\PhpServer;
+    use Task\Composer;
 }
- 

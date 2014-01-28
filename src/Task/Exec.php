@@ -1,10 +1,15 @@
 <?php
 namespace Robo\Task;
-use Robo\Add\Output;
-use Robo\StopTaskInterface;
-use Robo\Task;
-use Robo\TaskException;
-use Robo\TaskInterface;
+
+trait Exec  {
+    private $runningCommands = [];
+    protected function taskExec($command)
+    {
+        $exec = new ExecTask($command);
+        $this->runningCommands[] = $exec;
+        return $exec;
+    }
+}
 
 /**
  * Initial code from https://github.com/tiger-seo/PhpBuiltinServer by tiger-seo
@@ -12,8 +17,8 @@ use Robo\TaskInterface;
  * Class Exec
  * @package Robo\Task
  */
-class Exec implements TaskInterface {
-    use Output;
+class ExecTask implements TaskInterface {
+    use \Robo\Output;
 
     protected $command;
     protected $isBackground = false;
@@ -87,4 +92,3 @@ class Exec implements TaskInterface {
     }
 
 }
- 

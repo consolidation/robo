@@ -4,6 +4,7 @@ RoboTask
 Modern and simple PHP task runner inspired by Grunt and Rake aimed to automate common tasks:
 
 * executing daemons (and workers)
+* watching filesystem changes
 * performing cleanups
 * building releases
 * running multiple Symfony Commands
@@ -85,7 +86,7 @@ To execute it you shoud run `robo test:acceptance`. You may change path to selen
 robo test:acceptance "C:\Downloads\selenium.jar"
 ```
 
-## Example: Run Composer Update on Change of `composer.json`
+### Example: Run Composer Update when composer.json Changes
 
 Actually this task is useless, but it demonstrates you of using `watch` task so you can use it for running tests or building assets.
 
@@ -96,6 +97,7 @@ class RoboFile extends \Robo\Tasks {
 
     function watchComposer()
     {
+        // when composer.json changes `composer update` will be executed
         $this->taskWatch()->monitor('composer.json', function() {
             $this->taskComposerUpdate()->run();
         })->run();

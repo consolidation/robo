@@ -35,8 +35,14 @@ List of bundled tasks that can be executed from RoboFile
 * `taskCopyDir` copies one dir into another
 * `taskCleanDir` empties specified dir
 * `taskDeleteDir` removes dir
-* `taskCommand` running Symfony Command. *(requires \Robo\Add\Command trait)*
-* `taskPackPhar` creating phar archive *(requires \Robo\Add\Command trait)*
+* `taskReplaceInFile` replaces string in a file
+* `taskComposerInstall` installs composer packages
+* `taskComposerUpdate` updates composer packages
+* `taskSymfonyCommand` running Symfony Command. *(requires \Robo\Task\SymfonyCommand trait)*
+* `taskPackPhar` creating phar archive *(requires \Robo\Task\PackPhar trait)*
+* `taskChangeLog` creating and maintaining changelog *(requires \Robo\Task\Changelog trait)*
+* `taskWatch` monitoring dir for changes and running tests when files changes *(requires \Robo\Task\Watch trait)*
+* `taskGitHubRelease` to create a GitHub release *(requires \Robo\Task\Watch trait)*
 
 You can write your own tasks or execute any PHP code within tasks.
 
@@ -153,17 +159,32 @@ function buildPhar()
 
 ### Example: Publishing New Release of Robo
 
-To create a new release new tag should be added and pushed.
-
 ``` php
 <?php
 class Robofile extends \Robo\Tasks
 {
     public function release()
     {
+        // print new message
         $this->say("Releasing Robo");
-        $this->taskExec("git tag")->args(\Robo\Runner::VERSION)->run();
-        $this->taskExec("git push origin master --tags")->run();
+
+        // ask for changes in this release
+        $changelog = $this->taskChangelog()
+            ->version(\Robo\Runner::VERSION)
+            ->askForChanges();
+        $changelog->run();
+
+        // adding changelog and pushing it
+        $this->taskExec('git add CHANGELOG.md')->run();
+        $this->taskExec('git commit -m "updated changelog"')->run();
+        $this->taskExec('git push')->run();
+
+        // create GitHub release
+        $this->taskGitHubRelease(\Robo\Runner::VERSION)
+            ->uri('Codegyre/Robo')
+            ->askDescription()
+            ->changes($changelog->getChanges())
+            ->run();
     }
 }
 ```
@@ -171,14 +192,38 @@ class Robofile extends \Robo\Tasks
 To create new release we run:
 
 ```
-./robo release
+✗ ./robo release
 ➜  Releasing Robo
- [Robo\Task\Exec] running git tag 0.1.0
- [Robo\Task\Exec] running git push origin master --tags
-Total 0 (delta 0), reused 0 (delta 0)
-To git@github.com:Codegyre/Robo.git
- * [new tag]         0.1.0 -> 0.1.0
+?  Changed in this release:Mered Tasks and Traits to same file
+?  Changed in this release:Added Watcher task
+?  Changed in this release:Added GitHubRelease task
+?  Changed in this release:Added Changelog task
+?  Changed in this release:Added ReplaceInFile task
+?  Changed in this release:
+ [Robo\Task\ChangelogTask] Creating CHANGELOG.md
+ [Robo\Task\ReplaceInFileTask] CHANGELOG.md updated
+ [Robo\Task\ExecTask] running git add CHANGELOG.md
+ [Robo\Task\ExecTask] running git commit -m "updated changelog"
+ [Robo\Task\GitHubReleaseTask] {"url":"https://api.github.com/repo...
+```
 
+## Example
+
+Running composer update on change of `composer.json`
+
+``` php
+<?php
+class RoboFile extends \Robo\Tasks {
+    use \Robo\Task\Watch;
+
+    function watchComposer()
+    {
+        $this->taskWatch()->monitor('composer.json', function() {
+            $this->taskComposerUpdate()->run();
+        })->run();
+    }
+}
+?>
 ```
 
 ## API
@@ -187,4 +232,4 @@ Tasks are classes that implement `Robo\TaskInterface` with method `run` defined.
 
 Tasks are including into RoboFile with traits. Traits should contain protected methods with `task` prefix that return new instance of a task.
 
-See: [Bundled Tasks](https://github.com/Codegyre/Robo/tree/master/src/Task) | [Corresponding Traits](https://github.com/Codegyre/Robo/tree/master/src/Add)
+See: [Bundled Tasks](https://github.com/Codegyre/Robo/tree/master/src/Task)

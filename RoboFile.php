@@ -16,6 +16,7 @@ class Robofile extends \Robo\Tasks
         
         $this->taskExec('git add CHANGELOG.md')->run();
         $this->taskExec('git commit -m "updated changelog"')->run();
+        $this->taskExec('git push')->run();
 
         $this->taskGitHubRelease(\Robo\Runner::VERSION)
             ->uri('Codegyre/Robo')

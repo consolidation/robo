@@ -207,9 +207,9 @@ To create new release we run:
  [Robo\Task\GitHubReleaseTask] {"url":"https://api.github.com/repo...
 ```
 
-## Example
+## Example: Run Composer Update on Change of `composer.json`
 
-Running composer update on change of `composer.json`
+Actually this task is useless, but it demonstrates you of using `watch` task so you can use it for running tests or building assets.
 
 ``` php
 <?php

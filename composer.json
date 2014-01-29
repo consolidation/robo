@@ -13,10 +13,13 @@
         "psr-4":{
             "Robo\\":"src"
         }
+
+
     },
     "bin":["robo"],
     "require": {
-        "symfony/console": "*"
+        "symfony/console": "*",
+        "henrikbjorn/lurker" : "1.0.*@dev"
     }
 
 }

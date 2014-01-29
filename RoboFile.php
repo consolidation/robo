@@ -3,6 +3,7 @@ class Robofile extends \Robo\Tasks
 {
     use Robo\Task\GitHub;
     use Robo\Task\Changelog;
+    use Robo\Task\Watch;
 
     public function release()
     {
@@ -12,6 +13,9 @@ class Robofile extends \Robo\Tasks
             ->version(\Robo\Runner::VERSION)
             ->askForChanges()
             ->run();
+        
+        $this->taskExec('git add CHANGELOG.md')->run();
+        $this->taskExec('git commit -m "updated changelog"')->run();
 
         $this->taskGitHubRelease(\Robo\Runner::VERSION)
             ->uri('Codegyre/Robo')
@@ -33,4 +37,11 @@ class Robofile extends \Robo\Tasks
             ->run();
     }
 
+    public function watch()
+    {
+        $this->taskWatch()->monitor('composer.json', function() {
+            $this->taskComposerUpdate()->run();
+        })->run();
+    }
+    
 }

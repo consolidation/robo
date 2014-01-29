@@ -85,6 +85,26 @@ To execute it you shoud run `robo test:acceptance`. You may change path to selen
 robo test:acceptance "C:\Downloads\selenium.jar"
 ```
 
+## Example: Run Composer Update on Change of `composer.json`
+
+Actually this task is useless, but it demonstrates you of using `watch` task so you can use it for running tests or building assets.
+
+``` php
+<?php
+class RoboFile extends \Robo\Tasks {
+    use \Robo\Task\Watch;
+
+    function watchComposer()
+    {
+        $this->taskWatch()->monitor('composer.json', function() {
+            $this->taskComposerUpdate()->run();
+        })->run();
+    }
+}
+?>
+```
+
+
 ### Example: Cleaning Logs and Cache
 
 ``` php
@@ -205,25 +225,6 @@ To create new release we run:
  [Robo\Task\ExecTask] running git add CHANGELOG.md
  [Robo\Task\ExecTask] running git commit -m "updated changelog"
  [Robo\Task\GitHubReleaseTask] {"url":"https://api.github.com/repo...
-```
-
-## Example: Run Composer Update on Change of `composer.json`
-
-Actually this task is useless, but it demonstrates you of using `watch` task so you can use it for running tests or building assets.
-
-``` php
-<?php
-class RoboFile extends \Robo\Tasks {
-    use \Robo\Task\Watch;
-
-    function watchComposer()
-    {
-        $this->taskWatch()->monitor('composer.json', function() {
-            $this->taskComposerUpdate()->run();
-        })->run();
-    }
-}
-?>
 ```
 
 ## API

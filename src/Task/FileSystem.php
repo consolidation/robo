@@ -1,5 +1,8 @@
 <?php
 namespace Robo\Task;
+use Robo\Result;
+use Robo\Util\FileSystem as FSUtils;
+
 trait FileSystem
 {
     /**
@@ -33,6 +36,16 @@ trait FileSystem
     {
         return new ReplaceInFileTask($file);
     }
+
+    protected function taskWriteToFile($file)
+    {
+        return new WriteToFileTask($file);
+    }
+
+    protected function taskRequire($file)
+    {
+        return new RequireTask($file);
+    }
 }
 
 abstract class BaseDirTask implements TaskInterface {
@@ -54,9 +67,10 @@ class CleanDirTask extends BaseDirTask {
     public function run()
     {
         foreach ($this->dirs as $dir) {
-            FileSystem::doEmptyDir($dir);
+            FSUtils::doEmptyDir($dir);
             $this->printTaskInfo("cleaned <info>$dir</info>");
         }
+        return Result::success($this);
     }
 
 }
@@ -66,9 +80,10 @@ class CopyDirTask extends BaseDirTask {
     public function run()
     {
         foreach ($this->dirs as $src => $dst) {
-            FileSystem::copyDir($src, $dst);
+            FSUtils::copyDir($src, $dst);
             $this->printTaskInfo("Copied from <info>$src</info> to <info>$dst</info>");
         }
+        return Result::success($this);
     }
 }
 
@@ -77,15 +92,25 @@ class DeleteDirTask extends BaseDirTask {
     public function run()
     {
         foreach ($this->dirs as $dir) {
-            FileSystem::deleteDir($dir);
+            FSUtils::deleteDir($dir);
             $this->printTaskInfo("deleted <info>$dir</info>...");
         }
+        return Result::success($this);
     }
 }
 
+/**
+ * @method ReplaceInFileTask filename(string)
+ * @method ReplaceInFileTask from(string)
+ * @method ReplaceInFileTask to(string)
+ *
+ * Class ReplaceInFileTask
+ * @package Robo\Task
+ */
 class ReplaceInFileTask implements TaskInterface
 {
     use \Robo\Output;
+    use DynamicConfig;
 
     protected $filename;
     protected $from;
@@ -96,18 +121,6 @@ class ReplaceInFileTask implements TaskInterface
         $this->filename = $filename;
     }
 
-    public function from($from)
-    {
-        $this->from = $from;
-        return $this;
-    }
-
-    public function to($to)
-    {
-        $this->to = $to;
-        return $this;
-    }
-
     function run()
     {
         if (!file_exists($this->filename)) {
@@ -115,14 +128,81 @@ class ReplaceInFileTask implements TaskInterface
             return false;
         }
         $text = file_get_contents($this->filename);
-        $text = str_replace($this->from, $this->to, $text);
+        $text = str_replace($this->from, $this->to, $text, $count);
         $res = file_put_contents($this->filename, $text);
         if ($res === false) {
-            $this->printTaskInfo("<error>Error writing to file {$this->filename}</error>");
-        } else {
-            $this->printTaskInfo("{$this->filename} updated");
+            return Result::error($this, "Error writing to file {$this->filename}.");
         }
-        return $res;
+        $this->printTaskInfo("{$this->filename} updated. $count items replaced");
+        return Result::success($this, '', ['replaced' => $count]);
+    }
+}
+
+class WriteToFileTask implements TaskInterface
+{
+    protected $filename;
+    protected $body = "";
+
+    public function __construct($filename)
+    {
+        $this->filename = $filename;
     }
 
+    public function line($line)
+    {
+        $this->body .= $line."\n";
+        return $this;
+    }
+
+    public function text($text)
+    {
+        $this->body .= $text;
+        return $this;
+    }
+
+    public function textFromFile($filename)
+    {
+        $this->text(file_get_contents($filename));
+        return $this;
+    }
+
+    public function place($name, $val)
+    {
+        $this->body = str_replace("{{$name}}",$val, $this->body);
+        return $this;
+    }
+
+    public function run()
+    {
+        $res = file_put_contents($this->filename, $this->body);
+        if ($res === false) return Result::error($this, "File {$this->filename} couldnt be created");
+        return Result::success($this);
+    }
+}
+
+class RequireTask
+{
+    protected $file;
+    protected $locals = [];
+
+    function __construct($pathToRequiredFile)
+    {
+        $this->file = $pathToRequiredFile;
+    }
+
+    public function local(array $locals)
+    {
+        $this->locals = array_merge($this->locals, $locals);
+    }
+
+    public function run()
+    {
+        extract($this->locals);
+        if (!file_exists($this->file)) {
+            return Result::error($this, "File {$this->file} does not exists and cant be required.");
+        }
+        @require $this->file;
+
+        return Result::success($this);
+    }
 }

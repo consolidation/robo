@@ -1,5 +1,6 @@
 <?php
 namespace Robo\Task;
+use Robo\Result;
 use Symfony\Component\Console\Helper\ProgressHelper;
 
 trait PackPhar {
@@ -75,6 +76,7 @@ class PackPharTask implements TaskInterface {
             $this->phar = $this->phar->compressFiles(\Phar::GZ);
         }
         $this->printTaskInfo($this->filename." produced");
+        return Result::success($this);
     }
 
 

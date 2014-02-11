@@ -1,6 +1,8 @@
 <?php
 namespace Robo\Task;
 
+use Robo\Result;
+
 trait Exec  {
     private $runningCommands = [];
     protected function taskExec($command)
@@ -21,7 +23,7 @@ class ExecTask implements TaskInterface {
     use \Robo\Output;
 
     protected $command;
-    protected $isBackground = false;
+    protected $background = false;
     protected $resource;
     protected $pipes = [];
     protected $isPrinted = false;
@@ -33,7 +35,7 @@ class ExecTask implements TaskInterface {
 
     public function background()
     {
-        $this->isBackground = true;
+        $this->background = true;
         return $this;
     }
 
@@ -53,7 +55,7 @@ class ExecTask implements TaskInterface {
 
     public function stop()
     {
-        if ($this->isBackground && $this->resource !== null) {
+        if ($this->background && $this->resource !== null) {
             foreach ($this->pipes AS $pipe) {
                 fclose($pipe);
             }
@@ -66,12 +68,12 @@ class ExecTask implements TaskInterface {
     public function run()
     {
         $this->printTaskInfo("running <info>{$this->command}</info>");
-        if (!$this->isBackground and $this->isPrinted) {
+        if (!$this->background and $this->isPrinted) {
             system($this->command, $code);
             return $code;
         }
 
-        if (!$this->isBackground and !$this->isPrinted) {
+        if (!$this->background and !$this->isPrinted) {
             exec($this->command, $output, $code);
             return $code;
         }
@@ -83,12 +85,13 @@ class ExecTask implements TaskInterface {
         ];
         $this->resource = proc_open($this->command, $descriptor, $this->pipes, null, null, ['bypass_shell' => true]);
         if (!is_resource($this->resource)) {
-            throw new TaskException($this, 'Failed to run command.');
+            return Result::error($this, 'Failed to run command.');
         }
         if (!proc_get_status($this->resource)['running']) {
             proc_close($this->resource);
-            throw new TaskException($this, 'Failed to run command.');
+            return Result::error($this, 'Failed to run command.');
         }
+        return Result::success($this);
     }
 
 }

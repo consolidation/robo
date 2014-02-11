@@ -10,9 +10,10 @@ trait Output {
         $this->writeln("➜  $text");
     }
 
-    protected function printTaskInfo($text)
+    protected function printTaskInfo($text, $task = null)
     {
-        $this->writeln(" <fg=white;bg=cyan;options=bold>[".get_class($this)."]</fg=white;bg=cyan;options=bold> $text");
+        if (!$task) $task = $this;
+        $this->writeln(" <fg=white;bg=cyan;options=bold>[".get_class($task)."]</fg=white;bg=cyan;options=bold> $text");
     }
 
     protected function ask($question)

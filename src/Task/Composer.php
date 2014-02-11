@@ -1,6 +1,8 @@
 <?php
 namespace Robo\Task;
 
+use Robo\Result;
+
 trait Composer {
 
     protected function taskComposerInstall($pathToComposer = null)
@@ -60,7 +62,8 @@ class ComposerInstallTask extends BaseComposerTask implements TaskInterface {
         $options = $this->prefer;
         $this->dev ?: $options.= "--no-dev";
         $this->printTaskInfo('Installing Packages: '.$options);
-        return system($this->command.' install '.$options);
+        $line = system($this->command.' install '.$options, $code);
+        return new Result($this, $code, $line);
     }
 
 }
@@ -72,7 +75,8 @@ class ComposerUpdateTask extends BaseComposerTask implements TaskInterface {
         $options = $this->prefer;
         $this->dev ?: $options.= "--no-dev";
         $this->printTaskInfo('Updating Packages: '.$options);
-        return system($this->command.' update '.$options);
+        $line = system($this->command.' update '.$options, $code);
+        return new Result($this, $code, $line);
     }
 
 }

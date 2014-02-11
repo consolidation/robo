@@ -11,8 +11,8 @@ class Robofile extends \Robo\Tasks
 
         $changelog = $this->taskChangelog()
             ->version(\Robo\Runner::VERSION)
-            ->askForChanges();
-        $changelog->run();
+            ->askForChanges()
+            ->run();
         
         $this->taskExec('git add CHANGELOG.md')->run();
         $this->taskExec('git commit -m "updated changelog"')->run();
@@ -21,7 +21,15 @@ class Robofile extends \Robo\Tasks
         $this->taskGitHubRelease(\Robo\Runner::VERSION)
             ->uri('Codegyre/Robo')
             ->askDescription()
-            ->changes($changelog->getChanges())
+            ->changes($changelog->getData())
+            ->run();
+    }
+
+    public function added($addition)
+    {
+        $this->taskChangelog()
+            ->version(\Robo\Runner::VERSION)
+            ->change($addition)
             ->run();
     }
 

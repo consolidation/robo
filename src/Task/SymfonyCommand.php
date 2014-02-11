@@ -1,6 +1,7 @@
 <?php
 namespace Robo\Task;
 
+use Robo\Result;
 use \Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -8,7 +9,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 
 trait SymfonyCommand {
 
-    protected function taskCommand($command)
+    protected function taskSymfonyCommand($command)
     {
         return new SymfonyCommandTask($command);
     }
@@ -48,6 +49,8 @@ class SymfonyCommandTask implements TaskInterface {
     public function run()
     {
         $this->printTaskInfo("Running command ".$this->command->getName());
-        return $this->command->run(new ArrayInput($this->input), $this->getOutput());
+        return new Result($this,
+            $this->command->run(new ArrayInput($this->input), $this->getOutput())
+        );
     }
 }

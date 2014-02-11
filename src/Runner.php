@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 
 class Runner {
 
-    const VERSION = '0.2.0';
+    const VERSION = '0.3.0';
     const ROBOCLASS = 'RoboFile';
     const ROBOFILE = 'RoboFile.php';
 
@@ -66,8 +66,9 @@ class Runner {
                 $args = $input->getArguments();
                 array_shift($args);
                 $args[] = $input->getOptions();
-                call_user_func_array([$roboTasks, $taskName], $args);
-
+                $res = call_user_func_array([$roboTasks, $taskName], $args);
+                if (is_int($res)) exit($res);
+                if (is_bool($res)) exit($res ? 0 : 1);
             });
             $app->add($command);
         }

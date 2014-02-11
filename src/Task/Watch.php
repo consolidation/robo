@@ -3,6 +3,7 @@ namespace Robo\Task;
 
 use Lurker\Event\FilesystemEvent;
 use Lurker\ResourceWatcher;
+use Robo\Result;
 use Symfony\Component\EventDispatcher\Event;
 
 trait Watch {
@@ -51,6 +52,7 @@ class WatchTask {
         }
 
         $watcher->start();
+        return Result::success($this);
     }
 
 }

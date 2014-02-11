@@ -49,6 +49,7 @@ abstract class GitHubTask implements TaskInterface
         $dialog = new DialogHelper();
         self::$user = $dialog->ask($this->getOutput(), "<question>GitHub User</question>");
         self::$pass = $dialog->askHiddenResponse($this->getOutput(), "   <question>Password</question>");
+        return $this;
     }
 
     protected function sendRequest($uri, $params = [], $method = 'POST')
@@ -56,11 +57,10 @@ abstract class GitHubTask implements TaskInterface
         if (!$this->owner or !$this->repo) {
             throw new TaskException($this, 'Repo URI is not set');
         }
-        if ($this->needs_auth) {
-            $this->askAuth();
-        }
+
         $ch = curl_init();
-        $url =  sprintf('%s/repos/%s/%s', GITHUB_URL, $this->getUri(), $uri);
+        $url = sprintf('%s/repos/%s/%s', GITHUB_URL, $this->getUri(), $uri);
+        $this->printTaskInfo("$method $url");
         curl_setopt_array($ch, array(
             CURLOPT_URL => $url,
             CURLOPT_RETURNTRANSFER => true,
@@ -70,28 +70,26 @@ abstract class GitHubTask implements TaskInterface
             CURLOPT_USERAGENT => self::$user ?: "Robo"
         ));
 
-        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $output = curl_exec($ch);
-        $response = json_decode($output);
-
-        if ($code == 404 and !self::$user) {
+        if (!self::$user) {
             $this->askAuth();
             curl_setopt($ch, CURLOPT_USERPWD, self::$user.':'.self::$pass);
-            $output = curl_exec($ch);
-            $response = json_decode($output);
         }
+        $output = curl_exec($ch);
+        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $response = json_decode($output);
+
         $this->printTaskInfo($output);
         return [$code, $response];
     }
 }
 
 /**
- * @method GitHubReleaseTask tag(string)
- * @method GitHubReleaseTask name(string)
- * @method GitHubReleaseTask body(string)
- * @method GitHubReleaseTask draft(boolean)
- * @method GitHubReleaseTask prerelease(boolean)
- * @method GitHubReleaseTask comittish(string)
+ * @method GitHubReleaseTask tag(string $tag)
+ * @method GitHubReleaseTask name(string $name)
+ * @method GitHubReleaseTask body(string $body)
+ * @method GitHubReleaseTask draft(boolean $isDraft)
+ * @method GitHubReleaseTask prerelease(boolean $isPrerelease)
+ * @method GitHubReleaseTask comittish(string $branch)
  *
  * Class GitHubReleaseTask
  * @package Robo\Task
@@ -142,6 +140,7 @@ class GitHubReleaseTask extends GitHubTask implements TaskInterface
 
     public function run()
     {
+        $this->printTaskInfo("Releasing ".$this->tag);
         list($code, $data) = $this->sendRequest('releases', [
             "tag_name" => $this->tag,
             "target_commitish" => $this->comittish,

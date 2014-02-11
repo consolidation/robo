@@ -1,12 +1,10 @@
 <?php
 namespace Robo\Task;
 
-use Robo\Result;
-
 interface TaskInterface {
 
     /**
-     * @return Result
+     * @return \Robo\Result
      */
     function run();
 }

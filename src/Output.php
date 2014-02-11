@@ -18,7 +18,7 @@ trait Output {
 
     protected function ask($question)
     {
-        return (new DialogHelper())->ask($this->getOutput(), "<question>?  $question</question>");
+        return (new DialogHelper())->ask($this->getOutput(), "<question>?  $question</question> ");
     }
 
     /**

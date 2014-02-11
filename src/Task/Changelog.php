@@ -62,8 +62,7 @@ class ChangelogTask implements TaskInterface
     public function run()
     {
         if (empty($this->log)) {
-            $this->printTaskInfo("<alert>Changelog is empty</alert>");
-            return false;
+            return Result::error($this, "Changelog is empty");
         }
         $text = implode("\n", array_map(function ($i) { return "* $i"; }, $this->log))."\n";
         $ver = "#### {$this->version} ".date('m/d/Y')."\n\n";

@@ -13,12 +13,15 @@ class Robofile extends \Robo\Tasks
             ->version(\Robo\Runner::VERSION)
             ->askForChanges()
             ->run();
-        
-        $this->taskExec('git add CHANGELOG.md')->run();
-        $this->taskExec('git commit -m "updated changelog"')->run();
-        $this->taskExec('git push')->run();
+
+        if ($changelog->wasSuccessful()) {
+            $this->taskExec('git add CHANGELOG.md')->run();
+            $this->taskExec('git commit -m "updated changelog"')->run();
+            $this->taskExec('git push')->run();
+        }
 
         $this->taskGitHubRelease(\Robo\Runner::VERSION)
+            ->askAuth()
             ->uri('Codegyre/Robo')
             ->askDescription()
             ->changes($changelog->getData())

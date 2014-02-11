@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Robo by Codegyre</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Robo</h1>
+        <h2>Modern task runner for PHP</h2>
+        <a href="https://github.com/Codegyre/Robo" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a name="robotask" class="anchor" href="#robotask"><span class="octicon octicon-link"></span></a>RoboTask</h1>
+
+<p>Modern and simple PHP task runner inspired by Grunt and Rake aimed to automate common tasks:</p>
+
+<ul>
+<li>executing daemons (and workers)</li>
+<li>watching filesystem changes</li>
+<li>performing cleanups</li>
+<li>building releases</li>
+<li>running multiple Symfony Commands</li>
+<li>starting PHP server</li>
+<li>running tests</li>
+<li>writing cross-platform scripts</li>
+</ul><p>Based on Symfony2 Console Component.</p>
+
+<h2>
+<a name="installing" class="anchor" href="#installing"><span class="octicon octicon-link"></span></a>Installing</h2>
+
+<h3>
+<a name="composer" class="anchor" href="#composer"><span class="octicon octicon-link"></span></a>Composer</h3>
+
+<ul>
+<li>Add <code>"codegyre/robo": "*"</code> to <code>composer.json</code>.</li>
+<li>Run <code>composer install</code>
+</li>
+<li>Use <code>vendor/bin/robo</code> to execute robo tasks.</li>
+</ul><h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>All tasks are defined as <strong>public methods</strong> in <code>RoboFile.php</code>. It can be created by running <code>robo init</code>.
+RoboFile has a set of predefined tasks taken from <code>\Robo\Tasks</code>. All tasks are included with traits.
+All protected methods in traits that start with <code>task</code> prefix are tasks and can be configured and executed in your tasks.</p>
+
+<p>List of bundled tasks that can be executed from RoboFile</p>
+
+<ul>
+<li>
+<code>taskExec</code> executes script. Optionally can be started in background.</li>
+<li>
+<code>taskServer</code> starts PHP server. Optionally can be stopped on exit</li>
+<li>
+<code>taskCopyDir</code> copies one dir into another</li>
+<li>
+<code>taskCleanDir</code> empties specified dir</li>
+<li>
+<code>taskDeleteDir</code> removes dir</li>
+<li>
+<code>taskReplaceInFile</code> replaces string in a file</li>
+<li>
+<code>taskComposerInstall</code> installs composer packages</li>
+<li>
+<code>taskComposerUpdate</code> updates composer packages</li>
+<li>
+<code>taskSymfonyCommand</code> running Symfony Command. <em>(requires \Robo\Task\SymfonyCommand trait)</em>
+</li>
+<li>
+<code>taskPackPhar</code> creating phar archive <em>(requires \Robo\Task\PackPhar trait)</em>
+</li>
+<li>
+<code>taskChangeLog</code> creating and maintaining changelog <em>(requires \Robo\Task\Changelog trait)</em>
+</li>
+<li>
+<code>taskWatch</code> monitoring dir for changes and running tests when files changes <em>(requires \Robo\Task\Watch trait)</em>
+</li>
+<li>
+<code>taskGitHubRelease</code> to create a GitHub release <em>(requires \Robo\Task\Watch trait)</em>
+</li>
+</ul><p>You can write your own tasks or execute any PHP code within tasks.</p>
+
+<h3>
+<a name="example-running-codeception-acceptance-test" class="anchor" href="#example-running-codeception-acceptance-test"><span class="octicon octicon-link"></span></a>Example: running Codeception Acceptance Test</h3>
+
+<p>To run test we need to start a server first, and launch a Selenium Server</p>
+
+<div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="k">class</span> <span class="nc">RoboFile</span> <span class="k">extends</span> <span class="nx">\Robo\Tasks</span>
+<span class="p">{</span>
+
+    <span class="k">function</span> <span class="nf">testAcceptance</span><span class="p">(</span><span class="nv">$seleniumPath</span> <span class="o">=</span> <span class="s1">'~/selenium-server-standalone-2.39.0.jar'</span><span class="p">)</span>
+    <span class="p">{</span>
+       <span class="c1">// launches PHP server on port 8000 for web dir</span>
+       <span class="c1">// server will be executed in background and stopped in the end</span>
+       <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">taskServer</span><span class="p">(</span><span class="mi">8000</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">background</span><span class="p">()</span>
+            <span class="o">-&gt;</span><span class="na">dir</span><span class="p">(</span><span class="s1">'web'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">run</span><span class="p">();</span>
+
+       <span class="c1">// running Selenium server in background</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">taskExec</span><span class="p">(</span><span class="s1">'java -jar '</span><span class="o">.</span><span class="nv">$pathToSelenium</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">background</span><span class="p">()</span>
+            <span class="o">-&gt;</span><span class="na">run</span><span class="p">();</span>
+
+        <span class="c1">// loading Symfony Command and running with passed argument</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">taskCommand</span><span class="p">(</span><span class="k">new</span> <span class="nx">\Codeception\Command\Run</span><span class="p">(</span><span class="s1">'run'</span><span class="p">))</span>
+            <span class="o">-&gt;</span><span class="na">arg</span><span class="p">(</span><span class="s1">'suite'</span><span class="p">,</span><span class="s1">'acceptance'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">run</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+<p>If you execute <code>robo</code> you will see this task added to list of available task with name: <code>test:acceptance</code>.
+To execute it you shoud run <code>robo test:acceptance</code>. You may change path to selenium server by passing new path as a argument:</p>
+
+<pre><code>robo test:acceptance "C:\Downloads\selenium.jar"
+</code></pre>
+
+<h3>
+<a name="example-run-composer-update-when-composerjson-changes" class="anchor" href="#example-run-composer-update-when-composerjson-changes"><span class="octicon octicon-link"></span></a>Example: Run Composer Update when composer.json Changes</h3>
+
+<p>Actually this task is useless, but it demonstrates you of using <code>watch</code> task so you can use it for running tests or building assets.</p>
+
+<div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="k">class</span> <span class="nc">RoboFile</span> <span class="k">extends</span> <span class="nx">\Robo\Tasks</span> <span class="p">{</span>
+    <span class="k">use</span> <span class="nx">\Robo\Task\Watch</span><span class="p">;</span>
+
+    <span class="k">function</span> <span class="nf">watchComposer</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c1">// when composer.json changes `composer update` will be executed</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">taskWatch</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">monitor</span><span class="p">(</span><span class="s1">'composer.json'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">taskComposerUpdate</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">run</span><span class="p">();</span>
+        <span class="p">})</span><span class="o">-&gt;</span><span class="na">run</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+<h3>
+<a name="example-cleaning-logs-and-cache" class="anchor" href="#example-cleaning-logs-and-cache"><span class="octicon octicon-link"></span></a>Example: Cleaning Logs and Cache</h3>
+
+<div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="k">class</span> <span class="nc">RoboFile</span> <span class="k">extends</span> <span class="nx">\Robo\Tasks</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">clean</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">taskCleanDir</span><span class="p">([</span>
+            <span class="s1">'app/cache'</span>
+            <span class="s1">'app/logs'</span>
+        <span class="p">])</span><span class="o">-&gt;</span><span class="na">run</span><span class="p">();</span>
+
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">taskDeleteDir</span><span class="p">([</span>
+            <span class="s1">'web/assets/tmp_uploads'</span><span class="p">,</span>
+        <span class="p">])</span><span class="o">-&gt;</span><span class="na">run</span><span class="p">();</span>
+    <span class="p">}</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+<p>This task cleans <code>app/cache</code> and <code>app/logs</code> dirs (ignoreing .gitignore and .gitkeep files)
+Can be executed by running:</p>
+
+<pre><code>robo clean
+</code></pre>
+
+<h3>
+<a name="example-creating-phar-archive" class="anchor" href="#example-creating-phar-archive"><span class="octicon octicon-link"></span></a>Example: Creating Phar Archive</h3>
+
+<p>This example was extracted from Codeception and simplified:</p>
+
+<div class="highlight highlight-php"><pre><span class="k">function</span> <span class="nf">buildPhar</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$pharTask</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">taskPackPhar</span><span class="p">(</span><span class="s1">'package/codecept.phar'</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="na">compress</span><span class="p">()</span>
+        <span class="o">-&gt;</span><span class="na">stub</span><span class="p">(</span><span class="s1">'package/stub.php'</span><span class="p">);</span>
+
+    <span class="nv">$finder</span> <span class="o">=</span> <span class="nx">Finder</span><span class="o">::</span><span class="na">create</span><span class="p">()</span>
+        <span class="o">-&gt;</span><span class="na">ignoreVCS</span><span class="p">(</span><span class="k">true</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="na">name</span><span class="p">(</span><span class="s1">'*.php'</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="na">in</span><span class="p">(</span><span class="s1">'src'</span><span class="p">);</span>
+
+    <span class="k">foreach</span> <span class="p">(</span><span class="nv">$finder</span> <span class="k">as</span> <span class="nv">$file</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$pharTask</span><span class="o">-&gt;</span><span class="na">addFile</span><span class="p">(</span><span class="s1">'src/'</span><span class="o">.</span><span class="nv">$file</span><span class="o">-&gt;</span><span class="na">getRelativePathname</span><span class="p">(),</span> <span class="nv">$file</span><span class="o">-&gt;</span><span class="na">getRealPath</span><span class="p">());</span>
+    <span class="p">}</span>
+
+    <span class="nv">$finder</span> <span class="o">=</span> <span class="nx">Finder</span><span class="o">::</span><span class="na">create</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">files</span><span class="p">()</span>
+        <span class="o">-&gt;</span><span class="na">ignoreVCS</span><span class="p">(</span><span class="k">true</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="na">name</span><span class="p">(</span><span class="s1">'*.php'</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="na">exclude</span><span class="p">(</span><span class="s1">'Tests'</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="na">exclude</span><span class="p">(</span><span class="s1">'tests'</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="na">in</span><span class="p">(</span><span class="s1">'vendor'</span><span class="p">);</span>
+
+    <span class="k">foreach</span> <span class="p">(</span><span class="nv">$finder</span> <span class="k">as</span> <span class="nv">$file</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$pharTask</span><span class="o">-&gt;</span><span class="na">addStripped</span><span class="p">(</span><span class="s1">'vendor/'</span><span class="o">.</span><span class="nv">$file</span><span class="o">-&gt;</span><span class="na">getRelativePathname</span><span class="p">(),</span> <span class="nv">$file</span><span class="o">-&gt;</span><span class="na">getRealPath</span><span class="p">());</span>
+    <span class="p">}</span>
+
+    <span class="nv">$pharTask</span><span class="o">-&gt;</span><span class="na">addFile</span><span class="p">(</span><span class="s1">'autoload.php'</span><span class="p">,</span> <span class="s1">'autoload.php'</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="na">addFile</span><span class="p">(</span><span class="s1">'codecept'</span><span class="p">,</span> <span class="s1">'package/bin'</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="na">run</span><span class="p">();</span>
+
+    <span class="nv">$code</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">taskExec</span><span class="p">(</span><span class="s1">'php package/codecept.phar'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">run</span><span class="p">();</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$code</span> <span class="o">!==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nx">Exception</span><span class="p">(</span><span class="s2">"There was problem compiling phar"</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p><a href="https://github.com/Codeception/Codeception/blob/2.0-dev/RoboFile.php">This and other example tasks</a>. can be found in Codeception repo</p>
+
+<h3>
+<a name="example-publishing-new-release-of-robo" class="anchor" href="#example-publishing-new-release-of-robo"><span class="octicon octicon-link"></span></a>Example: Publishing New Release of Robo</h3>
+
+<div class="highlight highlight-php"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="k">class</span> <span class="nc">Robofile</span> <span class="k">extends</span> <span class="nx">\Robo\Tasks</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">release</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c1">// print new message</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">say</span><span class="p">(</span><span class="s2">"Releasing Robo"</span><span class="p">);</span>
+
+        <span class="c1">// ask for changes in this release</span>
+        <span class="nv">$changelog</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">taskChangelog</span><span class="p">()</span>
+            <span class="o">-&gt;</span><span class="na">version</span><span class="p">(</span><span class="nx">\Robo\Runner</span><span class="o">::</span><span class="na">VERSION</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">askForChanges</span><span class="p">();</span>
+        <span class="nv">$changelog</span><span class="o">-&gt;</span><span class="na">run</span><span class="p">();</span>
+
+        <span class="c1">// adding changelog and pushing it</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">taskExec</span><span class="p">(</span><span class="s1">'git add CHANGELOG.md'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">run</span><span class="p">();</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">taskExec</span><span class="p">(</span><span class="s1">'git commit -m "updated changelog"'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">run</span><span class="p">();</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">taskExec</span><span class="p">(</span><span class="s1">'git push'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">run</span><span class="p">();</span>
+
+        <span class="c1">// create GitHub release</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">taskGitHubRelease</span><span class="p">(</span><span class="nx">\Robo\Runner</span><span class="o">::</span><span class="na">VERSION</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">uri</span><span class="p">(</span><span class="s1">'Codegyre/Robo'</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">askDescription</span><span class="p">()</span>
+            <span class="o">-&gt;</span><span class="na">changes</span><span class="p">(</span><span class="nv">$changelog</span><span class="o">-&gt;</span><span class="na">getChanges</span><span class="p">())</span>
+            <span class="o">-&gt;</span><span class="na">run</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>To create new release we run:</p>
+
+<pre><code>✗ ./robo release
+➜  Releasing Robo
+?  Changed in this release:Mered Tasks and Traits to same file
+?  Changed in this release:Added Watcher task
+?  Changed in this release:Added GitHubRelease task
+?  Changed in this release:Added Changelog task
+?  Changed in this release:Added ReplaceInFile task
+?  Changed in this release:
+ [Robo\Task\ChangelogTask] Creating CHANGELOG.md
+ [Robo\Task\ReplaceInFileTask] CHANGELOG.md updated
+ [Robo\Task\ExecTask] running git add CHANGELOG.md
+ [Robo\Task\ExecTask] running git commit -m "updated changelog"
+ [Robo\Task\GitHubReleaseTask] {"url":"https://api.github.com/repo...
+</code></pre>
+
+<h2>
+<a name="api" class="anchor" href="#api"><span class="octicon octicon-link"></span></a>API</h2>
+
+<p>Tasks are classes that implement <code>Robo\TaskInterface</code> with method <code>run</code> defined. Each other method of task should be used for specifing task options and returns <code>$this</code> for fluent interface:</p>
+
+<p>Tasks are including into RoboFile with traits. Traits should contain protected methods with <code>task</code> prefix that return new instance of a task.</p>
+
+<p>See: <a href="https://github.com/Codegyre/Robo/tree/master/src/Task">Bundled Tasks</a></p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/Codegyre/Robo/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/Codegyre/Robo/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/Codegyre/Robo"></a> is maintained by <a href="https://github.com/Codegyre">Codegyre</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>

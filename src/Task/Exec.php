@@ -14,6 +14,7 @@ trait Exec  {
 }
 
 /**
+ * Executes shell script. Closes it when running in background mode.
  * Initial code from https://github.com/tiger-seo/PhpBuiltinServer by tiger-seo
  *
  * Class Exec

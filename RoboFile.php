@@ -2,8 +2,9 @@
 class Robofile extends \Robo\Tasks
 {
     use Robo\Task\GitHub;
-    use Robo\Task\Changelog;
+    use Robo\Task\Development;
     use Robo\Task\Watch;
+    use Robo\Task\Git;
 
     public function release()
     {
@@ -14,14 +15,15 @@ class Robofile extends \Robo\Tasks
             ->askForChanges()
             ->run();
 
-        if ($changelog->wasSuccessful()) {
-            $this->taskExec('git add CHANGELOG.md')->run();
-            $this->taskExec('git commit -m "updated changelog"')->run();
-            $this->taskExec('git push')->run();
-        }
+        if (!$changelog->wasSuccessful()) exit(1);
+
+        $this->taskGit()
+            ->add('CHANGELOG.md')
+            ->commit('updated changelog')
+            ->push()
+            ->run();
 
         $this->taskGitHubRelease(\Robo\Runner::VERSION)
-            ->askAuth()
             ->uri('Codegyre/Robo')
             ->askDescription()
             ->changes($changelog->getData())
@@ -47,6 +49,36 @@ class Robofile extends \Robo\Tasks
             ->from("VERSION = '".\Robo\Runner::VERSION."'")
             ->to("VERSION = '".$version."'")
             ->run();
+    }
+
+    // publish docs
+    public function docs()
+    {
+        $docs = [];
+        foreach (get_declared_classes() as $task) {
+            if (!preg_match('~^Robo\\\Task.*?Task$~', $task)) continue;
+            $docs[basename((new ReflectionClass($task))->getFileName(),'.php')][] = $task;
+        }
+
+        ksort($docs);
+        $taskGenerator = $this->taskGenDoc('docs/tasks.md');
+        foreach ($docs as $file => $classes) {
+            $taskGenerator->docClass("Robo\Task\\$file");
+            foreach ($classes as $task) {
+                $taskGenerator->docClass($task);
+            }
+        }
+
+        $taskGenerator->filterMethods(function(\ReflectionMethod $m) {
+            return false; // methods are not documented
+        })->processClass(function(\ReflectionClass $refl, $text) {
+            $text = preg_replace("~@method .*?$~",'',$text);
+            if ($refl->isTrait()) {
+                return "## Trait ".$refl->getName()."\n\n".$text;
+            } else {
+                return "### Task ".$refl->getShortName()."\n\n".$text;
+            }
+        })->run();
     }
 
     public function watch()

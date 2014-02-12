@@ -47,8 +47,8 @@ abstract class GitHubTask implements TaskInterface
     public function askAuth()
     {
         $dialog = new DialogHelper();
-        self::$user = $dialog->ask($this->getOutput(), "<question>GitHub User</question>");
-        self::$pass = $dialog->askHiddenResponse($this->getOutput(), "   <question>Password</question>");
+        self::$user = $dialog->ask($this->getOutput(), "<question>GitHub User</question> ");
+        self::$pass = $dialog->askHiddenResponse($this->getOutput(), "   <question>Password</question> ");
         return $this;
     }
 
@@ -61,6 +61,12 @@ abstract class GitHubTask implements TaskInterface
         $ch = curl_init();
         $url = sprintf('%s/repos/%s/%s', GITHUB_URL, $this->getUri(), $uri);
         $this->printTaskInfo("$method $url");
+
+        if (!self::$user) {
+            $this->askAuth();
+            curl_setopt($ch, CURLOPT_USERPWD, self::$user.':'.self::$pass);
+        }
+
         curl_setopt_array($ch, array(
             CURLOPT_URL => $url,
             CURLOPT_RETURNTRANSFER => true,
@@ -70,10 +76,6 @@ abstract class GitHubTask implements TaskInterface
             CURLOPT_USERAGENT => self::$user ?: "Robo"
         ));
 
-        if (!self::$user) {
-            $this->askAuth();
-            curl_setopt($ch, CURLOPT_USERPWD, self::$user.':'.self::$pass);
-        }
         $output = curl_exec($ch);
         $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $response = json_decode($output);

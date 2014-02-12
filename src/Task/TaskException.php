@@ -8,7 +8,7 @@ class TaskException extends \Exception  {
         if (is_object($class)) {
             $class = get_class($class);
         }
-        parent::__construct("  [$class Task] Exception: \n\n  $message");
+        parent::__construct("  in task $class \n\n  $message");
     }
 
 }

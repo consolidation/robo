@@ -1,5 +1,6 @@
 <?php
 namespace Robo\Task;
+use Robo\Output;
 use Robo\Result;
 use Robo\Util\FileSystem as FSUtils;
 
@@ -140,6 +141,7 @@ class ReplaceInFileTask implements TaskInterface
 
 class WriteToFileTask implements TaskInterface
 {
+    use Output;
     protected $filename;
     protected $body = "";
 
@@ -151,6 +153,12 @@ class WriteToFileTask implements TaskInterface
     public function line($line)
     {
         $this->body .= $line."\n";
+        return $this;
+    }
+
+    public function lines($lines)
+    {
+        $this->body .= implode("\n", $lines)."\n";
         return $this;
     }
 
@@ -174,6 +182,7 @@ class WriteToFileTask implements TaskInterface
 
     public function run()
     {
+        $this->printTaskInfo("Writing to {$this->filename}.");
         $res = file_put_contents($this->filename, $this->body);
         if ($res === false) return Result::error($this, "File {$this->filename} couldnt be created");
         return Result::success($this);

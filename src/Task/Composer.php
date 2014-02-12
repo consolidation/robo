@@ -5,6 +5,10 @@ use Robo\Result;
 
 trait Composer {
 
+    /**
+     * @param null $pathToComposer
+     * @return ComposerInstallTask
+     */
     protected function taskComposerInstall($pathToComposer = null)
     {
         return new ComposerInstallTask($pathToComposer);
@@ -23,12 +27,22 @@ abstract class BaseComposerTask {
     protected $prefer;
     protected $dev = true;
 
+    /**
+     * adds `prefer-dist` option to composer
+     *
+     * @return $this
+     */
     public function preferDist()
     {
         $this->prefer = '--prefer-dist';
         return $this;
     }
 
+    /**
+     * adds `prefer-source` option to composer
+     *
+     * @return $this
+     */
     public function preferSource()
     {
         $this->prefer = '--prefer-source';
@@ -55,6 +69,25 @@ abstract class BaseComposerTask {
     }
 }
 
+/**
+ * Composer Install
+ *
+ * ``` php
+ * <?php
+ * // simple execution
+ * $this->taskComposerInstall()->run();
+ *
+ * // prefer dist with custom path
+ * $this->taskComposerInstall('path/to/my/composer.phar')
+ *      ->preferDist()
+ *      ->run();
+ * ?>
+ * ```
+ *
+ *
+ * Class ComposerInstallTask
+ * @package Robo\Task
+ */
 class ComposerInstallTask extends BaseComposerTask implements TaskInterface {
 
     public function run()

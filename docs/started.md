@@ -144,7 +144,7 @@ class RoboFile
 ?>
 ```
 
-# Output
+## Output
 
 As you noticed you can print text with `say` method taken from `Robo\Output` trait.
 

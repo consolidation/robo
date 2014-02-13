@@ -1,7 +1,44 @@
-## Robo\Task\Development
 
-Contains simple tasks to simplify documenting of development process.
+
+### ComposerInstallTask
+
+Composer Install
+
+``` php
+<?php
+// simple execution
+$this->taskComposerInstall()->run();
+
+// prefer dist with custom path
+$this->taskComposerInstall('path/to/my/composer.phar')
+     ->preferDist()
+     ->run();
+?>
+```
+* preferDist()
+* preferSource()
+* noDev()
+
+### ComposerUpdateTask
+
+Composer Update
+
+``` php
+<?php
+// simple execution
+$this->taskComposerUpdate()->run();
+
+// prefer dist with custom path
+$this->taskComposerUpdate('path/to/my/composer.phar')
+     ->preferDist()
+     ->run();
+?>
+```
 @package Robo\Task
+* preferDist()
+* preferSource()
+* noDev()
+
 
 ### ChangelogTask
 
@@ -37,9 +74,6 @@ $this->taskChangelog()
 * change(Parameter #0 [ <required> $change ])
 * getChanges()
 
-## Robo\Task\Exec
-
-Task to execute shell scripts with `exec` command. Can be executed in background
 
 ### ExecTask
 
@@ -62,10 +96,6 @@ if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
 * args(Parameter #0 [ <required> $args ])
 * stop()
 
-## Robo\Task\FileSystem
-
-Contains useful tasks to work with filesystem.
-
 
 ### RequireTask
 
@@ -80,6 +110,7 @@ $this->taskRequire('script/make_admin.php')
 ?>
 ```
 * local(Parameter #0 [ <required> array $locals ])
+
 
 ### CleanDirTask
 
@@ -147,9 +178,7 @@ $this->replaceInFile('config.yml')
 * textFromFile(Parameter #0 [ <required> $filename ])
 * place(Parameter #0 [ <required> $name ], Parameter #1 [ <required> $val ])
 
-## Robo\Task\GitHub
 
-Github BundledTasks
 
 ### GitHubReleaseTask
 
@@ -177,9 +206,81 @@ $this->taskGitHubRelease('0.1.0')
 * uri(Parameter #0 [ <required> $uri ])
 * askAuth()
 
-## Robo\Task\Watch
 
-Watches files for changes and runs task on change.
+### PackPharTask
+
+Creates Phar
+
+``` php
+<?php
+$pharTask = $this->taskPackPhar('package/codecept.phar')
+ ->compress()
+ ->stub('package/stub.php');
+
+ $finder = Finder::create()
+     ->name('*.php')
+     ->in('src');
+
+ foreach ($finder as $file) {
+     $pharTask->addFile('src/'.$file->getRelativePathname(), $file->getRealPath());
+ }
+
+ $finder = Finder::create()->files()
+     ->name('*.php')
+     ->in('vendor');
+
+ foreach ($finder as $file) {
+     $pharTask->addStripped('vendor/'.$file->getRelativePathname(), $file->getRealPath());
+ }
+
+ $code = $this->taskExec('php package/codecept.phar')->run();
+?>
+```
+* compress(Parameter #0 [ <optional> $compress = true ])
+* stub(Parameter #0 [ <required> $stub ])
+* addStripped(Parameter #0 [ <required> $path ], Parameter #1 [ <required> $file ])
+* addFile(Parameter #0 [ <required> $path ], Parameter #1 [ <required> $file ])
+
+
+### PhpServerTask
+
+Runs PHP server and stops it when task finishes.
+
+``` php
+<?php
+$this->taskServer(8000)
+ ->dir('public')
+ ->run();
+?>
+```
+* dir(Parameter #0 [ <required> $path ])
+* background()
+* arg(Parameter #0 [ <required> $arg ])
+* args(Parameter #0 [ <required> $args ])
+* stop()
+
+
+### SymfonyCommandTask
+
+Executes Symsony Command
+
+``` php
+<?php
+// Symfony Command
+$this->taskCommand(new \Codeception\Command\Run('run'))
+     ->arg('suite','acceptance')
+     ->opt('debug')
+     ->run();
+
+// Artisan Command
+$this->taskCommand(new ModelGeneratorCommand())
+     ->arg('name', 'User')
+     ->run();
+?>
+```
+* arg(Parameter #0 [ <required> $arg ], Parameter #1 [ <required> $value ])
+* opt(Parameter #0 [ <required> $option ], Parameter #1 [ <optional> $value = NULL ])
+
 
 ### WatchTask
 

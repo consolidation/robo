@@ -7,6 +7,11 @@ class Robofile
     use Robo\Task\Watch;
     use Robo\Task\Git;
     use Robo\Task\FileSystem;
+    use Robo\Task\Composer;
+    use Robo\Task\PhpServer;
+    use Robo\Task\SymfonyCommand;
+    use Robo\Task\Exec;
+    use Robo\Task\PackPhar;
 
     public function release()
     {
@@ -58,16 +63,17 @@ class Robofile
     {
         $docs = [];
         foreach (get_declared_classes() as $task) {
-            if (!preg_match('~^Robo\\\Task.*?Task$~', $task)) continue;
-            $refl = new ReflectionClass($task);
-            if ($refl->isAbstract()) continue;
-            $docs[basename($refl->getFileName(),'.php')][] = $task;
+            if (!preg_match('~Robo\\\Task.*?Task$~', $task)) continue;
+            $docs[basename((new ReflectionClass($task))->getFileName(),'.php')][] = $task;
         }
 
         ksort($docs);
-        $taskGenerator = $this->taskGenDoc('docs/tasks.md');
+        $taskGenerator = $this->taskGenDoc('docs/tasks.md')->filterClasses(function (\ReflectionClass $r) {
+            return !$r->isAbstract();
+        })->prepend("# Tasks");
+
         foreach ($docs as $file => $classes) {
-            $taskGenerator->docClass("Robo\Task\\$file");
+            $taskGenerator->docClass("Robo\\Task\\$file");
             foreach ($classes as $task) {
                 $taskGenerator->docClass($task);
             }

@@ -141,6 +141,7 @@ class ChangelogTask implements TaskInterface
  *
  * @method GenMarkdownDoc docClass($classname)
  * @method GenMarkdownDoc filterMethods(\Closure $func)
+ * @method GenMarkdownDoc filterClasses(\Closure $func)
  * @method GenMarkdownDoc processMethod(\Closure $func)
  * @method GenMarkdownDoc processClass(\Closure $func)
  * @method GenMarkdownDoc reorder(\Closure $func)
@@ -153,6 +154,7 @@ class GenMarkdownDoc implements TaskInterface
 
     protected $docClass = [];
     protected $filterMethods;
+    protected $filterClasses;
     protected $processMethod;
     protected $processClass;
     protected $reorder;
@@ -165,7 +167,19 @@ class GenMarkdownDoc implements TaskInterface
     {
         $this->filename = $filename;
     }
-    
+
+    public function prepend($text)
+    {
+        $this->text = $text . "\n\n".$this->text;
+        return $this;
+    }
+
+    public function append($text)
+    {
+        $this->text = $this->text."\n\n".$text;
+        return $this;
+    }
+
     public function run()
     {        
         foreach ($this->docClass as $class) {
@@ -190,6 +204,11 @@ class GenMarkdownDoc implements TaskInterface
     protected function documentClass($class)
     {
         $refl = new \ReflectionClass($class);
+
+        if (is_callable($this->filterClasses)) {
+            $ret = call_user_func($this->filterClasses, $refl);
+            if (!$ret) return;
+        }
 
         $doc = $this->indentDoc($refl->getDocComment());
         if (is_callable($this->processClass)) {

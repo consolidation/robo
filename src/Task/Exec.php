@@ -87,13 +87,13 @@ class ExecTask implements TaskInterface {
     {
         $this->printTaskInfo("running <info>{$this->command}</info>");
         if (!$this->background and $this->isPrinted) {
-            system($this->command, $code);
-            return $code;
+            $line = system($this->command, $code);
+            return new Result($this, $code, $line);
         }
 
         if (!$this->background and !$this->isPrinted) {
-            exec($this->command, $output, $code);
-            return $code;
+            $line = exec($this->command, $output, $code);
+            return new Result($this, $code, $line);
         }
 
         $descriptor = [

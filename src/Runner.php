@@ -96,7 +96,7 @@ class Runner {
 
     protected function initRoboFile()
     {
-        file_put_contents(self::ROBOFILE, "<?php\n\nclass Robofile\n{\nuse Robo\\Output;\n \n}");
+        file_put_contents(self::ROBOFILE, "<?php\nclass Robofile\n{\n    use Robo\\Output;\n    // define public methods as commands\n}");
         $this->output->writeln(self::ROBOFILE . " created");
 
     }

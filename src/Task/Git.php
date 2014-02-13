@@ -66,6 +66,12 @@ class GitStack
         return $this;
     }
 
+    public function pull($origin = '', $branch = '')
+    {
+        $this->stackCommands[] = "pull $origin $branch";
+        return $this;        
+    }
+
     public function push($origin = '', $branch = '')
     {
         $this->stackCommands[] = "push $origin $branch";

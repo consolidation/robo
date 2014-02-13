@@ -11,7 +11,7 @@ trait Git {
 
     protected function taskGit($pathToGit = 'git')
     {
-        return new GitStack($pathToGit);
+        return new GitStackTask($pathToGit);
     }
 
 }
@@ -35,7 +35,7 @@ trait Git {
  * ?>
  * ```
  */
-class GitStack
+class GitStackTask implements TaskInterface
 {
     use Exec;
     use Output;

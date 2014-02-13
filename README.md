@@ -1,12 +1,12 @@
 RoboTask
 ====
 
-Modern and simple PHP task runner inspired by Grunt and Rake aimed to automate common tasks:
+**Modern and simple PHP task runner** inspired by Grunt and Rake aimed to automate common tasks:
 
 * executing daemons (and workers)
 * performing cleanups
 * watching filesystem changes
-* running multiple Symfony Commands
+* running multiple Symfony / Artisan Commands
 * starting PHP server
 * running tests
 * writing cross-platform scripts
@@ -14,8 +14,9 @@ Modern and simple PHP task runner inspired by Grunt and Rake aimed to automate c
 What makes Robo different?
 
 * Robo is pure PHP
-* Robo provides clean OOP interface for writing tasks.
+* Robo provides clean OOP interface for declaring tasks.
 * Robo is very simple and intuitive in use.
+* Robo if framework-agnostic
 * Robo uses Symfony Console component but allows you to put all your commands in one file.
 
 ## Installing
@@ -210,6 +211,10 @@ To create new release we run:
  [Robo\Task\ExecTask] running git commit -m "updated changelog"
  [Robo\Task\GitHubReleaseTask] {"url":"https://api.github.com/repo...
 ```
+
+## We need more tasks!
+
+Create your own tasks and send them as Pull Requests or create packages prefixed with `robo-` on Packagist.
 
 ## API
 

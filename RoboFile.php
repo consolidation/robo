@@ -6,6 +6,7 @@ class Robofile
     use Robo\Task\Development;
     use Robo\Task\Watch;
     use Robo\Task\Git;
+    use Robo\Task\FileSystem;
 
     public function release()
     {
@@ -79,11 +80,10 @@ class Robofile
             return "* " . $m->name . '('.implode(', ', $m->getParameters()).")\n";
         })->processClass(function(\ReflectionClass $refl, $text) {
             $text = str_replace("@method ".$refl->getShortName(),'*',$text);
-            $text = preg_replace("~@package .*?$~",'',$text);
             if ($refl->isTrait()) {
-                return "## Trait ".$refl->getName()."\n$text";
+                return "## ".$refl->getName()."\n$text";
             } else {
-                return "### Task ".$refl->getShortName()."\n".$text;
+                return "### ".$refl->getShortName()."\n".$text;
             }
         })->run();
     }

@@ -1,4 +1,4 @@
-## Getting Started
+# Getting Started
 
 To begin you need to create a Robofile. Just run `robo` in empty dir:
 
@@ -142,4 +142,24 @@ class RoboFile
     }
 }
 ?>
+```
+
+# Output
+
+As you noticed you can print text with `say` method taken from `Robo\Output` trait.
+
+```
+$this->say("Hello");
+```
+
+Also you can ask for input from console
+
+```
+$name = $this->ask("What is your namr?");
+```
+
+Inside tasks you should print process details with `printTaskInfo`
+
+```
+$this->printTaskInfo('Processing...');
 ```

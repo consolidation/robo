@@ -1,54 +1,9 @@
-## Trait Robo\Task\Composer
-
-Contains tasks for composer.
-
-
-
-### Task ComposerInstallTask
-
-Composer Install
-
-``` php
-<?php
-// simple execution
-$this->taskComposerInstall()->run();
-
-// prefer dist with custom path
-$this->taskComposerInstall('path/to/my/composer.phar')
-     ->preferDist()
-     ->run();
-?>
-```
-* preferDist()
-* preferSource()
-* noDev()
-
-### Task ComposerUpdateTask
-
-Composer Update
-
-``` php
-<?php
-// simple execution
-$this->taskComposerUpdate()->run();
-
-// prefer dist with custom path
-$this->taskComposerUpdate('path/to/my/composer.phar')
-     ->preferDist()
-     ->run();
-?>
-```
-
-* preferDist()
-* preferSource()
-* noDev()
-
-## Trait Robo\Task\Development
+## Robo\Task\Development
 
 Contains simple tasks to simplify documenting of development process.
+@package Robo\Task
 
-
-### Task ChangelogTask
+### ChangelogTask
 
 Helps to manage changelog file.
 Creates or updates `changelog.md` file with recent changes in current version.
@@ -82,11 +37,11 @@ $this->taskChangelog()
 * change(Parameter #0 [ <required> $change ])
 * getChanges()
 
-## Trait Robo\Task\Exec
+## Robo\Task\Exec
 
 Task to execute shell scripts with `exec` command. Can be executed in background
 
-### Task ExecTask
+### ExecTask
 
 Executes shell script. Closes it when running in background mode.
 Initial code from https://github.com/tiger-seo/PhpBuiltinServer by tiger-seo
@@ -107,12 +62,12 @@ if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
 * args(Parameter #0 [ <required> $args ])
 * stop()
 
-## Trait Robo\Task\FileSystem
+## Robo\Task\FileSystem
 
 Contains useful tasks to work with filesystem.
 
 
-### Task RequireTask
+### RequireTask
 
 Requires php file to be executed inside a closure.
 
@@ -126,7 +81,7 @@ $this->taskRequire('script/make_admin.php')
 ```
 * local(Parameter #0 [ <required> array $locals ])
 
-### Task CleanDirTask
+### CleanDirTask
 
 Deletes all files from specified dir, ignoring git files.
 
@@ -137,7 +92,7 @@ $this->taskCleanDir(['tmp','logs'])->run();
 ?>
 ```
 
-### Task CopyDirTask
+### CopyDirTask
 
 Copies one dir into another
 
@@ -147,7 +102,7 @@ $this->taskCopyDir(['dist/config' => 'config'])->run();
 ?>
 ```
 
-### Task DeleteDirTask
+### DeleteDirTask
 
 Deletes dir
 
@@ -158,7 +113,7 @@ $this->taskDeleteDir(['tmp', 'log])->run();
 ?>
 ```
 
-### Task ReplaceInFileTask
+### ReplaceInFileTask
 
 Performs search and replace inside a files.
 
@@ -185,18 +140,18 @@ $this->replaceInFile('config.yml')
 * from(string)
 * to(string)
 
-### Task WriteToFileTask
+### WriteToFileTask
 * line(Parameter #0 [ <required> $line ])
 * lines(Parameter #0 [ <required> $lines ])
 * text(Parameter #0 [ <required> $text ])
 * textFromFile(Parameter #0 [ <required> $filename ])
 * place(Parameter #0 [ <required> $name ], Parameter #1 [ <required> $val ])
 
-## Trait Robo\Task\GitHub
+## Robo\Task\GitHub
 
-Github Tasks
+Github BundledTasks
 
-### Task GitHubReleaseTask
+### GitHubReleaseTask
 
 Publishes new GitHub release.
 
@@ -222,57 +177,11 @@ $this->taskGitHubRelease('0.1.0')
 * uri(Parameter #0 [ <required> $uri ])
 * askAuth()
 
-## Trait Robo\Task\PhpServer
-
-Start PHP Server and
-
-### Task PhpServerTask
-
-Runs PHP server and stops it when task finishes.
-
-``` php
-<?php
-$this->taskServer(8000)
- ->dir('public')
- ->run();
-?>
-```
-* dir(Parameter #0 [ <required> $path ])
-* background()
-* arg(Parameter #0 [ <required> $arg ])
-* args(Parameter #0 [ <required> $args ])
-* stop()
-
-## Trait Robo\Task\SymfonyCommand
-
-Launch Symfony or Artisan Command
-
-### Task SymfonyCommandTask
-
-Executes Symsony Command
-
-``` php
-<?php
-// Symfony Command
-$this->taskCommand(new \Codeception\Command\Run('run'))
-     ->arg('suite','acceptance')
-     ->opt('debug')
-     ->run();
-
-// Artisan Command
-$this->taskCommand(new ModelGeneratorCommand())
-     ->arg('name', 'User')
-     ->run();
-?>
-```
-* arg(Parameter #0 [ <required> $arg ], Parameter #1 [ <required> $value ])
-* opt(Parameter #0 [ <required> $option ], Parameter #1 [ <optional> $value = NULL ])
-
-## Trait Robo\Task\Watch
+## Robo\Task\Watch
 
 Watches files for changes and runs task on change.
 
-### Task WatchTask
+### WatchTask
 
 Runs task when specified file or dir was changed.
 Uses Lurker library.

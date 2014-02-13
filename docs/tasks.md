@@ -165,7 +165,7 @@ Deletes dir
 ``` php
 <?php
 $this->taskDeleteDir('tmp')->run();
-$this->taskDeleteDir(['tmp', 'log])->run();
+$this->taskDeleteDir(['tmp', 'log'])->run();
 ?>
 ```
 
@@ -177,7 +177,7 @@ Performs search and replace inside a files.
 <?php
 $this->replaceInFile('VERSION')
  ->from('0.2.0')
- ->to('0.3.0)
+ ->to('0.3.0')
  ->run();
 
 $this->replaceInFile('README.md')
@@ -197,6 +197,19 @@ $this->replaceInFile('config.yml')
 * to(string)
 
 ### WriteToFileTask
+
+Writes to file
+
+``` php
+<?php
+$this->taskWriteToFile('blogpost.md')
+     ->line('-----')
+     ->line(date('Y-m-d').' '.$title)
+     ->line('----')
+     ->run();
+?>
+```
+* append()
 * line(Parameter #0 [ <required> $line ])
 * lines(Parameter #0 [ <required> $lines ])
 * text(Parameter #0 [ <required> $text ])
@@ -267,6 +280,7 @@ $pharTask = $this->taskPackPhar('package/codecept.phar')
  foreach ($finder as $file) {
      $pharTask->addStripped('vendor/'.$file->getRelativePathname(), $file->getRealPath());
  }
+ $pharTask->run();
 
  $code = $this->taskExec('php package/codecept.phar')->run();
 ?>

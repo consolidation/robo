@@ -189,32 +189,31 @@ function buildPhar()
 
 ``` php
 <?php
-class Robofile extends \Robo\Tasks
-{
     public function release()
     {
-        // print new message
         $this->say("Releasing Robo");
 
-        // ask for changes in this release
         $changelog = $this->taskChangelog()
             ->version(\Robo\Runner::VERSION)
-            ->askForChanges();
-        $changelog->run();
+            ->askForChanges()
+            ->run();
 
-        // adding changelog and pushing it
-        $this->taskExec('git add CHANGELOG.md')->run();
-        $this->taskExec('git commit -m "updated changelog"')->run();
-        $this->taskExec('git push')->run();
+        if (!$changelog->wasSuccessful()) return false;
 
-        // create GitHub release
+        $this->taskGit()
+            ->add('CHANGELOG.md')
+            ->commit('updated changelog')
+            ->push()
+            ->run();
+
         $this->taskGitHubRelease(\Robo\Runner::VERSION)
             ->uri('Codegyre/Robo')
             ->askDescription()
-            ->changes($changelog->getChanges())
+            ->changes($changelog->getData())
             ->run();
     }
 }
+?>
 ```
 
 To create new release we run:

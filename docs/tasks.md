@@ -1,3 +1,10 @@
+## Composer
+
+``` use Robo\Task\Composer;```
+
+Contains tasks for composer.
+
+@package Robo\Task
 
 
 ### ComposerInstallTask
@@ -39,6 +46,12 @@ $this->taskComposerUpdate('path/to/my/composer.phar')
 * preferSource()
 * noDev()
 
+## Development
+
+``` use Robo\Task\Development;```
+
+Contains simple tasks to simplify documenting of development process.
+@package Robo\Task
 
 ### ChangelogTask
 
@@ -74,6 +87,11 @@ $this->taskChangelog()
 * change(Parameter #0 [ <required> $change ])
 * getChanges()
 
+## Exec
+
+``` use Robo\Task\Exec;```
+
+Task to execute shell scripts with `exec` command. Can be executed in background
 
 ### ExecTask
 
@@ -95,6 +113,12 @@ if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
 * arg(Parameter #0 [ <required> $arg ])
 * args(Parameter #0 [ <required> $args ])
 * stop()
+
+## FileSystem
+
+``` use Robo\Task\FileSystem;```
+
+Contains useful tasks to work with filesystem.
 
 
 ### RequireTask
@@ -178,6 +202,11 @@ $this->replaceInFile('config.yml')
 * textFromFile(Parameter #0 [ <required> $filename ])
 * place(Parameter #0 [ <required> $name ], Parameter #1 [ <required> $val ])
 
+## GitHub
+
+``` use Robo\Task\GitHub;```
+
+Github BundledTasks
 
 
 ### GitHubReleaseTask
@@ -206,6 +235,11 @@ $this->taskGitHubRelease('0.1.0')
 * uri(Parameter #0 [ <required> $uri ])
 * askAuth()
 
+## PackPhar
+
+``` use Robo\Task\PackPhar;```
+
+Packs files into phar
 
 ### PackPharTask
 
@@ -241,6 +275,11 @@ $pharTask = $this->taskPackPhar('package/codecept.phar')
 * addStripped(Parameter #0 [ <required> $path ], Parameter #1 [ <required> $file ])
 * addFile(Parameter #0 [ <required> $path ], Parameter #1 [ <required> $file ])
 
+## PhpServer
+
+``` use Robo\Task\PhpServer;```
+
+Start PHP Server and
 
 ### PhpServerTask
 
@@ -259,6 +298,11 @@ $this->taskServer(8000)
 * args(Parameter #0 [ <required> $args ])
 * stop()
 
+## SymfonyCommand
+
+``` use Robo\Task\SymfonyCommand;```
+
+Launch Symfony or Artisan Command
 
 ### SymfonyCommandTask
 
@@ -281,6 +325,11 @@ $this->taskCommand(new ModelGeneratorCommand())
 * arg(Parameter #0 [ <required> $arg ], Parameter #1 [ <required> $value ])
 * opt(Parameter #0 [ <required> $option ], Parameter #1 [ <optional> $value = NULL ])
 
+## Watch
+
+``` use Robo\Task\Watch;```
+
+Watches files for changes and runs task on change.
 
 ### WatchTask
 

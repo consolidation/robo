@@ -69,7 +69,7 @@ class Robofile
 
         ksort($docs);
         $taskGenerator = $this->taskGenDoc('docs/tasks.md')->filterClasses(function (\ReflectionClass $r) {
-            return !$r->isAbstract();
+            return !$r->isAbstract() or $r->isTrait();
         })->prepend("# Tasks");
 
         foreach ($docs as $file => $classes) {
@@ -87,7 +87,7 @@ class Robofile
         })->processClass(function(\ReflectionClass $refl, $text) {
             $text = str_replace("@method ".$refl->getShortName(),'*',$text);
             if ($refl->isTrait()) {
-                return "## ".$refl->getName()."\n$text";
+                return "## ".$refl->getShortName()."\n\n``` use ".$refl->getName().";```\n$text";
             } else {
                 return "### ".$refl->getShortName()."\n".$text;
             }

@@ -241,6 +241,37 @@ $this->taskWriteToFile('blogpost.md')
 * textFromFile(Parameter #0 [ <required> $filename ])
 * place(Parameter #0 [ <required> $name ], Parameter #1 [ <required> $val ])
 
+## Git
+
+``` use Robo\Task\Git;```
+
+BundledTasks to do Git stiff
+
+### GitStackTask
+
+Runs Git commands in stack
+
+``` php
+<?php
+$this->taskGit()
+ ->add('-A')
+ ->commit('adding everything')
+ ->push('origin','master')
+ ->run()
+
+$this->taskGit()
+ ->add('doc/*')
+ ->commit('doc updated')
+ ->push()
+ ->run();
+?>
+```
+* cloneRepo(Parameter #0 [ <required> $repo ], Parameter #1 [ <optional> $to = '' ])
+* add(Parameter #0 [ <required> $pattern ])
+* commit(Parameter #0 [ <required> $message ], Parameter #1 [ <optional> $options = '' ])
+* pull(Parameter #0 [ <optional> $origin = '' ], Parameter #1 [ <optional> $branch = '' ])
+* push(Parameter #0 [ <optional> $origin = '' ], Parameter #1 [ <optional> $branch = '' ])
+
 ## GitHub
 
 ``` use Robo\Task\GitHub;```

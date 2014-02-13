@@ -88,6 +88,31 @@ $this->taskChangelog()
 * change(Parameter #0 [ <required> $change ])
 * getChanges()
 
+### GenMarkdownDocTask
+
+Simple documentation generator from source files.
+Takes docblocks from classes and methods and generates markdown file.
+
+``` php
+$this->taskGenDoc('models.md')
+     ->docClass('Model\User')
+     ->docClass('Model\Post')
+     ->filterMethods(function(\ReflectionMethod $r) {
+         return $r->isPublic(); // process only public methods
+     })->processClass(function(\ReflectionClass $r, $text) {
+         return "Class ".$r->getName()."\n\n$text\n\n###Methods\n";
+     })->run();
+```
+
+* docClass(string $classname)
+* filterMethods(\Closure $func)
+* filterClasses(\Closure $func)
+* processMethod(\Closure $func)
+* processClass(\Closure $func)
+* reorder(\Closure $func)
+* prepend(string $text)
+* append(string $text)
+
 ## Exec
 
 ``` use Robo\Task\Exec;```

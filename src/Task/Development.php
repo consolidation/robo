@@ -17,7 +17,7 @@ trait Development
 
     protected function taskGenDoc($filename)
     {
-        return new GenMarkdownDoc($filename);
+        return new GenMarkdownDocTask($filename);
     }
     
 }
@@ -139,16 +139,16 @@ class ChangelogTask implements TaskInterface
  *      })->run();
  * ```
  *
- * @method GenMarkdownDoc docClass(string $classname)
- * @method GenMarkdownDoc filterMethods(\Closure $func)
- * @method GenMarkdownDoc filterClasses(\Closure $func)
- * @method GenMarkdownDoc processMethod(\Closure $func)
- * @method GenMarkdownDoc processClass(\Closure $func)
- * @method GenMarkdownDoc reorder(\Closure $func)
- * @method GenMarkdownDoc prepend(string $text)
- * @method GenMarkdownDoc append(string $text)
+ * @method GenMarkdownDocTask docClass(string $classname)
+ * @method GenMarkdownDocTask filterMethods(\Closure $func)
+ * @method GenMarkdownDocTask filterClasses(\Closure $func)
+ * @method GenMarkdownDocTask processMethod(\Closure $func)
+ * @method GenMarkdownDocTask processClass(\Closure $func)
+ * @method GenMarkdownDocTask reorder(\Closure $func)
+ * @method GenMarkdownDocTask prepend(string $text)
+ * @method GenMarkdownDocTask append(string $text)
  */
-class GenMarkdownDoc implements TaskInterface
+class GenMarkdownDocTask implements TaskInterface
 {
     use DynamicConfig;
     use Output;

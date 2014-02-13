@@ -11,6 +11,29 @@ RoboTask
 * running tests
 * writing cross-platform scripts
 
+## Demo
+
+Starting PHP server and run PHPUnit tests.
+
+``` php
+<?php
+class RoboFile
+{
+    use Robo\Task\PhpServer;
+    use Robo\Task\Exec;
+
+    public function serve()
+    {
+        $this->taskServer(8000)
+            ->background()
+            ->dir('public')
+            ->run();
+
+        return $this->taskExec('phpunit')->run();
+    }
+?>
+```
+
 What makes Robo different?
 
 * Robo is pure PHP
@@ -216,10 +239,8 @@ To create new release we run:
 
 Create your own tasks and send them as Pull Requests or create packages prefixed with `robo-` on Packagist.
 
-## API
+## Comcepts
 
 Tasks are classes that implement `Robo\TaskInterface` with method `run` defined. Each other method of task should be used for specifing task options and returns `$this` for fluent interface:
 
 Tasks are including into RoboFile with traits. Traits should contain protected methods with `task` prefix that return new instance of a task.
-
-See: [Bundled Tasks](https://github.com/Codegyre/Robo/tree/master/src/Task)

@@ -117,7 +117,7 @@ class CopyDirTask extends BaseDirTask {
  * ``` php
  * <?php
  * $this->taskDeleteDir('tmp')->run();
- * $this->taskDeleteDir(['tmp', 'log])->run();
+ * $this->taskDeleteDir(['tmp', 'log'])->run();
  * ?>
  * ```
  */
@@ -140,7 +140,7 @@ class DeleteDirTask extends BaseDirTask {
  * <?php
  * $this->replaceInFile('VERSION')
  *  ->from('0.2.0')
- *  ->to('0.3.0)
+ *  ->to('0.3.0')
  *  ->run();
  *
  * $this->replaceInFile('README.md')
@@ -196,11 +196,26 @@ class ReplaceInFileTask implements TaskInterface
     }
 }
 
+/**
+ * Writes to file
+ *
+ * ``` php
+ * <?php
+ * $this->taskWriteToFile('blogpost.md')
+ *      ->line('-----')
+ *      ->line(date('Y-m-d').' '.$title)
+ *      ->line('----')
+ *      ->run();
+ * ?>
+ * ```
+ * @method WriteToFileTask append()
+ */
 class WriteToFileTask implements TaskInterface
 {
     use Output;
     protected $filename;
     protected $body = "";
+    protected $append = false;
 
     public function __construct($filename)
     {
@@ -240,6 +255,9 @@ class WriteToFileTask implements TaskInterface
     public function run()
     {
         $this->printTaskInfo("Writing to {$this->filename}.");
+        if ($this->append) {
+            $this->body = file_get_contents($this->filename).$this->body;
+        }
         $res = file_put_contents($this->filename, $this->body);
         if ($res === false) return Result::error($this, "File {$this->filename} couldnt be created");
         return Result::success($this);

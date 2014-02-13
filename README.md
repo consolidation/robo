@@ -239,7 +239,7 @@ To create new release we run:
 
 Create your own tasks and send them as Pull Requests or create packages prefixed with `robo-` on Packagist.
 
-## Comcepts
+## Concepts
 
 Tasks are classes that implement `Robo\TaskInterface` with method `run` defined. Each other method of task should be used for specifing task options and returns `$this` for fluent interface:
 

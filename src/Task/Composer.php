@@ -3,6 +3,11 @@ namespace Robo\Task;
 
 use Robo\Result;
 
+/**
+ * Contains tasks for composer.
+ *
+ * @package Robo\Task
+ */
 trait Composer {
 
     /**
@@ -83,10 +88,6 @@ abstract class BaseComposerTask {
  *      ->run();
  * ?>
  * ```
- *
- *
- * Class ComposerInstallTask
- * @package Robo\Task
  */
 class ComposerInstallTask extends BaseComposerTask implements TaskInterface {
 
@@ -101,6 +102,22 @@ class ComposerInstallTask extends BaseComposerTask implements TaskInterface {
 
 }
 
+/**
+ * Composer Update
+ *
+ * ``` php
+ * <?php
+ * // simple execution
+ * $this->taskComposerUpdate()->run();
+ *
+ * // prefer dist with custom path
+ * $this->taskComposerUpdate('path/to/my/composer.phar')
+ *      ->preferDist()
+ *      ->run();
+ * ?>
+ * ```
+ * @package Robo\Task
+ */
 class ComposerUpdateTask extends BaseComposerTask implements TaskInterface {
 
     public function run()

@@ -1,6 +1,9 @@
 <?php
 namespace Robo\Task;
 
+/**
+ * Start PHP Server and
+ */
 trait PhpServer
 {
     protected function taskServer($port)
@@ -11,6 +14,17 @@ trait PhpServer
     }
 }
 
+/**
+ * Runs PHP server and stops it when task finishes.
+ *
+ * ``` php
+ * <?php
+ * $this->taskServer(8000)
+ *  ->dir('public')
+ *  ->run();
+ * ?>
+ * ```
+ */
 class PhpServerTask extends ExecTask
 {
     public function __construct($port = 8000)

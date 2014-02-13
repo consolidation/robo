@@ -4,6 +4,10 @@ namespace Robo\Task;
 use Robo\Output;
 use Robo\Result;
 
+/**
+ * Contains simple tasks to simplify documenting of development process.
+ * @package Robo\Task
+ */
 trait Development
 {
     protected function taskChangelog($filename = 'CHANGELOG.md')
@@ -19,11 +23,33 @@ trait Development
 }
 
 /**
+ * Helps to manage changelog file.
+ * Creates or updates `changelog.md` file with recent changes in current version.
+ *
+ * ``` php
+ * <?php
+ * $version = "0.1.0";
+ * $this->taskChangelog()
+ *  ->version($version)
+ *  ->change("released to github")
+ *  ->run();
+ * ?>
+ * ```
+ *
+ * Changes can be asked from Console
+ *
+ * ``` php
+ * <?php
+ * $this->taskChangelog()
+ *  ->version($version)
+ *  ->askForChanges()
+ *  ->run();
+ * ?>
+ * ```
+ *
  * @method ChangelogTask filename(string $filename)
  * @method ChangelogTask anchor(string $anchor)
  * @method ChangelogTask version(string $version)
- *
- * @package Robo\Task
  */
 class ChangelogTask implements TaskInterface
 {
@@ -99,14 +125,25 @@ class ChangelogTask implements TaskInterface
 }
 
 /**
+ * Simple documentation generator from source files.
+ * Takes docblocks from classes and methods and generates markdown file.
+ *
+ * ``` php
+ * $this->taskGenDoc('models.md')
+ *      ->docClass('Model\User')
+ *      ->docClass('Model\Post')
+ *      ->filterMethods(function(\ReflectionMethod $r) {
+ *          return $r->isPublic(); // process only public methods
+ *      })->processClass(function(\ReflectionClass $r, $text) {
+ *          return "Class ".$r->getName()."\n\n$text\n\n###Methods\n";
+ *      })->run();
+ * ```
+ *
  * @method GenMarkdownDoc docClass($classname)
  * @method GenMarkdownDoc filterMethods(\Closure $func)
  * @method GenMarkdownDoc processMethod(\Closure $func)
  * @method GenMarkdownDoc processClass(\Closure $func)
  * @method GenMarkdownDoc reorder(\Closure $func)
- *
- * Class GenMarkdownDoc
- * @package Robo\Task
  */
 class GenMarkdownDoc implements TaskInterface
 {
@@ -169,8 +206,8 @@ class GenMarkdownDoc implements TaskInterface
             }
 
             $methodDoc = $this->indentDoc($reflMethod->getDocComment());
-            if (is_callable($this->processClass)) {
-                $methodDoc = call_user_func($this->processClass, $reflMethod, $methodDoc);
+            if (is_callable($this->processMethod)) {
+                $methodDoc = call_user_func($this->processMethod, $reflMethod, $methodDoc);
             } else {
                 $methodDoc = "### Method \n\n$methodDoc\n";
             }

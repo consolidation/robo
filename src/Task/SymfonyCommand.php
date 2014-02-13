@@ -7,6 +7,9 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
+/**
+ * Launch Symfony or Artisan Command
+ */
 trait SymfonyCommand {
 
     protected function taskSymfonyCommand($command)
@@ -15,6 +18,24 @@ trait SymfonyCommand {
     }
 }
 
+/**
+ * Executes Symsony Command
+ *
+ * ``` php
+ * <?php
+ * // Symfony Command
+ * $this->taskCommand(new \Codeception\Command\Run('run'))
+ *      ->arg('suite','acceptance')
+ *      ->opt('debug')
+ *      ->run();
+ *
+ * // Artisan Command
+ * $this->taskCommand(new ModelGeneratorCommand())
+ *      ->arg('name', 'User')
+ *      ->run();
+ * ?>
+ * ```
+ */
 class SymfonyCommandTask implements TaskInterface {
     use \Robo\Output;
 

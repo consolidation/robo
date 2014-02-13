@@ -5,6 +5,9 @@ use Robo\Result;
 use Symfony\Component\Console\Helper\DialogHelper;
 const GITHUB_URL = 'https://api.github.com';
 
+/**
+ * Github BundledTasks
+ */
 trait GitHub
 {
     /**
@@ -86,15 +89,23 @@ abstract class GitHubTask implements TaskInterface
 }
 
 /**
+ * Publishes new GitHub release.
+ *
+ * ``` php
+ * <?php
+ * $this->taskGitHubRelease('0.1.0')
+ *   ->uri('Codegyre/Robo')
+ *   ->askDescription()
+ *   ->run();
+ * ?>
+ * ```
+ *
  * @method GitHubReleaseTask tag(string $tag)
  * @method GitHubReleaseTask name(string $name)
  * @method GitHubReleaseTask body(string $body)
  * @method GitHubReleaseTask draft(boolean $isDraft)
  * @method GitHubReleaseTask prerelease(boolean $isPrerelease)
  * @method GitHubReleaseTask comittish(string $branch)
- *
- * Class GitHubReleaseTask
- * @package Robo\Task
  */
 class GitHubReleaseTask extends GitHubTask implements TaskInterface
 {

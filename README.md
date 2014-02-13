@@ -4,16 +4,19 @@ RoboTask
 Modern and simple PHP task runner inspired by Grunt and Rake aimed to automate common tasks:
 
 * executing daemons (and workers)
-* watching filesystem changes
 * performing cleanups
-* building releases
+* watching filesystem changes
 * running multiple Symfony Commands
 * starting PHP server
 * running tests
 * writing cross-platform scripts
 
+What makes Robo different?
 
-Based on Symfony2 Console Component.
+* Robo is pure PHP
+* Robo provides clean OOP interface for writing tasks.
+* Robo is very simple and intuitive in use.
+* Robo uses Symfony Console component but allows you to put all your commands in one file.
 
 ## Installing
 
@@ -25,29 +28,10 @@ Based on Symfony2 Console Component.
 
 ## Usage
 
-All tasks are defined as **public methods** in `RoboFile.php`. It can be created by running `robo init`.
-RoboFile has a set of predefined tasks taken from `\Robo\Tasks`. All tasks are included with traits.
+All tasks are defined as **public methods** in `RoboFile.php`. It can be created by running `robo`.
 All protected methods in traits that start with `task` prefix are tasks and can be configured and executed in your tasks.
 
-List of bundled tasks that can be executed from RoboFile
-
-* `taskExec` executes script. Optionally can be started in background.
-* `taskServer` starts PHP server. Optionally can be stopped on exit
-* `taskCopyDir` copies one dir into another
-* `taskCleanDir` empties specified dir
-* `taskDeleteDir` removes dir
-* `taskReplaceInFile` replaces string in a file
-* `taskComposerInstall` installs composer packages
-* `taskComposerUpdate` updates composer packages
-* `taskSymfonyCommand` running Symfony Command. *(requires \Robo\Task\SymfonyCommand trait)*
-* `taskPackPhar` creating phar archive *(requires \Robo\Task\PackPhar trait)*
-* `taskChangeLog` creating and maintaining changelog *(requires \Robo\Task\Changelog trait)*
-* `taskWatch` monitoring dir for changes and running tests when files changes *(requires \Robo\Task\Watch trait)*
-* `taskGitHubRelease` to create a GitHub release *(requires \Robo\Task\Watch trait)*
-
-You can write your own tasks or execute any PHP code within tasks.
-
-### Example: running Codeception Acceptance Test
+## Examples
 
 To run test we need to start a server first, and launch a Selenium Server
 
@@ -86,9 +70,7 @@ To execute it you shoud run `robo test:acceptance`. You may change path to selen
 robo test:acceptance "C:\Downloads\selenium.jar"
 ```
 
-### Example: Run Composer Update when composer.json Changes
-
-Actually this task is useless, but it demonstrates you of using `watch` task so you can use it for running tests or building assets.
+Using `watch` task so you can use it for running tests or building assets.
 
 ``` php
 <?php

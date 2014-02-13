@@ -3,6 +3,9 @@ namespace Robo\Task;
 
 use Robo\Result;
 
+/**
+ * Task to execute shell scripts with `exec` command. Can be executed in background
+ */
 trait Exec  {
     private $runningCommands = [];
     protected function taskExec($command)
@@ -17,8 +20,17 @@ trait Exec  {
  * Executes shell script. Closes it when running in background mode.
  * Initial code from https://github.com/tiger-seo/PhpBuiltinServer by tiger-seo
  *
- * Class Exec
- * @package Robo\Task
+ * ``` php
+ * <?php
+ * $this->taskExec('compass')->arg()->run();
+ *
+ * $this->taskExec('compass watch')->background()->run();
+ *
+ * if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
+ *  $this->say('tests passed');
+ * }
+ * ?>
+ * ```
  */
 class ExecTask implements TaskInterface {
     use \Robo\Output;
@@ -40,12 +52,17 @@ class ExecTask implements TaskInterface {
         return $this;
     }
 
-    public function args($arg)
+    public function arg($arg)
     {
-        if (!is_array($arg)) {
-            $arg = func_get_args();
+        return $this->args($arg);
+    }
+
+    public function args($args)
+    {
+        if (!is_array($args)) {
+            $args = func_get_args();
         }
-        $this->command .= " ".implode(' ', $arg);
+        $this->command .= " ".implode(' ', $args);
         return $this;
     }
 

@@ -4,6 +4,9 @@ namespace Robo\Task;
 use Robo\Output;
 use Robo\Result;
 
+/**
+ * BundledTasks to do Git stiff
+ */
 trait Git {
 
     protected function taskGit($pathToGit = 'git')
@@ -13,6 +16,25 @@ trait Git {
 
 }
 
+/**
+ * Runs Git commands in stack
+ *
+ * ``` php
+ * <?php
+ * $this->taskGit()
+ *  ->add('-A')
+ *  ->commit('adding everything')
+ *  ->push('origin','master')
+ *  ->run()
+ *
+ * $this->taskGit()
+ *  ->add('doc/*')
+ *  ->commit('doc updated')
+ *  ->push()
+ *  ->run();
+ * ?>
+ * ```
+ */
 class GitStack
 {
     use Exec;

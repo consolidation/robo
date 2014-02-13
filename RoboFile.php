@@ -1,6 +1,7 @@
 <?php
-class Robofile extends \Robo\Tasks
+class Robofile
 {
+    use Robo\Output;
     use Robo\Task\GitHub;
     use Robo\Task\Development;
     use Robo\Task\Watch;
@@ -57,7 +58,9 @@ class Robofile extends \Robo\Tasks
         $docs = [];
         foreach (get_declared_classes() as $task) {
             if (!preg_match('~^Robo\\\Task.*?Task$~', $task)) continue;
-            $docs[basename((new ReflectionClass($task))->getFileName(),'.php')][] = $task;
+            $refl = new ReflectionClass($task);
+            if ($refl->isAbstract()) continue;
+            $docs[basename($refl->getFileName(),'.php')][] = $task;
         }
 
         ksort($docs);
@@ -70,13 +73,17 @@ class Robofile extends \Robo\Tasks
         }
 
         $taskGenerator->filterMethods(function(\ReflectionMethod $m) {
-            return false; // methods are not documented
+            if ($m->isConstructor() or $m->isDestructor()) return false;
+            return $m->name != 'run' and $m->name != '__call' and $m->isPublic(); // methods are not documented
+        })->processMethod(function (\ReflectionMethod $m, $text) {
+            return "* " . $m->name . '('.implode(', ', $m->getParameters()).")\n";
         })->processClass(function(\ReflectionClass $refl, $text) {
-            $text = preg_replace("~@method .*?$~",'',$text);
+            $text = str_replace("@method ".$refl->getShortName(),'*',$text);
+            $text = preg_replace("~@package .*?$~",'',$text);
             if ($refl->isTrait()) {
-                return "## Trait ".$refl->getName()."\n\n".$text;
+                return "## Trait ".$refl->getName()."\n$text";
             } else {
-                return "### Task ".$refl->getShortName()."\n\n".$text;
+                return "### Task ".$refl->getShortName()."\n".$text;
             }
         })->run();
     }

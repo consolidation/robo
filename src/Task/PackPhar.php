@@ -3,6 +3,9 @@ namespace Robo\Task;
 use Robo\Result;
 use Symfony\Component\Console\Helper\ProgressHelper;
 
+/**
+ * Packs files into phar
+ */
 trait PackPhar {
 
     /**
@@ -16,6 +19,35 @@ trait PackPhar {
 
 }
 
+/**
+ * Creates Phar
+ *
+ * ``` php
+ * <?php
+ * $pharTask = $this->taskPackPhar('package/codecept.phar')
+    ->compress()
+    ->stub('package/stub.php');
+
+    $finder = Finder::create()
+        ->name('*.php')
+        ->in('src');
+
+    foreach ($finder as $file) {
+        $pharTask->addFile('src/'.$file->getRelativePathname(), $file->getRealPath());
+    }
+
+    $finder = Finder::create()->files()
+        ->name('*.php')
+        ->in('vendor');
+
+    foreach ($finder as $file) {
+        $pharTask->addStripped('vendor/'.$file->getRelativePathname(), $file->getRealPath());
+    }
+
+    $code = $this->taskExec('php package/codecept.phar')->run();
+ * ?>
+ * ```
+ */
 class PackPharTask implements TaskInterface {
     use \Robo\Output;
     /**

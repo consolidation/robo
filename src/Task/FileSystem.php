@@ -4,6 +4,10 @@ use Robo\Output;
 use Robo\Result;
 use Robo\Util\FileSystem as FSUtils;
 
+/**
+ * Contains useful tasks to work with filesystem.
+ *
+ */
 trait FileSystem
 {
     /**
@@ -63,6 +67,16 @@ abstract class BaseDirTask implements TaskInterface {
 
 }
 
+/**
+ * Deletes all files from specified dir, ignoring git files.
+ *
+ * ``` php
+ * <?php
+ * $this->taskCleanDir('app/cache')->run();
+ * $this->taskCleanDir(['tmp','logs'])->run();
+ * ?>
+ * ```
+ */
 class CleanDirTask extends BaseDirTask {
 
     public function run()
@@ -76,6 +90,15 @@ class CleanDirTask extends BaseDirTask {
 
 }
 
+/**
+ * Copies one dir into another
+ *
+ * ``` php
+ * <?php
+ * $this->taskCopyDir(['dist/config' => 'config'])->run();
+ * ?>
+ * ```
+ */
 class CopyDirTask extends BaseDirTask {
 
     public function run()
@@ -88,6 +111,16 @@ class CopyDirTask extends BaseDirTask {
     }
 }
 
+/**
+ * Deletes dir
+ *
+ * ``` php
+ * <?php
+ * $this->taskDeleteDir('tmp')->run();
+ * $this->taskDeleteDir(['tmp', 'log])->run();
+ * ?>
+ * ```
+ */
 class DeleteDirTask extends BaseDirTask {
 
     public function run()
@@ -101,12 +134,30 @@ class DeleteDirTask extends BaseDirTask {
 }
 
 /**
- * @method ReplaceInFileTask filename(string)
+ * Performs search and replace inside a files.
+ *
+ * ``` php
+ * <?php
+ * $this->replaceInFile('VERSION')
+ *  ->from('0.2.0')
+ *  ->to('0.3.0)
+ *  ->run();
+ *
+ * $this->replaceInFile('README.md')
+ *  ->from(date('Y')-1)
+ *  ->to(date('Y'))
+ *  ->run();
+ *
+ * $this->replaceInFile('config.yml')
+ *  ->regex('~^service:~')
+ *  ->to('services:')
+ *  ->run();
+ * ?>
+ * ```
+ *
+ * @method ReplaceInFileTask regex(string)
  * @method ReplaceInFileTask from(string)
  * @method ReplaceInFileTask to(string)
- *
- * Class ReplaceInFileTask
- * @package Robo\Task
  */
 class ReplaceInFileTask implements TaskInterface
 {
@@ -116,6 +167,7 @@ class ReplaceInFileTask implements TaskInterface
     protected $filename;
     protected $from;
     protected $to;
+    protected $regex;
 
     public function __construct($filename)
     {
@@ -128,8 +180,13 @@ class ReplaceInFileTask implements TaskInterface
             $this->printTaskInfo("<error>File {$this->filename} does not exist</error>");
             return false;
         }
+
         $text = file_get_contents($this->filename);
-        $text = str_replace($this->from, $this->to, $text, $count);
+        if ($this->regex) {
+            $text = preg_replace($this->regex, $this->to, $text, -1, $count);
+        } else {
+            $text = str_replace($this->from, $this->to, $text, $count);
+        }
         $res = file_put_contents($this->filename, $text);
         if ($res === false) {
             return Result::error($this, "Error writing to file {$this->filename}.");
@@ -189,6 +246,18 @@ class WriteToFileTask implements TaskInterface
     }
 }
 
+/**
+ * Requires php file to be executed inside a closure.
+ *
+ * ``` php
+ * <?php
+ * $this->taskRequire('script/create_users.php')->run();
+ * $this->taskRequire('script/make_admin.php')
+ *  ->locals(['user' => $user])
+ *  ->run();
+ * ?>
+ * ```
+ */
 class RequireTask
 {
     protected $file;

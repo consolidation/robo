@@ -139,12 +139,14 @@ class ChangelogTask implements TaskInterface
  *      })->run();
  * ```
  *
- * @method GenMarkdownDoc docClass($classname)
+ * @method GenMarkdownDoc docClass(string $classname)
  * @method GenMarkdownDoc filterMethods(\Closure $func)
  * @method GenMarkdownDoc filterClasses(\Closure $func)
  * @method GenMarkdownDoc processMethod(\Closure $func)
  * @method GenMarkdownDoc processClass(\Closure $func)
  * @method GenMarkdownDoc reorder(\Closure $func)
+ * @method GenMarkdownDoc prepend(string $text)
+ * @method GenMarkdownDoc append(string $text)
  */
 class GenMarkdownDoc implements TaskInterface
 {
@@ -159,6 +161,8 @@ class GenMarkdownDoc implements TaskInterface
     protected $processClass;
     protected $reorder;
     protected $filename;
+    protected $prepend = "";
+    protected $append = "";
 
     protected $text;
     protected $textForClass = [];
@@ -166,18 +170,6 @@ class GenMarkdownDoc implements TaskInterface
     function __construct($filename)
     {
         $this->filename = $filename;
-    }
-
-    public function prepend($text)
-    {
-        $this->text = $text . "\n\n".$this->text;
-        return $this;
-    }
-
-    public function append($text)
-    {
-        $this->text = $this->text."\n\n".$text;
-        return $this;
     }
 
     public function run()
@@ -195,7 +187,9 @@ class GenMarkdownDoc implements TaskInterface
         $this->text = implode("\n", $this->textForClass);
 
         $result = $this->taskWriteToFile($this->filename)
+            ->line($this->prepend)            
             ->text($this->text)
+            ->line($this->append)
             ->run();
 
         return new Result($this, $result->getExitCode(), $result->getMessage(), $this->textForClass);

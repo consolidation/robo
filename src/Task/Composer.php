@@ -68,7 +68,9 @@ abstract class BaseComposerTask {
             $this->command = 'php composer.phar';
         } elseif (is_executable('/usr/bin/composer')) {
             $this->command = '/usr/bin/composer';
-        } else {
+        } elseif (is_executable('/usr/local/bin/composer')) {
+			$this->command = '/usr/local/bin/composer';
+		} else {
             throw new TaskException(__CLASS__,"Neither local composer.phar nor global composer installation not found");
         }
     }

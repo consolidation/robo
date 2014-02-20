@@ -99,7 +99,6 @@ class Robofile extends \Robo\Tasks
     public function buildPhar()
     {
         $files = Finder::create()->ignoreVCS(true)->files()->name('*.php')->in(__DIR__);
-        // create phar
         $packer = $this->taskPackPhar('robo.phar');
         foreach ($files as $file) {
             $packer->addFile($file->getRelativePathname(), $file->getRealPath());
@@ -111,7 +110,13 @@ class Robofile extends \Robo\Tasks
 
     public function publishPhar()
     {
-
+        $this->taskGit()
+            ->checkout('gh-pages')
+            ->add('robo.phar')
+            ->commit('robo.phar published')
+            ->push('origin','gh-pages')
+            ->checkout('master')
+            ->run();
     }
 
     public function watch()

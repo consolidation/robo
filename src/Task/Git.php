@@ -78,6 +78,12 @@ class GitStackTask implements TaskInterface
         return $this;
     }
 
+    public function checkout($branch)
+    {
+        $this->stackCommands[] = "checkout $branch";
+        return $this;
+    }
+
     public function run()
     {
         $this->printTaskInfo("Running git commands...");

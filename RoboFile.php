@@ -19,15 +19,8 @@ class Robofile extends \Robo\Tasks
     {
         $this->say("Releasing Robo");
 
-        $changelog = $this->taskChangelog()
-            ->version(\Robo\Runner::VERSION)
-            ->askForChanges()
-            ->run();
-
-        if (!$changelog->wasSuccessful()) exit(1);
-
         $this->taskGit()
-            ->add('CHANGELOG.md')
+            ->add('-A')
             ->commit('updated changelog')
             ->push()
             ->run();
@@ -35,8 +28,9 @@ class Robofile extends \Robo\Tasks
         $this->taskGitHubRelease(\Robo\Runner::VERSION)
             ->uri('Codegyre/Robo')
             ->askDescription()
-            ->changes($changelog->getData())
             ->run();
+        
+        $this->publishPhar();
     }
 
     public function added($addition)
@@ -110,6 +104,7 @@ class Robofile extends \Robo\Tasks
 
     public function publishPhar()
     {
+        $this->buildPhar();
         $this->taskGit()
             ->checkout('gh-pages')
             ->add('robo.phar')

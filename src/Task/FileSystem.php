@@ -191,7 +191,7 @@ class ReplaceInFileTask implements TaskInterface
         if ($res === false) {
             return Result::error($this, "Error writing to file {$this->filename}.");
         }
-        $this->printTaskInfo("{$this->filename} updated. $count items replaced");
+        $this->printTaskInfo("<info>{$this->filename}</info> updated. $count items replaced");
         return Result::success($this, '', ['replaced' => $count]);
     }
 }
@@ -254,7 +254,7 @@ class WriteToFileTask implements TaskInterface
 
     public function run()
     {
-        $this->printTaskInfo("Writing to {$this->filename}.");
+        $this->printTaskInfo("Writing to <info>{$this->filename}</info>.");
         if ($this->append) {
             $this->body = file_get_contents($this->filename).$this->body;
         }

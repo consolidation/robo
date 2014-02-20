@@ -44,6 +44,15 @@ What makes Robo different?
 
 ## Installing
 
+### Phar
+
+Download <http://codegyre.github.io/Robo/robo.phar>
+
+To install globally put `robo.phar` to `/usr/bin`.
+`sudo chmod +x robo.phar && mv robo.phar /user/bin/robo`.
+
+Now you can use it just like `robo`.
+
 ### Composer
 
 * Add `"codegyre/robo": "*"` to `composer.json`.

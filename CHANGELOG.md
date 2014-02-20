@@ -1,5 +1,14 @@
 # Changelog
 
+#### 0.3.2 02/20/2014
+
+* Added phar build
+* release process now includes phar
+* phar executable method added
+* git checkout added
+* phar pack created
+
+
 #### 0.3.0 02/11/2014
 
 * Dynamic configuration via magic methods

@@ -1,11 +1,4 @@
 # Tasks
-## Composer
-
-``` use Robo\Task\Composer;```
-
-Contains tasks for composer.
-
-@package Robo\Task
 
 
 ### ComposerInstallTask
@@ -24,7 +17,9 @@ $this->taskComposerInstall('path/to/my/composer.phar')
 ?>
 ```
 * preferDist()
+
 * preferSource()
+
 * noDev()
 
 ### ComposerUpdateTask
@@ -44,15 +39,11 @@ $this->taskComposerUpdate('path/to/my/composer.phar')
 ```
 @package Robo\Task
 * preferDist()
+
 * preferSource()
+
 * noDev()
 
-## Development
-
-``` use Robo\Task\Development;```
-
-Contains simple tasks to simplify documenting of development process.
-@package Robo\Task
 
 ### ChangelogTask
 
@@ -80,12 +71,15 @@ $this->taskChangelog()
 ?>
 ```
 
-* filename(string $filename)
-* anchor(string $anchor)
-* version(string $version)
+@method \Robo\Task\ChangelogTask filename(string $filename)
+@method \Robo\Task\ChangelogTask anchor(string $anchor)
+@method \Robo\Task\ChangelogTask version(string $version)
 * askForChanges()
+
 * changes(Parameter #0 [ <required> array $data ])
+
 * change(Parameter #0 [ <required> $change ])
+
 * getChanges()
 
 ### GenMarkdownDocTask
@@ -104,20 +98,17 @@ $this->taskGenDoc('models.md')
      })->run();
 ```
 
-* docClass(string $classname)
-* filterMethods(\Closure $func)
-* filterClasses(\Closure $func)
-* processMethod(\Closure $func)
-* processClass(\Closure $func)
-* reorder(\Closure $func)
-* prepend(string $text)
-* append(string $text)
+@method \Robo\Task\GenMarkdownDocTask docClass(string $classname)
+@method \Robo\Task\GenMarkdownDocTask filterMethods(\Closure $func)
+@method \Robo\Task\GenMarkdownDocTask filterClasses(\Closure $func)
+@method \Robo\Task\GenMarkdownDocTask processMethod(\Closure $func)
+@method \Robo\Task\GenMarkdownDocTask processClass(\Closure $func)
+@method \Robo\Task\GenMarkdownDocTask reorder(\Closure $func)
+@method \Robo\Task\GenMarkdownDocTask reorderMethods(\Closure $func)
+@method \Robo\Task\GenMarkdownDocTask prepend($text)
+@method \Robo\Task\GenMarkdownDocTask append($text)
+* indentDoc(Parameter #0 [ <required> $doc ], Parameter #1 [ <optional> $indent = 3 ])
 
-## Exec
-
-``` use Robo\Task\Exec;```
-
-Task to execute shell scripts with `exec` command. Can be executed in background
 
 ### ExecTask
 
@@ -136,15 +127,12 @@ if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
 ?>
 ```
 * background()
+
 * arg(Parameter #0 [ <required> $arg ])
+
 * args(Parameter #0 [ <required> $args ])
+
 * stop()
-
-## FileSystem
-
-``` use Robo\Task\FileSystem;```
-
-Contains useful tasks to work with filesystem.
 
 
 ### RequireTask
@@ -217,9 +205,9 @@ $this->replaceInFile('config.yml')
 ?>
 ```
 
-* regex(string)
-* from(string)
-* to(string)
+@method \Robo\Task\ReplaceInFileTask regex(string)
+@method \Robo\Task\ReplaceInFileTask from(string)
+@method \Robo\Task\ReplaceInFileTask to(string)
 
 ### WriteToFileTask
 
@@ -234,18 +222,17 @@ $this->taskWriteToFile('blogpost.md')
      ->run();
 ?>
 ```
-* append()
+@method \Robo\Task\WriteToFileTask append()
 * line(Parameter #0 [ <required> $line ])
+
 * lines(Parameter #0 [ <required> $lines ])
+
 * text(Parameter #0 [ <required> $text ])
+
 * textFromFile(Parameter #0 [ <required> $filename ])
+
 * place(Parameter #0 [ <required> $name ], Parameter #1 [ <required> $val ])
 
-## Git
-
-``` use Robo\Task\Git;```
-
-BundledTasks to do Git stiff
 
 ### GitStackTask
 
@@ -267,16 +254,17 @@ $this->taskGit()
 ?>
 ```
 * cloneRepo(Parameter #0 [ <required> $repo ], Parameter #1 [ <optional> $to = '' ])
+
 * add(Parameter #0 [ <required> $pattern ])
+
 * commit(Parameter #0 [ <required> $message ], Parameter #1 [ <optional> $options = '' ])
+
 * pull(Parameter #0 [ <optional> $origin = '' ], Parameter #1 [ <optional> $branch = '' ])
+
 * push(Parameter #0 [ <optional> $origin = '' ], Parameter #1 [ <optional> $branch = '' ])
 
-## GitHub
+* checkout(Parameter #0 [ <required> $branch ])
 
-``` use Robo\Task\GitHub;```
-
-Github BundledTasks
 
 
 ### GitHubReleaseTask
@@ -292,24 +280,24 @@ $this->taskGitHubRelease('0.1.0')
 ?>
 ```
 
-* tag(string $tag)
-* name(string $name)
-* body(string $body)
-* draft(boolean $isDraft)
-* prerelease(boolean $isPrerelease)
-* comittish(string $branch)
+@method \Robo\Task\GitHubReleaseTask tag(string $tag)
+@method \Robo\Task\GitHubReleaseTask name(string $name)
+@method \Robo\Task\GitHubReleaseTask body(string $body)
+@method \Robo\Task\GitHubReleaseTask draft(boolean $isDraft)
+@method \Robo\Task\GitHubReleaseTask prerelease(boolean $isPrerelease)
+@method \Robo\Task\GitHubReleaseTask comittish(string $branch)
 * askName()
+
 * askDescription()
+
 * askForChanges()
+
 * changes(Parameter #0 [ <required> array $changes ])
+
 * uri(Parameter #0 [ <required> $uri ])
+
 * askAuth()
 
-## PackPhar
-
-``` use Robo\Task\PackPhar;```
-
-Packs files into phar
 
 ### PackPharTask
 
@@ -342,15 +330,15 @@ $pharTask = $this->taskPackPhar('package/codecept.phar')
 ?>
 ```
 * compress(Parameter #0 [ <optional> $compress = true ])
+
 * stub(Parameter #0 [ <required> $stub ])
+
 * addStripped(Parameter #0 [ <required> $path ], Parameter #1 [ <required> $file ])
+
 * addFile(Parameter #0 [ <required> $path ], Parameter #1 [ <required> $file ])
 
-## PhpServer
+* executable(Parameter #0 [ <required> $file ])
 
-``` use Robo\Task\PhpServer;```
-
-Start PHP Server and
 
 ### PhpServerTask
 
@@ -364,16 +352,15 @@ $this->taskServer(8000)
 ?>
 ```
 * dir(Parameter #0 [ <required> $path ])
+
 * background()
+
 * arg(Parameter #0 [ <required> $arg ])
+
 * args(Parameter #0 [ <required> $args ])
+
 * stop()
 
-## SymfonyCommand
-
-``` use Robo\Task\SymfonyCommand;```
-
-Launch Symfony or Artisan Command
 
 ### SymfonyCommandTask
 
@@ -394,13 +381,9 @@ $this->taskCommand(new ModelGeneratorCommand())
 ?>
 ```
 * arg(Parameter #0 [ <required> $arg ], Parameter #1 [ <required> $value ])
+
 * opt(Parameter #0 [ <required> $option ], Parameter #1 [ <optional> $value = NULL ])
 
-## Watch
-
-``` use Robo\Task\Watch;```
-
-Watches files for changes and runs task on change.
 
 ### WatchTask
 

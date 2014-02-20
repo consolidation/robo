@@ -10,7 +10,7 @@ trait PackPhar {
 
     /**
      * @param $filename
-     * @return \Robo\Task\PackPhar
+     * @return \Robo\Task\PackPharTask
      */
     protected function taskPackPhar($filename)
     {
@@ -49,7 +49,8 @@ trait PackPhar {
  * ?>
  * ```
  */
-class PackPharTask implements TaskInterface {
+class PackPharTask implements TaskInterface
+{
     use \Robo\Output;
     /**
      * @var \Phar
@@ -60,6 +61,15 @@ class PackPharTask implements TaskInterface {
     protected $compress = false;
     protected $stub;
     protected $bin;
+
+    protected $stubTemplate = <<<EOF
+#!/usr/bin/env php
+<?php
+Phar::mapPhar();
+require_once 'phar://%s/%s';
+__HALT_COMPILER();
+EOF;
+
 
     protected $files = [];
 
@@ -81,6 +91,10 @@ class PackPharTask implements TaskInterface {
         return $this;
     }
 
+    /**
+     * @param $stub
+     * @return $this
+     */
     public function stub($stub)
     {
         $this->phar->setStub(file_get_contents($stub));
@@ -105,7 +119,7 @@ class PackPharTask implements TaskInterface {
         $progress->finish();
 
         if($this->compress and in_array('GZ', \Phar::getSupportedCompression())) {
-            $this->taskInfo($this->filename . " compressed");
+            $this->printTaskInfo($this->filename . " compressed");
             $this->phar = $this->phar->compressFiles(\Phar::GZ);
         }
         $this->printTaskInfo($this->filename." produced");
@@ -122,6 +136,12 @@ class PackPharTask implements TaskInterface {
     public function addFile($path, $file)
     {
         $this->files[$path] = file_get_contents($file);
+        return $this;
+    }
+
+    public function executable($file)
+    {
+        $this->phar->setStub(sprintf($this->stubTemplate, $this->filename, $file));
         return $this;
     }
 

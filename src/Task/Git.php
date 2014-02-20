@@ -5,7 +5,7 @@ use Robo\Output;
 use Robo\Result;
 
 /**
- * BundledTasks to do Git stiff
+ * BundledTasks to do Git stuff
  */
 trait Git {
 

@@ -47,9 +47,9 @@ trait Development
  * ?>
  * ```
  *
- * @method ChangelogTask filename(string $filename)
- * @method ChangelogTask anchor(string $anchor)
- * @method ChangelogTask version(string $version)
+ * @method \Robo\Task\ChangelogTask filename(string $filename)
+ * @method \Robo\Task\ChangelogTask anchor(string $anchor)
+ * @method \Robo\Task\ChangelogTask version(string $version)
  */
 class ChangelogTask implements TaskInterface
 {
@@ -139,14 +139,15 @@ class ChangelogTask implements TaskInterface
  *      })->run();
  * ```
  *
- * @method GenMarkdownDocTask docClass(string $classname)
- * @method GenMarkdownDocTask filterMethods(\Closure $func)
- * @method GenMarkdownDocTask filterClasses(\Closure $func)
- * @method GenMarkdownDocTask processMethod(\Closure $func)
- * @method GenMarkdownDocTask processClass(\Closure $func)
- * @method GenMarkdownDocTask reorder(\Closure $func)
- * @method GenMarkdownDocTask prepend(string $text)
- * @method GenMarkdownDocTask append(string $text)
+ * @method \Robo\Task\GenMarkdownDocTask docClass(string $classname)
+ * @method \Robo\Task\GenMarkdownDocTask filterMethods(\Closure $func)
+ * @method \Robo\Task\GenMarkdownDocTask filterClasses(\Closure $func)
+ * @method \Robo\Task\GenMarkdownDocTask processMethod(\Closure $func)
+ * @method \Robo\Task\GenMarkdownDocTask processClass(\Closure $func)
+ * @method \Robo\Task\GenMarkdownDocTask reorder(\Closure $func)
+ * @method \Robo\Task\GenMarkdownDocTask reorderMethods(\Closure $func)
+ * @method \Robo\Task\GenMarkdownDocTask prepend($text)
+ * @method \Robo\Task\GenMarkdownDocTask append($text)
  */
 class GenMarkdownDocTask implements TaskInterface
 {
@@ -160,6 +161,7 @@ class GenMarkdownDocTask implements TaskInterface
     protected $processMethod;
     protected $processClass;
     protected $reorder;
+    protected $reorderMethods;
     protected $filename;
     protected $prepend = "";
     protected $append = "";
@@ -181,7 +183,7 @@ class GenMarkdownDocTask implements TaskInterface
 
         if (is_callable($this->reorder)) {
             $this->printTaskInfo("Applying reorder function");
-            $this->textForClass = call_user_func($this->reorder, $this->textForClass);
+            call_user_func_array($this->reorder, [$this->textForClass]);
         }
 
         $this->text = implode("\n", $this->textForClass);
@@ -197,6 +199,7 @@ class GenMarkdownDocTask implements TaskInterface
 
     protected function documentClass($class)
     {
+        if (!class_exists($class)) return "";
         $refl = new \ReflectionClass($class);
 
         if (is_callable($this->filterClasses)) {
@@ -204,33 +207,63 @@ class GenMarkdownDocTask implements TaskInterface
             if (!$ret) return;
         }
 
-        $doc = $this->indentDoc($refl->getDocComment());
+        $doc = self::indentDoc($refl->getDocComment());
         if (is_callable($this->processClass)) {
             $doc = call_user_func($this->processClass, $refl, $doc);
         } else {
             $doc = "## " . $refl->getName() . "\n\n$doc\n### Methods\n\n";
         }
 
+        $methods = [];
         foreach ($refl->getMethods() as $reflMethod)
         {
             if (is_callable($this->filterMethods)) {
                 $ret = call_user_func($this->filterMethods, $reflMethod);
                 if (!$ret) continue;
+            } else {
+                if (!$reflMethod->isPublic()) continue;
+            }
+            $methodDoc = $reflMethod->getDocComment();
+            // take from parent
+            if (!$methodDoc) {
+                $parent = $reflMethod->getDeclaringClass()->getParentClass();
+                if ($parent && $parent->hasMethod($reflMethod->name)) {
+                    $methodDoc = $parent->getMethod($reflMethod->name)->getDocComment();
+                }
+            }
+            // take from interface
+            if (!$methodDoc) {
+                $interfaces = $reflMethod->getDeclaringClass()->getInterfaces();
+                foreach ($interfaces as $interface) {
+                    $i = new \ReflectionClass($interface->name);
+                    if ($i->hasMethod($reflMethod->name)) {
+                        $methodDoc = $i->getMethod($reflMethod->name)->getDocComment();
+                        break;
+                    }
+                }
             }
 
-            $methodDoc = $this->indentDoc($reflMethod->getDocComment());
+            $methodDoc = self::indentDoc($methodDoc, 7);
             if (is_callable($this->processMethod)) {
                 $methodDoc = call_user_func($this->processMethod, $reflMethod, $methodDoc);
             } else {
-                $methodDoc = "### Method \n\n$methodDoc\n";
+                $modifiers = implode(' ', \Reflection::getModifierNames($reflMethod->getModifiers()));
+                $text = preg_replace("~@(.*?)([$\s])~",' * `$1` $2', $text); // format annotations
+                $methodDoc = "#### *$modifiers* {$reflMethod->name}\n$methodDoc\n";
             }
-            $doc .= $methodDoc;
+            $methods[$reflMethod->name] = $methodDoc;
         }
+        if (is_callable($this->reorderMethods)) {
+            call_user_func_array($this->reorderMethods, [&$methods]);
+        }
+        $doc .= implode("\n",$methods);
+
         return $doc;
     }
     
-    protected function indentDoc($doc, $indent = 3)
+    public static function indentDoc($doc, $indent = 3)
     {
+        if (!$doc) return $doc;
         return implode("\n", array_map(function ($line) use ($indent)
                 { return substr($line, $indent);
             }, explode("\n", $doc))

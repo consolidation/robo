@@ -1,5 +1,7 @@
 <?php
-class Robofile
+use Symfony\Component\Finder\Finder;
+
+class Robofile extends \Robo\Tasks
 {
     use Robo\Output;
     use Robo\Task\GitHub;
@@ -92,6 +94,24 @@ class Robofile
                 return "### ".$refl->getShortName()."\n".$text;
             }
         })->run();
+    }
+
+    public function buildPhar()
+    {
+        $files = Finder::create()->ignoreVCS(true)->files()->name('*.php')->in(__DIR__);
+        // create phar
+        $packer = $this->taskPackPhar('robo.phar');
+        foreach ($files as $file) {
+            $packer->addFile($file->getRelativePathname(), $file->getRealPath());
+        }
+        $packer->addFile('robo','robo')
+            ->executable('robo')
+            ->run();
+    }
+
+    public function publishPhar()
+    {
+
     }
 
     public function watch()

@@ -12,7 +12,7 @@ trait FileSystem
 {
     /**
      * @param $dirs
-     * @return CleanDir
+     * @return CleanDirTask
      */
     protected function taskCleanDir($dirs)
     {
@@ -21,7 +21,7 @@ trait FileSystem
 
     /**
      * @param $dirs
-     * @return DeleteDir
+     * @return DeleteDirTask
      */
     protected function taskDeleteDir($dirs)
     {
@@ -30,7 +30,7 @@ trait FileSystem
 
     /**
      * @param $dirs
-     * @return CopyDir
+     * @return CopyDirTask
      */
     protected function taskCopyDir($dirs)
     {
@@ -155,9 +155,9 @@ class DeleteDirTask extends BaseDirTask {
  * ?>
  * ```
  *
- * @method ReplaceInFileTask regex(string)
- * @method ReplaceInFileTask from(string)
- * @method ReplaceInFileTask to(string)
+ * @method \Robo\Task\ReplaceInFileTask regex(string)
+ * @method \Robo\Task\ReplaceInFileTask from(string)
+ * @method \Robo\Task\ReplaceInFileTask to(string)
  */
 class ReplaceInFileTask implements TaskInterface
 {
@@ -208,7 +208,7 @@ class ReplaceInFileTask implements TaskInterface
  *      ->run();
  * ?>
  * ```
- * @method WriteToFileTask append()
+ * @method \Robo\Task\WriteToFileTask append()
  */
 class WriteToFileTask implements TaskInterface
 {
@@ -257,6 +257,9 @@ class WriteToFileTask implements TaskInterface
         $this->printTaskInfo("Writing to {$this->filename}.");
         if ($this->append) {
             $this->body = file_get_contents($this->filename).$this->body;
+        }
+        if (!file_exists(dirname($this->filename))) {
+            mkdir(dirname($this->filename),0777,true);
         }
         $res = file_put_contents($this->filename, $this->body);
         if ($res === false) return Result::error($this, "File {$this->filename} couldnt be created");

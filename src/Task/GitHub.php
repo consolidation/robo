@@ -21,8 +21,8 @@ trait GitHub
 }
 
 /**
- * @method GitHubTask repo(string)
- * @method GitHubTask owner(string)
+ * @method \Robo\Task\GitHubTask repo(string)
+ * @method \Robo\Task\GitHubTask owner(string)
  */
 abstract class GitHubTask implements TaskInterface
 {
@@ -100,12 +100,12 @@ abstract class GitHubTask implements TaskInterface
  * ?>
  * ```
  *
- * @method GitHubReleaseTask tag(string $tag)
- * @method GitHubReleaseTask name(string $name)
- * @method GitHubReleaseTask body(string $body)
- * @method GitHubReleaseTask draft(boolean $isDraft)
- * @method GitHubReleaseTask prerelease(boolean $isPrerelease)
- * @method GitHubReleaseTask comittish(string $branch)
+ * @method \Robo\Task\GitHubReleaseTask tag(string $tag)
+ * @method \Robo\Task\GitHubReleaseTask name(string $name)
+ * @method \Robo\Task\GitHubReleaseTask body(string $body)
+ * @method \Robo\Task\GitHubReleaseTask draft(boolean $isDraft)
+ * @method \Robo\Task\GitHubReleaseTask prerelease(boolean $isPrerelease)
+ * @method \Robo\Task\GitHubReleaseTask comittish(string $branch)
  */
 class GitHubReleaseTask extends GitHubTask implements TaskInterface
 {

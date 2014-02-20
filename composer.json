@@ -20,6 +20,9 @@
     "require": {
         "symfony/console": "*",
         "henrikbjorn/lurker" : "1.0.*@dev"
+    },
+    "require-dev": {
+        "symfony/finder": "*"
     }
 
 }

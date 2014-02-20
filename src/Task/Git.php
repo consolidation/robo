@@ -42,10 +42,12 @@ class GitStackTask implements TaskInterface
 
     protected $git;
     protected $stackCommands = [];
+    protected $result;
 
     public function __construct($pathToGit = 'git')
     {
         $this->git = $pathToGit;
+        $this->result = Result::success($this);
     }
 
     public function cloneRepo($repo, $to = "")
@@ -88,8 +90,8 @@ class GitStackTask implements TaskInterface
     {
         $this->printTaskInfo("Running git commands...");
         foreach ($this->stackCommands as $command) {
-            $res = $this->taskExec($this->git .' '.$command)->run();
-            if (!$res->wasSuccessful()) return $res;
+            $this->result = $this->taskExec($this->git .' '.$command)->run();
+            if (!$this->result->wasSuccessful()) return $this->result;
         }
         return Result::success($this);
     }

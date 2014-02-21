@@ -20,10 +20,11 @@ What makes Robo different?
 
 ### Phar
 
-[Download](http://codegyre.github.io/Robo/robo.phar) >
+[Download >](http://codegyre.github.io/Robo/robo.phar)
 
-`wget http://codegyre.github.io/Robo/robo.phar`
-
+```
+wget http://codegyre.github.io/Robo/robo.phar
+```
 
 To install globally put `robo.phar` in `/usr/bin`.
 

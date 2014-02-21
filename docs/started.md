@@ -10,9 +10,8 @@ You will be asked to create a file. New `RoboFile.php` is created with all tasks
 
 ``` php
 <?php
-class RoboFile
+class RoboFile extends \Robo\Tasks
 {
-    use Robo\Output;
 }
 ?>
 ```
@@ -21,9 +20,8 @@ All public methods of this class will be trated as **commands**. You can run the
 
 ``` php
 <?php
-class RoboFile extends Robo\BundledTasks
+class RoboFile extends \Robo\Tasks
 {
-    use Robo\Output;
     function hello($world)
     {
         $this->say("Hello, $world");

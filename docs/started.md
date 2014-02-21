@@ -83,9 +83,8 @@ To use it you should include this task via trait:
 
 ``` php
 <?php
-class RoboFile extends Robo\BundledTasks
+class RoboFile extends Robo\Tasks
 {
-    use Robo\Output;
     use CompileAssets;
 
     function build()

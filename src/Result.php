@@ -1,6 +1,7 @@
 <?php
 namespace Robo;
 
+use ReflectionClass;
 use Robo\Task\TaskInterface;
 
 class Result {

@@ -21,6 +21,7 @@
         "henrikbjorn/lurker" : "1.0.*@dev"
     },
     "require-dev": {
-        "symfony/finder": "*"
+        "symfony/finder": "*",
+        "mockery/mockery": "0.9.*"
     }
 }

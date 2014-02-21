@@ -8,7 +8,7 @@ class Robofile extends \Robo\Tasks
         $this->say("Releasing Robo");
 
         $this->taskGit()
-            ->add('-A')
+            ->add('CHANGELOG.md')
             ->commit('updated')
             ->push()
             ->run();
@@ -18,7 +18,7 @@ class Robofile extends \Robo\Tasks
             ->askDescription()
             ->run();
         
-        $this->publishPhar();
+        $this->pharPublish();
     }
 
     public function added($addition)
@@ -92,7 +92,7 @@ class Robofile extends \Robo\Tasks
 
     public function pharPublish()
     {
-        $this->buildPhar();
+        $this->pharBuild();
         $this->taskGit()
             ->checkout('gh-pages')
             ->add('robo.phar')

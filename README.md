@@ -1,6 +1,3 @@
-RoboTask
-====
-
 **Modern and simple PHP task runner** inspired by Grunt and Rake aimed to automate common tasks:
 
 * executing daemons (and workers)
@@ -11,35 +8,12 @@ RoboTask
 * running tests
 * writing cross-platform scripts
 
-## Demo
-
-Starting PHP server and run PHPUnit tests.
-
-``` php
-<?php
-class RoboFile
-{
-    use Robo\Task\PhpServer;
-    use Robo\Task\Exec;
-
-    public function serve()
-    {
-        $this->taskServer(8000)
-            ->background()
-            ->dir('public')
-            ->run();
-
-        return $this->taskExec('phpunit')->run();
-    }
-?>
-```
-
 What makes Robo different?
 
-* Robo is pure PHP
+* Robo is pure PHP.
 * Robo provides clean OOP interface for declaring tasks.
 * Robo is very simple and intuitive in use.
-* Robo if framework-agnostic
+* Robo is framework-agnostic.
 * Robo uses Symfony Console component but allows you to put all your commands in one file.
 
 ## Installing
@@ -48,7 +22,7 @@ What makes Robo different?
 
 Download <http://codegyre.github.io/Robo/robo.phar>
 
-To install globally put `robo.phar` to `/usr/bin`.
+To install globally put `robo.phar` in `/usr/bin`.
 
 ```
 sudo chmod +x robo.phar && mv robo.phar /user/bin/robo
@@ -60,7 +34,7 @@ Now you can use it just like `robo`.
 
 * Add `"codegyre/robo": "*"` to `composer.json`.
 * Run `composer install`
-* Use `vendor/bin/robo` to execute robo tasks.
+* Use `vendor/bin/robo` to execute Robo tasks.
 
 ## Usage
 
@@ -146,7 +120,7 @@ class RoboFile extends \Robo\Tasks
 ?>
 ```
 
-This task cleans `app/cache` and `app/logs` dirs (ignoreing .gitignore and .gitkeep files)
+This task cleans `app/cache` and `app/logs` dirs (ignoring .gitignore and .gitkeep files)
 Can be executed by running:
 
 ```
@@ -195,7 +169,7 @@ function buildPhar()
 }
 ```
 
-[This and other example tasks](https://github.com/Codeception/Codeception/blob/2.0-dev/RoboFile.php). can be found in Codeception repo
+[This and other example tasks](https://github.com/Codeception/Codeception/blob/2.0-dev/RoboFile.php) can be found in Codeception repo.
 
 ### Example: Publishing New Release of Robo
 
@@ -252,6 +226,6 @@ Create your own tasks and send them as Pull Requests or create packages prefixed
 
 ## Concepts
 
-Tasks are classes that implement `Robo\TaskInterface` with method `run` defined. Each other method of task should be used for specifing task options and returns `$this` for fluent interface:
+Tasks are classes that implement `Robo\TaskInterface` with method `run` defined. Each other method of task should be used for specifying task options and returns `$this` for fluent interface:
 
-Tasks are including into RoboFile with traits. Traits should contain protected methods with `task` prefix that return new instance of a task.
+Tasks are included into RoboFile with traits. Traits should contain protected methods with `task` prefix that return a new instance of a task.

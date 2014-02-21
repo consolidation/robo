@@ -102,22 +102,6 @@ class Robofile extends \Robo\Tasks
             ->run();
     }
 
-    public function switchSite()
-    {
-        $this->taskGit()
-            ->checkout('gh-pages')
-            ->run();
-    }
-
-    public function switchSource()
-    {
-        $this->taskGit()
-            ->add('-A')
-            ->commit("updated site")
-            ->checkout('master')
-            ->run();
-    }
-
     public function pharPublish()
     {
         $this->buildPhar();

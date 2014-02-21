@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 
 class Runner {
 
-    const VERSION = '0.3.4';
+    const VERSION = '0.3.5';
     const ROBOCLASS = 'RoboFile';
     const ROBOFILE = 'RoboFile.php';
 
@@ -96,7 +96,7 @@ class Runner {
 
     protected function initRoboFile()
     {
-        file_put_contents(self::ROBOFILE, "<?php\nclass Robofile\n{\n    use Robo\\Output;\n    // define public methods as commands\n}");
+        file_put_contents(self::ROBOFILE, "<?php\nclass Robofile extends \\Robo\\Tasks\n{\n    // define public methods as commands\n}");
         $this->output->writeln(self::ROBOFILE . " created");
 
     }

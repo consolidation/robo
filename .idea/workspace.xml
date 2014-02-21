@@ -33,7 +33,7 @@
     <file path="/README.md" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392867325996" ignored="false" />
     <file path="/Exec.php" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392943572970" ignored="false" />
     <file path="/CHANGELOG.md" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392949876991" ignored="false" />
-    <file path="/index.html" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392955262517" ignored="false" />
+    <file path="/index.html" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392957742113" ignored="false" />
     <file path="/local.css" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392955101677" ignored="false" />
     <file path="/dummy.xml" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392953869280" ignored="false" />
     <file path="/started.html" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392954692535" ignored="false" />
@@ -66,10 +66,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="36" selection-start="924" selection-end="924" vertical-scroll-proportion="-0.7777778">
+            <state line="74" column="87" selection-start="3431" selection-end="3431" vertical-scroll-proportion="0.82833785">
               <folding />
             </state>
           </provider>
@@ -106,9 +106,7 @@
         <entry file="file://$PROJECT_DIR$/javascripts/flatdoc.js">
           <provider selected="true" editor-type-id="text-editor">
             <state line="15" column="2326" selection-start="2606" selection-end="2606" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -131,7 +129,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="main.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/javascripts/main.js">
           <provider selected="true" editor-type-id="text-editor">
             <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
@@ -152,7 +150,7 @@
       <file leaf-file-name="started.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/started.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="85" selection-start="805" selection-end="805" vertical-scroll-proportion="0.0">
+            <state line="22" column="85" selection-start="834" selection-end="834" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -229,6 +227,48 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="Robo">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="Robo">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="stylesheets">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="Robo">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="javascripts">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -313,48 +353,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope">
-        <subPane subId="Project Files">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="Robo">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="Robo">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="stylesheets">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="Robo">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="javascripts">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -363,8 +361,8 @@
     <property name="options.lastSelected" value="preferences.keymap" />
     <property name="SearchEverywhereHistory" value="" />
     <property name="FullScreen" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="PublishConfig">
     <servers>
@@ -425,7 +423,7 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32947233" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25997427" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26319176" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -531,14 +529,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tasks.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="87" selection-start="1122" selection-end="1122" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="35" column="87" selection-start="1122" selection-end="1122" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/started.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="85" selection-start="805" selection-end="805" vertical-scroll-proportion="0.0">
+        <state line="22" column="85" selection-start="834" selection-end="834" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -552,9 +548,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/stylesheets/pygment_trac.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="69" column="0" selection-start="4168" selection-end="4168" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="69" column="0" selection-start="4168" selection-end="4168" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/javascripts/script.js">
@@ -571,27 +565,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="36" selection-start="924" selection-end="924" vertical-scroll-proportion="-0.7777778">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/javascripts/flatdoc.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="15" column="2326" selection-start="2606" selection-end="2606" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/stylesheets/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/stylesheets/screen.css">
@@ -611,6 +594,13 @@
     <entry file="file://$PROJECT_DIR$/javascripts/main.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="74" column="87" selection-start="3431" selection-end="3431" vertical-scroll-proportion="0.82833785">
           <folding />
         </state>
       </provider>

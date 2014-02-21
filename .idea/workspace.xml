@@ -66,10 +66,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="74" column="87" selection-start="3431" selection-end="3431" vertical-scroll-proportion="0.82833785">
+            <state line="46" column="8" selection-start="1313" selection-end="1410" vertical-scroll-proportion="-17.11111">
               <folding />
             </state>
           </provider>
@@ -88,15 +88,6 @@
         <entry file="file://$PROJECT_DIR$/javascripts/script.js">
           <provider selected="true" editor-type-id="text-editor">
             <state line="102" column="23" selection-start="2319" selection-end="2319" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="headsmart.min.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/javascripts/headsmart.min.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -150,7 +141,16 @@
       <file leaf-file-name="started.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/started.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="85" selection-start="834" selection-end="834" vertical-scroll-proportion="0.0">
+            <state line="34" column="101" selection-start="1189" selection-end="1189" vertical-scroll-proportion="-14.777778">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tasks.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/tasks.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="51" column="101" selection-start="1599" selection-end="1599" vertical-scroll-proportion="0.48637602">
               <folding />
             </state>
           </provider>
@@ -178,10 +178,10 @@
         <option value="$PROJECT_DIR$/src/Task/PackPhar.php" />
         <option value="$PROJECT_DIR$/CHANGELOG.md" />
         <option value="$PROJECT_DIR$/RoboFile.php" />
-        <option value="$PROJECT_DIR$/started.html" />
-        <option value="$PROJECT_DIR$/tasks.html" />
         <option value="$PROJECT_DIR$/stylesheets/local.css" />
         <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/started.html" />
+        <option value="$PROJECT_DIR$/tasks.html" />
       </list>
     </option>
   </component>
@@ -361,8 +361,8 @@
     <property name="options.lastSelected" value="preferences.keymap" />
     <property name="SearchEverywhereHistory" value="" />
     <property name="FullScreen" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="PublishConfig">
     <servers>
@@ -423,7 +423,7 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32947233" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26319176" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26705277" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -527,18 +527,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tasks.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="87" selection-start="1122" selection-end="1122" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/started.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="85" selection-start="834" selection-end="834" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/stylesheets/local.css">
       <provider selected="true" editor-type-id="text-editor">
         <state line="5" column="0" selection-start="98" selection-end="98" vertical-scroll-proportion="0.0">
@@ -600,7 +588,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="87" selection-start="3431" selection-end="3431" vertical-scroll-proportion="0.82833785">
+        <state line="46" column="8" selection-start="1313" selection-end="1410" vertical-scroll-proportion="-17.11111">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/started.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="101" selection-start="1189" selection-end="1189" vertical-scroll-proportion="-14.777778">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tasks.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="101" selection-start="1599" selection-end="1599" vertical-scroll-proportion="0.48637602">
           <folding />
         </state>
       </provider>

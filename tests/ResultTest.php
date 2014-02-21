@@ -11,6 +11,13 @@ class ResultTest extends PHPUnit_Framework_TestCase {
     public function testBasics()
     {
         $task = m::mock('Robo\Task\TaskInterface');
+        // Mock console output
+        $console = m::mock('Symfony\Component\Console\Output\ConsoleOutput');
+        $console->shouldReceive('writeln')
+            ->with('/.*\<error\>Error\<\/error\> The foo barred$/')
+            ->once();
+
+        Result::setOutput($console);
         $result = new Result($task, 1, 'The foo barred', ['time' => 0]);
 
         $this->assertSame($task, $result->getTask());

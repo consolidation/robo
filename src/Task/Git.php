@@ -17,17 +17,19 @@ trait Git {
 }
 
 /**
- * Runs Git commands in stack
+ * Runs Git commands in stack. You can use `stopOnFail()` to point that stack should be terminated on first fail.
  *
  * ``` php
  * <?php
  * $this->taskGit()
+ *  ->stopOnFail()
  *  ->add('-A')
  *  ->commit('adding everything')
  *  ->push('origin','master')
  *  ->run()
  *
  * $this->taskGit()
+ *  ->stopOnFail()
  *  ->add('doc/*')
  *  ->commit('doc updated')
  *  ->push()
@@ -42,6 +44,7 @@ class GitStackTask implements TaskInterface
 
     protected $git;
     protected $stackCommands = [];
+    protected $stopOnFail = false;
     protected $result;
 
     public function __construct($pathToGit = 'git')
@@ -53,6 +56,12 @@ class GitStackTask implements TaskInterface
     public function cloneRepo($repo, $to = "")
     {
         $this->stackCommands[]= "clone $repo $to";
+        return $this;
+    }
+
+    public function stopOnFail()
+    {
+        $this->stopOnFail = true;
         return $this;
     }
 
@@ -91,7 +100,9 @@ class GitStackTask implements TaskInterface
         $this->printTaskInfo("Running git commands...");
         foreach ($this->stackCommands as $command) {
             $this->result = $this->taskExec($this->git .' '.$command)->run();
-            if (!$this->result->wasSuccessful()) return $this->result;
+            if (!$this->result->wasSuccessful() and $this->stopOnFail) {
+                return $this->result;
+            }
         }
         return Result::success($this);
     }

@@ -66,7 +66,7 @@ class PackPharTask implements TaskInterface
 #!/usr/bin/env php
 <?php
 Phar::mapPhar();
-require_once 'phar://%s/%s';
+%s
 __HALT_COMPILER();
 EOF;
 
@@ -141,7 +141,11 @@ EOF;
 
     public function executable($file)
     {
-        $this->phar->setStub(sprintf($this->stubTemplate, $this->filename, $file));
+        $source = file_get_contents($file);
+        if (strpos($source, '#!/usr/bin/env php') === 0) {
+            $source = substr($source, strpos($source, '<?php')+5);
+        }
+        $this->phar->setStub(sprintf($this->stubTemplate, $source));
         return $this;
     }
 

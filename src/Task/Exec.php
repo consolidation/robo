@@ -1,6 +1,7 @@
 <?php
 namespace Robo\Task;
 
+use Robo\Output;
 use Robo\Result;
 
 /**
@@ -13,6 +14,11 @@ trait Exec  {
         $exec = new ExecTask($command);
         $this->runningCommands[] = $exec;
         return $exec;
+    }
+
+    protected function taskExecStack($command)
+    {
+        return new ExecStackTask($command);
     }
 }
 
@@ -111,5 +117,42 @@ class ExecTask implements TaskInterface {
         }
         return Result::success($this);
     }
+}
 
+/**
+ * Execute commands one by one in stack.
+ * Stack can be stopped on first fail if you call `stopOnFail()`.
+ *
+ * ```php
+ * <?php
+ * $this->taskExecStack()
+ *  ->stopOnFail()
+ *  ->exec('mkdir site')
+ *  ->exec('cd site')
+ *  ->run();
+ *
+ * ?>
+ * ```
+ *
+ * @method \Robo\Task\ExecStackTask exec(string)
+ * @method \Robo\Task\ExecStackTask stopOnFail(string)
+ */
+class ExecStackTask implements TaskInterface
+{
+    use DynamicConfig;
+    use Output;
+    protected $exec = [];
+    protected $result;
+    protected $stopOnFail = false;
+
+    public function run()
+    {
+        foreach ($this->exec as $command) {
+            $this->result = (new ExecTask($command))->run();
+            if (!$this->result->wasSuccessful() and $this->stopOnFail) {
+                return $this->result;
+            }
+        }
+        return Result::success($this);
+    }
 }

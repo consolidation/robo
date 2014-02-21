@@ -1,5 +1,11 @@
 # Changelog
 
+#### 0.3.4 02/21/2014
+
+* [PackPhar] ->executable command will remove hashbang when generated stub file
+* [Git][Exec] stopOnFail option for Git and Exec stack
+* [ExecStack] shortcut for executing bash commands in stack
+
 #### 0.3.2 02/20/2014
 
 * release process now includes phar

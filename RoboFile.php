@@ -94,6 +94,7 @@ class Robofile extends \Robo\Tasks
     {
         $this->pharBuild();
         rename('robo.phar', 'robo-release.phar');
+        unlink('robo.phar');
         $this->taskGit()->checkout('gh-pages');
         rename('robo-release.phar', 'robo.phar');
         $this->taskGit()

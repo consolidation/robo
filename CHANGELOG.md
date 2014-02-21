@@ -1,5 +1,10 @@
 # Changelog
 
+#### 0.3.5 02/21/2014
+
+* changed generated init template
+
+
 #### 0.3.4 02/21/2014
 
 * [PackPhar] ->executable command will remove hashbang when generated stub file

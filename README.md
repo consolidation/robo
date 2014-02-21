@@ -54,7 +54,9 @@ The best way to learn Robo by example is to take a look into [its own RoboFile](
 
 Here are some snippets from them:
 
-To run test we need to start a server first, and launch a Selenium Server
+---
+
+Run acceptance test with local server and selenium server started.
 
 
 ``` php
@@ -110,8 +112,9 @@ class RoboFile extends \Robo\Tasks {
 ?>
 ```
 
+---
 
-### Example: Cleaning Logs and Cache
+Cleaning logs and cache
 
 ``` php
 <?php
@@ -139,9 +142,9 @@ Can be executed by running:
 robo clean
 ```
 
-### Example: Creating Phar Archive
+----
 
-This example was extracted from Codeception and simplified:
+Creating Phar archive
 
 ``` php
 function buildPhar()
@@ -157,7 +160,9 @@ function buildPhar()
 }
 ```
 
-### Example: Publishing New Release of Robo
+---
+
+Publishing New Release of Robo
 
 ``` php
 <?php

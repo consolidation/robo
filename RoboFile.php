@@ -21,7 +21,7 @@ class Robofile extends \Robo\Tasks
 
         $this->taskGit()
             ->add('-A')
-            ->commit('updated changelog')
+            ->commit('updated')
             ->push()
             ->run();
 
@@ -90,7 +90,7 @@ class Robofile extends \Robo\Tasks
         })->run();
     }
 
-    public function buildPhar()
+    public function pharBuild()
     {
         $files = Finder::create()->ignoreVCS(true)->files()->name('*.php')->in(__DIR__);
         $packer = $this->taskPackPhar('robo.phar');
@@ -102,7 +102,23 @@ class Robofile extends \Robo\Tasks
             ->run();
     }
 
-    public function publishPhar()
+    public function switchSite()
+    {
+        $this->taskGit()
+            ->checkout('gh-pages')
+            ->run();
+    }
+
+    public function switchSource()
+    {
+        $this->taskGit()
+            ->add('-A')
+            ->commit("updated site")
+            ->checkout('master')
+            ->run();
+    }
+
+    public function pharPublish()
     {
         $this->buildPhar();
         $this->taskGit()

@@ -22,7 +22,7 @@ What makes Robo different?
 
 ### Phar
 
-[Download robo.phar>](http://codegyre.github.io/Robo/robo.phar)
+[Download robo.phar >](http://codegyre.github.io/Robo/robo.phar)
 
 ```
 wget http://codegyre.github.io/Robo/robo.phar

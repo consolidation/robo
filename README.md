@@ -1,3 +1,5 @@
+# RoboTask
+
 **Modern and simple PHP task runner** inspired by Grunt and Rake aimed to automate common tasks:
 
 * executing daemons (and workers)
@@ -20,7 +22,7 @@ What makes Robo different?
 
 ### Phar
 
-[Download >](http://codegyre.github.io/Robo/robo.phar)
+[Download robo.phar>](http://codegyre.github.io/Robo/robo.phar)
 
 ```
 wget http://codegyre.github.io/Robo/robo.phar
@@ -47,7 +49,13 @@ All protected methods in traits that start with `task` prefix are tasks and can 
 
 ## Examples
 
+The best way to learn Robo by example is to take a look into [its own RoboFile](https://github.com/Codegyre/Robo/blob/master/RoboFile.php)
+ or [RoboFile of Codeception project](https://github.com/Codeception/Codeception/blob/master/RoboFile.php)
+
+Here are some snippets from them:
+
 To run test we need to start a server first, and launch a Selenium Server
+
 
 ``` php
 <?php
@@ -138,42 +146,16 @@ This example was extracted from Codeception and simplified:
 ``` php
 function buildPhar()
 {
-    $pharTask = $this->taskPackPhar('package/codecept.phar')
-        ->compress()
-        ->stub('package/stub.php');
-
-    $finder = Finder::create()
-        ->ignoreVCS(true)
-        ->name('*.php')
-        ->in('src');
-
-    foreach ($finder as $file) {
-        $pharTask->addFile('src/'.$file->getRelativePathname(), $file->getRealPath());
+    $files = Finder::create()->ignoreVCS(true)->files()->name('*.php')->in(__DIR__);
+    $packer = $this->taskPackPhar('robo.phar');
+    foreach ($files as $file) {
+        $packer->addFile($file->getRelativePathname(), $file->getRealPath());
     }
-
-    $finder = Finder::create()->files()
-        ->ignoreVCS(true)
-        ->name('*.php')
-        ->exclude('Tests')
-        ->exclude('tests')
-        ->in('vendor');
-
-    foreach ($finder as $file) {
-        $pharTask->addStripped('vendor/'.$file->getRelativePathname(), $file->getRealPath());
-    }
-
-    $pharTask->addFile('autoload.php', 'autoload.php')
-        ->addFile('codecept', 'package/bin')
+    $packer->addFile('robo','robo')
+        ->executable('robo')
         ->run();
-
-    $code = $this->taskExec('php package/codecept.phar')->run();
-    if ($code !== 0) {
-        throw new Exception("There was problem compiling phar");
-    }
 }
 ```
-
-[This and other example tasks](https://github.com/Codeception/Codeception/blob/2.0-dev/RoboFile.php) can be found in Codeception repo.
 
 ### Example: Publishing New Release of Robo
 
@@ -233,3 +215,8 @@ Create your own tasks and send them as Pull Requests or create packages prefixed
 Tasks are classes that implement `Robo\TaskInterface` with method `run` defined. Each other method of task should be used for specifying task options and returns `$this` for fluent interface:
 
 Tasks are included into RoboFile with traits. Traits should contain protected methods with `task` prefix that return a new instance of a task.
+
+## Credits
+
+Robo was created by Michael Bodnarchuk [@davert](http://twitter.com/davert) for purposes of [Codeception project](http://codeception.com).
+For updated please should follow [@davert](http://twitter.com/codeception). And yes, license is MIT.

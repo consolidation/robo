@@ -3,18 +3,6 @@ use Symfony\Component\Finder\Finder;
 
 class Robofile extends \Robo\Tasks
 {
-    use Robo\Output;
-    use Robo\Task\GitHub;
-    use Robo\Task\Development;
-    use Robo\Task\Watch;
-    use Robo\Task\Git;
-    use Robo\Task\FileSystem;
-    use Robo\Task\Composer;
-    use Robo\Task\PhpServer;
-    use Robo\Task\SymfonyCommand;
-    use Robo\Task\Exec;
-    use Robo\Task\PackPhar;
-
     public function release()
     {
         $this->say("Releasing Robo");

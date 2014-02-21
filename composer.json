@@ -11,10 +11,9 @@
     ],
     "autoload":{
         "psr-4":{
-            "Robo\\":"src"
+            "Robo\\": "src",
+            "Robo\\Tests\\": "tests"
         }
-
-
     },
     "bin":["robo"],
     "require": {
@@ -24,5 +23,4 @@
     "require-dev": {
         "symfony/finder": "*"
     }
-
 }

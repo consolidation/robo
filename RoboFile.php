@@ -21,6 +21,12 @@ class Robofile extends \Robo\Tasks
         $this->pharPublish();
     }
 
+    public function tests()
+    {
+        $this->taskPHPUnit()
+            ->run();
+    }
+
     public function added($addition)
     {
         $this->taskChangelog()

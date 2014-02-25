@@ -11,7 +11,8 @@ class Tasks
 	use Task\GitHub;
 	use Task\PackPhar;
 	use Task\PhpServer;
+	use Task\PHPUnit;
 	use Task\SymfonyCommand;
 	use Task\Watch;
-    use Output;
+	use Output;
 }

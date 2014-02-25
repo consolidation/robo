@@ -2,6 +2,7 @@
 
 #### 0.3.3 02/25/2014
 
+* PHPUnit basic task
 * fixed doc geenration
 
 

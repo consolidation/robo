@@ -10,8 +10,8 @@ trait PHPUnit {
     }
 }
 
-class PHPUnitTask implements TaskInterface {
-
+class PHPUnitTask implements TaskInterface
+{
     use \Robo\Output;
 
     public function __construct()

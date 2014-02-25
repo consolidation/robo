@@ -134,6 +134,25 @@ if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
 
 * stop()
 
+### ExecStackTask
+
+Execute commands one by one in stack.
+Stack can be stopped on first fail if you call `stopOnFail()`.
+
+```php
+<?php
+$this->taskExecStack()
+ ->stopOnFail()
+ ->exec('mkdir site')
+ ->exec('cd site')
+ ->run();
+
+?>
+```
+
+@method \Robo\Task\ExecStackTask exec(string)
+@method \Robo\Task\ExecStackTask stopOnFail(string)
+
 
 ### RequireTask
 
@@ -236,17 +255,19 @@ $this->taskWriteToFile('blogpost.md')
 
 ### GitStackTask
 
-Runs Git commands in stack
+Runs Git commands in stack. You can use `stopOnFail()` to point that stack should be terminated on first fail.
 
 ``` php
 <?php
 $this->taskGit()
+ ->stopOnFail()
  ->add('-A')
  ->commit('adding everything')
  ->push('origin','master')
  ->run()
 
 $this->taskGit()
+ ->stopOnFail()
  ->add('doc/*')
  ->commit('doc updated')
  ->push()
@@ -254,6 +275,8 @@ $this->taskGit()
 ?>
 ```
 * cloneRepo(Parameter #0 [ <required> $repo ], Parameter #1 [ <optional> $to = '' ])
+
+* stopOnFail()
 
 * add(Parameter #0 [ <required> $pattern ])
 
@@ -297,6 +320,9 @@ $this->taskGitHubRelease('0.1.0')
 * uri(Parameter #0 [ <required> $uri ])
 
 * askAuth()
+
+
+### PHPUnitTask
 
 
 ### PackPharTask

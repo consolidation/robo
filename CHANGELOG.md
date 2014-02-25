@@ -1,5 +1,10 @@
 # Changelog
 
+#### 0.3.3 02/25/2014
+
+* fixed doc geenration
+
+
 #### 0.3.5 02/21/2014
 
 * changed generated init template

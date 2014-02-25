@@ -248,7 +248,7 @@ class GenMarkdownDocTask implements TaskInterface
                 $methodDoc = call_user_func($this->processMethod, $reflMethod, $methodDoc);
             } else {
                 $modifiers = implode(' ', \Reflection::getModifierNames($reflMethod->getModifiers()));
-                $text = preg_replace("~@(.*?)([$\s])~",' * `$1` $2', $text); // format annotations
+                $text = preg_replace("~@(.*?)([$\s])~",' * `$1` $2', $methodDoc); // format annotations
                 $methodDoc = "#### *$modifiers* {$reflMethod->name}\n$methodDoc\n";
             }
             $methods[$reflMethod->name] = $methodDoc;

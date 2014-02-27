@@ -213,6 +213,8 @@ class ReplaceInFileTask implements TaskInterface
 class WriteToFileTask implements TaskInterface
 {
     use Output;
+    use DynamicConfig;
+
     protected $filename;
     protected $body = "";
     protected $append = false;

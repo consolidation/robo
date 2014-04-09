@@ -125,7 +125,7 @@ class ComposerUpdateTask extends BaseComposerTask implements TaskInterface {
     public function run()
     {
         $options = $this->prefer;
-        $this->dev ?: $options.= "--no-dev";
+        $this->dev ?: $options.= " --no-dev";
         $this->printTaskInfo('Updating Packages: '.$options);
         $line = system($this->command.' update '.$options, $code);
         return new Result($this, $code, $line);

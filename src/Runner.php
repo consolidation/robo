@@ -1,7 +1,6 @@
 <?php
 namespace Robo;
 
-use Robo\Command\Init;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\DialogHelper;
@@ -11,7 +10,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 
 class Runner {
 
-    const VERSION = '0.3.7';
+    const VERSION = '0.4.0';
     const ROBOCLASS = 'RoboFile';
     const ROBOFILE = 'RoboFile.php';
 
@@ -100,8 +99,5 @@ class Runner {
         $this->output->writeln(self::ROBOFILE . " created");
 
     }
-    
-    
-
 }
- 
+

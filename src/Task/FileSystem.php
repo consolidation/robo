@@ -2,6 +2,7 @@
 namespace Robo\Task;
 use Robo\Output;
 use Robo\Result;
+use Robo\Task\Shared\TaskInterface;
 use Robo\Util\FileSystem as FSUtils;
 
 /**
@@ -162,7 +163,7 @@ class DeleteDirTask extends BaseDirTask {
 class ReplaceInFileTask implements TaskInterface
 {
     use \Robo\Output;
-    use DynamicConfig;
+    use Shared\DynamicConfig;
 
     protected $filename;
     protected $from;

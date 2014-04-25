@@ -1,6 +1,7 @@
 <?php
 namespace Robo\Task;
 use Robo\Result;
+use Robo\Task\Shared\TaskInterface;
 use Symfony\Component\Console\Helper\ProgressHelper;
 
 /**

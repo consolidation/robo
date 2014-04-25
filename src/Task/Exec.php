@@ -3,6 +3,8 @@ namespace Robo\Task;
 
 use Robo\Output;
 use Robo\Result;
+use Robo\Task\Shared\TaskInterface;
+use Symfony\Component\Process\Process;
 
 /**
  * Task to execute shell scripts with `exec` command. Can be executed in background
@@ -47,6 +49,11 @@ class ExecTask implements TaskInterface {
     protected $pipes = [];
     protected $isPrinted = false;
 
+    /**
+     * @var Process
+     */
+    protected $process;
+
     public function __construct($command)
     {
         $this->command = $command;
@@ -79,12 +86,8 @@ class ExecTask implements TaskInterface {
 
     public function stop()
     {
-        if ($this->background && $this->resource !== null) {
-            foreach ($this->pipes AS $pipe) {
-                fclose($pipe);
-            }
-            proc_terminate($this->resource, 2);
-            unset($this->resource);
+        if ($this->background && $this->process->isRunning()) {
+            $this->process->stop();
             $this->printTaskInfo("stopped <info>{$this->command}</info>");
         }        
     }
@@ -92,28 +95,24 @@ class ExecTask implements TaskInterface {
     public function run()
     {
         $this->printTaskInfo("running <info>{$this->command}</info>");
+        $this->process = new Process($this->command);
+
         if (!$this->background and $this->isPrinted) {
-            $line = system($this->command, $code);
-            return new Result($this, $code, $line);
+            $this->process->run();
+            return new Result($this, $this->process->getExitCode(), $this->process->getOutput());
         }
 
         if (!$this->background and !$this->isPrinted) {
-            $line = exec($this->command, $output, $code);
-            return new Result($this, $code, $line);
+            $this->process->run(function ($type, $buffer) {
+                Process::ERR === $type ? print('ERR> '.$buffer) : print('OUT> '.$buffer);
+            });
+            return new Result($this, $this->process->getExitCode(), $this->process->getOutput());
         }
 
-        $descriptor = [
-            ['pipe', 'r'],
-            ['pipe', 'r'],
-            ['pipe', 'r']
-        ];
-        $this->resource = proc_open($this->command, $descriptor, $this->pipes, null, null, ['bypass_shell' => true]);
-        if (!is_resource($this->resource)) {
-            return Result::error($this, 'Failed to run command.');
-        }
-        if (!proc_get_status($this->resource)['running']) {
-            proc_close($this->resource);
-            return Result::error($this, 'Failed to run command.');
+        try {
+            $this->process->start();
+        } catch (\Exception $e) {
+            return Result::error($this, $e->getMessage());
         }
         return Result::success($this);
     }
@@ -139,7 +138,7 @@ class ExecTask implements TaskInterface {
  */
 class ExecStackTask implements TaskInterface
 {
-    use DynamicConfig;
+    use Shared\DynamicConfig;
     use Output;
     protected $exec = [];
     protected $result;

@@ -1,5 +1,6 @@
 <?php
 namespace Robo\Task;
+trait_exists('Robo\Task\Exec', true);
 
 /**
  * Start PHP Server and

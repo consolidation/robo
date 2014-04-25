@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "feb730db87891a35715e31da1f64da45",
+    "hash": "a88b6a0830685cbf427bab3c0d743c79",
     "packages": [
         {
             "name": "henrikbjorn/lurker",
@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/henrikbjorn/Lurker.git",
-                "reference": "f954712cbdb9c69c0142bacc3deea5d77e2c748a"
+                "reference": "cffdc206d4da1259f4794da6aa94671da33c622d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/henrikbjorn/Lurker/zipball/f954712cbdb9c69c0142bacc3deea5d77e2c748a",
-                "reference": "f954712cbdb9c69c0142bacc3deea5d77e2c748a",
+                "url": "https://api.github.com/repos/henrikbjorn/Lurker/zipball/cffdc206d4da1259f4794da6aa94671da33c622d",
+                "reference": "cffdc206d4da1259f4794da6aa94671da33c622d",
                 "shasum": ""
             },
             "require": {
@@ -64,21 +64,21 @@
                 "resource",
                 "watching"
             ],
-            "time": "2013-09-26 12:25:57"
+            "time": "2014-03-01 09:36:49"
         },
         {
             "name": "symfony/config",
-            "version": "v2.4.2",
+            "version": "v2.4.3",
             "target-dir": "Symfony/Component/Config",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Config.git",
-                "reference": "d81bd01eac1514c10dcb3b11eaa9048d6b87dd1f"
+                "reference": "e98693981385224bd31667e56204f311d9e0f98e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Config/zipball/d81bd01eac1514c10dcb3b11eaa9048d6b87dd1f",
-                "reference": "d81bd01eac1514c10dcb3b11eaa9048d6b87dd1f",
+                "url": "https://api.github.com/repos/symfony/Config/zipball/e98693981385224bd31667e56204f311d9e0f98e",
+                "reference": "e98693981385224bd31667e56204f311d9e0f98e",
                 "shasum": ""
             },
             "require": {
@@ -114,21 +114,21 @@
             ],
             "description": "Symfony Config Component",
             "homepage": "http://symfony.com",
-            "time": "2014-01-07 13:28:54"
+            "time": "2014-03-26 11:35:33"
         },
         {
             "name": "symfony/console",
-            "version": "v2.4.2",
+            "version": "v2.4.3",
             "target-dir": "Symfony/Component/Console",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "940f217cbc3c8a33e5403e7c595495c4884400fe"
+                "reference": "ef20f1f58d7f693ee888353962bd2db336e3bbcb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/940f217cbc3c8a33e5403e7c595495c4884400fe",
-                "reference": "940f217cbc3c8a33e5403e7c595495c4884400fe",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/ef20f1f58d7f693ee888353962bd2db336e3bbcb",
+                "reference": "ef20f1f58d7f693ee888353962bd2db336e3bbcb",
                 "shasum": ""
             },
             "require": {
@@ -169,11 +169,11 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2014-02-11 13:52:09"
+            "time": "2014-03-01 17:35:04"
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v2.4.2",
+            "version": "v2.4.3",
             "target-dir": "Symfony/Component/EventDispatcher",
             "source": {
                 "type": "git",
@@ -229,17 +229,17 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v2.4.2",
+            "version": "v2.4.3",
             "target-dir": "Symfony/Component/Filesystem",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Filesystem.git",
-                "reference": "7e65abb06d3b38f4be89266fe3fb4a759544e713"
+                "reference": "b717952487176a993e9b12a08b87beae25ae419c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Filesystem/zipball/7e65abb06d3b38f4be89266fe3fb4a759544e713",
-                "reference": "7e65abb06d3b38f4be89266fe3fb4a759544e713",
+                "url": "https://api.github.com/repos/symfony/Filesystem/zipball/b717952487176a993e9b12a08b87beae25ae419c",
+                "reference": "b717952487176a993e9b12a08b87beae25ae419c",
                 "shasum": ""
             },
             "require": {
@@ -274,23 +274,72 @@
             ],
             "description": "Symfony Filesystem Component",
             "homepage": "http://symfony.com",
-            "time": "2014-01-07 13:28:54"
+            "time": "2014-03-26 11:55:03"
+        },
+        {
+            "name": "symfony/process",
+            "version": "v2.4.3",
+            "target-dir": "Symfony/Component/Process",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Process.git",
+                "reference": "c09c3b08455c35688eee3e481fdfc85518ef01d7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/Process/zipball/c09c3b08455c35688eee3e481fdfc85518ef01d7",
+                "reference": "c09c3b08455c35688eee3e481fdfc85518ef01d7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\Process\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Process Component",
+            "homepage": "http://symfony.com",
+            "time": "2014-03-26 11:35:33"
         }
     ],
     "packages-dev": [
         {
             "name": "symfony/finder",
-            "version": "v2.4.2",
+            "version": "v2.4.3",
             "target-dir": "Symfony/Component/Finder",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Finder.git",
-                "reference": "b6735d1fc16da13c4c7dddfe78366a4a098cf011"
+                "reference": "ab301c7d21f536c34ab6c2c79dba8d465104c518"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Finder/zipball/b6735d1fc16da13c4c7dddfe78366a4a098cf011",
-                "reference": "b6735d1fc16da13c4c7dddfe78366a4a098cf011",
+                "url": "https://api.github.com/repos/symfony/Finder/zipball/ab301c7d21f536c34ab6c2c79dba8d465104c518",
+                "reference": "ab301c7d21f536c34ab6c2c79dba8d465104c518",
                 "shasum": ""
             },
             "require": {
@@ -325,19 +374,19 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "http://symfony.com",
-            "time": "2014-01-07 13:28:54"
+            "time": "2014-03-01 17:35:04"
         }
     ],
     "aliases": [
 
     ],
-    "minimum-stability": "alpha",
+    "minimum-stability": "stable",
     "stability-flags": {
         "henrikbjorn/lurker": 20
     },
-    "platform": [
-
-    ],
+    "platform": {
+        "php": ">=5.4.0"
+    },
     "platform-dev": [
 
     ]

@@ -1,5 +1,5 @@
 <?php
-namespace Robo\Task;
+namespace Robo\Task\Shared;
 
 trait DynamicConfig
 {

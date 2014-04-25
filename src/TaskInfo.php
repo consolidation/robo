@@ -22,6 +22,13 @@ class TaskInfo {
         if (!$desc) {
             $desc = $this->getAnnotation('desc');
         }
+        if (!$desc) {
+            $doc = $this->reflection->getDocComment();
+            $lines = explode(' *', $doc);
+            if (isset($lines[1])) {
+                $desc = trim($lines[1]);
+            }
+        }
         return $desc;
     }
 

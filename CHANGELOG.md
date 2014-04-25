@@ -1,5 +1,12 @@
 # Changelog
 
+#### 0.3.3 04/25/2014
+
+* Task descriptions taken from first line of annotations
+* ParallelExec task added
+* Symfony Process component used for execution
+
+
 #### 0.3.3 02/25/2014
 
 * PHPUnit basic task

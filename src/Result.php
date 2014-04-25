@@ -1,7 +1,7 @@
 <?php
 namespace Robo;
 
-use Robo\Task\TaskInterface;
+use Robo\Task\Shared\TaskInterface;
 
 class Result {
     use Output;

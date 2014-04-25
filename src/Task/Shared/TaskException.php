@@ -1,5 +1,7 @@
 <?php
-namespace Robo\Task;
+namespace Robo\Task\Shared;
+
+use Exception;
 
 class TaskException extends \Exception  {
 

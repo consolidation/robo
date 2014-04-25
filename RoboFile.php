@@ -116,5 +116,17 @@ class Robofile extends \Robo\Tasks
             $this->taskComposerUpdate()->run();
         })->run();
     }
+
+    /**
+     * Test parallel execution
+     */
+    public function para()
+    {
+        $this->parallelExec()
+            ->process('php ~/demos/robotests/parascript.php hey')
+            ->process('php ~/demos/robotests/parascript.php hoy')
+            ->process('php ~/demos/robotests/parascript.php gou')
+            ->run();
+    }
     
 }

@@ -14,5 +14,6 @@ class Tasks
 	use Task\PHPUnit;
 	use Task\SymfonyCommand;
 	use Task\Watch;
+    use Task\ParallelExec;
 	use Output;
 }

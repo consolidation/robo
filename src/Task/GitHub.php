@@ -2,6 +2,8 @@
 namespace Robo\Task;
 
 use Robo\Result;
+use Robo\Task\Shared\TaskException;
+use Robo\Task\Shared\TaskInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
 const GITHUB_URL = 'https://api.github.com';
 
@@ -27,7 +29,7 @@ trait GitHub
 abstract class GitHubTask implements TaskInterface
 {
     use \Robo\Output;
-    use DynamicConfig;
+    use Shared\DynamicConfig;
 
     protected static $user;
     protected static $pass;

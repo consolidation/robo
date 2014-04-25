@@ -3,6 +3,7 @@ namespace Robo\Task;
 
 use Robo\Output;
 use Robo\Result;
+use Robo\Task\Shared\TaskInterface;
 
 /**
  * Contains simple tasks to simplify documenting of development process.
@@ -53,9 +54,9 @@ trait Development
  */
 class ChangelogTask implements TaskInterface
 {
-    use \Robo\Output;
+    use Output;
+    use Shared\DynamicConfig;
     use FileSystem;
-    use DynamicConfig;
 
     protected $filename;
     protected $log = [];
@@ -151,7 +152,7 @@ class ChangelogTask implements TaskInterface
  */
 class GenMarkdownDocTask implements TaskInterface
 {
-    use DynamicConfig;
+    use Shared\DynamicConfig;
     use Output;
     use FileSystem;
 

@@ -3,6 +3,7 @@ namespace Robo\Task;
 
 use Robo\Output;
 use Robo\Result;
+use Robo\Task\Shared\TaskInterface;
 
 /**
  * BundledTasks to do Git stuff

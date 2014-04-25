@@ -2,6 +2,7 @@
 namespace Robo\Task;
 
 use Robo\Result;
+use Robo\Task\Shared\TaskInterface;
 
 trait PHPUnit {
     protected function taskPHPUnit()

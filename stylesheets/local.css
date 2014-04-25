@@ -2,11 +2,41 @@
     padding: 20px;
     margin: auto 0;
     text-align: center;
-    background: #ecf0f1;
+    background: #2c3e50;
 }
 .layout h3 {
     font-weight: bold;
 }
+.header {
+    background: #3498db;
+    border-bottom: 5px solid #8e44ad;
+}
+.header a {
+    color: #fff !important;
+}
+
 body {
     font-size: 19px !important;
+}
+
+body .menubar {
+    background: #ecf0f1 !important;
+}
+
+.col1, .col2 {
+    width: 49%;
+    display: block;
+    float: left;
+}
+.col1 {
+    padding-right: 1%;
+}
+
+.clear {
+    clear: both;
+}
+
+pre.outset {
+    position: absolute;
+    left: 1040px;
 }

@@ -1,17 +1,4 @@
 <!doctype html>
-<!--
-
-  Instructions:
-
-  - Save this file.
-  - Replace "USER" with your GitHub username.
-  - Replace "REPO" with your GitHub repo name.
-  - Replace "Your Project" with your project name.
-  - Upload this file (or commit to GitHub Pages).
-
-  Customize as you see fit!
-
--->
 <html>
 <head>
   <meta charset='utf-8'>
@@ -20,14 +7,9 @@
 
   <title>Robo - Task Runner for PHP</title>
 
-  <!-- Flatdoc -->
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script src="javascripts/legacy.js"></script>
-  <script src="javascripts/flatdoc.js"></script>
-
   <!-- Flatdoc theme -->
   <link href="stylesheets/style.css" rel="stylesheet">
-    <link href="stylesheets/local.css" rel="stylesheet">
+  <link href="stylesheets/local.css" rel="stylesheet">
   <script src="javascripts/script.js"></script>
 
   <!-- Meta -->
@@ -35,24 +17,12 @@
   <meta content="Modern Task Runner for PHP." name="description">
   <link rel="canonical" href="https://github.com/Codegyre/Robo/blob/master/README.md"/>
 
-  <!-- Initializer -->
-  <script>
-    Flatdoc.run({
-      fetcher: Flatdoc.github('Codegyre/Robo')
-    });
-  </script>
 </head>
 <body role='flatdoc' class='no-literate large-brief'>
-    <div class="layout">
-        <a href="http://codegyre.github.io/Robo/"><img src="images/robo.png" alt="RoboTask"/><br></a><br>
-    </div>
-
-
   <div class='header'>
     <div class='left'>
-      <h1>Robo</h1>
       <ul>
-      <li><a href='http://codegyre.github.io/Robo/'>Readme</a></li>
+      <li><a href='http://codegyre.github.io/Robo/'>Robo</a></li>
       <li><a href='http://codegyre.github.io/Robo/started.html'>Getting Started</a></li>
         <li><a href='http://codegyre.github.io/Robo/tasks.html'>Tasks</a></li>
         <li><a href='https://github.com/Codegyre/Robo'>View on GitHub</a></li>
@@ -68,13 +38,135 @@
   <div class='content-root'>
     <div class='menubar'>
 
+
+
       <div class='menu section' role='flatdoc-menu'></div>
-        <blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/search?q=%23Robo&amp;src=hash">#Robo</a> is a very amazing project. The one project that was missing to php developer environment. I really like it. <a href="https://twitter.com/codeception">@codeception</a> @codegyre</p>&mdash; Hugo Leonardo C. S. (@hugoleodev) <a href="https://twitter.com/hugoleodev/statuses/436351614216335360">February 20, 2014</a></blockquote>
-        <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-        <blockquote class="twitter-tweet" data-cards="hidden" lang="en"><p>I&#39;ve been playing w/ <a href="https://twitter.com/davert">@davert</a>&#39;s Robo this evening, converting a rickety shell script for building <a href="https://twitter.com/search?q=%23Drupal&amp;src=hash">#Drupal</a>. Very nice. <a href="http://t.co/gGtJu0EWSC">pic.twitter.com/gGtJu0EWSC</a></p>&mdash; Paul Byrne (@pfaocle) <a href="https://twitter.com/pfaocle/statuses/428671971124342784">January 29, 2014</a></blockquote>
-        <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
     </div>
-    <div role='flatdoc-content' class='content'></div>
+    <div class='content'>
+        <pre class="outset">
+
+<h5>Example: Running Tests</h5>
+<code>public function testAcceptance()
+{
+    $this->taskServer(8000)
+        ->background()
+        ->dir('tests/data/app')
+        ->run();
+
+    $this->taskExec('java -jar ~/selenium.jar')
+        ->background()
+        ->run();
+
+    $this->taskPHPUnit()
+        ->run();
+}
+</code><h5>Example: Cleaning Files</h5>
+<code>public function clean()
+{
+    $this->taskCleanDir([
+        'app/cache'
+        'app/logs'
+    ])->run();
+
+    $this->taskDeleteDir([
+        'web/assets/tmp_uploads',
+    ])->run();
+}</code>
+<h5>Example: Releasing Robo</h5>
+<code>public function release()
+{
+    $this->say("Releasing Robo");
+
+    $this->taskGit()
+        ->add('CHANGELOG.md')
+        ->commit('updated')
+        ->push()
+        ->run();
+
+    $this->taskGitHubRelease(\Robo\Runner::VERSION)
+        ->uri('Codegyre/Robo')
+        ->askDescription()
+        ->run();
+
+    $this->pharPublish();
+}
+</code>
+
+
+
+        </pre>
+
+
+
+        <a href="http://codegyre.github.io/Robo/"><img src="images/robo.png" alt="RoboTask"/></a>
+
+        <h1>Robo: Modern PHP Task Runner</h1>
+        <div class="col1">
+            <h4>Use Robo to</h4>
+            <ul>
+                <li>automate your common tasks</li>
+                <li>start workers</li>
+                <li>run parallel tasks</li>
+                <li>execute commands</li>
+                <li>run tests</li>
+                <li>watch filesystem changes</li>
+            </ul>
+        </div>
+        <div class="col2">
+            <h4>What makes Robo different?</h4>
+
+
+
+
+            Robo is pure PHP.
+            Robo provides clean OOP interface for declaring tasks.
+            Robo is very simple and intuitive in use.
+            Robo is framework-agnostic.
+            Robo uses Symfony Console component but allows you to put all your commands in one file.
+        </div>
+
+        <div class="clear"><h3>What developers say</h3></div>
+        <div class="col1">
+            <blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/search?q=%23Robo&amp;src=hash">#Robo</a> is a very amazing project. The one project that was missing to php developer environment. I really like it. <a href="https://twitter.com/codeception">@codeception</a> @codegyre</p>&mdash; Hugo Leonardo C. S. (@hugoleodev) <a href="https://twitter.com/hugoleodev/statuses/436351614216335360">February 20, 2014</a></blockquote>
+            <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        </div>
+        <div class="col2">
+            <blockquote class="twitter-tweet" data-cards="hidden" lang="en"><p>I&#39;ve been playing w/ <a href="https://twitter.com/davert">@davert</a>&#39;s Robo this evening, converting a rickety shell script for building <a href="https://twitter.com/search?q=%23Drupal&amp;src=hash">#Drupal</a>. Very nice. <a href="http://t.co/gGtJu0EWSC">pic.twitter.com/gGtJu0EWSC</a></p>&mdash; Paul Byrne (@pfaocle) <a href="https://twitter.com/pfaocle/statuses/428671971124342784">January 29, 2014</a></blockquote>
+            <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        </div>
+
+        <div class="clear">
+            <h3>How to Install</h3>
+        </div>
+        <div class="clear">
+            <h5>Phar</h5>
+
+            <br/>
+            <a class="button" href="http://codegyre.github.io/Robo/robo.phar">
+                Download robo.phar
+            </a>
+            <div class="clear"></div>
+            <pre><code>wget http://codegyre.github.io/Robo/robo.phar</code></pre>
+            <p>To install globally put robo.phar in /usr/bin.</p>
+            <pre><code>sudo chmod +x robo.phar && mv robo.phar /user/bin/robo</code></pre></p>
+
+            Now you can use it just like <code>robo</code>.
+        </div>
+        <div class="clear">
+            <h3>Composer</h3>
+            <p>Add to <code>composer.json</code></p>
+            <pre>
+<code>require-dev: {
+    "codegyre/robo": "*"
+}
+</code></pre>
+<p>Run <code>composer install</code></p>
+<p>Start Robo <code>./vendor/bin/robo</code></p>
+
+        </div>
+    </div>
   </div>
 
 </body>

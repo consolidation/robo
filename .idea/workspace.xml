@@ -4,40 +4,6 @@
     <list default="true" id="05798e57-dd7d-4276-9e52-dbab2f15e32e" name="Default" comment="" />
     <ignored path="Robo.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/RoboFile.php" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392950533530" ignored="false" />
-    <file path="/robo" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392862611965" ignored="false" />
-    <file path="/.gitignore" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392862831645" ignored="false" />
-    <file path="/composer.json" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392862984874" ignored="false" />
-    <file path="$PROJECT_DIR$/vendor/symfony/config/Symfony/Component/Config/phpunit.xml.dist" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392863056937" ignored="false" />
-    <file path="$PROJECT_DIR$/vendor/symfony/console/Symfony/Component/Console/phpunit.xml.dist" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392863056937" ignored="false" />
-    <file path="$PROJECT_DIR$/vendor/symfony/filesystem/Symfony/Component/Filesystem/phpunit.xml.dist" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392863056937" ignored="false" />
-    <file path="$PROJECT_DIR$/vendor/symfony/event-dispatcher/Symfony/Component/EventDispatcher/phpunit.xml.dist" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392863056937" ignored="false" />
-    <file path="/PackPhar.php" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392949355183" ignored="false" />
-    <file path="$PROJECT_DIR$/robo.phar/symfony/console/Symfony/Component/Console/Tests/Fixtures/command_1.xml" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392864800890" ignored="false" />
-    <file path="$PROJECT_DIR$/robo.phar/symfony/console/Symfony/Component/Console/Tests/Fixtures/input_argument_2.xml" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392864800890" ignored="false" />
-    <file path="$PROJECT_DIR$/robo.phar/symfony/config/Symfony/Component/Config/Tests/Fixtures/foo.xml" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392864800890" ignored="false" />
-    <file path="$PROJECT_DIR$/robo.phar/symfony/config/Symfony/Component/Config/Tests/Fixtures/Util/document_type.xml" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392864800890" ignored="false" />
-    <file path="$PROJECT_DIR$/robo.phar/symfony/console/Symfony/Component/Console/Tests/Fixtures/application_1.xml" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392864800890" ignored="false" />
-    <file path="$PROJECT_DIR$/robo.phar/symfony/console/Symfony/Component/Console/Tests/Fixtures/input_argument_1.xml" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392864800890" ignored="false" />
-    <file path="$PROJECT_DIR$/robo.phar/symfony/console/Symfony/Component/Console/Tests/Fixtures/input_option_4.xml" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392864800890" ignored="false" />
-    <file path="$PROJECT_DIR$/robo.phar/symfony/console/Symfony/Component/Console/Tests/Fixtures/input_definition_2.xml" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392864800890" ignored="false" />
-    <file path="$PROJECT_DIR$/robo.phar/symfony/console/Symfony/Component/Console/Tests/Fixtures/application_2.xml" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392864800890" ignored="false" />
-    <file path="$PROJECT_DIR$/robo.phar/symfony/config/Symfony/Component/Config/Tests/Fixtures/Util/schema.xsd" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392864800890" ignored="false" />
-    <file path="$PROJECT_DIR$/robo.phar/symfony/console/Symfony/Component/Console/Tests/Fixtures/input_option_3.xml" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392864800890" ignored="false" />
-    <file path="$PROJECT_DIR$/robo.phar/symfony/config/Symfony/Component/Config/Tests/Fixtures/Util/invalid.xml" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392864800890" ignored="false" />
-    <file path="$PROJECT_DIR$/robo.phar/symfony/finder/Symfony/Component/Finder/phpunit.xml.dist" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392864800890" ignored="false" />
-    <file path="/Git.php" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392944285261" ignored="false" />
-    <file path="/TaskInterface.php" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392865573278" ignored="false" />
-    <file path="/FileSystem.php" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392866510724" ignored="false" />
-    <file path="$PROJECT_DIR$/src/Util/FileSystem.php" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392867003079" ignored="false" />
-    <file path="/README.md" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392867325996" ignored="false" />
-    <file path="/Exec.php" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392943572970" ignored="false" />
-    <file path="/CHANGELOG.md" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392949876991" ignored="false" />
-    <file path="/index.html" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392957742113" ignored="false" />
-    <file path="/local.css" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392955101677" ignored="false" />
-    <file path="/dummy.xml" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392953869280" ignored="false" />
-    <file path="/started.html" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392954692535" ignored="false" />
-    <file path="/tasks.html" changelist="05798e57-dd7d-4276-9e52-dbab2f15e32e" time="1392954718188" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,55 +32,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="46" column="8" selection-start="1313" selection-end="1410" vertical-scroll-proportion="-17.11111">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="php.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/javascripts/php.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="156" column="19" selection-start="8128" selection-end="8128" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="script.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/javascripts/script.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="102" column="23" selection-start="2319" selection-end="2319" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="flatdoc.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/javascripts/flatdoc.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="2326" selection-start="2606" selection-end="2606" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="screen.css" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/stylesheets/screen.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="core.css" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/stylesheets/core.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+            <state line="4" column="0" selection-start="140" selection-end="140" vertical-scroll-proportion="0.0" vertical-offset="84" max-vertical-offset="210">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="style.css" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/stylesheets/style.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="13032" max-vertical-offset="17577">
               <folding />
             </state>
           </provider>
@@ -123,7 +53,7 @@
       <file leaf-file-name="main.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/javascripts/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="147">
               <folding />
             </state>
           </provider>
@@ -132,7 +62,43 @@
       <file leaf-file-name="local.css" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/stylesheets/local.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="0" selection-start="98" selection-end="98" vertical-scroll-proportion="0.0">
+            <state line="31" column="21" selection-start="452" selection-end="452" vertical-scroll-proportion="0.0" vertical-offset="96" max-vertical-offset="987">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pygment_trac.css" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/stylesheets/pygment_trac.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1575">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="stylesheet.css" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/stylesheets/stylesheet.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="10185">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="39" column="0" selection-start="681" selection-end="1506" vertical-scroll-proportion="-18.666666" vertical-offset="315" max-vertical-offset="3759">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="params.json" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/params.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="126">
               <folding />
             </state>
           </provider>
@@ -141,7 +107,7 @@
       <file leaf-file-name="started.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/started.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="101" selection-start="1189" selection-end="1189" vertical-scroll-proportion="-14.777778">
+            <state line="57" column="0" selection-start="987" selection-end="2039" vertical-scroll-proportion="-23.74074" vertical-offset="556" max-vertical-offset="1344">
               <folding />
             </state>
           </provider>
@@ -150,7 +116,7 @@
       <file leaf-file-name="tasks.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tasks.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="51" column="101" selection-start="1599" selection-end="1599" vertical-scroll-proportion="0.48637602">
+            <state line="60" column="0" selection-start="2170" selection-end="2170" vertical-scroll-proportion="0.78680205" vertical-offset="640" max-vertical-offset="1428">
               <folding />
             </state>
           </provider>
@@ -178,9 +144,10 @@
         <option value="$PROJECT_DIR$/src/Task/PackPhar.php" />
         <option value="$PROJECT_DIR$/CHANGELOG.md" />
         <option value="$PROJECT_DIR$/RoboFile.php" />
-        <option value="$PROJECT_DIR$/stylesheets/local.css" />
+        <option value="$PROJECT_DIR$/stylesheets/core.css" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/started.html" />
+        <option value="$PROJECT_DIR$/stylesheets/local.css" />
         <option value="$PROJECT_DIR$/tasks.html" />
       </list>
     </option>
@@ -364,23 +331,15 @@
     <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
   </component>
-  <component name="PublishConfig">
-    <servers>
-      <server id="d8e941fb-b390-4b46-9693-81da2dbfa863">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" />
-          </mappings>
-        </serverdata>
-      </server>
-    </servers>
-  </component>
   <component name="RunManager">
     <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
       <TestRunner />
       <method />
     </configuration>
     <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
       <method />
     </configuration>
     <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
@@ -419,18 +378,18 @@
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32947233" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26705277" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.266875" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32865497" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -440,7 +399,7 @@
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
-    <option name="RECENTLY_FILTERED_USERS">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
       <collection />
     </option>
   </component>
@@ -448,161 +407,259 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
-    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="true" />
-    <option name="CHECK_NEW_TODO" value="true" />
     <option name="myTodoPanelSettings">
-      <value>
-        <are-packages-shown value="false" />
-        <are-modules-shown value="false" />
-        <flatten-packages value="false" />
-        <is-autoscroll-to-source value="false" />
-      </value>
+      <TodoPanelSettings />
     </option>
-    <option name="PERFORM_UPDATE_IN_BACKGROUND" value="true" />
-    <option name="PERFORM_COMMIT_IN_BACKGROUND" value="true" />
-    <option name="PERFORM_EDIT_IN_BACKGROUND" value="true" />
-    <option name="PERFORM_CHECKOUT_IN_BACKGROUND" value="true" />
-    <option name="PERFORM_ADD_REMOVE_IN_BACKGROUND" value="true" />
-    <option name="PERFORM_ROLLBACK_IN_BACKGROUND" value="false" />
-    <option name="CHECK_LOCALLY_CHANGED_CONFLICTS_IN_BACKGROUND" value="false" />
-    <option name="CHANGED_ON_SERVER_INTERVAL" value="60" />
-    <option name="SHOW_ONLY_CHANGED_IN_SELECTION_DIFF" value="true" />
-    <option name="CHECK_COMMIT_MESSAGE_SPELLING" value="true" />
-    <option name="DEFAULT_PATCH_EXTENSION" value="patch" />
-    <option name="SHORT_DIFF_HORIZONTALLY" value="true" />
-    <option name="SHORT_DIFF_EXTRA_LINES" value="2" />
-    <option name="SOFT_WRAPS_IN_SHORT_DIFF" value="true" />
-    <option name="INCLUDE_TEXT_INTO_PATCH" value="false" />
-    <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
-    <option name="SHOW_FILE_HISTORY_DETAILS" value="true" />
-    <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
-    <option name="SHOW_DIRTY_RECURSIVELY" value="false" />
-    <option name="LIMIT_HISTORY" value="true" />
-    <option name="MAXIMUM_HISTORY_ROWS" value="1000" />
-    <option name="UPDATE_FILTER_SCOPE_NAME" />
-    <option name="USE_COMMIT_MESSAGE_MARGIN" value="false" />
-    <option name="COMMIT_MESSAGE_MARGIN_SIZE" value="72" />
-    <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
-    <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
-    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
-    <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
-    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="false" />
-    <option name="REFORMAT_BEFORE_FILE_COMMIT" value="false" />
-    <option name="FILE_HISTORY_DIALOG_COMMENTS_SPLITTER_PROPORTION" value="0.8" />
-    <option name="FILE_HISTORY_DIALOG_SPLITTER_PROPORTION" value="0.5" />
-    <option name="ACTIVE_VCS_NAME" />
-    <option name="UPDATE_GROUP_BY_PACKAGES" value="false" />
-    <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
-    <option name="UPDATE_FILTER_BY_SCOPE" value="false" />
-    <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
-    <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/vendor/symfony/finder/Symfony/Component/Finder/Finder.php">
+    <entry file="file://$PROJECT_DIR$/javascripts/php.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="142" column="6" selection-start="3879" selection-end="3879" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/params.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/stylesheets/stylesheet.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/javascripts/headsmart.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="156" column="19" selection-start="8128" selection-end="8128" vertical-scroll-proportion="0.0" vertical-offset="3276" max-vertical-offset="19236">
           <folding />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/stylesheets/local.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="0" selection-start="98" selection-end="98" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/stylesheets/pygment_trac.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="69" column="0" selection-start="4168" selection-end="4168" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/javascripts/script.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="102" column="23" selection-start="2319" selection-end="2319" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/javascripts/php.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="156" column="19" selection-start="8128" selection-end="8128" vertical-scroll-proportion="0.0">
+        <state line="102" column="23" selection-start="2319" selection-end="2319" vertical-scroll-proportion="0.0" vertical-offset="2142" max-vertical-offset="6804">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/javascripts/flatdoc.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="2326" selection-start="2606" selection-end="2606" vertical-scroll-proportion="0.0">
+        <state line="15" column="2326" selection-start="2606" selection-end="2606" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="630">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/stylesheets/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/stylesheets/screen.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="12075">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/stylesheets/core.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="4" column="0" selection-start="140" selection-end="140" vertical-scroll-proportion="0.0" vertical-offset="84" max-vertical-offset="210">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="177" column="6" selection-start="2302" selection-end="2302" vertical-scroll-proportion="0.0" vertical-offset="3423" max-vertical-offset="17577">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/javascripts/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="147">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
+    <entry file="file://$PROJECT_DIR$/stylesheets/local.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="8" selection-start="1313" selection-end="1410" vertical-scroll-proportion="-17.11111">
+        <state line="5" column="0" selection-start="98" selection-end="98" vertical-scroll-proportion="0.0" vertical-offset="105" max-vertical-offset="357">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/started.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="101" selection-start="1189" selection-end="1189" vertical-scroll-proportion="-14.777778">
+        <state line="34" column="101" selection-start="1189" selection-end="1189" vertical-scroll-proportion="0.0" vertical-offset="714" max-vertical-offset="1470">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tasks.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="101" selection-start="1599" selection-end="1599" vertical-scroll-proportion="0.48637602">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1827">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="46" column="8" selection-start="1313" selection-end="1410" vertical-scroll-proportion="0.0" vertical-offset="966" max-vertical-offset="1827">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascripts/php.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="156" column="19" selection-start="8128" selection-end="8128" vertical-scroll-proportion="0.0" vertical-offset="3276" max-vertical-offset="19236">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascripts/script.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="102" column="23" selection-start="2319" selection-end="2319" vertical-scroll-proportion="0.0" vertical-offset="2142" max-vertical-offset="6804">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascripts/flatdoc.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="2326" selection-start="2606" selection-end="2606" vertical-scroll-proportion="0.0" vertical-offset="315" max-vertical-offset="630">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/screen.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="12075">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/core.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="168">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascripts/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="147">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/local.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="0" selection-start="98" selection-end="98" vertical-scroll-proportion="0.0" vertical-offset="105" max-vertical-offset="357">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/started.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="101" selection-start="1189" selection-end="1189" vertical-scroll-proportion="0.0" vertical-offset="714" max-vertical-offset="1470">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tasks.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="101" selection-start="1599" selection-end="1599" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1827">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/symfony/finder/Symfony/Component/Finder/Finder.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="142" column="6" selection-start="3879" selection-end="3879" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascripts/headsmart.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascripts/script.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="102" column="23" selection-start="2319" selection-end="2319" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascripts/php.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="156" column="19" selection-start="8128" selection-end="8128" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascripts/flatdoc.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="2326" selection-start="2606" selection-end="2606" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascripts/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/screen.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/core.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="0" selection-start="140" selection-end="140" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="210">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/pygment_trac.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1575">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/stylesheet.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="10185">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="13032" max-vertical-offset="17577">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/params.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="126">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stylesheets/local.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="21" selection-start="452" selection-end="452" vertical-scroll-proportion="0.0" vertical-offset="96" max-vertical-offset="987">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="39" column="0" selection-start="681" selection-end="1506" vertical-scroll-proportion="-18.666666" vertical-offset="315" max-vertical-offset="3759">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/started.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="57" column="0" selection-start="987" selection-end="2039" vertical-scroll-proportion="-23.74074" vertical-offset="556" max-vertical-offset="1344">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tasks.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="60" column="0" selection-start="2170" selection-end="2170" vertical-scroll-proportion="0.78680205" vertical-offset="640" max-vertical-offset="1428">
           <folding />
         </state>
       </provider>

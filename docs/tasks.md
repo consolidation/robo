@@ -1,7 +1,8 @@
 # Tasks
 
 
-### ComposerInstallTask
+## Robo\Task\ComposerInstallTask
+
 
 Composer Install
 
@@ -16,13 +17,9 @@ $this->taskComposerInstall('path/to/my/composer.phar')
      ->run();
 ?>
 ```
-* preferDist()
 
-* preferSource()
+## Robo\Task\ComposerUpdateTask
 
-* noDev()
-
-### ComposerUpdateTask
 
 Composer Update
 
@@ -37,15 +34,10 @@ $this->taskComposerUpdate('path/to/my/composer.phar')
      ->run();
 ?>
 ```
-@package Robo\Task
-* preferDist()
-
-* preferSource()
-
-* noDev()
 
 
-### ChangelogTask
+## Robo\Task\ChangelogTask
+
 
 Helps to manage changelog file.
 Creates or updates `changelog.md` file with recent changes in current version.
@@ -71,46 +63,60 @@ $this->taskChangelog()
 ?>
 ```
 
-@method \Robo\Task\ChangelogTask filename(string $filename)
-@method \Robo\Task\ChangelogTask anchor(string $anchor)
-@method \Robo\Task\ChangelogTask version(string $version)
-* askForChanges()
+*  filename(string $filename)
+*  anchor(string $anchor)
+*  version(string $version)
 
-* changes(Parameter #0 [ <required> array $data ])
+## Robo\Task\GenMarkdownDocTask
 
-* change(Parameter #0 [ <required> $change ])
-
-* getChanges()
-
-### GenMarkdownDocTask
 
 Simple documentation generator from source files.
-Takes docblocks from classes and methods and generates markdown file.
+Takes classes, properties and methods with their docblocks and writes down a markdown file.
 
 ``` php
 $this->taskGenDoc('models.md')
-     ->docClass('Model\User')
-     ->docClass('Model\Post')
+     ->docClass('Model\User') // take class Model\User
+     ->docClass('Model\Post') // take class Model\Post
      ->filterMethods(function(\ReflectionMethod $r) {
-         return $r->isPublic(); // process only public methods
+         return $r->isPublic() or $r->isProtected(); // process public and protected methods
      })->processClass(function(\ReflectionClass $r, $text) {
          return "Class ".$r->getName()."\n\n$text\n\n###Methods\n";
      })->run();
 ```
 
-@method \Robo\Task\GenMarkdownDocTask docClass(string $classname)
-@method \Robo\Task\GenMarkdownDocTask filterMethods(\Closure $func)
-@method \Robo\Task\GenMarkdownDocTask filterClasses(\Closure $func)
-@method \Robo\Task\GenMarkdownDocTask processMethod(\Closure $func)
-@method \Robo\Task\GenMarkdownDocTask processClass(\Closure $func)
-@method \Robo\Task\GenMarkdownDocTask reorder(\Closure $func)
-@method \Robo\Task\GenMarkdownDocTask reorderMethods(\Closure $func)
-@method \Robo\Task\GenMarkdownDocTask prepend($text)
-@method \Robo\Task\GenMarkdownDocTask append($text)
-* indentDoc(Parameter #0 [ <required> $doc ], Parameter #1 [ <optional> $indent = 3 ])
+By default this task generates a documentation for each public method of a class.
+It combines method signature with a docblock. Both can be post-processed.
+
+``` php
+$this->taskGenDoc('models.md')
+     ->docClass('Model\User')
+     })->processClassDocBlock(function(\ReflectionClass $r, $text) {
+         return "[This is part of application model]\n" . $text;
+     ))->processMethodSignature(function(\ReflectionMethod $r, $text) {
+         return "#### {$r->name}()";
+     ))->processMethodDocBlock(function(\ReflectionMethod $r, $text) {
+         return strpos($r->name, 'save')===0 ? "[Saves to the database]\n" . $text : $text;
+     })->run();
+```
+
+*  docClass(string $classname)
+*  filterMethods(\Closure $func)
+*  filterClasses(\Closure $func)
+*  filterProperties(\Closure $func)
+*  processClass(\Closure $func)
+*  processClassSignature(\Closure $func)
+*  processClassDocBlock(\Closure $func)
+*  processMethod(\Closure $func)
+*  processMethodSignature(\Closure $func)
+*  processMethodDocBlock(\Closure $func)
+*  reorder(\Closure $func)
+*  reorderMethods(\Closure $func)
+*  prepend($text)
+*  append($text)
 
 
-### ExecTask
+## Robo\Task\ExecTask
+
 
 Executes shell script. Closes it when running in background mode.
 Initial code from https://github.com/tiger-seo/PhpBuiltinServer by tiger-seo
@@ -126,15 +132,9 @@ if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
 }
 ?>
 ```
-* background()
 
-* arg(Parameter #0 [ <required> $arg ])
+## Robo\Task\ExecStackTask
 
-* args(Parameter #0 [ <required> $args ])
-
-* stop()
-
-### ExecStackTask
 
 Execute commands one by one in stack.
 Stack can be stopped on first fail if you call `stopOnFail()`.
@@ -150,11 +150,12 @@ $this->taskExecStack()
 ?>
 ```
 
-@method \Robo\Task\ExecStackTask exec(string)
-@method \Robo\Task\ExecStackTask stopOnFail(string)
+*  exec(string)
+*  stopOnFail(string)
 
 
-### RequireTask
+## Robo\Task\RequireTask
+
 
 Requires php file to be executed inside a closure.
 
@@ -166,10 +167,10 @@ $this->taskRequire('script/make_admin.php')
  ->run();
 ?>
 ```
-* local(Parameter #0 [ <required> array $locals ])
 
 
-### CleanDirTask
+## Robo\Task\CleanDirTask
+
 
 Deletes all files from specified dir, ignoring git files.
 
@@ -180,7 +181,8 @@ $this->taskCleanDir(['tmp','logs'])->run();
 ?>
 ```
 
-### CopyDirTask
+## Robo\Task\CopyDirTask
+
 
 Copies one dir into another
 
@@ -190,7 +192,8 @@ $this->taskCopyDir(['dist/config' => 'config'])->run();
 ?>
 ```
 
-### DeleteDirTask
+## Robo\Task\DeleteDirTask
+
 
 Deletes dir
 
@@ -201,7 +204,8 @@ $this->taskDeleteDir(['tmp', 'log'])->run();
 ?>
 ```
 
-### ReplaceInFileTask
+## Robo\Task\ReplaceInFileTask
+
 
 Performs search and replace inside a files.
 
@@ -224,11 +228,12 @@ $this->replaceInFile('config.yml')
 ?>
 ```
 
-@method \Robo\Task\ReplaceInFileTask regex(string)
-@method \Robo\Task\ReplaceInFileTask from(string)
-@method \Robo\Task\ReplaceInFileTask to(string)
+*  regex(string)
+*  from(string)
+*  to(string)
 
-### WriteToFileTask
+## Robo\Task\WriteToFileTask
+
 
 Writes to file
 
@@ -241,19 +246,11 @@ $this->taskWriteToFile('blogpost.md')
      ->run();
 ?>
 ```
-@method \Robo\Task\WriteToFileTask append()
-* line(Parameter #0 [ <required> $line ])
-
-* lines(Parameter #0 [ <required> $lines ])
-
-* text(Parameter #0 [ <required> $text ])
-
-* textFromFile(Parameter #0 [ <required> $filename ])
-
-* place(Parameter #0 [ <required> $name ], Parameter #1 [ <required> $val ])
+*  append()
 
 
-### GitStackTask
+## Robo\Task\GitStackTask
+
 
 Runs Git commands in stack. You can use `stopOnFail()` to point that stack should be terminated on first fail.
 
@@ -274,23 +271,11 @@ $this->taskGit()
  ->run();
 ?>
 ```
-* cloneRepo(Parameter #0 [ <required> $repo ], Parameter #1 [ <optional> $to = '' ])
-
-* stopOnFail()
-
-* add(Parameter #0 [ <required> $pattern ])
-
-* commit(Parameter #0 [ <required> $message ], Parameter #1 [ <optional> $options = '' ])
-
-* pull(Parameter #0 [ <optional> $origin = '' ], Parameter #1 [ <optional> $branch = '' ])
-
-* push(Parameter #0 [ <optional> $origin = '' ], Parameter #1 [ <optional> $branch = '' ])
-
-* checkout(Parameter #0 [ <required> $branch ])
 
 
 
-### GitHubReleaseTask
+## Robo\Task\GitHubReleaseTask
+
 
 Publishes new GitHub release.
 
@@ -303,29 +288,20 @@ $this->taskGitHubRelease('0.1.0')
 ?>
 ```
 
-@method \Robo\Task\GitHubReleaseTask tag(string $tag)
-@method \Robo\Task\GitHubReleaseTask name(string $name)
-@method \Robo\Task\GitHubReleaseTask body(string $body)
-@method \Robo\Task\GitHubReleaseTask draft(boolean $isDraft)
-@method \Robo\Task\GitHubReleaseTask prerelease(boolean $isPrerelease)
-@method \Robo\Task\GitHubReleaseTask comittish(string $branch)
-* askName()
-
-* askDescription()
-
-* askForChanges()
-
-* changes(Parameter #0 [ <required> array $changes ])
-
-* uri(Parameter #0 [ <required> $uri ])
-
-* askAuth()
+*  tag(string $tag)
+*  name(string $name)
+*  body(string $body)
+*  draft(boolean $isDraft)
+*  prerelease(boolean $isPrerelease)
+*  comittish(string $branch)
 
 
-### PHPUnitTask
+## Robo\Task\PHPUnitTask
 
 
-### PackPharTask
+
+## Robo\Task\PackPharTask
+
 
 Creates Phar
 
@@ -355,18 +331,20 @@ $pharTask = $this->taskPackPhar('package/codecept.phar')
  $code = $this->taskExec('php package/codecept.phar')->run();
 ?>
 ```
-* compress(Parameter #0 [ <optional> $compress = true ])
-
-* stub(Parameter #0 [ <required> $stub ])
-
-* addStripped(Parameter #0 [ <required> $path ], Parameter #1 [ <required> $file ])
-
-* addFile(Parameter #0 [ <required> $path ], Parameter #1 [ <required> $file ])
-
-* executable(Parameter #0 [ <required> $file ])
 
 
-### PhpServerTask
+## Robo\Task\ParallelExecTask
+
+
+Class ParallelExecTask
+@package Robo\Task
+
+*  timeout(int $timeout)
+*  idleTimeout(int $timeout)
+
+
+## Robo\Task\PhpServerTask
+
 
 Runs PHP server and stops it when task finishes.
 
@@ -377,18 +355,10 @@ $this->taskServer(8000)
  ->run();
 ?>
 ```
-* dir(Parameter #0 [ <required> $path ])
-
-* background()
-
-* arg(Parameter #0 [ <required> $arg ])
-
-* args(Parameter #0 [ <required> $args ])
-
-* stop()
 
 
-### SymfonyCommandTask
+## Robo\Task\SymfonyCommandTask
+
 
 Executes Symsony Command
 
@@ -406,12 +376,10 @@ $this->taskCommand(new ModelGeneratorCommand())
      ->run();
 ?>
 ```
-* arg(Parameter #0 [ <required> $arg ], Parameter #1 [ <required> $value ])
-
-* opt(Parameter #0 [ <required> $option ], Parameter #1 [ <optional> $value = NULL ])
 
 
-### WatchTask
+## Robo\Task\WatchTask
+
 
 Runs task when specified file or dir was changed.
 Uses Lurker library.
@@ -426,5 +394,4 @@ $this->taskWatch()
 })->run();
 ?>
 ```
-* monitor(Parameter #0 [ <required> $paths ], Parameter #1 [ <required> Closure $callable ])
 

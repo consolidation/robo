@@ -48,7 +48,9 @@ class Robofile extends \Robo\Tasks
             ->run();
     }
 
-    // publish docs
+    /**
+     * generate docs
+     */
     public function docs()
     {
         $docs = [];
@@ -72,10 +74,15 @@ class Robofile extends \Robo\Tasks
         $taskGenerator->filterMethods(function(\ReflectionMethod $m) {
             if ($m->isConstructor() or $m->isDestructor()) return false;
             return $m->name != 'run' and $m->name != '__call' and $m->isPublic(); // methods are not documented
-        })->processMethod(function (\ReflectionMethod $m, $text) {
-            return "* " . $m->name . '('.implode(', ', $m->getParameters()).")\n";
+        })->processClassSignature(function($c) {
+            return "## {$c->name}\n";
+        })->processClassDocBlock(function($c, $doc) {
+            return str_replace('@method \\'.$c->name, '* ', $doc);
+        })->processMethodSignature(function (\ReflectionMethod $m, $text) {
+            return str_replace('#### *public* ', '* ', $text);
+        })->processMethodDocBlock(function() {
+            return "";
         })->processClass(function(\ReflectionClass $refl, $text) {
-            $text = str_replace("@method ".$refl->getShortName(),'*',$text);
             if ($refl->isTrait()) {
                 return "## ".$refl->getShortName()."\n\n``` use ".$refl->getName().";```\n$text";
             } else {
@@ -122,7 +129,7 @@ class Robofile extends \Robo\Tasks
      */
     public function para()
     {
-        $this->parallelExec()
+        $this->taskParallelExec()
             ->process('php ~/demos/robotests/parascript.php hey')
             ->process('php ~/demos/robotests/parascript.php hoy')
             ->process('php ~/demos/robotests/parascript.php gou')

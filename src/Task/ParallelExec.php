@@ -6,7 +6,7 @@ use Symfony\Component\Process\Exception\ProcessTimedOutException;
 use Symfony\Component\Process\Process;
 
 trait ParallelExec {
-    protected function parallelExec()
+    protected function taskParallelExec()
     {
         return new ParallelExecTask();
     }

@@ -27,7 +27,6 @@ trait Codeception {
  *      ->run();
  * ?>
  * ```
- *
  */
 class CodeceptionTask implements TaskInterface, CommandInterface{
     use \Robo\Output;

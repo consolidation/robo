@@ -43,6 +43,7 @@ trait Exec  {
  */
 class ExecTask implements TaskInterface, CommandInterface{
     use \Robo\Output;
+    use Shared\CommandInjected;
 
     protected $command;
     protected $background = false;
@@ -57,8 +58,7 @@ class ExecTask implements TaskInterface, CommandInterface{
 
     public function __construct($command)
     {
-        if ($command instanceof CommandInterface) $command = $command->getCommand();
-        $this->command = $command;
+        $this->command = $this->retrieveCommand($command);
     }
 
     public function getCommand()

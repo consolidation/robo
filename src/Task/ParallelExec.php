@@ -1,6 +1,7 @@
 <?php
 namespace Robo\Task;
 use Robo\Result;
+use Robo\Task\Shared\TaskException;
 use Symfony\Component\Console\Helper\ProgressHelper;
 use Symfony\Component\Process\Exception\ProcessTimedOutException;
 use Symfony\Component\Process\Process;
@@ -33,6 +34,7 @@ class ParallelExecTask implements Shared\TaskInterface
 {
     use \Robo\Output;
     use Shared\DynamicConfig;
+    use Shared\CommandInjected;
 
     protected $processes = [];
     protected $timeout = 3600;
@@ -40,8 +42,7 @@ class ParallelExecTask implements Shared\TaskInterface
 
     public function process($command)
     {
-        if ($command instanceof Shared\CommandInterface) $command = $command->getCommand();
-        $this->processes[] = new Process($command);
+        $this->processes[] = new Process($this->retrieveCommand($command));
         return $this;
     }
 

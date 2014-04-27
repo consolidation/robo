@@ -14,7 +14,17 @@ trait ParallelExec {
 
 /**
  * Class ParallelExecTask
- * @package Robo\Task
+ *
+ * ``` php
+ * <?php
+ * $this->taskParallelExec()
+ *   ->process('php ~/demos/script.php hey')
+ *   ->process('php ~/demos/script.php hoy')
+ *   ->process('php ~/demos/script.php gou')
+ *   ->run();
+ * ?>
+ * ```
+ *
  *
  * @method \Robo\Task\ParallelExecTask timeout(int $timeout)
  * @method \Robo\Task\ParallelExecTask idleTimeout(int $timeout)
@@ -30,6 +40,7 @@ class ParallelExecTask implements Shared\TaskInterface
 
     public function process($command)
     {
+        if ($command instanceof Shared\CommandInterface) $command = $command->getCommand();
         $this->processes[] = new Process($command);
         return $this;
     }

@@ -12,6 +12,7 @@ class Tasks
 	use Task\PackPhar;
 	use Task\PhpServer;
 	use Task\PHPUnit;
+    use Task\Codeception;
 	use Task\SymfonyCommand;
 	use Task\Watch;
     use Task\ParallelExec;

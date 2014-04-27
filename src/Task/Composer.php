@@ -27,8 +27,8 @@ trait Composer {
     }
 }
 
-abstract class BaseComposerTask {
-
+abstract class BaseComposerTask
+{
     use \Robo\Output;
 
     protected $prefer;

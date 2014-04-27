@@ -3,6 +3,7 @@ namespace Robo\Task;
 
 use Robo\Output;
 use Robo\Result;
+use Robo\Task\Shared\CommandInterface;
 use Robo\Task\Shared\TaskInterface;
 use Symfony\Component\Process\Process;
 
@@ -40,7 +41,7 @@ trait Exec  {
  * ?>
  * ```
  */
-class ExecTask implements TaskInterface {
+class ExecTask implements TaskInterface, CommandInterface{
     use \Robo\Output;
 
     protected $command;
@@ -56,7 +57,13 @@ class ExecTask implements TaskInterface {
 
     public function __construct($command)
     {
+        if ($command instanceof CommandInterface) $command = $command->getCommand();
         $this->command = $command;
+    }
+
+    public function getCommand()
+    {
+        return $this->command;
     }
 
     public function background()

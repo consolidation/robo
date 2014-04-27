@@ -1,5 +1,45 @@
 # Tasks
 
+## Robo\Task\CodeceptionTask
+
+
+Executes Codeception tests
+
+``` php
+<?php
+$this->taskCodecept()
+     ->suite('acceptance')
+     ->env('chrome')
+     ->group('admin')
+     ->xml()
+     ->html()
+     ->run();
+?>
+```
+
+
+* suite($suite)
+* option($option, $value = null)
+* group($group)
+* excludeGroup($group)
+* json($file = null)
+* xml($file = null)
+* tap($file = null)
+* configFile($file)
+* coverage()
+* silent()
+* coverageXml($xml = null)
+* coverageHtml($html = null)
+* env($env)
+* debug()
+* getCommand()
+
+
+
+
+
+
+
 
 ## Robo\Task\ComposerInstallTask
 
@@ -18,6 +58,16 @@ $this->taskComposerInstall('path/to/my/composer.phar')
 ?>
 ```
 
+
+* preferDist()
+* preferSource()
+* noDev()
+
+
+
+
+
+
 ## Robo\Task\ComposerUpdateTask
 
 
@@ -34,6 +84,17 @@ $this->taskComposerUpdate('path/to/my/composer.phar')
      ->run();
 ?>
 ```
+@package Robo\Task
+
+
+* preferDist()
+* preferSource()
+* noDev()
+
+
+
+
+
 
 
 ## Robo\Task\ChangelogTask
@@ -66,6 +127,26 @@ $this->taskChangelog()
 *  filename(string $filename)
 *  anchor(string $anchor)
 *  version(string $version)
+
+
+
+* askForChanges()
+
+* changes(array $data)
+* change($change)
+* getChanges()
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Robo\Task\GenMarkdownDocTask
 
@@ -115,6 +196,50 @@ $this->taskGenDoc('models.md')
 *  append($text)
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#### *public static* indentDoc($doc, $indent = null)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Robo\Task\ExecTask
 
 
@@ -132,6 +257,23 @@ if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
 }
 ?>
 ```
+
+
+
+
+
+
+* getCommand()
+* background()
+* arg($arg)
+* args($args)
+
+* stop()
+
+
+
+
+
 
 ## Robo\Task\ExecStackTask
 
@@ -154,6 +296,14 @@ $this->taskExecStack()
 *  stopOnFail(string)
 
 
+
+
+
+
+
+
+
+
 ## Robo\Task\RequireTask
 
 
@@ -169,6 +319,9 @@ $this->taskRequire('script/make_admin.php')
 ```
 
 
+* local(array $locals)
+
+
 ## Robo\Task\CleanDirTask
 
 
@@ -181,6 +334,12 @@ $this->taskCleanDir(['tmp','logs'])->run();
 ?>
 ```
 
+
+
+
+
+
+
 ## Robo\Task\CopyDirTask
 
 
@@ -191,6 +350,12 @@ Copies one dir into another
 $this->taskCopyDir(['dist/config' => 'config'])->run();
 ?>
 ```
+
+
+
+
+
+
 
 ## Robo\Task\DeleteDirTask
 
@@ -203,6 +368,12 @@ $this->taskDeleteDir('tmp')->run();
 $this->taskDeleteDir(['tmp', 'log'])->run();
 ?>
 ```
+
+
+
+
+
+
 
 ## Robo\Task\ReplaceInFileTask
 
@@ -232,6 +403,16 @@ $this->replaceInFile('config.yml')
 *  from(string)
 *  to(string)
 
+
+
+
+
+
+
+
+
+
+
 ## Robo\Task\WriteToFileTask
 
 
@@ -247,6 +428,19 @@ $this->taskWriteToFile('blogpost.md')
 ?>
 ```
 *  append()
+
+
+
+* line($line)
+* lines($lines)
+* text($text)
+* textFromFile($filename)
+* place($name, $val)
+
+
+
+
+
 
 
 ## Robo\Task\GitStackTask
@@ -274,6 +468,26 @@ $this->taskGit()
 
 
 
+
+
+* cloneRepo($repo, $to = null)
+* stopOnFail()
+* add($pattern)
+* commit($message, $options = null)
+* pull($origin = null, $branch = null)
+* push($origin = null, $branch = null)
+* checkout($branch)
+* getCommand()
+
+
+
+
+
+
+
+
+
+
 ## Robo\Task\GitHubReleaseTask
 
 
@@ -296,7 +510,63 @@ $this->taskGitHubRelease('0.1.0')
 *  comittish(string $branch)
 
 
+
+
+
+
+
+
+
+
+
+* askName()
+* askDescription()
+* askForChanges()
+* changes(array $changes)
+
+* uri($uri)
+
+* askAuth()
+
+
+
+
+
+
+
+
 ## Robo\Task\PHPUnitTask
+
+
+Runs PHPUnit tests
+
+``` php
+<?php
+$this->taskPHPUnit()
+ ->group('core')
+ ->bootstrap('test/bootstrap.php')
+ ->run()
+
+?>
+```
+
+
+* filter($filter)
+* group($group)
+* excludeGroup($group)
+* json($file = null)
+* xml($file = null)
+* tap($file = null)
+* bootstrap($file)
+* configFile($file)
+* debug()
+* option($option, $value = null)
+* arg($arg)
+* getCommand()
+
+
+
+
 
 
 
@@ -333,14 +603,52 @@ $pharTask = $this->taskPackPhar('package/codecept.phar')
 ```
 
 
+
+
+
+
+
+
+* compress($compress = null)
+* stub($stub)
+
+* addStripped($path, $file)
+* addFile($path, $file)
+* executable($file)
+
+
+
+
+
+
+
 ## Robo\Task\ParallelExecTask
 
 
 Class ParallelExecTask
-@package Robo\Task
+
+``` php
+<?php
+$this->taskParallelExec()
+  ->process('php ~/demos/script.php hey')
+  ->process('php ~/demos/script.php hoy')
+  ->process('php ~/demos/script.php gou')
+  ->run();
+?>
+```
+
 
 *  timeout(int $timeout)
 *  idleTimeout(int $timeout)
+
+
+* process($command)
+
+
+
+
+
+
 
 
 ## Robo\Task\PhpServerTask
@@ -355,6 +663,24 @@ $this->taskServer(8000)
  ->run();
 ?>
 ```
+
+
+
+
+
+
+* dir($path)
+* getCommand()
+* background()
+* arg($arg)
+* args($args)
+
+* stop()
+
+
+
+
+
 
 
 ## Robo\Task\SymfonyCommandTask
@@ -378,6 +704,15 @@ $this->taskCommand(new ModelGeneratorCommand())
 ```
 
 
+* arg($arg, $value)
+* opt($option, $value = null)
+
+
+
+
+
+
+
 ## Robo\Task\WatchTask
 
 
@@ -394,4 +729,13 @@ $this->taskWatch()
 })->run();
 ?>
 ```
+
+
+
+* monitor($paths, $callable)
+
+
+
+
+
 

@@ -3,6 +3,7 @@ namespace Robo\Task;
 
 use Robo\Output;
 use Robo\Result;
+use Robo\Task\Shared\CommandInterface;
 use Robo\Task\Shared\TaskInterface;
 
 /**
@@ -38,7 +39,7 @@ trait Git {
  * ?>
  * ```
  */
-class GitStackTask implements TaskInterface
+class GitStackTask implements TaskInterface, CommandInterface
 {
     use Exec;
     use Output;
@@ -94,6 +95,12 @@ class GitStackTask implements TaskInterface
     {
         $this->stackCommands[] = "checkout $branch";
         return $this;
+    }
+
+    public function getCommand()
+    {
+        $commands = array_map(function($c) { return $this->git .' '. $c; }, $this->stackCommands);
+        return implode(' && ', $commands);
     }
 
     public function run()

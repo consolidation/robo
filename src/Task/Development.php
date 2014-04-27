@@ -250,19 +250,21 @@ class GenMarkdownDocTask implements TaskInterface
 
         $properties = [];
         foreach ($refl->getProperties() as $reflProperty) {
-            $property = $this->documentProperty($reflProperty);
-            if ($property) $properties[] = $property;
+            $properties[] = $this->documentProperty($reflProperty);
         }
+
+        $doc .= implode("\n", $properties);
 
         $methods = [];
         foreach ($refl->getMethods() as $reflMethod)
         {
-            $method =$this->documentMethod($reflMethod);
-            if ($method) $methods[] = $method;
+            $methods[] = $this->documentMethod($reflMethod);
         }
         if (is_callable($this->reorderMethods)) {
             call_user_func_array($this->reorderMethods, [&$methods]);
         }
+
+        $doc .= implode("\n", $methods);
 
         return $doc;
     }
@@ -395,7 +397,7 @@ class GenMarkdownDocTask implements TaskInterface
         $params = implode(', ', array_map(function ($p) {
             return $this->documentParam($p);
         }, $reflectedMethod->getParameters()));
-        $signature = "#### *$modifiers* function {$reflectedMethod->name}($params)";
+        $signature = "#### *$modifiers* {$reflectedMethod->name}($params)";
         if (is_callable($this->processMethodSignature)) {
             $signature = call_user_func($this->processMethodSignature, $reflectedMethod, $signature);
         }

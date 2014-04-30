@@ -17,7 +17,6 @@ $this->taskCodecept()
 ?>
 ```
 
-
 * suite($suite)
 * option($option, $value = null)
 * group($group)
@@ -275,6 +274,7 @@ if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
 
 
 
+* retrieveCommand($command)
 ## Robo\Task\ExecStackTask
 
 
@@ -436,6 +436,7 @@ $this->taskWriteToFile('blogpost.md')
 * text($text)
 * textFromFile($filename)
 * place($name, $val)
+
 
 
 
@@ -650,6 +651,7 @@ $this->taskParallelExec()
 
 
 
+* retrieveCommand($command)
 
 ## Robo\Task\PhpServerTask
 
@@ -682,6 +684,7 @@ $this->taskServer(8000)
 
 
 
+* retrieveCommand($command)
 
 ## Robo\Task\SymfonyCommandTask
 

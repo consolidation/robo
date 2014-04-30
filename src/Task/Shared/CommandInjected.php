@@ -3,7 +3,7 @@ namespace Robo\Task\Shared;
 
 trait CommandInjected {
 
-    public function retrieveCommand($command)
+    protected function retrieveCommand($command)
     {
         if (!is_object($command)) {
             return $command;

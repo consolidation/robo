@@ -41,10 +41,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="143" column="0" selection-start="4762" selection-end="4762" vertical-scroll-proportion="-6.2222223" vertical-offset="2835" max-vertical-offset="3738">
+            <state line="26" column="70" selection-start="916" selection-end="916" vertical-scroll-proportion="0.5329949" vertical-offset="126" max-vertical-offset="3759">
               <folding />
             </state>
           </provider>
@@ -59,10 +59,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="tasks.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="tasks.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tasks.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="43" column="70" selection-start="1529" selection-end="1529" vertical-scroll-proportion="0.50634515" vertical-offset="504" max-vertical-offset="1449">
+            <state line="43" column="70" selection-start="1529" selection-end="1529" vertical-scroll-proportion="-14.777778" vertical-offset="504" max-vertical-offset="1449">
               <folding />
             </state>
           </provider>
@@ -114,10 +114,10 @@
         <option value="$PROJECT_DIR$/CHANGELOG.md" />
         <option value="$PROJECT_DIR$/src/Task/Codeception.php" />
         <option value="$PROJECT_DIR$/CNAME" />
-        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/releases.html" />
         <option value="$PROJECT_DIR$/started.html" />
         <option value="$PROJECT_DIR$/tasks.html" />
+        <option value="$PROJECT_DIR$/index.html" />
       </list>
     </option>
   </component>
@@ -441,13 +441,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="143" column="0" selection-start="4762" selection-end="4762" vertical-scroll-proportion="-6.2222223" vertical-offset="2835" max-vertical-offset="3738">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/releases.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="39" column="30" selection-start="1347" selection-end="1347" vertical-scroll-proportion="-6.6296296" vertical-offset="640" max-vertical-offset="1806">
@@ -464,7 +457,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tasks.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="70" selection-start="1529" selection-end="1529" vertical-scroll-proportion="0.50634515" vertical-offset="504" max-vertical-offset="1449">
+        <state line="43" column="70" selection-start="1529" selection-end="1529" vertical-scroll-proportion="-14.777778" vertical-offset="504" max-vertical-offset="1449">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="70" selection-start="916" selection-end="916" vertical-scroll-proportion="0.5329949" vertical-offset="126" max-vertical-offset="3759">
           <folding />
         </state>
       </provider>

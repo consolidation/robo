@@ -71,7 +71,7 @@
       <file leaf-file-name="releases.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/releases.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1806">
+            <state line="76" column="12" selection-start="2507" selection-end="2507" vertical-scroll-proportion="0.73350257" vertical-offset="1018" max-vertical-offset="1848">
               <folding />
             </state>
           </provider>
@@ -114,10 +114,10 @@
         <option value="$PROJECT_DIR$/CHANGELOG.md" />
         <option value="$PROJECT_DIR$/src/Task/Codeception.php" />
         <option value="$PROJECT_DIR$/CNAME" />
-        <option value="$PROJECT_DIR$/releases.html" />
         <option value="$PROJECT_DIR$/started.html" />
         <option value="$PROJECT_DIR$/tasks.html" />
         <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/releases.html" />
       </list>
     </option>
   </component>
@@ -464,7 +464,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/releases.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1806">
+        <state line="76" column="12" selection-start="2507" selection-end="2507" vertical-scroll-proportion="0.73350257" vertical-offset="1018" max-vertical-offset="1848">
           <folding />
         </state>
       </provider>

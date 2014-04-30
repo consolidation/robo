@@ -274,7 +274,7 @@ if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
 
 
 
-* retrieveCommand($command)
+
 ## ExecStackTask
 
 
@@ -651,7 +651,7 @@ $this->taskParallelExec()
 
 
 
-* retrieveCommand($command)
+
 
 ## PhpServerTask
 
@@ -684,7 +684,7 @@ $this->taskServer(8000)
 
 
 
-* retrieveCommand($command)
+
 
 ## SymfonyCommandTask
 

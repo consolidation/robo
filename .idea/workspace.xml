@@ -41,10 +41,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="70" selection-start="916" selection-end="916" vertical-scroll-proportion="0.5329949" vertical-offset="126" max-vertical-offset="3759">
+            <state line="26" column="70" selection-start="916" selection-end="916" vertical-scroll-proportion="-15.555555" vertical-offset="126" max-vertical-offset="3759">
               <folding />
             </state>
           </provider>
@@ -68,10 +68,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="releases.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="releases.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/releases.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="30" selection-start="1347" selection-end="1347" vertical-scroll-proportion="-6.6296296" vertical-offset="640" max-vertical-offset="1806">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1806">
               <folding />
             </state>
           </provider>
@@ -441,13 +441,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/releases.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="30" selection-start="1347" selection-end="1347" vertical-scroll-proportion="-6.6296296" vertical-offset="640" max-vertical-offset="1806">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/started.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="39" column="70" selection-start="1390" selection-end="1390" vertical-scroll-proportion="-18.666666" vertical-offset="315" max-vertical-offset="1365">
@@ -464,7 +457,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="70" selection-start="916" selection-end="916" vertical-scroll-proportion="0.5329949" vertical-offset="126" max-vertical-offset="3759">
+        <state line="26" column="70" selection-start="916" selection-end="916" vertical-scroll-proportion="-15.555555" vertical-offset="126" max-vertical-offset="3759">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/releases.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1806">
           <folding />
         </state>
       </provider>

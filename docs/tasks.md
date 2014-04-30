@@ -1,6 +1,6 @@
 # Tasks
 
-## Robo\Task\CodeceptionTask
+## CodeceptionTask
 
 
 Executes Codeception tests
@@ -40,7 +40,7 @@ $this->taskCodecept()
 
 
 
-## Robo\Task\ComposerInstallTask
+## ComposerInstallTask
 
 
 Composer Install
@@ -67,7 +67,7 @@ $this->taskComposerInstall('path/to/my/composer.phar')
 
 
 
-## Robo\Task\ComposerUpdateTask
+## ComposerUpdateTask
 
 
 Composer Update
@@ -96,7 +96,7 @@ $this->taskComposerUpdate('path/to/my/composer.phar')
 
 
 
-## Robo\Task\ChangelogTask
+## ChangelogTask
 
 
 Helps to manage changelog file.
@@ -147,7 +147,7 @@ $this->taskChangelog()
 
 
 
-## Robo\Task\GenMarkdownDocTask
+## GenMarkdownDocTask
 
 
 Simple documentation generator from source files.
@@ -239,7 +239,7 @@ $this->taskGenDoc('models.md')
 
 
 
-## Robo\Task\ExecTask
+## ExecTask
 
 
 Executes shell script. Closes it when running in background mode.
@@ -275,7 +275,7 @@ if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
 
 
 * retrieveCommand($command)
-## Robo\Task\ExecStackTask
+## ExecStackTask
 
 
 Execute commands one by one in stack.
@@ -304,7 +304,7 @@ $this->taskExecStack()
 
 
 
-## Robo\Task\RequireTask
+## RequireTask
 
 
 Requires php file to be executed inside a closure.
@@ -322,7 +322,7 @@ $this->taskRequire('script/make_admin.php')
 * local(array $locals)
 
 
-## Robo\Task\CleanDirTask
+## CleanDirTask
 
 
 Deletes all files from specified dir, ignoring git files.
@@ -340,7 +340,7 @@ $this->taskCleanDir(['tmp','logs'])->run();
 
 
 
-## Robo\Task\CopyDirTask
+## CopyDirTask
 
 
 Copies one dir into another
@@ -357,7 +357,7 @@ $this->taskCopyDir(['dist/config' => 'config'])->run();
 
 
 
-## Robo\Task\DeleteDirTask
+## DeleteDirTask
 
 
 Deletes dir
@@ -375,7 +375,7 @@ $this->taskDeleteDir(['tmp', 'log'])->run();
 
 
 
-## Robo\Task\ReplaceInFileTask
+## ReplaceInFileTask
 
 
 Performs search and replace inside a files.
@@ -413,7 +413,7 @@ $this->replaceInFile('config.yml')
 
 
 
-## Robo\Task\WriteToFileTask
+## WriteToFileTask
 
 
 Writes to file
@@ -444,7 +444,7 @@ $this->taskWriteToFile('blogpost.md')
 
 
 
-## Robo\Task\GitStackTask
+## GitStackTask
 
 
 Runs Git commands in stack. You can use `stopOnFail()` to point that stack should be terminated on first fail.
@@ -489,7 +489,7 @@ $this->taskGit()
 
 
 
-## Robo\Task\GitHubReleaseTask
+## GitHubReleaseTask
 
 
 Publishes new GitHub release.
@@ -536,7 +536,7 @@ $this->taskGitHubRelease('0.1.0')
 
 
 
-## Robo\Task\PHPUnitTask
+## PHPUnitTask
 
 
 Runs PHPUnit tests
@@ -571,7 +571,7 @@ $this->taskPHPUnit()
 
 
 
-## Robo\Task\PackPharTask
+## PackPharTask
 
 
 Creates Phar
@@ -623,7 +623,7 @@ $pharTask = $this->taskPackPhar('package/codecept.phar')
 
 
 
-## Robo\Task\ParallelExecTask
+## ParallelExecTask
 
 
 Class ParallelExecTask
@@ -653,7 +653,7 @@ $this->taskParallelExec()
 
 * retrieveCommand($command)
 
-## Robo\Task\PhpServerTask
+## PhpServerTask
 
 
 Runs PHP server and stops it when task finishes.
@@ -686,7 +686,7 @@ $this->taskServer(8000)
 
 * retrieveCommand($command)
 
-## Robo\Task\SymfonyCommandTask
+## SymfonyCommandTask
 
 
 Executes Symsony Command
@@ -716,7 +716,7 @@ $this->taskCommand(new ModelGeneratorCommand())
 
 
 
-## Robo\Task\WatchTask
+## WatchTask
 
 
 Runs task when specified file or dir was changed.

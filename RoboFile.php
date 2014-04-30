@@ -76,8 +76,8 @@ class Robofile extends \Robo\Tasks
         $taskGenerator->filterMethods(function(\ReflectionMethod $m) {
             if ($m->isConstructor() or $m->isDestructor()) return false;
             return $m->name != 'run' and $m->name != '__call' and $m->isPublic(); // methods are not documented
-        })->processClassSignature(function($c) {
-            return "## {$c->name}\n";
+        })->processClassSignature(function ($c) {
+            return "## {$c->getShortName()}\n";
         })->processClassDocBlock(function($c, $doc) {
             return str_replace('@method \\'.$c->name, '* ', $doc);
         })->processMethodSignature(function (\ReflectionMethod $m, $text) {

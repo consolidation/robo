@@ -2,23 +2,18 @@
 
 #### 0.4.0 04/27/2014
 
-* CommandInterface added to make generated commands to be passed to other tasks
+* Codeception task added
 * PHPUnit task improved
-* Codeception task
-* Bower task by @jadb
-
-#### 0.3.3 04/25/2014
-
-* Task descriptions taken from first line of annotations
+* Bower task added by @jadb
 * ParallelExec task added
 * Symfony Process component used for execution
-
+* Task descriptions taken from first line of annotations
+* `CommandInterface` added to use tasks as parameters
 
 #### 0.3.3 02/25/2014
 
 * PHPUnit basic task
 * fixed doc generation
-
 
 #### 0.3.5 02/21/2014
 

@@ -19,9 +19,9 @@ trait Exec  {
         return $exec;
     }
 
-    protected function taskExecStack($command)
+    protected function taskExecStack()
     {
-        return new ExecStackTask($command);
+        return new ExecStackTask();
     }
 }
 

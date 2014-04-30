@@ -2,6 +2,7 @@
 namespace Robo\Task;
 
 use Robo\Result;
+use Robo\Task\Shared\TaskInterface;
 
 /**
  * Contains tasks for bower.

@@ -7,12 +7,14 @@ class Robofile extends \Robo\Tasks
     {
         $this->say("Releasing Robo");
 
+        $this->docs();
         $this->taskGit()
-            ->add('CHANGELOG.md')
-            ->commit('updated')
+            ->add('-A')
+            ->commit("auto-update")
+            ->pull()
             ->push()
             ->run();
-
+        
         $this->taskGitHubRelease(\Robo\Runner::VERSION)
             ->uri('Codegyre/Robo')
             ->askDescription()

@@ -5,7 +5,7 @@
 * CommandInterface added to make generated commands to be passed to other tasks
 * PHPUnit task improved
 * Codeception task
-
+* Bower task by @jadb
 
 #### 0.3.3 04/25/2014
 

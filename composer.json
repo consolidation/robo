@@ -19,6 +19,7 @@
     "require": {
         "symfony/console": "*",
         "symfony/process": "*",
+        "symfony/filesystem": "*",
         "php": ">=5.4.0",
         "henrikbjorn/lurker" : "1.0.*@dev"
     },

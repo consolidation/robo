@@ -1,12 +1,14 @@
 <?php
 namespace Robo\Util;
 
+use Symfony\Component\Filesystem\Filesystem as SfFilesystem;
+
 /**
  * @author tiger
  */
-class FileSystem
+class FileSystem extends SfFilesystem
 {
-    public static function doEmptyDir($path)
+    public function doEmptyDir($path)
     {
         $iterator = new \RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator($path),
@@ -19,7 +21,7 @@ class FileSystem
                 if (basename($dir) === '.' || basename($dir) === '..') {
                     continue;
                 }
-                rmdir($dir);
+                $this->remove($dir);
             } else {
                 $file = (string)$path;
                 if (basename($file) === '.gitignore') {
@@ -29,26 +31,17 @@ class FileSystem
                     continue;
                 }
 
-                unlink($path->__toString());
+                $this->remove($path->__toString());
             }
         }
     }
 
-    public static function deleteDir($dir)
+    public function deleteDir($dir)
     {
-        if (!file_exists($dir)) return true;
-        if (!is_dir($dir) || is_link($dir)) return unlink($dir);
-        foreach (scandir($dir) as $item) {
-            if ($item == '.' || $item == '..') continue;
-            if (!self::deleteDir($dir . "/" . $item)) {
-                chmod($dir . "/" . $item, 0777);
-                if (!self::deleteDir($dir . "/" . $item)) return false;
-            }
-        }
-        return rmdir($dir);
+        $this->remove($dir);
     }
 
-    public static function copyDir($src, $dst)
+    public function copyDir($src, $dst)
     {
         $dir = opendir($src);
         @mkdir($dst);
@@ -65,4 +58,4 @@ class FileSystem
         closedir($dir);
     }
 }
- 
+

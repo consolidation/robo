@@ -355,6 +355,20 @@ $this->taskCopyDir(['dist/config' => 'config'])->run();
 
 
 
+## MirrorDirTask
+
+
+Mirrors a directory to another
+
+``` php
+<?php
+$this->taskMirrorDir(['dist/config/' => 'config/'])->run();
+?>
+```
+
+
+
+
 
 
 ## DeleteDirTask

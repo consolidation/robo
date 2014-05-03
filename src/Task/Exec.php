@@ -72,6 +72,14 @@ class ExecTask implements TaskInterface, CommandInterface{
         return $this;
     }
 
+    public function printed($arg)
+    {
+        if (is_bool($arg)) {
+            $this->isPrinted = $arg;
+        }
+        return $this;
+    }
+
     public function arg($arg)
     {
         return $this->args($arg);
@@ -104,12 +112,12 @@ class ExecTask implements TaskInterface, CommandInterface{
         $this->printTaskInfo("running <info>{$this->command}</info>");
         $this->process = new Process($this->command);
 
-        if (!$this->background and $this->isPrinted) {
+        if (!$this->background and !$this->isPrinted) {
             $this->process->run();
             return new Result($this, $this->process->getExitCode(), $this->process->getOutput());
         }
 
-        if (!$this->background and !$this->isPrinted) {
+        if (!$this->background and $this->isPrinted) {
             $this->process->run(function ($type, $buffer) {
                 Process::ERR === $type ? print('ERR> '.$buffer) : print('OUT> '.$buffer);
             });

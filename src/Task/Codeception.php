@@ -34,7 +34,7 @@ class CodeceptionTask implements TaskInterface, CommandInterface{
     public function __construct($pathToCodeception = '')
     {
         if ($pathToCodeception) {
-            $this->command = $pathToCodeception;
+            $this->command = "$pathToCodeception run ";
         } elseif (file_exists('vendor/bin/codecept')) {
             $this->command = 'vendor/bin/codecept run ';
         } elseif (file_exists('codecept.phar')) {
@@ -47,6 +47,7 @@ class CodeceptionTask implements TaskInterface, CommandInterface{
     public function suite($suite)
     {
         $this->command .= " $suite";
+        return $this;
     }
 
     public function option($option, $value = "")

@@ -1,5 +1,16 @@
 # Changelog
 
+#### 0.4.0 05/01/2014
+
+* codeception suite method now returns 
+* timeout options added to Exec task
+
+
+#### 0.4.1 05/01/2014
+
+* is printed option for Exec task
+
+
 #### 0.4.0 04/27/2014
 
 * Codeception task added

@@ -27,7 +27,6 @@ trait Exec  {
 
 /**
  * Executes shell script. Closes it when running in background mode.
- * Initial code from https://github.com/tiger-seo/PhpBuiltinServer by tiger-seo
  *
  * ``` php
  * <?php
@@ -47,9 +46,9 @@ class ExecTask implements TaskInterface, CommandInterface{
 
     protected $command;
     protected $background = false;
-    protected $resource;
-    protected $pipes = [];
     protected $isPrinted = false;
+    protected $timeout = null;
+    protected $idleTimeout = null;
 
     /**
      * @var Process
@@ -72,6 +71,18 @@ class ExecTask implements TaskInterface, CommandInterface{
         return $this;
     }
 
+    public function timeout($timeout)
+    {
+        $this->timeout = $timeout;
+        return $this;
+    }
+
+    public function idleTimeout($timeout)
+    {
+        $this->idleTimeout = $timeout;
+        return $this;
+    }
+
     public function arg($arg)
     {
         return $this->args($arg);
@@ -83,6 +94,12 @@ class ExecTask implements TaskInterface, CommandInterface{
             $args = func_get_args();
         }
         $this->command .= " ".implode(' ', $args);
+        return $this;
+    }
+
+    public function isPrinted($print = true)
+    {
+        $this->isPrinted = $print;
         return $this;
     }
 
@@ -103,6 +120,8 @@ class ExecTask implements TaskInterface, CommandInterface{
     {
         $this->printTaskInfo("running <info>{$this->command}</info>");
         $this->process = new Process($this->command);
+        $this->process->setTimeout($this->timeout);
+        $this->process->setIdleTimeout($this->idleTimeout);
 
         if (!$this->background and $this->isPrinted) {
             $this->process->run();

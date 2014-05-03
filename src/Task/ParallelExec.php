@@ -39,6 +39,7 @@ class ParallelExecTask implements Shared\TaskInterface
     protected $processes = [];
     protected $timeout = 3600;
     protected $idleTimeout = 60;
+    protected $isPrinted = false;
 
     public function process($command)
     {
@@ -57,9 +58,11 @@ class ParallelExecTask implements Shared\TaskInterface
         }
 
         $progress = new ProgressHelper();
+        $progress->setFormat(" <fg=white;bg=cyan;options=bold>[".get_class($this)."]</fg=white;bg=cyan;options=bold> Processes: %current%/%max% [%bar%] %percent%%");
         $progress->start($this->getOutput(), count($this->processes));
         $running = $this->processes;
         $progress->display();
+        $started = microtime(true);
         while (true) {
             foreach ($running as $k => $process) {
                 try {
@@ -68,6 +71,14 @@ class ParallelExecTask implements Shared\TaskInterface
                 }
                 if (!$process->isRunning()) {
                     $progress->advance();
+                    if ($this->isPrinted) {
+                        $this->getOutput()->writeln("");
+                        $this->printTaskInfo("Output for <fg=white;bg=magenta> " . $process->getCommandLine()." </fg=white;bg=magenta>");
+                        $this->getOutput()->writeln($process->getOutput(), \Symfony\Component\Console\Output\OutputInterface::OUTPUT_RAW);
+                        if ($process->getErrorOutput()) {
+                            $this->getOutput()->writeln("<error>" . $process->getErrorOutput() . "</error>");
+                        }
+                    }
                     unset($running[$k]);
                 }
             }
@@ -77,7 +88,8 @@ class ParallelExecTask implements Shared\TaskInterface
             usleep(1000);
         }
         $this->getOutput()->writeln("");
-        $this->printTaskInfo(count($this->processes) . " processes ended");
+        $taken = number_format(microtime(true) - $started, 2);
+        $this->printTaskInfo(count($this->processes) . " processes ended in $taken s");
 
         $exitCode = max(array_map(function(Process $p) { return $p->getExitCode(); }, $this->processes));
         return new Result($this, $exitCode);

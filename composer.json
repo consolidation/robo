@@ -20,8 +20,7 @@
         "symfony/console": "*",
         "symfony/process": "*",
         "php": ">=5.4.0",
-        "henrikbjorn/lurker" : "1.0.*@dev",
-        "naneau/semver": "*"
+        "henrikbjorn/lurker" : "1.0.*@dev"
     },
     "require-dev": {
         "symfony/finder": "*"

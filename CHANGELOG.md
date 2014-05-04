@@ -2,6 +2,8 @@
 
 #### 0.4.1 05/05/2014
 
+* unit and functional tests
+* all command tasks now use Symfony\Process to execute them
 * enabled bower and concat tasks
 * added printed param to Exec task
 * added  param to Exec task

@@ -5,11 +5,6 @@ use Robo\Result;
 use Robo\Task\Shared\TaskException;
 use Robo\Task\Shared\TaskInterface;
 
-/**
- * Contains tasks for composer.
- *
- * @package Robo\Task
- */
 trait Composer {
 
     /**
@@ -30,6 +25,7 @@ trait Composer {
 abstract class BaseComposerTask
 {
     use \Robo\Output;
+    use \Robo\Task\Shared\Process;
 
     protected $prefer;
     protected $dev = true;
@@ -56,6 +52,11 @@ abstract class BaseComposerTask
         return $this;
     }
 
+    /**
+     * adds `no-dev` option to composer
+     *
+     * @return $this
+     */
     public function noDev()
     {
         $this->dev = false;
@@ -76,6 +77,13 @@ abstract class BaseComposerTask
             throw new TaskException(__CLASS__,"Neither local composer.phar nor global composer installation not found");
         }
     }
+
+    public function getCommand()
+    {
+        $options = $this->prefer;
+        $this->dev ?: $options.= " --no-dev";
+        return "{$this->command} {$this->action} $options";
+    }
 }
 
 /**
@@ -95,13 +103,13 @@ abstract class BaseComposerTask
  */
 class ComposerInstallTask extends BaseComposerTask implements TaskInterface {
 
+    protected $action = 'install';
+
     public function run()
     {
-        $options = $this->prefer;
-        $this->dev ?: $options.= "--no-dev";
-        $this->printTaskInfo('Installing Packages: '.$options);
-        $line = system($this->command.' install '.$options, $code);
-        return new Result($this, $code, $line);
+        $command = $this->getCommand();
+        $this->printTaskInfo('Installing Packages: ' . $command);
+        return $this->executeCommand($command);
     }
 
 }
@@ -120,17 +128,16 @@ class ComposerInstallTask extends BaseComposerTask implements TaskInterface {
  *      ->run();
  * ?>
  * ```
- * @package Robo\Task
  */
 class ComposerUpdateTask extends BaseComposerTask implements TaskInterface {
 
+    protected $action = 'update';
+
     public function run()
     {
-        $options = $this->prefer;
-        $this->dev ?: $options.= " --no-dev";
-        $this->printTaskInfo('Updating Packages: '.$options);
-        $line = system($this->command.' update '.$options, $code);
-        return new Result($this, $code, $line);
+        $command = $this->getCommand();
+        $this->printTaskInfo('Updating Packages: '.$command);
+        return $this->executeCommand($command);
     }
 
 }

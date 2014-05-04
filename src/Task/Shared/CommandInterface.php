@@ -10,4 +10,5 @@ interface CommandInterface {
      * @return string
      */
     public function getCommand();
-} 
+
+}

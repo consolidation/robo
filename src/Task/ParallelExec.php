@@ -3,6 +3,7 @@ namespace Robo\Task;
 use Robo\Result;
 use Robo\Task\Shared\TaskException;
 use Symfony\Component\Console\Helper\ProgressHelper;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Exception\ProcessTimedOutException;
 use Symfony\Component\Process\Process;
 
@@ -27,8 +28,8 @@ trait ParallelExec {
  * ```
  *
  *
- * @method \Robo\Task\ParallelExecTask timeout(int $timeout)
- * @method \Robo\Task\ParallelExecTask idleTimeout(int $timeout)
+ * @method \Robo\Task\ParallelExecTask timeout(int $timeout) stops process if it runs longer then `$timeout` (seconds)
+ * @method \Robo\Task\ParallelExecTask idleTimeout(int $timeout) stops process if it does not output for time longer then `$timeout` (seconds)
  */
 class ParallelExecTask implements Shared\TaskInterface
 {
@@ -40,6 +41,12 @@ class ParallelExecTask implements Shared\TaskInterface
     protected $timeout = 3600;
     protected $idleTimeout = 60;
     protected $isPrinted = false;
+
+    public function printed($isPrinted = true)
+    {
+        $this->isPrinted = $isPrinted;
+        return $this;
+    }
 
     public function process($command)
     {
@@ -74,7 +81,7 @@ class ParallelExecTask implements Shared\TaskInterface
                     if ($this->isPrinted) {
                         $this->getOutput()->writeln("");
                         $this->printTaskInfo("Output for <fg=white;bg=magenta> " . $process->getCommandLine()." </fg=white;bg=magenta>");
-                        $this->getOutput()->writeln($process->getOutput(), \Symfony\Component\Console\Output\OutputInterface::OUTPUT_RAW);
+                        $this->getOutput()->writeln($process->getOutput(), OutputInterface::OUTPUT_RAW);
                         if ($process->getErrorOutput()) {
                             $this->getOutput()->writeln("<error>" . $process->getErrorOutput() . "</error>");
                         }

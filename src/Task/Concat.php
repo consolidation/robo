@@ -13,6 +13,21 @@ trait Concat
     }
 }
 
+/**
+ * Merges files into one. Used for preparing assets.
+ *
+ * ``` php
+ * <?php
+ * $this->taskConcat([
+ *      'web/assets/screen.css',
+ *      'web/assets/print.css',
+ *      'web/assets/theme.css'
+ *  ])
+ *  ->to('web/assets/style.css')
+ *  ->run()
+ * ?>
+ * ```
+ */
 class ConcatTask implements TaskInterface
 {
     use \Robo\Output;
@@ -36,7 +51,7 @@ class ConcatTask implements TaskInterface
     }
 
     /**
-     * Set the destination file
+     * set the destination file
      *
      * @param string $dst
      *

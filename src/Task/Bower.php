@@ -1,8 +1,9 @@
 <?php
 namespace Robo\Task;
 
-use Robo\Result;
+use Robo\Task\Shared\CommandInterface;
 use Robo\Task\Shared\TaskInterface;
+use Robo\Task\Shared\TaskException;
 
 /**
  * Contains tasks for bower.
@@ -21,10 +22,11 @@ trait Bower {
 }
 
 abstract class BaseBowerTask {
-
+    use \Robo\Task\Shared\Process;
 	use \Robo\Output;
 
 	protected $opts = [];
+    protected $action = '';
 
     /**
      * adds `allow-root` option to bower
@@ -77,6 +79,11 @@ abstract class BaseBowerTask {
 			throw new TaskException(__CLASS__, "Executable not found.");
 		}
 	}
+
+    public function getCommand()
+    {
+        return "{$this->command} {$this->action} " . implode(' ', $this->opts);
+    }
 }
 
 /**
@@ -94,13 +101,14 @@ abstract class BaseBowerTask {
  * ?>
  * ```
  */
-class BowerInstallTask extends BaseBowerTask implements TaskInterface {
+class BowerInstallTask extends BaseBowerTask implements TaskInterface, CommandInterface  {
+
+    protected $action = 'install';
 
 	public function run() {
 		$opts = implode(' ', $this->opts);
-		$this->printTaskInfo('Install bower packages: ' . $opts);
-		$line = system($this->command . ' install ' . $opts, $code);
-		return new Result($this, $code, $line);
+		$this->printTaskInfo('Install Bower packages: ' . $opts);
+        return $this->executeCommand($this->getCommand());
 	}
 }
 
@@ -121,10 +129,11 @@ class BowerInstallTask extends BaseBowerTask implements TaskInterface {
  */
 class BowerUpdateTask extends BaseBowerTask implements TaskInterface {
 
+    protected $action = 'update';
+
 	public function run() {
 		$opts = implode(' ', $this->opts);
-		$this->printTaskInfo('Update bower packages: ' . $opts);
-		$line = system($this->command . ' update ' . $opts, $code);
-		return new Result($this, $code, $line);
+		$this->printTaskInfo('Update Bower packages: ' . $opts);
+        return $this->executeCommand($this->getCommand());
 	}
 }

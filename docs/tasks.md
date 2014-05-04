@@ -1,5 +1,62 @@
 # Tasks
 
+
+## BowerInstallTask
+
+
+Bower Install
+
+``` php
+<?php
+// simple execution
+$this->taskBowerInstall()->run();
+
+// prefer dist with custom path
+$this->taskBowerInstall('path/to/my/bower')
+     ->noDev()
+     ->run();
+?>
+```
+
+
+* `allowRoot()` adds `allow-root` option to bower
+* `forceLatest()` adds `force-latest` option to bower
+* `noDev()` adds `production` option to bower
+* `offline()` adds `offline` option to bower
+
+
+
+
+
+
+## BowerUpdateTask
+
+
+Bower Update
+
+``` php
+<?php
+// simple execution
+$this->taskBowerUpdate()->run();
+
+// prefer dist with custom path
+$this->taskBowerUpdate('path/to/my/bower')
+     ->noDev()
+     ->run();
+?>
+```
+
+* `allowRoot()` adds `allow-root` option to bower
+* `forceLatest()` adds `force-latest` option to bower
+* `noDev()` adds `production` option to bower
+* `offline()` adds `offline` option to bower
+
+
+
+
+
+
+
 ## CodeceptionTask
 
 
@@ -17,21 +74,26 @@ $this->taskCodecept()
 ?>
 ```
 
-* suite($suite)
-* option($option, $value = null)
-* group($group)
-* excludeGroup($group)
-* json($file = null)
-* xml($file = null)
-* tap($file = null)
-* configFile($file)
-* coverage()
-* silent()
-* coverageXml($xml = null)
-* coverageHtml($html = null)
-* env($env)
-* debug()
-* getCommand()
+
+
+
+* `suite($suite)` 
+* `test($testName)` 
+* `option($option, $value = null)` 
+* `group($group)` set group option. Can be called multiple times
+* `excludeGroup($group)` 
+* `json($file = null)` generate json report
+* `xml($file = null)` generate xml JUnit report
+* `html($dir = null)` Generate html report
+* `tap($file = null)` generate tap report
+* `configFile($file)` provides config file other then default `codeception.yml` with `-c` option
+* `coverage()` turn on collecting code coverage
+* `silent()` execute in silent mode
+* `coverageXml($xml = null)` collect code coverage in xml format. You may pass name of xml file to save results
+* `coverageHtml($html = null)` collect code coverage and generate html report. You may pass
+* `env($env)` 
+* `debug()` 
+
 
 
 
@@ -58,9 +120,9 @@ $this->taskComposerInstall('path/to/my/composer.phar')
 ```
 
 
-* preferDist()
-* preferSource()
-* noDev()
+* `preferDist()` adds `prefer-dist` option to composer
+* `preferSource()` adds `prefer-source` option to composer
+* `noDev()` 
 
 
 
@@ -86,9 +148,35 @@ $this->taskComposerUpdate('path/to/my/composer.phar')
 @package Robo\Task
 
 
-* preferDist()
-* preferSource()
-* noDev()
+* `preferDist()` adds `prefer-dist` option to composer
+* `preferSource()` adds `prefer-source` option to composer
+* `noDev()` 
+
+
+
+
+
+
+
+## ConcatTask
+
+
+Merges files into one. Used for preparing assets.
+
+``` php
+<?php
+$this->taskConcat([
+     'web/assets/screen.css',
+     'web/assets/print.css',
+     'web/assets/theme.css'
+ ])
+ ->to('web/assets/style.css')
+ ->run()
+?>
+```
+
+
+* `to($dst)` set the destination file
 
 
 
@@ -123,17 +211,17 @@ $this->taskChangelog()
 ?>
 ```
 
-*  filename(string $filename)
-*  anchor(string $anchor)
-*  version(string $version)
+* `filename(string $filename)` 
+* `anchor(string $anchor)` 
+* `version(string $version)` 
 
 
 
-* askForChanges()
+* `askForChanges()` 
 
-* changes(array $data)
-* change($change)
-* getChanges()
+* `changes(array $data)` 
+* `change($change)` 
+* `getChanges()` 
 
 
 
@@ -179,20 +267,20 @@ $this->taskGenDoc('models.md')
      })->run();
 ```
 
-*  docClass(string $classname)
-*  filterMethods(\Closure $func)
-*  filterClasses(\Closure $func)
-*  filterProperties(\Closure $func)
-*  processClass(\Closure $func)
-*  processClassSignature(\Closure $func)
-*  processClassDocBlock(\Closure $func)
-*  processMethod(\Closure $func)
-*  processMethodSignature(\Closure $func)
-*  processMethodDocBlock(\Closure $func)
-*  reorder(\Closure $func)
-*  reorderMethods(\Closure $func)
-*  prepend($text)
-*  append($text)
+* `docClass(string $classname)`  put a class you want to be documented
+* `filterMethods(\Closure $func)`  using callback function filter out methods that won't be documented
+* `filterClasses(\Closure $func)`  using callback function filter out classes that won't be documented
+* `filterProperties(\Closure $func)`  using callback function filter out properties that won't be documented
+* `processClass(\Closure $func)`  post-process class documentation
+* `processClassSignature(\Closure $func)`  post-process class signature
+* `processClassDocBlock(\Closure $func)`  post-process class docblock contents
+* `processMethod(\Closure $func)`  post-process method documentation
+* `processMethodSignature(\Closure $func)`  post-process method signature
+* `processMethodDocBlock(\Closure $func)`  post-process method docblock contents
+* `reorder(\Closure $func)`  use a function to reorder classes
+* `reorderMethods(\Closure $func)`  use a function to reorder methods in class
+* `prepend($text)`  inserts text into beginning of markdown file
+* `append($text)`  inserts text in the end of markdown file
 
 
 
@@ -223,7 +311,7 @@ $this->taskGenDoc('models.md')
 
 
 
-#### *public static* indentDoc($doc, $indent = null)
+
 
 
 
@@ -243,7 +331,6 @@ $this->taskGenDoc('models.md')
 
 
 Executes shell script. Closes it when running in background mode.
-Initial code from https://github.com/tiger-seo/PhpBuiltinServer by tiger-seo
 
 ``` php
 <?php
@@ -262,12 +349,15 @@ if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
 
 
 
-* getCommand()
-* background()
-* arg($arg)
-* args($args)
 
-* stop()
+* `background()` Executes command in background mode (asynchronously)
+* `printed($arg)` Should command output be printed
+* `timeout($timeout)` Stop command if it runs longer then $timeout in seconds
+* `idleTimeout($timeout)` Stops command if it does not output something for a while
+* `arg($arg)` 
+* `args($args)` 
+
+* `stop()` 
 
 
 
@@ -292,8 +382,9 @@ $this->taskExecStack()
 ?>
 ```
 
-*  exec(string)
-*  stopOnFail(string)
+* `exec(string)` 
+* `stopOnFail(string)` 
+
 
 
 
@@ -319,7 +410,7 @@ $this->taskRequire('script/make_admin.php')
 ```
 
 
-* local(array $locals)
+* `local(array $locals)` 
 
 
 ## CleanDirTask
@@ -399,9 +490,9 @@ $this->replaceInFile('config.yml')
 ?>
 ```
 
-*  regex(string)
-*  from(string)
-*  to(string)
+* `regex(string)` 
+* `from(string)` 
+* `to(string)` 
 
 
 
@@ -427,37 +518,16 @@ $this->taskWriteToFile('blogpost.md')
      ->run();
 ?>
 ```
-*  append()
+* `append()` 
 
 
 
-* line($line)
-* lines($lines)
-* text($text)
-* textFromFile($filename)
-* place($name, $val)
+* `line($line)` 
+* `lines($lines)` 
+* `text($text)` 
+* `textFromFile($filename)` 
+* `place($name, $val)` 
 
-
-
-
-
-
-
-## ConcatTask
-
-
-Concat several files into another
-
-``` php
-<?php
-use \Robo\Task\Concat;
-
-$this->taskConcat(['blogpost.md', 'README.md'])
-     ->to('doc.md')
-     ->run();
-?>
-```
-*  to($dst)
 
 
 
@@ -472,14 +542,14 @@ Runs Git commands in stack. You can use `stopOnFail()` to point that stack shoul
 
 ``` php
 <?php
-$this->taskGit()
+$this->taskGitStack()
  ->stopOnFail()
  ->add('-A')
  ->commit('adding everything')
  ->push('origin','master')
  ->run()
 
-$this->taskGit()
+$this->taskGitStack()
  ->stopOnFail()
  ->add('doc/*')
  ->commit('doc updated')
@@ -492,14 +562,14 @@ $this->taskGit()
 
 
 
-* cloneRepo($repo, $to = null)
-* stopOnFail()
-* add($pattern)
-* commit($message, $options = null)
-* pull($origin = null, $branch = null)
-* push($origin = null, $branch = null)
-* checkout($branch)
-* getCommand()
+* `cloneRepo($repo, $to = null)` Executes `git clone`
+* `stopOnFail()` Git commands in stack will stop if any of commands were unsuccessful
+* `add($pattern)` Executes `git add` command with files to add pattern
+* `commit($message, $options = null)` Executes `git commit` command with a message
+* `pull($origin = null, $branch = null)` Executes `git pull` command.
+* `push($origin = null, $branch = null)` Executes `git push` command
+* `checkout($branch)` Executes `git checkout` command
+
 
 
 
@@ -524,12 +594,12 @@ $this->taskGitHubRelease('0.1.0')
 ?>
 ```
 
-*  tag(string $tag)
-*  name(string $name)
-*  body(string $body)
-*  draft(boolean $isDraft)
-*  prerelease(boolean $isPrerelease)
-*  comittish(string $branch)
+* `tag(string $tag)` 
+* `name(string $name)` 
+* `body(string $body)` 
+* `draft(boolean $isDraft)` 
+* `prerelease(boolean $isPrerelease)` 
+* `comittish(string $branch)` 
 
 
 
@@ -541,14 +611,14 @@ $this->taskGitHubRelease('0.1.0')
 
 
 
-* askName()
-* askDescription()
-* askForChanges()
-* changes(array $changes)
+* `askName()` 
+* `askDescription()` 
+* `askForChanges()` 
+* `changes(array $changes)` 
 
-* uri($uri)
+* `uri($uri)` 
 
-* askAuth()
+* `askAuth()` 
 
 
 
@@ -572,19 +642,18 @@ $this->taskPHPUnit()
 ?>
 ```
 
+* `filter($filter)` 
+* `group($group)` 
+* `excludeGroup($group)` 
+* `json($file = null)` 
+* `xml($file = null)` 
+* `tap($file = null)` 
+* `bootstrap($file)` 
+* `configFile($file)` 
+* `debug()` 
+* `option($option, $value = null)` 
+* `arg($arg)` 
 
-* filter($filter)
-* group($group)
-* excludeGroup($group)
-* json($file = null)
-* xml($file = null)
-* tap($file = null)
-* bootstrap($file)
-* configFile($file)
-* debug()
-* option($option, $value = null)
-* arg($arg)
-* getCommand()
 
 
 
@@ -631,12 +700,12 @@ $pharTask = $this->taskPackPhar('package/codecept.phar')
 
 
 
-* compress($compress = null)
-* stub($stub)
+* `compress($compress = null)` * `param`  boolean $compress
+* `stub($stub)` * `param`  $stub
 
-* addStripped($path, $file)
-* addFile($path, $file)
-* executable($file)
+* `addStripped($path, $file)` 
+* `addFile($path, $file)` 
+* `executable($file)` 
 
 
 
@@ -660,11 +729,13 @@ $this->taskParallelExec()
 ```
 
 
-*  timeout(int $timeout)
-*  idleTimeout(int $timeout)
+* `timeout(int $timeout)`  stops process if it runs longer then `$timeout` (seconds)
+* `idleTimeout(int $timeout)`  stops process if it does not output for time longer then `$timeout` (seconds)
 
 
-* process($command)
+
+* `printed($isPrinted = null)` 
+* `process($command)` 
 
 
 
@@ -692,13 +763,16 @@ $this->taskServer(8000)
 
 
 
-* dir($path)
-* getCommand()
-* background()
-* arg($arg)
-* args($args)
+* `dir($path)` 
 
-* stop()
+* `background()` Executes command in background mode (asynchronously)
+* `printed($arg)` Should command output be printed
+* `timeout($timeout)` Stop command if it runs longer then $timeout in seconds
+* `idleTimeout($timeout)` Stops command if it does not output something for a while
+* `arg($arg)` 
+* `args($args)` 
+
+* `stop()` 
 
 
 
@@ -728,8 +802,8 @@ $this->taskCommand(new ModelGeneratorCommand())
 ```
 
 
-* arg($arg, $value)
-* opt($option, $value = null)
+* `arg($arg, $value)` 
+* `opt($option, $value = null)` 
 
 
 
@@ -756,7 +830,7 @@ $this->taskWatch()
 
 
 
-* monitor($paths, $callable)
+* `monitor($paths, $callable)` 
 
 
 

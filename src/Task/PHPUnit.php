@@ -25,11 +25,12 @@ trait PHPUnit {
  *
  * ?>
  * ```
- *
  */
 class PHPUnitTask implements TaskInterface, CommandInterface
 {
     use \Robo\Output;
+    use \Robo\Task\Shared\Process;
+
     protected $command;
 
     public function __construct($pathToPhpUnit = null)
@@ -67,12 +68,24 @@ class PHPUnitTask implements TaskInterface, CommandInterface
         return $this;
     }
 
+    /**
+     * adds `log-json` option to runner
+     *
+     * @param string $file
+     * @return $this
+     */
     public function json($file = "")
     {
         $this->command .= " --log-json $file";
         return $this;
     }
 
+    /**
+     * adds `log-xml` option
+     *
+     * @param string $file
+     * @return $this
+     */
     public function xml($file = "")
     {
         $this->command .= " --log-xml $file";
@@ -122,15 +135,7 @@ class PHPUnitTask implements TaskInterface, CommandInterface
 
     public function run()
     {
-        $this->printTaskInfo('Executing '. $this->command);
-        $process = new Process($this->command);
-        $process->run(function ($type, $buffer) {
-            if (Process::ERR === $type) {
-                echo 'ER > '.$buffer;
-            } else {
-                echo $buffer;
-            }
-        });
-        return new Result($this, $process->getExitCode(), $process->getOutput());
+        $this->printTaskInfo('Executing '. $this->getCommand());
+        return $this->executeCommand($this->getCommand());
     }
 }

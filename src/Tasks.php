@@ -16,5 +16,12 @@ class Tasks
 	use Task\SymfonyCommand;
 	use Task\Watch;
     use Task\ParallelExec;
+    use Task\Concat;
+    use Task\Bower;
 	use Output;
+
+    protected function stopOnFail()
+    {
+        Result::$stopOnFail = true;
+    }
 }

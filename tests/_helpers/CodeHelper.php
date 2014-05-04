@@ -9,11 +9,11 @@ namespace Codeception\Module;
 class CodeHelper extends \Codeception\Module
 {
 
-    public function _before()
+    public function _before(\Codeception\TestCase $test)
     {
     }
 
-    public function _after()
+    public function _after(\Codeception\TestCase $test)
     {
         \AspectMock\Test::clean();
     }

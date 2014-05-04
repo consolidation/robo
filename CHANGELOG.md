@@ -1,5 +1,13 @@
 # Changelog
 
+#### 0.4.1 05/05/2014
+
+* enabled bower and concat tasks
+* added printed param to Exec task
+* added  param to Exec task
+* added  param to Exec task
+
+
 #### 0.4.0 05/01/2014
 
 * codeception suite method now returns 

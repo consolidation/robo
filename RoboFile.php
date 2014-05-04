@@ -25,7 +25,7 @@ class Robofile extends \Robo\Tasks
 
     public function test()
     {
-        $this->taskCodecept()
+        return $this->taskCodecept()
             ->run();
     }
 

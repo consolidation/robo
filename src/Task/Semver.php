@@ -306,8 +306,11 @@ class TaskSemverPreRelease extends SemverCommonTask
             return Result::error($this, 'Semver has already been initialized.');
         }
 
-        if (null === $this->releaseNumber && $this->version->getPreRelease()->getGreek() == $this->greek) {
+        $current = $this->version->getPreRelease();
+        if (!empty($current) && null === $this->releaseNumber && $current->getGreek() == $this->greek) {
             $this->releaseNumber = $this->version->getPreRelease()->getReleaseNumber() + 1;
+        } elseif (empty($this->releaseNumber)) {
+            $this->releaseNumber = 1;
         }
 
         $prerelease = new PreRelease();

@@ -443,6 +443,27 @@ $this->taskWriteToFile('blogpost.md')
 
 
 
+## ConcatTask
+
+
+Concat several files into another
+
+``` php
+<?php
+use \Robo\Task\Concat;
+
+$this->taskConcat(['blogpost.md', 'README.md'])
+     ->to('doc.md')
+     ->run();
+?>
+```
+*  to($dst)
+
+
+
+
+
+
 
 ## GitStackTask
 

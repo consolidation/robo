@@ -46,7 +46,7 @@ class ExecTask implements TaskInterface, CommandInterface{
 
     protected $command;
     protected $background = false;
-    protected $isPrinted = false;
+    protected $resource;
     protected $timeout = null;
     protected $idleTimeout = null;
 
@@ -68,6 +68,14 @@ class ExecTask implements TaskInterface, CommandInterface{
     public function background()
     {
         $this->background = true;
+        return $this;
+    }
+
+    public function printed($arg)
+    {
+        if (is_bool($arg)) {
+            $this->isPrinted = $arg;
+        }
         return $this;
     }
 
@@ -97,12 +105,6 @@ class ExecTask implements TaskInterface, CommandInterface{
         return $this;
     }
 
-    public function isPrinted($print = true)
-    {
-        $this->isPrinted = $print;
-        return $this;
-    }
-
     public function __destruct()
     {
         $this->stop();
@@ -123,12 +125,12 @@ class ExecTask implements TaskInterface, CommandInterface{
         $this->process->setTimeout($this->timeout);
         $this->process->setIdleTimeout($this->idleTimeout);
 
-        if (!$this->background and $this->isPrinted) {
+        if (!$this->background and !$this->isPrinted) {
             $this->process->run();
             return new Result($this, $this->process->getExitCode(), $this->process->getOutput());
         }
 
-        if (!$this->background and !$this->isPrinted) {
+        if (!$this->background and $this->isPrinted) {
             $this->process->run(function ($type, $buffer) {
                 Process::ERR === $type ? print('ERR> '.$buffer) : print('OUT> '.$buffer);
             });

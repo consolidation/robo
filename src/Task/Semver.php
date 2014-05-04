@@ -105,6 +105,7 @@ abstract class SemverCommonTask extends SemverBaseTask
         $command = 'echo "' . $content . '" > ' . self::FILEPATH;
 
         $line = exec($command, $output, $code);
+        $this->version = Parser::parse($this->getVersion());
         return new Result($this, $code, $line, $output);
     }
 }

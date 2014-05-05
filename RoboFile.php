@@ -115,9 +115,9 @@ class Robofile extends \Robo\Tasks
     {
         $this->pharBuild();
         rename('robo.phar', 'robo-release.phar');
-        $this->taskGit()->checkout('gh-pages')->run();
+        $this->taskGitStack()->checkout('gh-pages')->run();
         rename('robo-release.phar', 'robo.phar');
-        $this->taskGit()
+        $this->taskGitStack()
             ->add('robo.phar')
             ->commit('robo.phar published')
             ->push('origin','gh-pages')

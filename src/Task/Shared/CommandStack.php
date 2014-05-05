@@ -1,6 +1,6 @@
 <?php
 
-namespace Robot\Task\Shared;
+namespace Robo\Task\Shared;
 
 use Robo\Task\Exec;
 

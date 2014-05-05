@@ -20,38 +20,38 @@ class ComposerTest extends \Codeception\TestCase\Test
     public function testComposerInstall()
     {
         $composer = test::double('Robo\Task\ComposerInstallTask', ['executeCommand' => null]);
-        $this->taskComposerInstall()->run();
-        $composer->verifyInvoked('executeCommand', ['/usr/bin/composer install ']);
+        $this->taskComposerInstall('composer')->run();
+        $composer->verifyInvoked('executeCommand', ['composer install ']);
 
-        $this->taskComposerInstall()
+        $this->taskComposerInstall('composer')
             ->preferSource()
             ->run();
-        $composer->verifyInvoked('executeCommand', ['/usr/bin/composer install --prefer-source']);
+        $composer->verifyInvoked('executeCommand', ['composer install --prefer-source']);
     }
 
     public function testComposerUpdate()
     {
         $composer = test::double('Robo\Task\ComposerUpdateTask', ['executeCommand' => null]);
-        $this->taskComposerUpdate()->run();
-        $composer->verifyInvoked('executeCommand', ['/usr/bin/composer update ']);
+        $this->taskComposerUpdate('composer')->run();
+        $composer->verifyInvoked('executeCommand', ['composer update ']);
     }
 
     public function testComposerInstallCommand()
     {
         verify(
-            trim($this->taskComposerInstall()->getCommand())
-        )->equals('/usr/bin/composer install');
+            trim($this->taskComposerInstall('composer')->getCommand())
+        )->equals('composer install');
 
         verify(
             trim($this->taskComposerInstall('composer')->getCommand())
         )->equals('composer install');
 
         verify(
-            $this->taskComposerInstall()
+            $this->taskComposerInstall('composer')
                 ->noDev()
                 ->preferDist()
                 ->getCommand()
-        )->equals('/usr/bin/composer install --prefer-dist --no-dev');
+        )->equals('composer install --prefer-dist --no-dev');
     }
 
 }

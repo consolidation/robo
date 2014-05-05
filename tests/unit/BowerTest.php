@@ -20,35 +20,35 @@ class BowerTest extends \Codeception\TestCase\Test
     public function testBowerInstall()
     {
         $bower = test::double('Robo\Task\BowerInstallTask', ['executeCommand' => null]);
-        $this->taskBowerInstall()->run();
-        $bower->verifyInvoked('executeCommand', ['/usr/bin/bower install ']);
+        $this->taskBowerInstall('bower')->run();
+        $bower->verifyInvoked('executeCommand', ['bower install ']);
     }
 
     public function testBowerUpdate()
     {
         $bower = test::double('Robo\Task\BowerUpdateTask', ['executeCommand' => null]);
-        $this->taskBowerUpdate()->run();
-        $bower->verifyInvoked('executeCommand', ['/usr/bin/bower update ']);
+        $this->taskBowerUpdate('bower')->run();
+        $bower->verifyInvoked('executeCommand', ['bower update ']);
     }
 
     public function testBowerInstallCommand()
     {
         verify(
-            trim($this->taskBowerInstall()->getCommand())
-        )->equals('/usr/bin/bower install');
+            trim($this->taskBowerInstall('bower')->getCommand())
+        )->equals('bower install');
 
         verify(
             trim($this->taskBowerInstall('bower')->getCommand())
         )->equals('bower install');
 
         verify(
-            $this->taskBowerInstall()
+            $this->taskBowerInstall('bower')
                 ->allowRoot()
                 ->forceLatest()
                 ->offline()
                 ->noDev()
                 ->getCommand()
-        )->equals('/usr/bin/bower install --allow-root --force-latest --offline --production');
+        )->equals('bower install --allow-root --force-latest --offline --production');
     }
 
 }

@@ -54,6 +54,11 @@ trait FileSystem
     {
         return new RequireTask($file);
     }
+
+    protected function taskFileSystem()
+    {
+        return new FileSystemStackTask();
+    }
 }
 
 abstract class BaseDirTask implements TaskInterface {

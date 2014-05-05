@@ -3,43 +3,30 @@
 namespace Robo\Task\Shared;
 
 use Robo\Task\Exec;
+use Robo\Task\Shared\DynamicConfig;
 
-class CommandStack implements CommandInterface
+class CommandStack implements CommandInterface, TaskInterface
 {
+    use DynamicConfig;
     use Exec;
 
     protected $executable;
-
     protected $result;
-
-    protected $stack = [];
-
+    protected $exec = [];
     protected $stopOnFail = false;
-
-    public function setExecutable($executable)
-    {
-        $this->executable = $executable;
-        return $this;
-    }
-
-    public function stopOnFail()
-    {
-        $this->stopOnFail = true;
-        return $this;
-    }
 
     public function getCommand()
     {
-        return implode(' && ', $this->stack);
+        return implode(' && ', $this->exec);
     }
 
-    public function pushCommand($command)
+    public function exec($command)
     {
         if (is_array($command)) {
             $command = implode(' ', array_filter($command));
         }
 
-        array_push($this->stack, trim(ltrim($command, $this->executable)));
+        array_push($this->exec, trim(ltrim($command, $this->executable)));
         return $this;
     }
 
@@ -49,7 +36,7 @@ class CommandStack implements CommandInterface
             return $this->taskExec($this->getCommand())->run();
         }
 
-        foreach ($this->stack as $command) {
+        foreach ($this->exec as $command) {
             $result = $this->taskExec($command)->run();
             if (!$result->wasSuccessful()) {
                 return $result;

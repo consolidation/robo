@@ -2,6 +2,7 @@
 namespace Robo\Task;
 use Robo\Output;
 use Robo\Result;
+use Robo\Task\Shared\CommandStack;
 use Robo\Task\Shared\DynamicConfig;
 use Robo\Task\Shared\TaskInterface;
 use Robo\Util\FileSystem as FSUtils;
@@ -307,5 +308,20 @@ class RequireTask
         @require $this->file;
 
         return Result::success($this);
+    }
+}
+
+class FileSystemStackTask extends CommandStack
+{
+    public function mkdir($dirs = [], $options = null)
+    {
+        $this->pushCommand([__FUNCTION__, implode(' ', (array)$dirs)], $options);
+        return $this;
+    }
+
+    public function touch($files = [])
+    {
+        $this->pushCommand([__FUNCTION__, implode(' ', (array)$dirs)]);
+        return $this;
     }
 }

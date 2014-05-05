@@ -320,13 +320,13 @@ class FileSystemStackTask extends CommandStack
 {
     public function mkdir($dirs = [], $options = null)
     {
-        $this->pushCommand([__FUNCTION__, implode(' ', (array)$dirs)], $options);
+        $this->exec([__FUNCTION__, implode(' ', (array)$dirs)], $options);
         return $this;
     }
 
     public function touch($files = [])
     {
-        $this->pushCommand([__FUNCTION__, implode(' ', (array)$dirs)]);
+        $this->exec([__FUNCTION__, implode(' ', (array)$dirs)]);
         return $this;
     }
 }

@@ -4,6 +4,8 @@ namespace Robo\Task;
 use Robo\Output;
 use Robo\Result;
 use Robo\Task\Shared\CommandInterface;
+use Robo\Task\Shared\CommandInjected;
+use Robo\Task\Shared\DynamicConfig;
 use Robo\Task\Shared\TaskInterface;
 use Symfony\Component\Process\Process;
 
@@ -41,8 +43,8 @@ trait Exec  {
  * ```
  */
 class ExecTask implements TaskInterface, CommandInterface{
-    use \Robo\Output;
-    use Shared\CommandInjected;
+    use Output;
+    use CommandInjected;
 
     protected $command;
     protected $background = false;
@@ -189,7 +191,7 @@ class ExecTask implements TaskInterface, CommandInterface{
  */
 class ExecStackTask implements TaskInterface, CommandInterface
 {
-    use Shared\DynamicConfig;
+    use DynamicConfig;
     use Output;
     protected $exec = [];
     protected $result;

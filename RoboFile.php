@@ -8,7 +8,7 @@ class Robofile extends \Robo\Tasks
         $this->say("Releasing Robo");
 
         $this->docs();
-        $this->taskGit()
+        $this->taskGitStack()
             ->add('-A')
             ->commit("auto-update")
             ->pull()

@@ -25,6 +25,8 @@ $this->taskBowerInstall('path/to/my/bower')
 * `offline()` adds `offline` option to bower
 
 
+* `executeCommand($command)` 
+
 
 
 
@@ -46,11 +48,14 @@ $this->taskBowerUpdate('path/to/my/bower')
 ?>
 ```
 
+
 * `allowRoot()` adds `allow-root` option to bower
 * `forceLatest()` adds `force-latest` option to bower
 * `noDev()` adds `production` option to bower
 * `offline()` adds `offline` option to bower
 
+
+* `executeCommand($command)` 
 
 
 
@@ -100,6 +105,7 @@ $this->taskCodecept()
 
 
 
+* `executeCommand($command)` 
 
 
 ## ComposerInstallTask
@@ -120,15 +126,18 @@ $this->taskComposerInstall('path/to/my/composer.phar')
 ```
 
 
+
 * `preferDist()` adds `prefer-dist` option to composer
 * `preferSource()` adds `prefer-source` option to composer
-* `noDev()` 
+* `noDev()` adds `no-dev` option to composer
 
 
 
 
 
 
+
+* `executeCommand($command)` 
 ## ComposerUpdateTask
 
 
@@ -145,18 +154,20 @@ $this->taskComposerUpdate('path/to/my/composer.phar')
      ->run();
 ?>
 ```
-@package Robo\Task
+
 
 
 * `preferDist()` adds `prefer-dist` option to composer
 * `preferSource()` adds `prefer-source` option to composer
-* `noDev()` 
+* `noDev()` adds `no-dev` option to composer
 
 
 
 
 
 
+
+* `executeCommand($command)` 
 
 ## ConcatTask
 
@@ -645,8 +656,8 @@ $this->taskPHPUnit()
 * `filter($filter)` 
 * `group($group)` 
 * `excludeGroup($group)` 
-* `json($file = null)` 
-* `xml($file = null)` 
+* `json($file = null)` adds `log-json` option to runner
+* `xml($file = null)` adds `log-xml` option
 * `tap($file = null)` 
 * `bootstrap($file)` 
 * `configFile($file)` 
@@ -660,6 +671,7 @@ $this->taskPHPUnit()
 
 
 
+* `executeCommand($command)` 
 
 ## PackPharTask
 

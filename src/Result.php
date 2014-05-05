@@ -22,7 +22,8 @@ class Result {
         $this->data = $data;
         
         if (!$this->wasSuccessful()) {
-            $this->printTaskInfo("<error>Error</error> ".$this->message, $this->task);
+            $msg = end(explode("\n", $this->message));
+            $this->printTaskInfo("<error>Error</error> $msg", $this->task);
         }
 
         if (self::$stopOnFail) {

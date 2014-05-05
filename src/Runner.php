@@ -68,6 +68,7 @@ class Runner {
                 $res = call_user_func_array([$roboTasks, $taskName], $args);
                 if (is_int($res)) exit($res);
                 if (is_bool($res)) exit($res ? 0 : 1);
+                if ($res instanceof Result) exit($res->getExitCode());
             });
             $app->add($command);
         }

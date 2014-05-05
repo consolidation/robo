@@ -135,7 +135,7 @@ class SemVerStackTask implements TaskInterface
     public function run()
     {
         $this->dump();
-        return (string)$this;
+        return Result::success($this, $this->__toString());
     }
 
     protected function dump()

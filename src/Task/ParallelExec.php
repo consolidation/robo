@@ -3,6 +3,7 @@ namespace Robo\Task;
 use Robo\Result;
 use Robo\Task\Shared\TaskException;
 use Symfony\Component\Console\Helper\ProgressHelper;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Exception\ProcessTimedOutException;
 use Symfony\Component\Process\Process;
 
@@ -27,8 +28,8 @@ trait ParallelExec {
  * ```
  *
  *
- * @method \Robo\Task\ParallelExecTask timeout(int $timeout)
- * @method \Robo\Task\ParallelExecTask idleTimeout(int $timeout)
+ * @method \Robo\Task\ParallelExecTask timeout(int $timeout) stops process if it runs longer then `$timeout` (seconds)
+ * @method \Robo\Task\ParallelExecTask idleTimeout(int $timeout) stops process if it does not output for time longer then `$timeout` (seconds)
  */
 class ParallelExecTask implements Shared\TaskInterface
 {
@@ -39,6 +40,13 @@ class ParallelExecTask implements Shared\TaskInterface
     protected $processes = [];
     protected $timeout = 3600;
     protected $idleTimeout = 60;
+    protected $isPrinted = false;
+
+    public function printed($isPrinted = true)
+    {
+        $this->isPrinted = $isPrinted;
+        return $this;
+    }
 
     public function process($command)
     {
@@ -57,9 +65,11 @@ class ParallelExecTask implements Shared\TaskInterface
         }
 
         $progress = new ProgressHelper();
+        $progress->setFormat(" <fg=white;bg=cyan;options=bold>[".get_class($this)."]</fg=white;bg=cyan;options=bold> Processes: %current%/%max% [%bar%] %percent%%");
         $progress->start($this->getOutput(), count($this->processes));
         $running = $this->processes;
         $progress->display();
+        $started = microtime(true);
         while (true) {
             foreach ($running as $k => $process) {
                 try {
@@ -68,6 +78,14 @@ class ParallelExecTask implements Shared\TaskInterface
                 }
                 if (!$process->isRunning()) {
                     $progress->advance();
+                    if ($this->isPrinted) {
+                        $this->getOutput()->writeln("");
+                        $this->printTaskInfo("Output for <fg=white;bg=magenta> " . $process->getCommandLine()." </fg=white;bg=magenta>");
+                        $this->getOutput()->writeln($process->getOutput(), OutputInterface::OUTPUT_RAW);
+                        if ($process->getErrorOutput()) {
+                            $this->getOutput()->writeln("<error>" . $process->getErrorOutput() . "</error>");
+                        }
+                    }
                     unset($running[$k]);
                 }
             }
@@ -77,7 +95,8 @@ class ParallelExecTask implements Shared\TaskInterface
             usleep(1000);
         }
         $this->getOutput()->writeln("");
-        $this->printTaskInfo(count($this->processes) . " processes ended");
+        $taken = number_format(microtime(true) - $started, 2);
+        $this->printTaskInfo(count($this->processes) . " processes ended in $taken s");
 
         $exitCode = max(array_map(function(Process $p) { return $p->getExitCode(); }, $this->processes));
         return new Result($this, $exitCode);

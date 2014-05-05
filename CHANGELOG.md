@@ -1,5 +1,16 @@
 # Changelog
 
+#### 0.4.1 05/05/2014
+
+* [BC] `taskGit` task renamed to `taskGitStack` for compatibility
+* unit and functional tests added
+* all command tasks now use Symfony\Process to execute them
+* enabled Bower and Concat tasks
+* added `printed` param to Exec task
+* codeception `suite` method now returns `$this`
+* timeout options added to Exec task
+
+
 #### 0.4.0 04/27/2014
 
 * Codeception task added

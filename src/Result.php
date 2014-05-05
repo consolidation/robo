@@ -6,6 +6,8 @@ use Robo\Task\Shared\TaskInterface;
 class Result {
     use Output;
 
+    static $stopOnFail = false;
+
     protected $exitCode;
     protected $message;
     protected $data = [];
@@ -20,8 +22,14 @@ class Result {
         $this->data = $data;
         
         if (!$this->wasSuccessful()) {
-            $this->printTaskInfo("<error>Error</error> ".$this->message, $this->task);
-        } 
+            $lines = explode("\n", $this->message);
+            $msg = end($lines);
+            $this->printTaskInfo("<error>Error</error> $msg", $this->task);
+        }
+
+        if (self::$stopOnFail) {
+            $this->stopOnFail();
+        }
     }
 
     static function error(TaskInterface $task, $message, $data = [])
@@ -68,7 +76,7 @@ class Result {
 
     public function cloneTask()
     {
-        $reflect  = new ReflectionClass(get_class($this->task));
+        $reflect  = new \ReflectionClass(get_class($this->task));
         return $reflect->newInstanceArgs(func_get_args());
     }
 

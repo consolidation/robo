@@ -23,7 +23,10 @@
         "henrikbjorn/lurker" : "1.0.*@dev"
     },
     "require-dev": {
-        "symfony/finder": "*"
+        "symfony/finder": "*",
+        "codeception/codeception": "2.0.0-RC",
+        "codeception/verify": "*",
+        "codeception/aspect-mock": "*"
     }
 
 }

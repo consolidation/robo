@@ -156,20 +156,20 @@ class ChangelogTask implements TaskInterface
  *      })->run();
  * ```
  *
- * @method \Robo\Task\GenMarkdownDocTask docClass(string $classname)
- * @method \Robo\Task\GenMarkdownDocTask filterMethods(\Closure $func)
- * @method \Robo\Task\GenMarkdownDocTask filterClasses(\Closure $func)
- * @method \Robo\Task\GenMarkdownDocTask filterProperties(\Closure $func)
- * @method \Robo\Task\GenMarkdownDocTask processClass(\Closure $func)
- * @method \Robo\Task\GenMarkdownDocTask processClassSignature(\Closure $func)
- * @method \Robo\Task\GenMarkdownDocTask processClassDocBlock(\Closure $func)
- * @method \Robo\Task\GenMarkdownDocTask processMethod(\Closure $func)
- * @method \Robo\Task\GenMarkdownDocTask processMethodSignature(\Closure $func)
- * @method \Robo\Task\GenMarkdownDocTask processMethodDocBlock(\Closure $func)
- * @method \Robo\Task\GenMarkdownDocTask reorder(\Closure $func)
- * @method \Robo\Task\GenMarkdownDocTask reorderMethods(\Closure $func)
- * @method \Robo\Task\GenMarkdownDocTask prepend($text)
- * @method \Robo\Task\GenMarkdownDocTask append($text)
+ * @method \Robo\Task\GenMarkdownDocTask docClass(string $classname) put a class you want to be documented
+ * @method \Robo\Task\GenMarkdownDocTask filterMethods(\Closure $func) using callback function filter out methods that won't be documented
+ * @method \Robo\Task\GenMarkdownDocTask filterClasses(\Closure $func) using callback function filter out classes that won't be documented
+ * @method \Robo\Task\GenMarkdownDocTask filterProperties(\Closure $func) using callback function filter out properties that won't be documented
+ * @method \Robo\Task\GenMarkdownDocTask processClass(\Closure $func) post-process class documentation
+ * @method \Robo\Task\GenMarkdownDocTask processClassSignature(\Closure $func) post-process class signature
+ * @method \Robo\Task\GenMarkdownDocTask processClassDocBlock(\Closure $func) post-process class docblock contents
+ * @method \Robo\Task\GenMarkdownDocTask processMethod(\Closure $func) post-process method documentation
+ * @method \Robo\Task\GenMarkdownDocTask processMethodSignature(\Closure $func) post-process method signature
+ * @method \Robo\Task\GenMarkdownDocTask processMethodDocBlock(\Closure $func) post-process method docblock contents
+ * @method \Robo\Task\GenMarkdownDocTask reorder(\Closure $func) use a function to reorder classes
+ * @method \Robo\Task\GenMarkdownDocTask reorderMethods(\Closure $func) use a function to reorder methods in class
+ * @method \Robo\Task\GenMarkdownDocTask prepend($text) inserts text into beginning of markdown file
+ * @method \Robo\Task\GenMarkdownDocTask append($text) inserts text in the end of markdown file
  */
 class GenMarkdownDocTask implements TaskInterface
 {
@@ -310,7 +310,7 @@ class GenMarkdownDocTask implements TaskInterface
 
         $signature = $this->documentMethodSignature($reflectedMethod);
         $docblock = $this->documentMethodDocBlock($reflectedMethod);
-        $methodDoc = $signature . $docblock;
+        $methodDoc = "$signature $docblock";
         if (is_callable($this->processMethod)) {
             $methodDoc = call_user_func($this->processMethod, $reflectedMethod, $methodDoc);
         }

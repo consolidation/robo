@@ -2,6 +2,8 @@
 
 **Modern and simple PHP task runner** inspired by Grunt and Rake aimed to automate common tasks:
 
+[![Build Status](https://travis-ci.org/Codegyre/Robo.svg?branch=master)](https://travis-ci.org/Codegyre/Robo)[![Latest Stable Version](https://poser.pugx.org/codegyre/robo/v/stable.png)](https://packagist.org/packages/codegyre/robo) [![Total Downloads](https://poser.pugx.org/codegyre/robo/downloads.png)](https://packagist.org/packages/codegyre/robo) [![Latest Unstable Version](https://poser.pugx.org/codegyre/robo/v/unstable.png)](https://packagist.org/packages/codegyre/robo) [![License](https://poser.pugx.org/codegyre/robo/license.png)](https://packagist.org/packages/codegyre/robo)
+
 * executing daemons (and workers)
 * performing cleanups
 * watching filesystem changes
@@ -9,14 +11,6 @@
 * starting PHP server
 * running tests
 * writing cross-platform scripts
-
-What makes Robo different?
-
-* Robo is pure PHP.
-* Robo provides clean OOP interface for declaring tasks.
-* Robo is very simple and intuitive in use.
-* Robo is framework-agnostic.
-* Robo uses Symfony Console component but allows you to put all your commands in one file.
 
 ## Installing
 

@@ -8,7 +8,7 @@ class Robofile extends \Robo\Tasks
         $this->say("Releasing Robo");
 
         $this->docs();
-        $this->taskGit()
+        $this->taskGitStack()
             ->add('-A')
             ->commit("auto-update")
             ->pull()
@@ -23,9 +23,9 @@ class Robofile extends \Robo\Tasks
         $this->pharPublish();
     }
 
-    public function tests()
+    public function test()
     {
-        $this->taskPHPUnit()
+        return $this->taskCodecept()
             ->run();
     }
 
@@ -74,16 +74,16 @@ class Robofile extends \Robo\Tasks
         }
 
         $taskGenerator->filterMethods(function(\ReflectionMethod $m) {
-            if ($m->isConstructor() or $m->isDestructor()) return false;
-            return $m->name != 'run' and $m->name != '__call' and $m->isPublic(); // methods are not documented
+            if ($m->isConstructor() or $m->isDestructor() or $m->isStatic()) return false;
+            return !in_array($m->name, ['run', '', '__call', 'getCommand']) and $m->isPublic(); // methods are not documented
         })->processClassSignature(function ($c) {
             return "## {$c->getShortName()}\n";
         })->processClassDocBlock(function($c, $doc) {
-            return str_replace('@method \\'.$c->name, '* ', $doc);
+            return preg_replace('~@method .*?\wTask (.*?)\)~', '* `$1)` ', $doc);
         })->processMethodSignature(function (\ReflectionMethod $m, $text) {
-            return str_replace('#### *public* ', '* ', $text);
-        })->processMethodDocBlock(function() {
-            return "";
+            return str_replace('#### *public* ', '* `', $text) . '`';
+        })->processMethodDocBlock(function(\ReflectionMethod $m, $text) {
+            return $text ? ' ' . strtok($text, "\n") : '';
         })->processClass(function(\ReflectionClass $refl, $text) {
             if ($refl->isTrait()) {
                 return "## ".$refl->getShortName()."\n\n``` use ".$refl->getName().";```\n$text";

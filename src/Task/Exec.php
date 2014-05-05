@@ -27,7 +27,6 @@ trait Exec  {
 
 /**
  * Executes shell script. Closes it when running in background mode.
- * Initial code from https://github.com/tiger-seo/PhpBuiltinServer by tiger-seo
  *
  * ``` php
  * <?php
@@ -47,9 +46,9 @@ class ExecTask implements TaskInterface, CommandInterface{
 
     protected $command;
     protected $background = false;
-    protected $resource;
-    protected $pipes = [];
-    protected $isPrinted = false;
+    protected $timeout = null;
+    protected $idleTimeout = null;
+    protected $isPrinted = true;
 
     /**
      * @var Process
@@ -66,9 +65,52 @@ class ExecTask implements TaskInterface, CommandInterface{
         return $this->command;
     }
 
+    /**
+     * Executes command in background mode (asynchronously)
+     *
+     * @return $this
+     */
     public function background()
     {
         $this->background = true;
+        return $this;
+    }
+
+    /**
+     * Should command output be printed
+     *
+     * @param $arg
+     * @return $this
+     */
+    public function printed($arg)
+    {
+        if (is_bool($arg)) {
+            $this->isPrinted = $arg;
+        }
+        return $this;
+    }
+
+    /**
+     * Stop command if it runs longer then $timeout in seconds
+     *
+     * @param $timeout
+     * @return $this
+     */
+    public function timeout($timeout)
+    {
+        $this->timeout = $timeout;
+        return $this;
+    }
+
+    /**
+     * Stops command if it does not output something for a while
+     *
+     * @param $timeout
+     * @return $this
+     */
+    public function idleTimeout($timeout)
+    {
+        $this->idleTimeout = $timeout;
         return $this;
     }
 
@@ -103,15 +145,17 @@ class ExecTask implements TaskInterface, CommandInterface{
     {
         $this->printTaskInfo("running <info>{$this->command}</info>");
         $this->process = new Process($this->command);
+        $this->process->setTimeout($this->timeout);
+        $this->process->setIdleTimeout($this->idleTimeout);
 
-        if (!$this->background and $this->isPrinted) {
+        if (!$this->background and !$this->isPrinted) {
             $this->process->run();
             return new Result($this, $this->process->getExitCode(), $this->process->getOutput());
         }
 
-        if (!$this->background and !$this->isPrinted) {
+        if (!$this->background and $this->isPrinted) {
             $this->process->run(function ($type, $buffer) {
-                Process::ERR === $type ? print('ERR> '.$buffer) : print('OUT> '.$buffer);
+                Process::ERR === $type ? print('ER» '.$buffer) : print('» '.$buffer);
             });
             return new Result($this, $this->process->getExitCode(), $this->process->getOutput());
         }
@@ -143,13 +187,18 @@ class ExecTask implements TaskInterface, CommandInterface{
  * @method \Robo\Task\ExecStackTask exec(string)
  * @method \Robo\Task\ExecStackTask stopOnFail(string)
  */
-class ExecStackTask implements TaskInterface
+class ExecStackTask implements TaskInterface, CommandInterface
 {
     use Shared\DynamicConfig;
     use Output;
     protected $exec = [];
     protected $result;
     protected $stopOnFail = false;
+
+    public function getCommand()
+    {
+        return implode(' && ', $this->exec);
+    }
 
     public function run()
     {

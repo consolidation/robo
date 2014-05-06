@@ -2,6 +2,7 @@
 
 namespace Robo\Task\Shared;
 
+use Robo\Result;
 use Robo\Task\Exec;
 use Robo\Task\Shared\DynamicConfig;
 
@@ -26,7 +27,8 @@ class CommandStack implements CommandInterface, TaskInterface
             $command = implode(' ', array_filter($command));
         }
 
-        array_push($this->exec, trim(ltrim($command, $this->executable)));
+        $command = $this->executable . ' ' . trim(ltrim($command, $this->executable));
+        array_push($this->exec, trim($command));
         return $this;
     }
 

@@ -4,6 +4,7 @@ namespace Robo\Task;
 use Robo\Output;
 use Robo\Result;
 use Robo\Task\Shared\CommandInterface;
+use Robo\Task\Shared\CommandStack;
 use Robo\Task\Shared\TaskInterface;
 
 trait Git {
@@ -36,20 +37,13 @@ trait Git {
  * ?>
  * ```
  */
-class GitStackTask implements TaskInterface, CommandInterface
+class GitStackTask extends CommandStack
 {
-    use Exec;
     use Output;
-
-    protected $git;
-    protected $stackCommands = [];
-    protected $stopOnFail = false;
-    protected $result;
 
     public function __construct($pathToGit = 'git')
     {
-        $this->git = $pathToGit;
-        $this->result = Result::success($this);
+        $this->executable = $pathToGit;
     }
 
     /**
@@ -61,19 +55,7 @@ class GitStackTask implements TaskInterface, CommandInterface
      */
     public function cloneRepo($repo, $to = "")
     {
-        $this->stackCommands[]= "clone $repo $to";
-        return $this;
-    }
-
-    /**
-     * Git commands in stack will stop if any of commands were unsuccessful
-     *
-     * @return $this
-     */
-    public function stopOnFail()
-    {
-        $this->stopOnFail = true;
-        return $this;
+        return $this->exec(['clone', $repo, $to]);
     }
 
     /**
@@ -84,8 +66,7 @@ class GitStackTask implements TaskInterface, CommandInterface
      */
     public function add($pattern)
     {
-        $this->stackCommands[]= "add $pattern";
-        return $this;
+        return $this->exec([__FUNCTION__, $pattern]);
     }
 
     /**
@@ -97,8 +78,7 @@ class GitStackTask implements TaskInterface, CommandInterface
      */
     public function commit($message, $options = "")
     {
-        $this->stackCommands[] = "commit -m '$message' $options";
-        return $this;
+        return $this->exec([__FUNCTION__, "-m '$message'", $options]);
     }
 
     /**
@@ -110,8 +90,7 @@ class GitStackTask implements TaskInterface, CommandInterface
      */
     public function pull($origin = '', $branch = '')
     {
-        $this->stackCommands[] = "pull $origin $branch";
-        return $this;        
+        return $this->exec([__FUNCTION__, $origin, $branch]);
     }
 
     /**
@@ -123,8 +102,7 @@ class GitStackTask implements TaskInterface, CommandInterface
      */
     public function push($origin = '', $branch = '')
     {
-        $this->stackCommands[] = "push $origin $branch";
-        return $this;
+        return $this->exec([__FUNCTION__, $origin, $branch]);
     }
 
     /**
@@ -135,25 +113,12 @@ class GitStackTask implements TaskInterface, CommandInterface
      */
     public function checkout($branch)
     {
-        $this->stackCommands[] = "checkout $branch";
-        return $this;
-    }
-
-    public function getCommand()
-    {
-        $commands = array_map(function($c) { return $this->git .' '. $c; }, $this->stackCommands);
-        return implode(' && ', $commands);
+        return $this->exec([__FUNCTION__, $branch]);
     }
 
     public function run()
     {
         $this->printTaskInfo("Running git commands...");
-        foreach ($this->stackCommands as $command) {
-            $this->result = $this->taskExec($this->git .' '.$command)->run();
-            if (!$this->result->wasSuccessful() and $this->stopOnFail) {
-                return $this->result;
-            }
-        }
-        return Result::success($this);
+        return parent::run();
     }
 }

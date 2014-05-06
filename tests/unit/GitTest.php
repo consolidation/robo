@@ -20,9 +20,12 @@ class GitTest extends \Codeception\TestCase\Test
     // tests
     public function testGitStackRun()
     {
-        $this->taskGitStack('git')->add('-A')->pull()->run();
+        $this->taskGitStack('git')->stopOnFail()->add('-A')->pull()->run();
         $this->git->verifyInvoked('taskExec', ['git add -A']);
-        $this->git->verifyInvoked('taskExec', ['git pull  ']);
+        $this->git->verifyInvoked('taskExec', ['git pull']);
+
+        $this->taskGitStack('git')->add('-A')->pull()->run();
+        $this->git->verifyInvoked('taskExec', ['git add -A && git pull']);
     }
 
     public function testGitStackCommands()
@@ -35,7 +38,7 @@ class GitTest extends \Codeception\TestCase\Test
                 ->commit('changed')
                 ->push()
                 ->getCommand()
-        )->equals("git clone http://github.com/Codegyre/Robo  && git pull   && git add -A && git commit -m 'changed'  && git push  ");
+        )->equals("git clone http://github.com/Codegyre/Robo && git pull && git add -A && git commit -m 'changed' && git push");
     }
 
 }

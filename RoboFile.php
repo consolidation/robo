@@ -23,10 +23,18 @@ class Robofile extends \Robo\Tasks
         $this->pharPublish();
     }
 
-    public function test()
+    public function test($options = "")
     {
         return $this->taskCodecept()
             ->run();
+    }
+
+    public function longArgs(array $arg, $opts = ['debug' => false])
+    {
+        if ($opts['debug']) {
+            $this->say("debug");
+        }
+        $this->say($arg[0]);
     }
 
     public function added($addition)
@@ -95,19 +103,25 @@ class Robofile extends \Robo\Tasks
 
     public function pharBuild()
     {
+        $this->taskComposerInstall()
+            ->noDev()
+            ->run();
+            
+        $packer = $this->taskPackPhar('robo.phar');
         $files = Finder::create()->ignoreVCS(true)
             ->files()
             ->name('*.php')
             ->path('src')
-            ->path('vendor/symfony')
-            ->path('vendor/henrikbjorn')
+            ->path('vendor')
             ->in(__DIR__);
-        $packer = $this->taskPackPhar('robo.phar');
         foreach ($files as $file) {
-            $packer->addFile('src/'.$file->getRelativePathname(), $file->getRealPath());
+            $packer->addFile($file->getRelativePathname(), $file->getRealPath());
         }
         $packer->addFile('robo','robo')
             ->executable('robo')
+            ->run();
+
+        $this->taskComposerInstall()
             ->run();
     }
 

@@ -3,7 +3,7 @@ namespace Robo;
 
 class TaskInfo {
 
-    const PARAM_IS_REQUIRED = '__param_is_optional__';
+    const PARAM_IS_REQUIRED = '__param_is_required__';
 
     protected static $annotationRegex = '/@%s(?:[ \t]+(.*?))?[ \t]*\r?$/m';
     /**
@@ -46,14 +46,45 @@ class TaskInfo {
     {
         $args = [];
         $params = $this->reflection->getParameters();
-        foreach ($params as $param) {
+        foreach ($params as $key => $param) {
+            if (($key == count($params)-1) and $param->isDefaultValueAvailable()) {
+                if (!is_array($param->getDefaultValue())) break;
+                if ($this->isAssoc($param->getDefaultValue())) break;
+            }
             if ($param->isArray()) {
+                // empty arrays are treated as array argument
+                if ($param->isDefaultValueAvailable()) {
+                    if (!$this->isAssoc($param->getDefaultValue())) $args[$param->getName()] = $param->getDefaultValue();
+                } else {
+                    $args[$param->getName()] = [];
+                }
                 continue;
             }
-            $val = $param->isDefaultValueAvailable() ? $param->getDefaultValue() : self::PARAM_IS_REQUIRED;
+
+            // default values are optional arguments
+            $val = $param->isDefaultValueAvailable()
+                ? $param->getDefaultValue()
+                : self::PARAM_IS_REQUIRED;
+
             $args[$param->getName()] = $val;
         }
         return $args;
+    }
+
+    public function getOptions()
+    {
+        $params = $this->reflection->getParameters();
+        if (empty($params)) return [];
+        $param = end($params);
+        if (!$param->isDefaultValueAvailable()) return [];
+        if (!$this->isAssoc($param->getDefaultValue())) return [];
+        return $param->getDefaultValue();
+    }
+
+    protected function isAssoc($arr)
+    {
+        if (!is_array($arr)) return false;
+        return array_keys($arr) !== range(0, count($arr) - 1);
     }
 
     protected function getAnnotation($annotation)

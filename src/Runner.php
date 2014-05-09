@@ -4,8 +4,10 @@ namespace Robo;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\DialogHelper;
+use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 class Runner {
@@ -15,6 +17,7 @@ class Runner {
     const ROBOFILE = 'RoboFile.php';
 
     protected $currentDir = '.';
+    protected $passThroughArgs = null;
 
     /**
      * @var ConsoleOutput
@@ -55,15 +58,21 @@ class Runner {
             $app->run();
             return;
         }
+        $input = $this->prepareInput();
 
         $className = self::ROBOCLASS;
         $roboTasks = new $className;
         $taskNames = get_class_methods(self::ROBOCLASS);
+        $passThrough = $this->passThroughArgs;
         foreach ($taskNames as $taskName) {
             $command = $this->createCommand($taskName);
-            $command->setCode(function(InputInterface $input) use ($roboTasks, $taskName) {
+            $command->setCode(function(InputInterface $input) use ($roboTasks, $taskName, $passThrough) {
+                // get passthru args
                 $args = $input->getArguments();
                 array_shift($args);
+                if ($passThrough) {
+                    $args[key(array_slice($args, -1, 1, TRUE))] = $passThrough;
+                }
                 $args[] = $input->getOptions();
                 $res = call_user_func_array([$roboTasks, $taskName], $args);
                 if (is_int($res)) exit($res);
@@ -72,8 +81,19 @@ class Runner {
             });
             $app->add($command);
         }
+        $app->run($input);
+    }
 
-        $app->run();
+    protected function prepareInput()
+    {
+        $argv = $_SERVER['argv'];
+
+        $pos = array_search('--', $argv);
+        if ($pos !== false) {
+            $this->passThroughArgs = implode(' ', array_slice($argv, $pos+1));
+            $argv = array_slice($argv, 0, $pos);
+        }
+        return new ArgvInput($argv);
     }
 
     protected function createCommand($taskName)
@@ -86,9 +106,15 @@ class Runner {
         foreach ($args as $name => $val) {
             if ($val === TaskInfo::PARAM_IS_REQUIRED) {
                 $task->addArgument($name, InputArgument::REQUIRED);
+            } elseif (is_array($val)) {
+                $task->addArgument($name, InputArgument::IS_ARRAY, '', $val);
             } else {
                 $task->addArgument($name, InputArgument::OPTIONAL, '', $val);
             }
+        }
+        $opts = $taskInfo->getOptions();
+        foreach ($opts as $name => $val) {
+            $task->addOption($name, '', InputOption::VALUE_OPTIONAL, '', $val);
         }
 
         return $task;

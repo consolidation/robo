@@ -1,5 +1,11 @@
 # Changelog
 
+#### 0.4.1 05/09/2014
+
+* arguments and options can be passed into variable and used in exec task
+* passing options into commands
+
+
 #### 0.4.1 05/05/2014
 
 * [BC] `taskGit` task renamed to `taskGitStack` for compatibility

@@ -315,18 +315,3 @@ class RequireTask
         return Result::success($this);
     }
 }
-
-class FileSystemStackTask extends CommandStack
-{
-    public function mkdir($dirs = [], $options = null)
-    {
-        $this->exec([__FUNCTION__, implode(' ', (array)$dirs)], $options);
-        return $this;
-    }
-
-    public function touch($files = [])
-    {
-        $this->exec([__FUNCTION__, implode(' ', (array)$files)]);
-        return $this;
-    }
-}

@@ -326,7 +326,7 @@ class FileSystemStackTask extends CommandStack
 
     public function touch($files = [])
     {
-        $this->exec([__FUNCTION__, implode(' ', (array)$dirs)]);
+        $this->exec([__FUNCTION__, implode(' ', (array)$files)]);
         return $this;
     }
 }

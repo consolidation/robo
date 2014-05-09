@@ -2,6 +2,7 @@
 
 #### 0.4.2 05/09/2014
 
+* ask can now hide answers
 * Trait Executable added to provide standard way for passing arguments and options
 * added ComposerDumpAutoload task by **@pmcjury**
 * added FileSystem task by **@jadb**

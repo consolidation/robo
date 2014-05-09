@@ -16,9 +16,14 @@ trait Output {
         $this->writeln(" <fg=white;bg=cyan;options=bold>[".get_class($task)."]</fg=white;bg=cyan;options=bold> $text");
     }
 
-    protected function ask($question)
+    protected function ask($question, $hideAnswer = false)
     {
-        return (new DialogHelper())->ask($this->getOutput(), "<question>?  $question</question> ");
+        $dialog = new DialogHelper();
+        if ($hideAnswer) {
+            return $dialog->askHiddenResponse($this->getOutput(), "<question>?  $question</question> ");
+        } else {
+            return $dialog->ask($this->getOutput(), "<question>?  $question</question> ");
+        }
     }
 
     /**

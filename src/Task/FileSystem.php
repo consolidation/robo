@@ -2,6 +2,8 @@
 namespace Robo\Task;
 use Robo\Output;
 use Robo\Result;
+use Robo\Task\Shared\CommandStack;
+use Robo\Task\Shared\DynamicConfig;
 use Robo\Task\Shared\TaskInterface;
 use Robo\Util\FileSystem as FSUtils;
 
@@ -52,10 +54,15 @@ trait FileSystem
     {
         return new RequireTask($file);
     }
+
+    protected function taskFileSystem()
+    {
+        return new FileSystemStackTask();
+    }
 }
 
 abstract class BaseDirTask implements TaskInterface {
-    use \Robo\Output;
+    use Output;
 
     protected $dirs = [];
 
@@ -162,8 +169,8 @@ class DeleteDirTask extends BaseDirTask {
  */
 class ReplaceInFileTask implements TaskInterface
 {
-    use \Robo\Output;
-    use Shared\DynamicConfig;
+    use Output;
+    use DynamicConfig;
 
     protected $filename;
     protected $from;
@@ -214,7 +221,7 @@ class ReplaceInFileTask implements TaskInterface
 class WriteToFileTask implements TaskInterface
 {
     use Output;
-    use Shared\DynamicConfig;
+    use DynamicConfig;
 
     protected $filename;
     protected $body = "";
@@ -306,5 +313,20 @@ class RequireTask
         @require $this->file;
 
         return Result::success($this);
+    }
+}
+
+class FileSystemStackTask extends CommandStack
+{
+    public function mkdir($dirs = [], $options = null)
+    {
+        $this->exec([__FUNCTION__, implode(' ', (array)$dirs)], $options);
+        return $this;
+    }
+
+    public function touch($files = [])
+    {
+        $this->exec([__FUNCTION__, implode(' ', (array)$dirs)]);
+        return $this;
     }
 }

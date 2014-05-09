@@ -1,7 +1,11 @@
 # Changelog
 
-#### 0.4.1 05/09/2014
+#### 0.4.2 05/09/2014
 
+* Trait Executable added to provide standard way for passing arguments and options
+* added ComposerDumpAutoload task by **@pmcjury**
+* added FileSystem task by **@jadb**
+* added CommonStack metatsk to have similar interface for all stacked tasks by **@jadb**
 * arguments and options can be passed into variable and used in exec task
 * passing options into commands
 

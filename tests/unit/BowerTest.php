@@ -21,24 +21,24 @@ class BowerTest extends \Codeception\TestCase\Test
     {
         $bower = test::double('Robo\Task\BowerInstallTask', ['executeCommand' => null]);
         $this->taskBowerInstall('bower')->run();
-        $bower->verifyInvoked('executeCommand', ['bower install ']);
+        $bower->verifyInvoked('executeCommand', ['bower install']);
     }
 
     public function testBowerUpdate()
     {
         $bower = test::double('Robo\Task\BowerUpdateTask', ['executeCommand' => null]);
         $this->taskBowerUpdate('bower')->run();
-        $bower->verifyInvoked('executeCommand', ['bower update ']);
+        $bower->verifyInvoked('executeCommand', ['bower update']);
     }
 
     public function testBowerInstallCommand()
     {
         verify(
-            trim($this->taskBowerInstall('bower')->getCommand())
+            $this->taskBowerInstall('bower')->getCommand()
         )->equals('bower install');
 
         verify(
-            trim($this->taskBowerInstall('bower')->getCommand())
+            $this->taskBowerInstall('bower')->getCommand()
         )->equals('bower install');
 
         verify(

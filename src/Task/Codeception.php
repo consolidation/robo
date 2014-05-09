@@ -1,10 +1,8 @@
 <?php
 namespace Robo\Task;
 
-use Robo\Result;
 use Robo\Task\Shared\CommandInterface;
 use Robo\Task\Shared\TaskInterface;
-use Symfony\Component\Process\Process;
 
 trait Codeception {
     protected function taskCodecept($pathToCodeception = '')
@@ -31,21 +29,22 @@ trait Codeception {
  */
 class CodeceptionTask implements TaskInterface, CommandInterface{
     use \Robo\Output;
-    use \Robo\Task\Shared\Process;
+    use \Robo\Task\Shared\Executable;
 
     protected $suite = '';
     protected $test = '';
-    protected $options = '';
+    protected $arguments = '';
+    protected $command;
 
 
     public function __construct($pathToCodeception = '')
     {
         if ($pathToCodeception) {
-            $this->options = "$pathToCodeception run";
+            $this->command = "$pathToCodeception run";
         } elseif (file_exists('vendor/bin/codecept')) {
-            $this->options = 'vendor/bin/codecept run';
+            $this->command = 'vendor/bin/codecept run';
         } elseif (file_exists('codecept.phar')) {
-            $this->options = 'php codecept.phar run';
+            $this->command = 'php codecept.phar run';
 		} else {
             throw new Shared\TaskException(__CLASS__,"Neither composer nor phar installation of Codeception found");
         }
@@ -63,12 +62,6 @@ class CodeceptionTask implements TaskInterface, CommandInterface{
         return $this;
     }
 
-    public function option($option, $value = "")
-    {
-        $this->options .= " --$option $value";
-        return $this;
-    }
-
     /**
      * set group option. Can be called multiple times
      *
@@ -77,13 +70,13 @@ class CodeceptionTask implements TaskInterface, CommandInterface{
      */
     public function group($group)
     {
-        $this->options .= " --group $group";
+        $this->option("group", $group);
         return $this;
     }
 
     public function excludeGroup($group)
     {
-        $this->options .= " --exclude-group $group";
+        $this->option("exclude-group", $group);
         return $this;
     }
 
@@ -93,9 +86,9 @@ class CodeceptionTask implements TaskInterface, CommandInterface{
      * @param string $file
      * @return $this
      */
-    public function json($file = "")
+    public function json($file = null)
     {
-        $this->options .= " --json $file";
+        $this->option("json", $file);
         return $this;
     }
 
@@ -105,9 +98,9 @@ class CodeceptionTask implements TaskInterface, CommandInterface{
      * @param string $file
      * @return $this
      */
-    public function xml($file = "")
+    public function xml($file = null)
     {
-        $this->options .= " --xml $file";
+        $this->option("xml", $file);
         return $this;
     }
 
@@ -116,9 +109,9 @@ class CodeceptionTask implements TaskInterface, CommandInterface{
      *
      * @param string $dir
      */
-    public function html($dir = "")
+    public function html($dir = null)
     {
-        $this->options .= " --html $dir";
+        $this->option("html", $dir);
         return $this;
     }
 
@@ -128,9 +121,9 @@ class CodeceptionTask implements TaskInterface, CommandInterface{
      * @param string $file
      * @return $this
      */
-    public function tap($file = "")
+    public function tap($file = null)
     {
-        $this->options .= " --tap $file";
+        $this->option("tap", $file);
         return $this;
     }
 
@@ -142,7 +135,7 @@ class CodeceptionTask implements TaskInterface, CommandInterface{
      */
     public function configFile($file)
     {
-        $this->options .= " -c $file";
+        $this->option("-c", $file);
         return $this;
     }
 
@@ -153,7 +146,7 @@ class CodeceptionTask implements TaskInterface, CommandInterface{
      */
     public function coverage()
     {
-        $this->options .= " --coverage";
+        $this->option("coverage");
         return $this;
     }
 
@@ -164,7 +157,7 @@ class CodeceptionTask implements TaskInterface, CommandInterface{
      */
     public function silent()
     {
-        $this->options .= " --silent";
+        $this->option("silent");
         return $this;
     }
 
@@ -174,9 +167,9 @@ class CodeceptionTask implements TaskInterface, CommandInterface{
      * @param string $xml
      * @return $this
      */
-    public function coverageXml($xml = "")
+    public function coverageXml($xml = null)
     {
-        $this->options .= " --coverage-xml $xml";
+        $this->option("coverage-xml", $xml);
         return $this;
     }
 
@@ -186,27 +179,29 @@ class CodeceptionTask implements TaskInterface, CommandInterface{
      * @param string $html
      * @return $this
      */
-    public function coverageHtml($html = "")
+    public function coverageHtml($html = null)
     {
-        $this->options .= " --coverage-html $html";
+        $this->option("coverage-xml", $html);
         return $this;
     }
 
     public function env($env)        
     {
-        $this->options .= " --env $env";
+        $this->option("env", $env);
         return $this;
     }
 
     public function debug()
     {
-        $this->options .= " --debug";
+        $this->option("debug");
         return $this;
     }
 
     public function getCommand()
     {
-        return $this->options . " {$this->suite} {$this->test}";
+        $this->option(null, $this->suite)
+            ->option(null, $this->test);
+        return $this->command . $this->arguments;
     }
 
     public function run()

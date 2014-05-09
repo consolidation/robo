@@ -38,12 +38,12 @@ trait Composer {
 abstract class BaseComposerTask
 {
     use \Robo\Output;
-    use \Robo\Task\Shared\Process;
+    use \Robo\Task\Shared\Executable;
 
     protected $prefer;
     protected $dev;
     protected $optimizeAutoloader;
-    protected $options;
+    protected $arguments;
 
     /**
      * adds `prefer-dist` option to composer
@@ -106,19 +106,10 @@ abstract class BaseComposerTask
 
     public function getCommand()
     {
-        $this->appendOption($this->prefer)
-             ->appendOption($this->dev)
-             ->appendOption($this->optimizeAutoloader);
-        return "{$this->command} {$this->action}{$this->options}";
-    }
-
-    /**
-     * appends the value option specified and preserves spaces properly
-     */
-    protected function appendOption($option)
-    {
-        $this->options .= null == $option ? '' : " " . $option;
-        return $this;
+        $this->option($this->prefer)
+             ->option($this->dev)
+             ->option($this->optimizeAutoloader);
+        return "{$this->command} {$this->action}{$this->arguments}";
     }
 }
 
@@ -232,7 +223,7 @@ class ComposerDumpAutoloadTask extends BaseComposerTask implements TaskInterface
 
     public function getCommand()
     {
-        $this->appendOption($this->optimize);
+        $this->option($this->optimize);
         return parent::getCommand();
     }
 

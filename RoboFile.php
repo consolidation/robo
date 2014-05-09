@@ -23,18 +23,11 @@ class Robofile extends \Robo\Tasks
         $this->pharPublish();
     }
 
-    public function test($options = "")
+    public function test($args = "")
     {
         return $this->taskCodecept()
+            ->args($args)
             ->run();
-    }
-
-    public function longArgs(array $arg, $opts = ['debug' => false])
-    {
-        if ($opts['debug']) {
-            $this->say("debug");
-        }
-        $this->say($arg[0]);
     }
 
     public function added($addition)

@@ -47,12 +47,14 @@ class TaskInfo {
         $args = [];
         $params = $this->reflection->getParameters();
         foreach ($params as $key => $param) {
+
+            // last array value is option, not argument
             if (($key == count($params)-1) and $param->isDefaultValueAvailable()) {
-                if (!is_array($param->getDefaultValue())) break;
                 if ($this->isAssoc($param->getDefaultValue())) break;
             }
+
+            // arrays are array arguments
             if ($param->isArray()) {
-                // empty arrays are treated as array argument
                 if ($param->isDefaultValueAvailable()) {
                     if (!$this->isAssoc($param->getDefaultValue())) $args[$param->getName()] = $param->getDefaultValue();
                 } else {

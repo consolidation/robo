@@ -29,7 +29,7 @@ trait PHPUnit {
 class PHPUnitTask implements TaskInterface, CommandInterface
 {
     use \Robo\Output;
-    use \Robo\Task\Shared\Process;
+    use \Robo\Task\Shared\Executable;
 
     protected $command;
 
@@ -51,20 +51,20 @@ class PHPUnitTask implements TaskInterface, CommandInterface
     }
 
     public function filter($filter)
-    {
-        $this->command .= " --filter $filter";
+    {        
+        $this->option('filter', $filter);
         return $this;
     }
 
     public function group($group)
     {
-        $this->command .= " --group $group";
+        $this->option("group", $group);
         return $this;
     }
 
     public function excludeGroup($group)
     {
-        $this->command .= " --exclude-group $group";
+        $this->option("exclude-group", $group);
         return $this;
     }
 
@@ -74,9 +74,9 @@ class PHPUnitTask implements TaskInterface, CommandInterface
      * @param string $file
      * @return $this
      */
-    public function json($file = "")
+    public function json($file = null)
     {
-        $this->command .= " --log-json $file";
+        $this->option("log-json", $file);
         return $this;
     }
 
@@ -86,56 +86,44 @@ class PHPUnitTask implements TaskInterface, CommandInterface
      * @param string $file
      * @return $this
      */
-    public function xml($file = "")
+    public function xml($file = null)
     {
-        $this->command .= " --log-xml $file";
+        $this->option("log-xml", $file);
         return $this;
     }
 
     public function tap($file = "")
     {
-        $this->command .= " --log-tap $file";
+        $this->option("log-tap", $file);
         return $this;
     }
 
     public function bootstrap($file)
     {
-        $this->command .= " --bootstrap $file";
+        $this->option("bootstrap", $file);
         return $this;
     }
 
     public function configFile($file)
     {
-        $this->command .= " -c $file";
+        $this->option('-c', $file);
         return $this;
     }
 
     public function debug()
     {
-        $this->command .= " --debug";
-        return $this;
-    }
-
-    public function option($option, $value = "")
-    {
-        $this->command .= " --$option $value";
-        return $this;
-    }
-
-    public function arg($arg)
-    {
-        $this->command .= " $arg";
+        $this->option("debug");
         return $this;
     }
 
     public function getCommand()
     {
-        return $this->command;
+        return $this->command . $this->arguments;
     }
 
     public function run()
     {
-        $this->printTaskInfo('Executing '. $this->getCommand());
+        $this->printTaskInfo('Running PHPUnit '. $this->arguments);
         return $this->executeCommand($this->getCommand());
     }
 }

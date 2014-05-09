@@ -6,7 +6,7 @@ use Robo\Result;
 use Robo\Task\Exec;
 use Robo\Task\Shared\DynamicConfig;
 
-class CommandStack implements CommandInterface, TaskInterface
+abstract class CommandStack implements CommandInterface, TaskInterface
 {
     use DynamicConfig;
     use Exec;

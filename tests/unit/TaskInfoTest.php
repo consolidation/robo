@@ -34,6 +34,18 @@ class TaskInfoTest extends \Codeception\TestCase\Test
         verify($args['param2'])->equals('optional');
     }
 
+    public function testOptions()
+    {
+        $args = $this->infoFor('useOptions')->getArguments();
+        verify($args)->hasKey('param');
+        verify($args)->hasntKey('options');
+        $opts = $this->infoFor('useOptions')->getOptions();
+        verify(array_keys($opts))->contains('debug');
+        verify(array_keys($opts))->contains('output');
+        verify($opts['debug'])->true();
+        verify($opts['output'])->false();
+    }
+
     /**
      * Prints something to console
      */
@@ -52,5 +64,6 @@ class TaskInfoTest extends \Codeception\TestCase\Test
      */
     public function updateMe() {}
 
+    public function useOptions($param, $options = ['debug' => true, 'output' => false]) {}
 
 }

@@ -22,7 +22,7 @@ trait Bower {
 }
 
 abstract class BaseBowerTask {
-    use \Robo\Task\Shared\Process;
+    use \Robo\Task\Shared\Executable;
 	use \Robo\Output;
 
 	protected $opts = [];
@@ -34,7 +34,7 @@ abstract class BaseBowerTask {
      * @return $this
      */
 	public function allowRoot() {
-		array_push($this->opts, '--allow-root');
+        $this->option('allow-root');
 		return $this;
 	}
 
@@ -44,7 +44,7 @@ abstract class BaseBowerTask {
      * @return $this
      */
 	public function forceLatest() {
-		array_push($this->opts, '--force-latest');
+		$this->option('force-latest');
 		return $this;
 	}
 
@@ -54,7 +54,7 @@ abstract class BaseBowerTask {
      * @return $this
      */
 	public function noDev() {
-		array_push($this->opts, '--production');
+		$this->option('production');
 		return $this;
 	}
 
@@ -64,7 +64,7 @@ abstract class BaseBowerTask {
      * @return $this
      */
 	public function offline() {
-		array_push($this->opts, '--offline');
+		$this->option('offline');
 		return $this;
 	}
 
@@ -82,7 +82,7 @@ abstract class BaseBowerTask {
 
     public function getCommand()
     {
-        return "{$this->command} {$this->action} " . implode(' ', $this->opts);
+        return "{$this->command} {$this->action}{$this->arguments}";
     }
 }
 
@@ -106,8 +106,7 @@ class BowerInstallTask extends BaseBowerTask implements TaskInterface, CommandIn
     protected $action = 'install';
 
 	public function run() {
-		$opts = implode(' ', $this->opts);
-		$this->printTaskInfo('Install Bower packages: ' . $opts);
+		$this->printTaskInfo('Install Bower packages: ' . $this->arguments);
         return $this->executeCommand($this->getCommand());
 	}
 }
@@ -132,8 +131,7 @@ class BowerUpdateTask extends BaseBowerTask implements TaskInterface {
     protected $action = 'update';
 
 	public function run() {
-		$opts = implode(' ', $this->opts);
-		$this->printTaskInfo('Update Bower packages: ' . $opts);
+		$this->printTaskInfo('Update Bower packages: ' . $this->arguments);
         return $this->executeCommand($this->getCommand());
 	}
 }

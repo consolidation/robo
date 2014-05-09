@@ -19,6 +19,7 @@ $this->taskBowerInstall('path/to/my/bower')
 ```
 
 
+
 * `allowRoot()` adds `allow-root` option to bower
 * `forceLatest()` adds `force-latest` option to bower
 * `noDev()` adds `production` option to bower
@@ -26,6 +27,9 @@ $this->taskBowerInstall('path/to/my/bower')
 
 
 * `executeCommand($command)` 
+* `arg($arg)` 
+* `args($args)` 
+* `option($option, $value = null)` 
 
 
 
@@ -49,6 +53,7 @@ $this->taskBowerUpdate('path/to/my/bower')
 ```
 
 
+
 * `allowRoot()` adds `allow-root` option to bower
 * `forceLatest()` adds `force-latest` option to bower
 * `noDev()` adds `production` option to bower
@@ -56,6 +61,9 @@ $this->taskBowerUpdate('path/to/my/bower')
 
 
 * `executeCommand($command)` 
+* `arg($arg)` 
+* `args($args)` 
+* `option($option, $value = null)` 
 
 
 
@@ -82,9 +90,9 @@ $this->taskCodecept()
 
 
 
+
 * `suite($suite)` 
 * `test($testName)` 
-* `option($option, $value = null)` 
 * `group($group)` set group option. Can be called multiple times
 * `excludeGroup($group)` 
 * `json($file = null)` generate json report
@@ -106,6 +114,9 @@ $this->taskCodecept()
 
 
 * `executeCommand($command)` 
+* `arg($arg)` 
+* `args($args)` 
+* `option($option, $value = null)` 
 
 
 ## ComposerInstallTask
@@ -123,13 +134,22 @@ $this->taskComposerInstall('path/to/my/composer.phar')
      ->preferDist()
      ->run();
 ?>
+
+// optimize autoloader with custom path
+$this->taskComposerInstall('path/to/my/composer.phar')
+     ->optimizeAutoloader()
+     ->run();
+?>
 ```
+
+
 
 
 
 * `preferDist()` adds `prefer-dist` option to composer
 * `preferSource()` adds `prefer-source` option to composer
 * `noDev()` adds `no-dev` option to composer
+* `optimizeAutoloader()` adds `optimize-autoloader` option to composer
 
 
 
@@ -138,6 +158,9 @@ $this->taskComposerInstall('path/to/my/composer.phar')
 
 
 * `executeCommand($command)` 
+* `arg($arg)` 
+* `args($args)` 
+* `option($option, $value = null)` 
 ## ComposerUpdateTask
 
 
@@ -153,13 +176,22 @@ $this->taskComposerUpdate('path/to/my/composer.phar')
      ->preferDist()
      ->run();
 ?>
+
+// optimize autoloader with custom path
+$this->taskComposerUpdate('path/to/my/composer.phar')
+     ->optimizeAutoloader()
+     ->run();
+?>
 ```
+
+
 
 
 
 * `preferDist()` adds `prefer-dist` option to composer
 * `preferSource()` adds `prefer-source` option to composer
 * `noDev()` adds `no-dev` option to composer
+* `optimizeAutoloader()` adds `optimize-autoloader` option to composer
 
 
 
@@ -168,6 +200,60 @@ $this->taskComposerUpdate('path/to/my/composer.phar')
 
 
 * `executeCommand($command)` 
+* `arg($arg)` 
+* `args($args)` 
+* `option($option, $value = null)` 
+## ComposerDumpAutoloadTask
+
+
+Composer Update
+
+``` php
+<?php
+// simple execution
+$this->taskComposerDumpAutoload()->run();
+
+// dump auto loader with custom path
+$this->taskComposerDumpAutoload('path/to/my/composer.phar')
+     ->preferDist()
+     ->run();
+?>
+
+// optimize autoloader dump with custom path
+$this->taskComposerDumpAutoload('path/to/my/composer.phar')
+     ->optimize()
+     ->run();
+?>
+
+// optimize autoloader dump with custom path and no dev
+$this->taskComposerDumpAutoload('path/to/my/composer.phar')
+     ->optimize()
+     ->noDev()
+     ->run();
+?>
+```
+
+
+
+
+
+* `optimize()` 
+
+
+* `preferDist()` adds `prefer-dist` option to composer
+* `preferSource()` adds `prefer-source` option to composer
+* `noDev()` adds `no-dev` option to composer
+* `optimizeAutoloader()` adds `optimize-autoloader` option to composer
+
+
+
+
+
+
+* `executeCommand($command)` 
+* `arg($arg)` 
+* `args($args)` 
+* `option($option, $value = null)` 
 
 ## ConcatTask
 
@@ -246,6 +332,7 @@ $this->taskChangelog()
 
 
 
+
 ## GenMarkdownDocTask
 
 
@@ -292,6 +379,7 @@ $this->taskGenDoc('models.md')
 * `reorderMethods(\Closure $func)`  use a function to reorder methods in class
 * `prepend($text)`  inserts text into beginning of markdown file
 * `append($text)`  inserts text in the end of markdown file
+
 
 
 
@@ -399,8 +487,7 @@ $this->taskExecStack()
 
 
 
-
-
+* `exec($command)` 
 
 
 
@@ -572,15 +659,15 @@ $this->taskGitStack()
 
 
 
-
 * `cloneRepo($repo, $to = null)` Executes `git clone`
-* `stopOnFail()` Git commands in stack will stop if any of commands were unsuccessful
 * `add($pattern)` Executes `git add` command with files to add pattern
 * `commit($message, $options = null)` Executes `git commit` command with a message
 * `pull($origin = null, $branch = null)` Executes `git pull` command.
 * `push($origin = null, $branch = null)` Executes `git push` command
 * `checkout($branch)` Executes `git checkout` command
 
+
+* `exec($command)` 
 
 
 
@@ -653,6 +740,7 @@ $this->taskPHPUnit()
 ?>
 ```
 
+
 * `filter($filter)` 
 * `group($group)` 
 * `excludeGroup($group)` 
@@ -662,8 +750,6 @@ $this->taskPHPUnit()
 * `bootstrap($file)` 
 * `configFile($file)` 
 * `debug()` 
-* `option($option, $value = null)` 
-* `arg($arg)` 
 
 
 
@@ -672,6 +758,9 @@ $this->taskPHPUnit()
 
 
 * `executeCommand($command)` 
+* `arg($arg)` 
+* `args($args)` 
+* `option($option, $value = null)` 
 
 ## PackPharTask
 

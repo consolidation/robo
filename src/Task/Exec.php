@@ -4,6 +4,8 @@ namespace Robo\Task;
 use Robo\Output;
 use Robo\Result;
 use Robo\Task\Shared\CommandInterface;
+use Robo\Task\Shared\CommandInjected;
+use Robo\Task\Shared\CommandStack;
 use Robo\Task\Shared\TaskInterface;
 use Symfony\Component\Process\Process;
 
@@ -41,8 +43,8 @@ trait Exec  {
  * ```
  */
 class ExecTask implements TaskInterface, CommandInterface{
-    use \Robo\Output;
-    use Shared\CommandInjected;
+    use Output;
+    use CommandInjected;
 
     protected $command;
     protected $background = false;
@@ -187,27 +189,6 @@ class ExecTask implements TaskInterface, CommandInterface{
  * @method \Robo\Task\ExecStackTask exec(string)
  * @method \Robo\Task\ExecStackTask stopOnFail(string)
  */
-class ExecStackTask implements TaskInterface, CommandInterface
+class ExecStackTask extends CommandStack
 {
-    use Shared\DynamicConfig;
-    use Output;
-    protected $exec = [];
-    protected $result;
-    protected $stopOnFail = false;
-
-    public function getCommand()
-    {
-        return implode(' && ', $this->exec);
-    }
-
-    public function run()
-    {
-        foreach ($this->exec as $command) {
-            $this->result = (new ExecTask($command))->run();
-            if (!$this->result->wasSuccessful() and $this->stopOnFail) {
-                return $this->result;
-            }
-        }
-        return Result::success($this);
-    }
 }

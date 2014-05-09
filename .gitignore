@@ -1,3 +1,4 @@
 vendor/
 .idea/
 tests/_log/*
+composer.phar

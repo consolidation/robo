@@ -33,7 +33,6 @@ class CodeceptionTask implements TaskInterface, CommandInterface{
 
     protected $suite = '';
     protected $test = '';
-    protected $arguments = '';
     protected $command;
 
 

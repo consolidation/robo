@@ -50,6 +50,7 @@ class Runner {
 
     public function execute()
     {
+        register_shutdown_function(array($this, 'shutdown'));
         $app = new Application('Robo', self::VERSION);
 
         $loaded = $this->loadRoboFile();
@@ -125,6 +126,13 @@ class Runner {
         file_put_contents(self::ROBOFILE, "<?php\nclass Robofile extends \\Robo\\Tasks\n{\n    // define public methods as commands\n}");
         $this->output->writeln(self::ROBOFILE . " created");
 
+    }
+
+    public  function shutdown()
+    {
+        $error = error_get_last();
+        if (!is_array($error)) return;
+        $this->output->writeln(sprintf("<error>ERROR: %s \nin %s:%d\n</error>", $error['message'], $error['file'], $error['line']));
     }
 }
 

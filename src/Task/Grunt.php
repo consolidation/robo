@@ -55,7 +55,7 @@ class GruntTask implements TaskInterface, CommandInterface
 
     public function getCommand()
     {
-        return "{$this->command} {$this->arguments}";
+        return "{$this->command}{$this->arguments}";
     }
 
     public function run()

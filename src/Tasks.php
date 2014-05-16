@@ -18,6 +18,7 @@ class Tasks
     use Task\ParallelExec;
     use Task\Concat;
     use Task\Bower;
+    use Task\Grunt;
 	use Output;
 
     protected function stopOnFail()

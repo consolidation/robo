@@ -29,7 +29,7 @@ trait Grunt
  * $this->taskGrunt()->arg('build')->run();
  *
  * // prefer dist with custom path
- * $this->taskGrunt('path/to/my/bower')
+ * $this->taskGrunt('path/to/my/grunt')
  *      ->noDev()
  *      ->run();
  * ?>

@@ -6,7 +6,8 @@ To begin you need to create a Robofile. Just run `robo` in empty dir:
 php vendor/bin/robo
 ```
 
-You will be asked to create a file. New `RoboFile.php` is created with all tasks included.
+You will be asked to create a file. New `RoboFile.php` extends `\Robo\Tasks` class. It includes all bundled tasks from traits.
+It's not necessary for your RoboFile to extend `\Robo\Tasks` so if you need to customize tasks inclusion do not inherit from it.
 
 ``` php
 <?php
@@ -18,7 +19,7 @@ class RoboFile extends \Robo\Tasks
 
 ## Commands
 
-All public methods of this class will be trated as **commands**. You can run them from CLI and pass arguments.
+All public methods of this class will be treated as **commands**. You can run them from CLI and pass arguments.
 
 ``` php
 <?php
@@ -116,7 +117,6 @@ Any special character like `-` will be passed into without change.
 php vendor/bin/robo ls -- Robo -c --all
  [Robo\Task\ExecTask] running ls Robo -c --all
  .  ..  CHANGELOG.md  codeception.yml  composer.json  composer.lock  docs  .git  .gitignore  .idea  LICENSE  README.md  robo  RoboFile.php  robo.phar  src  tests  .travis.yml  vendor
-
 ```
 
 ## Tasks
@@ -219,6 +219,19 @@ class RoboFile
     }
 }
 ?>
+```
+
+### Stack
+
+There are tasks with a `Stack` name inside it. They execute similar tasks one by one.
+They contain option `stopOnFail` which can be used to stop task execution if one of its commands was unsuccessful.
+
+### Global StopOnFail
+
+There is a global `stopOnFail` method as well, that can be used to stop a command on first failure of a task.
+
+```
+$this->stopOnFail(true);
 ```
 
 ## Output

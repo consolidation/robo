@@ -31,7 +31,7 @@ trait ParallelExec {
  * @method \Robo\Task\ParallelExecTask timeout(int $timeout) stops process if it runs longer then `$timeout` (seconds)
  * @method \Robo\Task\ParallelExecTask idleTimeout(int $timeout) stops process if it does not output for time longer then `$timeout` (seconds)
  */
-class ParallelExecTask implements Shared\TaskInterface
+class ParallelExecTask implements Shared\TaskInterface, Shared\CommandInterface
 {
     use \Robo\Output;
     use Shared\DynamicConfig;
@@ -52,6 +52,11 @@ class ParallelExecTask implements Shared\TaskInterface
     {
         $this->processes[] = new Process($this->retrieveCommand($command));
         return $this;
+    }
+
+    public function getCommand()
+    {
+        return implode(' && ', $this->processes);
     }
 
     public function run()

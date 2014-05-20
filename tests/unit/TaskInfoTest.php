@@ -24,6 +24,11 @@ class TaskInfoTest extends \Codeception\TestCase\Test
 
         verify($this->infoFor('installMe')->getName())
             ->equals('install');
+
+        verify($this->infoFor('buildMultipleDatabases')->getName())
+            ->equals('build:multiple-databases');
+        
+        
     }
 
     public function testParams()
@@ -66,4 +71,5 @@ class TaskInfoTest extends \Codeception\TestCase\Test
 
     public function useOptions($param, $options = ['debug' => true, 'output' => false]) {}
 
+    public function buildMultipleDatabases() {}
 }

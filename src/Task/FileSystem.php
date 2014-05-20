@@ -5,7 +5,7 @@ use Robo\Result;
 use Robo\Task\Shared\CommandStack;
 use Robo\Task\Shared\DynamicConfig;
 use Robo\Task\Shared\TaskInterface;
-use Robo\Util\FileSystem as FSUtils;
+use Robo\Util\FileSystem as UtilsFileSystem;
 
 /**
  * Contains useful tasks to work with filesystem.
@@ -40,6 +40,15 @@ trait FileSystem
         return new CopyDirTask($dirs);
     }
 
+    /**
+     * @param $dirs
+     * @return MirrorDirTask
+     */
+    protected function taskMirrorDir($dirs)
+    {
+        return new MirrorDirTask($dirs);
+    }
+
     protected function taskReplaceInFile($file)
     {
         return new ReplaceInFileTask($file);
@@ -66,11 +75,15 @@ abstract class BaseDirTask implements TaskInterface {
 
     protected $dirs = [];
 
+    protected $fs;
+
     public function __construct($dirs)
     {
         is_array($dirs)
             ? $this->dirs = $dirs
             : $this->dirs[] = $dirs;
+
+        $this->fs = new UtilsFileSystem;
     }
 
 }
@@ -90,7 +103,7 @@ class CleanDirTask extends BaseDirTask {
     public function run()
     {
         foreach ($this->dirs as $dir) {
-            FSUtils::doEmptyDir($dir);
+            $this->fs->doEmptyDir($dir);
             $this->printTaskInfo("cleaned <info>$dir</info>");
         }
         return Result::success($this);
@@ -112,7 +125,7 @@ class CopyDirTask extends BaseDirTask {
     public function run()
     {
         foreach ($this->dirs as $src => $dst) {
-            FSUtils::copyDir($src, $dst);
+            $this->fs->copyDir($src, $dst);
             $this->printTaskInfo("Copied from <info>$src</info> to <info>$dst</info>");
         }
         return Result::success($this);
@@ -134,8 +147,33 @@ class DeleteDirTask extends BaseDirTask {
     public function run()
     {
         foreach ($this->dirs as $dir) {
-            FSUtils::deleteDir($dir);
+            $this->fs->deleteDir($dir);
             $this->printTaskInfo("deleted <info>$dir</info>...");
+        }
+        return Result::success($this);
+    }
+}
+
+/**
+ * Mirrors a directory to another
+ *
+ * ``` php
+ * <?php
+ * $this->taskMirrorDir(['dist/config/' => 'config/'])->run();
+ * ?>
+ * ```
+ */
+class MirrorDirTask extends BaseDirTask {
+
+    public function run()
+    {
+        foreach ($this->dirs as $src => $dst) {
+            $this->fs->mirror($src, $dst, null, [
+                'override'        => true,
+                'copy_on_windows' => true,
+                'delete'          => true
+            ]);
+            $this->printTaskInfo("Mirrored from <info>$src</info> to <info>$dst</info>");
         }
         return Result::success($this);
     }

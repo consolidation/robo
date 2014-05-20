@@ -16,6 +16,8 @@ class RoboFile extends \Robo\Tasks
 ?>
 ```
 
+## Commands
+
 All public methods of this class will be trated as **commands**. You can run them from CLI and pass arguments.
 
 ``` php
@@ -37,7 +39,85 @@ php vendor/bin/robo hello davert
 ➜ Hello, davert
 ```
 
-Methods should be camelCased. In CLI `camelCased` method will be available as `camel:cased` command
+Methods should be camelCased. In CLI `camelCased` method will be available as `camel:cased` command.
+`longCamelCased` method will be transformed to `long:camel-cased` command.
+
+### Arguments
+
+All method parameters without default values are treated as required arguments. In our example command `hello` requires one argument.
+If you pass a default value to parameter the argument becomes optional:
+
+``` php
+<?php
+    function hello($world = 'world')
+    {
+        $this->say("Hello, $world");
+    }
+?>
+```
+
+```
+php vendor/bin/robo hello
+➜ Hello, world
+```
+
+If you define parameter as `array` you can accept multiple arguments:
+
+
+``` php
+<?php
+    function hello(array $world)
+    {
+        $this->say("Hello, " . implode(', ', $world));
+    }
+?>
+```
+
+```
+php vendor/bin/robo hello davert jon bill bob
+➜ Hello, davert, jon, bill, bob
+```
+
+### Options
+
+To define command options you should define last method parameter as an associative array where keys are options and values are default values:
+
+``` php
+<?php
+    function hello($opts = ['silent' => false])
+    {
+        if (!$opt['silent']) $this->say("Hello, world");
+    }
+?>
+```
+
+```
+php vendor/bin/robo hello
+➜ Hello, world
+
+php vendor/bin/robo hello --silent
+```
+
+### Pass-Through Arguments
+
+Sometimes you need to pass arguments from you command into a task. A command line after the `--` characters is treated as one argument.
+Any special character like `-` will be passed into without change.
+
+``` php
+<?php
+    function ls($args)
+    {
+        $this->taskExec('ls')->args($args)->run();
+    }
+?>
+```
+
+```
+php vendor/bin/robo ls -- Robo -c --all
+ [Robo\Task\ExecTask] running ls Robo -c --all
+ .  ..  CHANGELOG.md  codeception.yml  composer.json  composer.lock  docs  .git  .gitignore  .idea  LICENSE  README.md  robo  RoboFile.php  robo.phar  src  tests  .travis.yml  vendor
+
+```
 
 ## Tasks
 

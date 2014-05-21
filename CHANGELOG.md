@@ -1,5 +1,10 @@
 # Changelog
 
+#### 0.4.2 05/21/2014
+
+*  task added
+
+
 #### 0.4.2 05/09/2014
 
 * ask can now hide answers

@@ -1,9 +1,12 @@
 # Changelog
 
-#### 0.4.2 05/21/2014
+#### 0.4.3 05/21/2014
 
-*  output method added
-*  task added
+*  added `SemVer` task by **@jadb**
+*  `yell` output method added
+*  task `FileSystemStack` added
+* `MirrorDirTask` added by **@devster**
+* switched to Symfony Filesystem component
 
 
 #### 0.4.2 05/09/2014

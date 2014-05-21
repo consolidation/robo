@@ -574,15 +574,15 @@ class SemVerTask implements TaskInterface
 
     public function run()
     {
-        $this->dump();
-        return Result::success($this, $this->__toString());
+        $written = $this->dump();
+        return new Result($this, (int)($written !== false),  $this->__toString());
     }
 
     protected function dump()
     {
         extract($this->version);
         $semver = sprintf(self::SEMVER, $major, $minor, $patch, $special, $metadata);
-        file_put_contents($this->path, $semver);
+        return file_put_contents($this->path, $semver);
     }
 
     protected function parse()

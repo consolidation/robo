@@ -5,7 +5,7 @@ class Robofile extends \Robo\Tasks
 {
     public function release()
     {
-        $this->say("Releasing Robo");
+        $this->yell("Releasing Robo");
 
         $this->docs();
         $this->taskGitStack()
@@ -25,7 +25,6 @@ class Robofile extends \Robo\Tasks
 
     public function test($args = "")
     {
-        $this->yell("Testing!");
         return $this->taskCodecept()
             ->args($args)
             ->run();

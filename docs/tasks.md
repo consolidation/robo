@@ -436,6 +436,34 @@ $this->taskGenDoc('models.md')
 
 
 
+## SemVer
+
+
+Helps to maintain `.semver` file.
+
+```php
+<?php
+$this->taskSemVer('.semver')
+     ->increment()
+     ->run();
+?>
+```
+
+
+
+
+
+
+* `__toString()` 
+* `setFormat($format)` 
+* `setMetadataSeparator($separator)` 
+* `setPrereleaseSeparator($separator)` 
+* `increment($what = null)` 
+* `prerelease($tag = null)` 
+* `metadata($data)` 
+
+
+
 
 ## Exec
 

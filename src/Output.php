@@ -10,6 +10,17 @@ trait Output {
         $this->writeln("➜  $text");
     }
 
+    protected function yell($text, $length = 40)
+    {
+        $format = "➜<fg=white;bg=green;options=bold>%s</fg=white;bg=green;options=bold>";
+        $text = str_pad($text, $length, ' ', STR_PAD_BOTH);
+        $len = strlen($text) + 4;
+        $space = str_repeat(' ', $len);
+        $this->writeln(sprintf($format, $space));
+        $this->writeln(sprintf($format, " $text "));
+        $this->writeln(sprintf($format, $space));
+    }
+
     protected function printTaskInfo($text, $task = null)
     {
         if (!$task) $task = $this;

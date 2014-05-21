@@ -1,7 +1,7 @@
 # Tasks
 
 
-## BowerInstallTask
+## BowerInstall
 
 
 Bower Install
@@ -35,7 +35,7 @@ $this->taskBowerInstall('path/to/my/bower')
 
 
 
-## BowerUpdateTask
+## BowerUpdate
 
 
 Bower Update
@@ -70,7 +70,7 @@ $this->taskBowerUpdate('path/to/my/bower')
 
 
 
-## CodeceptionTask
+## Codeception
 
 
 Executes Codeception tests
@@ -119,7 +119,7 @@ $this->taskCodecept()
 * `option($option, $value = null)` 
 
 
-## ComposerInstallTask
+## ComposerInstall
 
 
 Composer Install
@@ -161,7 +161,7 @@ $this->taskComposerInstall('path/to/my/composer.phar')
 * `arg($arg)` 
 * `args($args)` 
 * `option($option, $value = null)` 
-## ComposerUpdateTask
+## ComposerUpdate
 
 
 Composer Update
@@ -203,7 +203,7 @@ $this->taskComposerUpdate('path/to/my/composer.phar')
 * `arg($arg)` 
 * `args($args)` 
 * `option($option, $value = null)` 
-## ComposerDumpAutoloadTask
+## ComposerDumpAutoload
 
 
 Composer Update
@@ -255,7 +255,7 @@ $this->taskComposerDumpAutoload('path/to/my/composer.phar')
 * `args($args)` 
 * `option($option, $value = null)` 
 
-## ConcatTask
+## Concat
 
 
 Merges files into one. Used for preparing assets.
@@ -281,7 +281,7 @@ $this->taskConcat([
 
 
 
-## ChangelogTask
+## Changelog
 
 
 Helps to manage changelog file.
@@ -333,7 +333,7 @@ $this->taskChangelog()
 
 
 
-## GenMarkdownDocTask
+## GenMarkdownDoc
 
 
 Simple documentation generator from source files.
@@ -426,7 +426,7 @@ $this->taskGenDoc('models.md')
 
 
 
-## ExecTask
+## Exec
 
 
 Executes shell script. Closes it when running in background mode.
@@ -464,7 +464,7 @@ if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
 
 
 
-## ExecStackTask
+## ExecStack
 
 
 Execute commands one by one in stack.
@@ -493,7 +493,7 @@ $this->taskExecStack()
 
 
 
-## RequireTask
+## Require
 
 
 Requires php file to be executed inside a closure.
@@ -511,7 +511,7 @@ $this->taskRequire('script/make_admin.php')
 * `local(array $locals)` 
 
 
-## CleanDirTask
+## CleanDir
 
 
 Deletes all files from specified dir, ignoring git files.
@@ -529,7 +529,7 @@ $this->taskCleanDir(['tmp','logs'])->run();
 
 
 
-## CopyDirTask
+## CopyDir
 
 
 Copies one dir into another
@@ -544,23 +544,9 @@ $this->taskCopyDir(['dist/config' => 'config'])->run();
 
 
 
-## MirrorDirTask
 
 
-Mirrors a directory to another
-
-``` php
-<?php
-$this->taskMirrorDir(['dist/config/' => 'config/'])->run();
-?>
-```
-
-
-
-
-
-
-## DeleteDirTask
+## DeleteDir
 
 
 Deletes dir
@@ -578,7 +564,7 @@ $this->taskDeleteDir(['tmp', 'log'])->run();
 
 
 
-## ReplaceInFileTask
+## ReplaceInFile
 
 
 Performs search and replace inside a files.
@@ -616,7 +602,7 @@ $this->replaceInFile('config.yml')
 
 
 
-## WriteToFileTask
+## WriteToFile
 
 
 Writes to file
@@ -647,7 +633,7 @@ $this->taskWriteToFile('blogpost.md')
 
 
 
-## GitStackTask
+## GitStack
 
 
 Runs Git commands in stack. You can use `stopOnFail()` to point that stack should be terminated on first fail.
@@ -692,7 +678,7 @@ $this->taskGitStack()
 
 
 
-## GitHubReleaseTask
+## GitHubRelease
 
 
 Publishes new GitHub release.
@@ -739,7 +725,7 @@ $this->taskGitHubRelease('0.1.0')
 
 
 
-## PHPUnitTask
+## PHPUnit
 
 
 Runs PHPUnit tests
@@ -776,7 +762,7 @@ $this->taskPHPUnit()
 * `args($args)` 
 * `option($option, $value = null)` 
 
-## PackPharTask
+## PackPhar
 
 
 Creates Phar
@@ -828,7 +814,7 @@ $pharTask = $this->taskPackPhar('package/codecept.phar')
 
 
 
-## ParallelExecTask
+## ParallelExec
 
 
 Class ParallelExecTask
@@ -860,7 +846,7 @@ $this->taskParallelExec()
 
 
 
-## PhpServerTask
+## PhpServer
 
 
 Runs PHP server and stops it when task finishes.
@@ -896,7 +882,7 @@ $this->taskServer(8000)
 
 
 
-## SymfonyCommandTask
+## SymfonyCommand
 
 
 Executes Symsony Command
@@ -926,7 +912,7 @@ $this->taskCommand(new ModelGeneratorCommand())
 
 
 
-## WatchTask
+## Watch
 
 
 Runs task when specified file or dir was changed.

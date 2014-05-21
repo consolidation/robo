@@ -2,6 +2,7 @@
 
 #### 0.4.2 05/21/2014
 
+*  output method added
 *  task added
 
 

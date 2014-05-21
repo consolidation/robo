@@ -25,6 +25,7 @@ class Robofile extends \Robo\Tasks
 
     public function test($args = "")
     {
+        $this->yell("Testing!");
         return $this->taskCodecept()
             ->args($args)
             ->run();
@@ -78,7 +79,7 @@ class Robofile extends \Robo\Tasks
             if ($m->isConstructor() or $m->isDestructor() or $m->isStatic()) return false;
             return !in_array($m->name, ['run', '', '__call', 'getCommand']) and $m->isPublic(); // methods are not documented
         })->processClassSignature(function ($c) {
-            return "## {$c->getShortName()}\n";
+            return "## ". preg_replace('~Task$~', '', $c->getShortName())."\n";
         })->processClassDocBlock(function($c, $doc) {
             return preg_replace('~@method .*?\wTask (.*?)\)~', '* `$1)` ', $doc);
         })->processMethodSignature(function (\ReflectionMethod $m, $text) {

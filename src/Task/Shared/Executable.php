@@ -12,7 +12,7 @@ trait Executable {
         $process = new SymfonyProcess($command);
         $process->setTimeout(null);
         $process->run(function ($type, $buffer) {
-            SymfonyProcess::ERR === $type ? print('ER» '.$buffer) : print('» '.$buffer);
+            SymfonyProcess::ERR === $type ? print('ER» '.$buffer) : print($buffer);
         });
 
 		return new Result($this, $process->getExitCode(), $process->getOutput());

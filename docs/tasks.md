@@ -26,10 +26,11 @@ $this->taskBowerInstall('path/to/my/bower')
 * `offline()` adds `offline` option to bower
 
 
-* `executeCommand($command)` 
+
 * `arg($arg)` 
 * `args($args)` 
 * `option($option, $value = null)` 
+
 
 
 
@@ -60,10 +61,11 @@ $this->taskBowerUpdate('path/to/my/bower')
 * `offline()` adds `offline` option to bower
 
 
-* `executeCommand($command)` 
+
 * `arg($arg)` 
 * `args($args)` 
 * `option($option, $value = null)` 
+
 
 
 
@@ -113,7 +115,8 @@ $this->taskCodecept()
 
 
 
-* `executeCommand($command)` 
+
+
 * `arg($arg)` 
 * `args($args)` 
 * `option($option, $value = null)` 
@@ -157,7 +160,8 @@ $this->taskComposerInstall('path/to/my/composer.phar')
 
 
 
-* `executeCommand($command)` 
+
+
 * `arg($arg)` 
 * `args($args)` 
 * `option($option, $value = null)` 
@@ -199,7 +203,8 @@ $this->taskComposerUpdate('path/to/my/composer.phar')
 
 
 
-* `executeCommand($command)` 
+
+
 * `arg($arg)` 
 * `args($args)` 
 * `option($option, $value = null)` 
@@ -250,7 +255,8 @@ $this->taskComposerDumpAutoload('path/to/my/composer.phar')
 
 
 
-* `executeCommand($command)` 
+
+
 * `arg($arg)` 
 * `args($args)` 
 * `option($option, $value = null)` 
@@ -274,6 +280,7 @@ $this->taskConcat([
 
 
 * `to($dst)` set the destination file
+
 
 
 
@@ -319,6 +326,8 @@ $this->taskChangelog()
 * `changes(array $data)` 
 * `change($change)` 
 * `getChanges()` 
+
+
 
 
 
@@ -426,6 +435,8 @@ $this->taskGenDoc('models.md')
 
 
 
+
+
 ## Exec
 
 
@@ -464,6 +475,7 @@ if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
 
 
 
+
 ## ExecStack
 
 
@@ -493,23 +505,6 @@ $this->taskExecStack()
 
 
 
-## Require
-
-
-Requires php file to be executed inside a closure.
-
-``` php
-<?php
-$this->taskRequire('script/create_users.php')->run();
-$this->taskRequire('script/make_admin.php')
- ->locals(['user' => $user])
- ->run();
-?>
-```
-
-
-* `local(array $locals)` 
-
 
 ## CleanDir
 
@@ -522,6 +517,8 @@ $this->taskCleanDir('app/cache')->run();
 $this->taskCleanDir(['tmp','logs'])->run();
 ?>
 ```
+
+
 
 
 
@@ -546,6 +543,8 @@ $this->taskCopyDir(['dist/config' => 'config'])->run();
 
 
 
+
+
 ## DeleteDir
 
 
@@ -557,6 +556,27 @@ $this->taskDeleteDir('tmp')->run();
 $this->taskDeleteDir(['tmp', 'log'])->run();
 ?>
 ```
+
+
+
+
+
+
+
+
+
+## MirrorDir
+
+
+Mirrors a directory to another
+
+``` php
+<?php
+$this->taskMirrorDir(['dist/config/' => 'config/'])->run();
+?>
+```
+
+
 
 
 
@@ -602,6 +622,7 @@ $this->replaceInFile('config.yml')
 
 
 
+
 ## WriteToFile
 
 
@@ -625,6 +646,62 @@ $this->taskWriteToFile('blogpost.md')
 * `text($text)` 
 * `textFromFile($filename)` 
 * `place($name, $val)` 
+
+
+
+
+
+
+
+
+## Require
+
+
+Requires php file to be executed inside a closure.
+
+``` php
+<?php
+$this->taskRequire('script/create_users.php')->run();
+$this->taskRequire('script/make_admin.php')
+ ->locals(['user' => $user])
+ ->run();
+?>
+```
+
+
+* `local(array $locals)` 
+
+## FileSystemStack
+
+
+Wrapper for [Symfony FileSystem](http://symfony.com/doc/current/components/filesystem.html) Component.
+Comands are executed in stack and can be stopped on first fail with `stopOnFail` option.
+
+``` php
+<?php
+$this->taskFileSystemStack()
+     ->mkdir('logs')
+     ->touch('logs/.gitignore')
+     ->chgrp('www', 'www-data')
+     ->symlink('/var/log/nginx/error.log', 'logs/error.log')
+     ->run();
+?>
+```
+
+Class FileSystemStackTask
+@package Robo\Task
+
+* `stopOnFail($stop = null)` 
+* `mkdir($dir)` 
+* `touch($file)` 
+* `copy($from, $to, $force = null)` 
+* `chmod($file, $permissions, $recursive = null)` 
+* `remove($file)` 
+* `rename($from, $to)` 
+* `symlink($from, $to)` 
+* `mirror($from, $to)` 
+* `chgrp($file, $group)` 
+* `chown($file, $user)` 
 
 
 
@@ -668,6 +745,7 @@ $this->taskGitStack()
 
 
 * `exec($command)` 
+
 
 
 
@@ -725,6 +803,7 @@ $this->taskGitHubRelease('0.1.0')
 
 
 
+
 ## PHPUnit
 
 
@@ -757,7 +836,8 @@ $this->taskPHPUnit()
 
 
 
-* `executeCommand($command)` 
+
+
 * `arg($arg)` 
 * `args($args)` 
 * `option($option, $value = null)` 
@@ -814,6 +894,7 @@ $pharTask = $this->taskPackPhar('package/codecept.phar')
 
 
 
+
 ## ParallelExec
 
 
@@ -837,6 +918,8 @@ $this->taskParallelExec()
 
 * `printed($isPrinted = null)` 
 * `process($command)` 
+
+
 
 
 
@@ -882,6 +965,7 @@ $this->taskServer(8000)
 
 
 
+
 ## SymfonyCommand
 
 
@@ -912,6 +996,7 @@ $this->taskCommand(new ModelGeneratorCommand())
 
 
 
+
 ## Watch
 
 
@@ -932,6 +1017,7 @@ $this->taskWatch()
 
 
 * `monitor($paths, $callable)` 
+
 
 
 

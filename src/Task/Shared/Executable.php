@@ -7,7 +7,7 @@ trait Executable {
 
     protected $arguments;
 
-    function executeCommand($command)
+    protected function executeCommand($command)
     {
         $process = new SymfonyProcess($command);
         $process->setTimeout(null);

@@ -7,7 +7,8 @@
 *  task `FileSystemStack` added
 * `MirrorDirTask` added by **@devster**
 * switched to Symfony Filesystem component
-
+* options can be used to commands
+* array arguments can be used in commands
 
 #### 0.4.2 05/09/2014
 

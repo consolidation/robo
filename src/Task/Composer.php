@@ -124,7 +124,6 @@ abstract class BaseComposerTask
  * $this->taskComposerInstall('path/to/my/composer.phar')
  *      ->preferDist()
  *      ->run();
- * ?>
  * 
  * // optimize autoloader with custom path
  * $this->taskComposerInstall('path/to/my/composer.phar')
@@ -158,7 +157,6 @@ class ComposerInstallTask extends BaseComposerTask implements TaskInterface {
  * $this->taskComposerUpdate('path/to/my/composer.phar')
  *      ->preferDist()
  *      ->run();
- * ?>
  * 
  * // optimize autoloader with custom path
  * $this->taskComposerUpdate('path/to/my/composer.phar')
@@ -192,13 +190,11 @@ class ComposerUpdateTask extends BaseComposerTask implements TaskInterface {
  * $this->taskComposerDumpAutoload('path/to/my/composer.phar')
  *      ->preferDist()
  *      ->run();
- * ?>
  * 
  * // optimize autoloader dump with custom path
  * $this->taskComposerDumpAutoload('path/to/my/composer.phar')
  *      ->optimize()
  *      ->run();
- * ?>
  * 
  * // optimize autoloader dump with custom path and no dev
  * $this->taskComposerDumpAutoload('path/to/my/composer.phar')

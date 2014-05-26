@@ -75,13 +75,15 @@ class ConcatTask implements TaskInterface
 
         $dump = '';
 
-        foreach ($this->files as $file) {
-            if (!file_exists($file)) {
-                return Result::error($this, sprintf('File %s not found', $file));
-            }
+        foreach ($this->files as $path) {
+		    foreach(glob($path) as $file) {
+			    if(!file_exists($file)) {
+				    return Result::error($this, sprintf('File %s not found', $file));
+			    }
 
-            $dump .= file_get_contents($file);
-        }
+			    $dump .= file_get_contents($file);
+		    }
+	    }
 
         $this->printTaskInfo(sprintf('Writing <info>%s</info>', $this->dst));
 

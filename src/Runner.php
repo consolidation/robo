@@ -47,6 +47,23 @@ class Runner {
         }
         return true;
     }
+    
+    protected function getTaskNames()
+    {
+        $taskNames = array();
+        
+        foreach(get_class_methods(self::ROBOCLASS) as $method)
+        {
+            if($method == '__construct')
+            {
+                continue;
+            }
+            
+            $taskNames[] = $method;
+        }
+        
+        return $taskNames;
+    }
 
     public function execute()
     {
@@ -63,7 +80,7 @@ class Runner {
 
         $className = self::ROBOCLASS;
         $roboTasks = new $className;
-        $taskNames = get_class_methods(self::ROBOCLASS);
+        $taskNames = $this->getTaskNames();
         $passThrough = $this->passThroughArgs;
         foreach ($taskNames as $taskName) {
             $command = $this->createCommand($taskName);

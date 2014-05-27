@@ -13,8 +13,8 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 class Runner {
 
     const VERSION = '0.4.3';
-    const ROBOCLASS = 'RoboFile';
-    const ROBOFILE = 'RoboFile.php';
+    const ROBOCLASS = 'Robofile';
+    const ROBOFILE = 'robofile.php';
 
     protected $currentDir = '.';
     protected $passThroughArgs = null;
@@ -32,9 +32,9 @@ class Runner {
     protected function loadRoboFile()
     {
         if (!file_exists(self::ROBOFILE)) {
-            $this->output->writeln("<comment>  ".self::ROBOFILE." not found in this dir </comment>");
+            $this->output->writeln("<comment>  " . self::ROBOFILE . " not found in this dir </comment>");
             $dialog = new DialogHelper();
-            if ($dialog->askConfirmation($this->output, "<question>  Should I create RoboFile here? (y/n)  \n</question>", false)) {
+            if ($dialog->askConfirmation($this->output, "<question>  Should I create " . self::ROBOFILE . " here? (y/n)  \n</question>", false)) {
                 $this->initRoboFile();
             }
             exit;
@@ -42,7 +42,7 @@ class Runner {
         require_once self::ROBOFILE;
 
         if (!class_exists(self::ROBOCLASS)) {
-            $this->output->writeln("<error>Class ".self::ROBOCLASS." was not loaded</error>");
+            $this->output->writeln("<error>Class " . self::ROBOCLASS . " was not loaded</error>");
             return false;
         }
         return true;
@@ -123,7 +123,7 @@ class Runner {
 
     protected function initRoboFile()
     {
-        file_put_contents(self::ROBOFILE, "<?php\nclass Robofile extends \\Robo\\Tasks\n{\n    // define public methods as commands\n}");
+        file_put_contents(self::ROBOFILE, "<?php\nclass " . self::ROBOCLASS . " extends \\Robo\\Tasks\n{\n    // define public methods as commands\n}");
         $this->output->writeln(self::ROBOFILE . " created");
 
     }

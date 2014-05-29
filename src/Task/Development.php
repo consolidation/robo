@@ -259,7 +259,10 @@ class GenMarkdownDocTask implements TaskInterface
         }
         $doc = $this->documentClassSignature($refl);
         $doc .= "\n".$this->documentClassDocBlock($refl);
-        $doc = $this->
+        
+        if (is_callable($this->processClass)) {
+            $doc = call_user_func($this->processClass, $refl, $doc);
+        }
 
         $properties = [];
         foreach ($refl->getProperties() as $reflProperty) {

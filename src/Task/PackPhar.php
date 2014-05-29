@@ -26,27 +26,27 @@ trait PackPhar {
  * ``` php
  * <?php
  * $pharTask = $this->taskPackPhar('package/codecept.phar')
-    ->compress()
-    ->stub('package/stub.php');
-
-    $finder = Finder::create()
-        ->name('*.php')
-        ->in('src');
-
-    foreach ($finder as $file) {
-        $pharTask->addFile('src/'.$file->getRelativePathname(), $file->getRealPath());
-    }
-
-    $finder = Finder::create()->files()
-        ->name('*.php')
-        ->in('vendor');
-
-    foreach ($finder as $file) {
-        $pharTask->addStripped('vendor/'.$file->getRelativePathname(), $file->getRealPath());
-    }
-    $pharTask->run();
-
-    $code = $this->taskExec('php package/codecept.phar')->run();
+ *   ->compress()
+ *   ->stub('package/stub.php');
+ *
+ *  $finder = Finder::create()
+ *      ->name('*.php')
+ *        ->in('src');
+ *
+ *    foreach ($finder as $file) {
+ *        $pharTask->addFile('src/'.$file->getRelativePathname(), $file->getRealPath());
+ *    }
+ *
+ *    $finder = Finder::create()->files()
+ *        ->name('*.php')
+ *        ->in('vendor');
+ *
+ *    foreach ($finder as $file) {
+ *        $pharTask->addStripped('vendor/'.$file->getRelativePathname(), $file->getRealPath());
+ *    }
+ *    $pharTask->run();
+ *
+ *    $code = $this->taskExec('php package/codecept.phar')->run();
  * ?>
  * ```
  */
@@ -78,7 +78,9 @@ EOF;
     {
         $file = new \SplFileInfo($filename);
         $this->filename = $filename;
-        @unlink($file->getRealPath());
+        if (file_exists($file->getRealPath())) {            
+            @unlink($file->getRealPath());
+        }
         $this->phar = new \Phar($file->getPathname(), 0, $file->getFilename());
     }
 

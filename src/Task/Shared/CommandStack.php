@@ -27,9 +27,19 @@ abstract class CommandStack implements CommandInterface, TaskInterface
             $command = implode(' ', array_filter($command));
         }
 
-        $command = $this->executable . ' ' . trim(ltrim($command, $this->executable));
+        $command = $this->executable . ' ' . $this->stripExecutableFromCommand($command);
         array_push($this->exec, trim($command));
         return $this;
+    }
+
+    protected function stripExecutableFromCommand($command)
+    {
+        $command = trim($command);
+        $executable = $this->executable . ' ';
+        if (strpos($command, $executable) === 0) {
+            $command = substr($command, strlen($executable));
+        }
+        return $command;
     }
 
     public function run()

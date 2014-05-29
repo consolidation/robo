@@ -273,7 +273,7 @@ class GenMarkdownDocTask implements TaskInterface
 
         $methods = [];
         foreach ($refl->getMethods() as $reflMethod) {
-            $methods[] = $this->documentMethod($reflMethod);
+            $methods[$reflMethod->name] = $this->documentMethod($reflMethod);
         }
         if (is_callable($this->reorderMethods)) {
             call_user_func_array($this->reorderMethods, [&$methods]);

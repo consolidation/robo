@@ -137,6 +137,7 @@ class ChangelogTask implements TaskInterface
  * Takes classes, properties and methods with their docblocks and writes down a markdown file.
  *
  * ``` php
+ * <?php
  * $this->taskGenDoc('models.md')
  *      ->docClass('Model\User') // take class Model\User
  *      ->docClass('Model\Post') // take class Model\Post
@@ -151,13 +152,15 @@ class ChangelogTask implements TaskInterface
  * It combines method signature with a docblock. Both can be post-processed.
  *
  * ``` php
+ * <?php
  * $this->taskGenDoc('models.md')
  *      ->docClass('Model\User')
- *      })->processClassDocBlock(function(\ReflectionClass $r, $text) {
+ *      ->processClassSignature(false) // false can be passed to not include class signature
+ *      ->processClassDocBlock(function(\ReflectionClass $r, $text) {
  *          return "[This is part of application model]\n" . $text;
- *      ))->processMethodSignature(function(\ReflectionMethod $r, $text) {
+ *      })->processMethodSignature(function(\ReflectionMethod $r, $text) {
  *          return "#### {$r->name}()";
- *      ))->processMethodDocBlock(function(\ReflectionMethod $r, $text) {
+ *      })->processMethodDocBlock(function(\ReflectionMethod $r, $text) {
  *          return strpos($r->name, 'save')===0 ? "[Saves to the database]\n" . $text : $text;
  *      })->run();
  * ```
@@ -167,11 +170,14 @@ class ChangelogTask implements TaskInterface
  * @method \Robo\Task\GenMarkdownDocTask filterClasses(\Closure $func) using callback function filter out classes that won't be documented
  * @method \Robo\Task\GenMarkdownDocTask filterProperties(\Closure $func) using callback function filter out properties that won't be documented
  * @method \Robo\Task\GenMarkdownDocTask processClass(\Closure $func) post-process class documentation
- * @method \Robo\Task\GenMarkdownDocTask processClassSignature(\Closure $func) post-process class signature
- * @method \Robo\Task\GenMarkdownDocTask processClassDocBlock(\Closure $func) post-process class docblock contents
- * @method \Robo\Task\GenMarkdownDocTask processMethod(\Closure $func) post-process method documentation
- * @method \Robo\Task\GenMarkdownDocTask processMethodSignature(\Closure $func) post-process method signature
- * @method \Robo\Task\GenMarkdownDocTask processMethodDocBlock(\Closure $func) post-process method docblock contents
+ * @method \Robo\Task\GenMarkdownDocTask processClassSignature(\Closure $func) post-process class signature. Provide *false* to skip.
+ * @method \Robo\Task\GenMarkdownDocTask processClassDocBlock(\Closure $func) post-process class docblock contents. Provide *false* to skip.
+ * @method \Robo\Task\GenMarkdownDocTask processMethod(\Closure $func) post-process method documentation. Provide *false* to skip.
+ * @method \Robo\Task\GenMarkdownDocTask processMethodSignature(\Closure $func) post-process method signature. Provide *false* to skip.
+ * @method \Robo\Task\GenMarkdownDocTask processMethodDocBlock(\Closure $func) post-process method docblock contents. Provide *false* to skip.
+ * @method \Robo\Task\GenMarkdownDocTask processProperty(\Closure $func) post-process property documentation. Provide *false* to skip.
+ * @method \Robo\Task\GenMarkdownDocTask processPropertySignature(\Closure $func) post-process property signature. Provide *false* to skip.
+ * @method \Robo\Task\GenMarkdownDocTask processPropertyDocBlock(\Closure $func) post-process property docblock contents. Provide *false* to skip. 
  * @method \Robo\Task\GenMarkdownDocTask reorder(\Closure $func) use a function to reorder classes
  * @method \Robo\Task\GenMarkdownDocTask reorderMethods(\Closure $func) use a function to reorder methods in class
  * @method \Robo\Task\GenMarkdownDocTask prepend($text) inserts text into beginning of markdown file
@@ -253,6 +259,7 @@ class GenMarkdownDocTask implements TaskInterface
         }
         $doc = $this->documentClassSignature($refl);
         $doc .= "\n".$this->documentClassDocBlock($refl);
+        $doc = $this->
 
         $properties = [];
         foreach ($refl->getProperties() as $reflProperty) {
@@ -262,8 +269,7 @@ class GenMarkdownDocTask implements TaskInterface
         $doc .= implode("\n", $properties);
 
         $methods = [];
-        foreach ($refl->getMethods() as $reflMethod)
-        {
+        foreach ($refl->getMethods() as $reflMethod) {
             $methods[] = $this->documentMethod($reflMethod);
         }
         if (is_callable($this->reorderMethods)) {
@@ -277,6 +283,8 @@ class GenMarkdownDocTask implements TaskInterface
 
     protected function documentClassSignature(\ReflectionClass $reflectionClass)
     {
+        if ($this->processClassSignature === false) return "";
+
         $signature = "## {$reflectionClass->name}\n\n";
 
         if ($parent = $reflectionClass->getParentClass()) {
@@ -293,11 +301,13 @@ class GenMarkdownDocTask implements TaskInterface
         if (is_callable($this->processClassSignature)) {
             $signature = call_user_func($this->processClassSignature, $reflectionClass, $signature);
         }
+
         return $signature;
     }
 
     protected function documentClassDocBlock(\ReflectionClass $reflectionClass)
     {
+        if ($this->processClassDocBlock === false) return "";
         $doc = self::indentDoc($reflectionClass->getDocComment());
         if (is_callable($this->processClassDocBlock)) {
             $doc = call_user_func($this->processClassDocBlock, $reflectionClass, $doc);
@@ -307,6 +317,7 @@ class GenMarkdownDocTask implements TaskInterface
 
     protected function documentMethod(\ReflectionMethod $reflectedMethod)
     {
+        if ($this->processMethod === false) return "";
         if (is_callable($this->filterMethods)) {
             $ret = call_user_func($this->filterMethods, $reflectedMethod);
             if (!$ret) return "";
@@ -325,6 +336,7 @@ class GenMarkdownDocTask implements TaskInterface
 
     protected function documentProperty(\ReflectionProperty $reflectedProperty)
     {
+        if ($this->processProperty === false) return "";
         if (is_callable($this->filterProperties)) {
             $ret = call_user_func($this->filterProperties, $reflectedProperty);
             if (!$ret) return "";
@@ -342,6 +354,7 @@ class GenMarkdownDocTask implements TaskInterface
 
     protected function documentPropertySignature(\ReflectionProperty $reflectedProperty)
     {
+        if ($this->processPropertySignature === false) return "";
         $modifiers = implode(' ', \Reflection::getModifierNames($reflectedProperty->getModifiers()));
         $signature = "#### *$modifiers* {$reflectedProperty->name}";
         if (is_callable($this->processPropertySignature)) {
@@ -352,6 +365,7 @@ class GenMarkdownDocTask implements TaskInterface
 
     protected function documentPropertyDocBlock(\ReflectionProperty $reflectedProperty)
     {
+        if ($this->processPropertyDocBlock === false) return "";
         $propertyDoc = $reflectedProperty->getDocComment();
          // take from parent
          if (!$propertyDoc) {
@@ -399,6 +413,7 @@ class GenMarkdownDocTask implements TaskInterface
 
     protected function documentMethodSignature(\ReflectionMethod $reflectedMethod)
     {
+        if ($this->processMethodSignature === false) return "";
         $modifiers = implode(' ', \Reflection::getModifierNames($reflectedMethod->getModifiers()));
         $params = implode(', ', array_map(function ($p) {
             return $this->documentParam($p);
@@ -416,6 +431,7 @@ class GenMarkdownDocTask implements TaskInterface
      */
     protected function documentMethodDocBlock(\ReflectionMethod $reflectedMethod)
     {
+        if ($this->processMethodDocBlock === false) return "";
         $methodDoc = $reflectedMethod->getDocComment();
         // take from parent
         if (!$methodDoc) {

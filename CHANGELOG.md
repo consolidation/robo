@@ -1,5 +1,10 @@
 # Changelog
 
+#### 0.4.3 05/29/2014
+
+* false option to GenMarkDownTask
+
+
 #### 0.4.3 05/21/2014
 
 *  added `SemVer` task by **@jadb**

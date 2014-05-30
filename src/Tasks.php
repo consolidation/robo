@@ -9,6 +9,7 @@ class Tasks
     use Task\Composer;
     use Task\Concat;
     use Task\Development;
+    use Task\Drush;
     use Task\Exec;
     use Task\FileSystem;
     use Task\Git;

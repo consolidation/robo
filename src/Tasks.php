@@ -18,6 +18,7 @@ class Tasks
     use Task\ParallelExec;
     use Task\Concat;
     use Task\Bower;
+    use Task\Rsync;
 	use Output;
 
     protected function stopOnFail()

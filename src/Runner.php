@@ -63,7 +63,9 @@ class Runner {
 
         $className = self::ROBOCLASS;
         $roboTasks = new $className;
-        $taskNames = get_class_methods(self::ROBOCLASS);
+        $taskNames = array_filter(get_class_methods(self::ROBOCLASS), function($m) {
+            return !in_array($m, ['__construct']);
+        });
         $passThrough = $this->passThroughArgs;
         foreach ($taskNames as $taskName) {
             $command = $this->createCommand($taskName);
@@ -123,7 +125,7 @@ class Runner {
 
     protected function initRoboFile()
     {
-        file_put_contents(self::ROBOFILE, "<?php\nclass Robofile extends \\Robo\\Tasks\n{\n    // define public methods as commands\n}");
+        file_put_contents(self::ROBOFILE, "<?php\nclass " .self::ROBOCLASS ." extends \\Robo\\Tasks\n{\n    // define public methods as commands\n}");
         $this->output->writeln(self::ROBOFILE . " created");
 
     }

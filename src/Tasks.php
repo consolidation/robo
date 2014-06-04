@@ -22,8 +22,8 @@ class Tasks
     use Task\Rsync;
 	use Output;
 
-    protected function stopOnFail()
+    protected function stopOnFail($stopOnFail = true)
     {
-        Result::$stopOnFail = true;
+        Result::$stopOnFail = $stopOnFail;
     }
 }

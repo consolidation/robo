@@ -463,7 +463,7 @@ class GenMarkdownDocTask implements TaskInterface
             $methodDoc = call_user_func($this->processMethodDocBlock, $reflectedMethod, $methodDoc);
         }
 
-        return trim($methodDoc);
+        return $methodDoc;
     }
 
 }

@@ -34,6 +34,9 @@ abstract class CommandStack implements CommandInterface, TaskInterface
 
     public function run()
     {
+        if (empty($this->exec)) {
+            throw new TaskException($this, 'You must add at least one command');
+        }
         if (!$this->stopOnFail) {
             return $this->taskExec($this->getCommand())->run();
         }

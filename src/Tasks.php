@@ -19,6 +19,7 @@ class Tasks
     use Task\Concat;
     use Task\Bower;
     use Task\SshExec;
+    use Task\Rsync;
 	use Output;
 
     protected function stopOnFail()

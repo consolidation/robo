@@ -1,6 +1,7 @@
 {
     "name": "codegyre/robo",
     "description": "Modern task runner",
+    "minimum-stability": "alpha",
     "license": "MIT",
     "authors": [
         {
@@ -12,22 +13,17 @@
         "psr-4":{
             "Robo\\":"src"
         }
-
-
     },
     "bin":["robo"],
     "require": {
         "symfony/console": "*",
-        "symfony/process": "*",
-        "symfony/filesystem": "*",
-        "php": ">=5.4.0",
-        "henrikbjorn/lurker" : "1.0.*@dev",
-        "symfony/finder": "*"
+        "henrikbjorn/lurker" : "1.0.*@dev"
     },
     "require-dev": {
         "codeception/codeception": "2.0.0-RC",
         "codeception/verify": "*",
-        "codeception/aspect-mock": "*"
+        "codeception/aspect-mock": "*",
+        "mockery/mockery": "0.9.*"
     }
 
 }

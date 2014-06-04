@@ -19,10 +19,11 @@ class Tasks
     use Task\Concat;
     use Task\Bower;
     use Task\SshExec;
+    use Task\Rsync;
 	use Output;
 
-    protected function stopOnFail()
+    protected function stopOnFail($stopOnFail = true)
     {
-        Result::$stopOnFail = true;
+        Result::$stopOnFail = $stopOnFail;
     }
 }

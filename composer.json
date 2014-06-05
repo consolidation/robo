@@ -11,8 +11,7 @@
     "autoload":{
         "psr-4":{
             "Robo\\":"src"
-        },
-        "files": ["vendor/lisachenko/go-aop-php/src/Go/Instrument/ClassLoading/AopComposerLoader.php"]
+        }
     },
     "bin":["robo"],
     "require": {
@@ -24,7 +23,7 @@
         "henrikbjorn/lurker" : "1.0.*@dev"
     },
     "require-dev": {
-        "codeception/codeception": "2.0.0-RC",
+        "codeception/codeception": "@dev",
         "codeception/verify": "*",
         "codeception/aspect-mock": "*"
     }

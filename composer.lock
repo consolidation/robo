@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "478ad573ca1a656edaa81b15f4374dd4",
+    "hash": "883a377fa5dfa22dfd42c479ecc6acaa",
     "packages": [
         {
             "name": "henrikbjorn/lurker",
@@ -469,37 +469,41 @@
         },
         {
             "name": "codeception/codeception",
-            "version": "2.0.0-RC",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/Codeception.git",
-                "reference": "5f7c838fcd81ce4d05021bf2a7a8a8a3cb49a5aa"
+                "reference": "4ff02cce0994adb570bc3c3820603d2070d6b3af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/5f7c838fcd81ce4d05021bf2a7a8a8a3cb49a5aa",
-                "reference": "5f7c838fcd81ce4d05021bf2a7a8a8a3cb49a5aa",
+                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/4ff02cce0994adb570bc3c3820603d2070d6b3af",
+                "reference": "4ff02cce0994adb570bc3c3820603d2070d6b3af",
                 "shasum": ""
             },
             "require": {
-                "fabpot/goutte": "*",
                 "facebook/webdriver": "~0.4",
+                "guzzlehttp/guzzle": "4.*",
                 "php": ">=5.4.0",
                 "phpunit/phpunit": "~4.0",
-                "symfony/console": "~2.3",
-                "symfony/event-dispatcher": "~2.3",
-                "symfony/finder": "~2.3",
-                "symfony/yaml": "~2.3"
+                "symfony/browser-kit": "~2.4",
+                "symfony/console": "~2.4",
+                "symfony/css-selector": "~2.4",
+                "symfony/dom-crawler": "~2.4,!=2.4.5",
+                "symfony/event-dispatcher": "~2.4",
+                "symfony/finder": "~2.4",
+                "symfony/yaml": "~2.4"
             },
             "require-dev": {
-                "codeception/specify": "*",
                 "facebook/php-sdk": "3.*",
                 "monolog/monolog": "*",
                 "videlalvaro/php-amqplib": "*"
             },
             "suggest": {
                 "codeception/phpbuiltinserver": "Extension to start and stop PHP built-in web server for your tests",
-                "codeception/verify": "BDD-style assertions"
+                "codeception/specify": "BDD-style code blocks",
+                "codeception/verify": "BDD-style assertions",
+                "monolog/monolog": "Log test steps"
             },
             "bin": [
                 "codecept"
@@ -530,7 +534,7 @@
                 "functional testing",
                 "unit testing"
             ],
-            "time": "2014-05-01 00:16:01"
+            "time": "2014-06-04 03:01:06"
         },
         {
             "name": "codeception/verify",
@@ -689,57 +693,6 @@
                 "parser"
             ],
             "time": "2013-01-12 18:59:04"
-        },
-        {
-            "name": "fabpot/goutte",
-            "version": "v2.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/fabpot/Goutte.git",
-                "reference": "104ef44a9fc8a8dfe66fef5f8e8deb4567f3dc7c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Goutte/zipball/104ef44a9fc8a8dfe66fef5f8e8deb4567f3dc7c",
-                "reference": "104ef44a9fc8a8dfe66fef5f8e8deb4567f3dc7c",
-                "shasum": ""
-            },
-            "require": {
-                "guzzlehttp/guzzle": "4.*",
-                "php": ">=5.4.0",
-                "symfony/browser-kit": "~2.1",
-                "symfony/css-selector": "~2.1",
-                "symfony/dom-crawler": "~2.1"
-            },
-            "type": "application",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Goutte": "."
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
-                }
-            ],
-            "description": "A simple PHP Web Scraper",
-            "homepage": "https://github.com/fabpot/Goutte",
-            "keywords": [
-                "scraper"
-            ],
-            "time": "2014-05-13 05:05:35"
         },
         {
             "name": "facebook/webdriver",
@@ -1875,7 +1828,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "henrikbjorn/lurker": 20,
-        "codeception/codeception": 5
+        "codeception/codeception": 20
     },
     "platform": {
         "php": ">=5.4.0"

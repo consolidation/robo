@@ -14,10 +14,11 @@ class OutputTest extends \Codeception\TestCase\Test
 
     protected $expectedAnswer;
 
+
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \CodeGuy
      */
-    protected $nullOutput;
+    protected $guy;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -26,27 +27,20 @@ class OutputTest extends \Codeception\TestCase\Test
 
     protected function _before()
     {
-        $this->nullOutput = $this->getMock('Symfony\Component\Console\Output\NullOutput', ['writeln','write']);
         $this->nullDialog = new \Symfony\Component\Console\Helper\DialogHelper;
     }
 
     public function testSay()
     {
-        $this->nullOutput->expects($this->once())
-            ->method('writeln')
-            ->with($this->equalTo('➜  Hello, world!'));
-
         $this->say('Hello, world!');
+        $this->guy->seeInOutput('➜  Hello, world!');
     }
 
     public function testAskReply()
     {
         $this->expectedAnswer = 'jon';
-        $this->nullOutput->expects($this->once())
-            ->method('write')
-            ->with($this->equalTo('<question>?  What is your name?</question> '));
-
         verify($this->ask('What is your name?'))->equals('jon');
+        $this->guy->seeOutputEquals('<question>?  What is your name?</question> ');
     }
 
     public function testAskMethod()
@@ -60,11 +54,7 @@ class OutputTest extends \Codeception\TestCase\Test
     public function testAskHidden()
     {
         $this->expectedAnswer = 'jon';
-        $this->nullOutput->expects($this->once())
-            ->method('write')
-            ->with($this->equalTo('<question>?  What is your name?</question> '));
-
-        verify($this->ask('What is your name?', false))->equals('jon');
+        verify($this->ask('What is your name?', true))->equals('jon');
     }
 
     public function testAskHiddenMethod()
@@ -77,14 +67,8 @@ class OutputTest extends \Codeception\TestCase\Test
     
     public function testYell()
     {
-        $this->nullOutput->expects($this->exactly(3))
-            ->method('writeln');
         $this->yell('Buuuu!');
-    }
-
-    protected function getOutput()
-    {
-        return $this->nullOutput;
+        $this->guy->seeInOutput('Buuuu!');
     }
 
     protected function getDialog()

@@ -12,7 +12,8 @@ class CodeHelper extends \Codeception\Module
 
     public function _before(\Codeception\TestCase $test)
     {
-        Runner::setPrinter(new NullOutput());
+        TestPrinter::$output = '';
+        Runner::setPrinter(new TestPrinter());
     }
 
     public function _after(\Codeception\TestCase $test)
@@ -21,4 +22,30 @@ class CodeHelper extends \Codeception\Module
         Runner::setPrinter(null);
 
     }
+
+    public function seeInOutput($value)
+    {
+        $this->assertContains($value, TestPrinter::$output);
+    }
+
+    public function seeOutputEquals($value)
+    {
+        $this->assertEquals($value, TestPrinter::$output);
+    }
+}
+
+class TestPrinter extends NullOutput {
+
+    static $output = '';
+
+    public function writeln($messages, $type = self::OUTPUT_NORMAL)
+    {
+        static::$output .= $messages."\n";
+    }
+
+    public function write($messages, $newline = false, $type = self::OUTPUT_NORMAL)
+    {
+        static::$output .= $messages;
+    }
+
 }

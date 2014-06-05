@@ -148,6 +148,7 @@ class Robofile extends \Robo\Tasks
             ->process('php ~/demos/robotests/parascript.php hey')
             ->process('php ~/demos/robotests/parascript.php hoy')
             ->process('php ~/demos/robotests/parascript.php gou')
+            ->process('php ~/demos/robotests/parascript.php die')
             ->run();
     }
     

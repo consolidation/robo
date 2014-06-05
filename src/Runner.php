@@ -12,6 +12,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Runner {
+    use Output;
 
     const VERSION = '0.4.4';
     const ROBOCLASS = 'RoboFile';
@@ -25,11 +26,6 @@ class Runner {
      */
     protected static $printer;
 
-    /**
-     * @var ConsoleOutput
-     */
-    protected $output;
-
     public static function getPrinter()
     {
         return self::$printer ? self::$printer : new ConsoleOutput();
@@ -39,18 +35,12 @@ class Runner {
         self::$printer = $output;
     }
 
-    public function __construct()
-    {
-        $this->output = self::getPrinter();
-
-    }
-
     protected function loadRoboFile()
     {
         if (!file_exists(self::ROBOFILE)) {
-            $this->output->writeln("<comment>  ".self::ROBOFILE." not found in this dir </comment>");
-            $dialog = new DialogHelper();
-            if ($dialog->askConfirmation($this->output, "<question>  Should I create RoboFile here? (y/n)  \n</question>", false)) {
+            $this->writeln("<comment>  ".self::ROBOFILE." not found in this dir </comment>");
+            $answer = $this->ask("  Should I create RoboFile here? (y/n)  \n");
+            if (strtolower(trim($answer)) === 'y') {
                 $this->initRoboFile();
             }
             exit;
@@ -58,7 +48,7 @@ class Runner {
         require_once self::ROBOFILE;
 
         if (!class_exists(self::ROBOCLASS)) {
-            $this->output->writeln("<error>Class ".self::ROBOCLASS." was not loaded</error>");
+            $this->writeln("<error>Class ".self::ROBOCLASS." was not loaded</error>");
             return false;
         }
         return true;
@@ -142,7 +132,7 @@ class Runner {
     protected function initRoboFile()
     {
         file_put_contents(self::ROBOFILE, "<?php\nclass " .self::ROBOCLASS ." extends \\Robo\\Tasks\n{\n    // define public methods as commands\n}");
-        $this->output->writeln(self::ROBOFILE . " created");
+        $this->writeln(self::ROBOFILE . " created");
 
     }
 
@@ -150,7 +140,7 @@ class Runner {
     {
         $error = error_get_last();
         if (!is_array($error)) return;
-        $this->output->writeln(sprintf("<error>ERROR: %s \nin %s:%d\n</error>", $error['message'], $error['file'], $error['line']));
+        $this->writeln(sprintf("<error>ERROR: %s \nin %s:%d\n</error>", $error['message'], $error['file'], $error['line']));
     }
 }
 

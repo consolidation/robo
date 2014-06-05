@@ -106,8 +106,8 @@ class ParallelExecTask implements Shared\TaskInterface, Shared\CommandInterface
         $errorMessage = '';
         $exitCode = 0;
         foreach ($this->processes as $p) {
-            if (!$p->getExitCode()) continue;
-            $errorMessage .= "Process " . $p->getCommandLine() . ' ended with code: '. $p->getExitCode()."\n";
+            if ($p->getExitCode() === 0) continue;
+            $errorMessage .= "'" . $p->getCommandLine() . "' exited with code ". $p->getExitCode()." \n";
             $exitCode = max($exitCode, $p->getExitCode());
         }
 

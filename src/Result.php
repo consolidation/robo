@@ -23,8 +23,12 @@ class Result {
         
         if (!$this->wasSuccessful()) {
             $lines = explode("\n", $this->message);
-            $msg = end($lines);
-            $this->printTaskInfo("<error>Error</error> $msg", $this->task);
+            foreach ($lines as $msg) {
+                if ($msg) $this->printTaskInfo("<error>Error</error> $msg", $this->task);
+            }
+            if (!$this->message) {
+                $this->printTaskInfo("<error> Error</error> Exit code ".$this->exitCode, $this->task);
+            }
         }
 
         if (self::$stopOnFail) {

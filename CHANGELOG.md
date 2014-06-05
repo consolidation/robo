@@ -2,6 +2,8 @@
 
 #### 0.4.4 06/05/2014
 
+* better descriptions for Result output
+* changed ParallelTask to display failed process in list
 * Changed Output to be stored globally in Robo\Runner class
 * Added SshTask by @boedah
 * Added RsyncTask by @boedah

@@ -51,12 +51,6 @@ class OutputTest extends \Codeception\TestCase\Test
         $this->ask('What is your name?');
     }
 
-    public function testAskHidden()
-    {
-        $this->expectedAnswer = 'jon';
-        verify($this->ask('What is your name?', true))->equals('jon');
-    }
-
     public function testAskHiddenMethod()
     {
         $this->nullDialog = $this->getMock('\Symfony\Component\Console\Helper\DialogHelper', ['askHiddenResponse']);

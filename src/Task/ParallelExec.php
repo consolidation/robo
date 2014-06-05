@@ -38,8 +38,8 @@ class ParallelExecTask implements Shared\TaskInterface, Shared\CommandInterface
     use Shared\CommandInjected;
 
     protected $processes = [];
-    protected $timeout = 3600;
-    protected $idleTimeout = 60;
+    protected $timeout = null;
+    protected $idleTimeout = null;
     protected $isPrinted = false;
 
     public function printed($isPrinted = true)

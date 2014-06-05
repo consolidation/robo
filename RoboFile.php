@@ -85,12 +85,6 @@ class Robofile extends \Robo\Tasks
             return str_replace('#### *public* ', '* `', $text) . '`';
         })->processMethodDocBlock(function(\ReflectionMethod $m, $text) {
             return $text ? ' ' . strtok($text, "\n") : '';
-        })->processClass(function(\ReflectionClass $refl, $text) {
-            if ($refl->isTrait()) {
-                return "## ".$refl->getShortName()."\n\n``` use ".$refl->getName().";```\n$text";
-            } else {
-                return "### ".$refl->getShortName()."\n".$text;
-            }
         })->run();
     }
 

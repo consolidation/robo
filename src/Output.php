@@ -5,8 +5,6 @@ use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 trait Output {
-    private static $output;
-    private static $dialog;
 
     protected function say($text)
     {
@@ -32,7 +30,7 @@ trait Output {
 
     protected function ask($question, $hideAnswer = false)
     {
-        $dialog = new DialogHelper();
+        $dialog = $this->getDialog();
         if ($hideAnswer) {
             return $dialog->askHiddenResponse($this->getOutput(), "<question>?  $question</question> ");
         } else {
@@ -43,30 +41,14 @@ trait Output {
     /**
      * @return ConsoleOutput
      */
-    protected function getOutput()
+    private function getOutput()
     {
-        if (!static::$output) {
-            static::$output = new ConsoleOutput();
-        }
-        return static::$output;
+        return Runner::getPrinter();
     }
 
-    public static function setOutput(ConsoleOutput $output)
+    private function getDialog()
     {
-        static::$output = $output;
-    }
-
-    protected function getDialogHelper()
-    {
-        if (!static::$dialog) {
-            static::$dialog = new DialogHelper();
-        }
-        return static::$dialog;
-    }
-
-    public static function setDialogHelper(DialogHelper $helper)
-    {
-        static::$dialog = $helper;
+        return new DialogHelper();
     }
 
     private function writeln($text)

@@ -1,59 +1,99 @@
 <?php
-namespace Robo\Tests;
+use AspectMock\Test as test;
+use Robo\Output;
 
-use PHPUnit_Framework_TestCase;
-use Mockery as m;
+class OutputTest extends \Codeception\TestCase\Test
+{
+    use Output {
+        say as public;
+        yell as public;
+        ask as public;
+        getOutput as protected;
+        getDialog as protected;
+    }
 
-class OutputTest extends PHPUnit_Framework_TestCase {
+    protected $expectedAnswer;
 
-    private $output;
-    private $console;
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $nullOutput;
 
-    const SAY_PREFIX = '';
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $nullDialog;
 
-    public function setUp()
+    protected function _before()
     {
-        $this->output = new OutputStub;
-        $this->console = m::mock('Symfony\Component\Console\Output\ConsoleOutput');
-        OutputStub::setOutput($this->console);
+        $this->nullOutput = $this->getMock('Symfony\Component\Console\Output\NullOutput', ['writeln','write']);
+        $this->nullDialog = new \Symfony\Component\Console\Helper\DialogHelper;
     }
 
     public function testSay()
     {
-        $this->console->shouldReceive('writeln')
-            ->with('➜  Hello, world!')
-            ->once();
+        $this->nullOutput->expects($this->once())
+            ->method('writeln')
+            ->with($this->equalTo('➜  Hello, world!'));
 
-        $this->output->say('Hello, world!');
+        $this->say('Hello, world!');
     }
 
-    public function testAsk()
+    public function testAskReply()
     {
-        // Mock DialogHelper
-        $dialog = m::mock('Symfony\Component\Console\Helper\DialogHelper');
-        $dialog->shouldReceive('ask')
-            ->with($this->console, '<question>?  What is your name?</question> ');
+        $this->expectedAnswer = 'jon';
+        $this->nullOutput->expects($this->once())
+            ->method('write')
+            ->with($this->equalTo('<question>?  What is your name?</question> '));
 
-        OutputStub::setDialogHelper($dialog);
-
-        $result = $this->output->ask('What is your name?');
-    }
-}
-
-class OutputStub
-{
-    use Output {
-        Output::say as _say;
-        Output::ask as _ask;
+        verify($this->ask('What is your name?'))->equals('jon');
     }
 
-    public function say($text)
+    public function testAskMethod()
     {
-        $this->_say($text);
+        $this->nullDialog = $this->getMock('\Symfony\Component\Console\Helper\DialogHelper', ['ask']);
+        $this->nullDialog->expects($this->once())
+            ->method('ask');
+        $this->ask('What is your name?');
     }
 
-    public function ask($question)
+    public function testAskHidden()
     {
-        $this->_ask($question);
+        $this->expectedAnswer = 'jon';
+        $this->nullOutput->expects($this->once())
+            ->method('write')
+            ->with($this->equalTo('<question>?  What is your name?</question> '));
+
+        verify($this->ask('What is your name?', false))->equals('jon');
+    }
+
+    public function testAskHiddenMethod()
+    {
+        $this->nullDialog = $this->getMock('\Symfony\Component\Console\Helper\DialogHelper', ['askHiddenResponse']);
+        $this->nullDialog->expects($this->once())
+            ->method('askHiddenResponse');
+        $this->ask('What is your name?', true);
+    }
+    
+    public function testYell()
+    {
+        $this->nullOutput->expects($this->exactly(3))
+            ->method('writeln');
+        $this->yell('Buuuu!');
+    }
+
+    protected function getOutput()
+    {
+        return $this->nullOutput;
+    }
+
+    protected function getDialog()
+    {
+        $stream = fopen('php://memory', 'r+', false);
+        fputs($stream, $this->expectedAnswer);
+        rewind($stream);
+
+        $this->nullDialog->setInputStream($stream);
+        return $this->nullDialog;
     }
 }

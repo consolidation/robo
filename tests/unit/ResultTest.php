@@ -1,23 +1,11 @@
 <?php
-namespace Robo\Tests;
-
-use PHPUnit_Framework_TestCase;
-use Mockery as m;
-
 use Robo\Result;
 
-class ResultTest extends PHPUnit_Framework_TestCase {
+class ResultTest extends \Codeception\TestCase\Test {
 
     public function testBasics()
     {
-        $task = m::mock('Robo\Task\TaskInterface');
-        // Mock console output
-        $console = m::mock('Symfony\Component\Console\Output\ConsoleOutput');
-        $console->shouldReceive('writeln')
-            ->with('/.*\<error\>Error\<\/error\> The foo barred$/')
-            ->once();
-
-        Result::setOutput($console);
+        $task = new ResultDummyTask();
         $result = new Result($task, 1, 'The foo barred', ['time' => 0]);
 
         $this->assertSame($task, $result->getTask());
@@ -27,6 +15,13 @@ class ResultTest extends PHPUnit_Framework_TestCase {
 
         $taskClone = $result->cloneTask();
         $this->assertNotSame($task, $taskClone);
-        $this->assertInstanceOf('Robo\Task\TaskInterface', $taskClone);
+        $this->assertInstanceOf('Robo\Task\Shared\TaskInterface', $taskClone);
+    }
+}
+
+class ResultDummyTask implements \Robo\Task\Shared\TaskInterface
+{
+    public function run()
+    {
     }
 }

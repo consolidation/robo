@@ -4,6 +4,8 @@ namespace Codeception\Module;
 // here you can define custom actions
 // all public methods declared in helper class will be available in $I
 
+use Symfony\Component\Console\Output\NullOutput;
+
 class CliHelper extends \Codeception\Module
 {
 //   	use \Robo\Task\Development;
@@ -26,10 +28,12 @@ class CliHelper extends \Codeception\Module
 
     public function _before(\Codeception\TestCase $test) {
         $this->getModule('Filesystem')->copyDir(codecept_data_dir().'claypit', codecept_data_dir().'sandbox');
+        \Robo\Runner::setPrinter(new NullOutput());
     }
 
     public function _after(\Codeception\TestCase $test) {
         $this->getModule('Filesystem')->deleteDir(codecept_data_dir().'sandbox');
+        \Robo\Runner::setPrinter(null);
         chdir(codecept_root_dir());
     }
 }

@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class Runner {
 
@@ -22,11 +23,26 @@ class Runner {
     /**
      * @var ConsoleOutput
      */
+    protected static $printer;
+
+    /**
+     * @var ConsoleOutput
+     */
     protected $output;
+
+    public static function getPrinter()
+    {
+        return self::$printer ? self::$printer : new ConsoleOutput();
+    }
+    public static function setPrinter($output)
+    {
+        self::$printer = $output;
+    }
 
     public function __construct()
     {
-        $this->output = new ConsoleOutput();
+        $this->output = self::getPrinter();
+
     }
 
     protected function loadRoboFile()

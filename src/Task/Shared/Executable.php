@@ -6,14 +6,34 @@ use \Symfony\Component\Process\Process as SymfonyProcess;
 trait Executable {
 
     protected $arguments;
+    protected $isPrinted = true;
+
+    /**
+     * Should command output be printed
+     *
+     * @param $arg
+     * @return $this
+     */
+    public function printed($arg)
+    {
+        if (is_bool($arg)) {
+            $this->isPrinted = $arg;
+        }
+        return $this;
+    }
+
 
     protected function executeCommand($command)
     {
         $process = new SymfonyProcess($command);
         $process->setTimeout(null);
-        $process->run(function ($type, $buffer) {
-            SymfonyProcess::ERR === $type ? print('ER» '.$buffer) : print($buffer);
-        });
+        if ($this->isPrinted) {
+            $process->run(function ($type, $buffer) {
+                SymfonyProcess::ERR === $type ? print('ER» '.$buffer) : print($buffer);
+            });
+        } else {
+            $process->run();
+        }
 
 		return new Result($this, $process->getExitCode(), $process->getOutput());
     }

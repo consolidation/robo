@@ -97,6 +97,7 @@ class Robofile extends \Robo\Tasks
     public function pharBuild()
     {
         $this->taskComposerInstall()
+            ->printed(false)
             ->noDev()
             ->run();
             

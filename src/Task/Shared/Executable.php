@@ -38,11 +38,23 @@ trait Executable {
 		return new Result($this, $process->getExitCode(), $process->getOutput());
     }
 
+    /**
+     * Pass argument to executable
+     *
+     * @param $arg
+     * @return $this
+     */
     public function arg($arg)
     {
         return $this->args($arg);
     }
 
+    /**
+     * Pass methods parameters as arguments to executable
+     *
+     * @param $args
+     * @return $this
+     */
     public function args($args)
     {
         if (!is_array($args)) {
@@ -52,6 +64,13 @@ trait Executable {
         return $this;
     }
 
+    /**
+     * Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+     *
+     * @param $option
+     * @param null $value
+     * @return $this
+     */
     public function option($option, $value = null)
     {
         if ($option !== null and strpos($option, '-') !== 0) {

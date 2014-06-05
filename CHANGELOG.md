@@ -2,6 +2,7 @@
 
 #### 0.4.4 06/05/2014
 
+* Output can be disabled in all executable tasks by ->printed(false)
 * disabled timeouts by default in ParallelExec
 * better descriptions for Result output
 * changed ParallelTask to display failed process in list

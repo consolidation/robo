@@ -116,6 +116,7 @@ class Robofile extends \Robo\Tasks
             ->run();
 
         $this->taskComposerInstall()
+            ->printed(false)
             ->run();
     }
 

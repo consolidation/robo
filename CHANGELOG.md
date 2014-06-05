@@ -1,5 +1,12 @@
 # Changelog
 
+#### 0.4.4 06/05/2014
+
+* Changed Output to be stored globally in Robo\Runner class
+* Added SshTask by @boedah
+* Added RsyncTask by @boedah
+
+
 #### 0.4.3 05/29/2014
 
 * false option to GenMarkDownTask

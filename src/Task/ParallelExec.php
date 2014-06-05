@@ -103,7 +103,14 @@ class ParallelExecTask implements Shared\TaskInterface, Shared\CommandInterface
         $taken = number_format(microtime(true) - $started, 2);
         $this->printTaskInfo(count($this->processes) . " processes ended in $taken s");
 
-        $exitCode = max(array_map(function(Process $p) { return $p->getExitCode(); }, $this->processes));
-        return new Result($this, $exitCode);
+        $errorMessage = '';
+        $exitCode = 0;
+        foreach ($this->processes as $p) {
+            if (!$p->getExitCode()) continue;
+            $errorMessage .= "Process " . $p->getCommandLine() . ' ended with code: '. $p->getExitCode()."\n";
+            $exitCode = max($exitCode, $p->getExitCode());
+        }
+
+        return new Result($this, $exitCode, $errorMessage);
     }
 } 

@@ -58,7 +58,7 @@ class OutputTest extends \Codeception\TestCase\Test
             ->method('askHiddenResponse');
         $this->ask('What is your name?', true);
     }
-    
+
     public function testYell()
     {
         $this->yell('Buuuu!');

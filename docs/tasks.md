@@ -29,9 +29,9 @@ $this->taskBowerInstall('path/to/my/bower')
 
 * `printed($arg)`  Should command output be printed
 
-* `arg($arg)` 
-* `args($args)` 
-* `option($option, $value = null)` 
+* `arg($arg)`  Pass argument to executable
+* `args($args)`  Pass methods parameters as arguments to executable
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
 
 
 
@@ -67,9 +67,9 @@ $this->taskBowerUpdate('path/to/my/bower')
 
 * `printed($arg)`  Should command output be printed
 
-* `arg($arg)` 
-* `args($args)` 
-* `option($option, $value = null)` 
+* `arg($arg)`  Pass argument to executable
+* `args($args)`  Pass methods parameters as arguments to executable
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
 
 
 
@@ -126,9 +126,9 @@ $this->taskCodecept()
 
 * `printed($arg)`  Should command output be printed
 
-* `arg($arg)` 
-* `args($args)` 
-* `option($option, $value = null)` 
+* `arg($arg)`  Pass argument to executable
+* `args($args)`  Pass methods parameters as arguments to executable
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
 
 
 ## ComposerInstall
@@ -173,9 +173,9 @@ $this->taskComposerInstall('path/to/my/composer.phar')
 
 * `printed($arg)`  Should command output be printed
 
-* `arg($arg)` 
-* `args($args)` 
-* `option($option, $value = null)` 
+* `arg($arg)`  Pass argument to executable
+* `args($args)`  Pass methods parameters as arguments to executable
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
 ## ComposerUpdate
 
 
@@ -218,9 +218,9 @@ $this->taskComposerUpdate('path/to/my/composer.phar')
 
 * `printed($arg)`  Should command output be printed
 
-* `arg($arg)` 
-* `args($args)` 
-* `option($option, $value = null)` 
+* `arg($arg)`  Pass argument to executable
+* `args($args)`  Pass methods parameters as arguments to executable
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
 ## ComposerDumpAutoload
 
 
@@ -271,9 +271,9 @@ $this->taskComposerDumpAutoload('path/to/my/composer.phar')
 
 * `printed($arg)`  Should command output be printed
 
-* `arg($arg)` 
-* `args($args)` 
-* `option($option, $value = null)` 
+* `arg($arg)`  Pass argument to executable
+* `args($args)`  Pass methods parameters as arguments to executable
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
 
 ## Concat
 
@@ -904,9 +904,9 @@ $this->taskPHPUnit()
 
 * `printed($arg)`  Should command output be printed
 
-* `arg($arg)` 
-* `args($args)` 
-* `option($option, $value = null)` 
+* `arg($arg)`  Pass argument to executable
+* `args($args)`  Pass methods parameters as arguments to executable
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
 
 ## PackPhar
 
@@ -1114,9 +1114,9 @@ if ('y' === $this->ask('Do you want to run (y/n)')) {
 
 * `printed($arg)`  Should command output be printed
 
-* `arg($arg)` 
-* `args($args)` 
-* `option($option, $value = null)` 
+* `arg($arg)`  Pass argument to executable
+* `args($args)`  Pass methods parameters as arguments to executable
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
 
 
 
@@ -1182,9 +1182,9 @@ $this->taskSshExec('remote.example.com')
 
 * `printed($arg)`  Should command output be printed
 
-* `arg($arg)` 
-* `args($args)` 
-* `option($option, $value = null)` 
+* `arg($arg)`  Pass argument to executable
+* `args($args)`  Pass methods parameters as arguments to executable
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
 
 ## SymfonyCommand
 

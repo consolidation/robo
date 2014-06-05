@@ -2,16 +2,13 @@
 
 #### 0.4.4 06/05/2014
 
+* disabled timeouts by default in ParallelExec
 * better descriptions for Result output
 * changed ParallelTask to display failed process in list
 * Changed Output to be stored globally in Robo\Runner class
-* Added SshTask by @boedah
-* Added RsyncTask by @boedah
-
-
-#### 0.4.3 05/29/2014
-
-* false option to GenMarkDownTask
+* Added **SshTask** by @boedah
+* Added **RsyncTask** by @boedah
+* false option added to proceess* callbacks in GenMarkDownTask to skip processing
 
 
 #### 0.4.3 05/21/2014

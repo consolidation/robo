@@ -245,7 +245,7 @@ $this->say("Hello");
 Also you can ask for input from console
 
 ```
-$name = $this->ask("What is your namr?");
+$name = $this->ask("What is your name?");
 ```
 
 Inside tasks you should print process details with `printTaskInfo`

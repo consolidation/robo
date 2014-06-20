@@ -25,7 +25,7 @@ wget http://codegyre.github.io/Robo/robo.phar
 To install globally put `robo.phar` in `/usr/bin`.
 
 ```
-sudo chmod +x robo.phar && mv robo.phar /user/bin/robo
+sudo chmod +x robo.phar && mv robo.phar /usr/bin/robo
 ```
 
 Now you can use it just like `robo`.

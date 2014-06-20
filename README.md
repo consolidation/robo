@@ -16,7 +16,7 @@
 
 ### Phar
 
-[Download robo.phar >](http://codegyre.github.io/Robo/robo.phar)
+[Download robo.phar >](http://robo.li/robo.phar)
 
 ```
 wget http://codegyre.github.io/Robo/robo.phar

@@ -2,3 +2,4 @@ vendor/
 .idea/
 tests/_log/*
 composer.phar
+robo.phar

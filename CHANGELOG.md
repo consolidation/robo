@@ -1,13 +1,9 @@
 # Changelog
 
-#### 0.4.4
-
-* [Watch] bugfix: Watch only tracks last file if given array of files #46 *2014-08-05*
-
-
 #### 0.4.5
 
-* All executable tasks can configure working directory with 'dir' option
+* [Watch] bugfix: Watch only tracks last file if given array of files #46 *2014-08-05*
+* All executable tasks can configure working directory with `dir` option
 * If no value for an option is provided, assume it's a VALUE_NONE option. #47 by @pfaocle
 * [Changelog] changed style *2014-06-27*
 * [GenMarkDown] fixed formatting annotations *2014-06-27*

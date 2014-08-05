@@ -31,53 +31,7 @@
     <favorites_list name="Robo" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="CNAME" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CNAME">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="7" selection-start="7" selection-end="7" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="126">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="70" selection-start="916" selection-end="916" vertical-scroll-proportion="-15.555555" vertical-offset="126" max-vertical-offset="3759">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="started.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/started.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="70" selection-start="1390" selection-end="1390" vertical-scroll-proportion="-18.666666" vertical-offset="315" max-vertical-offset="1365">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tasks.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tasks.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="43" column="70" selection-start="1529" selection-end="1529" vertical-scroll-proportion="-14.777778" vertical-offset="504" max-vertical-offset="1449">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="releases.html" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/releases.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="62" column="0" selection-start="2221" selection-end="2221" vertical-scroll-proportion="0.3604061" vertical-offset="1018" max-vertical-offset="1806">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -134,9 +88,9 @@
     </include_path>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="y" value="24" />
+    <option name="y" value="-4" />
     <option name="width" value="1600" />
-    <option name="height" value="876" />
+    <option name="height" value="904" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -286,7 +240,7 @@
     <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
       <method />
     </configuration>
-    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
       <method />
     </configuration>
     <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
@@ -295,34 +249,21 @@
     <list size="0" />
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
-  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="false" SSL_PROTOCOLS="all">
-    <option name="USER" value="" />
-    <option name="PASSWORD" value="" />
-    <option name="mySSHConnectionTimeout" value="30000" />
-    <option name="mySSHReadTimeout" value="30000" />
-    <option name="LAST_MERGED_REVISION" />
-    <option name="MERGE_DRY_RUN" value="false" />
-    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
-    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
-    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
-    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
-    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
-    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
-    <option name="FORCE_UPDATE" value="false" />
-    <option name="IGNORE_EXTERNALS" value="false" />
-    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
+  <component name="SvnConfiguration" myUseAcceleration="nothing">
+    <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="05798e57-dd7d-4276-9e52-dbab2f15e32e" name="Default" comment="" />
       <created>1390432076424</created>
+      <option name="number" value="Default" />
       <updated>1390432076424</updated>
     </task>
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="24" width="1600" height="876" extended-state="6" />
-    <editor active="true" />
+    <frame x="0" y="-4" width="1600" height="904" extended-state="6" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -349,6 +290,9 @@
     <option name="RECENTLY_FILTERED_USER_GROUPS">
       <collection />
     </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -361,111 +305,55 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
+    <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/CNAME">
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/php/lib/php.jar!/com/jetbrains/php/lang/psi/stubs/data/Reflection.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="7" selection-start="7" selection-end="7" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="126">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="0" selection-start="530" selection-end="530" vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="3738">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/started.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="0" selection-start="1124" selection-end="1314" vertical-scroll-proportion="0.0" vertical-offset="94" max-vertical-offset="1344">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tasks.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1428">
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="10380" max-vertical-offset="36456">
+          <caret line="510" column="74" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/plugins/php/lib/php.jar!/com/jetbrains/php/lang/psi/stubs/data/Reflection.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="510" column="74" selection-start="14511" selection-end="14511" vertical-scroll-proportion="0.0" vertical-offset="10380" max-vertical-offset="36456">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/php/lib/php.jar!/com/jetbrains/php/lang/psi/stubs/data/Reflection.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="510" column="74" selection-start="14511" selection-end="14511" vertical-scroll-proportion="0.0" vertical-offset="10380" max-vertical-offset="36456">
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="10380" max-vertical-offset="36456">
+          <caret line="510" column="74" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/vendor/symfony/finder/Symfony/Component/Finder/Finder.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="142" column="6" selection-start="3879" selection-end="3879" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <caret line="142" column="6" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/plugins/php/lib/php.jar!/com/jetbrains/php/lang/psi/stubs/data/Reflection.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="510" column="74" selection-start="14511" selection-end="14511" vertical-scroll-proportion="0.0" vertical-offset="10380" max-vertical-offset="36456">
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="10380" max-vertical-offset="36456">
+          <caret line="510" column="74" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/vendor/symfony/process/Symfony/Component/Process/Process.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="725" column="20" selection-start="22564" selection-end="22564" vertical-scroll-proportion="116.296295" vertical-offset="18155" max-vertical-offset="27258" />
+        <state vertical-scroll-proportion="116.296295" vertical-offset="18155" max-vertical-offset="27258">
+          <caret line="725" column="20" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/plugins/php/lib/php.jar!/com/jetbrains/php/lang/psi/stubs/data/standard_6.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="950" column="9" selection-start="32424" selection-end="32424" vertical-scroll-proportion="20.62963" vertical-offset="20507" max-vertical-offset="25179" />
+        <state vertical-scroll-proportion="20.62963" vertical-offset="20507" max-vertical-offset="25179">
+          <caret line="950" column="9" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/plugins/php/lib/php.jar!/com/jetbrains/php/lang/psi/stubs/data/standard_7.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="583" column="9" selection-start="17236" selection-end="17236" vertical-scroll-proportion="-10.222222" vertical-offset="11967" max-vertical-offset="23457">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CNAME">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="7" selection-start="7" selection-end="7" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="828">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/started.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="70" selection-start="1390" selection-end="1390" vertical-scroll-proportion="-18.666666" vertical-offset="315" max-vertical-offset="1365">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tasks.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="70" selection-start="1529" selection-end="1529" vertical-scroll-proportion="-14.777778" vertical-offset="504" max-vertical-offset="1449">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="70" selection-start="916" selection-end="916" vertical-scroll-proportion="-15.555555" vertical-offset="126" max-vertical-offset="3759">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/releases.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="62" column="0" selection-start="2221" selection-end="2221" vertical-scroll-proportion="0.3604061" vertical-offset="1018" max-vertical-offset="1806">
-          <folding />
+        <state vertical-scroll-proportion="-10.222222" vertical-offset="11967" max-vertical-offset="23457">
+          <caret line="583" column="9" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>

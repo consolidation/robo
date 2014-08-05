@@ -9,7 +9,6 @@
 }
 .header {
     background: #3498db;
-    border-bottom: 5px solid #8e44ad;
 }
 .header a {
     color: #fff !important;
@@ -37,6 +36,5 @@ body .menubar {
 }
 
 pre.outset {
-    position: absolute;
-    left: 1040px;
+    float: right;
 }

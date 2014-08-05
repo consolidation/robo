@@ -37,7 +37,6 @@
 
   <div class='content-root no-menu'>
     <div class='content'>
-        <pre class="outset">
 
 <h5>Example: Running Tests</h5>
 <pre><code class="php">public function testAcceptance()
@@ -66,29 +65,6 @@
         'web/assets/tmp_uploads',
     ])->run();
 }</code></pre>
-<h5>Example: Releasing Robo</h5>
-<pre><code class="php">public function release()
-{
-    $this->say("Releasing Robo");
-
-    $this->taskGit()
-        ->add('CHANGELOG.md')
-        ->commit('updated')
-        ->push()
-        ->run();
-
-    $this->taskGitHubRelease(\Robo\Runner::VERSION)
-        ->uri('Codegyre/Robo')
-        ->askDescription()
-        ->run();
-
-    $this->pharPublish();
-}
-</code></pre>
-
-
-
-        </pre>
 
 
 

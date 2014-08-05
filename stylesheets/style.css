@@ -689,14 +689,14 @@ a.big.button:hover:visited {
 }
 @media (min-width: 768px) /* Desktop */ {
   .content-root {
-    padding-left: 230px;
+    padding-left: 25%;
   }
   .menubar {
     position: absolute;
     left: 0;
     top: 0;
     bottom: 0;
-    width: 230px;
+    width: 20%;
     border-right: solid 1px #dfe2e7;
   }
   .menubar.fixed {

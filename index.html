@@ -10,7 +10,8 @@
   <!-- Flatdoc theme -->
   <link href="stylesheets/style.css" rel="stylesheet">
   <link href="stylesheets/local.css" rel="stylesheet">
-  <script src="javascripts/script.js"></script>
+  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/default.min.css">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js"></script>
 
   <!-- Meta -->
   <meta content="Robo" property="og:title">
@@ -40,7 +41,7 @@
         <pre class="outset">
 
 <h5>Example: Running Tests</h5>
-<code>public function testAcceptance()
+<pre><code class="php">public function testAcceptance()
 {
     $this->taskServer(8000)
         ->background()
@@ -54,8 +55,8 @@
     $this->taskPHPUnit()
         ->run();
 }
-</code><h5>Example: Cleaning Files</h5>
-<code>public function clean()
+</code></pre><h5>Example: Cleaning Files</h5>
+<pre><code class="php">public function clean()
 {
     $this->taskCleanDir([
         'app/cache'
@@ -65,9 +66,9 @@
     $this->taskDeleteDir([
         'web/assets/tmp_uploads',
     ])->run();
-}</code>
+}</code></pre>
 <h5>Example: Releasing Robo</h5>
-<code>public function release()
+<pre><code class="php">public function release()
 {
     $this->say("Releasing Robo");
 
@@ -84,7 +85,7 @@
 
     $this->pharPublish();
 }
-</code>
+</code></pre>
 
 
 

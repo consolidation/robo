@@ -35,6 +35,6 @@ body .menubar {
     clear: both;
 }
 
-pre.outset {
+.outset {
     float: right;
 }

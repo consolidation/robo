@@ -10,7 +10,7 @@
   <!-- Flatdoc theme -->
   <link href="stylesheets/style.css" rel="stylesheet">
   <link href="stylesheets/local.css" rel="stylesheet">
-  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/default.min.css">
+  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/monokai_sublime.min.css">
   <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js"></script> 
   <!-- Meta -->
   <meta content="Robo" property="og:title">
@@ -35,8 +35,9 @@
     </div>
   </div>
 
-  <div class='content-root no-menu'>
+  <div class='content-root no-left'>
     <div class='content'>
+        <div class="outset">
 
 <h5>Example: Running Tests</h5>
 <pre><code class="php">public function testAcceptance()
@@ -65,6 +66,31 @@
         'web/assets/tmp_uploads',
     ])->run();
 }</code></pre>
+<h5>Example: Releasing Robo</h5>
+<pre><code class="php">public function release()
+{
+    $this->say("Releasing Robo");
+
+    $this->taskGit()
+        ->add('CHANGELOG.md')
+        ->commit('updated')
+        ->push()
+        ->run();
+
+    $this->taskGitHubRelease(\Robo\Runner::VERSION)
+        ->uri('Codegyre/Robo')
+        ->askDescription()
+        ->run();
+
+    $this->pharPublish();
+}
+</code></pre>
+
+  <a href="https://github.com/Codeception/Codeception/blob/2.0/RoboFile.php">Example #1</a>
+  <a href="https://github.com/Codeception/AspectMock/blob/master/RoboFile.php">Example #2</a>
+  <a href="https://github.com/Codegyre/Robo/blob/master/RoboFile.php">Example #3</a>
+
+        </div>
 
 
 
@@ -128,7 +154,7 @@
             <h3>Composer</h3>
             <p>Add to <code>composer.json</code></p>
             <pre>
-<code>require-dev: {
+<code class="json">require-dev: {
     "codegyre/robo": "*"
 }
 </code></pre>

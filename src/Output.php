@@ -6,14 +6,17 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 
 trait Output {
 
+
     protected function say($text)
     {
-        $this->writeln("➜  $text");
+        $char = strncasecmp(PHP_OS, 'WIN', 3) == 0 ? '>' : '➜';
+        $this->writeln("$char  $text");
     }
 
     protected function yell($text, $length = 40)
     {
-        $format = "➜<fg=white;bg=green;options=bold>%s</fg=white;bg=green;options=bold>";
+        $char = strncasecmp(PHP_OS, 'WIN', 3) == 0 ? ' ' : '➜';
+        $format = "$char  <fg=white;bg=green;options=bold>%s</fg=white;bg=green;options=bold>";
         $text = str_pad($text, $length, ' ', STR_PAD_BOTH);
         $len = strlen($text) + 4;
         $space = str_repeat(' ', $len);

@@ -123,7 +123,11 @@ class Runner {
         }
         $opts = $taskInfo->getOptions();
         foreach ($opts as $name => $val) {
-            $task->addOption($name, '', InputOption::VALUE_OPTIONAL, '', $val);
+            if (empty($val)) {
+                $task->addOption($name, '', InputOption::VALUE_NONE, '');
+            } else {
+                $task->addOption($name, '', InputOption::VALUE_OPTIONAL, '', $val);
+            }
         }
 
         return $task;

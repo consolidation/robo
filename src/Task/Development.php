@@ -105,8 +105,8 @@ class ChangelogTask implements TaskInterface
         if (empty($this->log)) {
             return Result::error($this, "Changelog is empty");
         }
-        $text = implode("\n", array_map(function ($i) { return "* $i"; }, $this->log))."\n";
-        $ver = "#### {$this->version} ".date('m/d/Y')."\n\n";
+        $text = implode("\n", array_map(function ($i) { return "* $i *".date('Y-m-d')."*"; }, $this->log))."\n";
+        $ver = "#### {$this->version}\n\n";
         $text = $ver . $text;
 
         if (!file_exists($this->filename)) {
@@ -380,7 +380,7 @@ class GenMarkdownDocTask implements TaskInterface
              }
          }
         $propertyDoc = self::indentDoc($propertyDoc, 7);
-        $propertyDoc = preg_replace("~@(.*?)([$\s])~", ' * `$1` $2', $propertyDoc); // format annotations
+        $propertyDoc = preg_replace("~^@(.*?)([$\s])~", ' * `$1` $2', $propertyDoc); // format annotations
         if (is_callable($this->processPropertyDocBlock)) {
             $propertyDoc = call_user_func($this->processPropertyDocBlock, $reflectedProperty, $propertyDoc);
         }
@@ -398,7 +398,7 @@ class GenMarkdownDocTask implements TaskInterface
             if ($param->allowsNull()) {
                 $text .= ' = null';
             } else {
-                $text .= ' = '.$param->getDefaultValue();
+                $text .= ' = '.str_replace("\n",' ', print_r($param->getDefaultValue(), true));
             }
         }
 
@@ -458,7 +458,7 @@ class GenMarkdownDocTask implements TaskInterface
         }
 
         $methodDoc = self::indentDoc($methodDoc, 7);
-        $methodDoc = preg_replace("~@(.*?)([$\s])~", ' * `$1` $2', $methodDoc); // format annotations
+        $methodDoc = preg_replace("~^@(.*?) ([$\s])~m", ' * `$1` $2', $methodDoc); // format annotations
         if (is_callable($this->processMethodDocBlock)) {
             $methodDoc = call_user_func($this->processMethodDocBlock, $reflectedMethod, $methodDoc);
         }
@@ -502,13 +502,19 @@ class SemVerTask implements TaskInterface
         'metadata' => ''
     ];
 
-    public function __construct($pathToSemVer = '.semver')
+    public function __construct($semVerFileOrVersion = '.semver')
     {
-        $this->path = $pathToSemVer;
+        if (file_exists($semVerFileOrVersion)) {
+            $this->path = $semVerFileOrVersion;
+            $version = file_get_contents($this->path);
 
-        if (file_exists($this->path)) {
-            $this->parse();
+        } elseif (preg_match('~^(\d+)\.(\d+).(\d+)~', $semVerFileOrVersion)) {
+            $version = $semVerFileOrVersion;
         }
+        if (!preg_match_all(self::REGEX, implode("\n", $version), $matches)) {
+            throw new TaskException($this, 'Bad semver file.');
+        }
+        $this->parse($version);
     }
 
     public function __toString()
@@ -593,6 +599,9 @@ class SemVerTask implements TaskInterface
 
     public function run()
     {
+        if (!$this->path) {
+            throw new TaskException($this, "No semver file specified, use __toString() to get current version");
+        }
         $written = $this->dump();
         return new Result($this, (int)($written !== false),  $this->__toString());
     }
@@ -604,14 +613,8 @@ class SemVerTask implements TaskInterface
         return file_put_contents($this->path, $semver);
     }
 
-    protected function parse()
+    protected function parse($version)
     {
-        $output = file_get_contents($this->path);
-
-        if (!preg_match_all(self::REGEX, implode("\n", $output), $matches)) {
-            throw new TaskException($this, 'Bad semver file.');
-        }
-
         list(, $major, $minor, $patch, $special, $metadata) = array_map('current', $matches);
         $this->version = compact('major', 'minor', 'patch', 'special', 'metadata');
     }

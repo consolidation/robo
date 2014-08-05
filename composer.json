@@ -23,7 +23,7 @@
         "henrikbjorn/lurker" : "1.0.*@dev"
     },
     "require-dev": {
-        "codeception/codeception": "@dev",
+        "codeception/codeception": "*",
         "codeception/verify": "*",
         "codeception/aspect-mock": "*"
     }

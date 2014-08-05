@@ -2,6 +2,7 @@
 
 #### 0.4.4 08/05/2014
 
+* All executable tasks can configure working directory with 'dir' option
 * If no value for an option is provided, assume it's a VALUE_NONE option. #47 by @pfaocle
 
 

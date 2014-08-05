@@ -43,6 +43,7 @@ abstract class BaseComposerTask
     protected $prefer;
     protected $dev;
     protected $optimizeAutoloader;
+    protected $dir;
 
     /**
      * adds `prefer-dist` option to composer

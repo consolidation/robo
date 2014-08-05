@@ -7,6 +7,7 @@ trait Executable {
 
     protected $arguments;
     protected $isPrinted = true;
+    protected $workingDirectory;
 
     /**
      * Should command output be printed
@@ -22,10 +23,20 @@ trait Executable {
         return $this;
     }
 
+    /**
+     * changes working directory of command
+     */
+    public function dir($dir)
+    {
+        $this->workingDirectory = $dir;
+        return $this;
+    }
+
 
     protected function executeCommand($command)
     {
         $process = new SymfonyProcess($command);
+        $process->setWorkingDirectory($this->workingDirectory);
         $process->setTimeout(null);
         if ($this->isPrinted) {
             $process->run(function ($type, $buffer) {

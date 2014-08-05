@@ -1,12 +1,5 @@
 # Changelog
 
-#### 0.4.5
-
-* [Semver] may accepts version as argument *2014-08-05*
-* [Changelog] changed style *2014-06-27*
-* [GenMarkDown] fixed formatting annotations *2014-06-27*
-
-
 #### 0.4.4 06/05/2014
 
 * Output can be disabled in all executable tasks by ->printed(false)

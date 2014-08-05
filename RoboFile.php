@@ -23,15 +23,6 @@ class Robofile extends \Robo\Tasks
         $this->pharPublish();
     }
 
-    /**
-     * Copies robo.phar to /usr/bin
-     */
-    public function pharInstallGlobal()
-    {
-        $this->say("Sudo required, copying...");
-        copy('robo.phar', '/usr/bin/robo');
-    }
-
     public function test($args = "")
     {
         return $this->taskCodecept()
@@ -39,7 +30,7 @@ class Robofile extends \Robo\Tasks
             ->run();
     }
 
-    public function changed($addition)
+    public function added($addition)
     {
         $this->taskChangelog()
             ->version(\Robo\Runner::VERSION)
@@ -49,7 +40,11 @@ class Robofile extends \Robo\Tasks
 
     public function versionBump($version = null)
     {
-        if (!$version) $version = $this->taskSemVer(\Robo\Runner::VERSION)->increment();
+        if (!$version) {
+            $versionParts = explode('.', \Robo\Runner::VERSION);
+            $versionParts[count($versionParts)-1]++;
+            $version = implode('.', $versionParts);
+        }
         $this->taskReplaceInFile(__DIR__.'/src/Runner.php')
             ->from("VERSION = '".\Robo\Runner::VERSION."'")
             ->to("VERSION = '".$version."'")

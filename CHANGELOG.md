@@ -1,5 +1,10 @@
 # Changelog
 
+#### 0.4.4
+
+* [Watch] bugfix: Watch only tracks last file if given array of files #46 *2014-08-05*
+
+
 #### 0.4.5
 
 * All executable tasks can configure working directory with 'dir' option

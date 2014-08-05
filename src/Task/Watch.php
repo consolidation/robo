@@ -60,13 +60,13 @@ class WatchTask {
         $watcher = new ResourceWatcher();
 
         foreach ($this->monitor as $k => $monitor) {
-            foreach ($monitor[0] as $dir) {
-                $watcher->track("fs.$k", $dir, FilesystemEvent::MODIFY);
-                $this->printTaskInfo("watching $dir for changes...");
-            }
             $closure = $monitor[1];
             $closure->bindTo($this->bindTo);
-            $watcher->addListener("fs.$k", $closure);
+            foreach ($monitor[0] as $i => $dir) {
+                $watcher->track("fs.$k.$i", $dir, FilesystemEvent::MODIFY);
+                $this->printTaskInfo("watching <info>$dir</info> for changes...");
+                $watcher->addListener("fs.$k.$i", $closure);
+            }
         }
 
         $watcher->start();

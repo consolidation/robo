@@ -27,5 +27,4 @@
         "codeception/verify": "*",
         "codeception/aspect-mock": "*"
     }
-
 }

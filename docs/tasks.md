@@ -21,6 +21,7 @@ $this->taskBowerInstall('path/to/my/bower')
 
 
 
+
 * `allowRoot()`  adds `allow-root` option to bower
 * `forceLatest()`  adds `force-latest` option to bower
 * `noDev()`  adds `production` option to bower
@@ -28,6 +29,7 @@ $this->taskBowerInstall('path/to/my/bower')
 
 
 * `printed($arg)`  Should command output be printed
+* `dir($dir)`  changes working directory of command
 
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
@@ -59,6 +61,7 @@ $this->taskBowerUpdate('path/to/my/bower')
 
 
 
+
 * `allowRoot()`  adds `allow-root` option to bower
 * `forceLatest()`  adds `force-latest` option to bower
 * `noDev()`  adds `production` option to bower
@@ -66,6 +69,7 @@ $this->taskBowerUpdate('path/to/my/bower')
 
 
 * `printed($arg)`  Should command output be printed
+* `dir($dir)`  changes working directory of command
 
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
@@ -100,6 +104,7 @@ $this->taskCodecept()
 
 
 
+
 * `suite($suite)` 
 * `test($testName)` 
 * `group($group)`  set group option. Can be called multiple times
@@ -125,6 +130,7 @@ $this->taskCodecept()
 
 
 * `printed($arg)`  Should command output be printed
+* `dir($dir)`  changes working directory of command
 
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
@@ -158,6 +164,8 @@ $this->taskComposerInstall('path/to/my/composer.phar')
 
 
 
+
+
 * `preferDist()`  adds `prefer-dist` option to composer
 * `preferSource()`  adds `prefer-source` option to composer
 * `noDev()`  adds `no-dev` option to composer
@@ -172,6 +180,7 @@ $this->taskComposerInstall('path/to/my/composer.phar')
 
 
 * `printed($arg)`  Should command output be printed
+* `dir($dir)`  changes working directory of command
 
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
@@ -203,6 +212,8 @@ $this->taskComposerUpdate('path/to/my/composer.phar')
 
 
 
+
+
 * `preferDist()`  adds `prefer-dist` option to composer
 * `preferSource()`  adds `prefer-source` option to composer
 * `noDev()`  adds `no-dev` option to composer
@@ -217,6 +228,7 @@ $this->taskComposerUpdate('path/to/my/composer.phar')
 
 
 * `printed($arg)`  Should command output be printed
+* `dir($dir)`  changes working directory of command
 
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
@@ -254,6 +266,8 @@ $this->taskComposerDumpAutoload('path/to/my/composer.phar')
 
 
 
+
+
 * `optimize()` 
 
 
@@ -270,6 +284,7 @@ $this->taskComposerDumpAutoload('path/to/my/composer.phar')
 
 
 * `printed($arg)`  Should command output be printed
+* `dir($dir)`  changes working directory of command
 
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
@@ -884,6 +899,7 @@ $this->taskPHPUnit()
 
 
 
+
 * `filter($filter)` 
 * `group($group)` 
 * `excludeGroup($group)` 
@@ -903,6 +919,7 @@ $this->taskPHPUnit()
 
 
 * `printed($arg)`  Should command output be printed
+* `dir($dir)`  changes working directory of command
 
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
@@ -947,8 +964,8 @@ $pharTask = $this->taskPackPhar('package/codecept.phar')
 
 
 
-* `compress($compress = null)`   * `param`  boolean $compress
-* `stub($stub)`   * `param`  $stub
+* `compress($compress = null)`   * `param boolean` $compress
+* `stub($stub)`   * `param` $stub
 
 * `addStripped($path, $file)` 
 * `addFile($path, $file)` 
@@ -1087,8 +1104,9 @@ if ('y' === $this->ask('Do you want to run (y/n)')) {
 
 
 
-* `fromPath($path)`  This can either be a full rsync path spec (user * `host:path)`  or just a path.
-* `toPath($path)`  This can either be a full rsync path spec (user * `host:path)`  or just a path.
+
+* `fromPath($path)`  This can either be a full rsync path spec (user@host:path) or just a path.
+* `toPath($path)`  This can either be a full rsync path spec (user@host:path) or just a path.
 * `progress()` 
 * `stats()` 
 * `recursive()` 
@@ -1113,6 +1131,7 @@ if ('y' === $this->ask('Do you want to run (y/n)')) {
 
 
 * `printed($arg)`  Should command output be printed
+* `dir($dir)`  changes working directory of command
 
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
@@ -1159,12 +1178,13 @@ $this->taskSshExec('remote.example.com')
 
 
 
+
 * `identityFile($filename)` 
 * `port($port)` 
 * `forcePseudoTty()` 
 * `quiet()` 
 * `verbose()` 
-* `exec($command)`   * `param`  string|CommandInterface $command
+* `exec($command)`   * `param string|CommandInterface` $command
 
 
 
@@ -1181,6 +1201,7 @@ $this->taskSshExec('remote.example.com')
 
 
 * `printed($arg)`  Should command output be printed
+* `dir($dir)`  changes working directory of command
 
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable

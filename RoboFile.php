@@ -30,7 +30,7 @@ class Robofile extends \Robo\Tasks
             ->run();
     }
 
-    public function added($addition)
+    public function changed($addition)
     {
         $this->taskChangelog()
             ->version(\Robo\Runner::VERSION)

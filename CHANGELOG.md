@@ -1,5 +1,10 @@
 # Changelog
 
+#### 0.4.4 08/05/2014
+
+* If no value for an option is provided, assume it's a VALUE_NONE option. #47 by @pfaocle
+
+
 #### 0.4.4 06/05/2014
 
 * Output can be disabled in all executable tasks by ->printed(false)

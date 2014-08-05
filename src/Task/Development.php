@@ -105,8 +105,8 @@ class ChangelogTask implements TaskInterface
         if (empty($this->log)) {
             return Result::error($this, "Changelog is empty");
         }
-        $text = implode("\n", array_map(function ($i) { return "* $i"; }, $this->log))."\n";
-        $ver = "#### {$this->version} ".date('m/d/Y')."\n\n";
+        $text = implode("\n", array_map(function ($i) { return "* $i *".date('Y-m-d')."*"; }, $this->log))."\n";
+        $ver = "#### {$this->version}\n\n";
         $text = $ver . $text;
 
         if (!file_exists($this->filename)) {
@@ -380,7 +380,7 @@ class GenMarkdownDocTask implements TaskInterface
              }
          }
         $propertyDoc = self::indentDoc($propertyDoc, 7);
-        $propertyDoc = preg_replace("~@(.*?)([$\s])~", ' * `$1` $2', $propertyDoc); // format annotations
+        $propertyDoc = preg_replace("~^@(.*?)([$\s])~", ' * `$1` $2', $propertyDoc); // format annotations
         if (is_callable($this->processPropertyDocBlock)) {
             $propertyDoc = call_user_func($this->processPropertyDocBlock, $reflectedProperty, $propertyDoc);
         }
@@ -398,7 +398,7 @@ class GenMarkdownDocTask implements TaskInterface
             if ($param->allowsNull()) {
                 $text .= ' = null';
             } else {
-                $text .= ' = '.$param->getDefaultValue();
+                $text .= ' = '.str_replace("\n",' ', print_r($param->getDefaultValue(), true));
             }
         }
 
@@ -458,7 +458,7 @@ class GenMarkdownDocTask implements TaskInterface
         }
 
         $methodDoc = self::indentDoc($methodDoc, 7);
-        $methodDoc = preg_replace("~@(.*?)([$\s])~", ' * `$1` $2', $methodDoc); // format annotations
+        $methodDoc = preg_replace("~^@(.*?) ([$\s])~m", ' * `$1` $2', $methodDoc); // format annotations
         if (is_callable($this->processMethodDocBlock)) {
             $methodDoc = call_user_func($this->processMethodDocBlock, $reflectedMethod, $methodDoc);
         }

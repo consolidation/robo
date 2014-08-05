@@ -21,6 +21,7 @@ class Robofile extends \Robo\Tasks
             ->run();
         
         $this->pharPublish();
+        $this->versionBump();
     }
 
     public function test($args = "")

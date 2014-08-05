@@ -16,6 +16,8 @@
     <link href="stylesheets/style.css" rel="stylesheet">
       <link href="stylesheets/local.css" rel="stylesheet">
     <script src="javascripts/script.js"></script>
+<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/solarized_light.min.css">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js"></script> 
 
 <!-- Meta -->
 <meta content="Robo" property="og:title">
@@ -25,8 +27,13 @@
   <!-- Initializer -->
   <script>
     Flatdoc.run({
-      fetcher: Flatdoc.github('Codegyre/Robo','docs/started.md')
+      fetcher: Flatdoc.github('Codegyre/Robo','docs/started.md')      
     });
+    $(document).on('flatdoc:ready', function() {
+        $('pre code').each(function(i, block) {
+          hljs.highlightBlock(block);
+        });
+    });    
   </script>
 </head>
 <body role='flatdoc' class='no-literate large-brief' style="font-size: 17px;">
@@ -55,5 +62,6 @@
     <div role='flatdoc-content' class='content'></div>
   </div>
 
+  
 </body>
 </html>

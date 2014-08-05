@@ -23,7 +23,7 @@ body .menubar {
 }
 
 .col1, .col2 {
-    width: 49%;
+    width: 30%;
     display: block;
     float: left;
 }
@@ -32,7 +32,7 @@ body .menubar {
 }
 
 .clear {
-    clear: both;
+    clear: left;
 }
 
 .outset {

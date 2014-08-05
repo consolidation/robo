@@ -131,7 +131,16 @@ class Runner {
 
     protected function initRoboFile()
     {
-        file_put_contents(self::ROBOFILE, "<?php\nclass " .self::ROBOCLASS ." extends \\Robo\\Tasks\n{\n    // define public methods as commands\n}");
+        file_put_contents(
+			self::ROBOFILE,
+			'<?php'
+			. "\n/**"
+			. "\n * This is project's console commands configuration for Robo task runner."
+			. "\n *"
+			. "\n * @see http://robo.li/"
+			. "\n */"
+		    . "\nclass " . self::ROBOCLASS . " extends \\Robo\\Tasks\n{\n    // define public methods as commands\n}"
+		);
         $this->writeln(self::ROBOFILE . " created");
 
     }

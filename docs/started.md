@@ -202,7 +202,7 @@ Thus you can use this results to check if execution was successful, and use some
 class RoboFile
 {
     use Robo\Output;
-    use Robo\Task\Exec
+    use Robo\Task\Exec;
 
     function test()
     {

@@ -20,6 +20,7 @@ class Tasks
     use Task\Bower;
     use Task\SshExec;
     use Task\Rsync;
+	use Task\Svn;
 	use Output;
 
     protected function stopOnFail($stopOnFail = true)

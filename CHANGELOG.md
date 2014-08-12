@@ -2,6 +2,7 @@
 
 #### 0.4.6
 
+* [*Stack] added dir and printed options *2014-08-12*
 * [ExecTask] now uses Executable trait with printed, dir, arg, option methods added *2014-08-12*
 
 

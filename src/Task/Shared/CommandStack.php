@@ -15,6 +15,8 @@ abstract class CommandStack implements CommandInterface, TaskInterface
     protected $result;
     protected $exec = [];
     protected $stopOnFail = false;
+    protected $workingDirectory;
+    protected $isPrinted = true;
 
     public function getCommand()
     {
@@ -32,6 +34,32 @@ abstract class CommandStack implements CommandInterface, TaskInterface
         return $this;
     }
 
+    /**
+     * Should command output be printed
+     *
+     * @param $arg
+     * @return $this
+     */
+    public function printed($arg)
+    {
+        if (is_bool($arg)) {
+            $this->isPrinted = $arg;
+        }
+        return $this;
+    }
+
+    /**
+     * changes working directory of command
+     * @param $dir
+     * @return $this
+     */
+    public function dir($dir)
+    {
+        $this->workingDirectory = $dir;
+        return $this;
+    }
+
+
     protected function stripExecutableFromCommand($command)
     {
         $command = trim($command);
@@ -48,11 +76,17 @@ abstract class CommandStack implements CommandInterface, TaskInterface
             throw new TaskException($this, 'You must add at least one command');
         }
         if (!$this->stopOnFail) {
-            return $this->taskExec($this->getCommand())->run();
+            return $this->taskExec($this->getCommand())
+                ->printed($this->isPrinted)
+                ->dir($this->workingDirectory)
+                ->run();
         }
 
         foreach ($this->exec as $command) {
-            $result = $this->taskExec($command)->run();
+            $result = $this->taskExec($command)
+                ->printed($this->isPrinted)
+                ->dir($this->workingDirectory)
+                ->run();
             if (!$result->wasSuccessful()) {
                 return $result;
             }

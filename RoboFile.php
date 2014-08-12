@@ -115,6 +115,14 @@ class Robofile extends \Robo\Tasks
             ->run();
     }
 
+    public function pharInstall()
+    {
+        $this->taskExec('sudo cp')
+            ->arg('robo.phar')
+            ->arg('/usr/bin/robo')
+            ->run();
+    }
+
     public function pharPublish()
     {
         $this->pharBuild();

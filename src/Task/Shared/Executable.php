@@ -5,7 +5,7 @@ use \Symfony\Component\Process\Process as SymfonyProcess;
 
 trait Executable {
 
-    protected $arguments;
+    protected $arguments = '';
     protected $isPrinted = true;
     protected $workingDirectory;
 
@@ -25,6 +25,8 @@ trait Executable {
 
     /**
      * changes working directory of command
+     * @param $dir
+     * @return $this
      */
     public function dir($dir)
     {

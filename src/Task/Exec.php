@@ -65,7 +65,7 @@ class ExecTask implements TaskInterface, CommandInterface{
 
     public function getCommand()
     {
-        return trim($this->command. ' '.$this->arguments);
+        return trim($this->command. $this->arguments);
     }
 
     /**
@@ -119,7 +119,8 @@ class ExecTask implements TaskInterface, CommandInterface{
     public function run()
     {
         $command = $this->getCommand();
-        $this->printTaskInfo("running <info>{$command}</info>");
+        $dir = $this->workingDirectory ? " in ".$this->workingDirectory : "";
+        $this->printTaskInfo("running <info>{$command}</info>$dir");
         $this->process = new Process($command);
         $this->process->setTimeout($this->timeout);
         $this->process->setIdleTimeout($this->idleTimeout);

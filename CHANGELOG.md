@@ -1,5 +1,10 @@
 # Changelog
 
+#### 0.4.6
+
+* [ExecTask] now uses Executable trait with printed, dir, arg, option methods added *2014-08-12*
+
+
 #### 0.4.5
 
 * [Watch] bugfix: Watch only tracks last file if given array of files #46 *2014-08-05*

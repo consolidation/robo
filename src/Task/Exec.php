@@ -6,6 +6,7 @@ use Robo\Result;
 use Robo\Task\Shared\CommandInterface;
 use Robo\Task\Shared\CommandInjected;
 use Robo\Task\Shared\CommandStack;
+use Robo\Task\Shared\Executable;
 use Robo\Task\Shared\TaskInterface;
 use Symfony\Component\Process\Process;
 
@@ -45,12 +46,12 @@ trait Exec  {
 class ExecTask implements TaskInterface, CommandInterface{
     use Output;
     use CommandInjected;
+    use Executable;
 
     protected $command;
     protected $background = false;
     protected $timeout = null;
     protected $idleTimeout = null;
-    protected $isPrinted = true;
 
     /**
      * @var Process
@@ -64,7 +65,7 @@ class ExecTask implements TaskInterface, CommandInterface{
 
     public function getCommand()
     {
-        return $this->command;
+        return trim($this->command. ' '.$this->arguments);
     }
 
     /**
@@ -75,20 +76,6 @@ class ExecTask implements TaskInterface, CommandInterface{
     public function background()
     {
         $this->background = true;
-        return $this;
-    }
-
-    /**
-     * Should command output be printed
-     *
-     * @param $arg
-     * @return $this
-     */
-    public function printed($arg)
-    {
-        if (is_bool($arg)) {
-            $this->isPrinted = $arg;
-        }
         return $this;
     }
 
@@ -116,20 +103,6 @@ class ExecTask implements TaskInterface, CommandInterface{
         return $this;
     }
 
-    public function arg($arg)
-    {
-        return $this->args($arg);
-    }
-
-    public function args($args)
-    {
-        if (!is_array($args)) {
-            $args = func_get_args();
-        }
-        $this->command .= " ".implode(' ', $args);
-        return $this;
-    }
-
     public function __destruct()
     {
         $this->stop();
@@ -142,13 +115,16 @@ class ExecTask implements TaskInterface, CommandInterface{
             $this->printTaskInfo("stopped <info>{$this->command}</info>");
         }        
     }
-    
+
     public function run()
     {
-        $this->printTaskInfo("running <info>{$this->command}</info>");
-        $this->process = new Process($this->command);
+        $command = $this->getCommand();
+        $this->printTaskInfo("running <info>{$command}</info>");
+        $this->process = new Process($command);
         $this->process->setTimeout($this->timeout);
         $this->process->setIdleTimeout($this->idleTimeout);
+        $this->process->setWorkingDirectory($this->workingDirectory);
+
 
         if (!$this->background and !$this->isPrinted) {
             $this->process->run();

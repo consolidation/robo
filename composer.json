@@ -16,15 +16,15 @@
     "bin":["robo"],
     "require": {
         "php": ">=5.4.0",
-        "symfony/finder": "*",
-        "symfony/console": "*",
-        "symfony/process": "*",
-        "symfony/filesystem": "*",
+        "symfony/finder": "~2.1",
+        "symfony/console": "~2.1",
+        "symfony/process": "~2.1",
+        "symfony/filesystem": "~2.1",
         "henrikbjorn/lurker" : "1.0.*@dev"
     },
     "require-dev": {
-        "codeception/codeception": "@dev",
-        "codeception/verify": "*",
-        "codeception/aspect-mock": "*"
+        "codeception/codeception": "~2.0",
+        "codeception/verify": "0.2.*",
+        "codeception/aspect-mock": "0.4.*"
     }
 }

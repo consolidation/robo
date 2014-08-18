@@ -563,7 +563,7 @@ class SemVerTask implements TaskInterface
     public function prerelease($tag = 'RC')
     {
         if (!is_string($tag)) {
-            throw new TaskExecption($this, 'Bad argument, only strings allowed.');
+            throw new TaskException($this, 'Bad argument, only strings allowed.');
         }
 
         $number = 0;

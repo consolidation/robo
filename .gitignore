@@ -1,5 +1,6 @@
 vendor/
 .idea/
 tests/_log/*
+composer.lock
 composer.phar
 robo.phar

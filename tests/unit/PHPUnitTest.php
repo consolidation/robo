@@ -21,7 +21,7 @@ class PHPUnitTest extends \Codeception\TestCase\Test
     public function testPhpUnitRun()
     {
         $this->taskPHPUnit()->run();
-        $this->phpunit->verifyInvoked('executeCommand', ['vendor/bin/phpunit']);
+        $this->phpunit->verifyInvoked('executeCommand', ['phpunit']);
     }
 
     public function testPHPUnitCommand()

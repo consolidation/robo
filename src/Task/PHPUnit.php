@@ -7,7 +7,7 @@ use Robo\Task\Shared\TaskInterface;
 use Symfony\Component\Process\Process;
 
 trait PHPUnit {
-    protected function taskPHPUnit($pathToPhpUnit = null)
+    protected function taskPHPUnit($pathToPhpUnit = 'phpunit')
     {
         return new PHPUnitTask($pathToPhpUnit);
     }
@@ -33,21 +33,9 @@ class PHPUnitTask implements TaskInterface, CommandInterface
 
     protected $command;
 
-    public function __construct($pathToPhpUnit = null)
+    public function __construct($pathToPhpUnit = 'phpunit')
     {
-        if ($pathToPhpUnit) {
-            $this->command = $pathToPhpUnit;
-        } elseif (file_exists('vendor/bin/phpunit')) {
-            $this->command = 'vendor/bin/phpunit';
-        } elseif (file_exists('phpunit.phar')) {
-            $this->command = 'php phpunit.phar';
-        } elseif (is_executable('/usr/bin/phpunit')) {
-            $this->command = '/usr/bin/phpunit';
-        } elseif (is_executable('/usr/local/bin/phpunit')) {
-			$this->command = '/usr/local/bin/phpunit';
-		} else {
-            throw new Shared\TaskException(__CLASS__,"Neither local phpunit nor global composer installation not found");
-        }
+        $this->command = $pathToPhpUnit;
     }
 
     public function filter($filter)

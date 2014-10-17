@@ -6,6 +6,7 @@ trait CommandInjected {
     /**
      * @param $command
      * @throws TaskException
+     * @return string $command
      */
     protected function retrieveCommand($command)
     {

@@ -43,8 +43,8 @@ class PHPUnitTask implements TaskInterface, CommandInterface
             $this->command = 'php phpunit.phar';
         } elseif (is_executable('/usr/bin/phpunit')) {
             $this->command = '/usr/bin/phpunit';
-        } elseif (is_executable('/usr/local/bin/phpunit')) {
-			$this->command = '/usr/local/bin/phpunit';
+        } elseif (is_executable('~/.composer/vendor/bin/phpunit')) {
+            $this->command = '~/.composer/vendor/bin/phpunit';
 		} else {
             throw new Shared\TaskException(__CLASS__,"Neither local phpunit nor global composer installation not found");
         }

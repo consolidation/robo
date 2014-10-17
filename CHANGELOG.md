@@ -3,7 +3,7 @@
 #### 0.4.6
 
 * [Svn] Task added by @anvi *2014-08-13*
-* [*Stack] added dir and printed options *2014-08-12*
+* [Stack] added dir and printed options *2014-08-12*
 * [ExecTask] now uses Executable trait with printed, dir, arg, option methods added *2014-08-12*
 
 

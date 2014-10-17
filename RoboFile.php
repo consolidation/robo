@@ -156,5 +156,10 @@ class Robofile extends \Robo\Tasks
             ->process('php ~/demos/robotests/parascript.php die')
             ->run();
     }
+
+    public function optbool($opts = ['silent' => false])
+    {
+        if (!$opts['silent']) $this->say("Hello, world");
+    }
     
 }

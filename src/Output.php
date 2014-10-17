@@ -41,6 +41,24 @@ trait Output {
         }
     }
 
+    protected function askDefault($message, $default){
+        $getResponse = $this->ask("$message [$default]");
+        if (trim(strtolower($getResponse)) == $default || empty($getResponse)) {
+            return $default;
+        }else{
+            return $getResponse;
+        }
+    }
+
+    protected function confirm($message){
+        $getResponse = $this->ask("$message (yes/no) [yes]");
+        if (trim(strtolower($getResponse)) == 'yes' || empty($getResponse)) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     /**
      * @return ConsoleOutput
      */
@@ -60,4 +78,3 @@ trait Output {
     }
 
 }
- 

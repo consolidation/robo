@@ -39,8 +39,8 @@ class PHPUnitTask implements TaskInterface, CommandInterface
             $this->command = $pathToPhpUnit;
         } elseif (file_exists('vendor/bin/phpunit')) {
             $this->command = 'vendor/bin/phpunit';
-            if (!empty($_SERVER['windir']))
-                $this->command = 'call ' . $this->command;
+        } elseif (!empty($_SERVER['windir'])) {
+            $this->command = 'call ' . $this->command;
         } elseif (file_exists('phpunit.phar')) {
             $this->command = 'php phpunit.phar';
         } elseif (is_executable('/usr/bin/phpunit')) {

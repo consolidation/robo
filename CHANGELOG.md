@@ -2,6 +2,9 @@
 
 #### 0.4.6
 
+* [Exec] Output from buffer is not spoiled by special chars *2014-10-17*
+* [PHPUnit] detect PHPUnit on Windows or when is globally installed with Composer *2014-10-17*
+* Output: added methods askDefault and confirm by @bkawakami *2014-10-17*
 * [Svn] Task added by @anvi *2014-08-13*
 * [Stack] added dir and printed options *2014-08-12*
 * [ExecTask] now uses Executable trait with printed, dir, arg, option methods added *2014-08-12*

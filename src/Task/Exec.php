@@ -134,7 +134,7 @@ class ExecTask implements TaskInterface, CommandInterface{
 
         if (!$this->background and $this->isPrinted) {
             $this->process->run(function ($type, $buffer) {
-                Process::ERR === $type ? print('ER» '.$buffer) : print($buffer);
+                print($buffer);
             });
             return new Result($this, $this->process->getExitCode(), $this->process->getOutput());
         }

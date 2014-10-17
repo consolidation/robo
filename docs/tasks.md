@@ -41,6 +41,8 @@ $this->taskBowerInstall('path/to/my/bower')
 
 
 
+
+
 ## BowerUpdate
 
 
@@ -74,6 +76,8 @@ $this->taskBowerUpdate('path/to/my/bower')
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+
+
 
 
 
@@ -120,6 +124,8 @@ $this->taskCodecept()
 * `coverageHtml($html = null)`  collect code coverage and generate html report. You may pass
 * `env($env)` 
 * `debug()` 
+
+
 
 
 
@@ -179,6 +185,8 @@ $this->taskComposerInstall('path/to/my/composer.phar')
 
 
 
+
+
 * `printed($arg)`  Should command output be printed
 * `dir($dir)`  changes working directory of command
 
@@ -218,6 +226,8 @@ $this->taskComposerUpdate('path/to/my/composer.phar')
 * `preferSource()`  adds `prefer-source` option to composer
 * `noDev()`  adds `no-dev` option to composer
 * `optimizeAutoloader()`  adds `optimize-autoloader` option to composer
+
+
 
 
 
@@ -283,6 +293,8 @@ $this->taskComposerDumpAutoload('path/to/my/composer.phar')
 
 
 
+
+
 * `printed($arg)`  Should command output be printed
 * `dir($dir)`  changes working directory of command
 
@@ -309,6 +321,8 @@ $this->taskConcat([
 
 
 * `to($dst)`  set the destination file
+
+
 
 
 
@@ -356,6 +370,8 @@ $this->taskChangelog()
 * `changes(array $data)` 
 * `change($change)` 
 * `getChanges()` 
+
+
 
 
 
@@ -474,6 +490,8 @@ $this->taskGenDoc('models.md')
 
 
 
+
+
 ## SemVer
 
 
@@ -533,6 +551,8 @@ if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
 * `idleTimeout($timeout)`  Stops command if it does not output something for a while
 
 * `stop()` 
+
+
 
 
 
@@ -604,6 +624,8 @@ $this->taskCleanDir(['tmp','logs'])->run();
 
 
 
+
+
 ## CopyDir
 
 
@@ -614,6 +636,8 @@ Copies one dir into another
 $this->taskCopyDir(['dist/config' => 'config'])->run();
 ?>
 ```
+
+
 
 
 
@@ -645,6 +669,8 @@ $this->taskDeleteDir(['tmp', 'log'])->run();
 
 
 
+
+
 ## MirrorDir
 
 
@@ -655,6 +681,8 @@ Mirrors a directory to another
 $this->taskMirrorDir(['dist/config/' => 'config/'])->run();
 ?>
 ```
+
+
 
 
 
@@ -705,6 +733,8 @@ $this->replaceInFile('config.yml')
 
 
 
+
+
 ## WriteToFile
 
 
@@ -728,6 +758,8 @@ $this->taskWriteToFile('blogpost.md')
 * `text($text)` 
 * `textFromFile($filename)` 
 * `place($name, $val)` 
+
+
 
 
 
@@ -794,6 +826,8 @@ Class FileSystemStackTask
 
 
 
+
+
 ## GitStack
 
 
@@ -833,6 +867,8 @@ $this->taskGitStack()
 * `exec($command)` 
 * `printed($arg)`  Should command output be printed
 * `dir($dir)`  changes working directory of command
+
+
 
 
 
@@ -895,6 +931,8 @@ $this->taskGitHubRelease('0.1.0')
 
 
 
+
+
 ## PHPUnit
 
 
@@ -922,6 +960,8 @@ $this->taskPHPUnit()
 * `bootstrap($file)` 
 * `configFile($file)` 
 * `debug()` 
+
+
 
 
 
@@ -992,6 +1032,8 @@ $pharTask = $this->taskPackPhar('package/codecept.phar')
 
 
 
+
+
 ## ParallelExec
 
 
@@ -1015,6 +1057,8 @@ $this->taskParallelExec()
 
 * `printed($isPrinted = null)` 
 * `process($command)` 
+
+
 
 
 
@@ -1054,6 +1098,8 @@ $this->taskServer(8000)
 * `idleTimeout($timeout)`  Stops command if it does not output something for a while
 
 * `stop()` 
+
+
 
 
 
@@ -1162,6 +1208,8 @@ if ('y' === $this->ask('Do you want to run (y/n)')) {
 
 
 
+
+
 ## SshExec
 
 
@@ -1217,12 +1265,59 @@ $this->taskSshExec('remote.example.com')
 
 
 
+
+
 * `printed($arg)`  Should command output be printed
 * `dir($dir)`  changes working directory of command
 
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+
+## SvnStack
+
+
+Runs Svn commands in stack. You can use `stopOnFail()` to point that stack should be terminated on first fail.
+
+``` php
+<?php
+$this->taskSvnStack()
+ ->stopOnFail()
+ ->add()
+ ->commit('adding everything')
+ ->run()
+
+$this->taskSvnStack()
+ ->stopOnFail()
+ ->update()
+ ->add('doc/*')
+ ->commit('doc updated')
+ ->run();
+?>
+```
+
+
+
+
+
+* `stopOnFail()`  Svn commands in stack will stop if any of commands were unsuccessful
+* `update($path = null)`  Updates `svn update` command
+* `add($pattern = null)`  Executes `svn add` command with files to add pattern
+* `commit($message, $options = null)`  Executes `svn commit` command with a message
+* `checkout($branch)`  Executes `svn checkout` command
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## SymfonyCommand
 
@@ -1256,6 +1351,8 @@ $this->taskCommand(new ModelGeneratorCommand())
 
 
 
+
+
 ## Watch
 
 
@@ -1276,6 +1373,8 @@ $this->taskWatch()
 
 
 * `monitor($paths, $callable)` 
+
+
 
 
 

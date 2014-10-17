@@ -526,12 +526,11 @@ if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
 
 
 
+
+
 * `background()`  Executes command in background mode (asynchronously)
-* `printed($arg)`  Should command output be printed
 * `timeout($timeout)`  Stop command if it runs longer then $timeout in seconds
 * `idleTimeout($timeout)`  Stops command if it does not output something for a while
-* `arg($arg)` 
-* `args($args)` 
 
 * `stop()` 
 
@@ -543,6 +542,12 @@ if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
 
 
 
+* `printed($arg)`  Should command output be printed
+* `dir($dir)`  changes working directory of command
+
+* `arg($arg)`  Pass argument to executable
+* `args($args)`  Pass methods parameters as arguments to executable
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
 ## ExecStack
 
 
@@ -566,7 +571,11 @@ $this->taskExecStack()
 
 
 
+
+
 * `exec($command)` 
+* `printed($arg)`  Should command output be printed
+* `dir($dir)`  changes working directory of command
 
 
 
@@ -811,6 +820,8 @@ $this->taskGitStack()
 
 
 
+
+
 * `cloneRepo($repo, $to = null)`  Executes `git clone`
 * `add($pattern)`  Executes `git add` command with files to add pattern
 * `commit($message, $options = null)`  Executes `git commit` command with a message
@@ -820,6 +831,8 @@ $this->taskGitStack()
 
 
 * `exec($command)` 
+* `printed($arg)`  Should command output be printed
+* `dir($dir)`  changes working directory of command
 
 
 
@@ -1032,14 +1045,13 @@ $this->taskServer(8000)
 
 
 
-* `dir($path)` 
+
+
+* `dir($path)`  changes working directory of command
 
 * `background()`  Executes command in background mode (asynchronously)
-* `printed($arg)`  Should command output be printed
 * `timeout($timeout)`  Stop command if it runs longer then $timeout in seconds
 * `idleTimeout($timeout)`  Stops command if it does not output something for a while
-* `arg($arg)` 
-* `args($args)` 
 
 * `stop()` 
 
@@ -1051,6 +1063,11 @@ $this->taskServer(8000)
 
 
 
+* `printed($arg)`  Should command output be printed
+
+* `arg($arg)`  Pass argument to executable
+* `args($args)`  Pass methods parameters as arguments to executable
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
 
 ## Rsync
 

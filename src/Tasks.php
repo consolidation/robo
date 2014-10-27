@@ -21,6 +21,7 @@ class Tasks
     use Task\SshExec;
     use Task\Rsync;
 	use Task\Svn;
+    use Task\Minify;
 	use Output;
 
     protected function stopOnFail($stopOnFail = true)

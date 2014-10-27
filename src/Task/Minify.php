@@ -13,7 +13,7 @@ trait Minify
      *
      * @return MinifyTask
      */
-    protected function taskMinify( $input = false )
+    protected function taskMinify( $input )
     {
         return new MinifyTask( $input );
     }

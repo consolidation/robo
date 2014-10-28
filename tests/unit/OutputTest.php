@@ -33,7 +33,8 @@ class OutputTest extends \Codeception\TestCase\Test
     public function testSay()
     {
         $this->say('Hello, world!');
-        $this->guy->seeInOutput('➜  Hello, world!');
+        $char = strncasecmp(PHP_OS, 'WIN', 3) == 0 ? '>' : '➜';
+        $this->guy->seeInOutput($char . '  Hello, world!');
     }
 
     public function testAskReply()

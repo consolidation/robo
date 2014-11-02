@@ -14,7 +14,6 @@ class RunnerTest extends \Codeception\TestCase\Test
 
     public function testAllowEmptyValuesAsDefaultsToOptionalOptions()
     {
-        /** @var \Symfony\Component\Console\Command\Command $command */
         $command = $this->callMethod('createCommand', ['hello']);
 
         $yell = $command->getDefinition()->getOption('yell');
@@ -32,6 +31,55 @@ class RunnerTest extends \Codeception\TestCase\Test
             ->equals(null);
     }
 
+    public function testCommandDocumentation()
+    {
+        $command = $this->callMethod('createCommand', ['fibonacci']);
+
+        verify($command->getDescription())
+            ->equals('Calculate the fibonacci sequence between two numbers.');
+    }
+
+    public function testCommandCompactDocumentation()
+    {
+        $command = $this->callMethod('createCommand', ['compact']);
+
+        verify($command->getDescription())
+            ->equals('Compact doc comment');
+    }
+
+    public function testCommandArgumentDocumentation()
+    {
+        $command = $this->callMethod('createCommand', ['fibonacci']);
+
+        $start = $command->getDefinition()->getArgument('start');
+
+        verify($start->getDescription())
+            ->equals('Number to start from');
+
+        $steps = $command->getDefinition()->getArgument('steps');
+
+        verify($steps->getDescription())
+            ->equals('Number of steps to perform');
+    }
+
+    public function testCommandOptionDocumentation()
+    {
+        $command = $this->callMethod('createCommand', ['fibonacci']);
+
+        $graphic = $command->getDefinition()->getOption('graphic');
+
+        verify($graphic->getDescription())
+            ->equals('Display the sequence graphically using cube representation');
+    }
+
+    public function testCommandHelpDocumentation()
+    {
+        $command = $this->callMethod('createCommand', ['fibonacci']);
+
+        verify($command->getHelp())
+            ->contains('    +----+---+');
+    }
+
     protected function _before()
     {
         parent::_before();
@@ -41,6 +89,11 @@ class RunnerTest extends \Codeception\TestCase\Test
         $this->runner = new \Robo\Runner;
     }
 
+    /**
+     * @param string $name
+     * @param array $args
+     * @return \Symfony\Component\Console\Command\Command
+     */
     protected function callMethod($name, $args = array())
     {
         $method = $this->reflector->getMethod($name);

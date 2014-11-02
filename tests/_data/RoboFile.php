@@ -21,7 +21,6 @@ class RoboFile {
      * @param array $opts
      * @option $graphic Display the sequence graphically using cube
      *                  representation
-     * @help
      */
     public function fibonacci($start, $steps, $opts = ['graphic' => false])
     {

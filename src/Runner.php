@@ -110,23 +110,26 @@ class Runner {
         $taskInfo = new TaskInfo(self::ROBOCLASS, $taskName);
         $task = new Command($taskInfo->getName());
         $task->setDescription($taskInfo->getDescription());
+        $task->setHelp($taskInfo->getHelp());
 
         $args = $taskInfo->getArguments();
         foreach ($args as $name => $val) {
+            $description = $taskInfo->getArgumentDescription($name);
             if ($val === TaskInfo::PARAM_IS_REQUIRED) {
-                $task->addArgument($name, InputArgument::REQUIRED);
+                $task->addArgument($name, InputArgument::REQUIRED, $description);
             } elseif (is_array($val)) {
-                $task->addArgument($name, InputArgument::IS_ARRAY, '', $val);
+                $task->addArgument($name, InputArgument::IS_ARRAY, $description, $val);
             } else {
-                $task->addArgument($name, InputArgument::OPTIONAL, '', $val);
+                $task->addArgument($name, InputArgument::OPTIONAL, $description, $val);
             }
         }
         $opts = $taskInfo->getOptions();
         foreach ($opts as $name => $val) {
+            $description = $taskInfo->getOptionDescription($name);
             if (is_bool($val)) {
-                $task->addOption($name, '', InputOption::VALUE_NONE, '');
+                $task->addOption($name, '', InputOption::VALUE_NONE, $description);
             } else {
-                $task->addOption($name, '', InputOption::VALUE_OPTIONAL, '', $val);
+                $task->addOption($name, '', InputOption::VALUE_OPTIONAL, $description, $val);
             }
         }
 

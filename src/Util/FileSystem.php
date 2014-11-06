@@ -2,6 +2,7 @@
 namespace Robo\Util;
 
 use Symfony\Component\Filesystem\Filesystem as SfFilesystem;
+use Robo\Task\Shared\TaskException;
 
 /**
  * @author tiger
@@ -43,7 +44,10 @@ class FileSystem extends SfFilesystem
 
     public function copyDir($src, $dst)
     {
-        $dir = opendir($src);
+        $dir = @opendir($src);
+        if (false === $dir) {
+            throw new TaskException(__CLASS__, "Cannot open source directory '" . $src . "'");
+        }
         @mkdir($dst);
         while(false !== ( $file = readdir($dir)) ) {
             if (( $file != '.' ) && ( $file != '..' )) {

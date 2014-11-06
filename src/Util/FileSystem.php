@@ -18,21 +18,17 @@ class FileSystem extends SfFilesystem
 
         foreach ($iterator as $path) {
             if ($path->isDir()) {
-                $dir = (string) $path;
+                $dir = (string)$path;
                 if (basename($dir) === '.' || basename($dir) === '..') {
                     continue;
                 }
                 $this->remove($dir);
             } else {
                 $file = (string)$path;
-                if (basename($file) === '.gitignore') {
+                if (basename($file) === '.gitignore' || basename($file) === '.gitkeep') {
                     continue;
                 }
-                if (basename($file) === '.gitkeep') {
-                    continue;
-                }
-
-                $this->remove($path->__toString());
+                $this->remove($file);
             }
         }
     }
@@ -49,13 +45,14 @@ class FileSystem extends SfFilesystem
             throw new TaskException(__CLASS__, "Cannot open source directory '" . $src . "'");
         }
         @mkdir($dst);
-        while(false !== ( $file = readdir($dir)) ) {
-            if (( $file != '.' ) && ( $file != '..' )) {
-                if ( is_dir($src . '/' . $file) ) {
-                    self::copyDir($src . '/' . $file,$dst . '/' . $file);
-                }
-                else {
-                    copy($src . '/' . $file,$dst . '/' . $file);
+        while (false !== ($file = readdir($dir))) {
+            if (($file !== '.') && ($file !== '..')) {
+                $srcFile = $src . '/' . $file;
+                $destFile = $dst . '/' . $file;
+                if (is_dir($srcFile)) {
+                    self::copyDir($srcFile, $destFile);
+                } else {
+                    copy($srcFile, $destFile);
                 }
             }
         }

@@ -608,7 +608,7 @@ class SemVerTask implements TaskInterface
     {
         $output = file_get_contents($this->path);
 
-        if (!preg_match_all(self::REGEX, implode("\n", $output), $matches)) {
+        if (!preg_match_all(self::REGEX, $output, $matches)) {
             throw new TaskException($this, 'Bad semver file.');
         }
 

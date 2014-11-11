@@ -594,7 +594,7 @@ class SemVerTask implements TaskInterface
     public function run()
     {
         $written = $this->dump();
-        return new Result($this, (int)($written !== false),  $this->__toString());
+        return new Result($this, (int)($written === false), $this->__toString());
     }
 
     protected function dump()

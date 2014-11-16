@@ -403,7 +403,7 @@ class FileSystemStackTask implements TaskInterface
         return $this;
     }
 
-    public function chmod($file, $permissions, $recursive = true)
+    public function chmod($file, $permissions, $umask = 0000, $recursive = true)
     {
         $this->stack[] = array_merge([__FUNCTION__], func_get_args());
         return $this;

@@ -399,13 +399,13 @@ class FileSystemStackTask implements TaskInterface
 
     public function copy($from, $to, $force = false)
     {
-        $this->stack[] = array_merge([__FUNCTION__], func_get_args());
+        $this->stack[] = array_merge([__FUNCTION__], compact('from', 'to', 'force'));
         return $this;
     }
 
-    public function chmod($file, $permissions, $recursive = true)
+    public function chmod($file, $permissions, $umask = 0000, $recursive = true)
     {
-        $this->stack[] = array_merge([__FUNCTION__], func_get_args());
+        $this->stack[] = array_merge([__FUNCTION__], compact('file', 'permissions', 'umask', 'recursive'));
         return $this;
     }
 

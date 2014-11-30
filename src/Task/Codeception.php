@@ -180,7 +180,7 @@ class CodeceptionTask implements TaskInterface, CommandInterface{
      */
     public function coverageHtml($html = null)
     {
-        $this->option("coverage-xml", $html);
+        $this->option("coverage-html", $html);
         return $this;
     }
 

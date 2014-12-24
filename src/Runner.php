@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Runner {
     use Output;
 
-    const VERSION = '0.4.6';
+    const VERSION = '0.4.7';
     const ROBOCLASS = 'RoboFile';
     const ROBOFILE = 'RoboFile.php';
 

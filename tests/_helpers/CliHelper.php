@@ -26,6 +26,11 @@ class CliHelper extends \Codeception\Module
         taskConcat as public;
     }
 
+    public function seeDirFound($dir)
+    {
+        $this->assertTrue(is_dir($dir) && file_exists($dir), "Directory does not exist");
+    }
+
     public function _before(\Codeception\TestCase $test) {
         $this->getModule('Filesystem')->copyDir(codecept_data_dir().'claypit', codecept_data_dir().'sandbox');
         \Robo\Runner::setPrinter(new NullOutput());

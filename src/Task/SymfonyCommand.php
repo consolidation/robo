@@ -20,7 +20,7 @@ trait SymfonyCommand {
 }
 
 /**
- * Executes Symsony Command
+ * Executes Symfony Command
  *
  * ``` php
  * <?php

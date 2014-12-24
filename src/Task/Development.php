@@ -594,7 +594,7 @@ class SemVerTask implements TaskInterface
     public function run()
     {
         $written = $this->dump();
-        return new Result($this, (int)($written !== false),  $this->__toString());
+        return new Result($this, (int)($written === false), $this->__toString());
     }
 
     protected function dump()
@@ -608,7 +608,7 @@ class SemVerTask implements TaskInterface
     {
         $output = file_get_contents($this->path);
 
-        if (!preg_match_all(self::REGEX, implode("\n", $output), $matches)) {
+        if (!preg_match_all(self::REGEX, $output, $matches)) {
             throw new TaskException($this, 'Bad semver file.');
         }
 

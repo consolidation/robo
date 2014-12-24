@@ -18,12 +18,6 @@ class ApiGenUnitTest extends \Codeception\TestCase\Test
     }
 
     // tests
-    public function testApiGenRun()
-    {
-        $this->taskApiGen()->run();
-        $this->apigen->verifyInvoked('executeCommand', ['vendor/bin/apigen']);
-    }
-
     public function testPHPUnitCommand()
     {
         // need an explicit Traversable

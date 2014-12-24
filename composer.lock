@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ef84166a7befa773a7b596b417b36f00",
+    "hash": "116d054255c544c143f04f24de97b87d",
     "packages": [
         {
             "name": "henrikbjorn/lurker",
@@ -457,20 +457,21 @@
     "packages-dev": [
         {
             "name": "andrewsville/php-token-reflection",
-            "version": "1.3.1",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Andrewsville/PHP-Token-Reflection.git",
-                "reference": "3e3a36de17f32889fd2d4b8108af16d3033ce9bf"
+                "reference": "e6d0ac2baf66cdf154be34c3d2a2aa1bd4b426ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Andrewsville/PHP-Token-Reflection/zipball/3e3a36de17f32889fd2d4b8108af16d3033ce9bf",
-                "reference": "3e3a36de17f32889fd2d4b8108af16d3033ce9bf",
+                "url": "https://api.github.com/repos/Andrewsville/PHP-Token-Reflection/zipball/e6d0ac2baf66cdf154be34c3d2a2aa1bd4b426ee",
+                "reference": "e6d0ac2baf66cdf154be34c3d2a2aa1bd4b426ee",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3"
+                "ext-tokenizer": "*",
+                "php": ">=5.3.0"
             },
             "type": "library",
             "autoload": {
@@ -499,80 +500,7 @@
                 "reflection",
                 "tokenizer"
             ],
-            "time": "2012-08-25 21:26:44"
-        },
-        {
-            "name": "apigen/apigen",
-            "version": "v2.8.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/apigen/apigen.git",
-                "reference": "bca0954e92621a48c6870be57115026a8d032706"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/apigen/apigen/zipball/bca0954e92621a48c6870be57115026a8d032706",
-                "reference": "bca0954e92621a48c6870be57115026a8d032706",
-                "shasum": ""
-            },
-            "require": {
-                "andrewsville/php-token-reflection": "~1.3.1",
-                "ext-json": "*",
-                "ext-mbstring": "*",
-                "kukulich/fshl": "~2.1.0",
-                "nette/nette": "~2.1.1",
-                "php": ">=5.3.0",
-                "texy/texy": "~2.4.0"
-            },
-            "suggest": {
-                "ext-bz2": "*",
-                "ext-phar": "*",
-                "ext-zip": "*",
-                "ext-zlib": "*"
-            },
-            "bin": [
-                "apigen"
-            ],
-            "type": "project",
-            "extra": {
-                "branch-alias": {
-                    "dev-develop": "3.0.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "ApiGen": "./"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "David Grudl",
-                    "homepage": "http://davidgrudl.com"
-                },
-                {
-                    "name": "Ondřej Nešpor",
-                    "homepage": "https://github.com/andrewsville"
-                },
-                {
-                    "name": "Jaroslav Hanslík",
-                    "homepage": "https://github.com/kukulich"
-                }
-            ],
-            "description": "API documentation generator for PHP 5.3+",
-            "homepage": "http://apigen.org/",
-            "keywords": [
-                "api",
-                "docblock",
-                "documentation",
-                "generator",
-                "phpDocumentor",
-                "phpdoc"
-            ],
-            "time": "2014-09-01 18:06:36"
+            "time": "2014-08-06 16:37:08"
         },
         {
             "name": "codeception/aspect-mock",
@@ -1159,48 +1087,6 @@
             "time": "2013-01-29 21:29:14"
         },
         {
-            "name": "kukulich/fshl",
-            "version": "2.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/kukulich/fshl.git",
-                "reference": "974c294ade5d76c0c16b6fe3fd3a584ba999b24f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/kukulich/fshl/zipball/974c294ade5d76c0c16b6fe3fd3a584ba999b24f",
-                "reference": "974c294ade5d76c0c16b6fe3fd3a584ba999b24f",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "FSHL": "./"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Jaroslav Hanslík",
-                    "homepage": "https://github.com/kukulich"
-                }
-            ],
-            "description": "FSHL is a free, open source, universal, fast syntax highlighter written in PHP.",
-            "homepage": "http://fshl.kukulich.cz/",
-            "keywords": [
-                "highlight",
-                "library",
-                "syntax"
-            ],
-            "time": "2012-09-08 19:00:07"
-        },
-        {
             "name": "lisachenko/go-aop-php",
             "version": "0.4.3",
             "source": {
@@ -1253,72 +1139,6 @@
                 "php"
             ],
             "time": "2013-11-03 10:00:46"
-        },
-        {
-            "name": "nette/nette",
-            "version": "v2.1.8",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nette/nette.git",
-                "reference": "0fa5750d1660113ebcf07aed70666e8e2c61575c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nette/nette/zipball/0fa5750d1660113ebcf07aed70666e8e2c61575c",
-                "reference": "0fa5750d1660113ebcf07aed70666e8e2c61575c",
-                "shasum": ""
-            },
-            "require": {
-                "ext-iconv": "*",
-                "ext-tokenizer": "*",
-                "php": ">=5.3.1"
-            },
-            "require-dev": {
-                "nette/tester": "~1.3"
-            },
-            "suggest": {
-                "ext-fileinfo": "",
-                "ext-gd": "",
-                "ext-mbstring": "",
-                "ext-pdo": ""
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "Nette/"
-                ],
-                "files": [
-                    "Nette/common/shortcuts.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause",
-                "GPL-2.0",
-                "GPL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "David Grudl",
-                    "homepage": "http://davidgrudl.com"
-                },
-                {
-                    "name": "Nette Community",
-                    "homepage": "http://nette.org/contributors"
-                }
-            ],
-            "description": "Nette Framework - innovative framework for fast and easy development of secured web applications in PHP. Write less, have cleaner code and your work will bring you joy.",
-            "homepage": "http://nette.org",
-            "keywords": [
-                "Forms",
-                "database",
-                "debugging",
-                "framework",
-                "mailing",
-                "mvc",
-                "templating"
-            ],
-            "time": "2014-11-16 13:51:36"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -2259,62 +2079,6 @@
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
             "time": "2014-12-02 20:19:20"
-        },
-        {
-            "name": "texy/texy",
-            "version": "v2.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/dg/texy.git",
-                "reference": "67d02cd95e4aaa7dae96b24a7d04ba924d641015"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/dg/texy/zipball/67d02cd95e4aaa7dae96b24a7d04ba924d641015",
-                "reference": "67d02cd95e4aaa7dae96b24a7d04ba924d641015",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.2.0"
-            },
-            "replace": {
-                "dg/texy": "self.version"
-            },
-            "require-dev": {
-                "nette/tester": "~1.0.0"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "src/texy.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause",
-                "GPL-2.0",
-                "GPL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "David Grudl",
-                    "homepage": "http://davidgrudl.com"
-                }
-            ],
-            "description": "Texy converts plain text in easy to read Texy syntax into structurally valid (X)HTML. It supports adding of images, links, nested lists, tables and has full support for CSS. Texy supports hyphenation of long words (which reflects language rules), clickable emails and URL (emails are obfuscated against spambots), national typographic single and double quotation marks, ellipses, em dashes, dimension sign, nonbreakable spaces (e.g. in phone numbers), acronyms, arrows and many others. Texy code can optionally contain HTML tags.",
-            "homepage": "http://texy.info",
-            "keywords": [
-                "html",
-                "markdown",
-                "markup language",
-                "plain text",
-                "text",
-                "textile",
-                "texy",
-                "wiki",
-                "xhtml"
-            ],
-            "time": "2014-02-10 02:34:57"
         }
     ],
     "aliases": [],

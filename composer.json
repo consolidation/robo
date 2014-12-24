@@ -27,7 +27,6 @@
     "require-dev": {
         "codeception/codeception": "~2.0",
         "codeception/verify": "0.2.*",
-        "codeception/aspect-mock": "0.4.*",
-        "apigen/apigen": "~2.8"
+        "codeception/aspect-mock": "0.4.*"
     }
 }

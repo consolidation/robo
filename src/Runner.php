@@ -126,10 +126,17 @@ class Runner {
         $opts = $taskInfo->getOptions();
         foreach ($opts as $name => $val) {
             $description = $taskInfo->getOptionDescription($name);
+
+            $fullname = $name;
+            $shortcut = '';
+            if (strpos($name, '|')) {
+              list($fullname, $shortcut) = explode('|', $name, 2);
+            }
+
             if (is_bool($val)) {
-                $task->addOption($name, '', InputOption::VALUE_NONE, $description);
+                $task->addOption($fullname, $shortcut, InputOption::VALUE_NONE, $description);
             } else {
-                $task->addOption($name, '', InputOption::VALUE_OPTIONAL, $description, $val);
+                $task->addOption($fullname, $shortcut, InputOption::VALUE_OPTIONAL, $description, $val);
             }
         }
 

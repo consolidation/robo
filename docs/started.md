@@ -99,6 +99,24 @@ php vendor/bin/robo hello
 php vendor/bin/robo hello --silent
 ```
 
+A one-char shortcut can be specified for option:
+
+``` php
+<?php
+    function hello($opts = ['silent|s' => false])
+    {
+        if (!$opt['silent']) $this->say("Hello, world");
+    }
+?>
+```
+
+Now command can be executed with '-s' to run in silent mode: 
+
+```
+php vendor/bin/robo hello -s
+```
+
+
 ### Pass-Through Arguments
 
 Sometimes you need to pass arguments from you command into a task. A command line after the `--` characters is treated as one argument.

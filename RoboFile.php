@@ -91,27 +91,20 @@ class Robofile extends \Robo\Tasks
 
     public function pharBuild()
     {
-        $this->taskComposerInstall()
-            ->printed(false)
-            ->noDev()
-            ->run();
-            
+
         $packer = $this->taskPackPhar('robo.phar');
         $files = Finder::create()->ignoreVCS(true)
             ->files()
             ->name('*.php')
             ->path('src')
             ->path('vendor')
+            ->exclude('codeception')
             ->in(__DIR__);
         foreach ($files as $file) {
             $packer->addFile($file->getRelativePathname(), $file->getRealPath());
         }
         $packer->addFile('robo','robo')
             ->executable('robo')
-            ->run();
-
-        $this->taskComposerInstall()
-            ->printed(false)
             ->run();
     }
 

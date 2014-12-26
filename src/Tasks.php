@@ -23,6 +23,8 @@ class Tasks
     use Task\Rsync;
     use Task\Svn;
     use Task\Minify;
+    use Task\Npm;
+    use Task\Phpspec;
     use Output;
 
     protected function stopOnFail($stopOnFail = true)

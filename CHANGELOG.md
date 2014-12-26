@@ -3,8 +3,7 @@
 Thanks to everyone for using it and submitting pull requests! You are awesome.
 
 Next release is going to be 0.5.0 with some refactorings included.
-File structure will be changed to match PSR-4 standard. Docker task is going to be included.
-In future we plan to move some tasks into standalone packages that can be easily installed.
+File structure will be changed to match PSR-4 standard.
 
 Thanks to everyone who submitted useful tasks. It's better to have many tasks than few.
 However, once the core is stabilized we plan to move some tasks out of main repo but make them easily installed via composer.

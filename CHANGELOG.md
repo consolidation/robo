@@ -1,8 +1,30 @@
 # Changelog
 
+Thanks for everyone using it and submitting pull requests! You are awesome.
+
+Next release is going to be 0.5.0 with some refactorings included.
+File structure will be changed to match PSR-4 standard. Docker task is going to be included.
+In future we plan to move some tasks into standalone packages that can be easily installed.
+
+Thanks for everyone who submitted their tasks. It's better to have many tasks than few.
+However, once the core is stabilized we plan to move some tasks out of main repo but make them easily installed via composer.
+
 #### 0.4.7
 
+* [Minify] Task added by @Rarst. Requires additional dependencies installed *2014-12-26*
+* [Help command is populated from annotation](https://github.com/Codegyre/Robo/pull/71) by @jonsa *2014-12-26*
+* Allow empty values as defaults to optional options by @jonsa *2014-12-26*
+* `PHP_WINDOWS_VERSION_BUILD` constant is used to check for Windows in tasks by @boedah *2014-12-26*
+* [Copy][EmptyDir] Fixed infinite loop by @boedah *2014-12-26*
 * [ApiGen] Task added by @drobert *2014-12-26*
+* [FileSystem] Equalized `copy` and `chmod` argument to defaults by @Rarst (BC break) *2014-12-26*
+* [FileSystem]  Added missing umask argument to chmod() method of FileSystemStack by @Rarst
+* [SemVer] Fixed file read and exit code
+* [Codeception] fixed codeception coverageHtml option by @gunfrank *2014-12-26*
+* [phpspec] Task added by @SebSept *2014-12-26*
+* Shortcut options: if option name is like foo|f, assign f as shortcut by @jschnare *2014-12-26*
+* [Rsync] Shell escape rsync exclude pattern by @boedah. Fixes #77 (BC break) *2014-12-26*
+* [Npm] Task added by @AAlakkad *2014-12-26*
 
 #### 0.4.6
 

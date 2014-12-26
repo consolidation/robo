@@ -28,6 +28,13 @@ trait Minify
  *      ->run()
  * ?>
  * ```
+ * To use with composer please install additional dependencies:
+ *
+ * ```
+ * "patchwork/jsqueeze": "~1.0",
+ * "natxet/CssMin": "~3.0"
+ * ```
+ *
  */
 class MinifyTask implements TaskInterface
 {

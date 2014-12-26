@@ -157,7 +157,7 @@ class Robofile extends \Robo\Tasks
             ->run();
     }
 
-    public function optbool($opts = ['silent' => false])
+    public function optbool($opts = ['silent|s' => false])
     {
         if (!$opts['silent']) $this->say("Hello, world");
     }

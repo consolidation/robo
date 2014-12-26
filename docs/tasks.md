@@ -1044,6 +1044,86 @@ To use with composer please install additional dependencies:
 
 
 
+
+## NpmInstall
+
+
+Npm Install
+
+``` php
+<?php
+// simple execution
+$this->taskNpmInstall()->run();
+
+// prefer dist with custom path
+$this->taskNpmInstall('path/to/my/npm')
+     ->noDev()
+     ->run();
+?>
+```
+
+
+
+
+
+* `noDev()`  adds `production` option to npm
+
+
+* `printed($arg)`  Should command output be printed
+* `dir($dir)`  changes working directory of command
+
+* `arg($arg)`  Pass argument to executable
+* `args($args)`  Pass methods parameters as arguments to executable
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+
+
+
+
+
+
+
+
+
+## NpmUpdate
+
+
+Npm Update
+
+``` php
+<?php
+// simple execution
+$this->taskNpmUpdate()->run();
+
+// prefer dist with custom path
+$this->taskNpmUpdate('path/to/my/npm')
+     ->noDev()
+     ->run();
+?>
+```
+
+
+
+
+
+* `noDev()`  adds `production` option to npm
+
+
+* `printed($arg)`  Should command output be printed
+* `dir($dir)`  changes working directory of command
+
+* `arg($arg)`  Pass argument to executable
+* `args($args)`  Pass methods parameters as arguments to executable
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+
+
+
+
+
+
+
+
+
+
 ## PHPUnit
 
 
@@ -1221,6 +1301,50 @@ $this->taskServer(8000)
 
 
 * `printed($arg)`  Should command output be printed
+
+* `arg($arg)`  Pass argument to executable
+* `args($args)`  Pass methods parameters as arguments to executable
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+
+## Phpspec
+
+
+Executes Phpspec tests
+
+``` php
+<?php
+$this->taskPhpspec()
+     ->run();
+?>
+```
+
+
+
+
+
+
+
+* `stopOnFailure()` 
+* `noCodeGeneration()` 
+* `quiet()` 
+* `verbose($level = null)` 
+* `noAnsi()` 
+* `noInteraction()` 
+* `config($config_file)` 
+* `format($formater)` 
+
+
+
+
+
+
+
+
+
+
+
+* `printed($arg)`  Should command output be printed
+* `dir($dir)`  changes working directory of command
 
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable

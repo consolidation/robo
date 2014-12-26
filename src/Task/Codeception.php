@@ -42,6 +42,9 @@ class CodeceptionTask implements TaskInterface, CommandInterface{
             $this->command = "$pathToCodeception run";
         } elseif (file_exists('vendor/bin/codecept')) {
             $this->command = 'vendor/bin/codecept run';
+            if (defined('PHP_WINDOWS_VERSION_BUILD')) {
+                $this->command = 'call ' . $this->command;
+            }
         } elseif (file_exists('codecept.phar')) {
             $this->command = 'php codecept.phar run';
 		} else {

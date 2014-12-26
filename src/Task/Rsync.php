@@ -238,7 +238,7 @@ class RsyncTask implements TaskInterface, CommandInterface
 
     public function exclude($pattern)
     {
-        return $this->option('exclude', $pattern);
+        return $this->option('exclude', escapeshellarg($pattern));
     }
 
     public function excludeFrom($file)

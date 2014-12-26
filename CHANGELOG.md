@@ -1,5 +1,9 @@
 # Changelog
 
+#### 0.4.7
+
+* [ApiGen] Task added by @drobert *2014-12-26*
+
 #### 0.4.6
 
 * [Exec] Output from buffer is not spoiled by special chars *2014-10-17*

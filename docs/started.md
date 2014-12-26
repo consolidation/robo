@@ -137,6 +137,67 @@ php vendor/bin/robo ls -- Robo -c --all
  .  ..  CHANGELOG.md  codeception.yml  composer.json  composer.lock  docs  .git  .gitignore  .idea  LICENSE  README.md  robo  RoboFile.php  robo.phar  src  tests  .travis.yml  vendor
 ```
 
+### Help
+
+Doc-Block comments can be used to display help per commands. It turns
+
+``` php
+<?php
+/**
+ * Calculate the fibonacci sequence between two numbers.
+ *
+ * Graphic output will look like
+ *     +----+---+-------------+
+ *     |    |   |             |
+ *     |    |-+-|             |
+ *     |----+-+-+             |
+ *     |        |             |
+ *     |        |             |
+ *     |        |             |
+ *     +--------+-------------+
+ *
+ * @param int $start Number to start from
+ * @param $steps int Number of steps to perform
+ * @param array $opts
+ * @option $graphic Display the sequence graphically using cube
+ *                  representation
+ */
+public function fibonacci($start, $steps, $opts = ['graphic' => false])
+{
+}
+?>
+```
+
+into
+
+```
+$ ./robo fibonacci --help
+Usage:
+ fibonacci [--graphic] start steps
+
+Arguments:
+ start                 Number to start from
+ steps                 Number of steps to perform
+
+Options:
+ --graphic             Display the sequence graphically using cube representation
+
+Help:
+ Graphic output will look like
+     +----+---+-------------+
+     |    |   |             |
+     |    |-+-|             |
+     |----+-+-+             |
+     |        |             |
+     |        |             |
+     |        |             |
+     +--------+-------------+
+```
+
+Arguments and options are populated from annotations.
+
+Added with [PR by @jonsa](https://github.com/Codegyre/Robo/pull/71) 
+
 ## Tasks
 
 All tasks are loaded by Traits. There is convention when all tasks should start with `task` prefix and use **chained method calls** for configuration.

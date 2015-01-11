@@ -3,7 +3,7 @@ use AspectMock\Test as test;
 
 class NpmTest extends \Codeception\TestCase\Test
 {
-    use \Robo\Task\Npm;
+    use \Robo\Task\Npm\loadTasks;
 
     /**
      * @var \AspectMock\Proxy\ClassProxy
@@ -12,21 +12,21 @@ class NpmTest extends \Codeception\TestCase\Test
 
     protected function _before()
     {
-        $this->baseNpm = test::double('Robo\Task\BaseNpmTask', [
+        $this->baseNpm = test::double('Robo\Task\Npm\Base', [
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
     }
     // tests
     public function testNpmInstall()
     {
-        $npm = test::double('Robo\Task\NpmInstallTask', ['executeCommand' => null]);
+        $npm = test::double('Robo\Task\Npm\Install', ['executeCommand' => null]);
         $this->taskNpmInstall('npm')->run();
         $npm->verifyInvoked('executeCommand', ['npm install']);
     }
 
     public function testNpmUpdate()
     {
-        $npm = test::double('Robo\Task\NpmUpdateTask', ['executeCommand' => null]);
+        $npm = test::double('Robo\Task\Npm\Update', ['executeCommand' => null]);
         $this->taskNpmUpdate('npm')->run();
         $npm->verifyInvoked('executeCommand', ['npm update']);
     }

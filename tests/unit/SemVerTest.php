@@ -4,11 +4,11 @@ use AspectMock\Test as test;
 
 class SemVerTest extends \Codeception\TestCase\Test
 {
-    use \Robo\Task\Development;
+    use \Robo\Task\Development\loadTasks;
 
     public function testSemver()
     {
-        $semver = test::double('Robo\Task\SemVerTask', ['dump' => null]);
+        $semver = test::double('Robo\Task\Development\SemVer', ['dump' => null]);
         $res = $this->taskSemVer()
             ->increment('major')
             ->prerelease('RC')

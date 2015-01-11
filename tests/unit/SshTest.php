@@ -3,7 +3,7 @@
 
 class SshTest extends \Codeception\TestCase\Test
 {
-    use \Robo\Task\SshExec;
+    use \Robo\Task\Remote\loadTasks;
     // tests
     public function testSshCommand()
     {

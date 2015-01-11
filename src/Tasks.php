@@ -3,28 +3,30 @@ namespace Robo;
 
 class Tasks
 {
-    use Task\ApiGen;
-    use Task\Composer;
-    use Task\Development;
-    use Task\Exec;
-    use Task\FileSystem;
-    use Task\Git;
-    use Task\GitHub;
-    use Task\PackPhar;
-    use Task\PhpServer;
-    use Task\PHPUnit;
-    use Task\Codeception;
-    use Task\SymfonyCommand;
-    use Task\Watch;
-    use Task\ParallelExec;
-    use Task\Concat;
-    use Task\Bower;
-    use Task\SshExec;
-    use Task\Rsync;
-    use Task\Svn;
-    use Task\Minify;
-    use Task\Npm;
-    use Task\Phpspec;
+    // standard tasks
+    use Task\Base\loadTasks;
+    use Task\Development\loadTasks;
+    use Task\FileSystem\loadTasks;
+    use Task\Vcs\loadTasks;
+
+    // package managers
+    use Task\Composer\loadTasks;
+    use Task\Bower\loadTasks;
+    use Task\Npm\loadTasks;
+
+    // assets
+    use Task\Assets\loadTasks;
+
+    // 3rd-party tools
+    use Task\Remote\loadTasks;
+    use Task\Testing\loadTasks;
+    use Task\ApiGen\loadTasks;
+
+    // shortcuts
+    use Task\Base\loadShortcuts;
+    use Task\FileSystem\loadShortcuts;
+    use Task\Vcs\loadShortcuts;
+
     use Output;
 
     protected function stopOnFail($stopOnFail = true)

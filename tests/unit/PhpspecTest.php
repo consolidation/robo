@@ -3,7 +3,7 @@ use AspectMock\Test as test;
 
 class PhpspecTest extends \Codeception\TestCase\Test
 {
-    use \Robo\Task\Phpspec;
+    use \Robo\Task\Testing\loadTasks;
     /**
      * @var \AspectMock\Proxy\ClassProxy
      */
@@ -11,7 +11,7 @@ class PhpspecTest extends \Codeception\TestCase\Test
 
     protected function _before()
     {
-        $this->phpspec = test::double('Robo\Task\PhpspecTask', [
+        $this->phpspec = test::double('Robo\Task\Testing\Phpspec', [
             'executeCommand' => null,
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
@@ -27,7 +27,7 @@ class PhpspecTest extends \Codeception\TestCase\Test
     public function testPHPSpecCommand()
     {
         $task = $this->taskPhpspec('phpspec')
-            ->stopOnFailure()
+            ->stopOnFail()
             ->noCodeGeneration()
             ->quiet()
             ->verbose('vv')

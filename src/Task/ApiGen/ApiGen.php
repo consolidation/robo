@@ -1,18 +1,12 @@
 <?php
 
-namespace Robo\Task;
+namespace Robo\Task\ApiGen;
 
 use Robo\Result;
 use Robo\Task\Shared\CommandInterface;
 use Robo\Task\Shared\TaskInterface;
+use Robo\Task\Traversable;
 use Symfony\Component\Process\Process;
-
-trait ApiGen {
-    protected function taskApiGen($pathToApiGen = null)
-    {
-        return new ApiGenTask($pathToApiGen);
-    }
-}
 
 /**
  * Executes ApiGen command to generate documentation 
@@ -27,7 +21,7 @@ trait ApiGen {
  * ?>
  * ```
  */
-class ApiGenTask implements TaskInterface, CommandInterface {
+class ApiGen implements TaskInterface, CommandInterface {
     use \Robo\Output;
     use \Robo\Task\Shared\Executable;
 

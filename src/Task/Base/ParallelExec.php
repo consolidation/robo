@@ -1,18 +1,13 @@
 <?php
-namespace Robo\Task;
+namespace Robo\Task\Base;
 use Robo\Result;
+use Robo\Task\int;
+use Robo\Task\Shared;
 use Robo\Task\Shared\TaskException;
 use Symfony\Component\Console\Helper\ProgressHelper;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Exception\ProcessTimedOutException;
 use Symfony\Component\Process\Process;
-
-trait ParallelExec {
-    protected function taskParallelExec()
-    {
-        return new ParallelExecTask();
-    }
-}
 
 /**
  * Class ParallelExecTask
@@ -31,7 +26,7 @@ trait ParallelExec {
  * @method \Robo\Task\ParallelExecTask timeout(int $timeout) stops process if it runs longer then `$timeout` (seconds)
  * @method \Robo\Task\ParallelExecTask idleTimeout(int $timeout) stops process if it does not output for time longer then `$timeout` (seconds)
  */
-class ParallelExecTask implements Shared\TaskInterface, Shared\CommandInterface
+class ParallelExec implements Shared\TaskInterface, Shared\CommandInterface
 {
     use \Robo\Output;
     use Shared\DynamicConfig;

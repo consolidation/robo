@@ -3,7 +3,7 @@
 use AspectMock\Test as test;
 class PHPServerTest extends \Codeception\TestCase\Test
 {
-    use \Robo\Task\PhpServer;
+    use \Robo\Task\Development\loadTasks;
     /**
      * @var \AspectMock\Proxy\ClassProxy
      */
@@ -17,7 +17,7 @@ class PHPServerTest extends \Codeception\TestCase\Test
             'getOutput' => 'Hello world',
             'getExitCode' => 0
         ]);
-        test::double('Robo\Task\PhpServerTask', ['getOutput' => new \Symfony\Component\Console\Output\NullOutput()]);
+        test::double('Robo\Task\Development\PhpServer', ['getOutput' => new \Symfony\Component\Console\Output\NullOutput()]);
     }
 
     public function testServerBackgroundRun()

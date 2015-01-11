@@ -3,7 +3,7 @@ use AspectMock\Test as test;
 
 class ExecTaskTest extends \Codeception\TestCase\Test
 {
-    use \Robo\Task\Exec;
+    use \Robo\Task\Base\loadTasks;
     /**
      * @var \AspectMock\Proxy\ClassProxy
      */
@@ -17,7 +17,7 @@ class ExecTaskTest extends \Codeception\TestCase\Test
             'getOutput' => 'Hello world',
             'getExitCode' => 0
         ]);
-        test::double('Robo\Task\ExecTask', ['getOutput' => new \Symfony\Component\Console\Output\NullOutput()]);
+        test::double('Robo\Task\Base\Exec', ['getOutput' => new \Symfony\Component\Console\Output\NullOutput()]);
     }
 
     public function testExec()

@@ -3,7 +3,7 @@ use AspectMock\Test as test;
 
 class ParallelExecTest extends \Codeception\TestCase\Test
 {
-    use \Robo\Task\ParallelExec;
+    use \Robo\Task\Base\loadTasks;
    /**
     * @var \CodeGuy
     */

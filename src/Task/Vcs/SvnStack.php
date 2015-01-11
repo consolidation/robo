@@ -1,32 +1,27 @@
 <?php
-namespace Robo\Task;
+namespace Robo\Task\Vcs;
 
 use Robo\Output;
 use Robo\Result;
+use Robo\Task\Base\Exec as ExecTask;
+use Robo\Task\Shared\CommandExecutable;
 use Robo\Task\Shared\CommandInterface;
+use Robo\Task\Shared\Stackable;
 use Robo\Task\Shared\TaskInterface;
-
-trait Svn {
-
-    protected function taskSvnStack($pathToSvn = 'svn', $username = '', $password = '')
-    {
-        return new SvnStackTask($pathToSvn, $username, $password);
-    }
-
-}
 
 /**
  * Runs Svn commands in stack. You can use `stopOnFail()` to point that stack should be terminated on first fail.
  *
  * ``` php
  * <?php
- * $this->taskSvnStack()
- *  ->stopOnFail()
- *  ->add()
- *  ->commit('adding everything')
+ * taskSvn::stack()
+ *  ->checkout('http://svn.collab.net/repos/svn/trunk')
  *  ->run()
  *
- * $this->taskSvnStack()
+ * // alternatively
+ * taskSvn::_checkout('http://svn.collab.net/repos/svn/trunk');
+ *
+ * taskSvn::init('username', 'password')
  *  ->stopOnFail()
  *  ->update()
  *  ->add('doc/*')
@@ -35,37 +30,28 @@ trait Svn {
  * ?>
  * ```
  */
-class SvnStackTask implements TaskInterface, CommandInterface
+class SvnStack implements TaskInterface, CommandInterface
 {
-    use Exec;
     use Output;
+    use Stackable;
+    use CommandExecutable;
 
     protected $svn;
     protected $stackCommands = [];
     protected $stopOnFail = false;
     protected $result;
 
-    public function __construct($pathToSvn='svn', $username='', $password='')
+    public function __construct($username='', $password='', $pathToSvn = 'svn')
     {
+
         $this->svn = $pathToSvn;
-        if (! empty($username)) {
+        if (!empty($username)) {
             $this->svn .= " --username $username";
         }
-        if (! empty($password)) {
+        if (!empty($password)) {
             $this->svn .= " --password $password";
         }
         $this->result = Result::success($this);
-    }
-
-    /**
-     * Svn commands in stack will stop if any of commands were unsuccessful
-     *
-     * @return $this
-     */
-    public function stopOnFail()
-    {
-        $this->stopOnFail = true;
-        return $this;
     }
 
     /**
@@ -126,7 +112,7 @@ class SvnStackTask implements TaskInterface, CommandInterface
     {
         $this->printTaskInfo("Running svn commands...");
         foreach ($this->stackCommands as $command) {
-            $this->result = $this->taskExec($this->svn .' '.$command)->run();
+            $this->result = $this->executeCommand($this->svn .' '.$command);
             if (!$this->result->wasSuccessful() and $this->stopOnFail) {
                 return $this->result;
             }

@@ -1,17 +1,9 @@
 <?php
-namespace Robo\Task;
+namespace Robo\Task\Testing;
 
-use Robo\Result;
-use Robo\Task\Shared\CommandInterface;
+use Robo\Task\Shared;
 use Robo\Task\Shared\TaskInterface;
-use Symfony\Component\Process\Process;
-
-trait PHPUnit {
-    protected function taskPHPUnit($pathToPhpUnit = null)
-    {
-        return new PHPUnitTask($pathToPhpUnit);
-    }
-}
+use Robo\Task\Shared\CommandInterface;
 
 /**
  * Runs PHPUnit tests
@@ -26,7 +18,7 @@ trait PHPUnit {
  * ?>
  * ```
  */
-class PHPUnitTask implements TaskInterface, CommandInterface
+class PHPUnit implements TaskInterface, CommandInterface
 {
     use \Robo\Output;
     use \Robo\Task\Shared\Executable;
@@ -48,13 +40,13 @@ class PHPUnitTask implements TaskInterface, CommandInterface
             $this->command = '/usr/bin/phpunit';
         } elseif (is_executable('~/.composer/vendor/bin/phpunit')) {
             $this->command = '~/.composer/vendor/bin/phpunit';
-		} else {
-            throw new Shared\TaskException(__CLASS__,"Neither local phpunit nor global composer installation not found");
+        } else {
+            throw new Shared\TaskException(__CLASS__, "Neither local phpunit nor global composer installation not found");
         }
     }
 
     public function filter($filter)
-    {        
+    {
         $this->option('filter', $filter);
         return $this;
     }
@@ -126,7 +118,7 @@ class PHPUnitTask implements TaskInterface, CommandInterface
 
     public function run()
     {
-        $this->printTaskInfo('Running PHPUnit '. $this->arguments);
+        $this->printTaskInfo('Running PHPUnit ' . $this->arguments);
         return $this->executeCommand($this->getCommand());
     }
 }

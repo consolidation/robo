@@ -3,7 +3,7 @@ use AspectMock\Test as test;
 
 class PHPUnitTest extends \Codeception\TestCase\Test
 {
-    use \Robo\Task\PHPUnit;
+    use \Robo\Task\Testing\loadTasks;
     /**
      * @var \AspectMock\Proxy\ClassProxy
      */
@@ -11,7 +11,7 @@ class PHPUnitTest extends \Codeception\TestCase\Test
 
     protected function _before()
     {
-        $this->phpunit = test::double('Robo\Task\PHPUnitTask', [
+        $this->phpunit = test::double('Robo\Task\Testing\PHPUnit', [
             'executeCommand' => null,
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);

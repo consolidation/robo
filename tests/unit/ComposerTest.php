@@ -3,7 +3,7 @@ use AspectMock\Test as test;
 
 class ComposerTest extends \Codeception\TestCase\Test
 {
-    use \Robo\Task\Composer;
+    use \Robo\Task\Composer\loadTasks;
 
     /**
      * @var \AspectMock\Proxy\ClassProxy
@@ -12,14 +12,14 @@ class ComposerTest extends \Codeception\TestCase\Test
 
     protected function _before()
     {
-        $this->baseComposer = test::double('Robo\Task\BaseComposerTask', [
+        $this->baseComposer = test::double('Robo\Task\Composer\Base', [
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
     }
     // tests
     public function testComposerInstall()
     {
-        $composer = test::double('Robo\Task\ComposerInstallTask', ['executeCommand' => null]);
+        $composer = test::double('Robo\Task\Composer\Install', ['executeCommand' => null]);
         
         $this->taskComposerInstall('composer')->run();
         $composer->verifyInvoked('executeCommand', ['composer install']);
@@ -37,7 +37,7 @@ class ComposerTest extends \Codeception\TestCase\Test
 
     public function testComposerUpdate()
     {
-        $composer = test::double('Robo\Task\ComposerUpdateTask', ['executeCommand' => null]);
+        $composer = test::double('Robo\Task\Composer\Update', ['executeCommand' => null]);
         
         $this->taskComposerUpdate('composer')->run();
         $composer->verifyInvoked('executeCommand', ['composer update']);
@@ -50,7 +50,7 @@ class ComposerTest extends \Codeception\TestCase\Test
 
     public function testComposerDumpAutoload()
     {
-        $composer = test::double('Robo\Task\ComposerDumpAutoloadTask', ['executeCommand' => null]);
+        $composer = test::double('Robo\Task\Composer\DumpAutoload', ['executeCommand' => null]);
         
         $this->taskComposerDumpAutoload('composer')->run();
         $composer->verifyInvoked('executeCommand', ['composer dump-autoload']);

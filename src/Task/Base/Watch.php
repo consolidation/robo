@@ -1,22 +1,10 @@
 <?php
-namespace Robo\Task;
+namespace Robo\Task\Base;
 
 use Lurker\Event\FilesystemEvent;
 use Lurker\ResourceWatcher;
 use Robo\Result;
 use Symfony\Component\EventDispatcher\Event;
-
-/**
- * Watches files for changes and runs task on change.
- */
-trait Watch {
-
-    protected function taskWatch()
-    {
-        return new WatchTask($this);
-    }
-
-}
 
 /**
  * Runs task when specified file or dir was changed.
@@ -33,7 +21,7 @@ trait Watch {
  * ?>
  * ```
  */
-class WatchTask {
+class Watch {
     use \Robo\Output;
 
     protected $closure;

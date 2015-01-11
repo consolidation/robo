@@ -4,7 +4,7 @@ use AspectMock\Test as test;
 
 class SvnTest extends \Codeception\TestCase\Test
 {
-    use \Robo\Task\Svn;
+    use \Robo\Task\Vcs\loadTasks;
     /**
      * @var \AspectMock\Proxy\ClassProxy
      */
@@ -12,8 +12,8 @@ class SvnTest extends \Codeception\TestCase\Test
 
     protected function _before()
     {
-        $this->svn = test::double('Robo\Task\SvnStackTask', [
-            'taskExec' => new \AspectMock\Proxy\Anything(),
+        $this->svn = test::double('Robo\Task\Vcs\SvnStack', [
+            'executeCommand' => new \AspectMock\Proxy\Anything(),
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
     }
@@ -21,15 +21,15 @@ class SvnTest extends \Codeception\TestCase\Test
     // tests
     public function testSvnStackRun()
     {
-        $this->taskSvnStack('svn')->update()->add()->run();
-        $this->svn->verifyInvoked('taskExec', ['svn add ']);
-        $this->svn->verifyInvoked('taskExec', ['svn update ']);
+        $this->svn->construct()->update()->add()->run();
+        $this->svn->verifyInvoked('executeCommand', ['svn add ']);
+        $this->svn->verifyInvoked('executeCommand', ['svn update ']);
     }
 
     public function testSvnStackCommands()
     {
         verify(
-            $this->taskSvnStack('svn', 'guest', 'foo')
+            $this->taskSvnStack('guest', 'foo')
                 ->checkout('svn://server/trunk')
                 ->update()
                 ->add()

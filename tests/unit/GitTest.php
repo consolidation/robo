@@ -4,7 +4,7 @@ use AspectMock\Test as test;
 
 class GitTest extends \Codeception\TestCase\Test
 {
-    use \Robo\Task\Git;
+    use \Robo\Task\Vcs\loadTasks;
     /**
      * @var \AspectMock\Proxy\ClassProxy
      */
@@ -12,7 +12,7 @@ class GitTest extends \Codeception\TestCase\Test
 
     protected function _before()
     {
-        $this->git = test::double('Robo\Task\GitStackTask', [
+        $this->git = test::double('Robo\Task\Vcs\GitStack', [
             'taskExec' => new \AspectMock\Proxy\Anything(),
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);

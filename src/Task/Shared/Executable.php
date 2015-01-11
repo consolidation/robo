@@ -3,25 +3,12 @@ namespace Robo\Task\Shared;
 use Robo\Result;
 use \Symfony\Component\Process\Process as SymfonyProcess;
 
-trait Executable {
+trait Executable
+{
+    use CommandExecutable;
 
     protected $arguments = '';
-    protected $isPrinted = true;
     protected $workingDirectory;
-
-    /**
-     * Should command output be printed
-     *
-     * @param $arg
-     * @return $this
-     */
-    public function printed($arg)
-    {
-        if (is_bool($arg)) {
-            $this->isPrinted = $arg;
-        }
-        return $this;
-    }
 
     /**
      * changes working directory of command
@@ -32,23 +19,6 @@ trait Executable {
     {
         $this->workingDirectory = $dir;
         return $this;
-    }
-
-
-    protected function executeCommand($command)
-    {
-        $process = new SymfonyProcess($command);
-        $process->setWorkingDirectory($this->workingDirectory);
-        $process->setTimeout(null);
-        if ($this->isPrinted) {
-            $process->run(function ($type, $buffer) {
-                SymfonyProcess::ERR === $type ? print('ER» '.$buffer) : print($buffer);
-            });
-        } else {
-            $process->run();
-        }
-
-		return new Result($this, $process->getExitCode(), $process->getOutput());
     }
 
     /**

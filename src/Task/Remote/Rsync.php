@@ -1,20 +1,14 @@
 <?php
-namespace Robo\Task;
+namespace Robo\Task\Remote;
 
 use Robo\Output;
 use Robo\Task\Shared\CommandInterface;
-use Robo\Task\Shared\DynamicConfig;
+use Robo\Task\Remote;
 use Robo\Task\Shared\Executable;
-use Robo\Task\Shared\TaskException;
+use Robo\Task\string;
 use Robo\Task\Shared\TaskInterface;
-
-trait Rsync
-{
-    protected function taskRsync()
-    {
-        return new RsyncTask();
-    }
-}
+use Robo\Task\Shared\TaskException;
+use Robo\Task\Shared\DynamicConfig;
 
 /**
  * Executes rsync in a flexible manner.
@@ -54,12 +48,12 @@ trait Rsync
  * }
  * ```
  *
- * @method RsyncTask fromUser(string $user)
- * @method RsyncTask fromHost(string $hostname)
- * @method RsyncTask toUser(string $user)
- * @method RsyncTask toHost(string $hostname)
+ * @method Remote\Rsync fromUser(string $user)
+ * @method Remote\Rsync fromHost(string $hostname)
+ * @method Remote\Rsync toUser(string $user)
+ * @method Remote\Rsync toHost(string $hostname)
  */
-class RsyncTask implements TaskInterface, CommandInterface
+class Rsync implements TaskInterface, CommandInterface
 {
     use Executable;
     use Output;
@@ -76,6 +70,11 @@ class RsyncTask implements TaskInterface, CommandInterface
     protected $toHost;
 
     protected $toPath;
+
+    public static function init()
+    {
+        return new static();
+    }
 
     public function __construct()
     {

@@ -1,9 +1,9 @@
 <?php
 use AspectMock\Test as test;
 
-class ApiGenUnitTest extends \Codeception\TestCase\Test
+class ApiGenTest extends \Codeception\TestCase\Test
 {
-    use \Robo\Task\ApiGen;
+    use \Robo\Task\ApiGen\loadTasks;
     /**
      * @var \AspectMock\Proxy\ClassProxy
      */
@@ -11,7 +11,7 @@ class ApiGenUnitTest extends \Codeception\TestCase\Test
 
     protected function _before()
     {
-        $this->apigen= test::double('Robo\Task\ApiGenTask', [
+        $this->apigen = test::double('Robo\Task\ApiGen\ApiGen', [
             'executeCommand' => null,
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);

@@ -2,7 +2,7 @@
 
 class RsyncTest extends \Codeception\TestCase\Test
 {
-    use \Robo\Task\Rsync;
+    use \Robo\Task\Remote\loadTasks;
 
     /**
      * @var \CodeGuy

@@ -1,35 +1,24 @@
 <?php
 
-namespace Robo\Task;
+namespace Robo\Task\Remote;
 
 use Robo\Output;
-use Robo\Result;
 use Robo\Task\Exec;
-use Robo\Task\Shared\CommandInjected;
-use Robo\Task\Shared\CommandInterface;
-use Robo\Task\Shared\DynamicConfig;
-use Robo\Task\Shared\Executable;
-use Robo\Task\Shared\TaskException;
-use Robo\Task\Shared\TaskInterface;
-
-trait SshExec
-{
-    protected function taskSshExec($hostname = null, $user = null)
-    {
-        return new SshExecTask($hostname, $user);
-    }
-}
+use Robo\Task\Shared;
 
 /**
  * Runs multiple commands on a remote server.
  * Per default, commands are combined with &&, unless stopOnFail is false.
  *
  * ``` php
- * $this->taskSshExec('remote.example.com', 'user')
+ * <?php
+ *
+ * $this->taskSsh('remote.example.com', 'user')
  *     ->exec('cd /var/www/html')
  *     ->exec('ls -la')
  *     ->exec('chmod g+x logs')
  *     ->run();
+ *
  * ```
  *
  * You can even exec other tasks (which implement CommandInterface):
@@ -39,16 +28,16 @@ trait SshExec
  *     ->checkout('master')
  *     ->pull();
  *
- * $this->taskSshExec('remote.example.com')
+ * $this->taskSsh('remote.example.com')
  *     ->exec('cd /var/www/html/site')
  *     ->exec($gitTask)
  *     ->run();
  * ```
  */
-class SshExecTask implements TaskInterface, CommandInterface
+class Ssh implements Shared\TaskInterface, Shared\CommandInterface
 {
-    use DynamicConfig;
-    use CommandInjected;
+    use Shared\DynamicConfig;
+    use Shared\CommandInjected;
     use Output;
     use Exec;
     use Shared\Executable;

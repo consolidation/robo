@@ -1,4 +1,6 @@
 <?php
+use Robo\Task\Development\Changelog;
+use Robo\Task\Development\taskDevelopment;
 use Symfony\Component\Finder\Finder;
 
 class Robofile extends \Robo\Tasks
@@ -8,6 +10,13 @@ class Robofile extends \Robo\Tasks
         $this->yell("Releasing Robo");
 
         $this->docs();
+        $this->taskGitStack()
+            ->add('-A')
+            ->commit("auto-update")
+            ->pull()
+            ->push()
+            ->run();
+
         $this->taskGitStack()
             ->add('-A')
             ->commit("auto-update")
@@ -97,6 +106,7 @@ class Robofile extends \Robo\Tasks
             ->noDev()
             ->printed(false)
             ->run();
+
         $files = Finder::create()->ignoreVCS(true)
             ->files()
             ->name('*.php')
@@ -126,6 +136,7 @@ class Robofile extends \Robo\Tasks
     public function pharPublish()
     {
         $this->pharBuild();
+
         rename('robo.phar', 'robo-release.phar');
         $this->taskGitStack()->checkout('gh-pages')->run();
         rename('robo-release.phar', 'robo.phar');

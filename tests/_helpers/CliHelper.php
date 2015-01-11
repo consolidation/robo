@@ -1,29 +1,22 @@
 <?php
 namespace Codeception\Module;
 
-// here you can define custom actions
-// all public methods declared in helper class will be available in $I
-
 use Symfony\Component\Console\Output\NullOutput;
 
 class CliHelper extends \Codeception\Module
 {
-//   	use \Robo\Task\Development;
-   	use \Robo\Task\Exec {
+   	use \Robo\Task\Base\loadTasks {
         taskExec as public;
         taskExecStack as public;
+        taskConcat as public;
     }
-   	use \Robo\Task\FileSystem {
+   	use \Robo\Task\FileSystem\loadTasks {
         taskCleanDir as public;
         taskCopyDir as public;
         taskDeleteDir as public;
         taskWriteToFile as public;
         taskReplaceInFile as public;
-        taskRequire as public;
         taskFileSystemStack as public;
-    }
-    use \Robo\Task\Concat {
-        taskConcat as public;
     }
 
     public function seeDirFound($dir)

@@ -3,7 +3,7 @@ use AspectMock\Test as test;
 
 class CodeceptionTest extends \Codeception\TestCase\Test
 {
-    use \Robo\Task\Codeception;
+    use \Robo\Task\Testing\loadTasks;
     /**
      * @var \AspectMock\Proxy\ClassProxy
      */
@@ -11,7 +11,7 @@ class CodeceptionTest extends \Codeception\TestCase\Test
 
     protected function _before()
     {
-        $this->codecept = test::double('Robo\Task\CodeceptionTask', [
+        $this->codecept = test::double('Robo\Task\Testing\CodeceptRun', [
             'executeCommand' => null,
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);

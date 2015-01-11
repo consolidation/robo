@@ -13,7 +13,7 @@ class GitTest extends \Codeception\TestCase\Test
     protected function _before()
     {
         $this->git = test::double('Robo\Task\Vcs\GitStack', [
-            'taskExec' => new \AspectMock\Proxy\Anything(),
+            'executeCommand' => new \AspectMock\Proxy\Anything(),
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
     }
@@ -21,11 +21,11 @@ class GitTest extends \Codeception\TestCase\Test
     public function testGitStackRun()
     {
         $this->taskGitStack('git')->stopOnFail()->add('-A')->pull()->run();
-        $this->git->verifyInvoked('taskExec', ['git add -A']);
-        $this->git->verifyInvoked('taskExec', ['git pull']);
+        $this->git->verifyInvoked('executeCommand', ['git add -A']);
+        $this->git->verifyInvoked('executeCommand', ['git pull']);
 
         $this->taskGitStack('git')->add('-A')->pull()->run();
-        $this->git->verifyInvoked('taskExec', ['git add -A && git pull']);
+        $this->git->verifyInvoked('executeCommand', ['git add -A && git pull']);
     }
 
     public function testGitStackCommands()

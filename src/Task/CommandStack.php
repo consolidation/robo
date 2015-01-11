@@ -2,6 +2,7 @@
 
 namespace Robo\Task;
 
+use Robo\Common\Executable;
 use Robo\Result;
 use Robo\Task\Exec;
 use Robo\Contract\CommandInterface;
@@ -11,8 +12,8 @@ use Robo\Contract\TaskInterface;
 
 abstract class CommandStack implements CommandInterface, TaskInterface
 {
-    use \Robo\Common\DynamicConfig;
-    use Exec;
+    use DynamicConfig;
+    use Executable;
 
     protected $executable;
     protected $result;
@@ -79,17 +80,11 @@ abstract class CommandStack implements CommandInterface, TaskInterface
             throw new TaskException($this, 'You must add at least one command');
         }
         if (!$this->stopOnFail) {
-            return $this->taskExec($this->getCommand())
-                ->printed($this->isPrinted)
-                ->dir($this->workingDirectory)
-                ->run();
+            return $this->executeCommand($this->getCommand());
         }
 
         foreach ($this->exec as $command) {
-            $result = $this->taskExec($command)
-                ->printed($this->isPrinted)
-                ->dir($this->workingDirectory)
-                ->run();
+            $result = $this->executeCommand($command);
             if (!$result->wasSuccessful()) {
                 return $result;
             }

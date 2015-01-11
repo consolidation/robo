@@ -2,9 +2,10 @@
 
 namespace Robo\Task\Remote;
 
+use Robo\Contract\CommandInterface;
+use Robo\Contract\TaskInterface;
 use Robo\Output;
-use Robo\Task\Exec;
-use Robo\Task\Shared;
+use Robo\Exception\TaskException;
 
 /**
  * Runs multiple commands on a remote server.
@@ -34,12 +35,11 @@ use Robo\Task\Shared;
  *     ->run();
  * ```
  */
-class Ssh implements \Robo\Contract\TaskInterface, \Robo\Contract\CommandInterface
+class Ssh implements TaskInterface, CommandInterface
 {
     use \Robo\Common\DynamicConfig;
     use \Robo\Common\CommandInjected;
     use Output;
-    use Exec;
     use \Robo\Common\SingleExecutable;
 
     protected $hostname;
@@ -130,7 +130,7 @@ class Ssh implements \Robo\Contract\TaskInterface, \Robo\Contract\CommandInterfa
     {
         $this->validateParameters();
         $command = $this->getCommand();
-        $result = $this->taskExec($command)->run();
+        $result = $this->executeCommand($command);
         if (!$result->wasSuccessful()) {
             return $result;
         }

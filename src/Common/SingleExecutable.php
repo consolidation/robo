@@ -6,18 +6,6 @@ trait SingleExecutable
     use \Robo\Common\Executable;
 
     protected $arguments = '';
-    protected $workingDirectory;
-
-    /**
-     * changes working directory of command
-     * @param $dir
-     * @return $this
-     */
-    public function dir($dir)
-    {
-        $this->workingDirectory = $dir;
-        return $this;
-    }
 
     /**
      * Pass argument to executable

@@ -7,6 +7,19 @@ use Symfony\Component\Process\Process;
 trait Executable
 {
     protected $isPrinted = true;
+    protected $workingDirectory;
+
+    /**
+     * changes working directory of command
+     * @param $dir
+     * @return $this
+     */
+    public function dir($dir)
+    {
+        $this->workingDirectory = $dir;
+        return $this;
+    }
+
 
     /**
      * Should command output be printed
@@ -30,6 +43,9 @@ trait Executable
     {
         $process = new Process($command);
         $process->setTimeout(null);
+        if ($this->workingDirectory) {
+            $process->setWorkingDirectory($this->workingDirectory);
+        }
         if ($this->isPrinted) {
             $process->run(function ($type, $buffer) {
                 print $buffer;

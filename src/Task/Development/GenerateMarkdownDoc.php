@@ -6,7 +6,7 @@ use Robo\Task\FileSystem;
 use Robo\Output;
 use Robo\Task\string;
 use Robo\Result;
-use Robo\Task\Shared\TaskInterface;
+use Robo\Contract\TaskInterface;
 use Robo\Task\Development;
 
 /**
@@ -62,7 +62,7 @@ use Robo\Task\Development;
  */
 class GenerateMarkdownDoc implements TaskInterface
 {
-    use Shared\DynamicConfig;
+    use \Robo\Common\DynamicConfig;
     use Output;
     use FileSystem;
 

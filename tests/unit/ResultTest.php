@@ -24,11 +24,11 @@ class ResultTest extends \Codeception\TestCase\Test {
 
         $taskClone = $result->cloneTask();
         $this->assertNotSame($task, $taskClone);
-        $this->assertInstanceOf('Robo\Task\Shared\TaskInterface', $taskClone);
+        $this->assertInstanceOf('Robo\Contract\TaskInterface', $taskClone);
     }
 }
 
-class ResultDummyTask implements \Robo\Task\Shared\TaskInterface
+class ResultDummyTask implements \Robo\Contract\TaskInterface
 {
     public function run()
     {

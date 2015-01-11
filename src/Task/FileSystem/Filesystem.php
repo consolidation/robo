@@ -2,9 +2,9 @@
 namespace Robo\Task\FileSystem;
 
 use Robo\Result;
-use Robo\Task\Shared\Stackable;
+use Robo\Common\Stackable;
 use Symfony\Component\Filesystem\Filesystem as sfFileSystem;
-use Robo\Task\Shared\TaskInterface;
+use Robo\Contract\TaskInterface;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 /**
@@ -33,7 +33,7 @@ use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 class Filesystem implements TaskInterface
 {
     use \Robo\Output;
-    use Stackable;
+    use \Robo\Common\Stackable;
 
     protected $stack = [];
 

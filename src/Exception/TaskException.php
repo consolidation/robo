@@ -1,10 +1,8 @@
 <?php
-namespace Robo\Task\Shared;
+namespace Robo\Exception;
 
-use Exception;
-
-class TaskException extends \Exception  {
-
+class TaskException extends \Exception
+{
     public function __construct($class, $message)
     {
         if (is_object($class)) {

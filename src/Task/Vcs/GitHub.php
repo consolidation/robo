@@ -1,10 +1,10 @@
 <?php
 namespace Robo\Task\Vcs;
 
-use Robo\Task\Shared\TaskException;
+use Robo\Exception\TaskException;
 use Robo\Task\Shared;
 use Robo\Task\Vcs;
-use Robo\Task\Shared\TaskInterface;
+use Robo\Contract\TaskInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
 
 /**
@@ -14,7 +14,7 @@ use Symfony\Component\Console\Helper\DialogHelper;
 abstract class GitHub implements TaskInterface
 {
     use \Robo\Output;
-    use Shared\DynamicConfig;
+    use \Robo\Common\DynamicConfig;
 
     protected static $user;
     protected static $pass;

@@ -1,7 +1,7 @@
 <?php
 namespace Robo\Task\Base;
 
-use Robo\Task\Shared\CommandStack;
+use Robo\Task\CommandStack;
 use Robo\Task\Base;
 
 /**

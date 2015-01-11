@@ -3,8 +3,8 @@
 namespace Robo\Task\ApiGen;
 
 use Robo\Result;
-use Robo\Task\Shared\CommandInterface;
-use Robo\Task\Shared\TaskInterface;
+use Robo\Contract\CommandInterface;
+use Robo\Contract\TaskInterface;
 use Robo\Task\Traversable;
 use Symfony\Component\Process\Process;
 
@@ -23,7 +23,7 @@ use Symfony\Component\Process\Process;
  */
 class ApiGen implements TaskInterface, CommandInterface {
     use \Robo\Output;
-    use \Robo\Task\Shared\Executable;
+    use \Robo\Common\SingleExecutable;
 
     const BOOL_NO = 'no';
     const BOOL_YES = 'yes';
@@ -43,7 +43,7 @@ class ApiGen implements TaskInterface, CommandInterface {
         } elseif (file_exists('~/.composer/vendor/bin/apigen')) {
             $this->command = '~/.composer/vendor/bin/apigen';
         } else {
-            throw new \Robo\Task\Shared\TaskException(__CLASS__, "No apigen installation found");
+            throw new \Robo\Exception\TaskException(__CLASS__, "No apigen installation found");
         }
     }
 

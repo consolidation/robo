@@ -1,7 +1,7 @@
 <?php
 namespace Robo\Task\Vcs;
 
-use Robo\Task\Shared\CommandStack;
+use Robo\Task\CommandStack;
 use Robo\Output;
 
 /**

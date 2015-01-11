@@ -2,7 +2,7 @@
 namespace Robo\Task\Npm;
 
 use Robo\Task\Npm;
-use Robo\Task\Shared\TaskInterface;
+use Robo\Contract\TaskInterface;
 
 /**
  * Npm Update

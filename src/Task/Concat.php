@@ -3,7 +3,7 @@
 namespace Robo\Task;
 
 use Robo\Result;
-use Robo\Task\Shared\TaskInterface;
+use Robo\Contract\TaskInterface;
 
 trait Concat
 {

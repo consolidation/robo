@@ -1,11 +1,9 @@
 <?php
-namespace Robo\Task\Shared;
-use Robo\Result;
-use \Symfony\Component\Process\Process as SymfonyProcess;
+namespace Robo\Common;
 
-trait Executable
+trait SingleExecutable
 {
-    use CommandExecutable;
+    use \Robo\Common\Executable;
 
     protected $arguments = '';
     protected $workingDirectory;

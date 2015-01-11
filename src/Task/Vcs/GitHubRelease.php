@@ -5,7 +5,7 @@ use Robo\Result;
 use Robo\Task\string;
 use Robo\Task\Vcs;
 use Robo\Task\boolean;
-use Robo\Task\Shared\TaskInterface;
+use Robo\Contract\TaskInterface;
 
 /**
  * Publishes new GitHub release.

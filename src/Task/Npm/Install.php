@@ -2,8 +2,8 @@
 namespace Robo\Task\Npm;
 
 use Robo\Task\Npm;
-use Robo\Task\Shared\TaskInterface;
-use Robo\Task\Shared\CommandInterface;
+use Robo\Contract\TaskInterface;
+use Robo\Contract\CommandInterface;
 
 /**
  * Npm Install

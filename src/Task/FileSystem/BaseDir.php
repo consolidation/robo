@@ -2,7 +2,7 @@
 namespace Robo\Task\FileSystem;
 
 use Robo\Output;
-use Robo\Task\Shared\TaskInterface;
+use Robo\Contract\TaskInterface;
 use Symfony\Component\Filesystem\Filesystem as sfFileSystem;
 
 abstract class BaseDir implements TaskInterface

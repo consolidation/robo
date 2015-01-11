@@ -3,8 +3,8 @@ namespace Robo\Task\FileSystem;
 
 use Robo\Result;
 use Robo\Output;
-use Robo\Task\Shared\DynamicConfig;
-use Robo\Task\Shared\TaskInterface;
+use Robo\Common\DynamicConfig;
+use Robo\Contract\TaskInterface;
 
 /**
  * Performs search and replace inside a files.
@@ -35,7 +35,7 @@ use Robo\Task\Shared\TaskInterface;
 class ReplaceInFile implements TaskInterface
 {
     use Output;
-    use DynamicConfig;
+    use \Robo\Common\DynamicConfig;
 
     protected $filename;
     protected $from;

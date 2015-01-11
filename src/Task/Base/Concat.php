@@ -2,7 +2,7 @@
 namespace Robo\Task\Base;
 
 use Robo\Result;
-use Robo\Task\Shared\TaskInterface;
+use Robo\Contract\TaskInterface;
 use Robo\Task\Iterator;
 
 /**

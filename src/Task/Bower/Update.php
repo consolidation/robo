@@ -2,7 +2,7 @@
 namespace Robo\Task\Bower;
 
 use Robo\Task\Bower;
-use Robo\Task\Shared\TaskInterface;
+use Robo\Contract\TaskInterface;
 
 /**
  * Bower Update

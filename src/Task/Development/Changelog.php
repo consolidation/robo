@@ -7,7 +7,7 @@ use Robo\Output;
 use Robo\Task\string;
 use Robo\Result;
 use Robo\Task\FileSystem\ReplaceInFile;
-use Robo\Task\Shared\TaskInterface;
+use Robo\Contract\TaskInterface;
 use Robo\Task\Development;
 
 /**
@@ -42,7 +42,7 @@ use Robo\Task\Development;
 class Changelog implements TaskInterface
 {
     use Output;
-    use Shared\DynamicConfig;
+    use \Robo\Common\DynamicConfig;
     use FileSystem;
 
     protected $filename;

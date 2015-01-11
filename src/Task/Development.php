@@ -5,8 +5,8 @@ trait_exists('Robo\Task\FileSystem', true);
 use Robo\Output;
 use Robo\Result;
 use Robo\Task\FileSystem\ReplaceInFile;
-use Robo\Task\Shared\TaskException;
-use Robo\Task\Shared\TaskInterface;
+use Robo\Exception\TaskException;
+use Robo\Contract\TaskInterface;
 
 /**
  * Contains simple tasks to simplify documenting of development process.

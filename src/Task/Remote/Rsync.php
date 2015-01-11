@@ -2,13 +2,13 @@
 namespace Robo\Task\Remote;
 
 use Robo\Output;
-use Robo\Task\Shared\CommandInterface;
+use Robo\Contract\CommandInterface;
 use Robo\Task\Remote;
-use Robo\Task\Shared\Executable;
+use Robo\Common\SingleExecutable;
 use Robo\Task\string;
-use Robo\Task\Shared\TaskInterface;
-use Robo\Task\Shared\TaskException;
-use Robo\Task\Shared\DynamicConfig;
+use Robo\Contract\TaskInterface;
+use Robo\Exception\TaskException;
+use Robo\Common\DynamicConfig;
 
 /**
  * Executes rsync in a flexible manner.
@@ -55,9 +55,9 @@ use Robo\Task\Shared\DynamicConfig;
  */
 class Rsync implements TaskInterface, CommandInterface
 {
-    use Executable;
+    use \Robo\Common\SingleExecutable;
     use Output;
-    use DynamicConfig;
+    use \Robo\Common\DynamicConfig;
 
     protected $fromUser;
 

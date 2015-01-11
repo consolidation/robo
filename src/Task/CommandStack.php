@@ -1,14 +1,17 @@
 <?php
 
-namespace Robo\Task\Shared;
+namespace Robo\Task;
 
 use Robo\Result;
 use Robo\Task\Exec;
-use Robo\Task\Shared\DynamicConfig;
+use Robo\Contract\CommandInterface;
+use Robo\Common\DynamicConfig;
+use Robo\Exception\TaskException;
+use Robo\Contract\TaskInterface;
 
 abstract class CommandStack implements CommandInterface, TaskInterface
 {
-    use DynamicConfig;
+    use \Robo\Common\DynamicConfig;
     use Exec;
 
     protected $executable;

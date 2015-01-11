@@ -1,11 +1,14 @@
 <?php
-namespace Robo\Task\Shared;
+namespace Robo\Common;
+
+use Robo\Contract\CommandInterface;
+use Robo\Exception\TaskException;
 
 trait CommandInjected {
 
     /**
      * @param $command
-     * @throws TaskException
+     * @throws \Robo\Exception\TaskException
      * @return string $command
      */
     protected function retrieveCommand($command)

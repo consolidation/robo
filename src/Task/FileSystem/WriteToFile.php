@@ -3,8 +3,8 @@ namespace Robo\Task\FileSystem;
 
 use Robo\Result;
 use Robo\Output;
-use Robo\Task\Shared\DynamicConfig;
-use Robo\Task\Shared\TaskInterface;
+use Robo\Common\DynamicConfig;
+use Robo\Contract\TaskInterface;
 
 /**
  * Writes to file
@@ -23,7 +23,7 @@ use Robo\Task\Shared\TaskInterface;
 class WriteToFile implements TaskInterface
 {
     use Output;
-    use DynamicConfig;
+    use \Robo\Common\DynamicConfig;
 
     protected $filename;
     protected $body = "";

@@ -2,7 +2,7 @@
 namespace Robo\Task\Assets;
 
 use Robo\Result;
-use Robo\Task\Shared\TaskInterface;
+use Robo\Contract\TaskInterface;
 use Robo\Output;
 
 /**

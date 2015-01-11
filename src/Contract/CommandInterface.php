@@ -1,5 +1,5 @@
 <?php
-namespace Robo\Task\Shared;
+namespace Robo\Contract;
 
 interface CommandInterface {
 

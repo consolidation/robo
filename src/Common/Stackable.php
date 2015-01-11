@@ -1,9 +1,8 @@
 <?php
-namespace Robo\Task\Shared;
+namespace Robo\Common;
 
-
-trait Stackable {
-
+trait Stackable
+{
     public static function stack()
     {
         return new static;

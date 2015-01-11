@@ -1,10 +1,10 @@
 <?php 
-namespace Robo\Task\Shared;
+namespace Robo\Common;
 
 use Robo\Result;
 use Symfony\Component\Process\Process;
 
-trait CommandExecutable
+trait Executable
 {
     protected $isPrinted = true;
 

@@ -1,13 +1,13 @@
 <?php
 namespace Robo\Task\Base;
 
-use Robo\Task\Shared\TaskInterface;
-use Robo\Task\Shared\CommandInterface;
+use Robo\Contract\TaskInterface;
+use Robo\Contract\CommandInterface;
 use Symfony\Component\Process\Process;
 use Robo\Result;
 use Robo\Output;
-use Robo\Task\Shared\Executable;
-use Robo\Task\Shared\CommandInjected;
+use Robo\Common\SingleExecutable;
+use Robo\Common\CommandInjected;
 
 /**
  * Executes shell script. Closes it when running in background mode.
@@ -30,8 +30,8 @@ use Robo\Task\Shared\CommandInjected;
 class Exec implements TaskInterface, CommandInterface
 {
     use Output;
-    use CommandInjected;
-    use Executable;
+    use \Robo\Common\CommandInjected;
+    use \Robo\Common\SingleExecutable;
 
     protected $command;
     protected $background = false;

@@ -3,8 +3,8 @@ namespace Robo\Task;
 use Robo\Output;
 use Robo\Result;
 use Robo\Task\FileSystem\CopyDir;
-use Robo\Task\Shared\DynamicConfig;
-use Robo\Task\Shared\TaskInterface;
+use Robo\Traits\DynamicConfig;
+use Robo\Contract\TaskInterface;
 use Robo\Util\FileSystem as UtilsFileSystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 

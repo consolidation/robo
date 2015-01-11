@@ -2,11 +2,11 @@
 namespace Robo\Task\Bower;
 
 use Robo\Task\Shared\DefaultRunner;
-use Robo\Task\Shared\TaskException;
+use Robo\Exception\TaskException;
 
 abstract class Base
 {
-    use \Robo\Task\Shared\Executable;
+    use \Robo\Common\SingleExecutable;
     use \Robo\Output;
 
     protected $opts = [];

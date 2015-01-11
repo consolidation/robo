@@ -2,12 +2,12 @@
 namespace Robo\Task\Composer;
 
 use Robo\Task\Shared\DefaultRunner;
-use Robo\Task\Shared\TaskException;
+use Robo\Exception\TaskException;
 
 abstract class Base
 {
     use \Robo\Output;
-    use \Robo\Task\Shared\Executable;
+    use \Robo\Common\SingleExecutable;
 
     protected $prefer;
     protected $dev;

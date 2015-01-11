@@ -2,7 +2,7 @@
 namespace Robo\Task\FileSystem;
 
 use Robo\Result;
-use Robo\Task\Shared\TaskException;
+use Robo\Exception\TaskException;
 
 /**
  * Copies one dir into another

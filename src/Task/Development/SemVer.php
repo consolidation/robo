@@ -2,8 +2,8 @@
 namespace Robo\Task\Development;
 
 use Robo\Result;
-use Robo\Task\Shared\TaskInterface;
-use Robo\Task\Shared\TaskException;
+use Robo\Contract\TaskInterface;
+use Robo\Exception\TaskException;
 
 /**
  * Helps to maintain `.semver` file.

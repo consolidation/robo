@@ -1,5 +1,5 @@
 <?php
-namespace Robo\Task\Shared;
+namespace Robo\Common;
 
 trait DynamicConfig
 {
@@ -28,6 +28,4 @@ trait DynamicConfig
         $this->$property = $args[0];
         return $this;
     }
-    
-    
 } 

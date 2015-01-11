@@ -2,8 +2,8 @@
 namespace Robo\Task;
 
 use Robo\Result;
-use Robo\Task\Shared\TaskException;
-use Robo\Task\Shared\TaskInterface;
+use Robo\Exception\TaskException;
+use Robo\Contract\TaskInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
 const GITHUB_URL = 'https://api.github.com';
 

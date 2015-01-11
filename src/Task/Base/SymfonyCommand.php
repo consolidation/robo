@@ -2,7 +2,7 @@
 namespace Robo\Task\Base;
 
 use Robo\Result;
-use Robo\Task\Shared\TaskInterface;
+use Robo\Contract\TaskInterface;
 use \Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;

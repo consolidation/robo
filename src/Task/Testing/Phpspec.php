@@ -2,8 +2,8 @@
 namespace Robo\Task\Testing;
 
 use Robo\Task\Shared;
-use Robo\Task\Shared\TaskInterface;
-use Robo\Task\Shared\CommandInterface;
+use Robo\Contract\TaskInterface;
+use Robo\Contract\CommandInterface;
 
 /**
  * Executes Phpspec tests
@@ -21,7 +21,7 @@ use Robo\Task\Shared\CommandInterface;
 class Phpspec implements TaskInterface, CommandInterface
 {
     use \Robo\Output;
-    use \Robo\Task\Shared\Executable;
+    use \Robo\Common\SingleExecutable;
 
     protected $command;
 
@@ -43,7 +43,7 @@ class Phpspec implements TaskInterface, CommandInterface
         } elseif (file_exists('vendor/phpspec/phpspec/bin/phpspec')) {
             $this->command = 'vendor/phpspec/phpspec/bin/phpspec run';
         } else {
-            throw new Shared\TaskException(__CLASS__, "Neither composer nor phar installation of Phpspec found");
+            throw new \Robo\Exception\TaskException(__CLASS__, "Neither composer nor phar installation of Phpspec found");
         }
     }
 

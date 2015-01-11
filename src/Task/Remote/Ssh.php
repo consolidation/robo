@@ -34,13 +34,13 @@ use Robo\Task\Shared;
  *     ->run();
  * ```
  */
-class Ssh implements Shared\TaskInterface, Shared\CommandInterface
+class Ssh implements \Robo\Contract\TaskInterface, \Robo\Contract\CommandInterface
 {
-    use Shared\DynamicConfig;
-    use Shared\CommandInjected;
+    use \Robo\Common\DynamicConfig;
+    use \Robo\Common\CommandInjected;
     use Output;
     use Exec;
-    use Shared\Executable;
+    use \Robo\Common\SingleExecutable;
 
     protected $hostname;
 

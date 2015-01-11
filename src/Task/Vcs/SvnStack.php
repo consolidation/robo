@@ -1,13 +1,10 @@
 <?php
 namespace Robo\Task\Vcs;
 
+use Robo\Contract\CommandInterface;
+use Robo\Contract\TaskInterface;
 use Robo\Output;
 use Robo\Result;
-use Robo\Task\Base\Exec as ExecTask;
-use Robo\Task\Shared\CommandExecutable;
-use Robo\Task\Shared\CommandInterface;
-use Robo\Task\Shared\Stackable;
-use Robo\Task\Shared\TaskInterface;
 
 /**
  * Runs Svn commands in stack. You can use `stopOnFail()` to point that stack should be terminated on first fail.
@@ -33,8 +30,8 @@ use Robo\Task\Shared\TaskInterface;
 class SvnStack implements TaskInterface, CommandInterface
 {
     use Output;
-    use Stackable;
-    use CommandExecutable;
+    use \Robo\Common\Stackable;
+    use \Robo\Common\Executable;
 
     protected $svn;
     protected $stackCommands = [];

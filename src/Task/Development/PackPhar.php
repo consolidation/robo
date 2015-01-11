@@ -2,7 +2,7 @@
 namespace Robo\Task\Development;
 
 use Robo\Result;
-use Robo\Task\Shared\TaskInterface;
+use Robo\Contract\TaskInterface;
 use Symfony\Component\Console\Helper\ProgressHelper;
 
 /**

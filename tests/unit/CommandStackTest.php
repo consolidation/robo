@@ -5,7 +5,7 @@ class CommandStackTest extends \Codeception\TestCase\Test
 {
     public function testExecStackExecutableIsTrimmedFromCommand()
     {
-        $commandStack = Stub::make('Robo\Task\Shared\CommandStack', array(
+        $commandStack = Stub::make('Robo\Task\CommandStack', array(
             'executable' => 'some-executable'
         ));
         verify($commandStack
@@ -16,7 +16,7 @@ class CommandStackTest extends \Codeception\TestCase\Test
 
     public function testExecStackCommandIsNotTrimmedIfHavingSameCharsAsExecutable()
     {
-        $commandStack = Stub::make('Robo\Task\Shared\CommandStack', array(
+        $commandStack = Stub::make('Robo\Task\CommandStack', array(
             'executable' => 'some-executable'
         ));
         verify($commandStack

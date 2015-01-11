@@ -2,8 +2,8 @@
 namespace Robo\Task\Testing;
 
 use Robo\Task\Shared;
-use Robo\Task\Shared\TaskInterface;
-use Robo\Task\Shared\CommandInterface;
+use Robo\Contract\TaskInterface;
+use Robo\Contract\CommandInterface;
 
 /**
  * Runs PHPUnit tests
@@ -21,7 +21,7 @@ use Robo\Task\Shared\CommandInterface;
 class PHPUnit implements TaskInterface, CommandInterface
 {
     use \Robo\Output;
-    use \Robo\Task\Shared\Executable;
+    use \Robo\Common\SingleExecutable;
 
     protected $command;
 
@@ -41,7 +41,7 @@ class PHPUnit implements TaskInterface, CommandInterface
         } elseif (is_executable('~/.composer/vendor/bin/phpunit')) {
             $this->command = '~/.composer/vendor/bin/phpunit';
         } else {
-            throw new Shared\TaskException(__CLASS__, "Neither local phpunit nor global composer installation not found");
+            throw new \Robo\Exception\TaskException(__CLASS__, "Neither local phpunit nor global composer installation not found");
         }
     }
 

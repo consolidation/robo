@@ -1,9 +1,9 @@
 <?php
 namespace Robo\Task;
 
-use Robo\Task\Shared\CommandInterface;
-use Robo\Task\Shared\TaskInterface;
-use Robo\Task\Shared\TaskException;
+use Robo\Contract\CommandInterface;
+use Robo\Contract\TaskInterface;
+use Robo\Exception\TaskException;
 
 /**
  * Contains tasks for bower.

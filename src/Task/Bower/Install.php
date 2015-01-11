@@ -2,8 +2,8 @@
 namespace Robo\Task\Bower;
 
 use Robo\Task\Bower;
-use Robo\Task\Shared\TaskInterface;
-use Robo\Task\Shared\CommandInterface;
+use Robo\Contract\TaskInterface;
+use Robo\Contract\CommandInterface;
 
 /**
  * Bower Install

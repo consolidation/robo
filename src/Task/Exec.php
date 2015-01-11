@@ -3,11 +3,11 @@ namespace Robo\Task;
 
 use Robo\Output;
 use Robo\Result;
-use Robo\Task\Shared\CommandInterface;
-use Robo\Task\Shared\CommandInjected;
-use Robo\Task\Shared\CommandStack;
-use Robo\Task\Shared\Executable;
-use Robo\Task\Shared\TaskInterface;
+use Robo\Contract\CommandInterface;
+use Robo\Common\CommandInjected;
+use Robo\Task\CommandStack;
+use Robo\Common\SingleExecutable;
+use Robo\Contract\TaskInterface;
 use Symfony\Component\Process\Process;
 
 /**

@@ -1,7 +1,7 @@
 <?php
 namespace Robo\Task\Composer;
 
-use Robo\Task\Shared\TaskInterface;
+use Robo\Contract\TaskInterface;
 
 /**
  * Composer Dump Autoload

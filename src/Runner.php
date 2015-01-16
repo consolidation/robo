@@ -49,26 +49,32 @@ class Runner
     public function execute()
     {
         register_shutdown_function(array($this, 'shutdown'));
-        $app = new Application('Robo', self::VERSION);
+        Config::setOutput(new ConsoleOutput());
+        $input = $this->prepareInput();
 
-        $loaded = $this->loadRoboFile();
-        if (!$loaded) {
+        if (!$this->loadRoboFile()) {
+            $app = new Application('Robo', self::VERSION);
             $app->add(new Init('init'));
             $app->run();
             return;
         }
-        Config::setOutput(new ConsoleOutput());
 
-        $className = self::ROBOCLASS;
+        $app = $this->createApplication(self::ROBOCLASS);
+        $app->run($input);
+    }
+
+    public function createApplication($className)
+    {
+        $app = new Application('Robo', self::VERSION);
         $roboTasks = new $className;
-        $taskNames = array_filter(get_class_methods(self::ROBOCLASS), function($m) {
+
+        $commandNames = array_filter(get_class_methods($className), function($m) {
             return !in_array($m, ['__construct']);
         });
-        $input = $this->prepareInput();
         $passThrough = $this->passThroughArgs;
-        foreach ($taskNames as $taskName) {
-            $command = $this->createCommand($taskName);
-            $command->setCode(function(InputInterface $input) use ($roboTasks, $taskName, $passThrough) {
+        foreach ($commandNames as $commandName) {
+            $command = $this->createCommand(new TaskInfo($className, $commandName));
+            $command->setCode(function(InputInterface $input) use ($roboTasks, $commandName, $passThrough) {
                 // get passthru args
                 $args = $input->getArguments();
                 array_shift($args);
@@ -77,14 +83,14 @@ class Runner
                 }
                 $args[] = $input->getOptions();
 
-                $res = call_user_func_array([$roboTasks, $taskName], $args);
+                $res = call_user_func_array([$roboTasks, $commandName], $args);
                 if (is_int($res)) exit($res);
                 if (is_bool($res)) exit($res ? 0 : 1);
                 if ($res instanceof Result) exit($res->getExitCode());
             });
             $app->add($command);
         }
-        $app->run($input);
+        return $app;
     }
 
     protected function prepareInput()
@@ -99,9 +105,8 @@ class Runner
         return new ArgvInput($argv);
     }
 
-    protected function createCommand($taskName)
+    public function createCommand(TaskInfo $taskInfo)
     {
-        $taskInfo = new TaskInfo(self::ROBOCLASS, $taskName);
         $task = new Command($taskInfo->getName());
         $task->setDescription($taskInfo->getDescription());
         $task->setHelp($taskInfo->getHelp());

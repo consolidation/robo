@@ -1,5 +1,10 @@
 <?php
-class RoboFile {
+class TestedRoboFile
+{
+    public function generateUserAvatar()
+    {
+    }
+
     public function hello($name = null, $opts = ['yell' => false, 'to' => null]) {
     }
 

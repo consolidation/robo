@@ -22,8 +22,8 @@ use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
  *      ->run();
  *
  * // one line
- * taskFileSystem::_touch('.gitignore');
- * taskFileSystem::_mkdir('logs');
+ * $this->taskFileSystem::_touch('.gitignore');
+ * $this->taskFileSystem::_mkdir('logs');
  *
  * ?>
  * ```

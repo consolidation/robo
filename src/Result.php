@@ -39,6 +39,8 @@ class Result
             }
 
             $this->printTaskInfo("<error> Error </error> Exit code ".$this->exitCode, $this->task);
+        } else {
+            $this->printTaskInfo("Done. Exit code ".$this->exitCode, $this->task);
         }
 
         if (self::$stopOnFail) {

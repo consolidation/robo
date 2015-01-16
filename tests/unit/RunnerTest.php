@@ -1,20 +1,29 @@
 <?php
+require_once codecept_data_dir() . 'TestedRoboFile.php';
 
 class RunnerTest extends \Codeception\TestCase\Test
 {
-    /**
-     * @var \ReflectionClass
-     */
-    private $reflector;
-
     /**
      * @var \Robo\Runner
      */
     private $runner;
 
+    /**
+     * @var \Symfony\Component\Console\Application
+     */
+    private $app;
+
+    const ROBOFILE = 'TestedRoboFile';
+
+    protected function _before()
+    {
+        $this->runner = new \Robo\Runner();
+        $this->app = $this->runner->createApplication(self::ROBOFILE);
+    }
+
     public function testAllowEmptyValuesAsDefaultsToOptionalOptions()
     {
-        $command = $this->callMethod('createCommand', ['hello']);
+        $command = $this->createCommand('hello');
 
         $yell = $command->getDefinition()->getOption('yell');
 
@@ -33,7 +42,7 @@ class RunnerTest extends \Codeception\TestCase\Test
 
     public function testCommandDocumentation()
     {
-        $command = $this->callMethod('createCommand', ['fibonacci']);
+        $command = $this->createCommand('fibonacci');
 
         verify($command->getDescription())
             ->equals('Calculate the fibonacci sequence between two numbers.');
@@ -41,7 +50,7 @@ class RunnerTest extends \Codeception\TestCase\Test
 
     public function testCommandCompactDocumentation()
     {
-        $command = $this->callMethod('createCommand', ['compact']);
+        $command = $this->createCommand('compact');
 
         verify($command->getDescription())
             ->equals('Compact doc comment');
@@ -49,7 +58,7 @@ class RunnerTest extends \Codeception\TestCase\Test
 
     public function testCommandArgumentDocumentation()
     {
-        $command = $this->callMethod('createCommand', ['fibonacci']);
+        $command = $this->createCommand('fibonacci');
 
         $start = $command->getDefinition()->getArgument('start');
 
@@ -64,7 +73,7 @@ class RunnerTest extends \Codeception\TestCase\Test
 
     public function testCommandOptionDocumentation()
     {
-        $command = $this->callMethod('createCommand', ['fibonacci']);
+        $command = $this->createCommand('fibonacci');
 
         $graphic = $command->getDefinition()->getOption('graphic');
 
@@ -74,30 +83,19 @@ class RunnerTest extends \Codeception\TestCase\Test
 
     public function testCommandHelpDocumentation()
     {
-        $command = $this->callMethod('createCommand', ['fibonacci']);
+        $command = $this->createCommand('fibonacci');
 
         verify($command->getHelp())
             ->contains('    +----+---+');
     }
 
-    protected function _before()
+    public function testCommandNaming()
     {
-        parent::_before();
-        require_once codecept_data_dir() . DIRECTORY_SEPARATOR . \Robo\Runner::ROBOFILE;
-
-        $this->reflector = new ReflectionClass('Robo\\Runner');
-        $this->runner = new \Robo\Runner;
+        $this->assertNotNull($this->app->find('generate:user-avatar'));
     }
 
-    /**
-     * @param string $name
-     * @param array $args
-     * @return \Symfony\Component\Console\Command\Command
-     */
-    protected function callMethod($name, $args = array())
+    protected function createCommand($name)
     {
-        $method = $this->reflector->getMethod($name);
-        $method->setAccessible(true);
-        return $method->invokeArgs($this->runner, $args);
+        return $this->runner->createCommand(new \Robo\TaskInfo(self::ROBOFILE, $name));
     }
 }

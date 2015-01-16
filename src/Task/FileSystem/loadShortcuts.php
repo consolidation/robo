@@ -8,7 +8,7 @@ trait loadShortcuts
      * @param $dst
      * @return \Robo\Result
      */
-    public function _copyDir($src, $dst)
+    protected function _copyDir($src, $dst)
     {
         return (new CleanDir($src, $dst))->run();
     }
@@ -18,7 +18,7 @@ trait loadShortcuts
      * @param $dst
      * @return \Robo\Result
      */
-    public function _mirrorDir($src, $dst)
+    protected function _mirrorDir($src, $dst)
     {
         return (new MirrorDir($src, $dst))->run();
     }
@@ -27,7 +27,7 @@ trait loadShortcuts
      * @param $dir
      * @return \Robo\Result
      */
-    public function _deleteDir($dir)
+    protected function _deleteDir($dir)
     {
         return (new DeleteDir($dir))->run();
     }
@@ -36,7 +36,7 @@ trait loadShortcuts
      * @param $dir
      * @return \Robo\Result
      */
-    public function _cleanDir($dir)
+    protected function _cleanDir($dir)
     {
         return (new CleanDir($dir))->run();
     }

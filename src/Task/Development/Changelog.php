@@ -1,13 +1,10 @@
 <?php
 namespace Robo\Task\Development;
 
-use Robo\Task\Shared;
+use Robo\Task\BaseTask;
+use Robo\Task\File\ReplaceInFile;
 use Robo\Task\FileSystem;
-use Robo\Output;
-use Robo\Task\string;
 use Robo\Result;
-use Robo\Task\FileSystem\ReplaceInFile;
-use Robo\Contract\TaskInterface;
 use Robo\Task\Development;
 
 /**
@@ -39,11 +36,9 @@ use Robo\Task\Development;
  * @method Development\Changelog anchor(string $anchor)
  * @method Development\Changelog version(string $version)
  */
-class Changelog implements TaskInterface
+class Changelog extends BaseTask
 {
-    use Output;
-    use \Robo\Common\DynamicConfig;
-    use FileSystem;
+    use \Robo\Common\DynamicParams;
 
     protected $filename;
     protected $log = [];

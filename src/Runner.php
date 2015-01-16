@@ -1,20 +1,20 @@
 <?php
 namespace Robo;
 
+use Robo\Common\IO;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Output\OutputInterface;
 
-class Runner {
-    use Output;
+class Runner
+{
+    use IO;
 
-    const VERSION = '0.4.7';
+    const VERSION = '0.5.0';
     const ROBOCLASS = 'RoboFile';
     const ROBOFILE = 'RoboFile.php';
 
@@ -26,15 +26,6 @@ class Runner {
      */
     protected static $printer;
 
-    public static function getPrinter()
-    {
-        return self::$printer ? self::$printer : new ConsoleOutput();
-    }
-    public static function setPrinter($output)
-    {
-        self::$printer = $output;
-    }
-
     protected function loadRoboFile()
     {
         if (!file_exists(self::ROBOFILE)) {
@@ -45,6 +36,7 @@ class Runner {
             }
             exit;
         }
+
         require_once self::ROBOFILE;
 
         if (!class_exists(self::ROBOCLASS)) {
@@ -65,13 +57,14 @@ class Runner {
             $app->run();
             return;
         }
-        $input = $this->prepareInput();
+        Config::setOutput(new ConsoleOutput());
 
         $className = self::ROBOCLASS;
         $roboTasks = new $className;
         $taskNames = array_filter(get_class_methods(self::ROBOCLASS), function($m) {
             return !in_array($m, ['__construct']);
         });
+        $input = $this->prepareInput();
         $passThrough = $this->passThroughArgs;
         foreach ($taskNames as $taskName) {
             $command = $this->createCommand($taskName);
@@ -83,6 +76,7 @@ class Runner {
                     $args[key(array_slice($args, -1, 1, TRUE))] = $passThrough;
                 }
                 $args[] = $input->getOptions();
+
                 $res = call_user_func_array([$roboTasks, $taskName], $args);
                 if (is_int($res)) exit($res);
                 if (is_bool($res)) exit($res ? 0 : 1);
@@ -159,7 +153,7 @@ class Runner {
 
     }
 
-    public  function shutdown()
+    public function shutdown()
     {
         $error = error_get_last();
         if (!is_array($error)) return;

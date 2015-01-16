@@ -4,10 +4,19 @@ namespace Robo\Common;
 use Robo\Result;
 use Symfony\Component\Process\Process;
 
-trait Executable
+/**
+ * This task is supposed to be executed as shell command.
+ * You can specify working directory and if output is printed.
+ */
+trait ExecCommand
 {
     protected $isPrinted = true;
     protected $workingDirectory;
+
+    public function getPrinted()
+    {
+        return $this->isPrinted;
+    }
 
     /**
      * changes working directory of command

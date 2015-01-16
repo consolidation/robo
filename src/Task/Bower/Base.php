@@ -1,13 +1,12 @@
 <?php
 namespace Robo\Task\Bower;
 
-use Robo\Task\Shared\DefaultRunner;
+use Robo\Task\BaseTask;
 use Robo\Exception\TaskException;
 
-abstract class Base
+abstract class Base extends BaseTask
 {
-    use \Robo\Common\SingleExecutable;
-    use \Robo\Output;
+    use \Robo\Common\ExecOneCommand;
 
     protected $opts = [];
     protected $action = '';

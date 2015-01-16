@@ -1,10 +1,8 @@
 <?php
-namespace Robo\Task\FileSystem;
+namespace Robo\Task\File;
 
 use Robo\Result;
-use Robo\Output;
-use Robo\Common\DynamicConfig;
-use Robo\Contract\TaskInterface;
+use Robo\Task\BaseTask;
 
 /**
  * Performs search and replace inside a files.
@@ -32,10 +30,9 @@ use Robo\Contract\TaskInterface;
  * @method from(string)
  * @method to(string)
  */
-class ReplaceInFile implements TaskInterface
+class ReplaceInFile extends BaseTask
 {
-    use Output;
-    use \Robo\Common\DynamicConfig;
+    use \Robo\Common\DynamicParams;
 
     protected $filename;
     protected $from;
@@ -45,11 +42,6 @@ class ReplaceInFile implements TaskInterface
     public function __construct($filename)
     {
         $this->filename = $filename;
-    }
-
-    public static function init($filename)
-    {
-        return new self($filename);
     }
 
     function run()

@@ -2,8 +2,8 @@
 namespace Robo\Task\Development;
 
 use Robo\Result;
-use Robo\Contract\TaskInterface;
-use Symfony\Component\Console\Helper\ProgressHelper;
+use Robo\Task\BaseTask;
+use Symfony\Component\Console\Helper\ProgressBar;
 
 /**
  * Creates Phar
@@ -36,9 +36,8 @@ use Symfony\Component\Console\Helper\ProgressHelper;
  * ?>
  * ```
  */
-class PackPhar implements TaskInterface
+class PackPhar extends BaseTask
 {
-    use \Robo\Output;
     /**
      * @var \Phar
      */
@@ -102,8 +101,8 @@ EOF;
 
         $this->printTaskInfo('packing ' . count($this->files) . ' files into phar');
 
-        $progress = new ProgressHelper();
-        $progress->start($this->getOutput(), count($this->files));
+        $progress = new ProgressBar($this->getOutput());
+        $progress->start(count($this->files));
         foreach ($this->files as $path => $content) {
             $this->phar->addFromString($path, $content);
             $progress->advance();

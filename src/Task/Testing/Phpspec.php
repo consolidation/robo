@@ -1,8 +1,8 @@
 <?php
 namespace Robo\Task\Testing;
 
-use Robo\Task\Shared;
-use Robo\Contract\TaskInterface;
+use Robo\Contract\PrintedInterface;
+use Robo\Task\BaseTask;
 use Robo\Contract\CommandInterface;
 
 /**
@@ -18,10 +18,9 @@ use Robo\Contract\CommandInterface;
  * ```
  *
  */
-class Phpspec implements TaskInterface, CommandInterface
+class Phpspec extends BaseTask implements CommandInterface, PrintedInterface
 {
-    use \Robo\Output;
-    use \Robo\Common\SingleExecutable;
+    use \Robo\Common\ExecOneCommand;
 
     protected $command;
 

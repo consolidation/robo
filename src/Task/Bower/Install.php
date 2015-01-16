@@ -2,7 +2,6 @@
 namespace Robo\Task\Bower;
 
 use Robo\Task\Bower;
-use Robo\Contract\TaskInterface;
 use Robo\Contract\CommandInterface;
 
 /**
@@ -20,7 +19,7 @@ use Robo\Contract\CommandInterface;
  * ?>
  * ```
  */
-class Install extends Base implements TaskInterface, CommandInterface
+class Install extends Base implements CommandInterface
 {
     protected $action = 'install';
 

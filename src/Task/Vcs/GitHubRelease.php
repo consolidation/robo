@@ -2,10 +2,6 @@
 namespace Robo\Task\Vcs;
 
 use Robo\Result;
-use Robo\Task\string;
-use Robo\Task\Vcs;
-use Robo\Task\boolean;
-use Robo\Contract\TaskInterface;
 
 /**
  * Publishes new GitHub release.
@@ -19,14 +15,14 @@ use Robo\Contract\TaskInterface;
  * ?>
  * ```
  *
- * @method Vcs\GitHubRelease tag(string $tag)
- * @method Vcs\GitHubRelease name(string $name)
- * @method Vcs\GitHubRelease body(string $body)
- * @method Vcs\GitHubRelease draft(boolean $isDraft)
- * @method Vcs\GitHubRelease prerelease(boolean $isPrerelease)
- * @method Vcs\GitHubRelease comittish(string $branch)
+ * @method \Robo\Task\Vcs\GitHubRelease tag(string $tag)
+ * @method \Robo\Task\Vcs\GitHubRelease name(string $name)
+ * @method \Robo\Task\Vcs\GitHubRelease body(string $body)
+ * @method \Robo\Task\Vcs\GitHubRelease draft(boolean $isDraft)
+ * @method \Robo\Task\Vcs\GitHubRelease prerelease(boolean $isPrerelease)
+ * @method \Robo\Task\Vcs\GitHubRelease comittish(string $branch)
  */
-class GitHubRelease extends Vcs\GitHub implements TaskInterface
+class GitHubRelease extends GitHub
 {
     protected $tag;
     protected $name;

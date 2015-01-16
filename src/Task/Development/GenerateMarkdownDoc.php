@@ -1,12 +1,10 @@
 <?php
 namespace Robo\Task\Development;
 
-use Robo\Task\Shared;
+use Robo\Task\BaseTask;
+use Robo\Task\File\WriteToFile;
 use Robo\Task\FileSystem;
-use Robo\Output;
-use Robo\Task\string;
 use Robo\Result;
-use Robo\Contract\TaskInterface;
 use Robo\Task\Development;
 
 /**
@@ -42,29 +40,27 @@ use Robo\Task\Development;
  *      })->run();
  * ```
  *
- * @method Development\GenerateMarkdownDoc docClass(string $classname) put a class you want to be documented
- * @method Development\GenerateMarkdownDoc filterMethods(\Closure $func) using callback function filter out methods that won't be documented
- * @method Development\GenerateMarkdownDoc filterClasses(\Closure $func) using callback function filter out classes that won't be documented
- * @method Development\GenerateMarkdownDoc filterProperties(\Closure $func) using callback function filter out properties that won't be documented
- * @method Development\GenerateMarkdownDoc processClass(\Closure $func) post-process class documentation
- * @method Development\GenerateMarkdownDoc processClassSignature(\Closure $func) post-process class signature. Provide *false* to skip.
- * @method Development\GenerateMarkdownDoc processClassDocBlock(\Closure $func) post-process class docblock contents. Provide *false* to skip.
- * @method Development\GenerateMarkdownDoc processMethod(\Closure $func) post-process method documentation. Provide *false* to skip.
- * @method Development\GenerateMarkdownDoc processMethodSignature(\Closure $func) post-process method signature. Provide *false* to skip.
- * @method Development\GenerateMarkdownDoc processMethodDocBlock(\Closure $func) post-process method docblock contents. Provide *false* to skip.
- * @method Development\GenerateMarkdownDoc processProperty(\Closure $func) post-process property documentation. Provide *false* to skip.
- * @method Development\GenerateMarkdownDoc processPropertySignature(\Closure $func) post-process property signature. Provide *false* to skip.
- * @method Development\GenerateMarkdownDoc processPropertyDocBlock(\Closure $func) post-process property docblock contents. Provide *false* to skip.
- * @method Development\GenerateMarkdownDoc reorder(\Closure $func) use a function to reorder classes
- * @method Development\GenerateMarkdownDoc reorderMethods(\Closure $func) use a function to reorder methods in class
- * @method Development\GenerateMarkdownDoc prepend($text) inserts text into beginning of markdown file
- * @method Development\GenerateMarkdownDoc append($text) inserts text in the end of markdown file
+ * @method \Robo\Task\Development\GenerateMarkdownDoc docClass(string $classname) put a class you want to be documented
+ * @method \Robo\Task\Development\GenerateMarkdownDoc filterMethods(\Closure $func) using callback function filter out methods that won't be documented
+ * @method \Robo\Task\Development\GenerateMarkdownDoc filterClasses(\Closure $func) using callback function filter out classes that won't be documented
+ * @method \Robo\Task\Development\GenerateMarkdownDoc filterProperties(\Closure $func) using callback function filter out properties that won't be documented
+ * @method \Robo\Task\Development\GenerateMarkdownDoc processClass(\Closure $func) post-process class documentation
+ * @method \Robo\Task\Development\GenerateMarkdownDoc processClassSignature(\Closure $func) post-process class signature. Provide *false* to skip.
+ * @method \Robo\Task\Development\GenerateMarkdownDoc processClassDocBlock(\Closure $func) post-process class docblock contents. Provide *false* to skip.
+ * @method \Robo\Task\Development\GenerateMarkdownDoc processMethod(\Closure $func) post-process method documentation. Provide *false* to skip.
+ * @method \Robo\Task\Development\GenerateMarkdownDoc processMethodSignature(\Closure $func) post-process method signature. Provide *false* to skip.
+ * @method \Robo\Task\Development\GenerateMarkdownDoc processMethodDocBlock(\Closure $func) post-process method docblock contents. Provide *false* to skip.
+ * @method \Robo\Task\Development\GenerateMarkdownDoc processProperty(\Closure $func) post-process property documentation. Provide *false* to skip.
+ * @method \Robo\Task\Development\GenerateMarkdownDoc processPropertySignature(\Closure $func) post-process property signature. Provide *false* to skip.
+ * @method \Robo\Task\Development\GenerateMarkdownDoc processPropertyDocBlock(\Closure $func) post-process property docblock contents. Provide *false* to skip.
+ * @method \Robo\Task\Development\GenerateMarkdownDoc reorder(\Closure $func) use a function to reorder classes
+ * @method \Robo\Task\Development\GenerateMarkdownDoc reorderMethods(\Closure $func) use a function to reorder methods in class
+ * @method \Robo\Task\Development\GenerateMarkdownDoc prepend($text) inserts text into beginning of markdown file
+ * @method \Robo\Task\Development\GenerateMarkdownDoc append($text) inserts text in the end of markdown file
  */
-class GenerateMarkdownDoc implements TaskInterface
+class GenerateMarkdownDoc extends BaseTask
 {
-    use \Robo\Common\DynamicConfig;
-    use Output;
-    use FileSystem;
+    use \Robo\Common\DynamicParams;
 
     protected $docClass = [];
     protected $filterMethods;
@@ -125,7 +121,7 @@ class GenerateMarkdownDoc implements TaskInterface
 
         $this->text = implode("\n", $this->textForClass);
 
-        $result = $this->taskWriteToFile($this->filename)
+        $result = (new WriteToFile($this->filename))
             ->line($this->prepend)
             ->text($this->text)
             ->line($this->append)

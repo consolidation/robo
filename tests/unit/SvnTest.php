@@ -22,8 +22,7 @@ class SvnTest extends \Codeception\TestCase\Test
     public function testSvnStackRun()
     {
         $this->svn->construct()->update()->add()->run();
-        $this->svn->verifyInvoked('executeCommand', ['svn add ']);
-        $this->svn->verifyInvoked('executeCommand', ['svn update ']);
+        $this->svn->verifyInvoked('executeCommand', ['svn update && svn add']);
     }
 
     public function testSvnStackCommands()
@@ -35,7 +34,7 @@ class SvnTest extends \Codeception\TestCase\Test
                 ->add()
                 ->commit('changed')
                 ->getCommand()
-        )->equals("svn --username guest --password foo checkout svn://server/trunk && svn --username guest --password foo update  && svn --username guest --password foo add  && svn --username guest --password foo commit -m 'changed' ");
+        )->equals("svn --username guest --password foo checkout svn://server/trunk && svn --username guest --password foo update && svn --username guest --password foo add && svn --username guest --password foo commit -m 'changed'");
     }
 
 }

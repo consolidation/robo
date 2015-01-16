@@ -2,18 +2,18 @@
 
 namespace Robo\Task;
 
-use Robo\Common\Executable;
+use Robo\Common\ExecCommand;
+use Robo\Contract\PrintedInterface;
 use Robo\Result;
 use Robo\Task\Exec;
 use Robo\Contract\CommandInterface;
-use Robo\Common\DynamicConfig;
+use Robo\Common\DynamicParams;
 use Robo\Exception\TaskException;
-use Robo\Contract\TaskInterface;
 
-abstract class CommandStack implements CommandInterface, TaskInterface
+abstract class CommandStack extends BaseTask implements CommandInterface, PrintedInterface
 {
-    use DynamicConfig;
-    use Executable;
+    use DynamicParams;
+    use ExecCommand;
 
     protected $executable;
     protected $result;
@@ -21,6 +21,11 @@ abstract class CommandStack implements CommandInterface, TaskInterface
     protected $stopOnFail = false;
     protected $workingDirectory;
     protected $isPrinted = true;
+
+    public function getPrinted()
+    {
+        return $this->isPrinted;
+    }
 
     public function getCommand()
     {

@@ -3,8 +3,9 @@ namespace Robo\Task\FileSystem;
 
 use Robo\Result;
 use Robo\Common\Stackable;
+use Robo\Task\BaseTask;
+use Robo\Task\CommandStack;
 use Symfony\Component\Filesystem\Filesystem as sfFileSystem;
-use Robo\Contract\TaskInterface;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 /**
@@ -30,14 +31,17 @@ use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
  * Class FileSystemStackTask
  * @package Robo\Task
  */
-class Filesystem implements TaskInterface
+class Filesystem extends BaseTask
 {
-    use \Robo\Output;
-    use \Robo\Common\Stackable;
-
     protected $stack = [];
 
     protected $stopOnFail = false;
+
+    public function stopOnFail($stop = true)
+    {
+        $this->stopOnFail = $stop;
+        return $this;
+    }
 
     public function mkdir($dir)
     {

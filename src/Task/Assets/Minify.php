@@ -2,8 +2,7 @@
 namespace Robo\Task\Assets;
 
 use Robo\Result;
-use Robo\Contract\TaskInterface;
-use Robo\Output;
+use Robo\Task\BaseTask;
 
 /**
  * Minifies asset file (CSS or JS).
@@ -22,7 +21,7 @@ use Robo\Output;
  * ```
  *
  */
-class Minify implements TaskInterface
+class Minify extends BaseTask
 {
     use Output;
 

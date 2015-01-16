@@ -11,7 +11,7 @@ class CodeceptionTest extends \Codeception\TestCase\Test
 
     protected function _before()
     {
-        $this->codecept = test::double('Robo\Task\Testing\CodeceptRun', [
+        $this->codecept = test::double('Robo\Task\Testing\Codecept', [
             'executeCommand' => null,
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);

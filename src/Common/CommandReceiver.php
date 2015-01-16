@@ -4,14 +4,17 @@ namespace Robo\Common;
 use Robo\Contract\CommandInterface;
 use Robo\Exception\TaskException;
 
-trait CommandInjected {
-
+/**
+ * This task can receive commands from task implementing CommandInterface.
+ */
+trait CommandReceiver
+{
     /**
      * @param $command
      * @throws \Robo\Exception\TaskException
      * @return string $command
      */
-    protected function retrieveCommand($command)
+    protected function recieveCommand($command)
     {
         if (!is_object($command)) {
             return $command;

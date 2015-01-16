@@ -1,9 +1,13 @@
 <?php
 namespace Robo\Common;
 
-trait SingleExecutable
+/**
+ * This task specifies exactly one shell command.
+ * It can take additional arguments and options as config parameters.
+ */
+trait ExecOneCommand
 {
-    use \Robo\Common\Executable;
+    use ExecCommand;
 
     protected $arguments = '';
 

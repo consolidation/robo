@@ -1,9 +1,9 @@
 <?php
 namespace Robo\Task\Testing;
 
-use Robo\Task\Shared;
-use Robo\Contract\TaskInterface;
 use Robo\Contract\CommandInterface;
+use Robo\Contract\PrintedInterface;
+use Robo\Task\BaseTask;
 
 /**
  * Runs PHPUnit tests
@@ -18,10 +18,9 @@ use Robo\Contract\CommandInterface;
  * ?>
  * ```
  */
-class PHPUnit implements TaskInterface, CommandInterface
+class PHPUnit extends BaseTask implements CommandInterface, PrintedInterface
 {
-    use \Robo\Output;
-    use \Robo\Common\SingleExecutable;
+    use \Robo\Common\ExecOneCommand;
 
     protected $command;
 

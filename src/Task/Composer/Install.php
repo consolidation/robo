@@ -1,9 +1,6 @@
 <?php
 namespace Robo\Task\Composer;
 
-use Robo\Task\Composer;
-use Robo\Contract\TaskInterface;
-
 /**
  * Composer Install
  *
@@ -24,7 +21,7 @@ use Robo\Contract\TaskInterface;
  * ?>
  * ```
  */
-class Install extends Base implements TaskInterface
+class Install extends Base
 {
     protected $action = 'install';
 

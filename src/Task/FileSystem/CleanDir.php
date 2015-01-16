@@ -2,7 +2,6 @@
 namespace Robo\Task\FileSystem;
 
 use Robo\Result;
-use Robo\Task\FileSystem\BaseDir;
 
 /**
  * Deletes all files from specified dir, ignoring git files.

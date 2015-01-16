@@ -16,10 +16,10 @@
     "bin":["robo"],
     "require": {
         "php": ">=5.4.0",
-        "symfony/finder": "~2.1",
-        "symfony/console": "~2.1",
-        "symfony/process": "~2.1",
-        "symfony/filesystem": "~2.1",
+        "symfony/finder": "~2.5",
+        "symfony/console": "~2.5",
+        "symfony/process": "~2.5",
+        "symfony/filesystem": "~2.5",
         "henrikbjorn/lurker": "1.0.*@dev"
     },
     "require-dev": {
@@ -27,6 +27,6 @@
         "natxet/CssMin": "~3.0",
         "codeception/codeception": "~2.0",
         "codeception/verify": "0.2.*",
-        "codeception/aspect-mock": "0.4.*"
+        "codeception/aspect-mock": "0.5q.*"
     }
 }

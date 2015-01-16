@@ -2,19 +2,15 @@
 namespace Robo\Task\Vcs;
 
 use Robo\Exception\TaskException;
-use Robo\Task\Shared;
-use Robo\Task\Vcs;
-use Robo\Contract\TaskInterface;
-use Symfony\Component\Console\Helper\DialogHelper;
+use Robo\Task\BaseTask;
 
 /**
- * @method Vcs\GitHub repo(string)
- * @method Vcs\GitHub owner(string)
+ * @method \Robo\Task\Vcs\GitHub repo(string)
+ * @method \Robo\Task\Vcs\GitHub owner(string)
  */
-abstract class GitHub implements TaskInterface
+abstract class GitHub extends BaseTask
 {
-    use \Robo\Output;
-    use \Robo\Common\DynamicConfig;
+    use \Robo\Common\DynamicParams;
 
     protected static $user;
     protected static $pass;
@@ -36,9 +32,8 @@ abstract class GitHub implements TaskInterface
 
     public function askAuth()
     {
-        $dialog = new DialogHelper();
-        self::$user = $dialog->ask($this->getOutput(), "<question>GitHub User</question> ");
-        self::$pass = $dialog->askHiddenResponse($this->getOutput(), "   <question>Password</question> ");
+        self::$user = $this->ask('GitHub User');
+        self::$pass = $this->askHidden('Password');
         return $this;
     }
 

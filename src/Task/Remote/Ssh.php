@@ -3,9 +3,8 @@
 namespace Robo\Task\Remote;
 
 use Robo\Contract\CommandInterface;
-use Robo\Contract\TaskInterface;
-use Robo\Output;
 use Robo\Exception\TaskException;
+use Robo\Task\BaseTask;
 
 /**
  * Runs multiple commands on a remote server.
@@ -35,12 +34,11 @@ use Robo\Exception\TaskException;
  *     ->run();
  * ```
  */
-class Ssh implements TaskInterface, CommandInterface
+class Ssh extends BaseTask implements CommandInterface
 {
-    use \Robo\Common\DynamicConfig;
-    use \Robo\Common\CommandInjected;
-    use Output;
-    use \Robo\Common\SingleExecutable;
+    use \Robo\Common\DynamicParams;
+    use \Robo\Common\CommandReceiver;
+    use \Robo\Common\ExecOneCommand;
 
     protected $hostname;
 
@@ -116,7 +114,7 @@ class Ssh implements TaskInterface, CommandInterface
     {
         $commands = [];
         foreach ($this->exec as $command) {
-            $commands[] = $this->retrieveCommand($command);
+            $commands[] = $this->recieveCommand($command);
         }
         $command = implode($this->stopOnFail ? ' && ' : ' ; ', $commands);
 
@@ -156,7 +154,7 @@ class Ssh implements TaskInterface, CommandInterface
      */
     protected function sshCommand($command)
     {
-        $command = $this->retrieveCommand($command);
+        $command = $this->recieveCommand($command);
         $sshOptions = $this->arguments;
         $hostSpec = $this->hostname;
         if ($this->user) {

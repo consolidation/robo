@@ -5,11 +5,11 @@ trait loadTasks
 {
     /**
      * @param null $pathToCodeception
-     * @return CodeceptRun
+     * @return Codecept
      */
     protected function taskCodecept($pathToCodeception = null)
     {
-        return new CodeceptRun($pathToCodeception);
+        return new Codecept($pathToCodeception);
     }
 
     /**

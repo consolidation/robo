@@ -148,17 +148,30 @@ class Robofile extends \Robo\Tasks
             ->run();
     }
 
-    public function watch()
+    public function tryWatch()
     {
         $this->taskWatch()->monitor(['composer.json', 'composer.lock'], function() {
             $this->taskComposerUpdate()->run();
         })->run();
     }
 
+    public function tryInput()
+    {
+        $answer = $this->ask('how are you?');
+        $this->say('You are '.$answer);
+        $yes = $this->confirm('Do you want one more question?');
+        if (!$yes) return;
+        $lang = $this->askDefault('what is your favorite scripting language?', 'PHP');
+        $this->say($lang);
+        $pin = $this->askHidden('Ok, now tell your PIN code (it is hidden)');
+        $this->yell('Ha-ha, your pin code is: '.$pin);
+        $this->say('Bye!');
+    }
+
     /**
      * Test parallel execution
      */
-    public function para()
+    public function tryPara()
     {
         $this->taskParallelExec()
             ->process('php ~/demos/robotests/parascript.php hey')

@@ -1,10 +1,10 @@
 <?php
 namespace Robo\Task\Base;
 use Robo\Contract\CommandInterface;
-use Robo\Contract\TaskInterface;
+use Robo\Contract\PrintedInterface;
 use Robo\Result;
-use Robo\Exception\TaskException;
-use Symfony\Component\Console\Helper\ProgressHelper;
+use Robo\Task\BaseTask;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Exception\ProcessTimedOutException;
 use Symfony\Component\Process\Process;
@@ -23,19 +23,23 @@ use Symfony\Component\Process\Process;
  * ```
  *
  *
- * @method \Robo\Task\ParallelExecTask timeout(int $timeout) stops process if it runs longer then `$timeout` (seconds)
- * @method \Robo\Task\ParallelExecTask idleTimeout(int $timeout) stops process if it does not output for time longer then `$timeout` (seconds)
+ * @method \Robo\Task\Base\ParallelExec timeout(int $timeout) stops process if it runs longer then `$timeout` (seconds)
+ * @method \Robo\Task\Base\ParallelExec idleTimeout(int $timeout) stops process if it does not output for time longer then `$timeout` (seconds)
  */
-class ParallelExec implements TaskInterface, CommandInterface
+class ParallelExec extends BaseTask implements CommandInterface, PrintedInterface
 {
-    use \Robo\Output;
-    use \Robo\Common\DynamicConfig;
-    use \Robo\Common\CommandInjected;
+    use \Robo\Common\DynamicParams;
+    use \Robo\Common\CommandReceiver;
 
     protected $processes = [];
     protected $timeout = null;
     protected $idleTimeout = null;
     protected $isPrinted = false;
+
+    public function getPrinted()
+    {
+        return $this->isPrinted;
+    }
 
     public function printed($isPrinted = true)
     {
@@ -45,7 +49,7 @@ class ParallelExec implements TaskInterface, CommandInterface
 
     public function process($command)
     {
-        $this->processes[] = new Process($this->retrieveCommand($command));
+        $this->processes[] = new Process($this->recieveCommand($command));
         return $this;
     }
 
@@ -64,9 +68,9 @@ class ParallelExec implements TaskInterface, CommandInterface
             $this->printTaskInfo($process->getCommandLine());
         }
 
-        $progress = new ProgressHelper();
+        $progress = new ProgressBar($this->getOutput());
         $progress->setFormat(" <fg=white;bg=cyan;options=bold>[".get_class($this)."]</fg=white;bg=cyan;options=bold> Processes: %current%/%max% [%bar%] %percent%%");
-        $progress->start($this->getOutput(), count($this->processes));
+        $progress->start(count($this->processes));
         $running = $this->processes;
         $progress->display();
         $started = microtime(true);

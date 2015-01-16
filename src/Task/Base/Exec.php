@@ -1,13 +1,11 @@
 <?php
 namespace Robo\Task\Base;
 
-use Robo\Contract\TaskInterface;
 use Robo\Contract\CommandInterface;
+use Robo\Contract\PrintedInterface;
+use Robo\Task\BaseTask;
 use Symfony\Component\Process\Process;
 use Robo\Result;
-use Robo\Output;
-use Robo\Common\SingleExecutable;
-use Robo\Common\CommandInjected;
 
 /**
  * Executes shell script. Closes it when running in background mode.
@@ -27,11 +25,10 @@ use Robo\Common\CommandInjected;
  * ?>
  * ```
  */
-class Exec implements TaskInterface, CommandInterface
+class Exec extends BaseTask implements CommandInterface, PrintedInterface
 {
-    use Output;
-    use \Robo\Common\CommandInjected;
-    use \Robo\Common\SingleExecutable;
+    use \Robo\Common\CommandReceiver;
+    use \Robo\Common\ExecOneCommand;
 
     protected $command;
     protected $background = false;
@@ -45,7 +42,7 @@ class Exec implements TaskInterface, CommandInterface
 
     public function __construct($command)
     {
-        $this->command = $this->retrieveCommand($command);
+        $this->command = $this->recieveCommand($command);
     }
 
     public function getCommand()

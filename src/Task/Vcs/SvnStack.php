@@ -2,23 +2,22 @@
 namespace Robo\Task\Vcs;
 
 use Robo\Contract\CommandInterface;
-use Robo\Contract\TaskInterface;
-use Robo\Output;
 use Robo\Result;
+use Robo\Task\CommandStack;
 
 /**
  * Runs Svn commands in stack. You can use `stopOnFail()` to point that stack should be terminated on first fail.
  *
  * ``` php
  * <?php
- * taskSvn::stack()
+ * $this->taskSvnStack()
  *  ->checkout('http://svn.collab.net/repos/svn/trunk')
  *  ->run()
  *
  * // alternatively
- * taskSvn::_checkout('http://svn.collab.net/repos/svn/trunk');
+ * $this->_svnCheckout('http://svn.collab.net/repos/svn/trunk');
  *
- * taskSvn::init('username', 'password')
+ * $this->taskSvnStack('username', 'password')
  *  ->stopOnFail()
  *  ->update()
  *  ->add('doc/*')
@@ -27,26 +26,19 @@ use Robo\Result;
  * ?>
  * ```
  */
-class SvnStack implements TaskInterface, CommandInterface
+class SvnStack extends CommandStack implements CommandInterface
 {
-    use Output;
-    use \Robo\Common\Stackable;
-    use \Robo\Common\Executable;
-
-    protected $svn;
-    protected $stackCommands = [];
     protected $stopOnFail = false;
     protected $result;
 
     public function __construct($username='', $password='', $pathToSvn = 'svn')
     {
-
-        $this->svn = $pathToSvn;
+        $this->executable = $pathToSvn;
         if (!empty($username)) {
-            $this->svn .= " --username $username";
+            $this->executable .= " --username $username";
         }
         if (!empty($password)) {
-            $this->svn .= " --password $password";
+            $this->executable .= " --password $password";
         }
         $this->result = Result::success($this);
     }
@@ -54,12 +46,12 @@ class SvnStack implements TaskInterface, CommandInterface
     /**
      * Updates `svn update` command
      *
+     * @param string $path
      * @return $this;
      */
-    public function update($path='')
+    public function update($path = '')
     {
-        $this->stackCommands[] = "update $path";
-        return $this;
+        return $this->exec("update $path");
     }
 
     /**
@@ -70,8 +62,7 @@ class SvnStack implements TaskInterface, CommandInterface
      */
     public function add($pattern='')
     {
-        $this->stackCommands[]= "add $pattern";
-        return $this;
+        return $this->exec("add $pattern");
     }
 
     /**
@@ -83,8 +74,7 @@ class SvnStack implements TaskInterface, CommandInterface
      */
     public function commit($message, $options = "")
     {
-        $this->stackCommands[] = "commit -m '$message' $options";
-        return $this;
+        return $this->exec("commit -m '$message' $options");
     }
 
     /**
@@ -95,25 +85,7 @@ class SvnStack implements TaskInterface, CommandInterface
      */
     public function checkout($branch)
     {
-        $this->stackCommands[] = "checkout $branch";
-        return $this;
+        return $this->exec("checkout $branch");
     }
 
-    public function getCommand()
-    {
-        $commands = array_map(function($c) { return $this->svn .' '. $c; }, $this->stackCommands);
-        return implode(' && ', $commands);
-    }
-
-    public function run()
-    {
-        $this->printTaskInfo("Running svn commands...");
-        foreach ($this->stackCommands as $command) {
-            $this->result = $this->executeCommand($this->svn .' '.$command);
-            if (!$this->result->wasSuccessful() and $this->stopOnFail) {
-                return $this->result;
-            }
-        }
-        return Result::success($this);
-    }
 }

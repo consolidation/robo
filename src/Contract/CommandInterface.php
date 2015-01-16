@@ -1,6 +1,12 @@
 <?php
 namespace Robo\Contract;
 
+/**
+ * Task that implements this interface can be injected as a parameter for other task.
+ * This task can be represented as executable command.
+ *
+ * @package Robo\Contract
+ */
 interface CommandInterface {
 
     /**

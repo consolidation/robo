@@ -1,8 +1,6 @@
 <?php
 namespace Robo\Task\Npm;
 
-use Robo\Task\Npm;
-use Robo\Contract\TaskInterface;
 use Robo\Contract\CommandInterface;
 
 /**
@@ -20,7 +18,7 @@ use Robo\Contract\CommandInterface;
  * ?>
  * ```
  */
-class Install extends Base implements TaskInterface, CommandInterface
+class Install extends Base implements CommandInterface
 {
     protected $action = 'install';
 

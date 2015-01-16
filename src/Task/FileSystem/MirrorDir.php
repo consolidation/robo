@@ -2,7 +2,6 @@
 namespace Robo\Task\FileSystem;
 
 use Robo\Result;
-use Robo\Task\FileSystem\BaseDir;
 
 /**
  * Mirrors a directory to another

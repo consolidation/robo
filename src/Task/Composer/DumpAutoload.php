@@ -1,8 +1,6 @@
 <?php
 namespace Robo\Task\Composer;
 
-use Robo\Contract\TaskInterface;
-
 /**
  * Composer Dump Autoload
  *
@@ -29,7 +27,7 @@ use Robo\Contract\TaskInterface;
  * ?>
  * ```
  */
-class DumpAutoload extends Base implements TaskInterface
+class DumpAutoload extends Base
 {
     protected $action = 'dump-autoload';
 

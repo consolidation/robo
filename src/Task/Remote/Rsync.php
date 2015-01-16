@@ -1,14 +1,10 @@
 <?php
 namespace Robo\Task\Remote;
 
-use Robo\Output;
 use Robo\Contract\CommandInterface;
+use Robo\Task\BaseTask;
 use Robo\Task\Remote;
-use Robo\Common\SingleExecutable;
-use Robo\Task\string;
-use Robo\Contract\TaskInterface;
 use Robo\Exception\TaskException;
-use Robo\Common\DynamicConfig;
 
 /**
  * Executes rsync in a flexible manner.
@@ -48,16 +44,15 @@ use Robo\Common\DynamicConfig;
  * }
  * ```
  *
- * @method Remote\Rsync fromUser(string $user)
- * @method Remote\Rsync fromHost(string $hostname)
- * @method Remote\Rsync toUser(string $user)
- * @method Remote\Rsync toHost(string $hostname)
+ * @method \Robo\Task\Remote\Rsync fromUser(string $user)
+ * @method \Robo\Task\Remote\Rsync fromHost(string $hostname)
+ * @method \Robo\Task\Remote\Rsync toUser(string $user)
+ * @method \Robo\Task\Remote\Rsync toHost(string $hostname)
  */
-class Rsync implements TaskInterface, CommandInterface
+class Rsync extends BaseTask implements CommandInterface
 {
-    use \Robo\Common\SingleExecutable;
-    use Output;
-    use \Robo\Common\DynamicConfig;
+    use \Robo\Common\ExecOneCommand;
+    use \Robo\Common\DynamicParams;
 
     protected $fromUser;
 

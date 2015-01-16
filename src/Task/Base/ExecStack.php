@@ -19,8 +19,8 @@ use Robo\Task\Base;
  * ?>
  * ```
  *
- * @method Base\ExecStack exec(string)
- * @method Base\ExecStack stopOnFail(string)
+ * @method ExecStack exec(string)
+ * @method ExecStack stopOnFail(string)
  */
 class ExecStack extends CommandStack
 {

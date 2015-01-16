@@ -2,7 +2,6 @@
 namespace Robo\Task\Bower;
 
 use Robo\Task\Bower;
-use Robo\Contract\TaskInterface;
 
 /**
  * Bower Update
@@ -19,7 +18,7 @@ use Robo\Contract\TaskInterface;
  * ?>
  * ```
  */
-class Update extends Base implements TaskInterface
+class Update extends Base
 {
     protected $action = 'update';
 

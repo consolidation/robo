@@ -1,9 +1,8 @@
 <?php
-namespace Robo\Task\Base;
+namespace Robo\Task\File;
 
 use Robo\Result;
-use Robo\Contract\TaskInterface;
-use Robo\Task\Iterator;
+use Robo\Task\BaseTask;
 
 /**
  * Merges files into one. Used for preparing assets.
@@ -20,10 +19,8 @@ use Robo\Task\Iterator;
  * ?>
  * ```
  */
-class Concat implements TaskInterface
+class Concat extends BaseTask
 {
-    use \Robo\Output;
-
     /**
      * @var array|Iterator files
      */

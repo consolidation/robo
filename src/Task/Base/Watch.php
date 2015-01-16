@@ -4,6 +4,7 @@ namespace Robo\Task\Base;
 use Lurker\Event\FilesystemEvent;
 use Lurker\ResourceWatcher;
 use Robo\Result;
+use Robo\Task\BaseTask;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
@@ -21,9 +22,8 @@ use Symfony\Component\EventDispatcher\Event;
  * ?>
  * ```
  */
-class Watch {
-    use \Robo\Output;
-
+class Watch extends BaseTask
+{
     protected $closure;
     protected $monitor = [];
     protected $bindTo;

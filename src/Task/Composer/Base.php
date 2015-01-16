@@ -1,13 +1,12 @@
 <?php
 namespace Robo\Task\Composer;
 
-use Robo\Task\Shared\DefaultRunner;
+use Robo\Task\BaseTask;
 use Robo\Exception\TaskException;
 
-abstract class Base
+abstract class Base extends BaseTask
 {
-    use \Robo\Output;
-    use \Robo\Common\SingleExecutable;
+    use \Robo\Common\ExecOneCommand;
 
     protected $prefer;
     protected $dev;

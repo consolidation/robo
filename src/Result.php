@@ -1,10 +1,13 @@
 <?php
 namespace Robo;
 
+use Robo\Common\TaskIO;
+use Robo\Contract\PrintedInterface;
 use Robo\Contract\TaskInterface;
 
-class Result {
-    use Output;
+class Result
+{
+    use TaskIO;
 
     static $stopOnFail = false;
 
@@ -23,12 +26,19 @@ class Result {
         
         if (!$this->wasSuccessful()) {
             $lines = explode("\n", $this->message);
-            foreach ($lines as $msg) {
-                if ($msg) $this->printTaskInfo("<error>Error</error> $msg", $this->task);
+
+            $printOutput = true;
+
+            if ($task instanceof PrintedInterface) {
+                $printOutput = !$task->getPrinted();
             }
-            if (!$this->message) {
-                $this->printTaskInfo("<error> Error</error> Exit code ".$this->exitCode, $this->task);
+            if ($printOutput) {
+                foreach ($lines as $msg) {
+                    if ($msg) $this->printTaskInfo("<error> Error </error> $msg", $this->task);
+                }
             }
+
+            $this->printTaskInfo("<error> Error </error> Exit code ".$this->exitCode, $this->task);
         }
 
         if (self::$stopOnFail) {

@@ -1,8 +1,15 @@
 <?php
 namespace Robo\Contract;
 
-interface TaskInterface {
-
+/**
+ * All Robo tasks should implement this interface.
+ * Task should be configured by chained methods.
+ *
+ * Interface TaskInterface
+ * @package Robo\Contract
+ */
+interface TaskInterface
+{
     /**
      * @return \Robo\Result
      */

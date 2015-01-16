@@ -1,7 +1,15 @@
 <?php
 namespace Robo\Common;
 
-trait DynamicConfig
+/**
+ * Simplifies generating of configuration chanined methods.
+ * You can only define configuration properties and use magic methods to set them.
+ * Methods will be named the same way as properties.
+ * * Boolean properties are switched on/off if no values is provided.
+ * * Array properties can accept non-array values, in this case value will be appended to array.
+ * You should also define phpdoc for methods.
+ */
+trait DynamicParams
 {
     public function __call($property, $args)
     {

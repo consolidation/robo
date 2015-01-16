@@ -1,12 +1,15 @@
 <?php
 namespace Robo;
 
+use Robo\Common\IO;
+
 class Tasks
 {
     // standard tasks
     use Task\Base\loadTasks;
     use Task\Development\loadTasks;
     use Task\FileSystem\loadTasks;
+    use Task\File\loadTasks;
     use Task\Vcs\loadTasks;
 
     // package managers
@@ -27,7 +30,7 @@ class Tasks
     use Task\FileSystem\loadShortcuts;
     use Task\Vcs\loadShortcuts;
 
-    use Output;
+    use IO;
 
     protected function stopOnFail($stopOnFail = true)
     {

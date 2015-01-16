@@ -1,10 +1,8 @@
 <?php
-namespace Robo\Task\FileSystem;
+namespace Robo\Task\File;
 
 use Robo\Result;
-use Robo\Output;
-use Robo\Common\DynamicConfig;
-use Robo\Contract\TaskInterface;
+use Robo\Task\BaseTask;
 
 /**
  * Writes to file
@@ -20,10 +18,9 @@ use Robo\Contract\TaskInterface;
  * ```
  * @method append()
  */
-class WriteToFile implements TaskInterface
+class WriteToFile extends BaseTask
 {
-    use Output;
-    use \Robo\Common\DynamicConfig;
+    use \Robo\Common\DynamicParams;
 
     protected $filename;
     protected $body = "";
@@ -32,11 +29,6 @@ class WriteToFile implements TaskInterface
     public function __construct($filename)
     {
         $this->filename = $filename;
-    }
-
-    public static function init($filename)
-    {
-        return new self($filename);
     }
 
     public function line($line)

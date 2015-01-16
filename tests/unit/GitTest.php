@@ -40,5 +40,4 @@ class GitTest extends \Codeception\TestCase\Test
                 ->getCommand()
         )->equals("git clone http://github.com/Codegyre/Robo && git pull && git add -A && git commit -m 'changed' && git push");
     }
-
 }

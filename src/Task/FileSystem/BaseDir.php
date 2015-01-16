@@ -1,14 +1,13 @@
 <?php
 namespace Robo\Task\FileSystem;
 
-use Robo\Output;
+use Robo\Common\IO;
 use Robo\Contract\TaskInterface;
+use Robo\Task\BaseTask;
 use Symfony\Component\Filesystem\Filesystem as sfFileSystem;
 
-abstract class BaseDir implements TaskInterface
+abstract class BaseDir extends BaseTask
 {
-    use Output;
-
     protected $dirs = [];
 
     protected $fs;

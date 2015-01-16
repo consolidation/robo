@@ -1,6 +1,9 @@
 <?php
 namespace Robo\Task\FileSystem;
 
+use Robo\Task\File\ReplaceInFile;
+use Robo\Task\File\WriteToFile;
+
 trait loadTasks
 {
     /**
@@ -37,24 +40,6 @@ trait loadTasks
     protected function taskMirrorDir($dirs)
     {
         return new MirrorDir($dirs);
-    }
-
-    /**
-     * @param $file
-     * @return ReplaceInFile
-     */
-    protected function taskReplaceInFile($file)
-    {
-        return new ReplaceInFile($file);
-    }
-
-    /**
-     * @param $file
-     * @return WriteToFile
-     */
-    protected function taskWriteToFile($file)
-    {
-        return new WriteToFile($file);
     }
 
     /**

@@ -1,9 +1,6 @@
 <?php
 namespace Robo\Task\Composer;
 
-use Robo\Task\Composer;
-use Robo\Contract\TaskInterface;
-
 /**
  * Composer Update
  *
@@ -24,7 +21,7 @@ use Robo\Contract\TaskInterface;
  * ?>
  * ```
  */
-class Update extends Base implements TaskInterface
+class Update extends Base
 {
     protected $action = 'update';
 

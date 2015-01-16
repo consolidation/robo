@@ -1,8 +1,9 @@
 <?php
 namespace Robo\Task\Testing;
 
-use Robo\Task\Shared;
-use Robo\Contract\TaskInterface;
+use Robo\Contract\PrintedInterface;
+use Robo\Exception\TaskException;
+use Robo\Task\BaseTask;
 use Robo\Contract\CommandInterface;
 
 /**
@@ -23,10 +24,9 @@ use Robo\Contract\CommandInterface;
  * ```
  *
  */
-class CodeceptRun implements TaskInterface, CommandInterface
+class Codecept extends BaseTask implements CommandInterface, PrintedInterface
 {
-    use \Robo\Output;
-    use \Robo\Common\SingleExecutable;
+    use \Robo\Common\ExecOneCommand;
 
     protected $suite = '';
     protected $test = '';
@@ -44,7 +44,7 @@ class CodeceptRun implements TaskInterface, CommandInterface
         } elseif (file_exists('codecept.phar')) {
             $this->command = 'php codecept.phar run';
         } else {
-            throw new \Robo\Exception\TaskException(__CLASS__, "Neither composer nor phar installation of Codeception found");
+            throw new TaskException(__CLASS__, "Neither composer nor phar installation of Codeception found");
         }
     }
 

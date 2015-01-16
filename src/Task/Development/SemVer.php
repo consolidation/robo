@@ -39,15 +39,6 @@ class SemVer implements TaskInterface
         'metadata' => ''
     ];
 
-    /**
-     * @param string $pathToSemVer
-     * @return static
-     */
-    public static function init($pathToSemVer = '.semver')
-    {
-        return new static($pathToSemVer);
-    }
-
     public function __construct($filename)
     {
         $this->path = $filename;

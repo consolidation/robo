@@ -1,9 +1,6 @@
 <?php
 namespace Robo\Task\Npm;
 
-use Robo\Task\Npm;
-use Robo\Contract\TaskInterface;
-
 /**
  * Npm Update
  *
@@ -19,7 +16,7 @@ use Robo\Contract\TaskInterface;
  * ?>
  * ```
  */
-class Update extends Base implements TaskInterface
+class Update extends Base
 {
     protected $action = 'update';
 

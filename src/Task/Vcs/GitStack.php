@@ -2,7 +2,6 @@
 namespace Robo\Task\Vcs;
 
 use Robo\Task\CommandStack;
-use Robo\Output;
 
 /**
  * Runs Git commands in stack. You can use `stopOnFail()` to point that stack should be terminated on first fail.
@@ -27,7 +26,6 @@ use Robo\Output;
  */
 class GitStack extends CommandStack
 {
-    use Output;
 
     public function __construct($pathToGit = 'git')
     {

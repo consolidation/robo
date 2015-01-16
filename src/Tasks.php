@@ -29,6 +29,9 @@ class Tasks
     use Task\Base\loadShortcuts;
     use Task\FileSystem\loadShortcuts;
     use Task\Vcs\loadShortcuts;
+    
+    // task runners
+    use Task\Gulp\loadTasks;
 
     use IO;
 

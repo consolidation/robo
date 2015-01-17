@@ -24,6 +24,7 @@ class Tasks
     use Task\Remote\loadTasks;
     use Task\Testing\loadTasks;
     use Task\ApiGen\loadTasks;
+    use Task\Docker\loadTasks;
 
     // shortcuts
     use Task\Base\loadShortcuts;

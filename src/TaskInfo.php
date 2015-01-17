@@ -1,8 +1,8 @@
 <?php
 namespace Robo;
 
-class TaskInfo {
-
+class TaskInfo
+{
     const PARAM_IS_REQUIRED = '__param_is_required__';
 
     protected static $annotationRegex = '/@%s(?:[ \t]+(.*?))?[ \t]*\r?$/m';
@@ -228,7 +228,6 @@ class TaskInfo {
         if ($keepFormatting) {
             return implode(PHP_EOL, $doc);
         }
-
         return trim(implode(' ', array_filter(array_map('trim', $doc))));
     }
 

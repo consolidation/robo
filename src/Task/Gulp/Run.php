@@ -28,6 +28,6 @@ class Run extends Base implements CommandInterface
         } else {
             $this->printTaskInfo('Running Gulp task: ' . $this->task . ' without arguments');
         }
-        return $this->executeCommand($this->getCommand($this->task));
+        return $this->executeCommand($this->getCommand());
     }
 }

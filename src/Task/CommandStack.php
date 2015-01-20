@@ -19,8 +19,6 @@ abstract class CommandStack extends BaseTask implements CommandInterface, Printe
     protected $result;
     protected $exec = [];
     protected $stopOnFail = false;
-    protected $workingDirectory;
-    protected $isPrinted = true;
 
     public function getPrinted()
     {

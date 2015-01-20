@@ -23,8 +23,6 @@ use Robo\Task\BaseTask;
  */
 class Minify extends BaseTask
 {
-    use Output;
-
     /** @var array $types */
     protected $types = ['css', 'js'];
 

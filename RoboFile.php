@@ -64,36 +64,60 @@ class RoboFile extends \Robo\Tasks
      */
     public function docs()
     {
+        $files = Finder::create()->files()->name('*.php')->in('src/Task');
         $docs = [];
-        foreach (get_declared_classes() as $task) {
-            if (!preg_match('~Robo\\\Task.*?Task$~', $task)) continue;
-            $docs[basename((new ReflectionClass($task))->getFileName(),'.php')][] = $task;
-        }
-
-        ksort($docs);
-        $taskGenerator = $this->taskGenDoc('docs/tasks.md')->filterClasses(function (\ReflectionClass $r) {
-            return !$r->isAbstract() or $r->isTrait();
-        })->prepend("# Tasks");
-
-        foreach ($docs as $file => $classes) {
-            $taskGenerator->docClass("Robo\\Task\\$file");
-            foreach ($classes as $task) {
-                $taskGenerator->docClass($task);
+        foreach ($files as $file) {
+            if ($file->getFileName() == 'loadTasks.php') {
+                continue;
             }
+            if ($file->getFileName() == 'loadShortucts.php') {
+                continue;
+            }
+            $ns = $file->getRelativePath();
+            if (!$ns) {
+                continue;
+            }
+            $class = basename(substr($file, 0, -4));
+            class_exists($class = "Robo\\Task\\$ns\\$class");
+            $docs[$ns][] = $class;
         }
+        ksort($docs);
 
-        $taskGenerator->filterMethods(function(\ReflectionMethod $m) {
-            if ($m->isConstructor() or $m->isDestructor() or $m->isStatic()) return false;
-            return !in_array($m->name, ['run', '', '__call', 'getCommand']) and $m->isPublic(); // methods are not documented
-        })->processClassSignature(function ($c) {
-            return "## ". preg_replace('~Task$~', '', $c->getShortName())."\n";
-        })->processClassDocBlock(function($c, $doc) {
-            return preg_replace('~@method .*?\wTask (.*?)\)~', '* `$1)` ', $doc);
-        })->processMethodSignature(function (\ReflectionMethod $m, $text) {
-            return str_replace('#### *public* ', '* `', $text) . '`';
-        })->processMethodDocBlock(function(\ReflectionMethod $m, $text) {
-            return $text ? ' ' . strtok($text, "\n") : '';
-        })->run();
+        foreach ($docs as $ns => $tasks) {
+            $taskGenerator = $this->taskGenDoc("docs/tasks/$ns.md");
+            $taskGenerator->filterClasses(function (\ReflectionClass $r) {
+                return !($r->isAbstract() or $r->isTrait());
+            })->prepend("# $ns Tasks");
+            sort($tasks);
+            foreach ($tasks as $class) {
+                $taskGenerator->docClass($class);
+            }
+
+            $taskGenerator->filterMethods(
+                function (\ReflectionMethod $m) {
+                    if ($m->isConstructor() or $m->isDestructor() or $m->isStatic()) {
+                        return false;
+                    }
+                    return !in_array($m->name, ['run', '', '__call', 'getCommand']) and $m->isPublic(); // methods are not documented
+                }
+            )->processClassSignature(
+                function ($c) {
+                    return "## " . preg_replace('~Task$~', '', $c->getShortName()) . "\n";
+                }
+            )->processClassDocBlock(
+                function ($c, $doc) {
+                    return preg_replace('~@method .*?\wTask (.*?)\)~', '* `$1)` ', $doc);
+                }
+            )->processMethodSignature(
+                function (\ReflectionMethod $m, $text) {
+                    return str_replace('#### *public* ', '* `', $text) . '`';
+                }
+            )->processMethodDocBlock(
+                function (\ReflectionMethod $m, $text) {
+                    return $text ? ' ' . strtok($text, "\n") : '';
+                }
+            )->run();
+        }
     }
 
     public function pharBuild()

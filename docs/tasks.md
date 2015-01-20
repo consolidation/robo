@@ -21,6 +21,8 @@ $this->taskApiGen('./apigen.neon')
 
 
 
+
+
 * `config($config)` 
 * `source($src)`   * `param array|string|Traversable` $src one or more source values
 * `destination($dest)` 
@@ -64,28 +66,145 @@ $this->taskApiGen('./apigen.neon')
 
 
 
-* `printed($arg)`  Should command output be printed
-* `dir($dir)`  changes working directory of command
+
+
+
+
+
+
+
+
 
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+* `getPrinted()` 
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
 
 
-## BowerInstall
 
 
-Bower Install
+
+
+
+
+
+
+
+
+
+
+## Build
+
+
+
+
+
+
+
+
+* `tag($tag)` 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+* `getPrinted()` 
+* `arg($arg)`  Pass argument to executable
+* `args($args)`  Pass methods parameters as arguments to executable
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
+
+
+
+
+
+## Changelog
+
+
+Helps to manage changelog file.
+Creates or updates `changelog.md` file with recent changes in current version.
 
 ``` php
 <?php
-// simple execution
-$this->taskBowerInstall()->run();
+$version = "0.1.0";
+$this->taskChangelog()
+ ->version($version)
+ ->change("released to github")
+ ->run();
+?>
+```
 
-// prefer dist with custom path
-$this->taskBowerInstall('path/to/my/bower')
-     ->noDev()
-     ->run();
+Changes can be asked from Console
+
+``` php
+<?php
+$this->taskChangelog()
+ ->version($version)
+ ->askForChanges()
+ ->run();
+?>
+```
+
+@method Development\Changelog filename(string $filename)
+@method Development\Changelog anchor(string $anchor)
+@method Development\Changelog version(string $version)
+
+
+
+
+* `askForChanges()` 
+
+* `changes(array $data)` 
+* `change($change)` 
+* `getChanges()` 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## CleanDir
+
+
+Deletes all files from specified dir, ignoring git files.
+
+``` php
+<?php
+$this->taskCleanDir(['tmp','logs'])->run();
+// as shortcut
+$this->_cleanDir('app/cache');
 ?>
 ```
 
@@ -93,60 +212,6 @@ $this->taskBowerInstall('path/to/my/bower')
 
 
 
-* `allowRoot()`  adds `allow-root` option to bower
-* `forceLatest()`  adds `force-latest` option to bower
-* `noDev()`  adds `production` option to bower
-* `offline()`  adds `offline` option to bower
-
-
-* `printed($arg)`  Should command output be printed
-* `dir($dir)`  changes working directory of command
-
-* `arg($arg)`  Pass argument to executable
-* `args($args)`  Pass methods parameters as arguments to executable
-* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
-
-
-
-
-
-
-
-
-
-## BowerUpdate
-
-
-Bower Update
-
-``` php
-<?php
-// simple execution
-$this->taskBowerUpdate()->run();
-
-// prefer dist with custom path
-$this->taskBowerUpdate('path/to/my/bower')
-     ->noDev()
-     ->run();
-?>
-```
-
-
-
-
-
-* `allowRoot()`  adds `allow-root` option to bower
-* `forceLatest()`  adds `force-latest` option to bower
-* `noDev()`  adds `production` option to bower
-* `offline()`  adds `offline` option to bower
-
-
-* `printed($arg)`  Should command output be printed
-* `dir($dir)`  changes working directory of command
-
-* `arg($arg)`  Pass argument to executable
-* `args($args)`  Pass methods parameters as arguments to executable
-* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
 
 
 
@@ -157,13 +222,22 @@ $this->taskBowerUpdate('path/to/my/bower')
 
 
 
-## Codeception
+
+
+
+
+
+
+
+
+## Codecept
 
 
 Executes Codeception tests
 
 ``` php
 <?php
+// config
 $this->taskCodecept()
      ->suite('acceptance')
      ->env('chrome')
@@ -171,8 +245,11 @@ $this->taskCodecept()
      ->xml()
      ->html()
      ->run();
+
 ?>
 ```
+
+
 
 
 
@@ -206,172 +283,68 @@ $this->taskCodecept()
 
 
 
-* `printed($arg)`  Should command output be printed
-* `dir($dir)`  changes working directory of command
 
+
+
+
+
+
+
+
+
+* `getPrinted()` 
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
-
-
-## ComposerInstall
-
-
-Composer Install
-
-``` php
-<?php
-// simple execution
-$this->taskComposerInstall()->run();
-
-// prefer dist with custom path
-$this->taskComposerInstall('path/to/my/composer.phar')
-     ->preferDist()
-     ->run();
-
-// optimize autoloader with custom path
-$this->taskComposerInstall('path/to/my/composer.phar')
-     ->optimizeAutoloader()
-     ->run();
-?>
-```
-
-
-
-
-
-
-
-
-* `preferDist()`  adds `prefer-dist` option to composer
-* `preferSource()`  adds `prefer-source` option to composer
-* `noDev()`  adds `no-dev` option to composer
-* `optimizeAutoloader()`  adds `optimize-autoloader` option to composer
-
-
-
-
-
-
-
-
-
-
-
-* `printed($arg)`  Should command output be printed
 * `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
 
+
+
+
+
+
+## Commit
+
+
+
+
+
+
+
+
+
+
+* `name($name)` 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+* `getPrinted()` 
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
-## ComposerUpdate
-
-
-Composer Update
-
-``` php
-<?php
-// simple execution
-$this->taskComposerUpdate()->run();
-
-// prefer dist with custom path
-$this->taskComposerUpdate('path/to/my/composer.phar')
-     ->preferDist()
-     ->run();
-
-// optimize autoloader with custom path
-$this->taskComposerUpdate('path/to/my/composer.phar')
-     ->optimizeAutoloader()
-     ->run();
-?>
-```
-
-
-
-
-
-
-
-
-* `preferDist()`  adds `prefer-dist` option to composer
-* `preferSource()`  adds `prefer-source` option to composer
-* `noDev()`  adds `no-dev` option to composer
-* `optimizeAutoloader()`  adds `optimize-autoloader` option to composer
-
-
-
-
-
-
-
-
-
-
-
-* `printed($arg)`  Should command output be printed
 * `dir($dir)`  changes working directory of command
-
-* `arg($arg)`  Pass argument to executable
-* `args($args)`  Pass methods parameters as arguments to executable
-* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
-## ComposerDumpAutoload
-
-
-Composer Update
-
-``` php
-<?php
-// simple execution
-$this->taskComposerDumpAutoload()->run();
-
-// dump auto loader with custom path
-$this->taskComposerDumpAutoload('path/to/my/composer.phar')
-     ->preferDist()
-     ->run();
-
-// optimize autoloader dump with custom path
-$this->taskComposerDumpAutoload('path/to/my/composer.phar')
-     ->optimize()
-     ->run();
-
-// optimize autoloader dump with custom path and no dev
-$this->taskComposerDumpAutoload('path/to/my/composer.phar')
-     ->optimize()
-     ->noDev()
-     ->run();
-?>
-```
-
-
-
-
-
-
-
-
-* `optimize()` 
-
-
-* `preferDist()`  adds `prefer-dist` option to composer
-* `preferSource()`  adds `prefer-source` option to composer
-* `noDev()`  adds `no-dev` option to composer
-* `optimizeAutoloader()`  adds `optimize-autoloader` option to composer
-
-
-
-
-
-
-
-
-
-
 * `printed($arg)`  Should command output be printed
-* `dir($dir)`  changes working directory of command
 
-* `arg($arg)`  Pass argument to executable
-* `args($args)`  Pass methods parameters as arguments to executable
-* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+
+
+
 
 ## Concat
 
@@ -403,44 +376,63 @@ $this->taskConcat([
 
 
 
-## Changelog
 
 
-Helps to manage changelog file.
-Creates or updates `changelog.md` file with recent changes in current version.
+
+
+
+
+
+
+
+## CopyDir
+
+
+Copies one dir into another
 
 ``` php
 <?php
-$version = "0.1.0";
-$this->taskChangelog()
- ->version($version)
- ->change("released to github")
- ->run();
+$this->taskCopyDir(['dist/config' => 'config'])->run();
+// as shortcut
+$this->_copyDir(['dist/config' => 'config']);
 ?>
 ```
 
-Changes can be asked from Console
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## DeleteDir
+
+
+Deletes dir
 
 ``` php
 <?php
-$this->taskChangelog()
- ->version($version)
- ->askForChanges()
- ->run();
+$this->taskDeleteDir('tmp')->run();
+// as shortcut
+$this->_deleteDir(['tmp', 'log']);
 ?>
 ```
 
-* `filename(string $filename)` 
-* `anchor(string $anchor)` 
-* `version(string $version)` 
-
-
-
-* `askForChanges()` 
-
-* `changes(array $data)` 
-* `change($change)` 
-* `getChanges()` 
 
 
 
@@ -460,118 +452,32 @@ $this->taskChangelog()
 
 
 
-## GenMarkdownDoc
 
 
-Simple documentation generator from source files.
-Takes classes, properties and methods with their docblocks and writes down a markdown file.
+## DumpAutoload
+
+
+Composer Dump Autoload
 
 ``` php
 <?php
-$this->taskGenDoc('models.md')
-     ->docClass('Model\User') // take class Model\User
-     ->docClass('Model\Post') // take class Model\Post
-     ->filterMethods(function(\ReflectionMethod $r) {
-         return $r->isPublic() or $r->isProtected(); // process public and protected methods
-     })->processClass(function(\ReflectionClass $r, $text) {
-         return "Class ".$r->getName()."\n\n$text\n\n###Methods\n";
-     })->run();
-```
+// simple execution
+taskComposerDumpAutoload::_run();
 
-By default this task generates a documentation for each public method of a class.
-It combines method signature with a docblock. Both can be post-processed.
+// dump auto loader with custom path
+taskComposerDumpAutoload::init('path/to/my/composer.phar')
+     ->preferDist()
+     ->run();
 
-``` php
-<?php
-$this->taskGenDoc('models.md')
-     ->docClass('Model\User')
-     ->processClassSignature(false) // false can be passed to not include class signature
-     ->processClassDocBlock(function(\ReflectionClass $r, $text) {
-         return "[This is part of application model]\n" . $text;
-     })->processMethodSignature(function(\ReflectionMethod $r, $text) {
-         return "#### {$r->name}()";
-     })->processMethodDocBlock(function(\ReflectionMethod $r, $text) {
-         return strpos($r->name, 'save')===0 ? "[Saves to the database]\n" . $text : $text;
-     })->run();
-```
+// optimize autoloader dump with custom path
+taskComposerDumpAutoload::init('path/to/my/composer.phar')
+     ->optimize()
+     ->run();
 
-* `docClass(string $classname)`  put a class you want to be documented
-* `filterMethods(\Closure $func)`  using callback function filter out methods that won't be documented
-* `filterClasses(\Closure $func)`  using callback function filter out classes that won't be documented
-* `filterProperties(\Closure $func)`  using callback function filter out properties that won't be documented
-* `processClass(\Closure $func)`  post-process class documentation
-* `processClassSignature(\Closure $func)`  post-process class signature. Provide *false* to skip.
-* `processClassDocBlock(\Closure $func)`  post-process class docblock contents. Provide *false* to skip.
-* `processMethod(\Closure $func)`  post-process method documentation. Provide *false* to skip.
-* `processMethodSignature(\Closure $func)`  post-process method signature. Provide *false* to skip.
-* `processMethodDocBlock(\Closure $func)`  post-process method docblock contents. Provide *false* to skip.
-* `processProperty(\Closure $func)`  post-process property documentation. Provide *false* to skip.
-* `processPropertySignature(\Closure $func)`  post-process property signature. Provide *false* to skip.
-* `processPropertyDocBlock(\Closure $func)`  post-process property docblock contents. Provide *false* to skip. 
-* `reorder(\Closure $func)`  use a function to reorder classes
-* `reorderMethods(\Closure $func)`  use a function to reorder methods in class
-* `prepend($text)`  inserts text into beginning of markdown file
-* `append($text)`  inserts text in the end of markdown file
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## SemVer
-
-
-Helps to maintain `.semver` file.
-
-```php
-<?php
-$this->taskSemVer('.semver')
-     ->increment()
+// optimize autoloader dump with custom path and no dev
+taskComposerDumpAutoload::init('path/to/my/composer.phar')
+     ->optimize()
+     ->noDev()
      ->run();
 ?>
 ```
@@ -581,13 +487,43 @@ $this->taskSemVer('.semver')
 
 
 
-* `__toString()` 
-* `setFormat($format)` 
-* `setMetadataSeparator($separator)` 
-* `setPrereleaseSeparator($separator)` 
-* `increment($what = null)` 
-* `prerelease($tag = null)` 
-* `metadata($data)` 
+
+
+
+
+* `optimize()` 
+
+
+* `preferDist()`  adds `prefer-dist` option to composer
+* `preferSource()`  adds `prefer-source` option to composer
+* `noDev()`  adds `no-dev` option to composer
+* `optimizeAutoloader()`  adds `optimize-autoloader` option to composer
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+* `arg($arg)`  Pass argument to executable
+* `args($args)`  Pass methods parameters as arguments to executable
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+* `getPrinted()` 
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
+
 
 
 
@@ -599,15 +535,20 @@ Executes shell script. Closes it when running in background mode.
 
 ``` php
 <?php
-$this->taskExec('compass')->arg()->run();
+$this->taskExec('compass')->arg('watch')->run();
+// or use shortcut
+$this->_exec('compass watch');
 
 $this->taskExec('compass watch')->background()->run();
 
 if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
  $this->say('tests passed');
 }
+
 ?>
 ```
+
+
 
 
 
@@ -633,12 +574,26 @@ if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
 
 
 
-* `printed($arg)`  Should command output be printed
-* `dir($dir)`  changes working directory of command
+
+
+
+
+
+
+
+
+* `getPrinted()` 
 
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
+
+
+
+
+
 ## ExecStack
 
 
@@ -656,13 +611,16 @@ $this->taskExecStack()
 ?>
 ```
 
-* `exec(string)` 
-* `stopOnFail(string)` 
+@method ExecStack exec(string)
+@method ExecStack stopOnFail(string)
 
 
 
 
 
+
+
+* `getPrinted()` 
 
 * `exec($command)` 
 * `printed($arg)`  Should command output be printed
@@ -674,17 +632,9 @@ $this->taskExecStack()
 
 
 
-## CleanDir
 
 
-Deletes all files from specified dir, ignoring git files.
 
-``` php
-<?php
-$this->taskCleanDir('app/cache')->run();
-$this->taskCleanDir(['tmp','logs'])->run();
-?>
-```
 
 
 
@@ -697,167 +647,11 @@ $this->taskCleanDir(['tmp','logs'])->run();
 
 
 
-## CopyDir
 
 
-Copies one dir into another
 
-``` php
-<?php
-$this->taskCopyDir(['dist/config' => 'config'])->run();
-?>
-```
 
-
-
-
-
-
-
-
-
-
-
-
-## DeleteDir
-
-
-Deletes dir
-
-``` php
-<?php
-$this->taskDeleteDir('tmp')->run();
-$this->taskDeleteDir(['tmp', 'log'])->run();
-?>
-```
-
-
-
-
-
-
-
-
-
-
-
-
-## MirrorDir
-
-
-Mirrors a directory to another
-
-``` php
-<?php
-$this->taskMirrorDir(['dist/config/' => 'config/'])->run();
-?>
-```
-
-
-
-
-
-
-
-
-
-
-
-
-## ReplaceInFile
-
-
-Performs search and replace inside a files.
-
-``` php
-<?php
-$this->replaceInFile('VERSION')
- ->from('0.2.0')
- ->to('0.3.0')
- ->run();
-
-$this->replaceInFile('README.md')
- ->from(date('Y')-1)
- ->to(date('Y'))
- ->run();
-
-$this->replaceInFile('config.yml')
- ->regex('~^service:~')
- ->to('services:')
- ->run();
-?>
-```
-
-* `regex(string)` 
-* `from(string)` 
-* `to(string)` 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## WriteToFile
-
-
-Writes to file
-
-``` php
-<?php
-$this->taskWriteToFile('blogpost.md')
-     ->line('-----')
-     ->line(date('Y-m-d').' '.$title)
-     ->line('----')
-     ->run();
-?>
-```
-* `append()` 
-
-
-
-* `line($line)` 
-* `lines($lines)` 
-* `text($text)` 
-* `textFromFile($filename)` 
-* `place($name, $val)` 
-
-
-
-
-
-
-
-
-
-
-
-## Require
-
-
-Requires php file to be executed inside a closure.
-
-``` php
-<?php
-$this->taskRequire('script/create_users.php')->run();
-$this->taskRequire('script/make_admin.php')
- ->locals(['user' => $user])
- ->run();
-?>
-```
-
-
-* `local(array $locals)` 
-
-## FileSystemStack
+## Filesystem
 
 
 Wrapper for [Symfony FileSystem](http://symfony.com/doc/current/components/filesystem.html) Component.
@@ -871,6 +665,11 @@ $this->taskFileSystemStack()
      ->chgrp('www', 'www-data')
      ->symlink('/var/log/nginx/error.log', 'logs/error.log')
      ->run();
+
+// one line
+$this->taskFileSystem::_touch('.gitignore');
+$this->taskFileSystem::_mkdir('logs');
+
 ?>
 ```
 
@@ -888,6 +687,183 @@ Class FileSystemStackTask
 * `mirror($from, $to)` 
 * `chgrp($file, $group)` 
 * `chown($file, $user)` 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## GenerateMarkdownDoc
+
+
+Simple documentation generator from source files.
+Takes classes, properties and methods with their docblocks and writes down a markdown file.
+
+``` php
+<?php
+$this->taskGenerateMarkdownDoc('models.md')
+     ->docClass('Model\User') // take class Model\User
+     ->docClass('Model\Post') // take class Model\Post
+     ->filterMethods(function(\ReflectionMethod $r) {
+         return $r->isPublic() or $r->isProtected(); // process public and protected methods
+     })->processClass(function(\ReflectionClass $r, $text) {
+         return "Class ".$r->getName()."\n\n$text\n\n###Methods\n";
+     })->run();
+```
+
+By default this task generates a documentation for each public method of a class.
+It combines method signature with a docblock. Both can be post-processed.
+
+``` php
+<?php
+$this->taskGenerateMarkdownDoc('models.md')
+     ->docClass('Model\User')
+     ->processClassSignature(false) // false can be passed to not include class signature
+     ->processClassDocBlock(function(\ReflectionClass $r, $text) {
+         return "[This is part of application model]\n" . $text;
+     })->processMethodSignature(function(\ReflectionMethod $r, $text) {
+         return "#### {$r->name}()";
+     })->processMethodDocBlock(function(\ReflectionMethod $r, $text) {
+         return strpos($r->name, 'save')===0 ? "[Saves to the database]\n" . $text : $text;
+     })->run();
+```
+
+@method \Robo\Task\Development\GenerateMarkdownDoc docClass(string $classname) put a class you want to be documented
+@method \Robo\Task\Development\GenerateMarkdownDoc filterMethods(\Closure $func) using callback function filter out methods that won't be documented
+@method \Robo\Task\Development\GenerateMarkdownDoc filterClasses(\Closure $func) using callback function filter out classes that won't be documented
+@method \Robo\Task\Development\GenerateMarkdownDoc filterProperties(\Closure $func) using callback function filter out properties that won't be documented
+@method \Robo\Task\Development\GenerateMarkdownDoc processClass(\Closure $func) post-process class documentation
+@method \Robo\Task\Development\GenerateMarkdownDoc processClassSignature(\Closure $func) post-process class signature. Provide *false* to skip.
+@method \Robo\Task\Development\GenerateMarkdownDoc processClassDocBlock(\Closure $func) post-process class docblock contents. Provide *false* to skip.
+@method \Robo\Task\Development\GenerateMarkdownDoc processMethod(\Closure $func) post-process method documentation. Provide *false* to skip.
+@method \Robo\Task\Development\GenerateMarkdownDoc processMethodSignature(\Closure $func) post-process method signature. Provide *false* to skip.
+@method \Robo\Task\Development\GenerateMarkdownDoc processMethodDocBlock(\Closure $func) post-process method docblock contents. Provide *false* to skip.
+@method \Robo\Task\Development\GenerateMarkdownDoc processProperty(\Closure $func) post-process property documentation. Provide *false* to skip.
+@method \Robo\Task\Development\GenerateMarkdownDoc processPropertySignature(\Closure $func) post-process property signature. Provide *false* to skip.
+@method \Robo\Task\Development\GenerateMarkdownDoc processPropertyDocBlock(\Closure $func) post-process property docblock contents. Provide *false* to skip.
+@method \Robo\Task\Development\GenerateMarkdownDoc reorder(\Closure $func) use a function to reorder classes
+@method \Robo\Task\Development\GenerateMarkdownDoc reorderMethods(\Closure $func) use a function to reorder methods in class
+@method \Robo\Task\Development\GenerateMarkdownDoc prepend($text) inserts text into beginning of markdown file
+@method \Robo\Task\Development\GenerateMarkdownDoc append($text) inserts text in the end of markdown file
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## GitHubRelease
+
+
+Publishes new GitHub release.
+
+``` php
+<?php
+$this->taskGitHubRelease('0.1.0')
+  ->uri('Codegyre/Robo')
+  ->askDescription()
+  ->run();
+?>
+```
+
+@method \Robo\Task\Vcs\GitHubRelease tag(string $tag)
+@method \Robo\Task\Vcs\GitHubRelease name(string $name)
+@method \Robo\Task\Vcs\GitHubRelease body(string $body)
+@method \Robo\Task\Vcs\GitHubRelease draft(boolean $isDraft)
+@method \Robo\Task\Vcs\GitHubRelease prerelease(boolean $isPrerelease)
+@method \Robo\Task\Vcs\GitHubRelease comittish(string $branch)
+
+
+
+
+
+
+
+
+
+
+
+* `askName()` 
+* `askDescription()` 
+* `askForChanges()` 
+* `changes(array $changes)` 
+
+* `uri($uri)` 
+
+* `askAuth()` 
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -927,6 +903,8 @@ $this->taskGitStack()
 
 
 
+
+
 * `cloneRepo($repo, $to = null)`  Executes `git clone`
 * `add($pattern)`  Executes `git add` command with files to add pattern
 * `commit($message, $options = null)`  Executes `git commit` command with a message
@@ -934,6 +912,7 @@ $this->taskGitStack()
 * `push($origin = null, $branch = null)`  Executes `git push` command
 * `checkout($branch)`  Executes `git checkout` command
 
+* `getPrinted()` 
 
 * `exec($command)` 
 * `printed($arg)`  Should command output be printed
@@ -953,26 +932,43 @@ $this->taskGitStack()
 
 
 
-## GitHubRelease
 
 
-Publishes new GitHub release.
+
+
+
+
+
+
+
+
+## Install
+
+
+Bower Install
 
 ``` php
 <?php
-$this->taskGitHubRelease('0.1.0')
-  ->uri('Codegyre/Robo')
-  ->askDescription()
-  ->run();
+// simple execution
+$this->taskBowerInstall()->run();
+
+// prefer dist with custom path
+$this->taskBowerInstall('path/to/my/bower')
+     ->noDev()
+     ->run();
 ?>
 ```
 
-* `tag(string $tag)` 
-* `name(string $name)` 
-* `body(string $body)` 
-* `draft(boolean $isDraft)` 
-* `prerelease(boolean $isPrerelease)` 
-* `comittish(string $branch)` 
+
+
+
+
+
+
+* `allowRoot()`  adds `allow-root` option to bower
+* `forceLatest()`  adds `force-latest` option to bower
+* `noDev()`  adds `production` option to bower
+* `offline()`  adds `offline` option to bower
 
 
 
@@ -984,14 +980,6 @@ $this->taskGitHubRelease('0.1.0')
 
 
 
-* `askName()` 
-* `askDescription()` 
-* `askForChanges()` 
-* `changes(array $changes)` 
-
-* `uri($uri)` 
-
-* `askAuth()` 
 
 
 
@@ -999,6 +987,133 @@ $this->taskGitHubRelease('0.1.0')
 
 
 
+
+
+* `arg($arg)`  Pass argument to executable
+* `args($args)`  Pass methods parameters as arguments to executable
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+* `getPrinted()` 
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
+
+
+
+
+## Install
+
+
+Composer Install
+
+``` php
+<?php
+// simple execution
+$this->taskComposerInstall()->run();
+
+// prefer dist with custom path
+$this->taskComposerInstall('path/to/my/composer.phar')
+     ->preferDist()
+     ->run();
+
+// optimize autoloader with custom path
+$this->taskComposerInstall('path/to/my/composer.phar')
+     ->optimizeAutoloader()
+     ->run();
+?>
+```
+
+
+
+
+
+
+
+
+
+
+* `preferDist()`  adds `prefer-dist` option to composer
+* `preferSource()`  adds `prefer-source` option to composer
+* `noDev()`  adds `no-dev` option to composer
+* `optimizeAutoloader()`  adds `optimize-autoloader` option to composer
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+* `arg($arg)`  Pass argument to executable
+* `args($args)`  Pass methods parameters as arguments to executable
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+* `getPrinted()` 
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
+
+
+
+
+## Install
+
+
+Npm Install
+
+``` php
+<?php
+// simple execution
+$this->taskNpmInstall()->run();
+
+// prefer dist with custom path
+$this->taskNpmInstall('path/to/my/npm')
+     ->noDev()
+     ->run();
+?>
+```
+
+
+
+
+
+
+
+* `noDev()`  adds `production` option to npm
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+* `arg($arg)`  Pass argument to executable
+* `args($args)`  Pass methods parameters as arguments to executable
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+* `getPrinted()` 
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
 
 
 
@@ -1015,7 +1130,7 @@ $this->taskMinify( 'web/assets/theme.css' )
      ->run()
 ?>
 ```
-To use with composer please install additional dependencies:
+Please install additional dependencies to use:
 
 ```
 "patchwork/jsqueeze": "~1.0",
@@ -1045,20 +1160,25 @@ To use with composer please install additional dependencies:
 
 
 
-## NpmInstall
 
 
-Npm Install
+
+
+
+
+
+
+## MirrorDir
+
+
+Mirrors a directory to another
 
 ``` php
 <?php
-// simple execution
-$this->taskNpmInstall()->run();
+$this->taskMirrorDir(['dist/config/' => 'config/'])->run();
+// or use shortcut
+$this->_mirrorDir(['dist/config/' => 'config/']);
 
-// prefer dist with custom path
-$this->taskNpmInstall('path/to/my/npm')
-     ->noDev()
-     ->run();
 ?>
 ```
 
@@ -1066,15 +1186,6 @@ $this->taskNpmInstall('path/to/my/npm')
 
 
 
-* `noDev()`  adds `production` option to npm
-
-
-* `printed($arg)`  Should command output be printed
-* `dir($dir)`  changes working directory of command
-
-* `arg($arg)`  Pass argument to executable
-* `args($args)`  Pass methods parameters as arguments to executable
-* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
 
 
 
@@ -1082,38 +1193,6 @@ $this->taskNpmInstall('path/to/my/npm')
 
 
 
-
-
-## NpmUpdate
-
-
-Npm Update
-
-``` php
-<?php
-// simple execution
-$this->taskNpmUpdate()->run();
-
-// prefer dist with custom path
-$this->taskNpmUpdate('path/to/my/npm')
-     ->noDev()
-     ->run();
-?>
-```
-
-
-
-
-
-* `noDev()`  adds `production` option to npm
-
-
-* `printed($arg)`  Should command output be printed
-* `dir($dir)`  changes working directory of command
-
-* `arg($arg)`  Pass argument to executable
-* `args($args)`  Pass methods parameters as arguments to executable
-* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
 
 
 
@@ -1142,6 +1221,8 @@ $this->taskPHPUnit()
 
 
 
+
+
 * `filter($filter)` 
 * `group($group)` 
 * `excludeGroup($group)` 
@@ -1162,12 +1243,25 @@ $this->taskPHPUnit()
 
 
 
-* `printed($arg)`  Should command output be printed
-* `dir($dir)`  changes working directory of command
 
+
+
+
+
+
+
+
+
+* `getPrinted()` 
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
+
+
+
+
 
 ## PackPhar
 
@@ -1176,7 +1270,7 @@ Creates Phar
 
 ``` php
 <?php
-$pharTask = $this->taskPackPhar('package/codecept.phar')
+$pharTask = $this->PackPhar('package/codecept.phar')
   ->compress()
   ->stub('package/stub.php');
 
@@ -1197,7 +1291,8 @@ $pharTask = $this->taskPackPhar('package/codecept.phar')
    }
    $pharTask->run();
 
-   $code = $this->taskExec('php package/codecept.phar')->run();
+   // verify Phar is packed correctly
+   $code = $this->_exec('php package/codecept.phar');
 ?>
 ```
 
@@ -1208,12 +1303,27 @@ $pharTask = $this->taskPackPhar('package/codecept.phar')
 
 
 
+
+* `getPrinted()` 
+
 * `compress($compress = null)`   * `param boolean` $compress
 * `stub($stub)`   * `param` $stub
 
 * `addStripped($path, $file)` 
 * `addFile($path, $file)` 
 * `executable($file)` 
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1241,13 +1351,28 @@ $this->taskParallelExec()
 ```
 
 
-* `timeout(int $timeout)`  stops process if it runs longer then `$timeout` (seconds)
-* `idleTimeout(int $timeout)`  stops process if it does not output for time longer then `$timeout` (seconds)
+@method \Robo\Task\Base\ParallelExec timeout(int $timeout) stops process if it runs longer then `$timeout` (seconds)
+@method \Robo\Task\Base\ParallelExec idleTimeout(int $timeout) stops process if it does not output for time longer then `$timeout` (seconds)
 
 
 
+
+
+* `getPrinted()` 
 * `printed($isPrinted = null)` 
 * `process($command)` 
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1269,8 +1394,19 @@ Runs PHP server and stops it when task finishes.
 
 ``` php
 <?php
-$this->taskServer(8000)
+// run server in /public directory
+$this->taskPhpServer(8000)
  ->dir('public')
+ ->run();
+
+// run with IP 0.0.0.0
+$this->taskPhpServer(8000)
+ ->host('0.0.0.0')
+ ->run();
+
+// execute server in background
+$this->taskPhpServer(8000)
+ ->background()
  ->run();
 ?>
 ```
@@ -1282,6 +1418,12 @@ $this->taskServer(8000)
 
 
 
+
+
+
+
+
+* `host($host)` 
 * `dir($path)`  changes working directory of command
 
 * `background()`  Executes command in background mode (asynchronously)
@@ -1300,11 +1442,24 @@ $this->taskServer(8000)
 
 
 
-* `printed($arg)`  Should command output be printed
+
+
+
+
+
+
+
+
+* `getPrinted()` 
 
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+* `printed($arg)`  Should command output be printed
+
+
+
+
 
 ## Phpspec
 
@@ -1314,6 +1469,8 @@ Executes Phpspec tests
 ``` php
 <?php
 $this->taskPhpspec()
+     ->format('pretty')
+     ->noInteraction()
      ->run();
 ?>
 ```
@@ -1324,7 +1481,9 @@ $this->taskPhpspec()
 
 
 
-* `stopOnFailure()` 
+
+
+* `stopOnFail()` 
 * `noCodeGeneration()` 
 * `quiet()` 
 * `verbose($level = null)` 
@@ -1343,12 +1502,190 @@ $this->taskPhpspec()
 
 
 
-* `printed($arg)`  Should command output be printed
-* `dir($dir)`  changes working directory of command
 
+
+
+
+
+
+
+
+
+* `getPrinted()` 
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
+
+
+
+
+
+## Pull
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+* `getPrinted()` 
+* `arg($arg)`  Pass argument to executable
+* `args($args)`  Pass methods parameters as arguments to executable
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
+
+
+
+
+
+## Remove
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+* `getPrinted()` 
+* `arg($arg)`  Pass argument to executable
+* `args($args)`  Pass methods parameters as arguments to executable
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
+
+
+
+
+
+## ReplaceInFile
+
+
+Performs search and replace inside a files.
+
+``` php
+<?php
+$this->taskReplaceInFile('VERSION')
+ ->from('0.2.0')
+ ->to('0.3.0')
+ ->run();
+
+$this->taskReplaceInFile('README.md')
+ ->from(date('Y')-1)
+ ->to(date('Y'))
+ ->run();
+
+$this->taskReplaceInFile('config.yml')
+ ->regex('~^service:~')
+ ->to('services:')
+ ->run();
+?>
+```
+
+@method regex(string)
+@method from(string)
+@method to(string)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Result
+
+#### *public static* stopOnFail
+
+
+
+
+* `getCid()` 
+
+
+
+* `getData()`  @return array
+* `getExitCode()`  @return mixed
+* `getMessage()`  @return mixed
+* `getExecutionTime()` 
+* `getTask()`  @return TaskInterface
+* `cloneTask()` 
+* `wasSuccessful()` 
+* `__invoke()` 
+* `stopOnFail()` 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Rsync
 
@@ -1390,10 +1727,13 @@ if ('y' === $this->ask('Do you want to run (y/n)')) {
 }
 ```
 
-* `fromUser(string $user)` 
-* `fromHost(string $hostname)` 
-* `toUser(string $user)` 
-* `toHost(string $hostname)` 
+@method \Robo\Task\Remote\Rsync fromUser(string $user)
+@method \Robo\Task\Remote\Rsync fromHost(string $hostname)
+@method \Robo\Task\Remote\Rsync toUser(string $user)
+@method \Robo\Task\Remote\Rsync toHost(string $hostname)
+
+
+
 
 
 
@@ -1428,12 +1768,56 @@ if ('y' === $this->ask('Do you want to run (y/n)')) {
 
 
 
-* `printed($arg)`  Should command output be printed
-* `dir($dir)`  changes working directory of command
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+* `getPrinted()` 
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
+
+
+
+
+
+
+## Run
+
+
+
+
+
+
+
+
+
+* `getPrinted()` 
+
+* `exec($run)` 
+* `volume($from, $to = null)` 
+* `env($variable, $value = null)` 
+* `publish($port = null)` 
+* `containerWorkdir($dir)` 
+* `user($user)` 
+* `privileged()` 
+* `name($name)` 
 
 
 
@@ -1445,18 +1829,127 @@ if ('y' === $this->ask('Do you want to run (y/n)')) {
 
 
 
-## SshExec
+
+
+
+
+
+
+
+
+
+* `arg($arg)`  Pass argument to executable
+* `args($args)`  Pass methods parameters as arguments to executable
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
+
+
+
+
+
+## Run
+
+
+Gulp Run
+
+``` php
+<?php
+// simple execution
+$this->taskGulpRun()->run();
+
+// run task 'clean' with --silent option
+$this->taskGulpRun('clean')
+     ->silent()
+     ->run();
+?>
+```
+
+
+
+
+
+
+
+* `silent()`  adds `silent` option to gulp
+* `noColor()`  adds `--no-color` option to gulp
+* `color()`  adds `--color` option to gulp
+* `simple()`  adds `--tasks-simple` option to gulp
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+* `arg($arg)`  Pass argument to executable
+* `args($args)`  Pass methods parameters as arguments to executable
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+* `getPrinted()` 
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
+
+
+
+
+
+## SemVer
+
+
+Helps to maintain `.semver` file.
+
+```php
+<?php
+$this->taskSemVer('.semver')
+     ->increment()
+     ->run();
+?>
+```
+
+
+
+
+
+
+* `__toString()` 
+* `setFormat($format)` 
+* `setMetadataSeparator($separator)` 
+* `setPrereleaseSeparator($separator)` 
+* `increment($what = null)` 
+* `prerelease($tag = null)` 
+* `metadata($data)` 
+
+
+
+
+## Ssh
 
 
 Runs multiple commands on a remote server.
 Per default, commands are combined with &&, unless stopOnFail is false.
 
 ``` php
-$this->taskSshExec('remote.example.com', 'user')
+<?php
+
+$this->taskSsh('remote.example.com', 'user')
     ->exec('cd /var/www/html')
     ->exec('ls -la')
     ->exec('chmod g+x logs')
     ->run();
+
 ```
 
 You can even exec other tasks (which implement CommandInterface):
@@ -1466,11 +1959,12 @@ $gitTask = $this->taskGitStack()
     ->checkout('master')
     ->pull();
 
-$this->taskSshExec('remote.example.com')
+$this->taskSsh('remote.example.com')
     ->exec('cd /var/www/html/site')
     ->exec($gitTask)
     ->run();
 ```
+
 
 
 
@@ -1502,12 +1996,103 @@ $this->taskSshExec('remote.example.com')
 
 
 
-* `printed($arg)`  Should command output be printed
-* `dir($dir)`  changes working directory of command
+
+
+
+
+
+
 
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+* `getPrinted()` 
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
+
+
+
+
+
+## Start
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+* `getPrinted()` 
+* `arg($arg)`  Pass argument to executable
+* `args($args)`  Pass methods parameters as arguments to executable
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
+
+
+
+
+
+## Stop
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+* `getPrinted()` 
+* `arg($arg)`  Pass argument to executable
+* `args($args)`  Pass methods parameters as arguments to executable
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
+
+
+
+
 
 ## SvnStack
 
@@ -1517,12 +2102,13 @@ Runs Svn commands in stack. You can use `stopOnFail()` to point that stack shoul
 ``` php
 <?php
 $this->taskSvnStack()
- ->stopOnFail()
- ->add()
- ->commit('adding everything')
+ ->checkout('http://svn.collab.net/repos/svn/trunk')
  ->run()
 
-$this->taskSvnStack()
+// alternatively
+$this->_svnCheckout('http://svn.collab.net/repos/svn/trunk');
+
+$this->taskSvnStack('username', 'password')
  ->stopOnFail()
  ->update()
  ->add('doc/*')
@@ -1535,11 +2121,30 @@ $this->taskSvnStack()
 
 
 
-* `stopOnFail()`  Svn commands in stack will stop if any of commands were unsuccessful
+
+
+
 * `update($path = null)`  Updates `svn update` command
 * `add($pattern = null)`  Executes `svn add` command with files to add pattern
 * `commit($message, $options = null)`  Executes `svn commit` command with a message
 * `checkout($branch)`  Executes `svn checkout` command
+* `getPrinted()` 
+
+* `exec($command)` 
+* `printed($arg)`  Should command output be printed
+* `dir($dir)`  changes working directory of command
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1562,13 +2167,13 @@ Executes Symfony Command
 ``` php
 <?php
 // Symfony Command
-$this->taskCommand(new \Codeception\Command\Run('run'))
+$this->taskSymfonyCommand(new \Codeception\Command\Run('run'))
      ->arg('suite','acceptance')
      ->opt('debug')
      ->run();
 
 // Artisan Command
-$this->taskCommand(new ModelGeneratorCommand())
+$this->taskSymfonyCommand(new ModelGeneratorCommand())
      ->arg('name', 'User')
      ->run();
 ?>
@@ -1583,6 +2188,283 @@ $this->taskCommand(new ModelGeneratorCommand())
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## TaskInfo
+
+
+
+
+* `getDescription()` 
+* `getName()` 
+* `getArguments()` 
+* `getOptions()` 
+* `getHelp()` 
+* `getArgumentDescription($name)` 
+* `getOptionDescription($name)` 
+
+
+
+
+
+
+## Tasks
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Update
+
+
+Bower Update
+
+``` php
+<?php
+// simple execution
+$this->taskBowerUpdate->run();
+
+// prefer dist with custom path
+$this->taskBowerUpdate('path/to/my/bower')
+     ->noDev()
+     ->run();
+?>
+```
+
+
+
+
+
+
+
+* `allowRoot()`  adds `allow-root` option to bower
+* `forceLatest()`  adds `force-latest` option to bower
+* `noDev()`  adds `production` option to bower
+* `offline()`  adds `offline` option to bower
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+* `arg($arg)`  Pass argument to executable
+* `args($args)`  Pass methods parameters as arguments to executable
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+* `getPrinted()` 
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
+
+
+
+
+## Update
+
+
+Composer Update
+
+``` php
+<?php
+// simple execution
+$this->taskComposerUpdate()->run();
+
+// prefer dist with custom path
+$this->taskComposerUpdate('path/to/my/composer.phar')
+     ->preferDist()
+     ->run();
+
+// optimize autoloader with custom path
+$this->taskComposerUpdate('path/to/my/composer.phar')
+     ->optimizeAutoloader()
+     ->run();
+?>
+```
+
+
+
+
+
+
+
+
+
+
+* `preferDist()`  adds `prefer-dist` option to composer
+* `preferSource()`  adds `prefer-source` option to composer
+* `noDev()`  adds `no-dev` option to composer
+* `optimizeAutoloader()`  adds `optimize-autoloader` option to composer
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+* `arg($arg)`  Pass argument to executable
+* `args($args)`  Pass methods parameters as arguments to executable
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+* `getPrinted()` 
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
+
+
+
+
+## Update
+
+
+Npm Update
+
+```php
+<?php
+// simple execution
+$this->taskNpmUpdate()->run();
+
+// prefer dist with custom path
+$this->taskNpmUpdate('path/to/my/npm')
+     ->noDev()
+     ->run();
+?>
+```
+
+
+
+
+
+
+
+* `noDev()`  adds `production` option to npm
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+* `arg($arg)`  Pass argument to executable
+* `args($args)`  Pass methods parameters as arguments to executable
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+* `getPrinted()` 
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
 
 
 
@@ -1608,6 +2490,59 @@ $this->taskWatch()
 
 
 * `monitor($paths, $callable)` 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## WriteToFile
+
+
+Writes to file
+
+``` php
+<?php
+$this->taskWriteToFile('blogpost.md')
+     ->line('-----')
+     ->line(date('Y-m-d').' '.$title)
+     ->line('----')
+     ->run();
+?>
+```
+@method append()
+
+
+
+* `line($line)` 
+* `lines($lines)` 
+* `text($text)` 
+* `textFromFile($filename)` 
+* `place($name, $val)` 
+
+
+
+
+
+
+
+
+
+
 
 
 

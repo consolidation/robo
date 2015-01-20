@@ -16,7 +16,7 @@ trait loadTasks
      * @param $filename
      * @return GenerateMarkdownDoc
      */
-    protected function taskGenerateMarkdownDoc($filename)
+    protected function taskGenDoc($filename)
     {
         return new GenerateMarkdownDoc($filename);
     }

@@ -23,24 +23,11 @@ class Result
         $this->exitCode = $exitCode;
         $this->message = $message;
         $this->data = $data;
-        
+
         if (!$this->wasSuccessful()) {
-            $lines = explode("\n", $this->message);
-
-            $printOutput = true;
-
-            if ($task instanceof PrintedInterface) {
-                $printOutput = !$task->getPrinted();
-            }
-            if ($printOutput) {
-                foreach ($lines as $msg) {
-                    if ($msg) $this->printTaskInfo("<error> Error </error> $msg", $this->task);
-                }
-            }
-
-            $this->printTaskInfo("<error> Error </error> Exit code ".$this->exitCode, $this->task);
+            $this->printError($task);
         } else {
-            $this->printTaskInfo("Done. Exit code ".$this->exitCode, $this->task);
+            $this->printSuccess($task);
         }
 
         if (self::$stopOnFail) {
@@ -82,6 +69,13 @@ class Result
         return $this->message;
     }
 
+    public function getExecutionTime()
+    {
+        if (!isset($this->data['time'])) return null;
+        $rawTime = $this->data['time'];
+        return round($rawTime, 3).'s';
+    }
+
     /**
      * @return TaskInterface
      */
@@ -109,11 +103,39 @@ class Result
     public function stopOnFail()
     {
         if (!$this->wasSuccessful()) {
-            $this->say("<error>Error running task ".get_class($this->task).". Exiting...</error>");
-            $this->say("<error>Exit Code: {$this->exitCode}</error>");
+            $this->printTaskError("Stopping on fail. Exiting....");
+            $this->printTaskError("<error>Exit Code: {$this->exitCode}</error>");
             exit($this->exitCode);
         }
         return $this;
+    }
+
+    protected function printError()
+    {
+        $lines = explode("\n", $this->message);
+
+        $printOutput = true;
+
+        $time = $this->getExecutionTime();
+        if ($time) $time = "Time <fg=yellow>$time</fg=yellow>";
+
+        if ($this->task instanceof PrintedInterface) {
+            $printOutput = !$this->task->getPrinted();
+        }
+        if ($printOutput) {
+            foreach ($lines as $msg) {
+                if (!$msg) continue;
+                $this->printTaskError($msg, $this->task);
+            }
+        }
+        $this->printTaskError("<error> Exit code " . $this->exitCode. " </error> $time", $this->task);
+    }
+
+    protected function printSuccess()
+    {
+        $time = $this->getExecutionTime();
+        if ($time) $time = "in <fg=yellow>$time</fg=yellow>";
+        $this->printTaskSuccess("Completed $time", $this->task);
     }
 
 } 

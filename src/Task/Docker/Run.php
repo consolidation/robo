@@ -16,6 +16,11 @@ class Run extends Base
         $this->image = $image;
     }
 
+    public function getPrinted()
+    {
+        return $this->isPrinted;
+    }
+
     public function getCommand()
     {
         if ($this->isPrinted) {
@@ -29,7 +34,7 @@ class Run extends Base
 
     public function exec($run)
     {
-        $this->run = $this->retrieveCommand($run);
+        $this->run = $this->receiveCommand($run);
         return $this;
     }
 

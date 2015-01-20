@@ -43,7 +43,7 @@ trait loadTasks
      * @param $filename
      * @return PackPhar
      */
-    protected function packPhar($filename)
+    protected function taskPackPhar($filename)
     {
         return new PackPhar($filename);
     }

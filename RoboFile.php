@@ -1,9 +1,7 @@
 <?php
-use Robo\Task\Development\Changelog;
-use Robo\Task\Development\taskDevelopment;
 use Symfony\Component\Finder\Finder;
 
-class Robofile extends \Robo\Tasks
+class RoboFile extends \Robo\Tasks
 {
     public function release()
     {

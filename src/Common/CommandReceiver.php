@@ -14,7 +14,7 @@ trait CommandReceiver
      * @throws \Robo\Exception\TaskException
      * @return string $command
      */
-    protected function recieveCommand($command)
+    protected function receiveCommand($command)
     {
         if (!is_object($command)) {
             return $command;

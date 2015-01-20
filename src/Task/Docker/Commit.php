@@ -1,8 +1,6 @@
 <?php
 namespace Robo\Task\Docker;
 
-use Codegyre\RoboDocker\Result;
-
 class Commit extends Base
 {
     protected $command = "docker commit";

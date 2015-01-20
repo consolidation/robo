@@ -1,5 +1,6 @@
 <?php
 namespace Robo\Task\Base;
+use Robo\Common\Timer;
 use Robo\Contract\CommandInterface;
 use Robo\Contract\PrintedInterface;
 use Robo\Result;
@@ -28,6 +29,7 @@ use Symfony\Component\Process\Process;
  */
 class ParallelExec extends BaseTask implements CommandInterface, PrintedInterface
 {
+    use Timer;
     use \Robo\Common\DynamicParams;
     use \Robo\Common\CommandReceiver;
 
@@ -49,7 +51,7 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
 
     public function process($command)
     {
-        $this->processes[] = new Process($this->recieveCommand($command));
+        $this->processes[] = new Process($this->receiveCommand($command));
         return $this;
     }
 
@@ -69,11 +71,10 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
         }
 
         $progress = new ProgressBar($this->getOutput());
-        $progress->setFormat(" <fg=white;bg=cyan;options=bold>[".get_class($this)."]</fg=white;bg=cyan;options=bold> Processes: %current%/%max% [%bar%] %percent%%");
         $progress->start(count($this->processes));
         $running = $this->processes;
         $progress->display();
-        $started = microtime(true);
+        $this->startTimer();
         while (true) {
             foreach ($running as $k => $process) {
                 try {
@@ -99,8 +100,7 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
             usleep(1000);
         }
         $this->getOutput()->writeln("");
-        $taken = number_format(microtime(true) - $started, 2);
-        $this->printTaskInfo(count($this->processes) . " processes ended in $taken s");
+        $this->stopTimer();
 
         $errorMessage = '';
         $exitCode = 0;
@@ -109,7 +109,8 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
             $errorMessage .= "'" . $p->getCommandLine() . "' exited with code ". $p->getExitCode()." \n";
             $exitCode = max($exitCode, $p->getExitCode());
         }
+        if (!$errorMessage) $this->printTaskSuccess(count($this->processes) . " processes finished running");
 
-        return new Result($this, $exitCode, $errorMessage);
+        return new Result($this, $exitCode, $errorMessage, ['time' => $this->getExecutionTime()]);
     }
-} 
+}

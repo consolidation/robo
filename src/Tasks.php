@@ -26,13 +26,14 @@ class Tasks
     use Task\ApiGen\loadTasks;
     use Task\Docker\loadTasks;
 
+    // task runners
+    use Task\Gulp\loadTasks;
+
     // shortcuts
     use Task\Base\loadShortcuts;
     use Task\FileSystem\loadShortcuts;
     use Task\Vcs\loadShortcuts;
     
-    // task runners
-    use Task\Gulp\loadTasks;
 
     use IO;
 

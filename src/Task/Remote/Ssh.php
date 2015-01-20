@@ -114,7 +114,7 @@ class Ssh extends BaseTask implements CommandInterface
     {
         $commands = [];
         foreach ($this->exec as $command) {
-            $commands[] = $this->recieveCommand($command);
+            $commands[] = $this->receiveCommand($command);
         }
         $command = implode($this->stopOnFail ? ' && ' : ' ; ', $commands);
 
@@ -154,7 +154,7 @@ class Ssh extends BaseTask implements CommandInterface
      */
     protected function sshCommand($command)
     {
-        $command = $this->recieveCommand($command);
+        $command = $this->receiveCommand($command);
         $sshOptions = $this->arguments;
         $hostSpec = $this->hostname;
         if ($this->user) {

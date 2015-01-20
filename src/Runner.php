@@ -71,6 +71,7 @@ class Runner
         $commandNames = array_filter(get_class_methods($className), function($m) {
             return !in_array($m, ['__construct']);
         });
+
         $passThrough = $this->passThroughArgs;
         foreach ($commandNames as $commandName) {
             $command = $this->createCommand(new TaskInfo($className, $commandName));

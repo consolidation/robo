@@ -10,6 +10,8 @@ use Symfony\Component\Process\Process;
  */
 trait ExecCommand
 {
+    use Timer;
+
     protected $isPrinted = true;
     protected $workingDirectory;
 
@@ -55,6 +57,7 @@ trait ExecCommand
         if ($this->workingDirectory) {
             $process->setWorkingDirectory($this->workingDirectory);
         }
+        $this->startTimer();
         if ($this->isPrinted) {
             $process->run(function ($type, $buffer) {
                 print $buffer;
@@ -62,7 +65,8 @@ trait ExecCommand
         } else {
             $process->run();
         }
+        $this->stopTimer();
 
-		return new Result($this, $process->getExitCode(), $process->getOutput());
+		return new Result($this, $process->getExitCode(), $process->getOutput(), ['time' => $this->getExecutionTime()]);
     }
 } 

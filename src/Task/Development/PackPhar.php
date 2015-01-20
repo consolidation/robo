@@ -1,6 +1,8 @@
 <?php
 namespace Robo\Task\Development;
 
+use Robo\Common\Timer;
+use Robo\Contract\PrintedInterface;
 use Robo\Result;
 use Robo\Task\BaseTask;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -36,8 +38,10 @@ use Symfony\Component\Console\Helper\ProgressBar;
  * ?>
  * ```
  */
-class PackPhar extends BaseTask
+class PackPhar extends BaseTask implements PrintedInterface
 {
+    use Timer;
+
     /**
      * @var \Phar
      */
@@ -58,9 +62,9 @@ EOF;
 
     protected $files = [];
 
-    public static function init($filename)
+    public function getPrinted()
     {
-        return new static($filename);
+        return true;
     }
 
     public function __construct($filename)
@@ -100,22 +104,25 @@ EOF;
         $this->phar->startBuffering();
 
         $this->printTaskInfo('packing ' . count($this->files) . ' files into phar');
-
+        
         $progress = new ProgressBar($this->getOutput());
         $progress->start(count($this->files));
+        $this->startTimer();
         foreach ($this->files as $path => $content) {
             $this->phar->addFromString($path, $content);
             $progress->advance();
         }
         $this->phar->stopBuffering();
         $progress->finish();
+        $this->getOutput()->writeln('');
 
         if ($this->compress and in_array('GZ', \Phar::getSupportedCompression())) {
             $this->printTaskInfo($this->filename . " compressed");
             $this->phar = $this->phar->compressFiles(\Phar::GZ);
         }
-        $this->printTaskInfo($this->filename . " produced");
-        return Result::success($this);
+        $this->stopTimer();
+        $this->printTaskSuccess("<info>{$this->filename}</info> produced");
+        return Result::success($this, '', ['time' => $this->getExecutionTime()]);
     }
 
 

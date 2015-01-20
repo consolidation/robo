@@ -42,7 +42,7 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface
 
     public function __construct($command)
     {
-        $this->command = $this->recieveCommand($command);
+        $this->command = $this->receiveCommand($command);
     }
 
     public function getCommand()
@@ -110,17 +110,21 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface
 
 
         if (!$this->background and !$this->isPrinted) {
+            $this->startTimer();
             $this->process->run();
-            return new Result($this, $this->process->getExitCode(), $this->process->getOutput());
+            $this->stopTimer();
+            return new Result($this, $this->process->getExitCode(), $this->process->getOutput(), ['time' => $this->getExecutionTime()]);
         }
 
         if (!$this->background and $this->isPrinted) {
+            $this->startTimer();
             $this->process->run(
                 function ($type, $buffer) {
                     print($buffer);
                 }
             );
-            return new Result($this, $this->process->getExitCode(), $this->process->getOutput());
+            $this->stopTimer();
+            return new Result($this, $this->process->getExitCode(), $this->process->getOutput(), ['time' => $this->getExecutionTime()]);
         }
 
         try {

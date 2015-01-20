@@ -34,7 +34,7 @@ class ParallelExecTest extends \Codeception\TestCase\Test
             ->run();
         $this->process->verifyInvokedMultipleTimes('start', 3);
         verify($result->getExitCode())->equals(0);
-        $this->guy->seeInOutput("3 processes ended in 0.00 s");
+        $this->guy->seeInOutput("3 processes finished");
     }
 
 }

@@ -147,6 +147,7 @@ class GenerateMarkdownDoc extends BaseTask
         }
         $doc = $this->documentClassSignature($refl);
         $doc .= "\n" . $this->documentClassDocBlock($refl);
+        $doc .= "\n";
 
         if (is_callable($this->processClass)) {
             $doc = call_user_func($this->processClass, $refl, $doc);
@@ -157,6 +158,7 @@ class GenerateMarkdownDoc extends BaseTask
             $properties[] = $this->documentProperty($reflProperty);
         }
 
+        $properties = array_filter($properties);
         $doc .= implode("\n", $properties);
 
         $methods = [];
@@ -167,7 +169,9 @@ class GenerateMarkdownDoc extends BaseTask
             call_user_func_array($this->reorderMethods, [&$methods]);
         }
 
-        $doc .= implode("\n", $methods);
+        $methods = array_filter($methods);
+
+        $doc .= implode("\n", $methods)."\n";
 
         return $doc;
     }

@@ -39,21 +39,10 @@ if ('y' === $this->ask('Do you want to run (y/n)')) {
 }
 ```
 
-@method \Robo\Task\Remote\Rsync fromUser(string $user)
-@method \Robo\Task\Remote\Rsync fromHost(string $hostname)
-@method \Robo\Task\Remote\Rsync toUser(string $user)
-@method \Robo\Task\Remote\Rsync toHost(string $hostname)
-
-
-
-
-
-
-
-
-
-
-
+* `\Robo\Task\Remote\Rsync fromUser(string $user)` 
+* `\Robo\Task\Remote\Rsync fromHost(string $hostname)` 
+* `\Robo\Task\Remote\Rsync toUser(string $user)` 
+* `\Robo\Task\Remote\Rsync toHost(string $hostname)` 
 
 * `fromPath($path)`  This can either be a full rsync path spec (user@host:path) or just a path.
 * `toPath($path)`  This can either be a full rsync path spec (user@host:path) or just a path.
@@ -77,37 +66,11 @@ if ('y' === $this->ask('Do you want to run (y/n)')) {
 * `exclude($pattern)` 
 * `excludeFrom($file)` 
 * `filesFrom($file)` 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
-* `getPrinted()` 
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
-
-
-
-
 
 ## Ssh
 
@@ -139,51 +102,15 @@ $this->taskSsh('remote.example.com')
     ->run();
 ```
 
-
-
-
-
-
-
-
-
 * `identityFile($filename)` 
 * `port($port)` 
 * `forcePseudoTty()` 
 * `quiet()` 
 * `verbose()` 
 * `exec($command)`   * `param string|CommandInterface` $command
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
-* `getPrinted()` 
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
-
-
-
 

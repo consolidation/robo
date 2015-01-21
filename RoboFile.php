@@ -98,7 +98,7 @@ class RoboFile extends \Robo\Tasks
                     if ($m->isConstructor() or $m->isDestructor() or $m->isStatic()) {
                         return false;
                     }
-                    return !in_array($m->name, ['run', '', '__call', 'getCommand']) and $m->isPublic(); // methods are not documented
+                    return !in_array($m->name, ['run', '', '__call', 'getCommand', 'getPrinted']) and $m->isPublic(); // methods are not documented
                 }
             )->processClassSignature(
                 function ($c) {
@@ -106,7 +106,7 @@ class RoboFile extends \Robo\Tasks
                 }
             )->processClassDocBlock(
                 function ($c, $doc) {
-                    return preg_replace('~@method .*?\wTask (.*?)\)~', '* `$1)` ', $doc);
+                    return preg_replace('~@method .*?(.*?)\)~', '* `$1)` ', $doc);
                 }
             )->processMethodSignature(
                 function (\ReflectionMethod $m, $text) {
@@ -114,7 +114,8 @@ class RoboFile extends \Robo\Tasks
                 }
             )->processMethodDocBlock(
                 function (\ReflectionMethod $m, $text) {
-                    return $text ? ' ' . strtok($text, "\n") : '';
+
+                    return $text ? ' ' . trim(strtok($text, "\n"), "\n") : '';
                 }
             )->run();
         }

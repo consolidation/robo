@@ -22,16 +22,13 @@ use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
  *      ->run();
  *
  * // one line
- * $this->taskFileSystem::_touch('.gitignore');
- * $this->taskFileSystem::_mkdir('logs');
+ * $this->_touch('.gitignore');
+ * $this->_mkdir('logs');
  *
  * ?>
  * ```
- *
- * Class FileSystemStackTask
- * @package Robo\Task
  */
-class Filesystem extends BaseTask
+class FilesystemStack extends BaseTask
 {
     protected $stack = [];
 

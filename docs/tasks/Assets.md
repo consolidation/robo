@@ -18,32 +18,7 @@ Please install additional dependencies to use:
 ```
 
 
-
-
-
 * `to($dst)`  Sets destination. Tries to guess type from it.
 * `type($type)`  Sets type with validation.
-
-
-
-
 * `__toString()`  @return string
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

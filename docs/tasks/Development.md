@@ -26,37 +26,14 @@ $this->taskChangelog()
 ?>
 ```
 
-@method Development\Changelog filename(string $filename)
-@method Development\Changelog anchor(string $anchor)
-@method Development\Changelog version(string $version)
-
-
-
+* `Development\Changelog filename(string $filename)` 
+* `Development\Changelog anchor(string $anchor)` 
+* `Development\Changelog version(string $version)` 
 
 * `askForChanges()` 
-
 * `changes(array $data)` 
 * `change($change)` 
 * `getChanges()` 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## GenerateMarkdownDoc
 
@@ -93,73 +70,23 @@ $this->taskGenerateMarkdownDoc('models.md')
      })->run();
 ```
 
-@method \Robo\Task\Development\GenerateMarkdownDoc docClass(string $classname) put a class you want to be documented
-@method \Robo\Task\Development\GenerateMarkdownDoc filterMethods(\Closure $func) using callback function filter out methods that won't be documented
-@method \Robo\Task\Development\GenerateMarkdownDoc filterClasses(\Closure $func) using callback function filter out classes that won't be documented
-@method \Robo\Task\Development\GenerateMarkdownDoc filterProperties(\Closure $func) using callback function filter out properties that won't be documented
-@method \Robo\Task\Development\GenerateMarkdownDoc processClass(\Closure $func) post-process class documentation
-@method \Robo\Task\Development\GenerateMarkdownDoc processClassSignature(\Closure $func) post-process class signature. Provide *false* to skip.
-@method \Robo\Task\Development\GenerateMarkdownDoc processClassDocBlock(\Closure $func) post-process class docblock contents. Provide *false* to skip.
-@method \Robo\Task\Development\GenerateMarkdownDoc processMethod(\Closure $func) post-process method documentation. Provide *false* to skip.
-@method \Robo\Task\Development\GenerateMarkdownDoc processMethodSignature(\Closure $func) post-process method signature. Provide *false* to skip.
-@method \Robo\Task\Development\GenerateMarkdownDoc processMethodDocBlock(\Closure $func) post-process method docblock contents. Provide *false* to skip.
-@method \Robo\Task\Development\GenerateMarkdownDoc processProperty(\Closure $func) post-process property documentation. Provide *false* to skip.
-@method \Robo\Task\Development\GenerateMarkdownDoc processPropertySignature(\Closure $func) post-process property signature. Provide *false* to skip.
-@method \Robo\Task\Development\GenerateMarkdownDoc processPropertyDocBlock(\Closure $func) post-process property docblock contents. Provide *false* to skip.
-@method \Robo\Task\Development\GenerateMarkdownDoc reorder(\Closure $func) use a function to reorder classes
-@method \Robo\Task\Development\GenerateMarkdownDoc reorderMethods(\Closure $func) use a function to reorder methods in class
-@method \Robo\Task\Development\GenerateMarkdownDoc prepend($text) inserts text into beginning of markdown file
-@method \Robo\Task\Development\GenerateMarkdownDoc append($text) inserts text in the end of markdown file
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+* `\Robo\Task\Development\GenerateMarkdownDoc docClass(string $classname)`  put a class you want to be documented
+* `\Robo\Task\Development\GenerateMarkdownDoc filterMethods(\Closure $func)`  using callback function filter out methods that won't be documented
+* `\Robo\Task\Development\GenerateMarkdownDoc filterClasses(\Closure $func)`  using callback function filter out classes that won't be documented
+* `\Robo\Task\Development\GenerateMarkdownDoc filterProperties(\Closure $func)`  using callback function filter out properties that won't be documented
+* `\Robo\Task\Development\GenerateMarkdownDoc processClass(\Closure $func)`  post-process class documentation
+* `\Robo\Task\Development\GenerateMarkdownDoc processClassSignature(\Closure $func)`  post-process class signature. Provide *false* to skip.
+* `\Robo\Task\Development\GenerateMarkdownDoc processClassDocBlock(\Closure $func)`  post-process class docblock contents. Provide *false* to skip.
+* `\Robo\Task\Development\GenerateMarkdownDoc processMethod(\Closure $func)`  post-process method documentation. Provide *false* to skip.
+* `\Robo\Task\Development\GenerateMarkdownDoc processMethodSignature(\Closure $func)`  post-process method signature. Provide *false* to skip.
+* `\Robo\Task\Development\GenerateMarkdownDoc processMethodDocBlock(\Closure $func)`  post-process method docblock contents. Provide *false* to skip.
+* `\Robo\Task\Development\GenerateMarkdownDoc processProperty(\Closure $func)`  post-process property documentation. Provide *false* to skip.
+* `\Robo\Task\Development\GenerateMarkdownDoc processPropertySignature(\Closure $func)`  post-process property signature. Provide *false* to skip.
+* `\Robo\Task\Development\GenerateMarkdownDoc processPropertyDocBlock(\Closure $func)`  post-process property docblock contents. Provide *false* to skip.
+* `\Robo\Task\Development\GenerateMarkdownDoc reorder(\Closure $func)`  use a function to reorder classes
+* `\Robo\Task\Development\GenerateMarkdownDoc reorderMethods(\Closure $func)`  use a function to reorder methods in class
+* `\Robo\Task\Development\GenerateMarkdownDoc prepend($text)`  inserts text into beginning of markdown file
+* `\Robo\Task\Development\GenerateMarkdownDoc append($text)`  inserts text in the end of markdown file
 
 
 
@@ -196,43 +123,11 @@ $pharTask = $this->PackPhar('package/codecept.phar')
 ?>
 ```
 
-
-
-
-
-
-
-
-
-* `getPrinted()` 
-
 * `compress($compress = null)`   * `param boolean` $compress
 * `stub($stub)`   * `param` $stub
-
 * `addStripped($path, $file)` 
 * `addFile($path, $file)` 
 * `executable($file)` 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## PhpServer
 
@@ -258,54 +153,15 @@ $this->taskPhpServer(8000)
 ?>
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
 * `host($host)` 
 * `dir($path)`  changes working directory of command
-
 * `background()`  Executes command in background mode (asynchronously)
 * `timeout($timeout)`  Stop command if it runs longer then $timeout in seconds
 * `idleTimeout($timeout)`  Stops command if it does not output something for a while
-
-* `stop()` 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-* `getPrinted()` 
-
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
 * `printed($arg)`  Should command output be printed
-
-
-
 
 ## SemVer
 
@@ -321,10 +177,6 @@ $this->taskSemVer('.semver')
 ```
 
 
-
-
-
-
 * `__toString()` 
 * `setFormat($format)` 
 * `setMetadataSeparator($separator)` 
@@ -332,6 +184,4 @@ $this->taskSemVer('.semver')
 * `increment($what = null)` 
 * `prerelease($tag = null)` 
 * `metadata($data)` 
-
-
 

@@ -19,13 +19,6 @@ $this->taskCodecept()
 ```
 
 
-
-
-
-
-
-
-
 * `suite($suite)` 
 * `test($testName)` 
 * `group($group)`  set group option. Can be called multiple times
@@ -41,35 +34,11 @@ $this->taskCodecept()
 * `coverageHtml($html = null)`  collect code coverage and generate html report. You may pass
 * `env($env)` 
 * `debug()` 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-* `getPrinted()` 
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
-
-
-
 
 ## PHPUnit
 
@@ -86,11 +55,6 @@ $this->taskPHPUnit()
 ?>
 ```
 
-
-
-
-
-
 * `filter($filter)` 
 * `group($group)` 
 * `excludeGroup($group)` 
@@ -100,35 +64,11 @@ $this->taskPHPUnit()
 * `bootstrap($file)` 
 * `configFile($file)` 
 * `debug()` 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-* `getPrinted()` 
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
-
-
-
 
 ## Phpspec
 
@@ -145,13 +85,6 @@ $this->taskPhpspec()
 ```
 
 
-
-
-
-
-
-
-
 * `stopOnFail()` 
 * `noCodeGeneration()` 
 * `quiet()` 
@@ -160,33 +93,9 @@ $this->taskPhpspec()
 * `noInteraction()` 
 * `config($config_file)` 
 * `format($formater)` 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-* `getPrinted()` 
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
-
-
-
 

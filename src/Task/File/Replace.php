@@ -26,9 +26,9 @@ use Robo\Task\BaseTask;
  * ?>
  * ```
  *
- * @method regex(string)
- * @method from(string)
- * @method to(string)
+ * @method regex(string) regex to match string to be replaced
+ * @method from(string) string to be replaced
+ * @method to(string) value to be set as a replacement
  */
 class Replace extends BaseTask
 {

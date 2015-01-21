@@ -48,7 +48,7 @@ trait loadShortcuts
      */
     protected function _rename($from, $to)
     {
-        return (new FileSystem)->rename($from, $to)->run();
+        return (new FilesystemStack)->rename($from, $to)->run();
     }
 
     /**
@@ -57,7 +57,7 @@ trait loadShortcuts
      */
     protected function _mkdir($dir)
     {
-        return (new FileSystem)->mkdir($dir)->run();
+        return (new FilesystemStack)->mkdir($dir)->run();
     }
 
     /**
@@ -66,7 +66,7 @@ trait loadShortcuts
      */
     protected function _touch($file)
     {
-        return (new FileSystem)->touch($file)->run();
+        return (new FilesystemStack)->touch($file)->run();
     }
 
     /**
@@ -75,7 +75,7 @@ trait loadShortcuts
      */
     protected function _remove($file)
     {
-        return (new FileSystem)->remove($file)->run();
+        return (new FilesystemStack)->remove($file)->run();
     }
 
     /**
@@ -85,7 +85,7 @@ trait loadShortcuts
      */
     protected function _chgrp($file, $group)
     {
-        return (new FileSystem)->chgrp($file, $group)->run();
+        return (new FilesystemStack)->chgrp($file, $group)->run();
     }
 
     /**
@@ -97,7 +97,7 @@ trait loadShortcuts
      */
     protected function _chmod($file, $permissions, $umask = 0000, $recursive = false)
     {
-        return (new FileSystem)->chmod($file, $permissions, $umask, $recursive)->run();
+        return (new FilesystemStack)->chmod($file, $permissions, $umask, $recursive)->run();
     }
 
     /**
@@ -107,6 +107,6 @@ trait loadShortcuts
      */
     protected function _symlink($from, $to)
     {
-        return (new FileSystem)->symlink($from, $to)->run();
+        return (new FilesystemStack)->symlink($from, $to)->run();
     }
 } 

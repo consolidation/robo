@@ -15,25 +15,6 @@ $this->_cleanDir('app/cache');
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## CopyDir
 
 
@@ -46,25 +27,6 @@ $this->taskCopyDir(['dist/config' => 'config'])->run();
 $this->_copyDir(['dist/config' => 'config']);
 ?>
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -83,25 +45,7 @@ $this->_deleteDir(['tmp', 'log']);
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Filesystem
+## FilesystemStack
 
 
 Wrapper for [Symfony FileSystem](http://symfony.com/doc/current/components/filesystem.html) Component.
@@ -117,14 +61,11 @@ $this->taskFileSystemStack()
      ->run();
 
 // one line
-$this->taskFileSystem::_touch('.gitignore');
-$this->taskFileSystem::_mkdir('logs');
+$this->_touch('.gitignore');
+$this->_mkdir('logs');
 
 ?>
 ```
-
-Class FileSystemStackTask
-@package Robo\Task
 
 * `stopOnFail($stop = null)` 
 * `mkdir($dir)` 
@@ -137,24 +78,6 @@ Class FileSystemStackTask
 * `mirror($from, $to)` 
 * `chgrp($file, $group)` 
 * `chown($file, $user)` 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## MirrorDir
 
@@ -169,24 +92,6 @@ $this->_mirrorDir(['dist/config/' => 'config/']);
 
 ?>
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

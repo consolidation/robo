@@ -14,50 +14,19 @@ $this->taskGitHubRelease('0.1.0')
 ?>
 ```
 
-@method \Robo\Task\Vcs\GitHubRelease tag(string $tag)
-@method \Robo\Task\Vcs\GitHubRelease name(string $name)
-@method \Robo\Task\Vcs\GitHubRelease body(string $body)
-@method \Robo\Task\Vcs\GitHubRelease draft(boolean $isDraft)
-@method \Robo\Task\Vcs\GitHubRelease prerelease(boolean $isPrerelease)
-@method \Robo\Task\Vcs\GitHubRelease comittish(string $branch)
-
-
-
-
-
-
-
-
-
-
+* `\Robo\Task\Vcs\GitHubRelease tag(string $tag)` 
+* `\Robo\Task\Vcs\GitHubRelease name(string $name)` 
+* `\Robo\Task\Vcs\GitHubRelease body(string $body)` 
+* `\Robo\Task\Vcs\GitHubRelease draft(boolean $isDraft)` 
+* `\Robo\Task\Vcs\GitHubRelease prerelease(boolean $isPrerelease)` 
+* `\Robo\Task\Vcs\GitHubRelease comittish(string $branch)` 
 
 * `askName()` 
 * `askDescription()` 
 * `askForChanges()` 
 * `changes(array $changes)` 
-
 * `uri($uri)` 
-
 * `askAuth()` 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## GitStack
 
@@ -82,48 +51,15 @@ $this->taskGitStack()
 ?>
 ```
 
-
-
-
-
-
-
-
 * `cloneRepo($repo, $to = null)`  Executes `git clone`
 * `add($pattern)`  Executes `git add` command with files to add pattern
 * `commit($message, $options = null)`  Executes `git commit` command with a message
 * `pull($origin = null, $branch = null)`  Executes `git pull` command.
 * `push($origin = null, $branch = null)`  Executes `git push` command
 * `checkout($branch)`  Executes `git checkout` command
-
-* `getPrinted()` 
-
 * `exec($command)` 
 * `printed($arg)`  Should command output be printed
 * `dir($dir)`  changes working directory of command
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## SvnStack
 
@@ -148,45 +84,12 @@ $this->taskSvnStack('username', 'password')
 ?>
 ```
 
-
-
-
-
-
-
-
 * `update($path = null)`  Updates `svn update` command
 * `add($pattern = null)`  Executes `svn add` command with files to add pattern
 * `commit($message, $options = null)`  Executes `svn commit` command with a message
 * `checkout($branch)`  Executes `svn checkout` command
-* `getPrinted()` 
-
 * `exec($command)` 
 * `printed($arg)`  Should command output be printed
 * `dir($dir)`  changes working directory of command
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

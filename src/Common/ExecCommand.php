@@ -15,6 +15,10 @@ trait ExecCommand
     protected $isPrinted = true;
     protected $workingDirectory;
 
+    /**
+     * Is command printing its output to screen
+     * @return bool
+     */
     public function getPrinted()
     {
         return $this->isPrinted;

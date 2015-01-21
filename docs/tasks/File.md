@@ -16,26 +16,7 @@ $this->taskConcat([
 ?>
 ```
 
-
 * `to($dst)`  set the destination file
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## Replace
 
@@ -61,30 +42,9 @@ $this->taskReplaceInFile('config.yml')
 ?>
 ```
 
-@method regex(string)
-@method from(string)
-@method to(string)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+* `regex(string)`  regex to match string to be replaced
+* `from(string)`  string to be replaced
+* `to(string)`  value to be set as a replacement
 
 
 
@@ -102,32 +62,11 @@ $this->taskWriteToFile('blogpost.md')
      ->run();
 ?>
 ```
-@method append()
-
-
+* `append()` 
 
 * `line($line)` 
 * `lines($lines)` 
 * `text($text)` 
 * `textFromFile($filename)` 
 * `place($name, $val)` 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

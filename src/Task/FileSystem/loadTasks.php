@@ -1,8 +1,6 @@
 <?php
 namespace Robo\Task\FileSystem;
 
-use Robo\Task\File\ReplaceInFile;
-use Robo\Task\File\Write;
 
 trait loadTasks
 {
@@ -47,6 +45,6 @@ trait loadTasks
      */
     protected function taskFilesystemStack()
     {
-        return new Filesystem();
+        return new FilesystemStack();
     }
 } 

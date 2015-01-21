@@ -3,6 +3,49 @@ namespace Robo\Task\Docker;
 
 use Robo\Common\CommandReceiver;
 
+/**
+ * Performs `docker run` on a container.
+ *
+ * ```php
+ * <?php
+ * $this->taskDockerRun('mysql')->run();
+ *
+ * $result = $this->taskDockerRun('my_db_image')
+ *      ->env('DB', 'database_name')
+ *      ->volume('/path/to/data', '/data')
+ *      ->detached()
+ *      ->publish(3306)
+ *      ->name('my_mysql')
+ *      ->run();
+ *
+ * // retrieve container's cid:
+ * $this->say("Running container ".$result->getCid());
+ *
+ * // execute script inside container
+ * $result = $this->taskDockerRun('db')
+ *      ->exec('prepare_test_data.sh')
+ *      ->run();
+ *
+ * $this->taskDockerCommit($result)
+ *      ->name('test_db')
+ *      ->run();
+ *
+ * // link containers
+ * $mysql = $this->taskDockerRun('mysql')
+ *      ->name('wp_db') // important to set name for linked container
+ *      ->env('MYSQL_ROOT_PASSWORD', '123456')
+ *      ->run();
+ *
+ * $this->taskDockerRun('wordpress')
+ *      ->link($mysql)
+ *      ->publish(80, 8080)
+ *      ->detached()
+ *      ->run();
+ *
+ * ?>
+ * ```
+ *
+ */
 class Run extends Base
 {
     use CommandReceiver;
@@ -10,6 +53,7 @@ class Run extends Base
     protected $image = '';
     protected $run = '';
     protected $cidFile;
+    protected $name;
 
     function __construct($image)
     {
@@ -32,6 +76,18 @@ class Run extends Base
         return trim('docker run ' . $this->arguments . ' ' . $this->image . ' ' . $this->run);
     }
 
+    public function detached()
+    {
+        $this->option('-d');
+        return $this;
+    }
+
+    public function interactive()
+    {
+        $this->option('-i');
+        return $this;
+    }
+
     public function exec($run)
     {
         $this->run = $this->receiveCommand($run);
@@ -51,10 +107,13 @@ class Run extends Base
         return $this->option("-e", $env);
     }
 
-    public function publish($port = null)
+    public function publish($port = null, $portTo = null)
     {
         if (!$port) {
             return $this->option('-P');
+        }
+        if ($portTo) {
+            $port = "$port:$portTo";
         }
         return $this->option('-p', $port);
     }
@@ -76,15 +135,26 @@ class Run extends Base
 
     public function name($name)
     {
+        $this->name = $name;
         return $this->option('name', $name);
+    }
+
+    public function link($name, $alias)
+    {
+        if ($name instanceof Result) {
+            $name = $name->getContainerName();
+        }
+        $this->option('link', "$name:$alias");
+        return $this;
     }
 
     public function run()
     {
         $this->cidFile = sys_get_temp_dir() . '/docker_' . uniqid() . '.cid';
         $result = parent::run();
+        $time = $result->getExecutionTime();
         $cid = $this->getCid();
-        return new Result($this, $result->getExitCode(), $result->getMessage(), ['cid' => $cid]);
+        return new Result($this, $result->getExitCode(), $result->getMessage(), ['cid' => $cid, 'time' => $time, 'name' => $this->name]);
     }
 
     protected function getCid()

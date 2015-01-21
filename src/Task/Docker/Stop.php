@@ -1,6 +1,16 @@
 <?php
 namespace Robo\Task\Docker;
 
+/**
+ * Stops Docker container
+ *
+ * ```php
+ * <?php
+ * $this->taskDockerStop($cidOrResult)
+ *      ->run();
+ * ?>
+ * ```
+ */
 class Stop extends Base
 {
     protected $command = "docker stop";

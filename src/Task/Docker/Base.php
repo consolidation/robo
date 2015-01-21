@@ -1,6 +1,7 @@
 <?php 
 namespace Robo\Task\Docker;
 use Robo\Common\ExecOneCommand;
+use Robo\Common\Timer;
 use Robo\Contract\PrintedInterface;
 use Robo\Task\BaseTask;
 

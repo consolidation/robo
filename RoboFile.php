@@ -86,7 +86,7 @@ class RoboFile extends \Robo\Tasks
         foreach ($docs as $ns => $tasks) {
             $taskGenerator = $this->taskGenDoc("docs/tasks/$ns.md");
             $taskGenerator->filterClasses(function (\ReflectionClass $r) {
-                return !($r->isAbstract() or $r->isTrait());
+                return !($r->isAbstract() or $r->isTrait()) and $r->implementsInterface('Robo\Contract\TaskInterface');
             })->prepend("# $ns Tasks");
             sort($tasks);
             foreach ($tasks as $class) {

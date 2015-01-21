@@ -1,6 +1,24 @@
 <?php
 namespace Robo\Task\Docker;
 
+/**
+ * Builds Docker image
+ *
+ * ```php
+ * <?php
+ * $this->taskDockerBuild()->run();
+ *
+ * $this->dockerBuild('path/to/dir')
+ *      ->tag('database')
+ *      ->run();
+ *
+ * ?>
+ *
+ * ```
+ *
+ * Class Build
+ * @package Robo\Task\Docker
+ */
 class Build extends Base
 {
     protected $path;
@@ -21,9 +39,4 @@ class Build extends Base
         return $this->option('-t', $tag);
     }
 
-    public function run()
-    {
-        $this->printTaskInfo("Running <info>{$this->command}</info>");
-        $this->executeCommand($this->getCommand());
-    }
 }

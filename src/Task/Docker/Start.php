@@ -1,6 +1,16 @@
 <?php
 namespace Robo\Task\Docker;
 
+/**
+ * Starts Docker container
+ *
+ * ```php
+ * <?php
+ * $this->taskDockerStart($cidOrResult)
+ *      ->run();
+ * ?>
+ * ```
+ */
 class Start extends Base
 {
     protected $command = "docker start";

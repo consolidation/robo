@@ -7,7 +7,7 @@ class RoboFile extends \Robo\Tasks
     {
         $this->yell("Releasing Robo");
 
-        $this->docs();
+        $this->docsGenerate();
         $this->taskGitStack()
             ->add('-A')
             ->commit("auto-update")
@@ -15,13 +15,8 @@ class RoboFile extends \Robo\Tasks
             ->push()
             ->run();
 
-        $this->taskGitStack()
-            ->add('-A')
-            ->commit("auto-update")
-            ->pull()
-            ->push()
-            ->run();
-        
+        $this->docsPublish();
+
         $this->taskGitHubRelease(\Robo\Runner::VERSION)
             ->uri('Codegyre/Robo')
             ->askDescription()
@@ -126,15 +121,9 @@ class RoboFile extends \Robo\Tasks
     /**
      * Builds a site in gh-pages branch
      */
-    public function docsBuild()
+    public function docsPublish()
     {
-        new \Robo\Task\Base\Exec();
-        $this->_copyDir('docs','_docs');
-        $this->taskGitStack()
-            ->checkout('gh-pages')
-            ->run();
-        $this->_exec('mv -R _docs docs');
-        $this->_exec('mkdocs build');
+        $this->_exec('mkdocs gh-deploy');
     }
 
     public function pharBuild()

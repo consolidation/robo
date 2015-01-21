@@ -1,5 +1,7 @@
 vendor/
 .idea/
+site/
+robotheme/
 tests/_log/*
 composer.phar
 robo.phar

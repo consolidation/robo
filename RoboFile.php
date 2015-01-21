@@ -62,7 +62,7 @@ class RoboFile extends \Robo\Tasks
     /**
      * generate docs
      */
-    public function docs()
+    public function docsGenerate()
     {
         $files = Finder::create()->files()->name('*.php')->in('src/Task');
         $docs = [];
@@ -105,8 +105,10 @@ class RoboFile extends \Robo\Tasks
                     return "## " . preg_replace('~Task$~', '', $c->getShortName()) . "\n";
                 }
             )->processClassDocBlock(
-                function ($c, $doc) {
-                    return preg_replace('~@method .*?(.*?)\)~', '* `$1)` ', $doc);
+                function (\ReflectionClass $c, $doc) {
+                    $doc = preg_replace('~@method .*?(.*?)\)~', '* `$1)` ', $doc);
+                    $doc = str_replace('\\'.$c->getName(), '', $doc);
+                    return $doc;
                 }
             )->processMethodSignature(
                 function (\ReflectionMethod $m, $text) {
@@ -119,6 +121,20 @@ class RoboFile extends \Robo\Tasks
                 }
             )->run();
         }
+    }
+
+    /**
+     * Builds a site in gh-pages branch
+     */
+    public function docsBuild()
+    {
+        $this->stopOnFail();
+        $this->_copyDir('docs','_docs');
+        $this->taskGitStack()
+            ->checkout('gh-pages')
+            ->run();
+        $this->_rename('_docs', 'docs');
+        $this->_exec('mkdocs build');
     }
 
     public function pharBuild()
@@ -204,7 +220,7 @@ class RoboFile extends \Robo\Tasks
             ->run();
     }
 
-    public function optbool($opts = ['silent|s' => false])
+    public function tryOptbool($opts = ['silent|s' => false])
     {
         if (!$opts['silent']) $this->say("Hello, world");
     }

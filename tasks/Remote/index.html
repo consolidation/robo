@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+
+        <title>Remote Tasks - Robo</title>
+
+        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="../../css/highlight.css">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="../../started">Robo</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../../started">Getting Started</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tasks <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            <li >
+                                <a href="../Base">Base Tasks</a>
+                            </li>
+                        
+                            <li >
+                                <a href="../FileSystem">FileSystem Tasks</a>
+                            </li>
+                        
+                            <li >
+                                <a href="../File">File Tasks</a>
+                            </li>
+                        
+                            <li >
+                                <a href="../Development">Development Tasks</a>
+                            </li>
+                        
+                            <li >
+                                <a href="../Assets">Assets Tasks</a>
+                            </li>
+                        
+                            <li class="active">
+                                <a href=".">Remote Tasks</a>
+                            </li>
+                        
+                            <li >
+                                <a href="../Testing">Testing Tasks</a>
+                            </li>
+                        
+                            <li >
+                                <a href="../Vcs">VCS Tasks</a>
+                            </li>
+                        
+                            <li >
+                                <a href="../Docker">Docker Tasks</a>
+                            </li>
+                        
+                        </ul>
+                    </li>
+                
+                
+                </ul>
+            
+
+            
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                
+                
+                <li >
+                    <a rel="next" href="../Assets">
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li >
+                    <a rel="prev" href="../Testing">
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+                
+            </ul>
+            
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#remote-tasks">Remote Tasks</a></li>
+        
+            <li><a href="#rsync">Rsync</a></li>
+        
+            <li><a href="#ssh">Ssh</a></li>
+        
+    
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<h1 id="remote-tasks">Remote Tasks</h1>
+<h2 id="rsync">Rsync</h2>
+<p>Executes rsync in a flexible manner.</p>
+<pre><code class="php">$this-&gt;taskRsync()
+  -&gt;fromPath('src/')
+  -&gt;toHost('localhost')
+  -&gt;toUser('dev')
+  -&gt;toPath('/var/www/html/app/')
+  -&gt;recursive()
+  -&gt;excludeVcs()
+  -&gt;checksum()
+  -&gt;wholeFile()
+  -&gt;verbose()
+  -&gt;progress()
+  -&gt;humanReadable()
+  -&gt;stats()
+  -&gt;run();
+</code></pre>
+
+<p>You could also clone the task and do a dry-run first:</p>
+<pre><code class="php">$rsync = $this-&gt;taskRsync()
+  -&gt;fromPath('src/')
+  -&gt;toPath('example.com:/var/www/html/app/')
+  -&gt;archive()
+  -&gt;excludeVcs()
+  -&gt;progress()
+  -&gt;stats();
+
+$dryRun = clone $rsync;
+$dryRun-&gt;dryRun()-&gt;run();
+if ('y' === $this-&gt;ask('Do you want to run (y/n)')) {
+  $rsync-&gt;run();
+}
+</code></pre>
+
+<ul>
+<li><code>fromUser(string $user)</code> </li>
+<li><code>fromHost(string $hostname)</code> </li>
+<li><code>toUser(string $user)</code> </li>
+<li>
+<p><code>toHost(string $hostname)</code> </p>
+</li>
+<li>
+<p><code>fromPath($path)</code>  This can either be a full rsync path spec (user@host:path) or just a path.</p>
+</li>
+<li><code>toPath($path)</code>  This can either be a full rsync path spec (user@host:path) or just a path.</li>
+<li><code>progress()</code> </li>
+<li><code>stats()</code> </li>
+<li><code>recursive()</code> </li>
+<li><code>verbose()</code> </li>
+<li><code>checksum()</code> </li>
+<li><code>archive()</code> </li>
+<li><code>compress()</code> </li>
+<li><code>owner()</code> </li>
+<li><code>group()</code> </li>
+<li><code>times()</code> </li>
+<li><code>delete()</code> </li>
+<li><code>timeout($seconds)</code> </li>
+<li><code>humanReadable()</code> </li>
+<li><code>wholeFile()</code> </li>
+<li><code>dryRun()</code> </li>
+<li><code>itemizeChanges()</code> </li>
+<li><code>excludeVcs()</code>  Excludes .git/, .svn/ and .hg/ folders.</li>
+<li><code>exclude($pattern)</code> </li>
+<li><code>excludeFrom($file)</code> </li>
+<li><code>filesFrom($file)</code> </li>
+<li><code>arg($arg)</code>  Pass argument to executable</li>
+<li><code>args($args)</code>  Pass methods parameters as arguments to executable</li>
+<li><code>option($option, $value = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter</li>
+<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>printed($arg)</code>  Should command output be printed</li>
+</ul>
+<h2 id="ssh">Ssh</h2>
+<p>Runs multiple commands on a remote server.
+Per default, commands are combined with &amp;&amp;, unless stopOnFail is false.</p>
+<pre><code class="php">&lt;?php
+
+$this-&gt;taskSsh('remote.example.com', 'user')
+    -&gt;exec('cd /var/www/html')
+    -&gt;exec('ls -la')
+    -&gt;exec('chmod g+x logs')
+    -&gt;run();
+
+</code></pre>
+
+<p>You can even exec other tasks (which implement CommandInterface):</p>
+<pre><code class="php">$gitTask = $this-&gt;taskGitStack()
+    -&gt;checkout('master')
+    -&gt;pull();
+
+$this-&gt;taskSsh('remote.example.com')
+    -&gt;exec('cd /var/www/html/site')
+    -&gt;exec($gitTask)
+    -&gt;run();
+</code></pre>
+
+<ul>
+<li><code>identityFile($filename)</code> </li>
+<li><code>port($port)</code> </li>
+<li><code>forcePseudoTty()</code> </li>
+<li><code>quiet()</code> </li>
+<li><code>verbose()</code> </li>
+<li><code>exec($command)</code>   * <code>param string|CommandInterface</code> $command</li>
+<li><code>arg($arg)</code>  Pass argument to executable</li>
+<li><code>args($args)</code>  Pass methods parameters as arguments to executable</li>
+<li><code>option($option, $value = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter</li>
+<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>printed($arg)</code>  Should command output be printed</li>
+</ul>
+</div>
+            
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            
+            <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+
+        
+
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="../../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../../js/prettify-1.0.min.js"></script>
+        <script src="../../js/highlight.pack.js"></script>
+        <script src="../../js/base.js"></script>
+    </body>
+</html>

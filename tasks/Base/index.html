@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+
+        <title>Base Tasks - Robo</title>
+
+        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="../../css/highlight.css">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="../../started">Robo</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../../started">Getting Started</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tasks <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            <li class="active">
+                                <a href=".">Base Tasks</a>
+                            </li>
+                        
+                            <li >
+                                <a href="../FileSystem">FileSystem Tasks</a>
+                            </li>
+                        
+                            <li >
+                                <a href="../File">File Tasks</a>
+                            </li>
+                        
+                            <li >
+                                <a href="../Development">Development Tasks</a>
+                            </li>
+                        
+                            <li >
+                                <a href="../Assets">Assets Tasks</a>
+                            </li>
+                        
+                            <li >
+                                <a href="../Remote">Remote Tasks</a>
+                            </li>
+                        
+                            <li >
+                                <a href="../Testing">Testing Tasks</a>
+                            </li>
+                        
+                            <li >
+                                <a href="../Vcs">VCS Tasks</a>
+                            </li>
+                        
+                            <li >
+                                <a href="../Docker">Docker Tasks</a>
+                            </li>
+                        
+                        </ul>
+                    </li>
+                
+                
+                </ul>
+            
+
+            
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                
+                
+                <li >
+                    <a rel="next" href="../../started">
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li >
+                    <a rel="prev" href="../FileSystem">
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+                
+            </ul>
+            
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#base-tasks">Base Tasks</a></li>
+        
+            <li><a href="#exec">Exec</a></li>
+        
+            <li><a href="#execstack">ExecStack</a></li>
+        
+            <li><a href="#parallelexec">ParallelExec</a></li>
+        
+            <li><a href="#symfonycommand">SymfonyCommand</a></li>
+        
+            <li><a href="#watch">Watch</a></li>
+        
+    
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<h1 id="base-tasks">Base Tasks</h1>
+<h2 id="exec">Exec</h2>
+<p>Executes shell script. Closes it when running in background mode.</p>
+<pre><code class="php">&lt;?php
+$this-&gt;taskExec('compass')-&gt;arg('watch')-&gt;run();
+// or use shortcut
+$this-&gt;_exec('compass watch');
+
+$this-&gt;taskExec('compass watch')-&gt;background()-&gt;run();
+
+if ($this-&gt;taskExec('phpunit .')-&gt;run()-&gt;wasSuccessful()) {
+ $this-&gt;say('tests passed');
+}
+
+?&gt;
+</code></pre>
+
+<ul>
+<li><code>background()</code>  Executes command in background mode (asynchronously)</li>
+<li><code>timeout($timeout)</code>  Stop command if it runs longer then $timeout in seconds</li>
+<li><code>idleTimeout($timeout)</code>  Stops command if it does not output something for a while</li>
+<li><code>arg($arg)</code>  Pass argument to executable</li>
+<li><code>args($args)</code>  Pass methods parameters as arguments to executable</li>
+<li><code>option($option, $value = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter</li>
+<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>printed($arg)</code>  Should command output be printed</li>
+</ul>
+<h2 id="execstack">ExecStack</h2>
+<p>Execute commands one by one in stack.
+Stack can be stopped on first fail if you call <code>stopOnFail()</code>.</p>
+<pre><code class="php">&lt;?php
+$this-&gt;taskExecStack()
+ -&gt;stopOnFail()
+ -&gt;exec('mkdir site')
+ -&gt;exec('cd site')
+ -&gt;run();
+
+?&gt;
+</code></pre>
+
+<ul>
+<li><code>ExecStack exec(string)</code> </li>
+<li>
+<p><code>ExecStack stopOnFail(string)</code> </p>
+</li>
+<li>
+<p><code>exec($command)</code> </p>
+</li>
+<li><code>printed($arg)</code>  Should command output be printed</li>
+<li><code>dir($dir)</code>  changes working directory of command</li>
+</ul>
+<h2 id="parallelexec">ParallelExec</h2>
+<p>Class ParallelExecTask</p>
+<pre><code class="php">&lt;?php
+$this-&gt;taskParallelExec()
+  -&gt;process('php ~/demos/script.php hey')
+  -&gt;process('php ~/demos/script.php hoy')
+  -&gt;process('php ~/demos/script.php gou')
+  -&gt;run();
+?&gt;
+</code></pre>
+
+<ul>
+<li><code>timeout(int $timeout)</code>  stops process if it runs longer then <code>$timeout</code> (seconds)</li>
+<li>
+<p><code>idleTimeout(int $timeout)</code>  stops process if it does not output for time longer then <code>$timeout</code> (seconds)</p>
+</li>
+<li>
+<p><code>printed($isPrinted = null)</code> </p>
+</li>
+<li><code>process($command)</code> </li>
+</ul>
+<h2 id="symfonycommand">SymfonyCommand</h2>
+<p>Executes Symfony Command</p>
+<pre><code class="php">&lt;?php
+// Symfony Command
+$this-&gt;taskSymfonyCommand(new \Codeception\Command\Run('run'))
+     -&gt;arg('suite','acceptance')
+     -&gt;opt('debug')
+     -&gt;run();
+
+// Artisan Command
+$this-&gt;taskSymfonyCommand(new ModelGeneratorCommand())
+     -&gt;arg('name', 'User')
+     -&gt;run();
+?&gt;
+</code></pre>
+
+<ul>
+<li><code>arg($arg, $value)</code> </li>
+<li><code>opt($option, $value = null)</code> </li>
+</ul>
+<h2 id="watch">Watch</h2>
+<p>Runs task when specified file or dir was changed.
+Uses Lurker library.</p>
+<pre><code class="php">&lt;?php
+$this-&gt;taskWatch()
+ -&gt;monitor('composer.json', function() {
+     $this-&gt;taskComposerUpdate()-&gt;run();
+})-&gt;monitor('src', function() {
+     $this-&gt;taskExec('phpunit')-&gt;run();
+})-&gt;run();
+?&gt;
+</code></pre>
+
+<ul>
+<li><code>monitor($paths, $callable)</code> </li>
+</ul>
+</div>
+            
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            
+            <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+
+        
+
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="../../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../../js/prettify-1.0.min.js"></script>
+        <script src="../../js/highlight.pack.js"></script>
+        <script src="../../js/base.js"></script>
+    </body>
+</html>

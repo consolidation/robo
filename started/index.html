@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+
+        <title>Getting Started - Robo</title>
+
+        <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.css">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+            <a class="navbar-brand" href=".">Robo</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li class="active">
+                        <a href=".">Getting Started</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tasks <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            <li >
+                                <a href="../tasks/Base">Base Tasks</a>
+                            </li>
+                        
+                            <li >
+                                <a href="../tasks/FileSystem">FileSystem Tasks</a>
+                            </li>
+                        
+                            <li >
+                                <a href="../tasks/File">File Tasks</a>
+                            </li>
+                        
+                            <li >
+                                <a href="../tasks/Development">Development Tasks</a>
+                            </li>
+                        
+                            <li >
+                                <a href="../tasks/Assets">Assets Tasks</a>
+                            </li>
+                        
+                            <li >
+                                <a href="../tasks/Remote">Remote Tasks</a>
+                            </li>
+                        
+                            <li >
+                                <a href="../tasks/Testing">Testing Tasks</a>
+                            </li>
+                        
+                            <li >
+                                <a href="../tasks/Vcs">VCS Tasks</a>
+                            </li>
+                        
+                            <li >
+                                <a href="../tasks/Docker">Docker Tasks</a>
+                            </li>
+                        
+                        </ul>
+                    </li>
+                
+                
+                </ul>
+            
+
+            
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                
+                
+                <li class="disabled">
+                    <a rel="next" >
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li >
+                    <a rel="prev" href="../tasks/Base">
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+                
+            </ul>
+            
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#getting-started">Getting Started</a></li>
+        
+            <li><a href="#commands">Commands</a></li>
+        
+            <li><a href="#tasks">Tasks</a></li>
+        
+            <li><a href="#result">Result</a></li>
+        
+            <li><a href="#output">Output</a></li>
+        
+    
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<h1 id="getting-started">Getting Started</h1>
+<p>To begin you need to create a Robofile. Just run <code>robo</code> in empty dir:</p>
+<pre><code>php vendor/bin/robo
+</code></pre>
+
+<p>You will be asked to create a file. New <code>RoboFile.php</code> extends <code>\Robo\Tasks</code> class. It includes all bundled tasks from traits.
+It's not necessary for your RoboFile to extend <code>\Robo\Tasks</code> so if you need to customize tasks inclusion do not inherit from it.</p>
+<pre><code class="php">&lt;?php
+class RoboFile extends \Robo\Tasks
+{
+}
+?&gt;
+</code></pre>
+
+<h2 id="commands">Commands</h2>
+<p>All public methods of this class will be treated as <strong>commands</strong>. You can run them from CLI and pass arguments.</p>
+<pre><code class="php">&lt;?php
+class RoboFile extends \Robo\Tasks
+{
+    function hello($world)
+    {
+        $this-&gt;say(&quot;Hello, $world&quot;);
+    }
+}
+?&gt;
+</code></pre>
+
+<p>When we run:</p>
+<pre><code>php vendor/bin/robo hello davert
+➜ Hello, davert
+</code></pre>
+
+<p>Methods should be camelCased. In CLI <code>camelCased</code> method will be available as <code>camel:cased</code> command.
+<code>longCamelCased</code> method will be transformed to <code>long:camel-cased</code> command.</p>
+<h3 id="arguments">Arguments</h3>
+<p>All method parameters without default values are treated as required arguments. In our example command <code>hello</code> requires one argument.
+If you pass a default value to parameter the argument becomes optional:</p>
+<pre><code class="php">&lt;?php
+    function hello($world = 'world')
+    {
+        $this-&gt;say(&quot;Hello, $world&quot;);
+    }
+?&gt;
+</code></pre>
+
+<pre><code>php vendor/bin/robo hello
+➜ Hello, world
+</code></pre>
+
+<p>If you define parameter as <code>array</code> you can accept multiple arguments:</p>
+<pre><code class="php">&lt;?php
+    function hello(array $world)
+    {
+        $this-&gt;say(&quot;Hello, &quot; . implode(', ', $world));
+    }
+?&gt;
+</code></pre>
+
+<pre><code>php vendor/bin/robo hello davert jon bill bob
+➜ Hello, davert, jon, bill, bob
+</code></pre>
+
+<h3 id="options">Options</h3>
+<p>To define command options you should define last method parameter as an associative array where keys are options and values are default values:</p>
+<pre><code class="php">&lt;?php
+    function hello($opts = ['silent' =&gt; false])
+    {
+        if (!$opt['silent']) $this-&gt;say(&quot;Hello, world&quot;);
+    }
+?&gt;
+</code></pre>
+
+<pre><code>php vendor/bin/robo hello
+➜ Hello, world
+
+php vendor/bin/robo hello --silent
+</code></pre>
+
+<p>A one-char shortcut can be specified for option:</p>
+<pre><code class="php">&lt;?php
+    function hello($opts = ['silent|s' =&gt; false])
+    {
+        if (!$opt['silent']) $this-&gt;say(&quot;Hello, world&quot;);
+    }
+?&gt;
+</code></pre>
+
+<p>Now command can be executed with '-s' to run in silent mode: </p>
+<pre><code>php vendor/bin/robo hello -s
+</code></pre>
+
+<h3 id="pass-through-arguments">Pass-Through Arguments</h3>
+<p>Sometimes you need to pass arguments from you command into a task. A command line after the <code>--</code> characters is treated as one argument.
+Any special character like <code>-</code> will be passed into without change.</p>
+<pre><code class="php">&lt;?php
+    function ls($args)
+    {
+        $this-&gt;taskExec('ls')-&gt;args($args)-&gt;run();
+    }
+?&gt;
+</code></pre>
+
+<pre><code>php vendor/bin/robo ls -- Robo -c --all
+ [Robo\Task\ExecTask] running ls Robo -c --all
+ .  ..  CHANGELOG.md  codeception.yml  composer.json  composer.lock  docs  .git  .gitignore  .idea  LICENSE  README.md  robo  RoboFile.php  robo.phar  src  tests  .travis.yml  vendor
+</code></pre>
+
+<h3 id="help">Help</h3>
+<p>Doc-Block comments can be used to display help per commands. It turns</p>
+<pre><code class="php">&lt;?php
+/**
+ * Calculate the fibonacci sequence between two numbers.
+ *
+ * Graphic output will look like
+ *     +----+---+-------------+
+ *     |    |   |             |
+ *     |    |-+-|             |
+ *     |----+-+-+             |
+ *     |        |             |
+ *     |        |             |
+ *     |        |             |
+ *     +--------+-------------+
+ *
+ * @param int $start Number to start from
+ * @param $steps int Number of steps to perform
+ * @param array $opts
+ * @option $graphic Display the sequence graphically using cube
+ *                  representation
+ */
+public function fibonacci($start, $steps, $opts = ['graphic' =&gt; false])
+{
+}
+?&gt;
+</code></pre>
+
+<p>into</p>
+<pre><code>$ ./robo fibonacci --help
+Usage:
+ fibonacci [--graphic] start steps
+
+Arguments:
+ start                 Number to start from
+ steps                 Number of steps to perform
+
+Options:
+ --graphic             Display the sequence graphically using cube representation
+
+Help:
+ Graphic output will look like
+     +----+---+-------------+
+     |    |   |             |
+     |    |-+-|             |
+     |----+-+-+             |
+     |        |             |
+     |        |             |
+     |        |             |
+     +--------+-------------+
+</code></pre>
+
+<p>Arguments and options are populated from annotations.</p>
+<p>Added with <a href="https://github.com/Codegyre/Robo/pull/71">PR by @jonsa</a> </p>
+<h2 id="tasks">Tasks</h2>
+<p>All tasks are loaded by Traits. There is convention when all tasks should start with <code>task</code> prefix and use <strong>chained method calls</strong> for configuration.
+Task execution should be triggered by method <code>run</code>. A very basic task may look like:</p>
+<pre><code class="php">&lt;?php
+trait CompileAssets
+{
+    function taskCompileAssets($path)
+    {
+        return new CompileAssetsTask($path);
+    }
+}
+
+class CompileAssetsTask implements Robo\TaskInterface
+{
+    // configuration params
+    protected $path;
+    protected $to;
+    function __construct($path)
+    {
+        $this-&gt;path = $path;
+    }
+
+    function to($filename)
+    {
+        $this-&gt;to = $filename;
+        // must return $this
+        return $this;
+    }
+
+    // must implement Run
+    function run()
+    {
+        //....
+    }
+}
+?&gt;
+</code></pre>
+
+<p>To use it you should include this task via trait:</p>
+<pre><code class="php">&lt;?php
+class RoboFile extends Robo\Tasks
+{
+    use CompileAssets;
+
+    function build()
+    {
+        $this-&gt;taskCompileAssets('web/css-src')
+            -&gt;to('web/assets.min.css')
+            -&gt;run();
+    }
+}
+?&gt;
+</code></pre>
+
+<p>You can use various preinstalled tasks in the same way. Just include corresponding trait and call the <code>$this-&gt;taskXXX</code> method.</p>
+<h2 id="result">Result</h2>
+<p>Each task should provide <code>Robo\Result</code> class in response. It contains task instance, exit code, message, and some data.
+The <code>run</code> method of <code>CompileAssets</code> class may look like this:</p>
+<pre><code>return new Robo\Result($this, $exitCode, &quot;Assets compiled&quot;);
+</code></pre>
+
+<p>or</p>
+<pre><code>return Robo\Result::success($this, &quot;Assets compiled&quot;);
+return Robo\Result::error($this, &quot;Failed to compile assets&quot;);
+</code></pre>
+
+<p>Thus you can use this results to check if execution was successful, and use some data from them. Lets use <code>Exec</code> task in next example:</p>
+<pre><code class="php">&lt;?php
+class RoboFile
+{
+    use Robo\Output;
+    use Robo\Task\Exec;
+
+    function test()
+    {
+        $res1 = $this-&gt;taskExec('phpunit tests/integration')-&gt;run();
+        $res2 = $this-&gt;taskExec('phpunit tests/unit')-&gt;run();
+
+        // print message when tests passed
+        if ($res1-&gt;wasSuccessful() and $res2-&gt;wasSuccessful()) $this-&gt;say(&quot;All tests passed&quot;);
+
+        // alternatively
+        if ($res1() and $res2()) $this-&gt;say(&quot;All tests passed&quot;);
+
+        return $res() and $res(); // will exit with 1 if tests failed
+    }
+}
+?&gt;
+</code></pre>
+
+<h3 id="stack">Stack</h3>
+<p>There are tasks with a <code>Stack</code> name inside it. They execute similar tasks one by one.
+They contain option <code>stopOnFail</code> which can be used to stop task execution if one of its commands was unsuccessful.</p>
+<h3 id="global-stoponfail">Global StopOnFail</h3>
+<p>There is a global <code>stopOnFail</code> method as well, that can be used to stop a command on first failure of a task.</p>
+<pre><code>$this-&gt;stopOnFail(true);
+</code></pre>
+
+<h2 id="output">Output</h2>
+<p>As you noticed you can print text with <code>say</code> method taken from <code>Robo\Output</code> trait.</p>
+<pre><code>$this-&gt;say(&quot;Hello&quot;);
+</code></pre>
+
+<p>Also you can ask for input from console</p>
+<pre><code>$name = $this-&gt;ask(&quot;What is your name?&quot;);
+</code></pre>
+
+<p>Inside tasks you should print process details with <code>printTaskInfo</code></p>
+<pre><code>$this-&gt;printTaskInfo('Processing...');
+</code></pre>
+
+</div>
+            
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            
+            <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+
+        
+
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../js/prettify-1.0.min.js"></script>
+        <script src="../js/highlight.pack.js"></script>
+        <script src="../js/base.js"></script>
+    </body>
+</html>

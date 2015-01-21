@@ -128,12 +128,12 @@ class RoboFile extends \Robo\Tasks
      */
     public function docsBuild()
     {
-        $this->stopOnFail();
+        new \Robo\Task\Base\Exec();
         $this->_copyDir('docs','_docs');
         $this->taskGitStack()
             ->checkout('gh-pages')
             ->run();
-        $this->_rename('_docs', 'docs');
+        $this->_exec('mv -R _docs docs');
         $this->_exec('mkdocs build');
     }
 

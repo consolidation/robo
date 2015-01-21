@@ -32,4 +32,8 @@ trait loadTasks
         return new Remove($cidOrResult);
     }
 
+    protected function taskDockerExec($cidOrResult)
+    {
+        return new Exec($cidOrResult);
+    }
 } 

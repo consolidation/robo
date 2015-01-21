@@ -37,7 +37,7 @@ $this->taskConcat([
 
 
 
-## ReplaceInFile
+## Replace
 
 
 Performs search and replace inside a files.
@@ -88,7 +88,7 @@ $this->taskReplaceInFile('config.yml')
 
 
 
-## WriteToFile
+## Write
 
 
 Writes to file

@@ -134,8 +134,9 @@ class Result
     protected function printSuccess()
     {
         $time = $this->getExecutionTime();
-        if ($time) $time = "in <fg=yellow>$time</fg=yellow>";
-        $this->printTaskSuccess("Completed $time", $this->task);
+        if (!$time) return;
+        $time = "in <fg=yellow>$time</fg=yellow>";
+        $this->printTaskSuccess("Done $time", $this->task);
     }
 
 } 

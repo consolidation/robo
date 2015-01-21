@@ -2,7 +2,7 @@
 namespace Robo\Task\Development;
 
 use Robo\Task\BaseTask;
-use Robo\Task\File\ReplaceInFile;
+use Robo\Task\File\Replace;
 use Robo\Task\FileSystem;
 use Robo\Result;
 use Robo\Task\Development;
@@ -108,13 +108,13 @@ class Changelog extends BaseTask
         }
 
         // trying to append to changelog for today
-        $result = (new ReplaceInFile($this->filename))
+        $result = (new Replace($this->filename))
             ->from($ver)
             ->to($text)
             ->run();
 
         if (!$result->getData()['replaced']) {
-            $result = (new ReplaceInFile($this->filename))
+            $result = (new Replace($this->filename))
                 ->from($this->anchor)
                 ->to($this->anchor . "\n\n" . $text)
                 ->run();

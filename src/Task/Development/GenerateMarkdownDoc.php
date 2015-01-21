@@ -2,7 +2,7 @@
 namespace Robo\Task\Development;
 
 use Robo\Task\BaseTask;
-use Robo\Task\File\WriteToFile;
+use Robo\Task\File\Write;
 use Robo\Task\FileSystem;
 use Robo\Result;
 use Robo\Task\Development;
@@ -121,11 +121,13 @@ class GenerateMarkdownDoc extends BaseTask
 
         $this->text = implode("\n", $this->textForClass);
 
-        $result = (new WriteToFile($this->filename))
+        $result = (new Write($this->filename))
             ->line($this->prepend)
             ->text($this->text)
             ->line($this->append)
             ->run();
+
+        $this->printTaskSuccess("<info>{$this->filename}</info> created. ".count($this->docClass)." classes documented");
 
         return new Result($this, $result->getExitCode(), $result->getMessage(), $this->textForClass);
     }

@@ -26,6 +26,6 @@ trait loadTasks
      */
     protected function taskWriteToFile($file)
     {
-        return new WriteToFile($file);
+        return new Write($file);
     }
 } 

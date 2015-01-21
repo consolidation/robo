@@ -8,20 +8,20 @@ Composer Dump Autoload
 ``` php
 <?php
 // simple execution
-taskComposerDumpAutoload::_run();
+$this->taskComposerDumpAutoload()->run();
 
 // dump auto loader with custom path
-taskComposerDumpAutoload::init('path/to/my/composer.phar')
+$this->taskComposerDumpAutoload('path/to/my/composer.phar')
      ->preferDist()
      ->run();
 
 // optimize autoloader dump with custom path
-taskComposerDumpAutoload::init('path/to/my/composer.phar')
+$this->taskComposerDumpAutoload('path/to/my/composer.phar')
      ->optimize()
      ->run();
 
 // optimize autoloader dump with custom path and no dev
-taskComposerDumpAutoload::init('path/to/my/composer.phar')
+$this->taskComposerDumpAutoload('path/to/my/composer.phar')
      ->optimize()
      ->noDev()
      ->run();

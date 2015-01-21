@@ -2,7 +2,7 @@
 namespace Robo\Task\FileSystem;
 
 use Robo\Task\File\ReplaceInFile;
-use Robo\Task\File\WriteToFile;
+use Robo\Task\File\Write;
 
 trait loadTasks
 {

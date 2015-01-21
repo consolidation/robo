@@ -18,7 +18,7 @@ use Robo\Task\BaseTask;
  * ```
  * @method append()
  */
-class WriteToFile extends BaseTask
+class Write extends BaseTask
 {
     use \Robo\Common\DynamicParams;
 

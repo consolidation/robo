@@ -30,7 +30,7 @@ use Robo\Task\BaseTask;
  * @method from(string)
  * @method to(string)
  */
-class ReplaceInFile extends BaseTask
+class Replace extends BaseTask
 {
     use \Robo\Common\DynamicParams;
 
@@ -47,7 +47,7 @@ class ReplaceInFile extends BaseTask
     function run()
     {
         if (!file_exists($this->filename)) {
-            $this->printTaskInfo("<error>File {$this->filename} does not exist</error>");
+            $this->printTaskError("File {$this->filename} does not exist");
             return false;
         }
 
@@ -61,7 +61,7 @@ class ReplaceInFile extends BaseTask
         if ($res === false) {
             return Result::error($this, "Error writing to file {$this->filename}.");
         }
-        $this->printTaskInfo("<info>{$this->filename}</info> updated. $count items replaced");
+        $this->printTaskSuccess("<info>{$this->filename}</info> updated. $count items replaced");
         return Result::success($this, '', ['replaced' => $count]);
     }
 }

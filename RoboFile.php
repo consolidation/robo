@@ -123,6 +123,7 @@ class RoboFile extends \Robo\Tasks
      */
     public function publish()
     {
+        $this->stopOnFail();
         $this->taskGitStack()
             ->checkout('site')
             ->run();
@@ -131,6 +132,7 @@ class RoboFile extends \Robo\Tasks
         $this->taskGitStack()
             ->checkout('master')
             ->run();
+        $this->_remove('docs/changelog.md');
     }
 
     public function pharBuild()

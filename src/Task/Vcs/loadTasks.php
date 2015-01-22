@@ -1,7 +1,9 @@
 <?php
 namespace Robo\Task\Vcs;
 
-trait loadTasks 
+use Robo\Task\Development\GitHubRelease;
+
+trait loadTasks
 {
     /**
      * @param string $username
@@ -23,12 +25,4 @@ trait loadTasks
         return new GitStack($pathToGit);
     }
 
-    /**
-     * @param $tag
-     * @return GitHubRelease
-     */
-    protected function taskGitHubRelease($tag)
-    {
-        return new GitHubRelease($tag);
-    }
 }

@@ -47,4 +47,13 @@ trait loadTasks
     {
         return new PackPhar($filename);
     }
+
+    /**
+     * @param $tag
+     * @return GitHubRelease
+     */
+    protected function taskGitHubRelease($tag)
+    {
+        return new GitHubRelease($tag);
+    }
 } 

@@ -1,5 +1,5 @@
 <?php
-namespace Robo\Task\Vcs;
+namespace Robo\Task\Development;
 
 use Robo\Common\Timer;
 use Robo\Result;

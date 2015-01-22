@@ -1,12 +1,12 @@
 <?php
-namespace Robo\Task\Vcs;
+namespace Robo\Task\Development;
 
 use Robo\Exception\TaskException;
 use Robo\Task\BaseTask;
 
 /**
- * @method \Robo\Task\Vcs\GitHub repo(string)
- * @method \Robo\Task\Vcs\GitHub owner(string)
+ * @method \Robo\Task\Development\GitHub repo(string)
+ * @method \Robo\Task\Development\GitHub owner(string)
  */
 abstract class GitHub extends BaseTask
 {

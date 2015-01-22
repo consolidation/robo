@@ -46,11 +46,11 @@ class Runner
         return true;
     }
 
-    public function execute()
+    public function execute($input = null)
     {
         register_shutdown_function(array($this, 'shutdown'));
         Config::setOutput(new ConsoleOutput());
-        $input = $this->prepareInput();
+        $input = $this->prepareInput($input ? $input : $_SERVER['argv']);
 
         if (!$this->loadRoboFile()) {
             $app = new Application('Robo', self::VERSION);
@@ -94,10 +94,8 @@ class Runner
         return $app;
     }
 
-    protected function prepareInput()
+    protected function prepareInput($argv)
     {
-        $argv = $_SERVER['argv'];
-
         $pos = array_search('--', $argv);
         if ($pos !== false) {
             $this->passThroughArgs = implode(' ', array_slice($argv, $pos+1));

@@ -56,6 +56,7 @@ $this->taskGitStack()
 * `commit($message, $options = null)`  Executes `git commit` command with a message
 * `pull($origin = null, $branch = null)`  Executes `git pull` command.
 * `push($origin = null, $branch = null)`  Executes `git push` command
+* `merge($branch)`  Performs git merge
 * `checkout($branch)`  Executes `git checkout` command
 * `exec($command)` 
 * `printed($arg)`  Should command output be printed

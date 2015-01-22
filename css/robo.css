@@ -95,12 +95,13 @@ body .bs-sidebar {
 }
 
 body>footer {
+    color: #bdc3c7;
     padding: 20px 0;
-    background: rgba(189, 195, 199,1.0);
+    background: #2c3e50;
     margin-bottom: 0px;
 }
 footer a {
-    color: #34495e;
+    color: #fff;
     text-decoration: underline;
 }
 

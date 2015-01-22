@@ -12,6 +12,8 @@ abstract class GitHub extends BaseTask
 {
     use \Robo\Common\DynamicParams;
 
+    const GITHUB_URL = 'https://github.com';
+
     protected static $user;
     protected static $pass;
 
@@ -44,7 +46,7 @@ abstract class GitHub extends BaseTask
         }
 
         $ch = curl_init();
-        $url = sprintf('%s/repos/%s/%s', GITHUB_URL, $this->getUri(), $uri);
+        $url = sprintf('%s/repos/%s/%s', self::GITHUB_URL, $this->getUri(), $uri);
         $this->printTaskInfo("$method $url");
 
         if (!self::$user) {

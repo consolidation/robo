@@ -3,7 +3,7 @@
 To begin you need to create a Robofile. Just run `robo` in empty dir:
 
 ```
-php vendor/bin/robo
+robo
 ```
 
 You will be asked to create a file. New `RoboFile.php` extends `\Robo\Tasks` class. It includes all bundled tasks from traits.
@@ -58,7 +58,7 @@ If you pass a default value to parameter the argument becomes optional:
 ```
 
 ```
-php vendor/bin/robo hello
+robo hello
 ➜ Hello, world
 ```
 
@@ -75,7 +75,7 @@ If you define parameter as `array` you can accept multiple arguments:
 ```
 
 ```
-php vendor/bin/robo hello davert jon bill bob
+robo hello davert jon bill bob
 ➜ Hello, davert, jon, bill, bob
 ```
 
@@ -93,10 +93,10 @@ To define command options you should define last method parameter as an associat
 ```
 
 ```
-php vendor/bin/robo hello
+robo hello
 ➜ Hello, world
 
-php vendor/bin/robo hello --silent
+robo hello --silent
 ```
 
 A one-char shortcut can be specified for option:
@@ -113,7 +113,7 @@ A one-char shortcut can be specified for option:
 Now command can be executed with '-s' to run in silent mode: 
 
 ```
-php vendor/bin/robo hello -s
+robo hello -s
 ```
 
 
@@ -132,7 +132,7 @@ Any special character like `-` will be passed into without change.
 ```
 
 ```
-php vendor/bin/robo ls -- Robo -c --all
+robo ls -- Robo -c --all
  [Robo\Task\ExecTask] running ls Robo -c --all
  .  ..  CHANGELOG.md  codeception.yml  composer.json  composer.lock  docs  .git  .gitignore  .idea  LICENSE  README.md  robo  RoboFile.php  robo.phar  src  tests  .travis.yml  vendor
 ```
@@ -171,7 +171,7 @@ public function fibonacci($start, $steps, $opts = ['graphic' => false])
 into
 
 ```
-$ ./robo fibonacci --help
+robo fibonacci --help
 Usage:
  fibonacci [--graphic] start steps
 
@@ -213,7 +213,7 @@ trait CompileAssets
     }
 }
 
-class CompileAssetsTask implements Robo\TaskInterface
+class CompileAssetsTask implements Robo\Contract\TaskInterface
 {
     // configuration params
     protected $path;
@@ -258,6 +258,19 @@ class RoboFile extends Robo\Tasks
 
 You can use various preinstalled tasks in the same way. Just include corresponding trait and call the `$this->taskXXX` method.
 
+*It is recommended to have store trait loading task in `loadTasks` file of the same namespace*
+
+## Shortcuts
+
+Some tasks may have shortcuts. If task does not require multi-step configuration it can be executed with a one line:
+ 
+```php
+<?php
+$this->_exec('ps aux');
+$this->_copy('config/env.example.yml','config/env.yml');
+?>
+```
+
 ## Result
 
 Each task should provide `Robo\Result` class in response. It contains task instance, exit code, message, and some data.
@@ -285,8 +298,8 @@ class RoboFile
 
     function test()
     {
-        $res1 = $this->taskExec('phpunit tests/integration')->run();
-        $res2 = $this->taskExec('phpunit tests/unit')->run();
+        $res1 = $this->_exec('phpunit tests/integration');
+        $res2 = $this->_exec('phpunit tests/unit');
 
         // print message when tests passed
         if ($res1->wasSuccessful() and $res2->wasSuccessful()) $this->say("All tests passed");
@@ -327,7 +340,10 @@ Also you can ask for input from console
 $name = $this->ask("What is your name?");
 ```
 
-Inside tasks you should print process details with `printTaskInfo`
+There are also `askDefault`, `askHidden`, and `confirm` methods.
+
+Inside tasks you should print process details with `printTaskInfo`, ``printTaskSuccess`, `printTaskError`.
+To allow tasks access IO use `Robo\Common\TaskIO` trait or inherit task class from `Robo\Task\BaseTask` (recommended).
 
 ```
 $this->printTaskInfo('Processing...');

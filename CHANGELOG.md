@@ -2,7 +2,7 @@
 
 #### 0.5.0
 
-Refactored core, tasks moved to corresponding namespaces:
+Refactored core
 
 * All traits moved to `Robo\Common` namespace
 * Interfaces moved to `Robo\Contract` namespace
@@ -14,6 +14,10 @@ Refactored core, tasks moved to corresponding namespaces:
 * Tasks can be used outside of Robo runner (inside a project)
 * Timer for long-running tasks added
 * Tasks can be globally configured (WIP) via `Robo\Config` class.
+* Updated to Symfony >= 2.5
+* IO methods added `askHidden`, `askDefault`, `confirm`
+* TaskIO methods added `printTaskError`, `printTaskSuccess` with different formatting.
+* [Docker] Tasks added
 * [Gulp] Task added by @schorsch3000 
 
 #### 0.4.7

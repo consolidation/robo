@@ -16,12 +16,12 @@ use Robo\Result;
  * ?>
  * ```
  *
- * @method \Robo\Task\Vcs\GitHubRelease tag(string $tag)
- * @method \Robo\Task\Vcs\GitHubRelease name(string $name)
- * @method \Robo\Task\Vcs\GitHubRelease body(string $body)
- * @method \Robo\Task\Vcs\GitHubRelease draft(boolean $isDraft)
- * @method \Robo\Task\Vcs\GitHubRelease prerelease(boolean $isPrerelease)
- * @method \Robo\Task\Vcs\GitHubRelease comittish(string $branch)
+ * @method \Robo\Task\Development\GitHubRelease tag(string $tag)
+ * @method \Robo\Task\Development\GitHubRelease name(string $name)
+ * @method \Robo\Task\Development\GitHubRelease body(string $body)
+ * @method \Robo\Task\Development\GitHubRelease draft(boolean $isDraft)
+ * @method \Robo\Task\Development\GitHubRelease prerelease(boolean $isPrerelease)
+ * @method \Robo\Task\Development\GitHubRelease comittish(string $branch)
  */
 class GitHubRelease extends GitHub
 {

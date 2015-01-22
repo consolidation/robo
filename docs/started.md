@@ -36,7 +36,7 @@ class RoboFile extends \Robo\Tasks
 When we run:
 
 ```
-php vendor/bin/robo hello davert
+robo hello davert
 ➜ Hello, davert
 ```
 

@@ -71,6 +71,7 @@ class Result
 
     public function getExecutionTime()
     {
+        if (!is_array($this->data)) return null;
         if (!isset($this->data['time'])) return null;
         $rawTime = $this->data['time'];
         return round($rawTime, 3).'s';

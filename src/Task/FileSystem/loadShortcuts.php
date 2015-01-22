@@ -109,4 +109,14 @@ trait loadShortcuts
     {
         return (new FilesystemStack)->symlink($from, $to)->run();
     }
+
+    /**
+     * @param $from
+     * @param $to
+     * @return \Robo\Result
+     */
+    protected function _copy($from, $to)
+    {
+        return (new FilesystemStack)->copy($from, $to)->run();
+    }
 } 

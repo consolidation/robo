@@ -12,7 +12,7 @@ abstract class GitHub extends BaseTask
 {
     use \Robo\Common\DynamicParams;
 
-    const GITHUB_URL = 'https://github.com';
+    const GITHUB_URL = 'https://api.github.com';
 
     protected static $user;
     protected static $pass;

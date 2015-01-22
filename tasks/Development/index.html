@@ -179,6 +179,8 @@
         
             <li><a href="#generatemarkdowndoc">GenerateMarkdownDoc</a></li>
         
+            <li><a href="#githubrelease">GitHubRelease</a></li>
+        
             <li><a href="#packphar">PackPhar</a></li>
         
             <li><a href="#phpserver">PhpServer</a></li>
@@ -272,6 +274,34 @@ $this-&gt;taskGenerateMarkdownDoc('models.md')
 <li><code>reorderMethods(\Closure $func)</code>  use a function to reorder methods in class</li>
 <li><code>prepend($text)</code>  inserts text into beginning of markdown file</li>
 <li><code>append($text)</code>  inserts text in the end of markdown file</li>
+</ul>
+<h2 id="githubrelease">GitHubRelease</h2>
+<p>Publishes new GitHub release.</p>
+<pre><code class="php">&lt;?php
+$this-&gt;taskGitHubRelease('0.1.0')
+  -&gt;uri('Codegyre/Robo')
+  -&gt;askDescription()
+  -&gt;run();
+?&gt;
+</code></pre>
+
+<ul>
+<li><code>\Robo\Task\Vcs\GitHubRelease tag(string $tag)</code> </li>
+<li><code>\Robo\Task\Vcs\GitHubRelease name(string $name)</code> </li>
+<li><code>\Robo\Task\Vcs\GitHubRelease body(string $body)</code> </li>
+<li><code>\Robo\Task\Vcs\GitHubRelease draft(boolean $isDraft)</code> </li>
+<li><code>\Robo\Task\Vcs\GitHubRelease prerelease(boolean $isPrerelease)</code> </li>
+<li>
+<p><code>\Robo\Task\Vcs\GitHubRelease comittish(string $branch)</code> </p>
+</li>
+<li>
+<p><code>askName()</code> </p>
+</li>
+<li><code>askDescription()</code> </li>
+<li><code>askForChanges()</code> </li>
+<li><code>changes(array $changes)</code> </li>
+<li><code>uri($uri)</code> </li>
+<li><code>askAuth()</code> </li>
 </ul>
 <h2 id="packphar">PackPhar</h2>
 <p>Creates Phar</p>

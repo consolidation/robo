@@ -175,8 +175,6 @@
     
         <li class="main active"><a href="#vcs-tasks">Vcs Tasks</a></li>
         
-            <li><a href="#githubrelease">GitHubRelease</a></li>
-        
             <li><a href="#gitstack">GitStack</a></li>
         
             <li><a href="#svnstack">SvnStack</a></li>
@@ -187,34 +185,6 @@
                 <div class="col-md-9" role="main">
 
 <h1 id="vcs-tasks">Vcs Tasks</h1>
-<h2 id="githubrelease">GitHubRelease</h2>
-<p>Publishes new GitHub release.</p>
-<pre><code class="php">&lt;?php
-$this-&gt;taskGitHubRelease('0.1.0')
-  -&gt;uri('Codegyre/Robo')
-  -&gt;askDescription()
-  -&gt;run();
-?&gt;
-</code></pre>
-
-<ul>
-<li><code>tag(string $tag)</code> </li>
-<li><code>name(string $name)</code> </li>
-<li><code>body(string $body)</code> </li>
-<li><code>draft(boolean $isDraft)</code> </li>
-<li><code>prerelease(boolean $isPrerelease)</code> </li>
-<li>
-<p><code>comittish(string $branch)</code> </p>
-</li>
-<li>
-<p><code>askName()</code> </p>
-</li>
-<li><code>askDescription()</code> </li>
-<li><code>askForChanges()</code> </li>
-<li><code>changes(array $changes)</code> </li>
-<li><code>uri($uri)</code> </li>
-<li><code>askAuth()</code> </li>
-</ul>
 <h2 id="gitstack">GitStack</h2>
 <p>Runs Git commands in stack. You can use <code>stopOnFail()</code> to point that stack should be terminated on first fail.</p>
 <pre><code class="php">&lt;?php

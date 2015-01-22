@@ -6,12 +6,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         
-        <link rel="canonical" href="http://robo.li/tasks/Assets/">
+        <link rel="canonical" href="http://robo.li/tasks/Bower/">
         <link rel="shortcut icon" href="../../../../img/favicon.png">
         
         <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 
-	<title>Assets Tasks - Robo - Robo</title>
+	<title>Bower Tasks - Robo - Robo</title>
 
         <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome-4.0.3.css" rel="stylesheet">
@@ -90,8 +90,8 @@
                                 <a href="../Development">Development Tasks</a>
                             </li>
                         
-                            <li class="active">
-                                <a href=".">Assets Tasks</a>
+                            <li >
+                                <a href="../Assets">Assets Tasks</a>
                             </li>
                         
                             <li >
@@ -106,8 +106,8 @@
                                 <a href="../Npm">NPM Tasks</a>
                             </li>
                         
-                            <li >
-                                <a href="../Bower">Bower Tasks</a>
+                            <li class="active">
+                                <a href=".">Bower Tasks</a>
                             </li>
                         
                             <li >
@@ -127,12 +127,12 @@
                 
                 
                 <li >
-                    <a rel="next" href="../Development">
+                    <a rel="next" href="../Npm">
                         <i class="fa fa-arrow-left"></i> Previous
                     </a>
                 </li>
                 <li >
-                    <a rel="prev" href="../Remote">
+                    <a rel="prev" href="../Docker">
                         Next <i class="fa fa-arrow-right"></i>
                     </a>
                 </li>
@@ -159,33 +159,65 @@
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
     
-        <li class="main active"><a href="#assets-tasks">Assets Tasks</a></li>
+        <li class="main active"><a href="#bower-tasks">Bower Tasks</a></li>
         
-            <li><a href="#minify">Minify</a></li>
+            <li><a href="#install">Install</a></li>
+        
+            <li><a href="#update">Update</a></li>
         
     
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
-<h1 id="assets-tasks">Assets Tasks</h1>
-<h2 id="minify">Minify</h2>
-<p>Minifies asset file (CSS or JS).</p>
+<h1 id="bower-tasks">Bower Tasks</h1>
+<h2 id="install">Install</h2>
+<p>Bower Install</p>
 <pre><code class="php">&lt;?php
-$this-&gt;taskMinify( 'web/assets/theme.css' )
-     -&gt;run()
+// simple execution
+$this-&gt;taskBowerInstall()-&gt;run();
+
+// prefer dist with custom path
+$this-&gt;taskBowerInstall('path/to/my/bower')
+     -&gt;noDev()
+     -&gt;run();
 ?&gt;
 </code></pre>
 
-<p>Please install additional dependencies to use:</p>
-<pre><code>&quot;patchwork/jsqueeze&quot;: &quot;~1.0&quot;,
-&quot;natxet/CssMin&quot;: &quot;~3.0&quot;
+<ul>
+<li><code>allowRoot()</code>  adds <code>allow-root</code> option to bower</li>
+<li><code>forceLatest()</code>  adds <code>force-latest</code> option to bower</li>
+<li><code>noDev()</code>  adds <code>production</code> option to bower</li>
+<li><code>offline()</code>  adds <code>offline</code> option to bower</li>
+<li><code>arg($arg)</code>  Pass argument to executable</li>
+<li><code>args($args)</code>  Pass methods parameters as arguments to executable</li>
+<li><code>option($option, $value = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter</li>
+<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>printed($arg)</code>  Should command output be printed</li>
+</ul>
+<h2 id="update">Update</h2>
+<p>Bower Update</p>
+<pre><code class="php">&lt;?php
+// simple execution
+$this-&gt;taskBowerUpdate-&gt;run();
+
+// prefer dist with custom path
+$this-&gt;taskBowerUpdate('path/to/my/bower')
+     -&gt;noDev()
+     -&gt;run();
+?&gt;
 </code></pre>
 
 <ul>
-<li><code>to($dst)</code>  Sets destination. Tries to guess type from it.</li>
-<li><code>type($type)</code>  Sets type with validation.</li>
-<li><code>__toString()</code>  @return string</li>
+<li><code>allowRoot()</code>  adds <code>allow-root</code> option to bower</li>
+<li><code>forceLatest()</code>  adds <code>force-latest</code> option to bower</li>
+<li><code>noDev()</code>  adds <code>production</code> option to bower</li>
+<li><code>offline()</code>  adds <code>offline</code> option to bower</li>
+<li><code>arg($arg)</code>  Pass argument to executable</li>
+<li><code>args($args)</code>  Pass methods parameters as arguments to executable</li>
+<li><code>option($option, $value = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter</li>
+<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>printed($arg)</code>  Should command output be printed</li>
 </ul>
 </div>
             

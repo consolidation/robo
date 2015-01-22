@@ -6,12 +6,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         
-        
+        <link rel="canonical" href="http://robo.li/">
         <link rel="shortcut icon" href="./img/favicon.png">
         
         <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 
-	<title>Robo</title>
+	<title>Robo - Robo</title>
 
         <link href="./css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="./css/font-awesome-4.0.3.css" rel="stylesheet">
@@ -28,7 +28,7 @@
         
     </head>
 
-    <body>
+    <body class="homepage">
 
         <div class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
@@ -131,8 +131,8 @@
                         <i class="fa fa-arrow-left"></i> Previous
                     </a>
                 </li>
-                <li class="disabled">
-                    <a rel="prev" >
+                <li >
+                    <a rel="prev" href="started/">
                         Next <i class="fa fa-arrow-right"></i>
                     </a>
                 </li>
@@ -154,19 +154,176 @@
 </div>
 
         
-        <div class="container">
-            
+            <div class="layer">
+<div class="callout">
+<div class="container">
 
-    <div class="row-fluid">
-      <div id="main-content" class="span12">
-        <h1 id="404-page-not-found" style="text-align: center">404</h1>
-        <p style="text-align: center"><strong>Page not found</strong></p>
-      </div>
-    </div>
+        <div class="col-md-3">
+            <div class="logo">
+                <a href="http://robo.li/"><img src="img/robo.png" alt="RoboTask"/></a>
 
-
+            </div>
 
         </div>
+
+    <div class="col-md-6">
+        <h1>Robo</h1>
+        <h3>Modern Task Runner for <strong>PHP</strong></h3>
+
+    </div>
+
+    <div class="col-md-3">
+
+
+        <p>
+        <a class="btn btn-success btn-lg btn-block" href="/robo.phar">Download robo.phar &raquo;</a>
+        </p>
+
+
+        <div class="well">
+            <p>
+            <a href="https://gitter.im/Codegyre/Robo?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">
+                <img src="https://badges.gitter.im/Join%20Chat.svg" alt="Gitter"/>
+            </a>
+                </p>
+
+        <p>
+        <a href="https://packagist.org/packages/codegyre/robo">
+            <img src="https://poser.pugx.org/codegyre/robo/v/stable.png" alt="Release"/>
+        </a>
+            </p>
+        <p>
+
+            <a href="https://packagist.org/packages/codegyre/robo">
+                <img src="https://poser.pugx.org/codegyre/robo/downloads.png" alt="Total Downloads"/>
+            </a></p>
+        <p>
+            <a href="https://packagist.org/packages/codegyre/robo">
+                <img src="https://poser.pugx.org/codegyre/robo/license.png" alt="License MIT"/>
+            </a>
+        </p>
+        </div>
+    </div>
+
+</div>
+</div>
+</div>
+
+<div class="container">
+        <div class="col-md-6">
+            <div class="col-md-6 features">
+                <h3>What is Robo?</h3>
+                Robo is a task runner you always has been looking for.
+                It allows you to write fully customizable tasks in common OOP PHP style.
+                Robo has comprehensive list of built-in common tasks for development, testing, and deployment.
+            </div>
+            <div class="col-md-6">
+
+                <h3>Use Robo to</h3>
+                <ul>
+                    <li>automate your common tasks</li>
+                    <li>start workers</li>
+                    <li>run parallel tasks</li>
+                    <li>execute commands</li>
+                    <li>run tests</li>
+                    <li>watch filesystem changes</li>
+                </ul>
+            </div>
+            <div class="col-md-12">
+                <h2>Install</h2>
+                <h3>Via Composer</h3>
+
+                <p>Add to <code>composer.json</code> of your project</p>
+                <pre>
+<code class="json">require-dev: {
+    "codegyre/robo": "*"
+}
+</code></pre>
+
+                or install it globally:
+
+<pre><code>composer global require codegyre/robo</code></pre>
+
+                <a class="btn btn-success right" href="http://robo.li/robo.phar">Download robo.phar</a>
+                <h3>Using Phar</h3>
+                <div class="clear"></div>
+                <pre><code>wget http://robo.li/robo.phar</code></pre>
+                <p>To install globally put robo.phar in /usr/bin.</p>
+                <pre><code>sudo chmod +x robo.phar && mv robo.phar /usr/bin/robo</code></pre></p>
+
+                Now you can use it just like <code>robo</code>.
+            <h2>Feedback</h2>
+
+                    <blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/search?q=%23Robo&amp;src=hash">#Robo</a> is a very amazing project. The one project that was missing to php developer environment. I really like it. <a href="https://twitter.com/codeception">@codeception</a> @codegyre</p>&mdash; Hugo Leonardo C. S. (@hugoleodev) <a href="https://twitter.com/hugoleodev/statuses/436351614216335360">February 20, 2014</a></blockquote>
+                    <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+                    <blockquote class="twitter-tweet" data-cards="hidden" lang="en"><p>I&#39;ve been playing w/ <a href="https://twitter.com/davert">@davert</a>&#39;s Robo this evening, converting a rickety shell script for building <a href="https://twitter.com/search?q=%23Drupal&amp;src=hash">#Drupal</a>. Very nice. <a href="http://t.co/gGtJu0EWSC">pic.twitter.com/gGtJu0EWSC</a></p>&mdash; Paul Byrne (@pfaocle) <a href="https://twitter.com/pfaocle/statuses/428671971124342784">January 29, 2014</a></blockquote>
+                    <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+            </div>
+            </div>
+        <div class="col-md-6">
+<pre><code class="php">&lt;?php // all tasks are defined in RoboFile.php
+class RoboFile {
+/**
+ * Each public method is a command in runner
+ * parameters are arguments in console
+ *
+ * use './robo test' to run tests on a project
+ */
+function test($pathToSelenium = '~/selenium.jar')
+{
+    // starts PHP server in background
+    $this->taskServer(8000)
+        ->background()
+        ->dir('web')
+        ->run();
+
+    // launches Selenium server
+    $this->taskExec('java -jar '.$pathToSelenium)
+        ->background()
+        ->run();
+
+    // runs PHPUnit tests
+    $this->taskPHPUnit()
+        ->run();
+}
+
+/**
+ * Cleanup temporary files
+ */
+function clean()
+{
+    $this->_cleanDir(['app/cache', 'app/logs']);
+    $this->_deleteDir(['web/assets/tmp_uploads']);
+}
+
+/**
+ * Minify assets
+ */
+function assets()
+{
+    // concat CSS files
+    $this->taskConcat(['web/css/core.css','web/css/theme.css'])
+        ->to('main.css')
+        ->run();
+
+    // minify CSS files
+    $this->taskMinify('main.css')
+        ->to('main.min.css')
+        ->run();
+
+    // install Bower dependencies
+    $this->taskBowerInstall()
+        ->dir('web')
+        ->run();
+}
+// ...Git, Ssh, Docker, and other tasks available
+}
+</code></pre>
+
+
+ </div>
+</div>
         
 
         <footer class="col-md-12">

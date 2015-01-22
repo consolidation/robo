@@ -1,5 +1,6 @@
 site_name: Robo
 theme: mkdocs
+site_favicon: img/favicon.png
 theme_dir: robotheme
 site_url: http://robo.li
 repo_url: https://github.com/codegyre/robo/

@@ -1,33 +1,4 @@
 # Vcs Tasks
-
-## GitHubRelease
-
-
-Publishes new GitHub release.
-
-``` php
-<?php
-$this->taskGitHubRelease('0.1.0')
-  ->uri('Codegyre/Robo')
-  ->askDescription()
-  ->run();
-?>
-```
-
-* ` tag(string $tag)` 
-* ` name(string $name)` 
-* ` body(string $body)` 
-* ` draft(boolean $isDraft)` 
-* ` prerelease(boolean $isPrerelease)` 
-* ` comittish(string $branch)` 
-
-* `askName()` 
-* `askDescription()` 
-* `askForChanges()` 
-* `changes(array $changes)` 
-* `uri($uri)` 
-* `askAuth()` 
-
 ## GitStack
 
 

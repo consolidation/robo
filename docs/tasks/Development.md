@@ -90,6 +90,35 @@ $this->taskGenerateMarkdownDoc('models.md')
 
 
 
+
+## GitHubRelease
+
+
+Publishes new GitHub release.
+
+``` php
+<?php
+$this->taskGitHubRelease('0.1.0')
+  ->uri('Codegyre/Robo')
+  ->askDescription()
+  ->run();
+?>
+```
+
+* `\Robo\Task\Vcs\GitHubRelease tag(string $tag)` 
+* `\Robo\Task\Vcs\GitHubRelease name(string $name)` 
+* `\Robo\Task\Vcs\GitHubRelease body(string $body)` 
+* `\Robo\Task\Vcs\GitHubRelease draft(boolean $isDraft)` 
+* `\Robo\Task\Vcs\GitHubRelease prerelease(boolean $isPrerelease)` 
+* `\Robo\Task\Vcs\GitHubRelease comittish(string $branch)` 
+
+* `askName()` 
+* `askDescription()` 
+* `askForChanges()` 
+* `changes(array $changes)` 
+* `uri($uri)` 
+* `askAuth()` 
+
 ## PackPhar
 
 

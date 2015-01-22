@@ -92,6 +92,14 @@ class GitStack extends CommandStack
     }
 
     /**
+     * Performs git merge
+     */
+    public function merge($branch)
+    {
+        return $this->exec([__FUNCTION__, $branch]);
+    }
+
+    /**
      * Executes `git checkout` command
      *
      * @param $branch

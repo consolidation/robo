@@ -6,12 +6,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         
-        <link rel="canonical" href="http://robo.li/tasks/FileSystem/">
+        <link rel="canonical" href="http://robo.li/tasks/Gulp/">
         <link rel="shortcut icon" href="../../../../img/favicon.png">
         
         <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 
-	<title>FileSystem Tasks - Robo - Robo</title>
+	<title>Gulp Tasks - Robo - Robo</title>
 
         <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome-4.0.3.css" rel="stylesheet">
@@ -70,8 +70,8 @@
                                 <a href="../Base">Base Tasks</a>
                             </li>
                         
-                            <li class="active">
-                                <a href=".">FileSystem Tasks</a>
+                            <li >
+                                <a href="../FileSystem">FileSystem Tasks</a>
                             </li>
                         
                             <li >
@@ -110,8 +110,8 @@
                                 <a href="../Bower">Bower Tasks</a>
                             </li>
                         
-                            <li >
-                                <a href="../Gulp">Gulp Tasks</a>
+                            <li class="active">
+                                <a href=".">Gulp Tasks</a>
                             </li>
                         
                             <li >
@@ -141,12 +141,12 @@
                 
                 
                 <li >
-                    <a rel="next" href="../Base">
+                    <a rel="next" href="../Bower">
                         <i class="fa fa-arrow-left"></i> Previous
                     </a>
                 </li>
                 <li >
-                    <a rel="prev" href="../File">
+                    <a rel="prev" href="../Docker">
                         Next <i class="fa fa-arrow-right"></i>
                     </a>
                 </li>
@@ -173,92 +173,40 @@
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
     
-        <li class="main active"><a href="#filesystem-tasks">FileSystem Tasks</a></li>
+        <li class="main active"><a href="#gulp-tasks">Gulp Tasks</a></li>
         
-            <li><a href="#cleandir">CleanDir</a></li>
-        
-            <li><a href="#copydir">CopyDir</a></li>
-        
-            <li><a href="#deletedir">DeleteDir</a></li>
-        
-            <li><a href="#filesystemstack">FilesystemStack</a></li>
-        
-            <li><a href="#mirrordir">MirrorDir</a></li>
+            <li><a href="#run">Run</a></li>
         
     
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
-<h1 id="filesystem-tasks">FileSystem Tasks</h1>
-<h2 id="cleandir">CleanDir</h2>
-<p>Deletes all files from specified dir, ignoring git files.</p>
+<h1 id="gulp-tasks">Gulp Tasks</h1>
+<h2 id="run">Run</h2>
+<p>Gulp Run</p>
 <pre><code class="php">&lt;?php
-$this-&gt;taskCleanDir(['tmp','logs'])-&gt;run();
-// as shortcut
-$this-&gt;_cleanDir('app/cache');
-?&gt;
-</code></pre>
+// simple execution
+$this-&gt;taskGulpRun()-&gt;run();
 
-<h2 id="copydir">CopyDir</h2>
-<p>Copies one dir into another</p>
-<pre><code class="php">&lt;?php
-$this-&gt;taskCopyDir(['dist/config' =&gt; 'config'])-&gt;run();
-// as shortcut
-$this-&gt;_copyDir(['dist/config' =&gt; 'config']);
-?&gt;
-</code></pre>
-
-<h2 id="deletedir">DeleteDir</h2>
-<p>Deletes dir</p>
-<pre><code class="php">&lt;?php
-$this-&gt;taskDeleteDir('tmp')-&gt;run();
-// as shortcut
-$this-&gt;_deleteDir(['tmp', 'log']);
-?&gt;
-</code></pre>
-
-<h2 id="filesystemstack">FilesystemStack</h2>
-<p>Wrapper for <a href="http://symfony.com/doc/current/components/filesystem.html">Symfony FileSystem</a> Component.
-Comands are executed in stack and can be stopped on first fail with <code>stopOnFail</code> option.</p>
-<pre><code class="php">&lt;?php
-$this-&gt;taskFileSystemStack()
-     -&gt;mkdir('logs')
-     -&gt;touch('logs/.gitignore')
-     -&gt;chgrp('www', 'www-data')
-     -&gt;symlink('/var/log/nginx/error.log', 'logs/error.log')
+// run task 'clean' with --silent option
+$this-&gt;taskGulpRun('clean')
+     -&gt;silent()
      -&gt;run();
-
-// one line
-$this-&gt;_touch('.gitignore');
-$this-&gt;_mkdir('logs');
-
 ?&gt;
 </code></pre>
 
 <ul>
-<li><code>stopOnFail($stop = null)</code> </li>
-<li><code>mkdir($dir)</code> </li>
-<li><code>touch($file)</code> </li>
-<li><code>copy($from, $to, $force = null)</code> </li>
-<li><code>chmod($file, $permissions, $umask = null, $recursive = null)</code> </li>
-<li><code>remove($file)</code> </li>
-<li><code>rename($from, $to)</code> </li>
-<li><code>symlink($from, $to)</code> </li>
-<li><code>mirror($from, $to)</code> </li>
-<li><code>chgrp($file, $group)</code> </li>
-<li><code>chown($file, $user)</code> </li>
+<li><code>silent()</code>  adds <code>silent</code> option to gulp</li>
+<li><code>noColor()</code>  adds <code>--no-color</code> option to gulp</li>
+<li><code>color()</code>  adds <code>--color</code> option to gulp</li>
+<li><code>simple()</code>  adds <code>--tasks-simple</code> option to gulp</li>
+<li><code>arg($arg)</code>  Pass argument to executable</li>
+<li><code>args($args)</code>  Pass methods parameters as arguments to executable</li>
+<li><code>option($option, $value = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter</li>
+<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>printed($arg)</code>  Should command output be printed</li>
 </ul>
-<h2 id="mirrordir">MirrorDir</h2>
-<p>Mirrors a directory to another</p>
-<pre><code class="php">&lt;?php
-$this-&gt;taskMirrorDir(['dist/config/' =&gt; 'config/'])-&gt;run();
-// or use shortcut
-$this-&gt;_mirrorDir(['dist/config/' =&gt; 'config/']);
-
-?&gt;
-</code></pre>
-
 </div>
             
 

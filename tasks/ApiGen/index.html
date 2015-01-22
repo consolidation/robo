@@ -6,12 +6,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         
-        <link rel="canonical" href="http://robo.li/tasks/FileSystem/">
+        <link rel="canonical" href="http://robo.li/tasks/ApiGen/">
         <link rel="shortcut icon" href="../../../../img/favicon.png">
         
         <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 
-	<title>FileSystem Tasks - Robo - Robo</title>
+	<title>ApiGen Tasks - Robo - Robo</title>
 
         <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome-4.0.3.css" rel="stylesheet">
@@ -70,8 +70,8 @@
                                 <a href="../Base">Base Tasks</a>
                             </li>
                         
-                            <li class="active">
-                                <a href=".">FileSystem Tasks</a>
+                            <li >
+                                <a href="../FileSystem">FileSystem Tasks</a>
                             </li>
                         
                             <li >
@@ -118,8 +118,8 @@
                                 <a href="../Docker">Docker Tasks</a>
                             </li>
                         
-                            <li >
-                                <a href="../ApiGen">ApiGen Tasks</a>
+                            <li class="active">
+                                <a href=".">ApiGen Tasks</a>
                             </li>
                         
                         </ul>
@@ -141,12 +141,12 @@
                 
                 
                 <li >
-                    <a rel="next" href="../Base">
+                    <a rel="next" href="../Docker">
                         <i class="fa fa-arrow-left"></i> Previous
                     </a>
                 </li>
                 <li >
-                    <a rel="prev" href="../File">
+                    <a rel="prev" href="../../changelog">
                         Next <i class="fa fa-arrow-right"></i>
                     </a>
                 </li>
@@ -173,92 +173,66 @@
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
     
-        <li class="main active"><a href="#filesystem-tasks">FileSystem Tasks</a></li>
+        <li class="main active"><a href="#apigen-tasks">ApiGen Tasks</a></li>
         
-            <li><a href="#cleandir">CleanDir</a></li>
-        
-            <li><a href="#copydir">CopyDir</a></li>
-        
-            <li><a href="#deletedir">DeleteDir</a></li>
-        
-            <li><a href="#filesystemstack">FilesystemStack</a></li>
-        
-            <li><a href="#mirrordir">MirrorDir</a></li>
+            <li><a href="#apigen">ApiGen</a></li>
         
     
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
-<h1 id="filesystem-tasks">FileSystem Tasks</h1>
-<h2 id="cleandir">CleanDir</h2>
-<p>Deletes all files from specified dir, ignoring git files.</p>
+<h1 id="apigen-tasks">ApiGen Tasks</h1>
+<h2 id="apigen">ApiGen</h2>
+<p>Executes ApiGen command to generate documentation </p>
 <pre><code class="php">&lt;?php
-$this-&gt;taskCleanDir(['tmp','logs'])-&gt;run();
-// as shortcut
-$this-&gt;_cleanDir('app/cache');
-?&gt;
-</code></pre>
-
-<h2 id="copydir">CopyDir</h2>
-<p>Copies one dir into another</p>
-<pre><code class="php">&lt;?php
-$this-&gt;taskCopyDir(['dist/config' =&gt; 'config'])-&gt;run();
-// as shortcut
-$this-&gt;_copyDir(['dist/config' =&gt; 'config']);
-?&gt;
-</code></pre>
-
-<h2 id="deletedir">DeleteDir</h2>
-<p>Deletes dir</p>
-<pre><code class="php">&lt;?php
-$this-&gt;taskDeleteDir('tmp')-&gt;run();
-// as shortcut
-$this-&gt;_deleteDir(['tmp', 'log']);
-?&gt;
-</code></pre>
-
-<h2 id="filesystemstack">FilesystemStack</h2>
-<p>Wrapper for <a href="http://symfony.com/doc/current/components/filesystem.html">Symfony FileSystem</a> Component.
-Comands are executed in stack and can be stopped on first fail with <code>stopOnFail</code> option.</p>
-<pre><code class="php">&lt;?php
-$this-&gt;taskFileSystemStack()
-     -&gt;mkdir('logs')
-     -&gt;touch('logs/.gitignore')
-     -&gt;chgrp('www', 'www-data')
-     -&gt;symlink('/var/log/nginx/error.log', 'logs/error.log')
-     -&gt;run();
-
-// one line
-$this-&gt;_touch('.gitignore');
-$this-&gt;_mkdir('logs');
-
+// ApiGen Command
+$this-&gt;taskApiGen('./apigen.neon')
+     -&gt;templateConfig('vendor/apigen/apigen/templates/bootstrap/config.neon')
+     -&gt;wipeout(true)
+      -&gt;run();
 ?&gt;
 </code></pre>
 
 <ul>
-<li><code>stopOnFail($stop = null)</code> </li>
-<li><code>mkdir($dir)</code> </li>
-<li><code>touch($file)</code> </li>
-<li><code>copy($from, $to, $force = null)</code> </li>
-<li><code>chmod($file, $permissions, $umask = null, $recursive = null)</code> </li>
-<li><code>remove($file)</code> </li>
-<li><code>rename($from, $to)</code> </li>
-<li><code>symlink($from, $to)</code> </li>
-<li><code>mirror($from, $to)</code> </li>
-<li><code>chgrp($file, $group)</code> </li>
-<li><code>chown($file, $user)</code> </li>
+<li><code>config($config)</code> </li>
+<li><code>source($src)</code>   * <code>param array|string|Traversable</code> $src one or more source values</li>
+<li><code>destination($dest)</code> </li>
+<li><code>extensions($exts)</code>   * <code>param array|string</code> $exts one or more extensions</li>
+<li><code>exclude($exclude)</code>   * <code>param array|string</code> $exclude one or more exclusions</li>
+<li><code>skipDocPath($path)</code>   * <code>param array|string|Traversable</code> $exts one or more skip-doc-path values</li>
+<li><code>skipDocPrefix($prefix)</code>   * <code>param array|string|Traversable</code> $prefix one or more skip-doc-prefix values</li>
+<li><code>charset($charset)</code>   * <code>param array|string</code> $charset one or more charsets</li>
+<li><code>mainProjectNamePrefix($name)</code> </li>
+<li><code>title($title)</code> </li>
+<li><code>baseUrl($baseUrl)</code> </li>
+<li><code>googleCseId($id)</code> </li>
+<li><code>googleAnalytics($trackingCode)</code> </li>
+<li><code>templateConfig($templateConfig)</code> </li>
+<li><code>allowedHtml($tags)</code>   * <code>param array|string</code> $tags one or more supported html tags</li>
+<li><code>groups($groups)</code> </li>
+<li><code>autocomplete($types)</code>   * <code>param array|string</code> $types or more supported autocomple types</li>
+<li><code>accessLevels($levels)</code>   * <code>param array|string</code> $levels one or more access levels </li>
+<li><code>internal($internal)</code>   * <code>param boolean|string</code> $internal 'yes' or true if internal, 'no' or false if not</li>
+<li><code>php($php)</code>   * <code>param boolean|string</code> $php 'yes' or true to generate documentation for internal php classes,</li>
+<li><code>tree($tree)</code>   * <code>param boolean|string</code> $tree 'yes' or true to generate a tree view of classes, 'no' or false otherwise</li>
+<li><code>deprecated($dep)</code>   * <code>param boolean|string</code> $dep 'yes' or true to generate documentation for deprecated classes, 'no' or false otherwise</li>
+<li><code>todo($todo)</code>   * <code>param boolean|string</code> $todo 'yes' or true to document tasks, 'no' or false otherwise</li>
+<li><code>sourceCode($src)</code>   * <code>param boolean|string</code> $src 'yes' or true to generate highlighted source code, 'no' or false otherwise</li>
+<li><code>download($zipped)</code>   * <code>param boolean|string</code> $zipped 'yes' or true to generate downloadable documentation, 'no' or false otherwise</li>
+<li><code>report($path)</code> </li>
+<li><code>wipeout($wipeout)</code>   * <code>param boolean|string</code> $wipeout 'yes' or true to clear out the destination directory, 'no' or false otherwise</li>
+<li><code>quiet($quiet)</code>   * <code>param boolean|string</code> $quiet 'yes' or true for quiet, 'no' or false otherwise</li>
+<li><code>progressbar($bar)</code>   * <code>param boolean|string</code> $bar 'yes' or true to display a progress bar, 'no' or false otherwise</li>
+<li><code>colors($colors)</code>   * <code>param boolean|string</code> $colors 'yes' or true colorize the output, 'no' or false otherwise</li>
+<li><code>updateCheck($check)</code>   * <code>param boolean|string</code> $check 'yes' or true to check for updates, 'no' or false otherwise</li>
+<li><code>debug($debug)</code>   * <code>param boolean|string</code> $debug 'yes' or true to enable debug mode, 'no' or false otherwise</li>
+<li><code>arg($arg)</code>  Pass argument to executable</li>
+<li><code>args($args)</code>  Pass methods parameters as arguments to executable</li>
+<li><code>option($option, $value = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter</li>
+<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>printed($arg)</code>  Should command output be printed</li>
 </ul>
-<h2 id="mirrordir">MirrorDir</h2>
-<p>Mirrors a directory to another</p>
-<pre><code class="php">&lt;?php
-$this-&gt;taskMirrorDir(['dist/config/' =&gt; 'config/'])-&gt;run();
-// or use shortcut
-$this-&gt;_mirrorDir(['dist/config/' =&gt; 'config/']);
-
-?&gt;
-</code></pre>
-
 </div>
             
 

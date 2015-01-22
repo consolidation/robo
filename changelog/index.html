@@ -204,7 +204,7 @@
 
 <h1 id="changelog">Changelog</h1>
 <h4 id="050">0.5.0</h4>
-<p>Refactored core, tasks moved to corresponding namespaces:</p>
+<p>Refactored core</p>
 <ul>
 <li>All traits moved to <code>Robo\Common</code> namespace</li>
 <li>Interfaces moved to <code>Robo\Contract</code> namespace</li>
@@ -216,6 +216,10 @@
 <li>Tasks can be used outside of Robo runner (inside a project)</li>
 <li>Timer for long-running tasks added</li>
 <li>Tasks can be globally configured (WIP) via <code>Robo\Config</code> class.</li>
+<li>Updated to Symfony &gt;= 2.5</li>
+<li>IO methods added <code>askHidden</code>, <code>askDefault</code>, <code>confirm</code></li>
+<li>TaskIO methods added <code>printTaskError</code>, <code>printTaskSuccess</code> with different formatting.</li>
+<li>[Docker] Tasks added</li>
 <li>[Gulp] Task added by @schorsch3000 </li>
 </ul>
 <h4 id="047">0.4.7</h4>

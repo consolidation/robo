@@ -171,6 +171,8 @@
         
             <li><a href="#tasks">Tasks</a></li>
         
+            <li><a href="#shortcuts">Shortcuts</a></li>
+        
             <li><a href="#result">Result</a></li>
         
             <li><a href="#output">Output</a></li>
@@ -182,7 +184,7 @@
 
 <h1 id="getting-started">Getting Started</h1>
 <p>To begin you need to create a Robofile. Just run <code>robo</code> in empty dir:</p>
-<pre><code>php vendor/bin/robo
+<pre><code>robo
 </code></pre>
 
 <p>You will be asked to create a file. New <code>RoboFile.php</code> extends <code>\Robo\Tasks</code> class. It includes all bundled tasks from traits.
@@ -225,7 +227,7 @@ If you pass a default value to parameter the argument becomes optional:</p>
 ?&gt;
 </code></pre>
 
-<pre><code>php vendor/bin/robo hello
+<pre><code>robo hello
 ➜ Hello, world
 </code></pre>
 
@@ -238,7 +240,7 @@ If you pass a default value to parameter the argument becomes optional:</p>
 ?&gt;
 </code></pre>
 
-<pre><code>php vendor/bin/robo hello davert jon bill bob
+<pre><code>robo hello davert jon bill bob
 ➜ Hello, davert, jon, bill, bob
 </code></pre>
 
@@ -252,10 +254,10 @@ If you pass a default value to parameter the argument becomes optional:</p>
 ?&gt;
 </code></pre>
 
-<pre><code>php vendor/bin/robo hello
+<pre><code>robo hello
 ➜ Hello, world
 
-php vendor/bin/robo hello --silent
+robo hello --silent
 </code></pre>
 
 <p>A one-char shortcut can be specified for option:</p>
@@ -268,7 +270,7 @@ php vendor/bin/robo hello --silent
 </code></pre>
 
 <p>Now command can be executed with '-s' to run in silent mode: </p>
-<pre><code>php vendor/bin/robo hello -s
+<pre><code>robo hello -s
 </code></pre>
 
 <h3 id="pass-through-arguments">Pass-Through Arguments</h3>
@@ -282,7 +284,7 @@ Any special character like <code>-</code> will be passed into without change.</p
 ?&gt;
 </code></pre>
 
-<pre><code>php vendor/bin/robo ls -- Robo -c --all
+<pre><code>robo ls -- Robo -c --all
  [Robo\Task\ExecTask] running ls Robo -c --all
  .  ..  CHANGELOG.md  codeception.yml  composer.json  composer.lock  docs  .git  .gitignore  .idea  LICENSE  README.md  robo  RoboFile.php  robo.phar  src  tests  .travis.yml  vendor
 </code></pre>
@@ -316,7 +318,7 @@ public function fibonacci($start, $steps, $opts = ['graphic' =&gt; false])
 </code></pre>
 
 <p>into</p>
-<pre><code>$ ./robo fibonacci --help
+<pre><code>robo fibonacci --help
 Usage:
  fibonacci [--graphic] start steps
 
@@ -353,7 +355,7 @@ trait CompileAssets
     }
 }
 
-class CompileAssetsTask implements Robo\TaskInterface
+class CompileAssetsTask implements Robo\Contract\TaskInterface
 {
     // configuration params
     protected $path;
@@ -396,6 +398,15 @@ class RoboFile extends Robo\Tasks
 </code></pre>
 
 <p>You can use various preinstalled tasks in the same way. Just include corresponding trait and call the <code>$this-&gt;taskXXX</code> method.</p>
+<p><em>It is recommended to have store trait loading task in <code>loadTasks</code> file of the same namespace</em></p>
+<h2 id="shortcuts">Shortcuts</h2>
+<p>Some tasks may have shortcuts. If task does not require multi-step configuration it can be executed with a one line:</p>
+<pre><code class="php">&lt;?php
+$this-&gt;_exec('ps aux');
+$this-&gt;_copy('config/env.example.yml','config/env.yml');
+?&gt;
+</code></pre>
+
 <h2 id="result">Result</h2>
 <p>Each task should provide <code>Robo\Result</code> class in response. It contains task instance, exit code, message, and some data.
 The <code>run</code> method of <code>CompileAssets</code> class may look like this:</p>
@@ -416,8 +427,8 @@ class RoboFile
 
     function test()
     {
-        $res1 = $this-&gt;taskExec('phpunit tests/integration')-&gt;run();
-        $res2 = $this-&gt;taskExec('phpunit tests/unit')-&gt;run();
+        $res1 = $this-&gt;_exec('phpunit tests/integration');
+        $res2 = $this-&gt;_exec('phpunit tests/unit');
 
         // print message when tests passed
         if ($res1-&gt;wasSuccessful() and $res2-&gt;wasSuccessful()) $this-&gt;say(&quot;All tests passed&quot;);
@@ -448,7 +459,9 @@ They contain option <code>stopOnFail</code> which can be used to stop task execu
 <pre><code>$name = $this-&gt;ask(&quot;What is your name?&quot;);
 </code></pre>
 
-<p>Inside tasks you should print process details with <code>printTaskInfo</code></p>
+<p>There are also <code>askDefault</code>, <code>askHidden</code>, and <code>confirm</code> methods.</p>
+<p>Inside tasks you should print process details with <code>printTaskInfo</code>, <code>`printTaskSuccess</code>, <code>printTaskError</code>.
+To allow tasks access IO use <code>Robo\Common\TaskIO</code> trait or inherit task class from <code>Robo\Task\BaseTask</code> (recommended).</p>
 <pre><code>$this-&gt;printTaskInfo('Processing...');
 </code></pre>
 

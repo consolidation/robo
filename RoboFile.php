@@ -7,7 +7,7 @@ class RoboFile extends \Robo\Tasks
     {
         $this->yell("Releasing Robo");
 
-        $this->docsGenerate();
+        $this->docs();
         $this->taskGitStack()
             ->add('-A')
             ->commit("auto-update")
@@ -15,7 +15,7 @@ class RoboFile extends \Robo\Tasks
             ->push()
             ->run();
 
-        $this->docsPublish();
+        $this->publish();
 
         $this->taskGitHubRelease(\Robo\Runner::VERSION)
             ->uri('Codegyre/Robo')
@@ -57,7 +57,7 @@ class RoboFile extends \Robo\Tasks
     /**
      * generate docs
      */
-    public function docsGenerate()
+    public function docs()
     {
         $files = Finder::create()->files()->name('*.php')->in('src/Task');
         $docs = [];
@@ -119,11 +119,17 @@ class RoboFile extends \Robo\Tasks
     }
 
     /**
-     * Builds a site in gh-pages branch
+     * Builds a site in gh-pages branch. Uses mkdocs
      */
-    public function docsPublish()
+    public function publish()
     {
+        $this->taskGitStack()
+            ->checkout('site')
+            ->run();
         $this->_exec('mkdocs gh-deploy');
+        $this->taskGitStack()
+            ->checkout('master')
+            ->run();
     }
 
     public function pharBuild()

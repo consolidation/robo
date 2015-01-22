@@ -123,13 +123,17 @@ class RoboFile extends \Robo\Tasks
      */
     public function publish()
     {
+        $this->stopOnFail();
         $this->taskGitStack()
             ->checkout('site')
+            ->merge('master')
             ->run();
+        $this->_copy('CHANGELOG.md', 'docs/changelog.md');
         $this->_exec('mkdocs gh-deploy');
         $this->taskGitStack()
             ->checkout('master')
             ->run();
+        $this->_remove('docs/changelog.md');
     }
 
     public function pharBuild()

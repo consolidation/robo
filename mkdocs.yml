@@ -19,5 +19,6 @@ pages:
 - [tasks/Npm.md, Tasks, NPM Tasks]
 - [tasks/Bower.md, Tasks, Bower Tasks]
 - [tasks/Docker.md, Tasks, Docker Tasks]
+- [changelog.md, 'Releases']
 extra_css:
 - /css/robo.css

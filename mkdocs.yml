@@ -1,0 +1,22 @@
+site_name: Robo
+theme: mkdocs
+theme_dir: robotheme
+site_url: http://robo.li
+repo_url: https://github.com/codegyre/robo/
+pages:
+- ['index.md', 'Introduction']
+- [started.md, Getting Started]
+- [tasks/Base.md, Tasks, Base Tasks]
+- [tasks/FileSystem.md, Tasks, FileSystem Tasks]
+- [tasks/File.md, Tasks, File Tasks]
+- [tasks/Composer.md, Tasks, Composer Tasks]
+- [tasks/Vcs.md, Tasks, VCS Tasks]
+- [tasks/Development.md, Tasks, Development Tasks]
+- [tasks/Assets.md, Tasks, Assets Tasks]
+- [tasks/Remote.md, Tasks, Remote Tasks]
+- [tasks/Testing.md, Tasks, Testing Tasks]
+- [tasks/Npm.md, Tasks, NPM Tasks]
+- [tasks/Bower.md, Tasks, Bower Tasks]
+- [tasks/Docker.md, Tasks, Docker Tasks]
+extra_css:
+- /css/robo.css

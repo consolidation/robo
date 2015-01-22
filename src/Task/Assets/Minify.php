@@ -196,7 +196,7 @@ class Minify extends BaseTask
         }
 
         $minified_percent = number_format(100 - ($size_after / $size_before * 100), 1);
-        $this->printTaskInfo(
+        $this->printTaskSuccess(
             sprintf(
                 'Wrote <info>%s</info> (reduced by <info>%s%%</info>)', $this->dst,
                 $minified_percent

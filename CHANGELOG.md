@@ -1,12 +1,20 @@
 # Changelog
 
-Thanks to everyone for using it and submitting pull requests! You are awesome.
+#### 0.5.0
 
-Next release is going to be 0.5.0 with some refactorings included.
-File structure will be changed to match PSR-4 standard.
+Refactored core, tasks moved to corresponding namespaces:
 
-Thanks to everyone who submitted useful tasks. It's better to have many tasks than few.
-However, once the core is stabilized we plan to move some tasks out of main repo but make them easily installed via composer.
+* All traits moved to `Robo\Common` namespace
+* Interfaces moved to `Robo\Contract` namespace
+* All task extend `Robo\Task\BaseTask` to use common IO.
+* All classes follow PSR-4 standard
+* Tasks are loaded into RoboFile with `loadTasks` trait
+* One-line tasks are available as shortcuts loaded by `loadShortucts` and used like `$this->_exec('ls')`
+* Robo runner is less coupled. Output can be set by `\Robo\Config::setOutput`, `RoboFile` can be changed to any provided class.  
+* Tasks can be used outside of Robo runner (inside a project)
+* Timer for long-running tasks added
+* Tasks can be globally configured (WIP) via `Robo\Config` class.
+* [Gulp] Task added by @schorsch3000 
 
 #### 0.4.7
 

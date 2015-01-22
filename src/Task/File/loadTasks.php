@@ -17,7 +17,7 @@ trait loadTasks
      */
     protected function taskReplaceInFile($file)
     {
-        return new ReplaceInFile($file);
+        return new Replace($file);
     }
 
     /**

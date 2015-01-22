@@ -126,6 +126,7 @@ class RoboFile extends \Robo\Tasks
         $this->stopOnFail();
         $this->taskGitStack()
             ->checkout('site')
+            ->merge('master')
             ->run();
         $this->_copy('CHANGELOG.md', 'docs/changelog.md');
         $this->_exec('mkdocs gh-deploy');

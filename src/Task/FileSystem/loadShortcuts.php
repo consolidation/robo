@@ -10,7 +10,7 @@ trait loadShortcuts
      */
     protected function _copyDir($src, $dst)
     {
-        return (new CleanDir($src, $dst))->run();
+        return (new CopyDir($src, $dst))->run();
     }
 
     /**

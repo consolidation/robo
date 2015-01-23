@@ -30,6 +30,8 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface
     use \Robo\Common\CommandReceiver;
     use \Robo\Common\ExecOneCommand;
 
+    static $instances = [];
+
     protected $command;
     protected $background = false;
     protected $timeout = null;
@@ -57,6 +59,7 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface
      */
     public function background()
     {
+        self::$instances[] = $this;
         $this->background = true;
         return $this;
     }
@@ -107,7 +110,6 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface
         $this->process->setTimeout($this->timeout);
         $this->process->setIdleTimeout($this->idleTimeout);
         $this->process->setWorkingDirectory($this->workingDirectory);
-
 
         if (!$this->background and !$this->isPrinted) {
             $this->startTimer();

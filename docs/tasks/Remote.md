@@ -96,7 +96,7 @@ $gitTask = $this->taskGitStack()
     ->checkout('master')
     ->pull();
 
-$this->taskSsh('remote.example.com')
+$this->taskSshExec('remote.example.com')
     ->exec('cd /var/www/html/site')
     ->exec($gitTask)
     ->run();

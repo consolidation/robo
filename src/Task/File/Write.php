@@ -61,6 +61,18 @@ class Write extends BaseTask
         return $this;
     }
 
+    public function replace($name, $val)
+    {
+        $this->body = str_replace($name, $val, $this->body);
+        return $this;
+    }
+
+    public function regexReplace($name, $val)
+    {
+        $this->body = preg_replace($name, $val, $this->body);
+        return $this;
+    }
+
     public function run()
     {
         $this->printTaskInfo("Writing to <info>{$this->filename}</info>.");

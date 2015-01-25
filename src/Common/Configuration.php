@@ -10,8 +10,8 @@ trait Configuration
         Config::set(__CLASS__.".$key", $value);
     }
 
-    protected function getConfigValue($key)
+    protected function getConfigValue($key, $default = null)
     {
-        return Config::get(__CLASS__.".$key");
+        return Config::get(__CLASS__.".$key", $default);
     }
 } 

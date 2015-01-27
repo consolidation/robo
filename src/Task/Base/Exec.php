@@ -30,6 +30,8 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface
     use \Robo\Common\CommandReceiver;
     use \Robo\Common\ExecOneCommand;
 
+    static $instances = [];
+
     protected $command;
     protected $background = false;
     protected $timeout = null;
@@ -57,6 +59,7 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface
      */
     public function background()
     {
+        self::$instances[] = $this;
         $this->background = true;
         return $this;
     }
@@ -94,7 +97,7 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface
     {
         if ($this->background && $this->process->isRunning()) {
             $this->process->stop();
-            $this->printTaskInfo("stopped <info>{$this->command}</info>");
+            $this->printTaskInfo("stopped <info>".$this->getCommand()."</info>");
         }
     }
 
@@ -107,7 +110,6 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface
         $this->process->setTimeout($this->timeout);
         $this->process->setIdleTimeout($this->idleTimeout);
         $this->process->setWorkingDirectory($this->workingDirectory);
-
 
         if (!$this->background and !$this->isPrinted) {
             $this->startTimer();
@@ -134,4 +136,17 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface
         }
         return Result::success($this);
     }
+
+    static function stopRunningJobs()
+    {
+        foreach (self::$instances as $instance) {
+            if ($instance) unset($instance);
+        }
+    }
 }
+
+if (function_exists('pcntl_signal')) {
+    pcntl_signal(SIGTERM, ['Robo\Task\Base\Exec', 'stopRunningJobs']);
+}
+
+register_shutdown_function(['Robo\Task\Base\Exec', 'stopRunningJobs']);

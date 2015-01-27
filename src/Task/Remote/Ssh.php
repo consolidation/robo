@@ -2,6 +2,7 @@
 
 namespace Robo\Task\Remote;
 
+use Robo\Result;
 use Robo\Contract\CommandInterface;
 use Robo\Exception\TaskException;
 use Robo\Task\BaseTask;
@@ -13,7 +14,7 @@ use Robo\Task\BaseTask;
  * ``` php
  * <?php
  *
- * $this->taskSsh('remote.example.com', 'user')
+ * $this->taskSshExec('remote.example.com', 'user')
  *     ->exec('cd /var/www/html')
  *     ->exec('ls -la')
  *     ->exec('chmod g+x logs')
@@ -28,7 +29,7 @@ use Robo\Task\BaseTask;
  *     ->checkout('master')
  *     ->pull();
  *
- * $this->taskSsh('remote.example.com')
+ * $this->taskSshExec('remote.example.com')
  *     ->exec('cd /var/www/html/site')
  *     ->exec($gitTask)
  *     ->run();

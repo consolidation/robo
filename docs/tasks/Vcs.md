@@ -30,8 +30,8 @@ $this->taskGitStack()
 * `merge($branch)`  Performs git merge
 * `checkout($branch)`  Executes `git checkout` command
 * `exec($command)` 
-* `printed($arg)`  Should command output be printed
 * `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
 
 ## SvnStack
 
@@ -61,7 +61,7 @@ $this->taskSvnStack('username', 'password')
 * `commit($message, $options = null)`  Executes `svn commit` command with a message
 * `checkout($branch)`  Executes `svn checkout` command
 * `exec($command)` 
-* `printed($arg)`  Should command output be printed
 * `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
 
 

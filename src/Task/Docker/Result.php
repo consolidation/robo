@@ -3,6 +3,14 @@ namespace Robo\Task\Docker;
 
 class Result extends \Robo\Result
 {
+
+    /**
+     * Do not print result, as it was already printed
+     */
+    protected function printResult()
+    {
+    }
+
     public function getCid()
     {
         $data = $this->getData();

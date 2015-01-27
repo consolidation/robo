@@ -14,7 +14,7 @@ class Runner
 {
     use IO;
 
-    const VERSION = '0.5.0';
+    const VERSION = '0.5.1';
     const ROBOCLASS = 'RoboFile';
     const ROBOFILE = 'RoboFile.php';
 

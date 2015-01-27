@@ -182,7 +182,7 @@ $this->taskPhpServer(8000)
 ?>
 ```
 
-* `host($host)` 
+#### *public static* instances* `host($host)` 
 * `dir($path)`  changes working directory of command
 * `background()`  Executes command in background mode (asynchronously)
 * `timeout($timeout)`  Stop command if it runs longer then $timeout in seconds

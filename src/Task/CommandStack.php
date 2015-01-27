@@ -20,11 +20,6 @@ abstract class CommandStack extends BaseTask implements CommandInterface, Printe
     protected $exec = [];
     protected $stopOnFail = false;
 
-    public function getPrinted()
-    {
-        return $this->isPrinted;
-    }
-
     public function getCommand()
     {
         return implode(' && ', $this->exec);
@@ -40,32 +35,6 @@ abstract class CommandStack extends BaseTask implements CommandInterface, Printe
         array_push($this->exec, trim($command));
         return $this;
     }
-
-    /**
-     * Should command output be printed
-     *
-     * @param $arg
-     * @return $this
-     */
-    public function printed($arg)
-    {
-        if (is_bool($arg)) {
-            $this->isPrinted = $arg;
-        }
-        return $this;
-    }
-
-    /**
-     * changes working directory of command
-     * @param $dir
-     * @return $this
-     */
-    public function dir($dir)
-    {
-        $this->workingDirectory = $dir;
-        return $this;
-    }
-
 
     protected function stripExecutableFromCommand($command)
     {

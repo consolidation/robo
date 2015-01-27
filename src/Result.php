@@ -23,15 +23,20 @@ class Result
         $this->exitCode = $exitCode;
         $this->message = $message;
         $this->data = $data;
-
-        if (!$this->wasSuccessful()) {
-            $this->printError($task);
-        } else {
-            $this->printSuccess($task);
-        }
-
+        
+        $this->printResult();
+        
         if (self::$stopOnFail) {
             $this->stopOnFail();
+        }
+    }
+    
+    protected function printResult()
+    {
+        if (!$this->wasSuccessful()) {
+            $this->printError($this->task);
+        } else {
+            $this->printSuccess($this->task);
         }
     }
 

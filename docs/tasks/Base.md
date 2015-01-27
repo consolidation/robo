@@ -19,7 +19,7 @@ if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
 ?>
 ```
 
-* `background()`  Executes command in background mode (asynchronously)
+#### *public static* instances* `background()`  Executes command in background mode (asynchronously)
 * `timeout($timeout)`  Stop command if it runs longer then $timeout in seconds
 * `idleTimeout($timeout)`  Stops command if it does not output something for a while
 * `arg($arg)`  Pass argument to executable
@@ -49,8 +49,8 @@ $this->taskExecStack()
 * `ExecStack stopOnFail(string)` 
 
 * `exec($command)` 
-* `printed($arg)`  Should command output be printed
 * `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
 
 ## ParallelExec
 

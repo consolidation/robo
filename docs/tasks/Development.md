@@ -105,12 +105,12 @@ $this->taskGitHubRelease('0.1.0')
 ?>
 ```
 
-* `\Robo\Task\Vcs\GitHubRelease tag(string $tag)` 
-* `\Robo\Task\Vcs\GitHubRelease name(string $name)` 
-* `\Robo\Task\Vcs\GitHubRelease body(string $body)` 
-* `\Robo\Task\Vcs\GitHubRelease draft(boolean $isDraft)` 
-* `\Robo\Task\Vcs\GitHubRelease prerelease(boolean $isPrerelease)` 
-* `\Robo\Task\Vcs\GitHubRelease comittish(string $branch)` 
+* ` tag(string $tag)` 
+* ` name(string $name)` 
+* ` body(string $body)` 
+* ` draft(boolean $isDraft)` 
+* ` prerelease(boolean $isPrerelease)` 
+* ` comittish(string $branch)` 
 
 * `askName()` 
 * `askDescription()` 
@@ -182,7 +182,7 @@ $this->taskPhpServer(8000)
 ?>
 ```
 
-* `host($host)` 
+#### *public static* instances* `host($host)` 
 * `dir($path)`  changes working directory of command
 * `background()`  Executes command in background mode (asynchronously)
 * `timeout($timeout)`  Stop command if it runs longer then $timeout in seconds

@@ -261,7 +261,7 @@ if ('y' === $this-&gt;ask('Do you want to run (y/n)')) {
 Per default, commands are combined with &amp;&amp;, unless stopOnFail is false.</p>
 <pre><code class="php">&lt;?php
 
-$this-&gt;taskSsh('remote.example.com', 'user')
+$this-&gt;taskSshExec('remote.example.com', 'user')
     -&gt;exec('cd /var/www/html')
     -&gt;exec('ls -la')
     -&gt;exec('chmod g+x logs')
@@ -274,7 +274,7 @@ $this-&gt;taskSsh('remote.example.com', 'user')
     -&gt;checkout('master')
     -&gt;pull();
 
-$this-&gt;taskSsh('remote.example.com')
+$this-&gt;taskSshExec('remote.example.com')
     -&gt;exec('cd /var/www/html/site')
     -&gt;exec($gitTask)
     -&gt;run();

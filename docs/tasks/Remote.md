@@ -81,7 +81,7 @@ Per default, commands are combined with &&, unless stopOnFail is false.
 ``` php
 <?php
 
-$this->taskSsh('remote.example.com', 'user')
+$this->taskSshExec('remote.example.com', 'user')
     ->exec('cd /var/www/html')
     ->exec('ls -la')
     ->exec('chmod g+x logs')
@@ -96,7 +96,7 @@ $gitTask = $this->taskGitStack()
     ->checkout('master')
     ->pull();
 
-$this->taskSsh('remote.example.com')
+$this->taskSshExec('remote.example.com')
     ->exec('cd /var/www/html/site')
     ->exec($gitTask)
     ->run();

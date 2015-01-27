@@ -223,5 +223,11 @@ class RoboFile extends \Robo\Tasks
     {
         if (!$opts['silent']) $this->say("Hello, world");
     }
+
+    public function tryInteractive()
+    {
+        new SomeTask();
+        $this->_exec('php -r "echo php_sapi_name();"');
+    }
     
 }

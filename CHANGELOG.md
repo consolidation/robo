@@ -1,5 +1,12 @@
 # Changelog
 
+#### 0.5.1
+
+* [Exec] fixed execution of background jobs, processes persist till the end of PHP script *2015-01-27*
+* [Ssh] Fixed SSH task by @Butochnikov *2015-01-27*
+* [CopyDir] fixed shortcut usage by @boedah *2015-01-27*
+* Added default value options for Configuration trait by @TamasBarta *2015-01-27*
+
 #### 0.5.0
 
 Refactored core

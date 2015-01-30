@@ -5,7 +5,6 @@ namespace Robo\Task;
 use Robo\Common\ExecCommand;
 use Robo\Contract\PrintedInterface;
 use Robo\Result;
-use Robo\Task\Exec;
 use Robo\Contract\CommandInterface;
 use Robo\Common\DynamicParams;
 use Robo\Exception\TaskException;

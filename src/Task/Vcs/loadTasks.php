@@ -1,8 +1,6 @@
 <?php
 namespace Robo\Task\Vcs;
 
-use Robo\Task\Development\GitHubRelease;
-
 trait loadTasks
 {
     /**

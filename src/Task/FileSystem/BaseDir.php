@@ -1,8 +1,6 @@
 <?php
 namespace Robo\Task\FileSystem;
 
-use Robo\Common\IO;
-use Robo\Contract\TaskInterface;
 use Robo\Task\BaseTask;
 use Symfony\Component\Filesystem\Filesystem as sfFileSystem;
 

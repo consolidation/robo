@@ -93,6 +93,9 @@ class GitStack extends CommandStack
 
     /**
      * Performs git merge
+     *
+     * @param string $branch
+     * @return $this
      */
     public function merge($branch)
     {

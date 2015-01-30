@@ -57,7 +57,7 @@ class Write extends BaseTask
 
     public function place($name, $val)
     {
-        $this->body = str_replace("{{$name}}", $val, $this->body);
+        $this->body = str_replace('{{' . $name . '}}', $val, $this->body);
         return $this;
     }
 

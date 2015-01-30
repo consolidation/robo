@@ -106,6 +106,7 @@ class Codecept extends BaseTask implements CommandInterface, PrintedInterface
      * Generate html report
      *
      * @param string $dir
+     * @return $this
      */
     public function html($dir = null)
     {

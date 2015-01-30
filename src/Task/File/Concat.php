@@ -1,6 +1,7 @@
 <?php
 namespace Robo\Task\File;
 
+use Iterator;
 use Robo\Result;
 use Robo\Task\BaseTask;
 
@@ -33,6 +34,8 @@ class Concat extends BaseTask
 
     /**
      * Constructor.
+     *
+     * @param array|Iterator $files
      */
     public function __construct($files)
     {

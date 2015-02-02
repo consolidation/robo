@@ -68,7 +68,7 @@ class RoboFile extends \Robo\Tasks
             ->run();
 
        // running Selenium server in background
-        $this->taskExec('java -jar '.$pathToSelenium)
+        $this->taskExec('java -jar ' . $seleniumPath)
             ->background()
             ->run();
 

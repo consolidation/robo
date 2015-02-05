@@ -2,7 +2,6 @@
 namespace Robo\Task\Npm;
 
 use Robo\Task\BaseTask;
-use Robo\Task\Shared\DefaultRunner;
 use Robo\Exception\TaskException;
 
 abstract class Base extends BaseTask

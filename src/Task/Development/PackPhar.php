@@ -118,7 +118,7 @@ EOF;
 
         if ($this->compress and in_array('GZ', \Phar::getSupportedCompression())) {
             $this->printTaskInfo($this->filename . " compressed");
-            $this->phar = $this->phar->compressFiles(\Phar::GZ);
+            $this->phar->compressFiles(\Phar::GZ);
         }
         $this->stopTimer();
         $this->printTaskSuccess("<info>{$this->filename}</info> produced");

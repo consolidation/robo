@@ -5,6 +5,7 @@ namespace Robo\Task\ApiGen;
 use Robo\Contract\CommandInterface;
 use Robo\Exception\TaskException;
 use Robo\Task\BaseTask;
+use Traversable;
 
 /**
  * Executes ApiGen command to generate documentation 
@@ -98,6 +99,8 @@ class ApiGen extends BaseTask implements CommandInterface
 
     /**
      * @param array|string|Traversable $src one or more source values
+     *
+     * @return $this
      */
     public function source($src)
     {
@@ -115,6 +118,8 @@ class ApiGen extends BaseTask implements CommandInterface
 
     /**
      * @param array|string $exts one or more extensions
+     *
+     * @return $this
      */
     public function extensions($exts)
     {
@@ -124,6 +129,8 @@ class ApiGen extends BaseTask implements CommandInterface
 
     /**
      * @param array|string $exclude one or more exclusions
+     *
+     * @return $this
      */
     public function exclude($exclude)
     {
@@ -134,7 +141,9 @@ class ApiGen extends BaseTask implements CommandInterface
     }
 
     /**
-     * @param array|string|Traversable $exts one or more skip-doc-path values
+     * @param array|string|Traversable $path one or more skip-doc-path values
+     *
+     * @return $this
      */
     public function skipDocPath($path)
     {
@@ -146,6 +155,8 @@ class ApiGen extends BaseTask implements CommandInterface
 
     /**
      * @param array|string|Traversable $prefix one or more skip-doc-prefix values
+     *
+     * @return $this
      */
     public function skipDocPrefix($prefix)
     {
@@ -157,6 +168,8 @@ class ApiGen extends BaseTask implements CommandInterface
 
     /**
      * @param array|string $charset one or more charsets
+     *
+     * @return $this
      */
     public function charset($charset)
     {
@@ -202,6 +215,8 @@ class ApiGen extends BaseTask implements CommandInterface
 
     /**
      * @param array|string $tags one or more supported html tags
+     *
+     * @return $this
      */
     public function allowedHtml($tags)
     {
@@ -216,7 +231,9 @@ class ApiGen extends BaseTask implements CommandInterface
     }
 
     /**
-     * @param array|string $types or more supported autocomple types
+     * @param array|string $types or more supported autocomplete types
+     *
+     * @return $this
      */
     public function autocomplete($types)
     {
@@ -225,7 +242,9 @@ class ApiGen extends BaseTask implements CommandInterface
     }
 
     /**
-     * @param array|string $levels one or more access levels 
+     * @param array|string $levels one or more access levels
+     *
+     * @return $this
      */
     public function accessLevels($levels)
     {
@@ -235,6 +254,8 @@ class ApiGen extends BaseTask implements CommandInterface
 
     /**
      * @param boolean|string $internal 'yes' or true if internal, 'no' or false if not
+     *
+     * @return $this
      */
     public function internal($internal)
     {
@@ -245,6 +266,8 @@ class ApiGen extends BaseTask implements CommandInterface
     /**
      * @param boolean|string $php 'yes' or true to generate documentation for internal php classes,
      *                            'no' or false otherwise
+     *
+     * @return $this
      */
     public function php($php)
     {
@@ -254,6 +277,8 @@ class ApiGen extends BaseTask implements CommandInterface
 
     /**
      * @param boolean|string $tree 'yes' or true to generate a tree view of classes, 'no' or false otherwise
+     *
+     * @return $this
      */
     public function tree($tree)
     {
@@ -263,6 +288,8 @@ class ApiGen extends BaseTask implements CommandInterface
 
     /**
      * @param boolean|string $dep 'yes' or true to generate documentation for deprecated classes, 'no' or false otherwise
+     *
+     * @return $this
      */
     public function deprecated($dep)
     {
@@ -272,6 +299,8 @@ class ApiGen extends BaseTask implements CommandInterface
 
     /**
      * @param boolean|string $todo 'yes' or true to document tasks, 'no' or false otherwise
+     *
+     * @return $this
      */
     public function todo($todo)
     {
@@ -281,6 +310,8 @@ class ApiGen extends BaseTask implements CommandInterface
 
     /**
      * @param boolean|string $src 'yes' or true to generate highlighted source code, 'no' or false otherwise
+     *
+     * @return $this
      */
     public function sourceCode($src)
     {
@@ -290,6 +321,8 @@ class ApiGen extends BaseTask implements CommandInterface
 
     /**
      * @param boolean|string $zipped 'yes' or true to generate downloadable documentation, 'no' or false otherwise
+     *
+     * @return $this
      */
     public function download($zipped)
     {
@@ -305,6 +338,8 @@ class ApiGen extends BaseTask implements CommandInterface
 
     /**
      * @param boolean|string $wipeout 'yes' or true to clear out the destination directory, 'no' or false otherwise
+     *
+     * @return $this
      */
     public function wipeout($wipeout)
     {
@@ -314,6 +349,8 @@ class ApiGen extends BaseTask implements CommandInterface
 
     /**
      * @param boolean|string $quiet 'yes' or true for quiet, 'no' or false otherwise
+     *
+     * @return $this
      */
     public function quiet($quiet)
     {
@@ -323,6 +360,8 @@ class ApiGen extends BaseTask implements CommandInterface
 
     /**
      * @param boolean|string $bar 'yes' or true to display a progress bar, 'no' or false otherwise
+     *
+     * @return $this
      */
     public function progressbar($bar)
     {
@@ -332,6 +371,8 @@ class ApiGen extends BaseTask implements CommandInterface
 
     /**
      * @param boolean|string $colors 'yes' or true colorize the output, 'no' or false otherwise
+     *
+     * @return $this
      */
     public function colors($colors)
     {
@@ -341,6 +382,8 @@ class ApiGen extends BaseTask implements CommandInterface
 
     /**
      * @param boolean|string $check 'yes' or true to check for updates, 'no' or false otherwise
+     *
+     * @return $this
      */
     public function updateCheck($check)
     {
@@ -350,6 +393,8 @@ class ApiGen extends BaseTask implements CommandInterface
 
     /**
      * @param boolean|string $debug 'yes' or true to enable debug mode, 'no' or false otherwise
+     *
+     * @return $this
      */
     public function debug($debug)
     {

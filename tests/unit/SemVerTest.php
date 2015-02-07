@@ -28,4 +28,4 @@ class SemVerTest extends \Codeception\TestCase\Test
             ->increment('major')
             ->run();
     }
-} 
+}

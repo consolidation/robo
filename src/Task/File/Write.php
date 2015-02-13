@@ -51,7 +51,7 @@ class Write extends BaseTask
      *
      * @return Write The current instance
      */
-    public function lines($lines)
+    public function lines(array $lines)
     {
         $this->body .= implode("\n", $lines) . "\n";
         return $this;

@@ -100,28 +100,28 @@ class Write extends BaseTask
     /**
      * replace any string with value
      *
-     * @param string $name
-     * @param string $val
+     * @param string $string
+     * @param string $replacement
      *
      * @return Write The current instance
      */
-    public function replace($name, $val)
+    public function replace($string, $replacement)
     {
-        $this->body = str_replace($name, $val, $this->body);
+        $this->body = str_replace($string, $replacement, $this->body);
         return $this;
     }
 
     /**
      * replace any string with value using regular expression
      *
-     * @param string $name
-     * @param string $val
+     * @param string $pattern
+     * @param string $replacement
      *
      * @return Write The current instance
      */
-    public function regexReplace($name, $val)
+    public function regexReplace($pattern, $replacement)
     {
-        $this->body = preg_replace($name, $val, $this->body);
+        $this->body = preg_replace($pattern, $replacement, $this->body);
         return $this;
     }
 

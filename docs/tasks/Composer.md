@@ -33,11 +33,11 @@ $this->taskComposerDumpAutoload('path/to/my/composer.phar')
 * `preferSource()`  adds `prefer-source` option to composer
 * `noDev()`  adds `no-dev` option to composer
 * `optimizeAutoloader()`  adds `optimize-autoloader` option to composer
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
-* `dir($dir)`  changes working directory of command
-* `printed($arg)`  Should command output be printed
 
 ## Install
 
@@ -65,11 +65,11 @@ $this->taskComposerInstall('path/to/my/composer.phar')
 * `preferSource()`  adds `prefer-source` option to composer
 * `noDev()`  adds `no-dev` option to composer
 * `optimizeAutoloader()`  adds `optimize-autoloader` option to composer
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
-* `dir($dir)`  changes working directory of command
-* `printed($arg)`  Should command output be printed
 
 ## Update
 
@@ -97,9 +97,9 @@ $this->taskComposerUpdate('path/to/my/composer.phar')
 * `preferSource()`  adds `prefer-source` option to composer
 * `noDev()`  adds `no-dev` option to composer
 * `optimizeAutoloader()`  adds `optimize-autoloader` option to composer
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
-* `dir($dir)`  changes working directory of command
-* `printed($arg)`  Should command output be printed
 

@@ -66,11 +66,11 @@ if ('y' === $this->ask('Do you want to run (y/n)')) {
 * `exclude($pattern)` 
 * `excludeFrom($file)` 
 * `filesFrom($file)` 
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
-* `dir($dir)`  changes working directory of command
-* `printed($arg)`  Should command output be printed
 
 ## Ssh
 
@@ -78,11 +78,11 @@ if ('y' === $this->ask('Do you want to run (y/n)')) {
 Runs multiple commands on a remote server.
 Per default, commands are combined with &&, unless stopOnFail is false.
 
-``` php
+```php
 <?php
 
 $this->taskSshExec('remote.example.com', 'user')
-    ->exec('cd /var/www/html')
+    ->remoteDir('/var/www/html')
     ->exec('ls -la')
     ->exec('chmod g+x logs')
     ->run();
@@ -91,16 +91,26 @@ $this->taskSshExec('remote.example.com', 'user')
 
 You can even exec other tasks (which implement CommandInterface):
 
-``` php
+```php
 $gitTask = $this->taskGitStack()
     ->checkout('master')
     ->pull();
 
 $this->taskSshExec('remote.example.com')
-    ->exec('cd /var/www/html/site')
+    ->remoteDir('/var/www/html/site')
     ->exec($gitTask)
     ->run();
 ```
+
+You can configure the remote directory for all future calls:
+
+```php
+::configure('remoteDir', '/some-dir');
+```
+
+* `$this stopOnFail(bool $stopOnFail)`  Whether or not to chain commands together with &&
+                                           and stop the chain if one command fails
+* `$this remoteDir(string $remoteWorkingDirectory)`  Changes to the given directory before running commands
 
 * `identityFile($filename)` 
 * `port($port)` 
@@ -108,9 +118,9 @@ $this->taskSshExec('remote.example.com')
 * `quiet()` 
 * `verbose()` 
 * `exec($command)`   * `param string|CommandInterface` $command
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
-* `dir($dir)`  changes working directory of command
-* `printed($arg)`  Should command output be printed
 

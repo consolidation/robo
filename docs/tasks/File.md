@@ -64,9 +64,11 @@ $this->taskWriteToFile('blogpost.md')
 ```
 * `append()` 
 
-* `line($line)` 
-* `lines($lines)` 
-* `text($text)` 
-* `textFromFile($filename)` 
-* `place($name, $val)` 
+* `line($line)`  add a line
+* `lines(array $lines)`  add more lines
+* `text($text)`  add a text
+* `textFromFile($filename)`  add a text from a file
+* `place($name, $val)`  substitute a placeholder with value, placeholder must be enclosed by {{}}
+* `replace($string, $replacement)`  replace any string with value
+* `regexReplace($pattern, $replacement)`  replace any string with value using regular expression
 

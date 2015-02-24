@@ -24,7 +24,7 @@ Copies one dir into another
 <?php
 $this->taskCopyDir(['dist/config' => 'config'])->run();
 // as shortcut
-$this->_copyDir(['dist/config' => 'config']);
+$this->_copyDir('dist/config', 'config');
 ?>
 ```
 
@@ -88,7 +88,7 @@ Mirrors a directory to another
 <?php
 $this->taskMirrorDir(['dist/config/' => 'config/'])->run();
 // or use shortcut
-$this->_mirrorDir(['dist/config/' => 'config/']);
+$this->_mirrorDir('dist/config/', 'config/');
 
 ?>
 ```

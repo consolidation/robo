@@ -139,13 +139,14 @@ class Codecept extends BaseTask implements CommandInterface, PrintedInterface
     }
 
     /**
-     * turn on collecting code coverage
+     * collect codecoverage in raw format. You may pass name of cov file to save results
      *
+     * @param string $cov
      * @return $this
      */
-    public function coverage()
+    public function coverage($cov = null)
     {
-        $this->option("coverage");
+        $this->option("coverage", $cov);
         return $this;
     }
 

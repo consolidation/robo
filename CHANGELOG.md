@@ -1,5 +1,10 @@
 # Changelog
 
+#### 0.5.2
+
+* [PhpServer] fixed passing arguments to server *2015-02-24*
+
+
 #### 0.5.1
 
 * [Exec] fixed execution of background jobs, processes persist till the end of PHP script *2015-01-27*

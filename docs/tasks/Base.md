@@ -22,11 +22,11 @@ if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
 #### *public static* instances* `background()`  Executes command in background mode (asynchronously)
 * `timeout($timeout)`  Stop command if it runs longer then $timeout in seconds
 * `idleTimeout($timeout)`  Stops command if it does not output something for a while
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
-* `dir($dir)`  changes working directory of command
-* `printed($arg)`  Should command output be printed
 
 ## ExecStack
 

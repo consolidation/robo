@@ -21,11 +21,11 @@ Class Build
 @package Robo\Task\Docker
 
 * `tag($tag)` 
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
-* `dir($dir)`  changes working directory of command
-* `printed($arg)`  Should command output be printed
 
 ## Commit
 
@@ -49,11 +49,11 @@ $task->dockerCommit($result)
 ```
 
 * `name($name)` 
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
-* `dir($dir)`  changes working directory of command
-* `printed($arg)`  Should command output be printed
 
 ## Exec
 
@@ -84,11 +84,11 @@ $this->taskDockerExec($test)
 * `detached()` 
 * `interactive()` 
 * `exec($command)` 
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
-* `dir($dir)`  changes working directory of command
-* `printed($arg)`  Should command output be printed
 
 ## Pull
 
@@ -104,11 +104,11 @@ $this->taskDockerPull('wordpress')
 ```
 
 
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
-* `dir($dir)`  changes working directory of command
-* `printed($arg)`  Should command output be printed
 
 ## Remove
 
@@ -123,11 +123,11 @@ $this->taskDockerRemove($container)
 ```
 
 
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
-* `dir($dir)`  changes working directory of command
-* `printed($arg)`  Should command output be printed
 
 
 ## Run
@@ -186,11 +186,11 @@ $this->taskDockerRun('wordpress')
 * `privileged()` 
 * `name($name)` 
 * `link($name, $alias)` 
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
-* `dir($dir)`  changes working directory of command
-* `printed($arg)`  Should command output be printed
 
 ## Start
 
@@ -204,11 +204,11 @@ $this->taskDockerStart($cidOrResult)
 ?>
 ```
 
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
-* `dir($dir)`  changes working directory of command
-* `printed($arg)`  Should command output be printed
 
 ## Stop
 
@@ -222,9 +222,9 @@ $this->taskDockerStop($cidOrResult)
 ?>
 ```
 
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
-* `dir($dir)`  changes working directory of command
-* `printed($arg)`  Should command output be printed
 

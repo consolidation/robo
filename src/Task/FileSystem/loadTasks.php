@@ -41,7 +41,7 @@ trait loadTasks
     }
 
     /**
-     * @return Filesystem
+     * @return FilesystemStack
      */
     protected function taskFilesystemStack()
     {

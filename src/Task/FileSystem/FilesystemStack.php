@@ -2,9 +2,7 @@
 namespace Robo\Task\FileSystem;
 
 use Robo\Result;
-use Robo\Common\Stackable;
 use Robo\Task\BaseTask;
-use Robo\Task\CommandStack;
 use Symfony\Component\Filesystem\Filesystem as sfFileSystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 

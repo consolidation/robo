@@ -224,6 +224,14 @@ class RoboFile extends \Robo\Tasks
         if (!$opts['silent']) $this->say("Hello, world");
     }
 
+    public function tryServer()
+    {
+        $this->taskServer(8000)
+            ->dir('site')
+            ->arg('site/index.php')
+            ->run();
+    }
+
     public function tryInteractive()
     {
         new SomeTask();

@@ -14,6 +14,13 @@ abstract class Base extends BaseTask
     protected $dir;
 
     /**
+     * Action to use
+     *
+     * @var string
+     */
+    protected $action = '';
+
+    /**
      * adds `prefer-dist` option to composer
      *
      * @return $this

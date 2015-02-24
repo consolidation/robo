@@ -10,7 +10,7 @@ trait loadShortcuts
      */
     protected function _copyDir($src, $dst)
     {
-        return (new CopyDir($src, $dst))->run();
+        return (new CopyDir([$src => $dst]))->run();
     }
 
     /**
@@ -20,7 +20,7 @@ trait loadShortcuts
      */
     protected function _mirrorDir($src, $dst)
     {
-        return (new MirrorDir($src, $dst))->run();
+        return (new MirrorDir([$src => $dst]))->run();
     }
 
     /**

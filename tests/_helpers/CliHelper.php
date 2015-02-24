@@ -24,6 +24,11 @@ class CliHelper extends \Codeception\Module
         taskFileSystemStack as public;
     }
 
+    use \Robo\Task\FileSystem\loadShortcuts {
+        _copyDir as public shortcutCopyDir;
+        _mirrorDir as public shortcutMirrorDir;
+    }
+
     public function seeDirFound($dir)
     {
         $this->assertTrue(is_dir($dir) && file_exists($dir), "Directory does not exist");

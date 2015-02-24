@@ -1,5 +1,15 @@
 # Changelog
 
+#### 0.5.2
+
+* [Phar] do not compress phar if more than 1000 files included (causes internal PHP error) *2015-02-24*
+* _copyDir and _mirrorDir shortcuts fixed by @boedah *2015-02-24*
+* [File\Write] methods replace() and regexReplace() added by @asterixcapri *2015-02-24*
+* [Codecept] Allow to set custom name of coverage file raw name by @raistlin *2015-02-24*
+* [Ssh] Added property `remoteDir` by @boedah *2015-02-24*
+* [PhpServer] fixed passing arguments to server *2015-02-24*
+
+
 #### 0.5.1
 
 * [Exec] fixed execution of background jobs, processes persist till the end of PHP script *2015-01-27*

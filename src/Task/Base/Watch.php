@@ -5,7 +5,6 @@ use Lurker\Event\FilesystemEvent;
 use Lurker\ResourceWatcher;
 use Robo\Result;
 use Robo\Task\BaseTask;
-use Symfony\Component\EventDispatcher\Event;
 
 /**
  * Runs task when specified file or dir was changed.

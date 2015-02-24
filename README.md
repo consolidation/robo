@@ -68,7 +68,7 @@ class RoboFile extends \Robo\Tasks
             ->run();
 
        // running Selenium server in background
-        $this->taskExec('java -jar '.$pathToSelenium)
+        $this->taskExec('java -jar ' . $seleniumPath)
             ->background()
             ->run();
 
@@ -162,5 +162,10 @@ Create your own tasks and send them as Pull Requests or create packages prefixed
 
 ## Credits
 
-Robo was created by Michael Bodnarchuk [@davert](http://twitter.com/davert) for purposes of [Codeception project](http://codeception.com).
-For updated please should follow [@davert](http://twitter.com/robo_php). And yes, license is MIT.
+Follow [@robo_php](http://twitter.com/robo_php) for updates.
+
+Created by Michael Bodnarchuk [@davert](http://twitter.com/davert).
+
+## License
+
+MIT

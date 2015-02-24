@@ -36,11 +36,6 @@ class PhpServer extends Exec
         $this->port = $port;
     }
 
-    public static function init($port = 8000)
-    {
-        return new static($port);
-    }
-
     public function host($host)
     {
         $this->host = $host;
@@ -55,7 +50,7 @@ class PhpServer extends Exec
 
     public function getCommand()
     {
-        return sprintf($this->command, $this->host, $this->port);
+        return sprintf($this->command . $this->arguments, $this->host, $this->port);
     }
 
 }

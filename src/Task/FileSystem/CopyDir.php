@@ -11,7 +11,7 @@ use Robo\Exception\TaskException;
  * <?php
  * $this->taskCopyDir(['dist/config' => 'config'])->run();
  * // as shortcut
- * $this->_copyDir(['dist/config' => 'config']);
+ * $this->_copyDir('dist/config', 'config');
  * ?>
  * ```
  */

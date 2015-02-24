@@ -8,7 +8,7 @@ use Robo\Task\BaseTask;
 use Symfony\Component\Console\Helper\ProgressBar;
 
 /**
- * Creates Phar
+ * Creates Phar.
  *
  * ``` php
  * <?php
@@ -117,8 +117,12 @@ EOF;
         $this->getOutput()->writeln('');
 
         if ($this->compress and in_array('GZ', \Phar::getSupportedCompression())) {
-            $this->printTaskInfo($this->filename . " compressed");
-            $this->phar = $this->phar->compressFiles(\Phar::GZ);
+            if (count($this->files) > 1000) {
+                $this->printTaskInfo("Too many files. Compression DISABLED");
+            } else {
+                $this->printTaskInfo($this->filename . " compressed");
+                $this->phar = $this->phar->compressFiles(\Phar::GZ);
+            }
         }
         $this->stopTimer();
         $this->printTaskSuccess("<info>{$this->filename}</info> produced");

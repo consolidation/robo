@@ -13,7 +13,7 @@ trait loadTasks
     }
     /**
      * @param $file
-     * @return ReplaceInFile
+     * @return Replace
      */
     protected function taskReplaceInFile($file)
     {
@@ -22,7 +22,7 @@ trait loadTasks
 
     /**
      * @param $file
-     * @return WriteToFile
+     * @return Write
      */
     protected function taskWriteToFile($file)
     {

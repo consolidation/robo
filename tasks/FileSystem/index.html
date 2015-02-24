@@ -205,7 +205,7 @@ $this-&gt;_cleanDir('app/cache');
 <pre><code class="php">&lt;?php
 $this-&gt;taskCopyDir(['dist/config' =&gt; 'config'])-&gt;run();
 // as shortcut
-$this-&gt;_copyDir(['dist/config' =&gt; 'config']);
+$this-&gt;_copyDir('dist/config', 'config');
 ?&gt;
 </code></pre>
 
@@ -254,7 +254,7 @@ $this-&gt;_mkdir('logs');
 <pre><code class="php">&lt;?php
 $this-&gt;taskMirrorDir(['dist/config/' =&gt; 'config/'])-&gt;run();
 // or use shortcut
-$this-&gt;_mirrorDir(['dist/config/' =&gt; 'config/']);
+$this-&gt;_mirrorDir('dist/config/', 'config/');
 
 ?&gt;
 </code></pre>

@@ -200,7 +200,7 @@ $this-&gt;taskApiGen('./apigen.neon')
 <li><code>destination($dest)</code> </li>
 <li><code>extensions($exts)</code>   * <code>param array|string</code> $exts one or more extensions</li>
 <li><code>exclude($exclude)</code>   * <code>param array|string</code> $exclude one or more exclusions</li>
-<li><code>skipDocPath($path)</code>   * <code>param array|string|Traversable</code> $exts one or more skip-doc-path values</li>
+<li><code>skipDocPath($path)</code>   * <code>param array|string|Traversable</code> $path one or more skip-doc-path values</li>
 <li><code>skipDocPrefix($prefix)</code>   * <code>param array|string|Traversable</code> $prefix one or more skip-doc-prefix values</li>
 <li><code>charset($charset)</code>   * <code>param array|string</code> $charset one or more charsets</li>
 <li><code>mainProjectNamePrefix($name)</code> </li>
@@ -211,8 +211,8 @@ $this-&gt;taskApiGen('./apigen.neon')
 <li><code>templateConfig($templateConfig)</code> </li>
 <li><code>allowedHtml($tags)</code>   * <code>param array|string</code> $tags one or more supported html tags</li>
 <li><code>groups($groups)</code> </li>
-<li><code>autocomplete($types)</code>   * <code>param array|string</code> $types or more supported autocomple types</li>
-<li><code>accessLevels($levels)</code>   * <code>param array|string</code> $levels one or more access levels </li>
+<li><code>autocomplete($types)</code>   * <code>param array|string</code> $types or more supported autocomplete types</li>
+<li><code>accessLevels($levels)</code>   * <code>param array|string</code> $levels one or more access levels</li>
 <li><code>internal($internal)</code>   * <code>param boolean|string</code> $internal 'yes' or true if internal, 'no' or false if not</li>
 <li><code>php($php)</code>   * <code>param boolean|string</code> $php 'yes' or true to generate documentation for internal php classes,</li>
 <li><code>tree($tree)</code>   * <code>param boolean|string</code> $tree 'yes' or true to generate a tree view of classes, 'no' or false otherwise</li>
@@ -227,11 +227,11 @@ $this-&gt;taskApiGen('./apigen.neon')
 <li><code>colors($colors)</code>   * <code>param boolean|string</code> $colors 'yes' or true colorize the output, 'no' or false otherwise</li>
 <li><code>updateCheck($check)</code>   * <code>param boolean|string</code> $check 'yes' or true to check for updates, 'no' or false otherwise</li>
 <li><code>debug($debug)</code>   * <code>param boolean|string</code> $debug 'yes' or true to enable debug mode, 'no' or false otherwise</li>
+<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable</li>
 <li><code>option($option, $value = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter</li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
-<li><code>printed($arg)</code>  Should command output be printed</li>
 </ul>
 </div>
             

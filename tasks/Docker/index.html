@@ -214,11 +214,11 @@ $this-&gt;dockerBuild('path/to/dir')
 @package Robo\Task\Docker</p>
 <ul>
 <li><code>tag($tag)</code> </li>
+<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable</li>
 <li><code>option($option, $value = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter</li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
-<li><code>printed($arg)</code>  Should command output be printed</li>
 </ul>
 <h2 id="commit">Commit</h2>
 <p>Commits docker container to an image</p>
@@ -239,11 +239,11 @@ $task-&gt;dockerCommit($result)
 
 <ul>
 <li><code>name($name)</code> </li>
+<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable</li>
 <li><code>option($option, $value = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter</li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
-<li><code>printed($arg)</code>  Should command output be printed</li>
 </ul>
 <h2 id="exec">Exec</h2>
 <p>Executes command inside running Docker container</p>
@@ -270,11 +270,11 @@ $this-&gt;taskDockerExec($test)
 <li><code>detached()</code> </li>
 <li><code>interactive()</code> </li>
 <li><code>exec($command)</code> </li>
+<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable</li>
 <li><code>option($option, $value = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter</li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
-<li><code>printed($arg)</code>  Should command output be printed</li>
 </ul>
 <h2 id="pull">Pull</h2>
 <p>Pulls an image from DockerHub</p>
@@ -286,11 +286,11 @@ $this-&gt;taskDockerPull('wordpress')
 </code></pre>
 
 <ul>
+<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable</li>
 <li><code>option($option, $value = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter</li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
-<li><code>printed($arg)</code>  Should command output be printed</li>
 </ul>
 <h2 id="remove">Remove</h2>
 <p>Remove docker container</p>
@@ -301,11 +301,11 @@ $this-&gt;taskDockerRemove($container)
 </code></pre>
 
 <ul>
+<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable</li>
 <li><code>option($option, $value = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter</li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
-<li><code>printed($arg)</code>  Should command output be printed</li>
 </ul>
 <h2 id="run">Run</h2>
 <p>Performs <code>docker run</code> on a container.</p>
@@ -359,11 +359,11 @@ $this-&gt;taskDockerRun('wordpress')
 <li><code>privileged()</code> </li>
 <li><code>name($name)</code> </li>
 <li><code>link($name, $alias)</code> </li>
+<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable</li>
 <li><code>option($option, $value = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter</li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
-<li><code>printed($arg)</code>  Should command output be printed</li>
 </ul>
 <h2 id="start">Start</h2>
 <p>Starts Docker container</p>
@@ -374,11 +374,11 @@ $this-&gt;taskDockerStart($cidOrResult)
 </code></pre>
 
 <ul>
+<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable</li>
 <li><code>option($option, $value = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter</li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
-<li><code>printed($arg)</code>  Should command output be printed</li>
 </ul>
 <h2 id="stop">Stop</h2>
 <p>Stops Docker container</p>
@@ -389,11 +389,11 @@ $this-&gt;taskDockerStop($cidOrResult)
 </code></pre>
 
 <ul>
+<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable</li>
 <li><code>option($option, $value = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter</li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
-<li><code>printed($arg)</code>  Should command output be printed</li>
 </ul>
 </div>
             

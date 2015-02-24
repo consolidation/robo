@@ -304,7 +304,7 @@ $this-&gt;taskGitHubRelease('0.1.0')
 <li><code>askAuth()</code> </li>
 </ul>
 <h2 id="packphar">PackPhar</h2>
-<p>Creates Phar</p>
+<p>Creates Phar.</p>
 <pre><code class="php">&lt;?php
 $pharTask = $this-&gt;PackPhar('package/codecept.phar')
   -&gt;compress()
@@ -365,10 +365,10 @@ $this-&gt;taskPhpServer(8000)
 <li><code>background()</code>  Executes command in background mode (asynchronously)</li>
 <li><code>timeout($timeout)</code>  Stop command if it runs longer then $timeout in seconds</li>
 <li><code>idleTimeout($timeout)</code>  Stops command if it does not output something for a while</li>
+<li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable</li>
 <li><code>option($option, $value = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter</li>
-<li><code>printed($arg)</code>  Should command output be printed</li>
 </ul>
 <h2 id="semver">SemVer</h2>
 <p>Helps to maintain <code>.semver</code> file.</p>

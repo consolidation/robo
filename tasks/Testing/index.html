@@ -212,17 +212,17 @@ $this-&gt;taskCodecept()
 <li><code>html($dir = null)</code>  Generate html report</li>
 <li><code>tap($file = null)</code>  generate tap report</li>
 <li><code>configFile($file)</code>  provides config file other then default <code>codeception.yml</code> with <code>-c</code> option</li>
-<li><code>coverage()</code>  turn on collecting code coverage</li>
+<li><code>coverage($cov = null)</code>  collect codecoverage in raw format. You may pass name of cov file to save results</li>
 <li><code>silent()</code>  execute in silent mode</li>
 <li><code>coverageXml($xml = null)</code>  collect code coverage in xml format. You may pass name of xml file to save results</li>
 <li><code>coverageHtml($html = null)</code>  collect code coverage and generate html report. You may pass</li>
 <li><code>env($env)</code> </li>
 <li><code>debug()</code> </li>
+<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable</li>
 <li><code>option($option, $value = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter</li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
-<li><code>printed($arg)</code>  Should command output be printed</li>
 </ul>
 <h2 id="phpunit">PHPUnit</h2>
 <p>Runs PHPUnit tests</p>
@@ -245,11 +245,11 @@ $this-&gt;taskPHPUnit()
 <li><code>bootstrap($file)</code> </li>
 <li><code>configFile($file)</code> </li>
 <li><code>debug()</code> </li>
+<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable</li>
 <li><code>option($option, $value = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter</li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
-<li><code>printed($arg)</code>  Should command output be printed</li>
 </ul>
 <h2 id="phpspec">Phpspec</h2>
 <p>Executes Phpspec tests</p>
@@ -270,11 +270,11 @@ $this-&gt;taskPhpspec()
 <li><code>noInteraction()</code> </li>
 <li><code>config($config_file)</code> </li>
 <li><code>format($formater)</code> </li>
+<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable</li>
 <li><code>option($option, $value = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter</li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
-<li><code>printed($arg)</code>  Should command output be printed</li>
 </ul>
 </div>
             

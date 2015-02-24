@@ -244,12 +244,14 @@ $this-&gt;taskWriteToFile('blogpost.md')
 <p><code>append()</code> </p>
 </li>
 <li>
-<p><code>line($line)</code> </p>
+<p><code>line($line)</code>  add a line</p>
 </li>
-<li><code>lines($lines)</code> </li>
-<li><code>text($text)</code> </li>
-<li><code>textFromFile($filename)</code> </li>
-<li><code>place($name, $val)</code> </li>
+<li><code>lines(array $lines)</code>  add more lines</li>
+<li><code>text($text)</code>  add a text</li>
+<li><code>textFromFile($filename)</code>  add a text from a file</li>
+<li><code>place($name, $val)</code>  substitute a placeholder with value, placeholder must be enclosed by {{}}</li>
+<li><code>replace($string, $replacement)</code>  replace any string with value</li>
+<li><code>regexReplace($pattern, $replacement)</code>  replace any string with value using regular expression</li>
 </ul>
 </div>
             

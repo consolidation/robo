@@ -211,11 +211,11 @@ if ($this-&gt;taskExec('phpunit .')-&gt;run()-&gt;wasSuccessful()) {
 <ul>
 <li><code>timeout($timeout)</code>  Stop command if it runs longer then $timeout in seconds</li>
 <li><code>idleTimeout($timeout)</code>  Stops command if it does not output something for a while</li>
+<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable</li>
 <li><code>option($option, $value = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter</li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
-<li><code>printed($arg)</code>  Should command output be printed</li>
 </ul>
 <h2 id="execstack">ExecStack</h2>
 <p>Execute commands one by one in stack.

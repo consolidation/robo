@@ -250,11 +250,11 @@ if ('y' === $this-&gt;ask('Do you want to run (y/n)')) {
 <li><code>exclude($pattern)</code> </li>
 <li><code>excludeFrom($file)</code> </li>
 <li><code>filesFrom($file)</code> </li>
+<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable</li>
 <li><code>option($option, $value = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter</li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
-<li><code>printed($arg)</code>  Should command output be printed</li>
 </ul>
 <h2 id="ssh">Ssh</h2>
 <p>Runs multiple commands on a remote server.
@@ -262,7 +262,7 @@ Per default, commands are combined with &amp;&amp;, unless stopOnFail is false.<
 <pre><code class="php">&lt;?php
 
 $this-&gt;taskSshExec('remote.example.com', 'user')
-    -&gt;exec('cd /var/www/html')
+    -&gt;remoteDir('/var/www/html')
     -&gt;exec('ls -la')
     -&gt;exec('chmod g+x logs')
     -&gt;run();
@@ -275,23 +275,34 @@ $this-&gt;taskSshExec('remote.example.com', 'user')
     -&gt;pull();
 
 $this-&gt;taskSshExec('remote.example.com')
-    -&gt;exec('cd /var/www/html/site')
+    -&gt;remoteDir('/var/www/html/site')
     -&gt;exec($gitTask)
     -&gt;run();
 </code></pre>
 
+<p>You can configure the remote directory for all future calls:</p>
+<pre><code class="php">::configure('remoteDir', '/some-dir');
+</code></pre>
+
 <ul>
-<li><code>identityFile($filename)</code> </li>
+<li><code>$this stopOnFail(bool $stopOnFail)</code>  Whether or not to chain commands together with &amp;&amp;
+                                           and stop the chain if one command fails</li>
+<li>
+<p><code>$this remoteDir(string $remoteWorkingDirectory)</code>  Changes to the given directory before running commands</p>
+</li>
+<li>
+<p><code>identityFile($filename)</code> </p>
+</li>
 <li><code>port($port)</code> </li>
 <li><code>forcePseudoTty()</code> </li>
 <li><code>quiet()</code> </li>
 <li><code>verbose()</code> </li>
 <li><code>exec($command)</code>   * <code>param string|CommandInterface</code> $command</li>
+<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable</li>
 <li><code>option($option, $value = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter</li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
-<li><code>printed($arg)</code>  Should command output be printed</li>
 </ul>
 </div>
             

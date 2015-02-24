@@ -84,7 +84,7 @@ class Write extends BaseTask
     }
 
     /**
-     * substitute a placeholder with value, placeholder must be enclosed by {}
+     * substitute a placeholder with value, placeholder must be enclosed by {{}}
      *
      * @param string $name
      * @param string $val
@@ -93,7 +93,7 @@ class Write extends BaseTask
      */
     public function place($name, $val)
     {
-        $this->replace("{" . $name . "}", $val);
+        $this->replace('{{' . $name . '}}', $val);
         return $this;
     }
 

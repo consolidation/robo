@@ -32,7 +32,9 @@ class CopyDir extends BaseDir
         if (false === $dir) {
             throw new TaskException($this, "Cannot open source directory '" . $src . "'");
         }
-        @mkdir($dst);
+        if (!is_dir($dst)) {
+            mkdir($dst);
+        }
         while (false !== ($file = readdir($dir))) {
             if (($file !== '.') && ($file !== '..')) {
                 $srcFile = $src . '/' . $file;

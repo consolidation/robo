@@ -748,7 +748,7 @@ class CliGuy extends \Codeception\Actor
      * [!] Method is generated. Documentation taken from corresponding module.
      *
      * @param $file
-     * @return ReplaceInFile
+     * @return Replace
      * @see \Codeception\Module\CliHelper::taskReplaceInFile()
      */
     public function taskReplaceInFile($file) {
@@ -760,7 +760,7 @@ class CliGuy extends \Codeception\Actor
      * [!] Method is generated. Documentation taken from corresponding module.
      *
      * @param $file
-     * @return WriteToFile
+     * @return Write
      * @see \Codeception\Module\CliHelper::taskWriteToFile()
      */
     public function taskWriteToFile($file) {
@@ -807,7 +807,7 @@ class CliGuy extends \Codeception\Actor
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
-     * @return Filesystem
+     * @return FilesystemStack
      * @see \Codeception\Module\CliHelper::taskFilesystemStack()
      */
     public function taskFilesystemStack() {

@@ -64,5 +64,15 @@ HERE
         $I->seeFileContentsEqual('B');
         
     }
+
+    public function replaceMultipleInFile(CliGuy $I)
+    {
+        $I->taskReplaceInFile('box/robo.txt')
+            ->from(array('HELLO', 'ROBO'))
+            ->to(array('Hello ', 'robo.li!'))
+            ->run();
+        $I->seeFileFound('box/robo.txt');
+        $I->seeFileContentsEqual('Hello robo.li!');
+    }
 }
 

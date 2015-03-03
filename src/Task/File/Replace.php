@@ -23,6 +23,11 @@ use Robo\Task\BaseTask;
  *  ->regex('~^service:~')
  *  ->to('services:')
  *  ->run();
+ *
+ * $this->taskReplaceInFile('box/robo.txt')
+ *  ->from(array('##dbname##', 'robo'))
+ *  ->to(array('##dbhost## ', 'localhost'))
+ *  ->run();
  * ?>
  * ```
  *

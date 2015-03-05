@@ -184,7 +184,7 @@ class Ssh extends BaseTask implements CommandInterface
             $hostSpec = $this->user . '@' . $hostSpec;
         }
 
-        return sprintf("ssh{$sshOptions} {$hostSpec} '{$command}'");
+        return sprintf("ssh{$sshOptions} {$hostSpec} \"{$command}\"");
     }
 
 }

@@ -176,6 +176,7 @@ class Minify extends BaseTask
     public function singleLine($singleLine)
     {
         $this->squeezeOptions['singleLine'] = (bool)$singleLine;
+        return $this;
     }
 
     /**
@@ -186,6 +187,7 @@ class Minify extends BaseTask
     public function keepImportantComments($keepImportantComments)
     {
         $this->squeezeOptions['keepImportantComments'] = (bool)$keepImportantComments;
+        return $this;
     }
 
     /**
@@ -196,6 +198,7 @@ class Minify extends BaseTask
     public function specialVarRx($specialVarRx)
     {
         $this->squeezeOptions['specialVarRx'] = (bool)$specialVarRx;
+        return $this;
     }
 
     /**

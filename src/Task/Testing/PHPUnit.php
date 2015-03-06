@@ -75,14 +75,14 @@ class PHPUnit extends BaseTask implements CommandInterface, PrintedInterface
     }
 
     /**
-     * adds `log-xml` option
+     * adds `log-junit` option
      *
      * @param string $file
      * @return $this
      */
     public function xml($file = null)
     {
-        $this->option("log-xml", $file);
+        $this->option("log-junit", $file);
         return $this;
     }
 

@@ -93,10 +93,14 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface
         $this->stop();
     }
 
-    protected function stop()
+    public function stop()
     {
         if ($this->background && $this->process->isRunning()) {
             $this->process->stop();
+
+            $key = array_search($this, static::$instances);
+            unset(self::$instances[$key]);
+
             $this->printTaskInfo("stopped <info>".$this->getCommand()."</info>");
         }
     }

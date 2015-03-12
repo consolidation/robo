@@ -58,6 +58,7 @@ class CopyDir extends BaseDir
         if (false === $dir) {
             throw new TaskException($this, "Cannot open source directory '" . $src . "'");
         }
+        @mkdir($dst, $this->chmod);
         if (!is_dir($dst)) {
             mkdir($dst, $this->chmod, true);
         }

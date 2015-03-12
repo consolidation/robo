@@ -35,6 +35,13 @@ class Minify extends BaseTask
     /** @var string $type css|js */
     protected $type;
 
+    /** @var array $squeezeOptions */
+    protected $squeezeOptions = [
+        'singleLine' => true,
+        'keepImportantComments' => true,
+        'specialVarRx' => false,
+    ];
+
     /**
      * Constructor. Accepts asset file path or string source.
      *
@@ -149,11 +156,49 @@ class Minify extends BaseTask
 
             case 'js':
                 $jsqueeze = new \JSqueeze();
-                return $jsqueeze->squeeze($this->text);
+                return $jsqueeze->squeeze(
+                    $this->text,
+                    $this->squeezeOptions['singleLine'],
+                    $this->squeezeOptions['keepImportantComments'],
+                    $this->squeezeOptions['specialVarRx']
+                );
                 break;
         }
 
         return false;
+    }
+
+    /**
+     * Single line option for the JS minimisation.
+     *
+     * @return $this;
+     */
+    public function singleLine($singleLine)
+    {
+        $this->squeezeOptions['singleLine'] = (bool)$singleLine;
+        return $this;
+    }
+
+    /**
+     * keepImportantComments option for the JS minimisation.
+     *
+     * @return $this;
+     */
+    public function keepImportantComments($keepImportantComments)
+    {
+        $this->squeezeOptions['keepImportantComments'] = (bool)$keepImportantComments;
+        return $this;
+    }
+
+    /**
+     * specialVarRx option for the JS minimisation.
+     *
+     * @return $this;
+     */
+    public function specialVarRx($specialVarRx)
+    {
+        $this->squeezeOptions['specialVarRx'] = (bool)$specialVarRx;
+        return $this;
     }
 
     /**

@@ -155,7 +155,11 @@ class Minify extends BaseTask
                 break;
 
             case 'js':
-                $jsqueeze = new \JSqueeze();
+                if (class_exists('\JSqueeze')) {
+                    $jsqueeze = new \JSqueeze();
+                } else {
+                    $jsqueeze = new \Patchwork\JSqueeze();
+                }
                 return $jsqueeze->squeeze(
                     $this->text,
                     $this->squeezeOptions['singleLine'],

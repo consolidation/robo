@@ -17,6 +17,9 @@ use Robo\Exception\TaskException;
  */
 class CopyDir extends BaseDir
 {
+    /** @var int $chmod */
+    protected $chmod = 0755;
+
     public function run()
     {
         foreach ($this->dirs as $src => $dst) {
@@ -26,6 +29,29 @@ class CopyDir extends BaseDir
         return Result::success($this);
     }
 
+    /**
+     * Sets the default folder permissions for the destination if it doesn't exist
+     *
+     * @link http://en.wikipedia.org/wiki/Chmod
+     * @link http://php.net/manual/en/function.mkdir.php
+     * @link http://php.net/manual/en/function.chmod.php
+     * @param int $value
+     * @return $this
+     */
+    public function chmod($value)
+    {
+        $this->chmod = (int)$value;
+        return $this;
+    }
+
+    /**
+     * Copies a directory to another location.
+     *
+     * @param string $src Source directory
+     * @param string $dst Destination directory
+     * @throws \Robo\Exception\TaskException
+     * @return void
+     */
     protected function copyDir($src, $dst)
     {
         $dir = @opendir($src);
@@ -33,7 +59,7 @@ class CopyDir extends BaseDir
             throw new TaskException($this, "Cannot open source directory '" . $src . "'");
         }
         if (!is_dir($dst)) {
-            mkdir($dst, 0777, true);
+            mkdir($dst, $this->chmod, true);
         }
         while (false !== ($file = readdir($dir))) {
             if (($file !== '.') && ($file !== '..')) {

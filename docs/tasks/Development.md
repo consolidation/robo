@@ -166,17 +166,17 @@ Runs PHP server and stops it when task finishes.
 ``` php
 <?php
 // run server in /public directory
-$this->taskPhpServer(8000)
+$this->taskServer(8000)
  ->dir('public')
  ->run();
 
 // run with IP 0.0.0.0
-$this->taskPhpServer(8000)
+$this->taskServer(8000)
  ->host('0.0.0.0')
  ->run();
 
 // execute server in background
-$this->taskPhpServer(8000)
+$this->taskServer(8000)
  ->background()
  ->run();
 ?>

@@ -38,7 +38,7 @@ class CopyDir extends BaseDir
      * @param int $value
      * @return $this
      */
-    public function chmod($value)
+    public function dirPermissions($value)
     {
         $this->chmod = (int)$value;
         return $this;

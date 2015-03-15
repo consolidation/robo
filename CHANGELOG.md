@@ -1,5 +1,13 @@
 # Changelog
 
+#### 0.5.3
+
+ * [Concat] Fixing concat, it breaks some files if there is no new line. @burzum *2015-03-03-13*
+ * [Minify] BC fix to support Jsqueeze 1.x and 2.x @burzum *2015-03-12*
+ * [PHPUnit] Replace log-xml with log-junit @vkunz *2015-03-06*
+ * [Minify] Making it possible to pass options to the JS minification @burzum *2015-03-05*
+ * [CopyDir] Create destination recursively @boedah *2015-02-28*
+
 #### 0.5.2
 
 * [Phar] do not compress phar if more than 1000 files included (causes internal PHP error) *2015-02-24*

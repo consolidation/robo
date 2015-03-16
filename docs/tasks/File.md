@@ -39,12 +39,17 @@ $this->taskReplaceInFile('config.yml')
  ->regex('~^service:~')
  ->to('services:')
  ->run();
+
+$this->taskReplaceInFile('box/robo.txt')
+ ->from(array('##dbname##', '##dbhost##'))
+ ->to(array('robo', 'localhost'))
+ ->run();
 ?>
 ```
 
 * `regex(string)`  regex to match string to be replaced
-* `from(string)`  string to be replaced
-* `to(string)`  value to be set as a replacement
+* `from(string|array)`  string(s) to be replaced
+* `to(string|array)`  value(s) to be set as a replacement
 
 
 
@@ -68,7 +73,7 @@ $this->taskWriteToFile('blogpost.md')
 * `lines(array $lines)`  add more lines
 * `text($text)`  add a text
 * `textFromFile($filename)`  add a text from a file
-* `place($name, $val)`  substitute a placeholder with value, placeholder must be enclosed by {{}}
+* `place($name, $val)`  substitute a placeholder with value, placeholder must be enclosed by `{}`
 * `replace($string, $replacement)`  replace any string with value
 * `regexReplace($pattern, $replacement)`  replace any string with value using regular expression
 

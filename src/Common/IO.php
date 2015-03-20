@@ -78,7 +78,7 @@ trait IO
 
     private function formatQuestion($message)
     {
-        return  "<question>?  $message</question> ";
+        return  "<question>$message</question>";
     }
 
     protected function getDialog()

@@ -30,7 +30,7 @@ class Runner
     {
         if (!file_exists(self::ROBOFILE)) {
             $this->writeln("<comment>  ".self::ROBOFILE." not found in this dir </comment>");
-            $answer = $this->ask("  Should I create RoboFile here? (y/n)  \n");
+            $answer = $this->ask("  Should I create RoboFile here? (y/n) ");
             if (strtolower(trim($answer)) === 'y') {
                 $this->initRoboFile();
             }

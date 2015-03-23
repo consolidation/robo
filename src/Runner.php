@@ -49,6 +49,7 @@ class Runner
     public function execute($input = null)
     {
         register_shutdown_function(array($this, 'shutdown'));
+        set_error_handler(array($this, 'handleError'));
         Config::setOutput(new ConsoleOutput());
         $input = $this->prepareInput($input ? $input : $_SERVER['argv']);
 
@@ -162,6 +163,21 @@ class Runner
         $error = error_get_last();
         if (!is_array($error)) return;
         $this->writeln(sprintf("<error>ERROR: %s \nin %s:%d\n</error>", $error['message'], $error['file'], $error['line']));
+    }
+
+    /**
+     * This is just a proxy error handler that checks the current error_reporting level.
+     * In case error_reporting is disabled the error is marked as handled, otherwise
+     * the normal internal error handling resumes.
+     *
+     * @return bool
+     */
+    public function handleError()
+    {
+        if (error_reporting() === 0) {
+            return true;
+        }
+        return false;
     }
 }
 

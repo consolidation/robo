@@ -71,6 +71,11 @@ trait IO
         return $this->doAsk(new ConfirmationQuestion($this->formatQuestion($question . ' (y/n)'), false));
     }
 
+    protected function space()
+    {
+        $this->writeln('');
+    }
+
     private function doAsk(Question $question)
     {
         return $this->getDialog()->ask($this->getInput(), $this->getOutput(), $question);

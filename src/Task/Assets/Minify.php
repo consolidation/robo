@@ -243,15 +243,25 @@ class Minify extends BaseTask
         if (false === $write_result) {
             return Result::error($this, 'File write failed.');
         }
-
-        $minified_percent = number_format(100 - ($size_after / $size_before * 100), 1);
+        if ($size_before === 0) {
+            $minified_percent = 0;
+        } else {
+            $minified_percent = number_format(100 - ($size_after / $size_before * 100), 1);
+        }
         $this->printTaskSuccess(
             sprintf(
-                'Wrote <info>%s</info> (reduced by <info>%s%%</info>)', $this->dst,
+                'Wrote <info>%s</info>',
+                $this->dst
+            )
+        );
+        $this->printTaskSuccess(
+            sprintf(
+                'Wrote <info>%s</info> (reduced by <info>%s</info> / <info>%s%%</info>)',
+                $this->formatBytes($size_after),
+                $this->formatBytes(($size_before - $size_after)),
                 $minified_percent
             )
         );
-
         return Result::success($this, 'Asset minified.');
     }
 }

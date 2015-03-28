@@ -87,7 +87,7 @@ To define command options you should define last method parameter as an associat
 <?php
     function hello($opts = ['silent' => false])
     {
-        if (!$opt['silent']) $this->say("Hello, world");
+        if (!$opts['silent']) $this->say("Hello, world");
     }
 ?>
 ```

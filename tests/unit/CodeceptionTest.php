@@ -9,8 +9,15 @@ class CodeceptionTest extends \Codeception\TestCase\Test
      */
     protected $codecept;
 
+    /**
+     * @var string
+     */
+    protected $command;
+
     protected function _before()
     {
+        $isWindows = defined('PHP_WINDOWS_VERSION_MAJOR');
+        $this->command = $isWindows ? 'call vendor/bin/codecept run' : 'vendor/bin/codecept run';
         $this->codecept = test::double('Robo\Task\Testing\Codecept', [
             'executeCommand' => null,
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
@@ -20,14 +27,14 @@ class CodeceptionTest extends \Codeception\TestCase\Test
     // tests
     public function testCodeceptionCommand()
     {
-        verify($this->taskCodecept()->getCommand())->equals('vendor/bin/codecept run');
+        verify($this->taskCodecept()->getCommand())->equals($this->command);
         verify(trim($this->taskCodecept('codecept.phar')->getCommand()))->equals('codecept.phar run');
     }
 
     public function testCodeceptionRun()
     {
         $this->taskCodecept()->run();
-        $this->codecept->verifyInvoked('executeCommand', ['vendor/bin/codecept run']);
+        $this->codecept->verifyInvoked('executeCommand', [$this->command]);
     }
 
     public function testCodeceptOptions()

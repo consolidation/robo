@@ -29,7 +29,7 @@ class PhpServer extends Exec
 {
     protected $port;
     protected $host = '127.0.0.1';
-    protected $command = 'php -S %s:%d ';
+    protected $command = 'exec php -S %s:%d ';
 
     public function __construct($port)
     {

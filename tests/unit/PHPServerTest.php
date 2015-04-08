@@ -38,7 +38,7 @@ class PHPServerTest extends \Codeception\TestCase\Test
             $this->taskServer('8000')
                 ->dir('web')
                 ->getCommand()
-        )->equals('php -S 127.0.0.1:8000 -t web');
+        )->equals('exec php -S 127.0.0.1:8000 -t web');
     }
 
 }

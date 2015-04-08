@@ -4,6 +4,7 @@ namespace Robo\Task\Gulp;
 
 use Robo\Task\BaseTask;
 use Robo\Exception\TaskException;
+use Symfony\Component\Process\ProcessUtils;
 
 abstract class Base extends BaseTask
 {
@@ -73,6 +74,6 @@ abstract class Base extends BaseTask
 
     public function getCommand()
     {
-        return "{$this->command} " . escapeshellarg($this->task) . "{$this->arguments}";
+        return "{$this->command} " . ProcessUtils::escapeArgument($this->task) . "{$this->arguments}";
     }
 }

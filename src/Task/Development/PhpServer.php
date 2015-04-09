@@ -36,7 +36,7 @@ class PhpServer extends Exec
         $this->port = $port;
 
         if (strtolower(PHP_OS) === 'linux') {
-            $this->command = 'exec php -S %s:%d';
+            $this->command = 'exec php -S %s:%d ';
         }
     }
 

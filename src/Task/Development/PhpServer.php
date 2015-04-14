@@ -34,6 +34,10 @@ class PhpServer extends Exec
     public function __construct($port)
     {
         $this->port = $port;
+
+        if (strtolower(PHP_OS) === 'linux') {
+            $this->command = 'exec php -S %s:%d ';
+        }
     }
 
     public function host($host)

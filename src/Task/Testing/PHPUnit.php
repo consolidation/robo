@@ -24,6 +24,13 @@ class PHPUnit extends BaseTask implements CommandInterface, PrintedInterface
 
     protected $command;
 
+    /**
+     * Test files to run, they're appended to the command and arguments.
+     *
+     * @var string
+     */
+    protected $files = '';
+
     public function __construct($pathToPhpUnit = null)
     {
         if ($pathToPhpUnit) {
@@ -110,9 +117,24 @@ class PHPUnit extends BaseTask implements CommandInterface, PrintedInterface
         return $this;
     }
 
+    /**
+     * Test files to run.
+     *
+     * @param string|array A single file or a list of files.
+     * @return $this
+     */
+    public function files($files)
+    {
+        if (is_string($files)) {
+            $files = [$files];
+        }
+        $this->files = ' ' . implode(',', $files);
+        return $this;
+    }
+
     public function getCommand()
     {
-        return $this->command . $this->arguments;
+        return $this->command . $this->arguments . $this->files;
     }
 
     public function run()

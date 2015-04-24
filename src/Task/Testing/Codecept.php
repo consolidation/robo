@@ -125,6 +125,15 @@ class Codecept extends BaseTask implements CommandInterface, PrintedInterface
         $this->option("tap", $file);
         return $this;
     }
+    
+    /**
+     * Show codeception output in compact style
+     * @return $this
+     */
+    public function stdout(){
+        $this->option("report");
+        return $this;
+    }
 
     /**
      * provides config file other then default `codeception.yml` with `-c` option

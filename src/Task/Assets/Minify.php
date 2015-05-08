@@ -3,6 +3,7 @@ namespace Robo\Task\Assets;
 
 use Robo\Result;
 use Robo\Task\BaseTask;
+use Symfony\Component\Finder\Finder;
 
 /**
  * Minifies asset file (CSS or JS).
@@ -29,6 +30,8 @@ class Minify extends BaseTask
     /** @var string $text */
     protected $text;
 
+    protected $files = array();
+
     /** @var string $dst */
     protected $dst;
 
@@ -49,8 +52,37 @@ class Minify extends BaseTask
      */
     public function __construct($input)
     {
-        if (file_exists($input)) {
-            return $this->fromFile($input);
+        if (file_exists($input)) 
+        {
+            $this->files[] = $input;
+            return $this;
+        }
+        else
+        {
+            // by wildcard
+            $finder = new Finder();
+            
+            $wildcardIdx = strpos($input, '*');
+            $assetType = substr($input, $wildcardIdx + 2);
+
+            if( ! in_array( substr($input, $wildcardIdx + 2) , $this->types ) ){
+                throw new \Robo\Exception\TaskException('Invalid file type, must be '.implode(' or ',$this->types) );
+            }
+
+            $this->type = $assetType;
+
+            if( false !== $wildcardIdx ){
+                $finder->name( substr($input, $wildcardIdx) );
+                $iterator = $finder->in( substr($input, 0,$wildcardIdx) );
+            }else{
+                $iterator = $finder->in($input);
+            }
+            
+            foreach ($iterator as $file) {
+                $this->files[] = $file->getRealpath();
+            }
+
+            return $this;
         }
 
         return $this->fromText($input);
@@ -214,11 +246,11 @@ class Minify extends BaseTask
     }
 
     /**
-     * Writes minified result to destination.
+     * internal run
      *
      * @return Result
      */
-    public function run()
+    protected function _run()
     {
         if (empty($this->type)) {
             return Result::error($this, 'Unknown asset type.');
@@ -243,25 +275,39 @@ class Minify extends BaseTask
         if (false === $write_result) {
             return Result::error($this, 'File write failed.');
         }
-        if ($size_before === 0) {
-            $minified_percent = 0;
-        } else {
-            $minified_percent = number_format(100 - ($size_after / $size_before * 100), 1);
-        }
+
+        $minified_percent = number_format(100 - ($size_after / $size_before * 100), 1);
         $this->printTaskSuccess(
             sprintf(
-                'Wrote <info>%s</info>',
-                $this->dst
-            )
-        );
-        $this->printTaskSuccess(
-            sprintf(
-                'Wrote <info>%s</info> (reduced by <info>%s</info> / <info>%s%%</info>)',
-                $this->formatBytes($size_after),
-                $this->formatBytes(($size_before - $size_after)),
+                'Wrote <info>%s</info> (reduced by <info>%s%%</info>)', $this->dst,
                 $minified_percent
             )
         );
-        return Result::success($this, 'Asset minified.');
+
+        return true;
+    }
+
+    /**
+     * Writes minified result to destination.
+     *
+     * @return Result
+     */
+    public function run()
+    {
+        if( count($this->files) > 0 )
+        {
+            foreach ($this->files as $file) 
+            {
+                $this->fromFile($file);
+                $result = $this->_run();
+                unset($this->dst);      
+            }
+            return Result::success($this, 'Asset minified.');
+        }
+        else
+        {
+            if( $this->_run() )
+                return Result::success($this, 'Asset minified.');
+        }
     }
 }

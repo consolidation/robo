@@ -31,6 +31,7 @@ class Minify extends BaseTask
     protected $text;
 
     protected $files = array();
+    protected $overwrite = False;
 
     /** @var string $dst */
     protected $dst;
@@ -61,21 +62,26 @@ class Minify extends BaseTask
         {
             // by wildcard
             $finder = new Finder();
-            
+            $finder->exclude('dev');
+
             $wildcardIdx = strpos($input, '*');
             $assetType = substr($input, $wildcardIdx + 2);
 
-            if( ! in_array( substr($input, $wildcardIdx + 2) , $this->types ) ){
-                throw new \Robo\Exception\TaskException('Invalid file type, must be '.implode(' or ',$this->types) );
+            if( ! in_array( $assetType , $this->types ) ){
+                throw new \Robo\Exception\TaskException(get_class_methods($this),'Invalid file type, must be '.implode(' or ',$this->types) );
             }
 
             $this->type = $assetType;
 
             if( false !== $wildcardIdx ){
+                $path = substr($input, 0,$wildcardIdx);
+                if( !is_dir($path) )
+                     throw new \Robo\Exception\TaskException(get_class_methods($this),'directory '.$path.' not found.');
+
                 $finder->name( substr($input, $wildcardIdx) );
-                $iterator = $finder->in( substr($input, 0,$wildcardIdx) );
+                $iterator = $finder->in( $path );
             }else{
-                $iterator = $finder->in($input);
+                throw new \Robo\Exception\TaskException(get_class_methods($this),'file or path not found.');
             }
             
             foreach ($iterator as $file) {
@@ -155,9 +161,19 @@ class Minify extends BaseTask
 
         if (empty($this->dst) && !empty($this->type)) {
             $ext_length = strlen($this->type) + 1;
-            $this->dst = substr($path, 0, -$ext_length) . '.min.' . $this->type;
+
+            if( False === $this->overwrite )
+                $this->dst = substr($path, 0, -$ext_length) . '.min.' . $this->type;
+            else
+                $this->dst = $path;
         }
 
+        return $this;
+    }
+
+    public function overwrite()
+    {
+        $this->overwrite = True;
         return $this;
     }
 

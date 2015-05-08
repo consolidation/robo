@@ -68,7 +68,7 @@ class Minify extends BaseTask
             $assetType = substr($input, $wildcardIdx + 2);
 
             if( ! in_array( $assetType , $this->types ) ){
-                throw new \Robo\Exception\TaskException(get_class_methods($this),'Invalid file type, must be '.implode(' or ',$this->types) );
+                throw new \Robo\Exception\TaskException($this,'Invalid file type, must be '.implode(' or ',$this->types) );
             }
 
             $this->type = $assetType;
@@ -76,12 +76,12 @@ class Minify extends BaseTask
             if( false !== $wildcardIdx ){
                 $path = substr($input, 0,$wildcardIdx);
                 if( !is_dir($path) )
-                     throw new \Robo\Exception\TaskException(get_class_methods($this),'directory '.$path.' not found.');
+                     throw new \Robo\Exception\TaskException($this,'directory '.$path.' not found.');
 
                 $finder->name( substr($input, $wildcardIdx) );
                 $iterator = $finder->in( $path );
             }else{
-                throw new \Robo\Exception\TaskException(get_class_methods($this),'file or path not found.');
+                throw new \Robo\Exception\TaskException($this,'file or path not found.');
             }
             
             foreach ($iterator as $file) {

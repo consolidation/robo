@@ -58,7 +58,7 @@ class Minify extends BaseTask
             $this->files[] = $input;
             return $this;
         }
-        else
+        elseif( False !== strpos($input, '*') )
         {
             // by wildcard
             $finder = new Finder();
@@ -300,7 +300,8 @@ class Minify extends BaseTask
             )
         );
 
-        return true;
+        return Result::success($this, 'Asset minified.');
+        //return true;
     }
 
     /**

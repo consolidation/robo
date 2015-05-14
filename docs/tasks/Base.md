@@ -19,7 +19,8 @@ if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
 ?>
 ```
 
-#### *public static* instances* `background()`  Executes command in background mode (asynchronously)
+#### *public static* instances
+* `background()`  Executes command in background mode (asynchronously)
 * `timeout($timeout)`  Stop command if it runs longer then $timeout in seconds
 * `idleTimeout($timeout)`  Stops command if it does not output something for a while
 * `dir($dir)`  changes working directory of command

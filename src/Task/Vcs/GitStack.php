@@ -12,6 +12,7 @@ use Robo\Task\CommandStack;
  *  ->stopOnFail()
  *  ->add('-A')
  *  ->commit('adding everything')
+ *  ->tag('0.6.0')
  *  ->push('origin','master')
  *  ->run()
  *
@@ -19,6 +20,7 @@ use Robo\Task\CommandStack;
  *  ->stopOnFail()
  *  ->add('doc/*')
  *  ->commit('doc updated')
+ *  ->tag('my_doc')
  *  ->push()
  *  ->run();
  * ?>
@@ -113,6 +115,17 @@ class GitStack extends CommandStack
         return $this->exec([__FUNCTION__, $branch]);
     }
 
+    /**
+     * Executes `git tag` command
+     *
+     * @param $tag_name
+     * @return $this
+     */
+    public function tag($tag_name)
+    {
+        return $this->exec([__FUNCTION__, "'$tag_name'"]);
+    }
+    
     public function run()
     {
         $this->printTaskInfo("Running git commands...");

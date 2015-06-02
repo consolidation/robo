@@ -93,7 +93,6 @@ Using `watch` task so you can use it for running tests or building assets.
 ``` php
 <?php
 class RoboFile extends \Robo\Tasks {
-    use \Robo\Task\Watch;
 
     function watchComposer()
     {

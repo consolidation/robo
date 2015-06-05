@@ -123,7 +123,7 @@ class GitStack extends CommandStack
      */
     public function tag($tag_name)
     {
-        return $this->exec([__FUNCTION__, "'$tag_name'"]);
+        return $this->exec([__FUNCTION__, $tag_name]);
     }
     
     public function run()

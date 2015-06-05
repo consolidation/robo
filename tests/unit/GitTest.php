@@ -38,7 +38,8 @@ class GitTest extends \Codeception\TestCase\Test
                 ->commit('changed')
                 ->push()
                 ->tag('0.6.0')
+                ->push('origin','0.6.0')
                 ->getCommand()
-        )->equals("git clone http://github.com/Codegyre/Robo && git pull && git add -A && git commit -m 'changed' && git push && git tag '0.6.0'");
+        )->equals("git clone http://github.com/Codegyre/Robo && git pull && git add -A && git commit -m 'changed' && git push && git tag '0.6.0' && git push origin 0.6.0");
     }
 }

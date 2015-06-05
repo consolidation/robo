@@ -12,15 +12,15 @@ use Robo\Task\CommandStack;
  *  ->stopOnFail()
  *  ->add('-A')
  *  ->commit('adding everything')
- *  ->tag('0.6.0')
  *  ->push('origin','master')
+ *  ->tag('0.6.0')
+ *  ->push('origin','0.6.0')
  *  ->run()
  *
  * $this->taskGitStack()
  *  ->stopOnFail()
  *  ->add('doc/*')
  *  ->commit('doc updated')
- *  ->tag('my_doc')
  *  ->push()
  *  ->run();
  * ?>

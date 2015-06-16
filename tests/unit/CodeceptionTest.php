@@ -58,7 +58,7 @@ class CodeceptionTest extends \Codeception\TestCase\Test
 
         verify($this->taskCodecept()->debug()->getCommand())->contains(' --debug');
         verify($this->taskCodecept()->silent()->getCommand())->contains(' --silent');
-        verify($this->taskCodecept()->excludeGroup('g')->getCommand())->contains(' --exclude-group g');
+        verify($this->taskCodecept()->excludeGroup('g')->getCommand())->contains(' --skip-group g');
         verify($this->taskCodecept()->tap()->getCommand())->contains('--tap');
         verify($this->taskCodecept()->json()->getCommand())->contains('--json');
     }

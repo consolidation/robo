@@ -74,7 +74,7 @@ class Codecept extends BaseTask implements CommandInterface, PrintedInterface
 
     public function excludeGroup($group)
     {
-        $this->option("exclude-group", $group);
+        $this->option("skip-group", $group);
         return $this;
     }
 

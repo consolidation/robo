@@ -40,7 +40,7 @@ class OutputTest extends \Codeception\TestCase\Test
     {
         $this->expectedAnswer = 'jon';
         verify($this->ask('What is your name?'))->equals('jon');
-        $this->guy->seeOutputEquals('<question>?  What is your name?</question> ');
+        $this->guy->seeOutputEquals('<question>What is your name?</question>');
     }
     public function testAskMethod()
     {

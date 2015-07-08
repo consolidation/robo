@@ -21,7 +21,7 @@ abstract class CommandStack extends BaseTask implements CommandInterface, Printe
 
     public function getCommand()
     {
-        return implode(' && ', $this->exec);
+        return implode(' ; ', $this->exec);
     }
 
     public function exec($command)

@@ -58,6 +58,6 @@ class ExecTaskTest extends \Codeception\TestCase\Test
             ->exec('cd /')
             ->exec('cd home')
             ->getCommand()
-        )->equals('ls && cd / && cd home');
+        )->equals('ls ; cd / ; cd home');
     }
 };

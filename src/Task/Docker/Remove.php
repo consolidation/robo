@@ -18,4 +18,10 @@ class Remove extends Base
     {
         $this->command = "docker rm $container ";
     }
+
+    public function getCommand()
+    {
+        return $this->command . ' ' . $this->arguments;
+    }
+
 }

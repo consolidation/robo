@@ -24,10 +24,4 @@ use Robo\Task\Base;
  */
 class ExecStack extends CommandStack
 {
-
-  public function getCommand()
-  {
-    return implode($this->stopOnFail ? ' && ' : ' ; ', $this->exec);
-  }
-
 }

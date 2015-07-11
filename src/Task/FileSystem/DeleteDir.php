@@ -20,7 +20,7 @@ class DeleteDir extends BaseDir
     {
         foreach ($this->dirs as $dir) {
             $this->fs->remove($dir);
-            $this->printTaskInfo("deleted <info>$dir</info>...");
+            $this->printTaskInfo("Deleted <info>$dir</info>...");
         }
         return Result::success($this);
     }

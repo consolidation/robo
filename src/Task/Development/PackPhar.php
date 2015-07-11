@@ -99,12 +99,12 @@ EOF;
 
     public function run()
     {
-        $this->printTaskInfo("creating <info>{$this->filename}</info>");
+        $this->printTaskInfo("Creating <info>{$this->filename}</info>");
         $this->phar->setSignatureAlgorithm(\Phar::SHA1);
         $this->phar->startBuffering();
 
-        $this->printTaskInfo('packing ' . count($this->files) . ' files into phar');
-        
+        $this->printTaskInfo('Packing ' . count($this->files) . ' files into phar');
+
         $progress = new ProgressBar($this->getOutput());
         $progress->start(count($this->files));
         $this->startTimer();

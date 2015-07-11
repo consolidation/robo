@@ -20,7 +20,7 @@ class CleanDir extends BaseDir
     {
         foreach ($this->dirs as $dir) {
             $this->emptyDir($dir);
-            $this->printTaskInfo("cleaned <info>$dir</info>");
+            $this->printTaskInfo("Cleaned <info>$dir</info>");
         }
         return Result::success($this);
     }

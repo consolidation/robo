@@ -28,7 +28,7 @@ use Robo\Task\CommandStack;
  */
 class SvnStack extends CommandStack implements CommandInterface
 {
-    protected $stopOnFail = false;
+    protected $stopOnFail = true;
     protected $result;
 
     public function __construct($username='', $password='', $pathToSvn = 'svn')

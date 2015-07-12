@@ -25,7 +25,7 @@ class GitTest extends \Codeception\TestCase\Test
         $this->git->verifyInvoked('executeCommand', ['git pull']);
 
         $this->taskGitStack('git')->add('-A')->pull()->run();
-        $this->git->verifyInvoked('executeCommand', ['git add -A && git pull']);
+        $this->git->verifyInvoked('executeCommand', ['git add -A ; git pull']);
     }
 
     public function testGitStackCommands()

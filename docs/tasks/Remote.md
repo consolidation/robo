@@ -10,6 +10,7 @@ $this->taskRsync()
   ->toHost('localhost')
   ->toUser('dev')
   ->toPath('/var/www/html/app/')
+  ->remoteShell('ssh -i public_key')
   ->recursive()
   ->excludeVcs()
   ->checksum()
@@ -66,6 +67,7 @@ if ('y' === $this->ask('Do you want to run (y/n)')) {
 * `exclude($pattern)` 
 * `excludeFrom($file)` 
 * `filesFrom($file)` 
+* `remoteShell($command)` 
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable

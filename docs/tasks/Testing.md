@@ -59,11 +59,12 @@ $this->taskPHPUnit()
 * `group($group)` 
 * `excludeGroup($group)` 
 * `json($file = null)`  adds `log-json` option to runner
-* `xml($file = null)`  adds `log-xml` option
+* `xml($file = null)`  adds `log-junit` option
 * `tap($file = null)` 
 * `bootstrap($file)` 
 * `configFile($file)` 
 * `debug()` 
+* `files($files)`  Test files to run.
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable

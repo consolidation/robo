@@ -175,6 +175,8 @@
     
         <li class="main active"><a href="#assets-tasks">Assets Tasks</a></li>
         
+            <li><a href="#less">Less</a></li>
+        
             <li><a href="#minify">Minify</a></li>
         
     
@@ -183,6 +185,27 @@
                 <div class="col-md-9" role="main">
 
 <h1 id="assets-tasks">Assets Tasks</h1>
+<h2 id="less">Less</h2>
+<p>Compiles less files.</p>
+<pre><code class="php">&lt;?php
+$this-&gt;taskLess([
+    'less/default.less' =&gt; 'css/default.css'
+])
+-&gt;run();
+?&gt;
+</code></pre>
+
+<p>Use one of both less compilers in your project:</p>
+<pre><code>&quot;leafo/lessphp&quot;: &quot;~0.5&quot;,
+&quot;oyejorge/less.php&quot;: &quot;~1.5&quot;
+</code></pre>
+
+<p>You can implement additional compilers by extending this task and adding a
+method named after them and overloading the lessCompilers() method to
+inject the name there.</p>
+<ul>
+<li><code>compiler($compiler, array $options = Array ( ) )</code>  Sets the less compiler.</li>
+</ul>
 <h2 id="minify">Minify</h2>
 <p>Minifies asset file (CSS or JS).</p>
 <pre><code class="php">&lt;?php
@@ -199,6 +222,9 @@ $this-&gt;taskMinify( 'web/assets/theme.css' )
 <ul>
 <li><code>to($dst)</code>  Sets destination. Tries to guess type from it.</li>
 <li><code>type($type)</code>  Sets type with validation.</li>
+<li><code>singleLine($singleLine)</code>  Single line option for the JS minimisation.</li>
+<li><code>keepImportantComments($keepImportantComments)</code>  keepImportantComments option for the JS minimisation.</li>
+<li><code>specialVarRx($specialVarRx)</code>  specialVarRx option for the JS minimisation.</li>
 <li><code>__toString()</code>  @return string</li>
 </ul>
 </div>

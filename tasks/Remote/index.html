@@ -192,6 +192,7 @@
   -&gt;toHost('localhost')
   -&gt;toUser('dev')
   -&gt;toPath('/var/www/html/app/')
+  -&gt;remoteShell('ssh -i public_key')
   -&gt;recursive()
   -&gt;excludeVcs()
   -&gt;checksum()
@@ -250,6 +251,7 @@ if ('y' === $this-&gt;ask('Do you want to run (y/n)')) {
 <li><code>exclude($pattern)</code> </li>
 <li><code>excludeFrom($file)</code> </li>
 <li><code>filesFrom($file)</code> </li>
+<li><code>remoteShell($command)</code> </li>
 <li><code>dir($dir)</code>  changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable</li>

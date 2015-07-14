@@ -2,6 +2,10 @@
 
 #### 0.5.3
 
+ * [Rsync] Ability to use remote shell with identity file by @Mihailoff
+ * [Less] Task added by @burzum 
+ * [PHPUnit] allow to test specific files with `files` parameter by @burzum.  
+ * [GitStack] `tag` added by @SebSept 
  * [Concat] Fixing concat, it breaks some files if there is no new line. @burzum *2015-03-03-13*
  * [Minify] BC fix to support Jsqueeze 1.x and 2.x @burzum *2015-03-12*
  * [PHPUnit] Replace log-xml with log-junit @vkunz *2015-03-06*

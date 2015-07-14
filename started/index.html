@@ -257,7 +257,7 @@ If you pass a default value to parameter the argument becomes optional:</p>
 <pre><code class="php">&lt;?php
     function hello($opts = ['silent' =&gt; false])
     {
-        if (!$opt['silent']) $this-&gt;say(&quot;Hello, world&quot;);
+        if (!$opts['silent']) $this-&gt;say(&quot;Hello, world&quot;);
     }
 ?&gt;
 </code></pre>

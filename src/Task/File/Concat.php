@@ -73,7 +73,7 @@ class Concat extends BaseTask
                     return Result::error($this, sprintf('File %s not found', $file));
                 }
 
-                $dump .= file_get_contents($file);
+                $dump .= file_get_contents($file) . "\n";
             }
         }
 

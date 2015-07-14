@@ -23,12 +23,17 @@ use Robo\Task\BaseTask;
  *  ->regex('~^service:~')
  *  ->to('services:')
  *  ->run();
+ *
+ * $this->taskReplaceInFile('box/robo.txt')
+ *  ->from(array('##dbname##', '##dbhost##'))
+ *  ->to(array('robo', 'localhost'))
+ *  ->run();
  * ?>
  * ```
  *
  * @method regex(string) regex to match string to be replaced
- * @method from(string) string to be replaced
- * @method to(string) value to be set as a replacement
+ * @method from(string|array) string(s) to be replaced
+ * @method to(string|array) value(s) to be set as a replacement
  */
 class Replace extends BaseTask
 {

@@ -36,6 +36,7 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface
     protected $background = false;
     protected $timeout = null;
     protected $idleTimeout = null;
+    protected $env = null;
 
     /**
      * @var Process
@@ -88,6 +89,18 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface
         return $this;
     }
 
+    /**
+     * Sets the environment variables for the command
+     *
+     * @param $env
+     * @return $this
+     */
+    public function env(array $env)
+    {
+        $this->env = $env;
+        return $this;
+    }
+
     public function __destruct()
     {
         $this->stop();
@@ -97,7 +110,7 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface
     {
         if ($this->background && $this->process->isRunning()) {
             $this->process->stop();
-            $this->printTaskInfo("stopped <info>".$this->getCommand()."</info>");
+            $this->printTaskInfo("Stopped <info>".$this->getCommand()."</info>");
         }
     }
 
@@ -105,11 +118,15 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface
     {
         $command = $this->getCommand();
         $dir = $this->workingDirectory ? " in " . $this->workingDirectory : "";
-        $this->printTaskInfo("running <info>{$command}</info>$dir");
+        $this->printTaskInfo("Running <info>{$command}</info>$dir");
         $this->process = new Process($command);
         $this->process->setTimeout($this->timeout);
         $this->process->setIdleTimeout($this->idleTimeout);
         $this->process->setWorkingDirectory($this->workingDirectory);
+
+        if (isset($this->env)) {
+            $this->process->setEnv($this->env);
+        }
 
         if (!$this->background and !$this->isPrinted) {
             $this->startTimer();

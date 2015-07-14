@@ -71,6 +71,6 @@ trait ExecCommand
         }
         $this->stopTimer();
 
-		return new Result($this, $process->getExitCode(), $process->getOutput(), ['time' => $this->getExecutionTime()]);
+        return new Result($this, $process->getExitCode(), $process->getOutput(), ['time' => $this->getExecutionTime()]);
     }
 } 

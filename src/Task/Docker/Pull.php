@@ -19,4 +19,10 @@ class Pull extends Base
     {
         $this->command = "docker pull $image ";
     }
+
+    public function getCommand()
+    {
+        return $this->command . ' ' . $this->arguments;
+    }
+
 }

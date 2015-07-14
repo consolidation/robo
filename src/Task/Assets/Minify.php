@@ -35,6 +35,13 @@ class Minify extends BaseTask
     /** @var string $type css|js */
     protected $type;
 
+    /** @var array $squeezeOptions */
+    protected $squeezeOptions = [
+        'singleLine' => true,
+        'keepImportantComments' => true,
+        'specialVarRx' => false,
+    ];
+
     /**
      * Constructor. Accepts asset file path or string source.
      *
@@ -148,12 +155,54 @@ class Minify extends BaseTask
                 break;
 
             case 'js':
-                $jsqueeze = new \JSqueeze();
-                return $jsqueeze->squeeze($this->text);
+                if (class_exists('\JSqueeze')) {
+                    $jsqueeze = new \JSqueeze();
+                } else {
+                    $jsqueeze = new \Patchwork\JSqueeze();
+                }
+                return $jsqueeze->squeeze(
+                    $this->text,
+                    $this->squeezeOptions['singleLine'],
+                    $this->squeezeOptions['keepImportantComments'],
+                    $this->squeezeOptions['specialVarRx']
+                );
                 break;
         }
 
         return false;
+    }
+
+    /**
+     * Single line option for the JS minimisation.
+     *
+     * @return $this;
+     */
+    public function singleLine($singleLine)
+    {
+        $this->squeezeOptions['singleLine'] = (bool)$singleLine;
+        return $this;
+    }
+
+    /**
+     * keepImportantComments option for the JS minimisation.
+     *
+     * @return $this;
+     */
+    public function keepImportantComments($keepImportantComments)
+    {
+        $this->squeezeOptions['keepImportantComments'] = (bool)$keepImportantComments;
+        return $this;
+    }
+
+    /**
+     * specialVarRx option for the JS minimisation.
+     *
+     * @return $this;
+     */
+    public function specialVarRx($specialVarRx)
+    {
+        $this->squeezeOptions['specialVarRx'] = (bool)$specialVarRx;
+        return $this;
     }
 
     /**
@@ -194,15 +243,25 @@ class Minify extends BaseTask
         if (false === $write_result) {
             return Result::error($this, 'File write failed.');
         }
-
-        $minified_percent = number_format(100 - ($size_after / $size_before * 100), 1);
+        if ($size_before === 0) {
+            $minified_percent = 0;
+        } else {
+            $minified_percent = number_format(100 - ($size_after / $size_before * 100), 1);
+        }
         $this->printTaskSuccess(
             sprintf(
-                'Wrote <info>%s</info> (reduced by <info>%s%%</info>)', $this->dst,
+                'Wrote <info>%s</info>',
+                $this->dst
+            )
+        );
+        $this->printTaskSuccess(
+            sprintf(
+                'Wrote <info>%s</info> (reduced by <info>%s</info> / <info>%s%%</info>)',
+                $this->formatBytes($size_after),
+                $this->formatBytes(($size_before - $size_after)),
                 $minified_percent
             )
         );
-
         return Result::success($this, 'Asset minified.');
     }
 }

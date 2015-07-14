@@ -39,7 +39,7 @@ $this->taskDockerCommit($containerId)
 
 // alternatively you can take the result from DockerRun task:
 
-$result = $this->taskDockerRun('db')
+$result = $this->taskDockerRun('db)
      ->exec('./prepare_database.sh')
      ->run();
 

@@ -15,6 +15,7 @@ use Robo\Exception\TaskException;
  *   ->toHost('localhost')
  *   ->toUser('dev')
  *   ->toPath('/var/www/html/app/')
+ *   ->remoteShell('ssh -i public_key')
  *   ->recursive()
  *   ->excludeVcs()
  *   ->checksum()
@@ -251,6 +252,13 @@ class Rsync extends BaseTask implements CommandInterface
         }
 
         return $this->option('files-from', $file);
+    }
+
+    public function remoteShell($command)
+    {
+        $this->option('rsh', "'$command'");
+
+        return $this;
     }
 
     /**

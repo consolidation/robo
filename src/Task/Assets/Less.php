@@ -142,7 +142,7 @@ class Less extends BaseTask
     protected function less($file)
     {
         $lessCode = file_get_contents($file);
-        $parser = new \Less_Parser();
+        $parser = new \Less_Parser($this->compilerOptions);
         $parser->parse($lessCode);
         return $parser->getCss();
     }

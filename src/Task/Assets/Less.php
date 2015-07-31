@@ -112,7 +112,7 @@ class Less extends BaseTask
     protected function compile($file)
     {
         if (is_callable($this->lessCompiler)) {
-            return $this->lessCompiler($file, $this->compilerOptions);
+            return call_user_func($this->lessCompiler, $file, $this->compilerOptions);
         }
         if (method_exists($this, $this->lessCompiler)) {
             return $this->{$this->lessCompiler}($file);

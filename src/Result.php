@@ -40,6 +40,14 @@ class Result
         }
     }
 
+    public static function errorMissingPackage(TaskInterface $task, $class, $package)
+    {
+        $messageTpl = 'Class %s not found. Please install %s Composer package';
+        $message = sprintf($messageTpl, $class, $package);
+
+        return self::error($task, $message);
+    }
+
     static function error(TaskInterface $task, $message, $data = [])
     {
         return new self($task, 1, $message, $data);

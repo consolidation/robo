@@ -128,6 +128,10 @@ class Less extends BaseTask
      */
     protected function lessphp($file)
     {
+        if (!class_exists('\lessc')) {
+            return Result::errorMissingPackage($this, 'lessc', 'leafo/lessphp');
+        }
+
         $lessCode = file_get_contents($file);
         $less = new \lessc();
         return $less->compile($lessCode);
@@ -141,6 +145,10 @@ class Less extends BaseTask
      */
     protected function less($file)
     {
+        if (!class_exists('\Less_Parser')) {
+            return Result::errorMissingPackage($this, 'Less_Parser', 'oyejorge/less.php');
+        }
+
         $lessCode = file_get_contents($file);
         $parser = new \Less_Parser();
         $parser->parse($lessCode);
@@ -157,8 +165,10 @@ class Less extends BaseTask
         foreach ($this->files as $in => $out) {
             $css = $this->compile($in);
 
-            if (false === $css) {
-                return \Result::error($this, 'Less compilation failed for %s.', $in);
+            if ($css instanceof Result) {
+                return $css;
+            } elseif (false === $css) {
+                return Result::error($this, 'Less compilation failed for %s.', $in);
             }
 
             $dst = $out . '.part';

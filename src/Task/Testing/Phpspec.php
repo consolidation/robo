@@ -27,7 +27,7 @@ class Phpspec extends BaseTask implements CommandInterface, PrintedInterface
     /**
      * @var array $formaters available formaters for format option
      */
-    protected $formaters = ['progress', 'html', 'pretty', 'junit', 'dot'];
+    protected $formaters = ['progress', 'html', 'pretty', 'junit', 'dot', 'tap'];
 
     /**
      * @var array $verbose_levels available verbose levels

@@ -19,4 +19,13 @@ trait loadTasks {
     {
         return new Less($input);
     }
+
+    /**
+     * @param $input
+     * @return Scss
+     */
+    protected function taskScss($input)
+    {
+        return new Scss($input);
+    }
 }

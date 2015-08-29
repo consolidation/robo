@@ -112,7 +112,7 @@ class Less extends BaseTask
     protected function compile($file)
     {
         if (is_callable($this->lessCompiler)) {
-            return $this->lessCompiler($file, $this->compilerOptions);
+            return call_user_func($this->lessCompiler, $file, $this->compilerOptions);
         }
         if (method_exists($this, $this->lessCompiler)) {
             return $this->{$this->lessCompiler}($file);
@@ -150,7 +150,7 @@ class Less extends BaseTask
         }
 
         $lessCode = file_get_contents($file);
-        $parser = new \Less_Parser();
+        $parser = new \Less_Parser($this->compilerOptions);
         $parser->parse($lessCode);
         return $parser->getCss();
     }

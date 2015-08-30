@@ -23,6 +23,18 @@ use Robo\Task\BaseTask;
  * "oyejorge/less.php": "~1.5"
  * ```
  *
+ * Specify directory (string or array) for less imports lookup:
+ * ```php
+ * <?php
+ * $this->taskLess([
+ *     'less/default.less' => 'css/default.css'
+ * ])
+ * ->importDir('less')
+ * ->compiler('lessphp')
+ * ->run();
+ * ?>
+ * ````
+ *
  * You can implement additional compilers by extending this task and adding a
  * method named after them and overloading the lessCompilers() method to
  * inject the name there.
@@ -100,7 +112,7 @@ class Less extends BaseTask
             return false;
         }
         $this->lessCompiler = $compiler;
-        $this->compilerOptions = $options;
+        $this->compilerOptions = array_merge($this->compilerOptions, $options);
         return $this;
     }
 
@@ -121,6 +133,31 @@ class Less extends BaseTask
     }
 
     /**
+     * Sets import dir option for less compilers
+     * @param string|array $dirs
+     *
+     * @return Less
+     */
+    public function importDir($dirs)
+    {
+        if (!is_array($dirs)) {
+            $dirs = [$dirs];
+        }
+
+        //this one is for lessphp compiler
+        $this->compilerOptions['importDir'] = $dirs;
+
+        //and this is for Less_Parser
+        $importDirs = [];
+        foreach ($dirs as $dir) {
+            $importDirs[$dir] = $dir;
+        }
+        $this->compilerOptions['import_dirs'] = $importDirs;
+
+        return $this;
+    }
+
+    /**
      * lessphp compiler
      *
      * @link https://github.com/leafo/lessphp
@@ -133,7 +170,12 @@ class Less extends BaseTask
         }
 
         $lessCode = file_get_contents($file);
+
         $less = new \lessc();
+        if (isset($this->compilerOptions['importDir'])) {
+            $less->setImportDir($this->compilerOptions['importDir']);
+        }
+
         return $less->compile($lessCode);
     }
 
@@ -150,8 +192,11 @@ class Less extends BaseTask
         }
 
         $lessCode = file_get_contents($file);
-        $parser = new \Less_Parser($this->compilerOptions);
+
+        $parser = new \Less_Parser();
+        $parser->SetOptions($this->compilerOptions);
         $parser->parse($lessCode);
+
         return $parser->getCss();
     }
 

@@ -28,7 +28,7 @@ $this->_copyDir('dist/config', 'config');
 ?>
 ```
 
-* `dirPermissions($value)`  Sets the default folder permissions for the destination if it doesn't exist
+
 
 ## DeleteDir
 

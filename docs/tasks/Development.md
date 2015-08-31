@@ -166,17 +166,17 @@ Runs PHP server and stops it when task finishes.
 ``` php
 <?php
 // run server in /public directory
-$this->taskServer(8000)
+$this->taskPhpServer(8000)
  ->dir('public')
  ->run();
 
 // run with IP 0.0.0.0
-$this->taskServer(8000)
+$this->taskPhpServer(8000)
  ->host('0.0.0.0')
  ->run();
 
 // execute server in background
-$this->taskServer(8000)
+$this->taskPhpServer(8000)
  ->background()
  ->run();
 ?>
@@ -187,7 +187,6 @@ $this->taskServer(8000)
 * `background()`  Executes command in background mode (asynchronously)
 * `timeout($timeout)`  Stop command if it runs longer then $timeout in seconds
 * `idleTimeout($timeout)`  Stops command if it does not output something for a while
-* `env(array $env)`  Sets the environment variables for the command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable

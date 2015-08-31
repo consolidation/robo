@@ -11,8 +11,6 @@ $this->taskGitStack()
  ->add('-A')
  ->commit('adding everything')
  ->push('origin','master')
- ->tag('0.6.0')
- ->push('origin','0.6.0')
  ->run()
 
 $this->taskGitStack()
@@ -31,7 +29,6 @@ $this->taskGitStack()
 * `push($origin = null, $branch = null)`  Executes `git push` command
 * `merge($branch)`  Performs git merge
 * `checkout($branch)`  Executes `git checkout` command
-* `tag($tag_name)`  Executes `git tag` command
 * `exec($command)` 
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed

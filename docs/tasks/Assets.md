@@ -21,6 +21,7 @@ Use one of both less compilers in your project:
 ```
 
 Specify directory (string or array) for less imports lookup:
+
 ```php
 <?php
 $this->taskLess([
@@ -30,7 +31,7 @@ $this->taskLess([
 ->compiler('lessphp')
 ->run();
 ?>
-````
+```
 
 You can implement additional compilers by extending this task and adding a
 method named after them and overloading the lessCompilers() method to
@@ -56,7 +57,6 @@ Please install additional dependencies to use:
 "patchwork/jsqueeze": "~1.0",
 "natxet/CssMin": "~3.0"
 ```
-
 
 * `to($dst)`  Sets destination. Tries to guess type from it.
 * `type($type)`  Sets type with validation.

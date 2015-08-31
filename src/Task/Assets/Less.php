@@ -24,6 +24,7 @@ use Robo\Task\BaseTask;
  * ```
  *
  * Specify directory (string or array) for less imports lookup:
+ *
  * ```php
  * <?php
  * $this->taskLess([
@@ -33,7 +34,7 @@ use Robo\Task\BaseTask;
  * ->compiler('lessphp')
  * ->run();
  * ?>
- * ````
+ * ```
  *
  * You can implement additional compilers by extending this task and adding a
  * method named after them and overloading the lessCompilers() method to

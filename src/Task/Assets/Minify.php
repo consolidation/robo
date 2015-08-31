@@ -19,7 +19,6 @@ use Robo\Task\BaseTask;
  * "patchwork/jsqueeze": "~1.0",
  * "natxet/CssMin": "~3.0"
  * ```
- *
  */
 class Minify extends BaseTask
 {

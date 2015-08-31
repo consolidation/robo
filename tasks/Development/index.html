@@ -343,17 +343,17 @@ $pharTask = $this-&gt;PackPhar('package/codecept.phar')
 <p>Runs PHP server and stops it when task finishes.</p>
 <pre><code class="php">&lt;?php
 // run server in /public directory
-$this-&gt;taskPhpServer(8000)
+$this-&gt;taskServer(8000)
  -&gt;dir('public')
  -&gt;run();
 
 // run with IP 0.0.0.0
-$this-&gt;taskPhpServer(8000)
+$this-&gt;taskServer(8000)
  -&gt;host('0.0.0.0')
  -&gt;run();
 
 // execute server in background
-$this-&gt;taskPhpServer(8000)
+$this-&gt;taskServer(8000)
  -&gt;background()
  -&gt;run();
 ?&gt;
@@ -365,6 +365,7 @@ $this-&gt;taskPhpServer(8000)
 <li><code>background()</code>  Executes command in background mode (asynchronously)</li>
 <li><code>timeout($timeout)</code>  Stop command if it runs longer then $timeout in seconds</li>
 <li><code>idleTimeout($timeout)</code>  Stops command if it does not output something for a while</li>
+<li><code>env(array $env)</code>  Sets the environment variables for the command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable</li>

@@ -211,6 +211,7 @@ if ($this-&gt;taskExec('phpunit .')-&gt;run()-&gt;wasSuccessful()) {
 <ul>
 <li><code>timeout($timeout)</code>  Stop command if it runs longer then $timeout in seconds</li>
 <li><code>idleTimeout($timeout)</code>  Stops command if it does not output something for a while</li>
+<li><code>env(array $env)</code>  Sets the environment variables for the command</li>
 <li><code>dir($dir)</code>  changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable</li>

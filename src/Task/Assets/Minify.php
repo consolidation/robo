@@ -149,17 +149,25 @@ class Minify extends BaseTask
     protected function getMinifiedText()
     {
         switch ($this->type) {
-
             case 'css':
+                if (!class_exists('\CssMin')) {
+                    return Result::errorMissingPackage($this, 'CssMin', 'natxet/CssMin');
+                }
+
                 return \CssMin::minify($this->text);
                 break;
 
             case 'js':
+                if (!class_exists('\JSqueeze') && !class_exists('\Patchwork\JSqueeze')) {
+                    return Result::errorMissingPackage($this, 'Patchwork\JSqueeze', 'patchwork/jsqueeze');
+                }
+
                 if (class_exists('\JSqueeze')) {
                     $jsqueeze = new \JSqueeze();
                 } else {
                     $jsqueeze = new \Patchwork\JSqueeze();
                 }
+
                 return $jsqueeze->squeeze(
                     $this->text,
                     $this->squeezeOptions['singleLine'],
@@ -231,7 +239,9 @@ class Minify extends BaseTask
         $size_before = strlen($this->text);
         $minified = $this->getMinifiedText();
 
-        if (false === $minified) {
+        if ($minified instanceof Result) {
+            return $minified;
+        } elseif (false === $minified) {
             return Result::error($this, 'Minification failed.');
         }
 

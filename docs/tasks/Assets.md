@@ -20,11 +20,24 @@ Use one of both less compilers in your project:
 "oyejorge/less.php": "~1.5"
 ```
 
+Specify directory (string or array) for less imports lookup:
+```php
+<?php
+$this->taskLess([
+    'less/default.less' => 'css/default.css'
+])
+->importDir('less')
+->compiler('lessphp')
+->run();
+?>
+````
+
 You can implement additional compilers by extending this task and adding a
 method named after them and overloading the lessCompilers() method to
 inject the name there.
 
 * `compiler($compiler, array $options = Array ( ) )`  Sets the less compiler.
+* `importDir($dirs)`  Sets import dir option for less compilers
 
 ## Minify
 
@@ -51,4 +64,33 @@ Please install additional dependencies to use:
 * `keepImportantComments($keepImportantComments)`  keepImportantComments option for the JS minimisation.
 * `specialVarRx($specialVarRx)`  specialVarRx option for the JS minimisation.
 * `__toString()`  @return string
+
+## Scss
+
+
+Compiles scss files.
+
+```php
+<?php
+$this->taskScss([
+    'scss/default.scss' => 'css/default.css'
+])
+->run();
+?>
+```
+
+Use the following scss compiler in your project:
+
+```
+"leafo/scssphp": "~0.1",
+```
+
+You can implement additional compilers by extending this task and adding a
+method named after them and overloading the scssCompilers() method to
+inject the name there.
+
+* `compiler($compiler, array $options = Array ( ) )`  Sets the scss compiler.
+* `addImportPath($path)`  Adds path to the importPath for scssphp
+* `setImportPaths($paths)`  Sets the importPath for scssphp
+* `setFormatter($formatterName)`  Sets the formatter for scssphp
 

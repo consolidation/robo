@@ -1,11 +1,20 @@
 # Changelog
 
+#### 0.5.4
+
+* [WriteToFile] Fixed by @gabor-udvari: always writing to file regardless whether any changes were made or not. This can bring the taskrunner into an inifinite loop if a replaced file is being watched.
+* [Scss] task added, requires `leafo/scssphp` library to compile by @gabor-udvari
+* [PhpSpec] TAP formatter added by @orls
+* [Less] Added ability to set import dir for less compilers by @MAXakaWIZARD
+* [Less] fixed passing closure as compiler by @pr0nbaer
+* [Sass] task added by *2015-08-31*
+
 #### 0.5.3
 
  * [Rsync] Ability to use remote shell with identity file by @Mihailoff
- * [Less] Task added by @burzum 
- * [PHPUnit] allow to test specific files with `files` parameter by @burzum.  
- * [GitStack] `tag` added by @SebSept 
+ * [Less] Task added by @burzum
+ * [PHPUnit] allow to test specific files with `files` parameter by @burzum.
+ * [GitStack] `tag` added by @SebSept
  * [Concat] Fixing concat, it breaks some files if there is no new line. @burzum *2015-03-03-13*
  * [Minify] BC fix to support Jsqueeze 1.x and 2.x @burzum *2015-03-12*
  * [PHPUnit] Replace log-xml with log-junit @vkunz *2015-03-06*
@@ -39,7 +48,7 @@ Refactored core
 * All classes follow PSR-4 standard
 * Tasks are loaded into RoboFile with `loadTasks` trait
 * One-line tasks are available as shortcuts loaded by `loadShortucts` and used like `$this->_exec('ls')`
-* Robo runner is less coupled. Output can be set by `\Robo\Config::setOutput`, `RoboFile` can be changed to any provided class.  
+* Robo runner is less coupled. Output can be set by `\Robo\Config::setOutput`, `RoboFile` can be changed to any provided class.
 * Tasks can be used outside of Robo runner (inside a project)
 * Timer for long-running tasks added
 * Tasks can be globally configured (WIP) via `Robo\Config` class.
@@ -47,7 +56,7 @@ Refactored core
 * IO methods added `askHidden`, `askDefault`, `confirm`
 * TaskIO methods added `printTaskError`, `printTaskSuccess` with different formatting.
 * [Docker] Tasks added
-* [Gulp] Task added by @schorsch3000 
+* [Gulp] Task added by @schorsch3000
 
 #### 0.4.7
 

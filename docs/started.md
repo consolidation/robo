@@ -105,7 +105,7 @@ A one-char shortcut can be specified for option:
 <?php
     function hello($opts = ['silent|s' => false])
     {
-        if (!$opt['silent']) $this->say("Hello, world");
+        if (!$opts['silent']) $this->say("Hello, world");
     }
 ?>
 ```

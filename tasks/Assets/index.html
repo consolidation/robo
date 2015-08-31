@@ -177,7 +177,7 @@
         
             <li><a href="#less">Less</a></li>
         
-            <li><a href="#minify">Minify</a></li>
+            <li><a href="#scss">Scss</a></li>
         
     
     </ul>
@@ -200,15 +200,31 @@ $this-&gt;taskLess([
 &quot;oyejorge/less.php&quot;: &quot;~1.5&quot;
 </code></pre>
 
-<p>You can implement additional compilers by extending this task and adding a
-method named after them and overloading the lessCompilers() method to
-inject the name there.</p>
-<ul>
-<li><code>compiler($compiler, array $options = Array ( ) )</code>  Sets the less compiler.</li>
-</ul>
-<h2 id="minify">Minify</h2>
-<p>Minifies asset file (CSS or JS).</p>
+<p>Specify directory (string or array) for less imports lookup:</p>
 <pre><code class="php">&lt;?php
+$this-&gt;taskLess([
+    'less/default.less' =&gt; 'css/default.css'
+])
+-&gt;importDir('less')
+-&gt;compiler('lessphp')
+-&gt;run();
+?&gt;
+````
+
+You can implement additional compilers by extending this task and adding a
+method named after them and overloading the lessCompilers() method to
+inject the name there.
+
+* `compiler($compiler, array $options = Array ( ) )`  Sets the less compiler.
+* `importDir($dirs)`  Sets import dir option for less compilers
+
+## Minify
+
+
+Minifies asset file (CSS or JS).
+
+``` php
+&lt;?php
 $this-&gt;taskMinify( 'web/assets/theme.css' )
      -&gt;run()
 ?&gt;
@@ -226,6 +242,29 @@ $this-&gt;taskMinify( 'web/assets/theme.css' )
 <li><code>keepImportantComments($keepImportantComments)</code>  keepImportantComments option for the JS minimisation.</li>
 <li><code>specialVarRx($specialVarRx)</code>  specialVarRx option for the JS minimisation.</li>
 <li><code>__toString()</code>  @return string</li>
+</ul>
+<h2 id="scss">Scss</h2>
+<p>Compiles scss files.</p>
+<pre><code class="php">&lt;?php
+$this-&gt;taskScss([
+    'scss/default.scss' =&gt; 'css/default.css'
+])
+-&gt;run();
+?&gt;
+</code></pre>
+
+<p>Use the following scss compiler in your project:</p>
+<pre><code>&quot;leafo/scssphp&quot;: &quot;~0.1&quot;,
+</code></pre>
+
+<p>You can implement additional compilers by extending this task and adding a
+method named after them and overloading the scssCompilers() method to
+inject the name there.</p>
+<ul>
+<li><code>compiler($compiler, array $options = Array ( ) )</code>  Sets the scss compiler.</li>
+<li><code>addImportPath($path)</code>  Adds path to the importPath for scssphp</li>
+<li><code>setImportPaths($paths)</code>  Sets the importPath for scssphp</li>
+<li><code>setFormatter($formatterName)</code>  Sets the formatter for scssphp</li>
 </ul>
 </div>
             

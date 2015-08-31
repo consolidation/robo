@@ -272,7 +272,7 @@ robo hello --silent
 <pre><code class="php">&lt;?php
     function hello($opts = ['silent|s' =&gt; false])
     {
-        if (!$opt['silent']) $this-&gt;say(&quot;Hello, world&quot;);
+        if (!$opts['silent']) $this-&gt;say(&quot;Hello, world&quot;);
     }
 ?&gt;
 </code></pre>

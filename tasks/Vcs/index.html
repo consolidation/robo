@@ -193,8 +193,6 @@ $this-&gt;taskGitStack()
  -&gt;add('-A')
  -&gt;commit('adding everything')
  -&gt;push('origin','master')
- -&gt;tag('0.6.0')
- -&gt;push('origin','0.6.0')
  -&gt;run()
 
 $this-&gt;taskGitStack()
@@ -214,7 +212,6 @@ $this-&gt;taskGitStack()
 <li><code>push($origin = null, $branch = null)</code>  Executes <code>git push</code> command</li>
 <li><code>merge($branch)</code>  Performs git merge</li>
 <li><code>checkout($branch)</code>  Executes <code>git checkout</code> command</li>
-<li><code>tag($tag_name)</code>  Executes <code>git tag</code> command</li>
 <li><code>exec($command)</code> </li>
 <li><code>dir($dir)</code>  changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>

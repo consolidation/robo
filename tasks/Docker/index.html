@@ -202,7 +202,7 @@
 <pre><code class="php">&lt;?php
 $this-&gt;taskDockerBuild()-&gt;run();
 
-$this-&gt;taskDockerBuild('path/to/dir')
+$this-&gt;dockerBuild('path/to/dir')
      -&gt;tag('database')
      -&gt;run();
 
@@ -228,7 +228,7 @@ $this-&gt;taskDockerBuild('path/to/dir')
 
 // alternatively you can take the result from DockerRun task:
 
-$result = $this-&gt;taskDockerRun('db')
+$result = $this-&gt;taskDockerRun('db)
      -&gt;exec('./prepare_database.sh')
      -&gt;run();
 

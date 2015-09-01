@@ -1,7 +1,8 @@
 <?php
 namespace Robo\Task\Assets;
 
-trait loadTasks {
+trait loadTasks
+{
     /**
     * @param $input
     * @return Minify
@@ -13,7 +14,7 @@ trait loadTasks {
 
    /**
     * @param $input
-    * @return Minify
+    * @return Less
     */
     protected function taskLess($input)
     {

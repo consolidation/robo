@@ -42,11 +42,6 @@ abstract class CssPreprocessor extends BaseTask
     public function __construct(array $input)
     {
         $this->files = $input;
-        foreach ($this->files as $in => $out) {
-            if (!file_exists($in)) {
-                return Result::error($this, 'File %s not found.', $in);
-            }
-        }
 
         $this->setDefaultCompiler();
     }
@@ -128,17 +123,6 @@ abstract class CssPreprocessor extends BaseTask
      */
     public function compiler($compiler, array $options = [])
     {
-        if (!in_array($compiler, $this->compilers) && !is_callable($compiler)) {
-            $this->say(
-                sprintf(
-                    'Invalid ' . static::FORMAT_NAME . ' compiler %s!',
-                    $compiler
-                )
-            );
-
-            return false;
-        }
-
         $this->compiler = $compiler;
         $this->compilerOptions = array_merge($this->compilerOptions, $options);
 
@@ -171,17 +155,32 @@ abstract class CssPreprocessor extends BaseTask
      */
     public function run()
     {
+        if (!in_array($this->compiler, $this->compilers, true)
+            && !is_callable($this->compiler)
+        ) {
+            $message = sprintf('Invalid ' . static::FORMAT_NAME . ' compiler %s!', $this->compiler);
+
+            return Result::error($this, $message);
+        }
+
         foreach ($this->files as $in => $out) {
+            if (!file_exists($in)) {
+                $message = sprintf('File %s not found.', $in);
+
+                return Result::error($this, $message);
+            }
+
             $css = $this->compile($in);
 
             if ($css instanceof Result) {
                 return $css;
             } elseif (false === $css) {
-                return Result::error(
-                    $this,
+                $message = sprintf(
                     ucfirst(static::FORMAT_NAME) . ' compilation failed for %s.',
                     $in
                 );
+
+                return Result::error($this, $message);
             }
 
             $dst = $out . '.part';
@@ -189,7 +188,9 @@ abstract class CssPreprocessor extends BaseTask
             rename($dst, $out);
 
             if (false === $write_result) {
-                return Result::error($this, 'File write failed: %s', $out);
+                $message = sprintf('File write failed: %s', $out);
+
+                return Result::error($this, $message);
             }
 
             $this->printTaskSuccess(

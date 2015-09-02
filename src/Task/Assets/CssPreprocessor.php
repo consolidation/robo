@@ -56,6 +56,8 @@ abstract class CssPreprocessor extends BaseTask
 
     /**
      * Sets import directories
+     * Alias for setImportPaths
+     * @see CssPreprocessor::setImportPaths
      *
      * @param array|string $dirs
      * @return $this

@@ -138,7 +138,6 @@ class RoboFile extends \Robo\Tasks
 
     public function pharBuild()
     {
-
         $packer = $this->taskPackPhar('robo.phar');
         $this->taskComposerInstall()
             ->noDev()
@@ -150,6 +149,13 @@ class RoboFile extends \Robo\Tasks
             ->name('*.php')
             ->path('src')
             ->path('vendor')
+            ->exclude('symfony/config/Tests')
+            ->exclude('symfony/console/Tests')
+            ->exclude('symfony/event-dispatcher/Tests')
+            ->exclude('symfony/filesystem/Tests')
+            ->exclude('symfony/finder/Tests')
+            ->exclude('symfony/process/Tests')
+            ->exclude('henrikbjorn/lurker/tests')
             ->in(__DIR__);
         foreach ($files as $file) {
             $packer->addFile($file->getRelativePathname(), $file->getRealPath());

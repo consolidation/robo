@@ -79,6 +79,73 @@ $this->_mkdir('logs');
 * `chgrp($file, $group)` 
 * `chown($file, $user)` 
 
+## FlattenDir
+
+
+Searches for files in a nested directory structure and copies them to
+a target directory with or without the parent directories. The task was
+inspired by [gulp-flatten](https://www.npmjs.com/package/gulp-flatten).
+
+Example directory structure:
+
+```
+└── assets
+    ├── asset-library1
+    │   ├── README.md
+    │   └── asset-library1.min.js
+    └── asset-library2
+        ├── README.md
+        └── asset-library2.min.js
+```
+
+The following code will search the `*.min.js` files and copy them
+inside a new `dist` folder:
+
+``` php
+<?php
+$this->taskFlattenDir(['assets/*.min.js' => 'dist'])->run();
+// or use shortcut
+$this->_flattenDir('assets/*.min.js', 'dist');
+?>
+```
+
+You can also define the target directory with an additional method, instead of
+key/value pairs. More similar to the gulp-flatten syntax:
+
+``` php
+<?php
+$this->taskFlattenDir(['assets/*.min.js'])
+  ->to('dist')
+  ->run();
+?>
+```
+
+You can also append parts of the parent directories to the target path. If you give
+the value `1` to the `includeParents()` method, then the top parent will be appended
+to the target directory resulting in a path such as `dist/assets/asset-library1.min.js`.
+
+If you give a negative number, such as `-1` (the same as specifying `array(0, 1)` then
+the bottom parent will be appended, resulting in a path such as
+`dist/asset-library1/asset-library1.min.js`.
+
+The top parent directory will always be starting from the relative path to the current
+directory. You can override that with the `parentDir()` method. If in the above example
+you would specify `assets`, then the top parent directory would be `asset-library1`.
+
+``` php
+<?php
+$this->taskFlattenDir(['assets/*.min.js' => 'dist'])
+  ->parentDir('assets')
+  ->includeParents(1)
+  ->run();
+?>
+```
+
+* `dirPermissions($permission)`  Sets the default folder permissions for the destination if it does not exist.
+* `includeParents($parents)`  Sets the value from which direction and how much parent dirs should be included.
+* `parentDir($dir)`  Sets the parent directory from which the relative parent directories will be calculated.
+* `to($target)`  Sets the target directory where the files will be copied to.
+
 ## MirrorDir
 
 

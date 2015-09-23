@@ -34,7 +34,7 @@ class Runner
             if (strtolower(trim($answer)) === 'y') {
                 $this->initRoboFile();
             }
-            exit;
+            return false;
         }
 
         require_once self::ROBOFILE;
@@ -53,9 +53,8 @@ class Runner
         Config::setOutput(new ConsoleOutput());
         $input = $this->prepareInput($input ? $input : $_SERVER['argv']);
 
-        if (!$this->loadRoboFile()) {
+        if (! $this->loadRoboFile()) {
             $app = new Application('Robo', self::VERSION);
-            $app->add(new Init('init'));
             $app->run();
             return;
         }

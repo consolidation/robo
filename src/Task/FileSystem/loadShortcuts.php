@@ -119,4 +119,14 @@ trait loadShortcuts
     {
         return (new FilesystemStack)->copy($from, $to)->run();
     }
+
+    /**
+     * @param $from
+     * @param $to
+     * @return \Robo\Result
+     */
+    protected function _flattenDir($from, $to)
+    {
+        return (new FlattenDir([$from => $to]))->run();
+    }
 } 

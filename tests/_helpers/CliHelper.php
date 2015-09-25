@@ -21,6 +21,7 @@ class CliHelper extends \Codeception\Module
         taskCleanDir as public;
         taskCopyDir as public;
         taskDeleteDir as public;
+        taskFlattenDir as public;
         taskFileSystemStack as public;
     }
 

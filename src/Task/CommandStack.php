@@ -17,11 +17,11 @@ abstract class CommandStack extends BaseTask implements CommandInterface, Printe
     protected $executable;
     protected $result;
     protected $exec = [];
-    protected $stopOnFail = false;
+    protected $stopOnFail = true;
 
     public function getCommand()
     {
-        return implode(' && ', $this->exec);
+      return implode($this->stopOnFail ? ' && ' : ' ; ', $this->exec);
     }
 
     public function exec($command)

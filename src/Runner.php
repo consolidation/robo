@@ -14,25 +14,15 @@ class Runner
 {
     use IO;
 
-    const VERSION = '0.6.0';
+    const VERSION = '0.5.4';
     const ROBOCLASS = 'RoboFile';
     const ROBOFILE = 'RoboFile.php';
-    
-    /**
-     * @var CurrentDir
-     */
-    protected $currentDir = '.';
     
     /**
      * @var PassThoughArgs
      */
     protected $passThroughArgs = null;
 
-    /**
-     * @var ConsoleOutput
-     */
-    protected static $printer;
-    
     /**
      * @var RoboClass
      */

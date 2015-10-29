@@ -41,6 +41,15 @@ trait loadTasks
     }
 
     /**
+     * @param $dirs
+     * @return FlattenDir
+     */
+    protected function taskFlattenDir($dirs)
+    {
+        return new FlattenDir($dirs);
+    }
+
+    /**
      * @return FilesystemStack
      */
     protected function taskFilesystemStack()

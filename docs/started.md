@@ -293,8 +293,7 @@ Thus you can use this results to check if execution was successful, and use some
 <?php
 class RoboFile
 {
-    use Robo\Output;
-    use Robo\Task\Exec;
+    use Robo\Task\Base\loadShortcuts;
 
     function test()
     {

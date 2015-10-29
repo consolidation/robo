@@ -12,7 +12,7 @@ use Symfony\Component\Console\Helper\ProgressBar;
  *
  * ``` php
  * <?php
- * $pharTask = $this->PackPhar('package/codecept.phar')
+ * $pharTask = $this->taskPackPhar('package/codecept.phar')
  *   ->compress()
  *   ->stub('package/stub.php');
  *

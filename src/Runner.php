@@ -17,30 +17,48 @@ class Runner
     const VERSION = '0.5.4';
     const ROBOCLASS = 'RoboFile';
     const ROBOFILE = 'RoboFile.php';
-
-    protected $currentDir = '.';
+    
+    /**
+     * @var PassThoughArgs
+     */
     protected $passThroughArgs = null;
 
     /**
-     * @var ConsoleOutput
+     * @var RoboClass
      */
-    protected static $printer;
-
+    protected $roboClass;
+    
+    /**
+     * @var RoboFile
+     */
+    protected $roboFile;
+    
+    /**
+     * Class Constructor
+     */
+    public function __construct()
+    {
+        // set the const as class properties to allow overwriting in child classes
+        $this->roboClass = self::ROBOCLASS;
+        $this->roboFile  = self::ROBOFILE;
+    }
+    
+    
     protected function loadRoboFile()
     {
-        if (!file_exists(self::ROBOFILE)) {
-            $this->writeln("<comment>  ".self::ROBOFILE." not found in this dir </comment>");
+        if (!file_exists($this->roboFile)) {
+            $this->writeln("<comment>  ".$this->roboFile." not found in this dir </comment>");
             $answer = $this->ask("  Should I create RoboFile here? (y/n)  \n");
             if (strtolower(trim($answer)) === 'y') {
                 $this->initRoboFile();
             }
-            exit;
+            return false;
         }
 
-        require_once self::ROBOFILE;
+        require_once $this->roboFile;
 
-        if (!class_exists(self::ROBOCLASS)) {
-            $this->writeln("<error>Class ".self::ROBOCLASS." was not loaded</error>");
+        if (!class_exists($this->roboClass)) {
+            $this->writeln("<error>Class ".$this->roboClass." was not loaded</error>");
             return false;
         }
         return true;
@@ -53,14 +71,13 @@ class Runner
         Config::setOutput(new ConsoleOutput());
         $input = $this->prepareInput($input ? $input : $_SERVER['argv']);
 
-        if (!$this->loadRoboFile()) {
+        if (! $this->loadRoboFile()) {
             $app = new Application('Robo', self::VERSION);
-            $app->add(new Init('init'));
             $app->run();
             return;
         }
 
-        $app = $this->createApplication(self::ROBOCLASS);
+        $app = $this->createApplication($this->roboClass);
         $app->run($input);
     }
 
@@ -129,7 +146,7 @@ class Runner
             $fullname = $name;
             $shortcut = '';
             if (strpos($name, '|')) {
-              list($fullname, $shortcut) = explode('|', $name, 2);
+                list($fullname, $shortcut) = explode('|', $name, 2);
             }
 
             if (is_bool($val)) {
@@ -145,16 +162,16 @@ class Runner
     protected function initRoboFile()
     {
         file_put_contents(
-			self::ROBOFILE,
-			'<?php'
-			. "\n/**"
-			. "\n * This is project's console commands configuration for Robo task runner."
-			. "\n *"
-			. "\n * @see http://robo.li/"
-			. "\n */"
-		    . "\nclass " . self::ROBOCLASS . " extends \\Robo\\Tasks\n{\n    // define public methods as commands\n}"
-		);
-        $this->writeln(self::ROBOFILE . " created");
+            $this->roboFile,
+            '<?php'
+            . "\n/**"
+            . "\n * This is project's console commands configuration for Robo task runner."
+            . "\n *"
+            . "\n * @see http://robo.li/"
+            . "\n */"
+            . "\nclass " . $this->roboClass . " extends \\Robo\\Tasks\n{\n    // define public methods as commands\n}"
+        );
+        $this->writeln($this->roboFile . " created");
 
     }
 

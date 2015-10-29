@@ -27,6 +27,7 @@
         "natxet/CssMin": "~3.0",
         "codeception/base": "~2.1",
         "codeception/verify": "0.2.*",
-        "codeception/aspect-mock": "0.5.*"
+        "codeception/aspect-mock": "0.5.*",
+        "codeception/codeception": "2.1"
     }
 }

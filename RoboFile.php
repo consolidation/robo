@@ -15,14 +15,14 @@ class RoboFile extends \Robo\Tasks
             ->push()
             ->run();
 
+        $this->pharPublish();
         $this->publish();
 
         $this->taskGitHubRelease(\Robo\Runner::VERSION)
             ->uri('Codegyre/Robo')
             ->askDescription()
             ->run();
-        
-        $this->pharPublish();
+
         $this->versionBump();
     }
 

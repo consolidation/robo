@@ -46,8 +46,7 @@ $this->taskExecStack()
 ?>
 ```
 
-* `ExecStack exec(string)` 
-* `ExecStack stopOnFail(string)` 
+* `$this stopOnFail()` 
 
 * `exec($command)` 
 * `dir($dir)`  changes working directory of command

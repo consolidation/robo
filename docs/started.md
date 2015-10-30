@@ -1,13 +1,12 @@
 # Getting Started
 
-To begin you need to create a Robofile. Just run `robo` in empty dir:
+To begin you need to create a Robofile. Just run `robo init` in empty dir:
 
 ```
-robo
+robo init
 ```
 
-You will be asked to create a file. New `RoboFile.php` extends `\Robo\Tasks` class. It includes all bundled tasks from traits.
-It's not necessary for your RoboFile to extend `\Robo\Tasks` so if you need to customize tasks inclusion do not inherit from it.
+It will create a new `RoboFile.php` for you. There will be RoboFile class which extends `\Robo\Tasks` class, which includes all bundled tasks of Robo.
 
 ``` php
 <?php
@@ -116,6 +115,14 @@ Now command can be executed with '-s' to run in silent mode:
 robo hello -s
 ```
 
+### Load From Other Directories
+
+Robo can execute commands from RoboFile located in different directory.
+You can specify path to another RoboFile by appending `--load-from` option:
+
+```
+robo run --load-from /path/to/my/other/project
+```
 
 ### Pass-Through Arguments
 
@@ -293,8 +300,7 @@ Thus you can use this results to check if execution was successful, and use some
 <?php
 class RoboFile
 {
-    use Robo\Output;
-    use Robo\Task\Exec;
+    use Robo\Task\Base\loadShortcuts;
 
     function test()
     {

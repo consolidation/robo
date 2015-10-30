@@ -119,6 +119,28 @@ $this->taskGitHubRelease('0.1.0')
 * `uri($uri)` 
 * `askAuth()` 
 
+## OpenBrowser
+
+
+Opens the default's user browser
+code inspired from openBrowser() function in https://github.com/composer/composer/blob/master/src/Composer/Command/HomeCommand.php
+
+``` php
+<?php
+// open one browser window
+$this->taskOpenBrowser('http://localhost')
+ ->run();
+
+// open two browser windows
+$this->taskOpenBrowser([
+    'http://localhost/mysite',
+    'http://localhost/mysite2'
+  ])
+  ->run();
+```
+
+
+
 ## PackPhar
 
 
@@ -126,7 +148,7 @@ Creates Phar.
 
 ``` php
 <?php
-$pharTask = $this->PackPhar('package/codecept.phar')
+$pharTask = $this->taskPackPhar('package/codecept.phar')
   ->compress()
   ->stub('package/stub.php');
 

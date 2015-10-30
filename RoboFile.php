@@ -238,6 +238,15 @@ class RoboFile extends \Robo\Tasks
             ->run();
     }
 
+    public function tryOpenBrowser()
+    {
+        $this->taskOpenBrowser([
+            'http://robo.li',
+            'https://github.com/Codegyre/Robo'
+            ])
+            ->run();
+    }
+
     public function tryInteractive()
     {
         new SomeTask();

@@ -191,12 +191,11 @@
                 <div class="col-md-9" role="main">
 
 <h1 id="getting-started">Getting Started</h1>
-<p>To begin you need to create a Robofile. Just run <code>robo</code> in empty dir:</p>
-<pre><code>robo
+<p>To begin you need to create a Robofile. Just run <code>robo init</code> in empty dir:</p>
+<pre><code>robo init
 </code></pre>
 
-<p>You will be asked to create a file. New <code>RoboFile.php</code> extends <code>\Robo\Tasks</code> class. It includes all bundled tasks from traits.
-It's not necessary for your RoboFile to extend <code>\Robo\Tasks</code> so if you need to customize tasks inclusion do not inherit from it.</p>
+<p>It will create a new <code>RoboFile.php</code> for you. There will be RoboFile class which extends <code>\Robo\Tasks</code> class, which includes all bundled tasks of Robo.</p>
 <pre><code class="php">&lt;?php
 class RoboFile extends \Robo\Tasks
 {
@@ -281,8 +280,14 @@ robo hello --silent
 <pre><code>robo hello -s
 </code></pre>
 
+<h3 id="load-from-other-directories">Load From Other Directories</h3>
+<p>Robo can execute commands from RoboFile located in different directory.
+You can specify path to another RoboFile by appending <code>--load-from</code> option:</p>
+<pre><code>robo run --load-from /path/to/my/other/project
+</code></pre>
+
 <h3 id="pass-through-arguments">Pass-Through Arguments</h3>
-<p>Sometimes you need to pass arguments from your command into a task. A command line after the <code>--</code> characters is treated as one argument.
+<p>Sometimes you need to pass arguments from you command into a task. A command line after the <code>--</code> characters is treated as one argument.
 Any special character like <code>-</code> will be passed into without change.</p>
 <pre><code class="php">&lt;?php
     function ls($args)
@@ -430,8 +435,7 @@ return Robo\Result::error($this, &quot;Failed to compile assets&quot;);
 <pre><code class="php">&lt;?php
 class RoboFile
 {
-    use Robo\Output;
-    use Robo\Task\Exec;
+    use Robo\Task\Base\loadShortcuts;
 
     function test()
     {

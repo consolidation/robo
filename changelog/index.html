@@ -175,6 +175,8 @@
     
         <li class="main active"><a href="#changelog">Changelog</a></li>
         
+            <li><a href="#060">0.6.0</a></li>
+        
             <li><a href="#054">0.5.4</a></li>
         
             <li><a href="#053">0.5.3</a></li>
@@ -219,6 +221,15 @@
                 <div class="col-md-9" role="main">
 
 <h1 id="changelog">Changelog</h1>
+<h4 id="060">0.6.0</h4>
+<ul>
+<li>Added <code>--load-from</code> option to make Robo start RoboFiles from other directories. Use it like <code>robo --load-from /path/to/where/RobFile/located</code>.</li>
+<li>Robo will not ask to create RoboFile if it does not exist, <code>init</code> command should be used.</li>
+<li>[ImageMinify] task added by @gabor-udvari</li>
+<li>[OpenBrowser] task added by @oscarotero</li>
+<li>[FlattenDir] task added by @gabor-udvari</li>
+<li>Robo Runner can easily extended for custom runner by passing RoboClass and RoboFile parameters to constructor. By @rdeutz See #232</li>
+</ul>
 <h4 id="054">0.5.4</h4>
 <ul>
 <li>[WriteToFile] Fixed by @gabor-udvari: always writing to file regardless whether any changes were made or not. This can bring the taskrunner into an inifinite loop if a replaced file is being watched.</li>

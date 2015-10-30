@@ -183,6 +183,8 @@
         
             <li><a href="#filesystemstack">FilesystemStack</a></li>
         
+            <li><a href="#flattendir">FlattenDir</a></li>
+        
             <li><a href="#mirrordir">MirrorDir</a></li>
         
     
@@ -251,6 +253,61 @@ $this-&gt;_mkdir('logs');
 <li><code>mirror($from, $to)</code> </li>
 <li><code>chgrp($file, $group)</code> </li>
 <li><code>chown($file, $user)</code> </li>
+</ul>
+<h2 id="flattendir">FlattenDir</h2>
+<p>Searches for files in a nested directory structure and copies them to
+a target directory with or without the parent directories. The task was
+inspired by <a href="https://www.npmjs.com/package/gulp-flatten">gulp-flatten</a>.</p>
+<p>Example directory structure:</p>
+<pre><code>└── assets
+    ├── asset-library1
+    │   ├── README.md
+    │   └── asset-library1.min.js
+    └── asset-library2
+        ├── README.md
+        └── asset-library2.min.js
+</code></pre>
+
+<p>The following code will search the <code>*.min.js</code> files and copy them
+inside a new <code>dist</code> folder:</p>
+<pre><code class="php">&lt;?php
+$this-&gt;taskFlattenDir(['assets/*.min.js' =&gt; 'dist'])-&gt;run();
+// or use shortcut
+$this-&gt;_flattenDir('assets/*.min.js', 'dist');
+?&gt;
+</code></pre>
+
+<p>You can also define the target directory with an additional method, instead of
+key/value pairs. More similar to the gulp-flatten syntax:</p>
+<pre><code class="php">&lt;?php
+$this-&gt;taskFlattenDir(['assets/*.min.js'])
+  -&gt;to('dist')
+  -&gt;run();
+?&gt;
+</code></pre>
+
+<p>You can also append parts of the parent directories to the target path. If you give
+the value <code>1</code> to the <code>includeParents()</code> method, then the top parent will be appended
+to the target directory resulting in a path such as <code>dist/assets/asset-library1.min.js</code>.</p>
+<p>If you give a negative number, such as <code>-1</code> (the same as specifying <code>array(0, 1)</code> then
+the bottom parent will be appended, resulting in a path such as
+<code>dist/asset-library1/asset-library1.min.js</code>.</p>
+<p>The top parent directory will always be starting from the relative path to the current
+directory. You can override that with the <code>parentDir()</code> method. If in the above example
+you would specify <code>assets</code>, then the top parent directory would be <code>asset-library1</code>.</p>
+<pre><code class="php">&lt;?php
+$this-&gt;taskFlattenDir(['assets/*.min.js' =&gt; 'dist'])
+  -&gt;parentDir('assets')
+  -&gt;includeParents(1)
+  -&gt;run();
+?&gt;
+</code></pre>
+
+<ul>
+<li><code>dirPermissions($permission)</code>  Sets the default folder permissions for the destination if it does not exist.</li>
+<li><code>includeParents($parents)</code>  Sets the value from which direction and how much parent dirs should be included.</li>
+<li><code>parentDir($dir)</code>  Sets the parent directory from which the relative parent directories will be calculated.</li>
+<li><code>to($target)</code>  Sets the target directory where the files will be copied to.</li>
 </ul>
 <h2 id="mirrordir">MirrorDir</h2>
 <p>Mirrors a directory to another</p>

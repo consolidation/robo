@@ -181,6 +181,8 @@
         
             <li><a href="#githubrelease">GitHubRelease</a></li>
         
+            <li><a href="#openbrowser">OpenBrowser</a></li>
+        
             <li><a href="#packphar">PackPhar</a></li>
         
             <li><a href="#phpserver">PhpServer</a></li>
@@ -303,10 +305,26 @@ $this-&gt;taskGitHubRelease('0.1.0')
 <li><code>uri($uri)</code> </li>
 <li><code>askAuth()</code> </li>
 </ul>
+<h2 id="openbrowser">OpenBrowser</h2>
+<p>Opens the default's user browser
+code inspired from openBrowser() function in https://github.com/composer/composer/blob/master/src/Composer/Command/HomeCommand.php</p>
+<pre><code class="php">&lt;?php
+// open one browser window
+$this-&gt;taskOpenBrowser('http://localhost')
+ -&gt;run();
+
+// open two browser windows
+$this-&gt;taskOpenBrowser([
+    'http://localhost/mysite',
+    'http://localhost/mysite2'
+  ])
+  -&gt;run();
+</code></pre>
+
 <h2 id="packphar">PackPhar</h2>
 <p>Creates Phar.</p>
 <pre><code class="php">&lt;?php
-$pharTask = $this-&gt;PackPhar('package/codecept.phar')
+$pharTask = $this-&gt;taskPackPhar('package/codecept.phar')
   -&gt;compress()
   -&gt;stub('package/stub.php');
 

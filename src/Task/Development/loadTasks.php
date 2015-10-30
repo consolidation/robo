@@ -56,4 +56,13 @@ trait loadTasks
     {
         return new GitHubRelease($tag);
     }
+
+    /**
+     * @param string|array $url
+     * @return OpenBrowser
+     */
+    protected function taskOpenBrowser($url)
+    {
+        return new OpenBrowser($url);
+    }
 } 

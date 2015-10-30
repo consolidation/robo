@@ -349,15 +349,15 @@ class ImageMinify extends BaseTask
             }
 
             // replace - with _ in minifier name (eg. jpeg-recompress)
-            $func_minifier = strtr($minifier, '-', '_');
+            $funcMinifier = strtr($minifier, '-', '_');
 
             // call the minifier method which prepares the command
-            if (is_callable($func_minifier)) {
-                $command = call_user_func($func_minifier, $from, $to, $this->minifierOptions);
-            } elseif (method_exists($this, $func_minifier)) {
-                $command = $this->{$func_minifier}($from, $to);
+            if (is_callable($funcMinifier)) {
+                $command = call_user_func($funcMinifier, $from, $to, $this->minifierOptions);
+            } elseif (method_exists($this, $funcMinifier)) {
+                $command = $this->{$funcMinifier}($from, $to);
             } else {
-                $message = sprintf('Minifier method <info>%s</info> cannot be found!', $func_minifier);
+                $message = sprintf('Minifier method <info>%s</info> cannot be found!', $funcMinifier);
 
                 return Result::error($this, $message);
             }

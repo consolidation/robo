@@ -2,60 +2,64 @@
 namespace Robo;
 
 use Robo\Common\IO;
-use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 class Runner
 {
     use IO;
 
-    const VERSION = '0.5.4';
+    const VERSION = '0.6.0';
     const ROBOCLASS = 'RoboFile';
     const ROBOFILE = 'RoboFile.php';
     
     /**
-     * @var PassThoughArgs
+     * @var string PassThoughArgs
      */
     protected $passThroughArgs = null;
 
     /**
-     * @var RoboClass
+     * @var string RoboClass
      */
     protected $roboClass;
     
     /**
-     * @var RoboFile
+     * @var string RoboFile
      */
     protected $roboFile;
-    
+
+    /**
+     * @var string working dir of Robo
+     */
+    protected $dir;
+
     /**
      * Class Constructor
+     * @param null $roboClass
+     * @param null $roboFile
      */
-    public function __construct()
+    public function __construct($roboClass = null, $roboFile = null)
     {
         // set the const as class properties to allow overwriting in child classes
-        $this->roboClass = self::ROBOCLASS;
-        $this->roboFile  = self::ROBOFILE;
+        $this->roboClass = $roboClass ? $roboClass : self::ROBOCLASS ;
+        $this->roboFile  = $roboFile ? $roboFile : self::ROBOFILE;
+        $this->dir = getcwd();
     }
     
     
     protected function loadRoboFile()
     {
-        if (!file_exists($this->roboFile)) {
-            $this->writeln("<comment>  ".$this->roboFile." not found in this dir </comment>");
-            $answer = $this->ask("  Should I create RoboFile here? (y/n)  \n");
-            if (strtolower(trim($answer)) === 'y') {
-                $this->initRoboFile();
-            }
+        if (!file_exists($this->dir)) {
+            $this->yell("Path in `{$this->dir}` is invalid, please provide valid absolute path to load Robofile", 40, 'red');
+            return false;
+        }
+        chdir($this->dir);
+
+        if (!file_exists($this->dir . DIRECTORY_SEPARATOR . $this->roboFile)) {
             return false;
         }
 
-        require_once $this->roboFile;
+        require_once $this->dir . DIRECTORY_SEPARATOR .$this->roboFile;
 
         if (!class_exists($this->roboClass)) {
             $this->writeln("<error>Class ".$this->roboClass." was not loaded</error>");
@@ -69,110 +73,44 @@ class Runner
         register_shutdown_function(array($this, 'shutdown'));
         set_error_handler(array($this, 'handleError'));
         Config::setOutput(new ConsoleOutput());
-        $input = $this->prepareInput($input ? $input : $_SERVER['argv']);
 
-        if (! $this->loadRoboFile()) {
-            $app = new Application('Robo', self::VERSION);
-            $app->run();
+        $input = $this->prepareInput($input ? $input : $_SERVER['argv']);
+        $app = new Application('Robo', self::VERSION);
+
+        if (!$this->loadRoboFile()) {
+            $this->yell("Robo is not initialized here. Please run `robo init` to create a new RoboFile", 40, 'yellow');
+            $app->addInitRoboFileCommand($this->roboFile, $this->roboClass);
+            $app->run($input);
             return;
         }
-
-        $app = $this->createApplication($this->roboClass);
+        $app->addCommandsFromClass($this->roboClass, $this->passThroughArgs);
         $app->run($input);
     }
 
-    public function createApplication($className)
-    {
-        $app = new Application('Robo', self::VERSION);
-        $roboTasks = new $className;
-
-        $commandNames = array_filter(get_class_methods($className), function($m) {
-            return !in_array($m, ['__construct']);
-        });
-
-        $passThrough = $this->passThroughArgs;
-        foreach ($commandNames as $commandName) {
-            $command = $this->createCommand(new TaskInfo($className, $commandName));
-            $command->setCode(function(InputInterface $input) use ($roboTasks, $commandName, $passThrough) {
-                // get passthru args
-                $args = $input->getArguments();
-                array_shift($args);
-                if ($passThrough) {
-                    $args[key(array_slice($args, -1, 1, TRUE))] = $passThrough;
-                }
-                $args[] = $input->getOptions();
-
-                $res = call_user_func_array([$roboTasks, $commandName], $args);
-                if (is_int($res)) exit($res);
-                if (is_bool($res)) exit($res ? 0 : 1);
-                if ($res instanceof Result) exit($res->getExitCode());
-            });
-            $app->add($command);
-        }
-        return $app;
-    }
-
+    /**
+     * @param $argv
+     * @return ArgvInput
+     */
     protected function prepareInput($argv)
     {
         $pos = array_search('--', $argv);
+
+        // cutting pass-through arguments
         if ($pos !== false) {
             $this->passThroughArgs = implode(' ', array_slice($argv, $pos+1));
             $argv = array_slice($argv, 0, $pos);
         }
+
+        // loading from other directory
+        $pos = array_search('--load-from', $argv);
+        if ($pos !== false) {
+            if (isset($argv[$pos +1])) {
+                $this->dir = $argv[$pos +1];
+                unset($argv[$pos +1]);
+            }
+            unset($argv[$pos]);
+        }
         return new ArgvInput($argv);
-    }
-
-    public function createCommand(TaskInfo $taskInfo)
-    {
-        $task = new Command($taskInfo->getName());
-        $task->setDescription($taskInfo->getDescription());
-        $task->setHelp($taskInfo->getHelp());
-
-        $args = $taskInfo->getArguments();
-        foreach ($args as $name => $val) {
-            $description = $taskInfo->getArgumentDescription($name);
-            if ($val === TaskInfo::PARAM_IS_REQUIRED) {
-                $task->addArgument($name, InputArgument::REQUIRED, $description);
-            } elseif (is_array($val)) {
-                $task->addArgument($name, InputArgument::IS_ARRAY, $description, $val);
-            } else {
-                $task->addArgument($name, InputArgument::OPTIONAL, $description, $val);
-            }
-        }
-        $opts = $taskInfo->getOptions();
-        foreach ($opts as $name => $val) {
-            $description = $taskInfo->getOptionDescription($name);
-
-            $fullname = $name;
-            $shortcut = '';
-            if (strpos($name, '|')) {
-                list($fullname, $shortcut) = explode('|', $name, 2);
-            }
-
-            if (is_bool($val)) {
-                $task->addOption($fullname, $shortcut, InputOption::VALUE_NONE, $description);
-            } else {
-                $task->addOption($fullname, $shortcut, InputOption::VALUE_OPTIONAL, $description, $val);
-            }
-        }
-
-        return $task;
-    }
-
-    protected function initRoboFile()
-    {
-        file_put_contents(
-            $this->roboFile,
-            '<?php'
-            . "\n/**"
-            . "\n * This is project's console commands configuration for Robo task runner."
-            . "\n *"
-            . "\n * @see http://robo.li/"
-            . "\n */"
-            . "\nclass " . $this->roboClass . " extends \\Robo\\Tasks\n{\n    // define public methods as commands\n}"
-        );
-        $this->writeln($this->roboFile . " created");
-
     }
 
     public function shutdown()

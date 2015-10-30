@@ -1,5 +1,13 @@
 # Changelog
 
+#### 0.6.0
+
+* Added `--load-from` option to make Robo start RoboFiles from other directories. Use it like `robo --load-from /path/to/where/RobFile/located`.
+* Robo Runner can easily extended for custom runner by passing RoboClass and RoboFile parameters to constructor. By @rdeutz See #232
+* [ImageMinify] task added by @gabor-udvari
+* Robo will continue execution even if RoboFile does not exist
+* [FlattenDir] task added by @gabor-udvari
+
 #### 0.5.4
 
 * [WriteToFile] Fixed by @gabor-udvari: always writing to file regardless whether any changes were made or not. This can bring the taskrunner into an inifinite loop if a replaced file is being watched.

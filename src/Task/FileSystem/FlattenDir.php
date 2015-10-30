@@ -92,7 +92,7 @@ class FlattenDir extends BaseDir
         $this->copyFiles($files);
 
         $amount = count($files).(count($files) == 1 ? ' file' : ' files');
-        $this->printTaskSuccess('Copied <info>'.count($files).' files</info> to <info>'.$this->to.'</info>');
+        $this->printTaskSuccess('Copied <info>'.$amount.'</info> to <info>'.$this->to.'</info>');
 
         return Result::success($this);
     }
@@ -118,32 +118,32 @@ class FlattenDir extends BaseDir
     /**
      * Sets the value from which direction and how much parent dirs should be included.
      * Accepts a positive or negative integer or an array with two integer values.
-     * 
-     * @param mixed $parents
      *
+     * @param mixed $parents
      * @return $this
+     * @throws TaskException
      */
     public function includeParents($parents)
     {
         if (is_int($parents)) {
             // if an integer is given check whether it is for top or bottom parent
-            if ($value >= 0) {
+            if ($parents >= 0) {
                 $this->parents[0] = $parents;
-            } else {
-                $this->parents[1] = 0 - $parents;
+                return $this;
             }
-        } elseif (is_array($parents)) {
+            $this->parents[1] = 0 - $parents;
+            return $this;
+        }
+
+        if (is_array($parents)) {
             // check if the array has two values no more, no less
             if (count($parents) == 2) {
                 $this->parents = $parents;
-            } else {
-                throw new TaskException($this, 'includeParents expects an integer or an array with two values');
+                return $this;
             }
-        } else {
-            throw new TaskException($this, 'includeParents expects an integer or an array with two values');
         }
 
-        return $this;
+        throw new TaskException($this, 'includeParents expects an integer or an array with two values');
     }
 
     /**

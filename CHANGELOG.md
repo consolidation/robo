@@ -3,10 +3,11 @@
 #### 0.6.0
 
 * Added `--load-from` option to make Robo start RoboFiles from other directories. Use it like `robo --load-from /path/to/where/RobFile/located`.
-* Robo Runner can easily extended for custom runner by passing RoboClass and RoboFile parameters to constructor. By @rdeutz See #232
+* Robo will not ask to create RoboFile if it does not exist, `init` command should be used.
 * [ImageMinify] task added by @gabor-udvari
-* Robo will continue execution even if RoboFile does not exist
+* [OpenBrowser] task added by @oscarotero
 * [FlattenDir] task added by @gabor-udvari
+* Robo Runner can easily extended for custom runner by passing RoboClass and RoboFile parameters to constructor. By @rdeutz See #232
 
 #### 0.5.4
 

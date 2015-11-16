@@ -22,28 +22,38 @@ trait FileAndFolderCheck
         }
         $success = true;
         foreach ($resources as $resource) {
-            switch ($type) {
-                case 'file':
-                    if (!$this->isFile($resource)) {
-                        $this->printTaskError(sprintf('File "%s" does not exist!', $resource), $this);
-                        $success = false;
-                        continue;
-                    }
-                case 'dir':
-                    if (!$this->isDir($resource)) {
-                        $this->printTaskError(sprintf('Directory "%s" does not exist!', $resource), $this);
-                        $success = false;
-                        continue;
-                    }
-                case 'fileAndDir':
-                    if (!$this->isDir($resource) && !$this->isFile($resource)) {
-                        $this->printTaskError(sprintf('File or directory "%s" does not exist!', $resource), $this);
-                        $success = false;
-                        continue;
-                    }
+            $glob = glob($resource);
+            if ($glob === false) {
+                $this->printTaskError(sprintf('Invalid glob "%s"!', $resource), $this);
+                continue;
+            }
+            foreach ($glob as $resource) {
+                $this->checkResource($resource, $type);
             }
         }
         return $success;
+    }
+
+    protected function checkResource($resource, $type)
+    {
+        switch ($type) {
+            case 'file':
+                if (!$this->isFile($resource)) {
+                    $this->printTaskError(sprintf('File "%s" does not exist!', $resource), $this);
+                    return false;
+                }
+            case 'dir':
+                if (!$this->isDir($resource)) {
+                    $this->printTaskError(sprintf('Directory "%s" does not exist!', $resource), $this);
+                    return false;
+                }
+            case 'fileAndDir':
+                if (!$this->isDir($resource) && !$this->isFile($resource)) {
+                    $this->printTaskError(sprintf('File or directory "%s" does not exist!', $resource), $this);
+                    return false;
+                }
+        }
+        return true;
     }
 
     /**

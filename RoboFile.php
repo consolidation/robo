@@ -65,7 +65,7 @@ class RoboFile extends \Robo\Tasks
             if ($file->getFileName() == 'loadTasks.php') {
                 continue;
             }
-            if ($file->getFileName() == 'loadShortucts.php') {
+            if ($file->getFileName() == 'loadShortcuts.php') {
                 continue;
             }
             $ns = $file->getRelativePath();

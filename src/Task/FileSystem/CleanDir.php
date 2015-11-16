@@ -1,9 +1,8 @@
 <?php
 namespace Robo\Task\FileSystem;
 
-use Robo\Result;
-
 use Robo\Common\FileAndFolderCheck;
+use Robo\Result;
 
 /**
  * Deletes all files from specified dir, ignoring git files.

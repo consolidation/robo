@@ -3,6 +3,8 @@ namespace Robo\Task\FileSystem;
 
 use Robo\Result;
 
+use Robo\Common\FileAndFolderCheck;
+
 /**
  * Deletes all files from specified dir, ignoring git files.
  *
@@ -16,8 +18,13 @@ use Robo\Result;
  */
 class CleanDir extends BaseDir
 {
+    use FileAndFolderCheck;
+
     public function run()
     {
+        if (!$this->checkResources($this->dirs, 'dir')) {
+            return Result::error($this, 'Resources are missing!');
+        }
         foreach ($this->dirs as $dir) {
             $this->emptyDir($dir);
             $this->printTaskInfo("Cleaned <info>$dir</info>");

@@ -12,7 +12,7 @@ trait FileAndFolderCheck
      * @param string $type "file", "dir", "fileAndDir"
      * @return void
      */
-    protected function checkResources($resources, $type)
+    protected function checkResources($resources, $type = 'fileAndDir')
     {
         if (!in_array($type, ['file', 'dir', 'fileAndDir'])) {
             throw new \InvalidArgumentException(sprintf('Invalid resource check of  type "%s" used!', $type));

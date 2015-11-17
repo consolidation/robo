@@ -1,6 +1,7 @@
 <?php
 namespace Robo\Task\FileSystem;
 
+use Robo\Common\ResourceExistenceChecker;
 use Robo\Result;
 use Robo\Exception\TaskException;
 
@@ -17,11 +18,16 @@ use Robo\Exception\TaskException;
  */
 class CopyDir extends BaseDir
 {
+    use ResourceExistenceChecker;
+
     /** @var int $chmod */
     protected $chmod = 0755;
 
     public function run()
     {
+        if (!$this->checkResources($this->dirs, 'dir')) {
+            return Result::error($this, 'Source directories are missing!');
+        }
         foreach ($this->dirs as $src => $dst) {
             $this->copyDir($src, $dst);
             $this->printTaskInfo("Copied from <info>$src</info> to <info>$dst</info>");

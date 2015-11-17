@@ -2,7 +2,7 @@
 namespace Robo\Task\File;
 
 use Iterator;
-use Robo\Common\FileAndFolderCheck;
+use Robo\Common\ResourceExistenceChecker;
 use Robo\Result;
 use Robo\Task\BaseTask;
 
@@ -23,7 +23,7 @@ use Robo\Task\BaseTask;
  */
 class Concat extends BaseTask
 {
-    use FileAndFolderCheck;
+    use ResourceExistenceChecker;
 
     /**
      * @var array|Iterator files
@@ -69,7 +69,7 @@ class Concat extends BaseTask
         }
 
         if (!$this->checkResources($this->files, 'file')) {
-            return Result::error($this, 'Resources are missing!');
+            return Result::error($this, 'Source files are missing!');
         }
 
         $dump = '';

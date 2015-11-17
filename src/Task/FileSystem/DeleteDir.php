@@ -1,7 +1,7 @@
 <?php
 namespace Robo\Task\FileSystem;
 
-use Robo\Common\FileAndFolderCheck;
+use Robo\Common\ResourceExistenceChecker;
 use Robo\Result;
 
 /**
@@ -17,12 +17,12 @@ use Robo\Result;
  */
 class DeleteDir extends BaseDir
 {
-    use FileAndFolderCheck;
+    use ResourceExistenceChecker;
 
     public function run()
     {
         if (!$this->checkResources($this->dirs, 'dir')) {
-            return Result::error($this, 'Resources are missing!');
+            return Result::error($this, 'Source directories are missing!');
         }
         foreach ($this->dirs as $dir) {
             $this->fs->remove($dir);

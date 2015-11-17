@@ -1,7 +1,7 @@
 <?php
 namespace Robo\Common;
 
-trait FileAndFolderCheck
+trait ResourceExistenceChecker
 {
     use IO;
 
@@ -34,6 +34,15 @@ trait FileAndFolderCheck
         return $success;
     }
 
+    /**
+     * Checks a single resource, file or directory.
+     *
+     * It will print an error as well on the console.
+     *
+     * @param string $resource File or folder.
+     * @param string $type "file", "dir", "fileAndDir"
+     * @return boolean
+     */
     protected function checkResource($resource, $type)
     {
         switch ($type) {

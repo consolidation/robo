@@ -15,7 +15,7 @@ trait ResourceExistenceChecker
     protected function checkResources($resources, $type = 'fileAndDir')
     {
         if (!in_array($type, ['file', 'dir', 'fileAndDir'])) {
-            throw new \InvalidArgumentException(sprintf('Invalid resource check of  type "%s" used!', $type));
+            throw new \InvalidArgumentException(sprintf('Invalid resource check of type "%s" used!', $type));
         }
         if (is_string($resources)) {
             $resources = [$resources];
@@ -51,18 +51,20 @@ trait ResourceExistenceChecker
                     $this->printTaskError(sprintf('File "%s" does not exist!', $resource), $this);
                     return false;
                 }
+                return true;
             case 'dir':
                 if (!$this->isDir($resource)) {
                     $this->printTaskError(sprintf('Directory "%s" does not exist!', $resource), $this);
                     return false;
                 }
+                return true;
             case 'fileAndDir':
                 if (!$this->isDir($resource) && !$this->isFile($resource)) {
                     $this->printTaskError(sprintf('File or directory "%s" does not exist!', $resource), $this);
                     return false;
                 }
+                return true;
         }
-        return true;
     }
 
     /**
@@ -86,11 +88,23 @@ trait ResourceExistenceChecker
         $this->checkResources($targets);
     }
 
+   /**
+    * Wrapper method around phps is_dir()
+    *
+    * @param string $directory
+    * @return boolean
+    */
     protected function isDir($directory)
     {
         return is_dir($directory);
     }
 
+   /**
+    * Wrapper method around phps file_exists()
+    *
+    * @param string $file
+    * @return boolean
+    */
     protected function isFile($file)
     {
         return file_exists($file);

@@ -10,7 +10,7 @@ trait ResourceExistenceChecker
      *
      * @param string|array $resources
      * @param string $type "file", "dir", "fileAndDir"
-     * @return void
+     * @return boolean True if no errors were encountered otherwise false.
      */
     protected function checkResources($resources, $type = 'fileAndDir')
     {
@@ -25,10 +25,13 @@ trait ResourceExistenceChecker
             $glob = glob($resource);
             if ($glob === false) {
                 $this->printTaskError(sprintf('Invalid glob "%s"!', $resource), $this);
+                $success = false;
                 continue;
             }
             foreach ($glob as $resource) {
-                $this->checkResource($resource, $type);
+                if (!$this->checkResource($resource, $type)) {
+                    $success = false;
+                }
             }
         }
         return $success;

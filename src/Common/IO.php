@@ -25,7 +25,7 @@ trait IO
      */
     protected function getInput()
     {
-        return Config::get('input');
+        return Config::get('input', new ArgvInput());
     }
 
     protected function say($text)

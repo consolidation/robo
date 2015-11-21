@@ -75,6 +75,7 @@ class Runner
         Config::setOutput(new ConsoleOutput());
 
         $input = $this->prepareInput($input ? $input : $_SERVER['argv']);
+        Config::setInput($input);
         $app = new Application('Robo', self::VERSION);
 
         if (!$this->loadRoboFile()) {

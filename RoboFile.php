@@ -65,7 +65,7 @@ class RoboFile extends \Robo\Tasks
             if ($file->getFileName() == 'loadTasks.php') {
                 continue;
             }
-            if ($file->getFileName() == 'loadShortucts.php') {
+            if ($file->getFileName() == 'loadShortcuts.php') {
                 continue;
             }
             $ns = $file->getRelativePath();
@@ -181,9 +181,12 @@ class RoboFile extends \Robo\Tasks
     {
         $this->pharBuild();
 
-        rename('robo.phar', 'robo-release.phar');
+        $this->_rename('robo.phar', 'robo-release.phar');
         $this->taskGitStack()->checkout('gh-pages')->run();
-        rename('robo-release.phar', 'robo.phar');
+        $this->taskFilesystemStack()
+            ->remove('robo.phar')
+            ->rename('robo-release.phar', 'robo.phar')
+            ->run();
         $this->taskGitStack()
             ->add('robo.phar')
             ->commit('robo.phar published')

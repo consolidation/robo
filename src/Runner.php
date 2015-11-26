@@ -12,7 +12,7 @@ class Runner
     const VERSION = '0.6.1';
     const ROBOCLASS = 'RoboFile';
     const ROBOFILE = 'RoboFile.php';
-    
+
     /**
      * @var string PassThoughArgs
      */
@@ -22,7 +22,7 @@ class Runner
      * @var string RoboClass
      */
     protected $roboClass;
-    
+
     /**
      * @var string RoboFile
      */
@@ -45,14 +45,16 @@ class Runner
         $this->roboFile  = $roboFile ? $roboFile : self::ROBOFILE;
         $this->dir = getcwd();
     }
-    
-    
+
+
     protected function loadRoboFile()
     {
         if (!file_exists($this->dir)) {
             $this->yell("Path in `{$this->dir}` is invalid, please provide valid absolute path to load Robofile", 40, 'red');
             return false;
         }
+
+        $this->dir = realpath($this->dir);
         chdir($this->dir);
 
         if (!file_exists($this->dir . DIRECTORY_SEPARATOR . $this->roboFile)) {

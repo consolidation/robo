@@ -49,6 +49,11 @@ class Runner
 
     protected function loadRoboFile()
     {
+        // In the case the RoboClass is already autoloaded, we do not need any further checks.
+        if (class_exists($this->roboClass)) {
+            return true;
+        }
+        
         if (!file_exists($this->dir)) {
             $this->yell("Path in `{$this->dir}` is invalid, please provide valid absolute path to load Robofile", 40, 'red');
             return false;

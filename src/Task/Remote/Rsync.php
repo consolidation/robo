@@ -231,7 +231,7 @@ class Rsync extends BaseTask implements CommandInterface
     {
         if (is_array($pattern)) {
             foreach ($pattern as $item) {
-                $this->option('exclude', escapeshellarg($item));
+                $this->exclude($item);
             }
         }
         else {

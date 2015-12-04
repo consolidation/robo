@@ -229,16 +229,7 @@ class Rsync extends BaseTask implements CommandInterface
 
     public function exclude($pattern)
     {
-        if (is_array($pattern)) {
-            foreach ($pattern as $item) {
-                $this->exclude($item);
-            }
-        }
-        else {
-            $this->option('exclude', escapeshellarg($pattern));
-        }
-
-        return $this;
+        return $this->optionList(__FUNCTION__, $pattern);
     }
 
     public function excludeFrom($file)
@@ -248,6 +239,16 @@ class Rsync extends BaseTask implements CommandInterface
         }
 
         return $this->option('exclude-from', $file);
+    }
+
+    public function includeFilter($pattern)
+    {
+        return $this->optionList('include', $pattern);
+    }
+
+    public function filter($pattern)
+    {
+        return $this->optionList(__FUNCTION__, $pattern);
     }
 
     public function filesFrom($file)

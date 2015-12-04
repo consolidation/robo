@@ -14,6 +14,7 @@ class Tasks
     use Task\Development\loadTasks;
     use Task\FileSystem\loadTasks;
     use Task\File\loadTasks;
+    use Task\Archive\loadTasks;
     use Task\Vcs\loadTasks;
 
     // package managers

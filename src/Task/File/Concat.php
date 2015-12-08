@@ -2,6 +2,7 @@
 namespace Robo\Task\File;
 
 use Iterator;
+use Robo\Common\ResourceExistenceChecker;
 use Robo\Result;
 use Robo\Task\BaseTask;
 
@@ -22,6 +23,8 @@ use Robo\Task\BaseTask;
  */
 class Concat extends BaseTask
 {
+    use ResourceExistenceChecker;
+
     /**
      * @var array|Iterator files
      */
@@ -65,14 +68,14 @@ class Concat extends BaseTask
             return Result::error($this, 'You must specify a destination file with to() method.');
         }
 
+        if (!$this->checkResources($this->files, 'file')) {
+            return Result::error($this, 'Source files are missing!');
+        }
+
         $dump = '';
 
         foreach ($this->files as $path) {
             foreach (glob($path) as $file) {
-                if (!file_exists($file)) {
-                    return Result::error($this, sprintf('File %s not found', $file));
-                }
-
                 $dump .= file_get_contents($file) . "\n";
             }
         }

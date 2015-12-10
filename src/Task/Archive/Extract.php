@@ -45,24 +45,26 @@ class Extract extends BaseTask
         @mkdir($extractLocation);
         @mkdir(dirname($this->to));
 
+        $this->startTimer();
+
         // Perform the extraction of a zip file.
         if (($mimetype == 'application/zip') || ($mimetype == 'application/x-zip')) {
-            $command = "unzip {$this->filename} -d --destination=$extractLocation";
+            $this->printTaskInfo("Unzipping <info>{$this->filename}</info>");
+
+            $zip = new \ZipArchive();
+            if (($status = $zip->open($this->filename)) === TRUE) {
+                $zip->extractTo($extractLocation);
+                $zip->close();
+                $status = 0;
+            }
         }
-        // Extract a tar archive
+        // Otherwise we have a possibly-compressed Tar file.
         else {
-            $tar_compression_flag = '';
-            if ($mimetype == 'application/x-gzip') {
-                $tar_compression_flag = 'z';
-            }
-            elseif ($mimetype == 'application/x-bzip2') {
-                $tar_compression_flag = 'j';
-            }
-            $command = "tar -C $extractLocation -x{$tar_compression_flag}f {$this->filename}";
+            $this->printTaskInfo("Extracting <info>{$this->filename}</info>");
+            $tar_object = new \Archive_Tar($this->filename);
+            $tar_object->extract($extractLocation);
+            $status = 0;
         }
-        $this->printTaskInfo("Running <info>{$command}</info>");
-        $this->startTimer();
-        exec($command, $output, $status);
         $this->stopTimer();
         if ($status == 0) {
             // Now, we want to move the extracted files to $this->to. There

@@ -4,12 +4,16 @@ $I->wantTo('archive directory and then extract it again with Archive and Extract
 $I->amInPath(codecept_data_dir() . 'sandbox');
 $I->seeDirFound('some/deeply/nested');
 $I->seeFileFound('structu.re', 'some/deeply/nested');
-$I->taskArchive('some/deeply.tgz')
-    ->add(['deeply' => 'some/deeply'])
-    ->run();
-$I->seeFileFound('deeply.tgz', 'some');
-$I->taskExtract('some/deeply.tgz')
-    ->to('extracted')
-    ->run();
-$I->seeDirFound('extracted/nested');
-$I->seeFileFound('structu.re', 'extracted/nested');
+
+// Test a bunch of archive types that zippy supports
+foreach (['zip', 'tar', 'tar.gz', 'tar.bz2', 'tgz'] as $archiveType) {
+  $I->taskArchive("deeply.$archiveType")
+      ->add(['deeply' => 'some/deeply'])
+      ->run();
+  $I->seeFileFound("deeply.$archiveType");
+  $I->taskExtract("deeply.$archiveType")
+      ->to("extracted-$archiveType")
+      ->run();
+  $I->seeDirFound("extracted-$archiveType/nested");
+  $I->seeFileFound('structu.re', "extracted-$archiveType/nested");
+}

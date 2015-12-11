@@ -37,6 +37,11 @@ class CliHelper extends \Codeception\Module
         collection as public;
     }
 
+    use \Robo\Task\Archive\loadTasks {
+        taskArchive as public;
+        taskExtract as public;
+    }
+
     public function seeDirFound($dir)
     {
         $this->assertTrue(is_dir($dir) && file_exists($dir), "Directory does not exist");

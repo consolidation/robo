@@ -20,7 +20,7 @@
         "symfony/console": "~2.5",
         "symfony/process": "~2.5",
         "symfony/filesystem": "~2.5",
-        "henrikbjorn/lurker": "1.0.*@dev"
+        "henrikbjorn/lurker": "~1.1@dev"
     },
     "require-dev": {
         "patchwork/jsqueeze": "~1.0",

@@ -10,13 +10,8 @@ namespace Robo\TaskCollection;
  */
 trait Collectable
 {
-    public function collect(Collection $collection) {
-        $collection->add($this);
-        return $this;
-    }
-
-    public function collectWithRollback(Collection $collection, TaskInterface $rollbackTask) {
-        $collection->addWithRollback($this, $rollbackTask);
+    public function collect(Collection $collection, TaskInterface $rollbackTask = NULL) {
+        $collection->add($this, $rollbackTask);
         return $this;
     }
 

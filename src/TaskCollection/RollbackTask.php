@@ -1,6 +1,7 @@
 <?php
 namespace Robo\TaskCollection;
 
+use Robo\Task\BaseTask;
 use Robo\Contract\TaskInterface;
 use Robo\Contract\RollbackInterface;
 
@@ -13,7 +14,7 @@ use Robo\Contract\RollbackInterface;
  * will automatically be registered with a RollbackTask if it implements
  * RollbackInterface.
  */
-class RollbackTask implements TaskInterface {
+class RollbackTask extends BaseTask {
 
     private $task;
 

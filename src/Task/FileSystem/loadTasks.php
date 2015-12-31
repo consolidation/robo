@@ -1,6 +1,7 @@
 <?php
 namespace Robo\Task\FileSystem;
 
+use Robo\TaskCollection\TransientManager;
 
 trait loadTasks
 {
@@ -28,7 +29,7 @@ trait loadTasks
      */
     protected function taskTmpDir($base = '', $prefix = 'tmp', $extension = '')
     {
-        return new TmpDir($base, $prefix, $extension);
+        return TransientManager::transientTask(new TmpDir($base, $prefix, $extension));
     }
 
     /**

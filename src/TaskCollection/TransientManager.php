@@ -1,6 +1,8 @@
 <?php
 namespace Robo\TaskCollection;
 
+use Robo\Contract\TaskInterface;
+
 /**
  * The transient manager keeps track of the global collection of
  * transient cleanup tasks in instances where transient-generating
@@ -21,33 +23,49 @@ namespace Robo\TaskCollection;
  */
 class TransientManager
 {
-    static $collection;
+    private static $collection;
 
+    /**
+     * Provides direct access to the collection of transients, if necessary.
+     */
     public static function getCollection() {
         if (!static::$collection) {
-            static::setCollection(new Collection());
+            static::$collection = new Collection();
+            register_shutdown_function( function() {
+                static::complete();
+            });
         }
         return static::$collection;
     }
 
-    public static function setCollection(Collection $collection) {
-        return static::$collection = $collection;
+    /**
+     * Register a task that creates transient objects. Its complete
+     * function will be called when the program exits.
+     */
+    public static function transientTask(TaskInterface $task) {
+        return new CollectionTask(static::getCollection(), $task);
     }
 
+    /**
+     * Call the rollback method of all of the registered objects.
+     */
     public static function fail() {
         // Force the rollback and completion functions to run.
         $collection = static::getCollection();
         $collection->fail();
         // Make sure that our completion functions do not run twice.
-        static::setCollection(NULL);
+        $collection->reset();
     }
 
+    /**
+     * Call the complete method of all of the registered objects.
+     */
     public static function complete() {
         // Run the collection of tasks. This will also run the
         // completion tasks.
         $collection = static::getCollection();
         $collection->run();
         // Make sure that our completion functions do not run twice.
-        static::setCollection(NULL);
+        $collection->reset();
     }
 }

@@ -5,7 +5,6 @@ use Robo\Result;
 use Robo\Contract\TaskInterface;
 use Robo\Contract\RollbackInterface;
 use Robo\Contract\CompletionInterface;
-use Robo\Contract\CollectionAwareTaskInterface;
 
 /**
  * Group tasks into a collection that run together. Supports
@@ -26,7 +25,7 @@ use Robo\Contract\CollectionAwareTaskInterface;
  *      ->touch('logs/.gitignore')
  *      ->chgrp('logs', 'www-data')
  *      ->symlink('/var/log/nginx/error.log', 'logs/error.log')
- *      ->collectWithRollback($collection, $this->taskDeleteDir('logs'));
+ *      ->collect($collection, $this->taskDeleteDir('logs'));
  * /// ... collect other tasks
  * $collection->run();
  *
@@ -38,6 +37,50 @@ class Collection implements TaskInterface {
     protected $taskStack = [];
     protected $rollbackStack = [];
     protected $completionStack = [];
+
+    /**
+     * Add a list of tasks to our task collection.
+     *
+     * @param TaskInterface
+     *   The task to run with rollback protection
+     */
+    public function addTasks($tasks) {
+        foreach ($tasks as $task) {
+            $this->add($task);
+        }
+    }
+
+    /**
+     * Add a task to our task collection.  If there is a later failure,
+     * then run the provided rollback operation.  The rollback() method of
+     * the task will also be executed, if the task implements RollbackInterface.
+     *
+     * @param TaskInterface
+     *   The task to run
+     * @param TaskInterface
+     *   The rollback function to run if any command in the collection fails
+     */
+    public function add(TaskInterface $task, TaskInterface $rollbackTask = NULL) {
+        $this->addToTaskStack(new CollectionTask($this, $task, $rollbackTask));
+    }
+
+    /**
+     * Add a task to our task stack; when it runs, ignore any errors that
+     * it may generate.
+     *
+     * @param TaskInterface
+     *   The task to run
+     */
+    public function addAndIgnoreErrors(TaskInterface $task) {
+        $this->addToTaskStack(new IgnoreErrorsTaskWrapper($task));
+    }
+
+    /**
+     * Add the provided task to our task list.
+     */
+    protected function addToTaskStack(TaskInterface $task) {
+        $this->taskStack[] = $task;
+    }
 
     /**
      * Register a rollback task to run if there is any failure.
@@ -81,113 +124,30 @@ class Collection implements TaskInterface {
     }
 
     /**
-     * Add a list of tasks to our task collection.
-     *
-     * @param TaskInterface
-     *   The task to run with rollback protection
-     */
-    public function addTasks($tasks) {
-        foreach ($tasks as $task) {
-            $this->addTask($task);
-        }
-    }
-
-    /**
-     * Add a task to our task collection.  If the task implements the
-     * RollbackInterface, then it will be rolled back on any failure.
-     *
-     * @param TaskInterface
-     *   The task to run with rollback protection
-     */
-    public function add(TaskInterface $task) {
-        $this->addToTaskStack($task);
-    }
-
-    /**
-     * Add a task to our task collection.  If there is a later failure,
-     * then run the provided rollback operation.  The rollback() method in
-     * $task will be ignored, even if implemented.
-     *
-     * Note that while it is possible to nest collections of tasks, it
-     * is not possible to remove rollback protection from a collection.
-     * If you attempt to pass a task collection to addWithRollback(),
-     * then BOTH the provided rollback task AND all of the rollback tasks
-     * in the provided collection will run if there is a failure.  In this
-     * instance, the nested collection's rollback functions will run prior
-     * to the provided rollback task.
-     *
-     * @param TaskInterface
-     *   The task to run
-     * @param TaskInterface
-     *   The rollback function to run if any command in the collection fails
-     */
-    public function addWithRollback(TaskInterface $task, TaskInterface $rollbackTask) {
-        $this->addToTaskStack(new RollbackController($this, $task, $rollbackTask));
-    }
-
-    /**
-     * Add a task to our task stack; when it runs, ignore any errors that
-     * it may generate.
-     *
-     * @param TaskInterface
-     *   The task to run
-     */
-    public function addAndIgnoreErrors(TaskInterface $task) {
-        $this->addToTaskStack(new IgnoreErrorsTaskWrapper($task));
-    }
-
-    /**
-     * Add the provided task to our task list.
-     */
-    protected function addToTaskStack(TaskInterface $task) {
-        $this->taskStack[] = $task;
-    }
-
-    /**
      * Try to run our tasks.  If any of them fail, then run all
      * of our rollback tasks.
      */
     public function run() {
-        $result = new Result($this, 0);
-        try {
-            foreach ($this->taskStack as $task) {
-                $taskResult = $this->call($task);
-                // If the current task returns an error code, then stop
-                // execution and signal a rollback.
-                if (($taskResult instanceof Result) && ($taskResult->getExitCode())) {
-                    $result = $taskResult;
-                    break;
-                }
-            }
+        $result = $this->runTaskList($this->taskStack);
+        if (!$result->wasSuccessful()) {
+            $this->runRollbackTasks();
         }
-        catch(Exception $e) {
-            // Tasks typically do not throw, but if one does, we will
-            // convert it into an error and roll back.
-            // TODO: should we re-throw it again instead?
-            $result = new Result($this, -1, $e->getMessage());
-        }
-        if ($result->getExitCode()) {
-            $this->unwindRollbackStack();
-        }
-        $this->runCompletionStack();
+        $this->complete();
         return $result;
     }
 
     /**
-     * Call the run() method of one task
+     * Register a task for rollback and completion handling, but
+     * do NOT collect it for execution.
+     *
+     * This usually happens automatically, via CollectionTask
      */
-    protected function call($task) {
+    public function register($task) {
         if ($task instanceof RollbackInterface) {
             $this->registerRollback(new RollbackTask($task));
         }
         if ($task instanceof CompletionInterface) {
             $this->registerCompletion(new CompletionTask($task));
-        }
-        if ($task instanceof CollectionAwareTaskInterface) {
-            return $task->runInCollection($this);
-        }
-        else {
-            return $task->run();
         }
     }
 
@@ -195,8 +155,24 @@ class Collection implements TaskInterface {
      * Force the rollback functions to run
      */
     public function fail() {
-        $this->unwindRollbackStack();
-        $this->runCompletionStack();
+        $this->runRollbackTasks();
+        $this->complete();
+    }
+
+    /**
+     * Force the completion functions to run
+     */
+    public function complete() {
+        static::runTaskListIgnoringFailures($this->completionStack);
+    }
+
+    /**
+     * Reset this collection, removing all tasks.
+     */
+    public function reset() {
+        $this->taskStack = [];
+        $this->completionStack = [];
+        $this->rollbackStack = [];
     }
 
     /**
@@ -206,7 +182,7 @@ class Collection implements TaskInterface {
      * it may still be used as a task inside another task collection
      * (i.e. you can nest task collections, if desired).
      */
-    protected function unwindRollbackStack() {
+    protected function runRollbackTasks() {
         static::runTaskListIgnoringFailures($this->rollbackStack);
         // Erase our rollback stack once we have finished rolling
         // everything back.  This will allow us to potentially use
@@ -216,10 +192,27 @@ class Collection implements TaskInterface {
     }
 
     /**
-     * Run all of our completion tasks.
+     * Run every task in a list, but only up to the first failure.
+     * Return the failing result, or success if all tasks run.
      */
-    protected function runCompletionStack() {
-        static::runTaskListIgnoringFailures($this->completionStack);
+    public function runTaskList($taskList) {
+        try {
+            foreach ($taskList as $task) {
+                $result = $task->run();
+                // If the current task returns an error code, then stop
+                // execution and signal a rollback.
+                if (($result instanceof Result) && (!$result->wasSuccessful())) {
+                    return $result;
+                }
+            }
+        }
+        catch(Exception $e) {
+            // Tasks typically do not throw, but if one does, we will
+            // convert it into an error and roll back.
+            // TODO: should we re-throw it again instead?
+            $result = new Result($this, -1, $e->getMessage());
+        }
+        return Result::success($this);
     }
 
     /**

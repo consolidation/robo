@@ -19,7 +19,7 @@ use Robo\Task\FileSystem\DeleteDir;
  * // Delete on rollback or on successful completion.
  * // Note that in this example, everything is deleted at
  * // the end of $collection->run().
- * $tmpPath = $this->taskTmpDir()->collect($collection)->getDir();
+ * $tmpPath = $this->taskTmpDir()->collect($collection)->getPath();
  * $this->taskFileSystemStack()
  *           ->mkdir("$tmpPath/log")
  *           ->touch("$tmpPath/log/error.txt")
@@ -39,7 +39,7 @@ class TmpDir extends BaseDir implements TransientInterface
     protected $base;
     protected $prefix;
 
-    public function __construct($base = '', $prefix = 'tmp', $includeRandomPart = true)
+    public function __construct($prefix = 'tmp', $base = '', $includeRandomPart = true)
     {
         if (empty($base)) {
             $base = sys_get_temp_dir();
@@ -68,7 +68,7 @@ class TmpDir extends BaseDir implements TransientInterface
             $this->fs->mkdir($dir);
             $this->printTaskInfo("Created <info>$dir</info>...");
         }
-        return Result::success($this, '', ['path' => $this->getDir()]);
+        return Result::success($this, '', ['path' => $this->getPath()]);
     }
 
     /**
@@ -83,7 +83,7 @@ class TmpDir extends BaseDir implements TransientInterface
      * it may be used to create other tasks.  Note that the directory
      * is not actually created until the task runs.
      */
-    public function getDir() {
+    public function getPath() {
         return $this->dirs[0];
     }
 }

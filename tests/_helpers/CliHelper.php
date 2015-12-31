@@ -15,6 +15,7 @@ class CliHelper extends \Codeception\Module
         taskWriteToFile as public;
         taskReplaceInFile as public;
         taskConcat as public;
+        taskTmpFile as public;
     }
 
    	use \Robo\Task\FileSystem\loadTasks {

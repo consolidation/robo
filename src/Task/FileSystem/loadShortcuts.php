@@ -66,9 +66,9 @@ trait loadShortcuts
      * @param $dir
      * @return \Robo\Result
      */
-    protected function _tmpdir($base = '', $prefix = 'tmp', $includeRandomPart = true)
+    protected function _tmpdir($prefix = 'tmp', $base = '', $includeRandomPart = true)
     {
-        return TransientManager::transientTask(new TmpDir($base, $prefix, $includeRandomPart))->run();
+        return TransientManager::transientTask(new TmpDir($prefix, $base, $includeRandomPart))->run();
     }
 
     /**

@@ -1,5 +1,7 @@
-<?php 
+<?php
 namespace Robo\Task\File;
+
+use Robo\TaskCollection\TransientManager;
 
 trait loadTasks
 {
@@ -11,6 +13,7 @@ trait loadTasks
     {
         return new Concat($files);
     }
+
     /**
      * @param $file
      * @return Replace
@@ -28,4 +31,15 @@ trait loadTasks
     {
         return new Write($file);
     }
-} 
+
+    /**
+     * @param $prefix
+     * @param $base
+     * @param $includeRandomPart
+     * @return TmpFile
+     */
+    protected function taskTmpFile($filename = 'tmp', $extension = '', $baseDir = '', $includeRandomPart = true)
+    {
+        return TransientManager::transientTask(new TmpFile($filename, $extension, $baseDir, $includeRandomPart));
+    }
+}

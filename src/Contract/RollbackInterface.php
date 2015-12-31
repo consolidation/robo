@@ -11,6 +11,9 @@ namespace Robo\Contract;
  * in this instance, the rollback operation will only
  * be done if TransientManager::fail() is explicitly called.
  *
+ * Tasks that implement RollbackInterface should consider
+ * implementing TransientInterface instead.
+ *
  * Interface RollbackInterface
  * @package Robo\Contract
  */

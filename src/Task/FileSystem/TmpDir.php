@@ -3,11 +3,16 @@ namespace Robo\Task\FileSystem;
 
 use Robo\Result;
 use Robo\TaskCollection\Collection;
-use Robo\Contract\CompletionInterface;
+use Robo\Contract\TransientInterface;
+use Robo\TaskCollection\Transient;
 use Robo\Task\FileSystem\DeleteDir;
 
 /**
- * Deletes dir
+ * Create a temporary directory that is automatically cleaned up
+ * once the task collection is is part of completes.
+ *
+ * Use ->setTransient(false) to make the directory persist after
+ * completion, but still be deleted on rollback.
  *
  * ``` php
  * <?php
@@ -27,18 +32,23 @@ use Robo\Task\FileSystem\DeleteDir;
  * ?>
  * ```
  */
-class TmpDir extends BaseDir implements CompletionInterface
+class TmpDir extends BaseDir implements TransientInterface
 {
+    use Transient;
+
     protected $base;
     protected $prefix;
 
-    public function __construct($base = '', $prefix = 'tmp', $extension = '')
+    public function __construct($base = '', $prefix = 'tmp', $includeRandomPart = true)
     {
         if (empty($base)) {
             $base = sys_get_temp_dir();
         }
-        $random = static::randomString();
-        parent::__construct([ "{$base}/{$prefix}_{$random}{$extension}" ]);
+        if ($includeRandomPart) {
+            $random = static::randomString();
+            $prefix = "{$prefix}_{$random}";
+        }
+        parent::__construct([ "{$base}/{$prefix}" ]);
     }
 
     /**
@@ -62,11 +72,10 @@ class TmpDir extends BaseDir implements CompletionInterface
     }
 
     /**
-     * Run our completion tasks when done.
+     * Delete our directory when requested to clean up our transient objects.
      */
-    public function complete() {
-        $completionTask = new DeleteDir($this->dirs);
-        $completionTask->run();
+    public function cleanupTransients() {
+        (new DeleteDir($this->dirs))->run();
     }
 
     /**

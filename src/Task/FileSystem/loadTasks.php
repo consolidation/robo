@@ -27,9 +27,9 @@ trait loadTasks
      * @param $dirs
      * @return TmpDir
      */
-    protected function taskTmpDir($base = '', $prefix = 'tmp', $extension = '')
+    protected function taskTmpDir($base = '', $prefix = 'tmp', $includeRandomPart = true)
     {
-        return TransientManager::transientTask(new TmpDir($base, $prefix, $extension));
+        return TransientManager::transientTask(new TmpDir($base, $prefix, $includeRandomPart));
     }
 
     /**

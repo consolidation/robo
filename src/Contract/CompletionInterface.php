@@ -11,6 +11,9 @@ namespace Robo\Contract;
  * task collection should be wrapped in TransientManager::transientTask().
  * @see Robo\Task\FileSystem\loadTasks::taskTmpDir
  *
+ * Tasks that implement RollbackInterface should consider
+ * implementing TransientInterface instead.
+ *
  * Interface CompletionInterface
  * @package Robo\Contract
  */

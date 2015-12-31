@@ -40,8 +40,6 @@ class CollectionTask extends BaseTask {
 
     public function __call($function, $args)
     {
-        var_export($function);
-        var_export($args);
         return call_user_func_array(array($this->task, $function), $args);
     }
 };

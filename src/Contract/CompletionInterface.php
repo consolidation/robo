@@ -5,13 +5,13 @@ namespace Robo\Contract;
  * All Robo tasks should implement this interface.
  * Task should be configured by chained methods.
  *
- * Interface RollbackInterface
+ * Interface CompletionInterface
  * @package Robo\Contract
  */
-interface RollbackInterface
+interface CompletionInterface
 {
     /**
      * Revert an operation that can be rolled back
      */
-    function rollback();
+    function complete();
 }

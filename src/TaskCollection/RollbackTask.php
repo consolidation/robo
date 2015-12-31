@@ -10,7 +10,7 @@ use Robo\Contract\RollbackInterface;
  *
  * Clients usually do not need to use this class directly; when a
  * task is added to a task collection via the add() method, the task
- * will automatically be protected with a RollbackTask if it implements
+ * will automatically be registered with a RollbackTask if it implements
  * RollbackInterface.
  */
 class RollbackTask implements TaskInterface {

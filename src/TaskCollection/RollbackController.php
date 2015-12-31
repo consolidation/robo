@@ -28,7 +28,6 @@ class RollbackController implements TaskInterface {
 
     public function run() {
         $this->collection->registerRollback($this->rollbackTask);
-        $result = $this->task->run();
-        return $result;
+        return $this->task->run();
     }
 };

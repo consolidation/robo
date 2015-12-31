@@ -3,7 +3,7 @@ namespace Robo\Task\FileSystem;
 
 use Robo\Result;
 use Robo\TaskCollection\Collection;
-use Robo\Contract\CollectionAwareTaskInterface;
+use Robo\Contract\CompletionInterface;
 use Robo\Task\FileSystem\DeleteDir;
 
 /**
@@ -27,11 +27,8 @@ use Robo\Task\FileSystem\DeleteDir;
  * ?>
  * ```
  */
-class TmpDir extends BaseDir implements CollectionAwareTaskInterface
+class TmpDir extends BaseDir implements CompletionInterface
 {
-    use \Robo\TaskCollection\CollectionAwareTask;
-    use \Robo\TaskCollection\TransientTask;
-
     protected $base;
     protected $prefix;
 
@@ -55,17 +52,21 @@ class TmpDir extends BaseDir implements CollectionAwareTaskInterface
     /**
      * Create our temporary directory.
      */
-    public function runInCollection(Collection $collection)
+    public function run()
     {
-        // Delete the directory we are about to create on
-        // rollback, or on completion of the tasks in this collection.
-        $this->registerTransient($collection, new DeleteDir($this->dirs));
-
         foreach ($this->dirs as $dir) {
             $this->fs->mkdir($dir);
             $this->printTaskInfo("Created <info>$dir</info>...");
         }
         return Result::success($this, '', ['path' => $this->getDir()]);
+    }
+
+    /**
+     * Run our completion tasks when done.
+     */
+    public function complete() {
+        $completionTask = new DeleteDir($this->dirs);
+        $completionTask->run();
     }
 
     /**

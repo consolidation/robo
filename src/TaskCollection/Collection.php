@@ -4,6 +4,7 @@ namespace Robo\TaskCollection;
 use Robo\Result;
 use Robo\Contract\TaskInterface;
 use Robo\Contract\RollbackInterface;
+use Robo\Contract\CompletionInterface;
 use Robo\Contract\CollectionAwareTaskInterface;
 
 /**
@@ -31,7 +32,8 @@ use Robo\Contract\CollectionAwareTaskInterface;
  *
  * ?>
  * ```
- */class Collection implements TaskInterface {
+ */
+class Collection implements TaskInterface {
 
     protected $taskStack = [];
     protected $rollbackStack = [];
@@ -98,12 +100,7 @@ use Robo\Contract\CollectionAwareTaskInterface;
      *   The task to run with rollback protection
      */
     public function add(TaskInterface $task) {
-        if ($task instanceof RollbackInterface) {
-            $this->addWithRollback($task, new RollbackTask($task));
-        }
-        else {
-            $this->addToTaskStack($task);
-        }
+        $this->addToTaskStack($task);
     }
 
     /**
@@ -180,6 +177,12 @@ use Robo\Contract\CollectionAwareTaskInterface;
      * Call the run() method of one task
      */
     protected function call($task) {
+        if ($task instanceof RollbackInterface) {
+            $this->registerRollback(new RollbackTask($task));
+        }
+        if ($task instanceof CompletionInterface) {
+            $this->registerCompletion(new CompletionTask($task));
+        }
         if ($task instanceof CollectionAwareTaskInterface) {
             return $task->runInCollection($this);
         }

@@ -11,7 +11,8 @@ use Robo\Contract\TaskInterface;
  *
  * Clients may need to wrap their task in a CollectionTask if it
  * creates transient objects.  This is usually best done via
- * TransientManager::transientTask(). See Robo\Task\FileSystem\loadTasks::taskTmpDir
+ * TransientManager::transientTask().
+ * @see Robo\Task\FileSystem\loadTasks::taskTmpDir
  */
 class CollectionTask extends BaseTask {
 

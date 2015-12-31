@@ -2,8 +2,14 @@
 namespace Robo\Contract;
 
 /**
- * All Robo tasks should implement this interface.
- * Task should be configured by chained methods.
+ * Any Robo tasks that implements this interface will
+ * be called when the task collection it is added to
+ * completes.
+ *
+ * Tasks that should be cleaned up when the program
+ * terminates whenever they are used outside of a
+ * task collection should be wrapped in TransientManager::transientTask().
+ * @see Robo\Task\FileSystem\loadTasks::taskTmpDir
  *
  * Interface CompletionInterface
  * @package Robo\Contract

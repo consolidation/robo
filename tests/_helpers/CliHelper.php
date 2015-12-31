@@ -23,11 +23,16 @@ class CliHelper extends \Codeception\Module
         taskDeleteDir as public;
         taskFlattenDir as public;
         taskFileSystemStack as public;
+        taskTmpDir as public;
     }
 
     use \Robo\Task\FileSystem\loadShortcuts {
         _copyDir as public shortcutCopyDir;
         _mirrorDir as public shortcutMirrorDir;
+    }
+
+    use \Robo\TaskCollection\loadTasks {
+        taskCollection as public;
     }
 
     public function seeDirFound($dir)

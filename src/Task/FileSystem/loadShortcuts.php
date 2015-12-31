@@ -40,7 +40,7 @@ trait loadShortcuts
     {
         return (new CleanDir($dir))->run();
     }
-    
+
     /**
      * @param $from
      * @param $to
@@ -58,6 +58,15 @@ trait loadShortcuts
     protected function _mkdir($dir)
     {
         return (new FilesystemStack)->mkdir($dir)->run();
+    }
+
+    /**
+     * @param $dir
+     * @return \Robo\Result
+     */
+    protected function _tmpdir($dir)
+    {
+        return (new TmpDir($dir))->run();
     }
 
     /**
@@ -129,4 +138,4 @@ trait loadShortcuts
     {
         return (new FlattenDir([$from => $to]))->run();
     }
-} 
+}

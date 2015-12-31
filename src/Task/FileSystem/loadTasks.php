@@ -24,6 +24,15 @@ trait loadTasks
 
     /**
      * @param $dirs
+     * @return TmpDir
+     */
+    protected function taskTmpDir($base = '', $prefix = 'tmp', $extension = '')
+    {
+        return new TmpDir($base, $prefix, $extension);
+    }
+
+    /**
+     * @param $dirs
      * @return CopyDir
      */
     protected function taskCopyDir($dirs)
@@ -56,4 +65,4 @@ trait loadTasks
     {
         return new FilesystemStack();
     }
-} 
+}

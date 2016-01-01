@@ -4,8 +4,8 @@ namespace Robo\Task\Archive;
 use Robo\Contract\PrintedInterface;
 use Robo\Result;
 use Robo\Task\BaseTask;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\Console\Helper\ProgressBar;
-use Alchemy\Zippy\Zippy;
 
 /**
  * Creates a zip or tar archive.
@@ -25,13 +25,6 @@ class Archive extends BaseTask implements PrintedInterface
 {
     use \Robo\Common\DynamicParams;
     use \Robo\Common\Timer;
-
-    /**
-     * Our archiver.
-     *
-     * @var Zippy
-     */
-    private $zippy;
 
     /**
      * The list of items to be packed into the archive.
@@ -57,7 +50,6 @@ class Archive extends BaseTask implements PrintedInterface
      */
     public function __construct($archive)
     {
-        $this->zippy = Zippy::load();
         $this->archiveFile = $archive;
     }
 
@@ -111,21 +103,55 @@ class Archive extends BaseTask implements PrintedInterface
     public function run()
     {
         $this->startTimer();
-        $status = 0;
 
-        // Inform the user which archive we are creating
-        $this->printTaskInfo("Creating archive <info>{$this->archiveFile}</info>");
+        // Use the file extension to determine what kind of archive to create.
+        $fileInfo = new \SplFileInfo($this->archiveFile);
+        $extension = strtolower($fileInfo->getExtension());
+        if (empty($extension)) {
+            return Result::error($this, "Archive filename must use an extension (e.g. '.zip') to specify the kind of archive to create.");
+        }
+
+        // Look up the specific archive creation method from the extension
+        $archiveMethod = "create_" . strtr($extension, '.', '_');
+        if (!method_exists($this, $archiveMethod)) {
+            return Result::error($this, "Cannot create $extension archives");
+        }
 
         try {
-            $archive = $this->zippy->create($this->archiveFile, $this->items);
-
-            $this->printTaskSuccess("<info>{$this->archiveFile}</info> produced");
+            // Inform the user which archive we are creating
+            $this->printTaskInfo("Creating archive <info>{$this->archiveFile}</info>");
+            $result = $this->$archiveMethod();
+            $this->printTaskSuccess("<info>{$this->archiveFile}</info> created.");
         }
         catch(Exception $e) {
             $this->printTaskError("Could not create {$this->archiveFile}. " . $e->getMessage());
-            $status = 1;
+            $result = Result::error($this);
+        }
+        $data = $result->getData() + ['time' => $this->getExecutionTime()];
+        return new Result($this, $result->getExitCode(), $result->getMessage(), $data);
+    }
+
+    protected function create_zip() {
+        $zip = new \ZipArchive($this->archiveFile, \ZipArchive::CREATE);
+        $zip->open($this->archiveFile, \ZipArchive::CREATE);
+
+        foreach ($this->items as $item) {
+            if (is_dir($item)) {
+                $finder = new Finder();
+                $finder->files()->in($item);
+
+                foreach ($finder as $file) {
+                    $zip->addFile($file->getRealpath(), $file->getRelativePathname());
+                }
+            }
+            elseif (is_file($item)) {
+                $zip->addFile($item);
+            }
+            else {
+                return Result::error($this, "Could not find $item for the archive.");
+            }
         }
 
-        return new Result($this, $status, '', ['time' => $this->getExecutionTime()]);
+        return Result::success($this);
     }
 }

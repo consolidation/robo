@@ -8,10 +8,22 @@ use Alchemy\Zippy\Zippy;
 /**
  * Extracts an archive.
  *
+ * Note that often, distributions are packaged in tar or zip archives
+ * where the topmost folder may contain variable information, such as
+ * the release date, or the version of the package.  This information
+ * is very useful when unpacking by hand, but arbitrarily-named directories
+ * are much less useful to scripts.  Therefore, by default, Extract will
+ * remove the top-level directory, and instead store all extracted files
+ * into the directory specified by $archivePath.
+ *
+ * To keep the top-level directory when extracting, use
+ * `preserveTopDirectory(true)`.
+ *
  * ``` php
  * <?php
  * $this->taskExtract($archivePath)
  *  ->to($destination)
+ *  ->preserveTopDirectory(false) // the default
  *  ->run();
  * ?>
  * ```
@@ -26,6 +38,7 @@ class Extract extends BaseTask
 
     protected $filename;
     protected $to;
+    private $preserveTopDirectory = false;
 
     public function __construct($filename)
     {
@@ -73,7 +86,7 @@ class Extract extends BaseTask
             // In the case of (2), we will just move and rename $extractLocation.
             $filesInExtractLocation = glob("$extractLocation/*");
             $hasEncapsulatingFolder = ((count($filesInExtractLocation) == 1) && is_dir($filesInExtractLocation[0]));
-            if ($hasEncapsulatingFolder) {
+            if ($hasEncapsulatingFolder && !$this->preserveTopDirectory) {
                 rename($filesInExtractLocation[0], $this->to);
                 rmdir($extractLocation);
             }

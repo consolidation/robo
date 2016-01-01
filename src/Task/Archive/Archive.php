@@ -156,9 +156,17 @@ class Archive extends BaseTask implements PrintedInterface
     protected function archiveTar($archiveFile, $items) {
         $tar_object = new \Archive_Tar($archiveFile);
         foreach ($items as $placementLocation => $fileSystemLocation) {
-            $p_remove_dir = dirname($fileSystemLocation);
-            $p_add_dir = dirname($placementLocation);
-            if (!$tar_object->createModify([$fileSystemLocation], $p_add_dir, $p_remove_dir)) {
+            $p_remove_dir = $fileSystemLocation;
+            $p_add_dir = $placementLocation;
+            if (is_file($fileSystemLocation)) {
+                $p_remove_dir = dirname($fileSystemLocation);
+                $p_add_dir = dirname($placementLocation);
+                if (basename($fileSystemLocation) != basename($placementLocation)) {
+                    return Result::error($this, "Tar archiver does not support renaming files during extraction; could not add $fileSystemLocation as $placementLocation.");
+                }
+            }
+
+            if (!$tar_object->addModify([$fileSystemLocation], $p_add_dir, $p_remove_dir)) {
                 return Result::error($this, "Could not add $fileSystemLocation to the archive.");
             }
         }
@@ -188,8 +196,7 @@ class Archive extends BaseTask implements PrintedInterface
                 $finder->files()->in($fileSystemLocation);
 
                 foreach ($finder as $file) {
-                    //if (!$zip->addFile($file->getRealpath(), "{$placementLocation}{$file->getRelativePathname()}")) {
-                    if (!$zip->addFile($file->getRealpath(), $file->getRelativePathname())) {
+                    if (!$zip->addFile($file->getRealpath(), "{$placementLocation}/{$file->getRelativePathname()}")) {
                         return Result::error($this, "Could not add directory $fileSystemLocation to the archive; error adding {$file->getRealpath()}.");
                     }
                 }

@@ -128,8 +128,8 @@ class Archive extends BaseTask implements PrintedInterface
             $this->printTaskError("Could not create {$this->archiveFile}. " . $e->getMessage());
             $result = Result::error($this);
         }
-        $data = $result->getData() + ['time' => $this->getExecutionTime()];
-        return new Result($this, $result->getExitCode(), $result->getMessage(), $data);
+        $this->stopTimer();
+        return $result->extend(['time' => $this->getExecutionTime()]);
     }
 
     protected function create_zip() {
@@ -139,25 +139,36 @@ class Archive extends BaseTask implements PrintedInterface
         }
 
         $zip = new \ZipArchive($this->archiveFile, \ZipArchive::CREATE);
-        $zip->open($this->archiveFile, \ZipArchive::CREATE);
+        if (!$zip->open($this->archiveFile, \ZipArchive::CREATE)) {
+            return Result::error($this, "Could not create zip archive {$this->archiveFile}");
+        }
+        $result = $this->addItemsToZip($zip, $this->items);
+        $zip->close();
 
-        foreach ($this->items as $item) {
-            if (is_dir($item)) {
+        return $result;
+    }
+
+    protected function addItemsToZip($zip, $items) {
+        foreach ($this->items as $zipLocation => $fileSystemLocation) {
+            if (is_dir($fileSystemLocation)) {
                 $finder = new Finder();
-                $finder->files()->in($item);
+                $finder->files()->in($fileSystemLocation);
 
                 foreach ($finder as $file) {
-                    $zip->addFile($file->getRealpath(), $file->getRelativePathname());
+                    if (!$zip->addFile($file->getRealpath(), $file->getRelativePathname())) {
+                        return Result::error($this, "Could not add directory $fileSystemLocation to the archive; error adding {$file->getRealpath()}.");
+                    }
                 }
             }
-            elseif (is_file($item)) {
-                $zip->addFile($item);
+            elseif (is_file($fileSystemLocation)) {
+                if (!$zip->addFile($fileSystemLocation, $zipLocation)) {
+                    return Result::error($this, "Could not add file $fileSystemLocation to the archive.");
+                }
             }
             else {
-                return Result::error($this, "Could not find $item for the archive.");
+                return Result::error($this, "Could not find $fileSystemLocation for the archive.");
             }
         }
-
         return Result::success($this);
     }
 }

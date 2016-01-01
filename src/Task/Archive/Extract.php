@@ -49,29 +49,17 @@ class Extract extends BaseTask
 
         $this->startTimer();
 
+        $this->printTaskInfo("Extracting <info>{$this->filename}</info>");
         // Perform the extraction of a zip file.
         if (($mimetype == 'application/zip') || ($mimetype == 'application/x-zip')) {
-            $result = $this->checkExtension('zip extracter', 'zlib');
-            if (!$result->wasSuccessful()) {
-                return $result;
-            }
-            $this->printTaskInfo("Unzipping <info>{$this->filename}</info>");
-
-            $zip = new \ZipArchive();
-            if (($status = $zip->open($this->filename)) === TRUE) {
-                $zip->extractTo($extractLocation);
-                $zip->close();
-                $status = 0;
-            }
+            $result = $this->extractZip($extractLocation);
         }
         // Otherwise we have a possibly-compressed Tar file.
         else {
-            $this->printTaskInfo("Extracting <info>{$this->filename}</info>");
-            $tar_object = new \Archive_Tar($this->filename);
-            $tar_object->extract($extractLocation);
-            $status = 0;
+            $result = $this->extractTar($extractLocation);
         }
-        if ($status == 0) {
+        if ($result->wasSuccessful()) {
+            $this->printTaskInfo("<info>{$this->filename}</info> extracted");
             // Now, we want to move the extracted files to $this->to. There
             // are two possibilities that we must consider:
             //
@@ -94,7 +82,34 @@ class Extract extends BaseTask
             }
         }
         $this->stopTimer();
-        return new Result($this, $status, '', ['time' => $this->getExecutionTime()]);
+        return $result->extend(['time' => $this->getExecutionTime()]);
+    }
+
+    protected function extractZip($extractLocation) {
+        $result = $this->checkExtension('zip extracter', 'zlib');
+        if (!$result->wasSuccessful()) {
+            return $result;
+        }
+
+        $zip = new \ZipArchive();
+        if (($status = $zip->open($this->filename)) !== TRUE) {
+            return Result::error($this, "Could not open zip archive {$this->filename}");
+        }
+        if (!$zip->extractTo($extractLocation)) {
+            return Result::error($this, "Could not extract zip archive {$this->filename}");
+        }
+        $zip->close();
+
+        return Result::success($this);
+    }
+
+    protected function extractTar($extractLocation) {
+        $tar_object = new \Archive_Tar($this->filename);
+        if (!$tar_object->extract($extractLocation)) {
+            return Result::error($this, "Could not extract tar archive {$this->filename}");
+        }
+
+        return Result::success($this);
     }
 
     protected static function archiveType($filename) {

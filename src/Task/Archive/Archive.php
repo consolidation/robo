@@ -16,7 +16,7 @@ use Symfony\Component\Console\Helper\ProgressBar;
  * <archiveFile>)
  * ->add('README')                         // Puts file 'README' in archive at the root
  * ->add('project')                        // Puts entire contents of directory 'project' in archinve inside 'project'
- * ->addFile('dir/file.txt' => 'file.txt') // Takes 'file.txt' from cwd and puts it in archive inside 'dir'.
+ * ->addFile('dir/file.txt', 'file.txt')   // Takes 'file.txt' from cwd and puts it in archive inside 'dir'.
  * ->run();
  * ?>
  * ```
@@ -71,8 +71,10 @@ class Archive extends BaseTask implements PrintedInterface
      *
      * Like file_exists(), the parameter may be a file or a directory.
      *
-     * @var   string
-     * @var   string
+     * @var string
+     *   Relative path and name of item to store in archive
+     * @var string
+     *   Absolute or relative path to file or directory's location in filesystem
      */
     public function addFile($placementLocation, $filesystemLocation) {
         $this->items[$placementLocation] = $filesystemLocation;
@@ -80,9 +82,29 @@ class Archive extends BaseTask implements PrintedInterface
     }
 
     /**
-     * Add an item to the archive.
+     * Alias for addFile, in case anyone has angst about using
+     * addFile with a directory.
      *
-     * @var   string|array
+     * @var string
+     *   Relative path and name of directory to store in archive
+     * @var string
+     *   Absolute or relative path to directory or directory's location in filesystem
+     */
+    public function addDir($placementLocation, $filesystemLocation) {
+        $this->addFile($placementLocation, $filesystemLocation);
+        return $this;
+    }
+
+    /**
+     * Add a file or directory, or list of same to the archive.
+     *
+     * @var string|array
+     *   If given a string, should contain the relative filesystem path to the
+     *   the item to store in archive; this will also be used as the item's
+     *   path in the archive, so absolute paths should not be used here.
+     *   If given an array, the key of each item should be the path to store
+     *   in the archive, and the value should be the filesystem path to the
+     *   item to store.
      */
     public function add($item) {
         if (is_array($item)) {
@@ -112,16 +134,15 @@ class Archive extends BaseTask implements PrintedInterface
             return Result::error($this, "Archive filename must use an extension (e.g. '.zip') to specify the kind of archive to create.");
         }
 
-        // Look up the specific archive creation method from the extension
-        $archiveMethod = "create_" . strtr($extension, '.', '_');
-        if (!method_exists($this, $archiveMethod)) {
-            return Result::error($this, "Cannot create $extension archives");
-        }
-
         try {
             // Inform the user which archive we are creating
             $this->printTaskInfo("Creating archive <info>{$this->archiveFile}</info>");
-            $result = $this->$archiveMethod();
+            if ($extension == "zip") {
+                $result = $this->archiveZip($this->archiveFile, $this->items);
+            }
+            else {
+                $result = $this->archiveTar($this->archiveFile, $this->items);
+            }
             $this->printTaskSuccess("<info>{$this->archiveFile}</info> created.");
         }
         catch(Exception $e) {
@@ -132,36 +153,49 @@ class Archive extends BaseTask implements PrintedInterface
         return $result->extend(['time' => $this->getExecutionTime()]);
     }
 
-    protected function create_zip() {
+    protected function archiveTar($archiveFile, $items) {
+        $tar_object = new \Archive_Tar($archiveFile);
+        foreach ($items as $placementLocation => $fileSystemLocation) {
+            $p_remove_dir = dirname($fileSystemLocation);
+            $p_add_dir = dirname($placementLocation);
+            if (!$tar_object->createModify([$fileSystemLocation], $p_add_dir, $p_remove_dir)) {
+                return Result::error($this, "Could not add $fileSystemLocation to the archive.");
+            }
+        }
+        return Result::success($this);
+    }
+
+    protected function archiveZip($archiveFile, $items) {
         $result = $this->checkExtension('zip archiver', 'zlib');
         if (!$result->wasSuccessful()) {
             return $result;
         }
 
-        $zip = new \ZipArchive($this->archiveFile, \ZipArchive::CREATE);
-        if (!$zip->open($this->archiveFile, \ZipArchive::CREATE)) {
-            return Result::error($this, "Could not create zip archive {$this->archiveFile}");
+        $zip = new \ZipArchive($archiveFile, \ZipArchive::CREATE);
+        if (!$zip->open($archiveFile, \ZipArchive::CREATE)) {
+            return Result::error($this, "Could not create zip archive {$archiveFile}");
         }
-        $result = $this->addItemsToZip($zip, $this->items);
+        $result = $this->addItemsToZip($zip, $items);
         $zip->close();
 
         return $result;
     }
 
     protected function addItemsToZip($zip, $items) {
-        foreach ($this->items as $zipLocation => $fileSystemLocation) {
+        foreach ($items as $placementLocation => $fileSystemLocation) {
             if (is_dir($fileSystemLocation)) {
                 $finder = new Finder();
                 $finder->files()->in($fileSystemLocation);
 
                 foreach ($finder as $file) {
+                    //if (!$zip->addFile($file->getRealpath(), "{$placementLocation}{$file->getRelativePathname()}")) {
                     if (!$zip->addFile($file->getRealpath(), $file->getRelativePathname())) {
                         return Result::error($this, "Could not add directory $fileSystemLocation to the archive; error adding {$file->getRealpath()}.");
                     }
                 }
             }
             elseif (is_file($fileSystemLocation)) {
-                if (!$zip->addFile($fileSystemLocation, $zipLocation)) {
+                if (!$zip->addFile($fileSystemLocation, $placementLocation)) {
                     return Result::error($this, "Could not add file $fileSystemLocation to the archive.");
                 }
             }

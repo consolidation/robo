@@ -22,6 +22,7 @@ class Extract extends BaseTask
 {
     use \Robo\Common\DynamicParams;
     use \Robo\Common\Timer;
+    use \Robo\Common\PHP;
 
     protected $filename;
     protected $to;
@@ -50,6 +51,10 @@ class Extract extends BaseTask
 
         // Perform the extraction of a zip file.
         if (($mimetype == 'application/zip') || ($mimetype == 'application/x-zip')) {
+            $result = $this->checkExtension('zip extracter', 'zlib');
+            if (!$result->wasSuccessful()) {
+                return $result;
+            }
             $this->printTaskInfo("Unzipping <info>{$this->filename}</info>");
 
             $zip = new \ZipArchive();
@@ -66,7 +71,6 @@ class Extract extends BaseTask
             $tar_object->extract($extractLocation);
             $status = 0;
         }
-        $this->stopTimer();
         if ($status == 0) {
             // Now, we want to move the extracted files to $this->to. There
             // are two possibilities that we must consider:
@@ -89,6 +93,7 @@ class Extract extends BaseTask
                 rename($extractLocation, $this->to);
             }
         }
+        $this->stopTimer();
         return new Result($this, $status, '', ['time' => $this->getExecutionTime()]);
     }
 

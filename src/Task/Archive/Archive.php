@@ -25,6 +25,7 @@ class Archive extends BaseTask implements PrintedInterface
 {
     use \Robo\Common\DynamicParams;
     use \Robo\Common\Timer;
+    use \Robo\Common\PHP;
 
     /**
      * The list of items to be packed into the archive.
@@ -132,6 +133,11 @@ class Archive extends BaseTask implements PrintedInterface
     }
 
     protected function create_zip() {
+        $result = $this->checkExtension('zip archiver', 'zlib');
+        if (!$result->wasSuccessful()) {
+            return $result;
+        }
+
         $zip = new \ZipArchive($this->archiveFile, \ZipArchive::CREATE);
         $zip->open($this->archiveFile, \ZipArchive::CREATE);
 

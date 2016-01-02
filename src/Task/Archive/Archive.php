@@ -150,7 +150,7 @@ class Archive extends BaseTask implements PrintedInterface
             $result = Result::error($this);
         }
         $this->stopTimer();
-        return $result->extend(['time' => $this->getExecutionTime()]);
+        return $result->copy(['time' => $this->getExecutionTime()]);
     }
 
     protected function archiveTar($archiveFile, $items) {

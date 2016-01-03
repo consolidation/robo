@@ -130,19 +130,19 @@ class Write extends BaseTask
         return $this;
     }
 
-    public function _textFromFile($body, $filename) {
+    protected function _textFromFile($body, $filename) {
         return $body . file_get_contents($filename);
     }
 
-    public function _replace($body, $string, $replacement) {
+    protected function _replace($body, $string, $replacement) {
         return str_replace($string, $replacement, $body);
     }
 
-    public function _regexReplace($body, $pattern, $replacement) {
+    protected function _regexReplace($body, $pattern, $replacement) {
         return preg_replace($pattern, $replacement, $body);
     }
 
-    public function _text($body, $text) {
+    protected function _text($body, $text) {
         return $body . $text;
     }
 

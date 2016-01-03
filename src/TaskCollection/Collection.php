@@ -41,13 +41,17 @@ class Collection implements TaskInterface {
     /**
      * Add a list of tasks to our task collection.
      *
-     * @param TaskInterface
-     *   The task to run with rollback protection
+     * @param TaskInterface|TaskInterface[]
+     *   An array of tasks to run with rollback protection
      */
-    public function addTasks($tasks) {
-        foreach ($tasks as $task) {
-            $this->add($task);
+    public function add($tasks) {
+        if ($tasks instanceof TaskInterface) {
+            $tasks = [$tasks];
         }
+        foreach ($tasks as $task) {
+            $this->addTask($task);
+        }
+        return $this;
     }
 
     /**
@@ -60,8 +64,9 @@ class Collection implements TaskInterface {
      * @param TaskInterface
      *   The rollback function to run if any command in the collection fails
      */
-    public function add(TaskInterface $task, TaskInterface $rollbackTask = NULL) {
+    public function addTask(TaskInterface $task, TaskInterface $rollbackTask = NULL) {
         $this->addToTaskStack(new CollectionTask($this, $task, $rollbackTask));
+        return $this;
     }
 
     /**
@@ -73,6 +78,7 @@ class Collection implements TaskInterface {
      */
     public function addAndIgnoreErrors(TaskInterface $task) {
         $this->addToTaskStack(new IgnoreErrorsTaskWrapper($task));
+        return $this;
     }
 
     /**
@@ -100,6 +106,7 @@ class Collection implements TaskInterface {
      */
     public function registerRollback(TaskInterface $rollbackTask) {
         $this->rollbackStack[] = $rollbackTask;
+        return $this;
     }
 
     /**
@@ -121,6 +128,7 @@ class Collection implements TaskInterface {
      */
     public function registerCompletion(TaskInterface $completionTask) {
         $this->completionStack[] = $completionTask;
+        return $this;
     }
 
     /**
@@ -159,6 +167,7 @@ class Collection implements TaskInterface {
         if ($task instanceof CompletionInterface) {
             $this->registerCompletion(new CompletionTask($task));
         }
+        return $this;
     }
 
     /**
@@ -167,13 +176,15 @@ class Collection implements TaskInterface {
     public function fail() {
         $this->runRollbackTasks();
         $this->complete();
+        return $this;
     }
 
     /**
      * Force the completion functions to run
      */
     public function complete() {
-        static::runTaskListIgnoringFailures($this->completionStack);
+        $this->runTaskListIgnoringFailures($this->completionStack);
+        return $this;
     }
 
     /**
@@ -183,6 +194,7 @@ class Collection implements TaskInterface {
         $this->taskStack = [];
         $this->completionStack = [];
         $this->rollbackStack = [];
+        return $this;
     }
 
     /**
@@ -193,7 +205,7 @@ class Collection implements TaskInterface {
      * (i.e. you can nest task collections, if desired).
      */
     protected function runRollbackTasks() {
-        static::runTaskListIgnoringFailures($this->rollbackStack);
+        $this->runTaskListIgnoringFailures($this->rollbackStack);
         // Erase our rollback stack once we have finished rolling
         // everything back.  This will allow us to potentially use
         // a command collection more than once (e.g. to retry a
@@ -228,7 +240,7 @@ class Collection implements TaskInterface {
     /**
      * Run all of the tasks in a provided list, ignoring failures.
      */
-    protected static function runTaskListIgnoringFailures($taskList) {
+    protected function runTaskListIgnoringFailures($taskList) {
         foreach ($taskList as $task) {
             try {
                 $task->run();
@@ -237,5 +249,6 @@ class Collection implements TaskInterface {
                 // Ignore rollback failures.
             }
         }
+        return Result::success($this);
     }
 }

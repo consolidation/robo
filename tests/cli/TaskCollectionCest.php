@@ -96,4 +96,34 @@ class TaskCollectionCest
         // $tmpPath should be deleted after $collection->run() completes.
         $I->dontSeeFileFound("$tmpPath");
     }
+
+    public function toUseATmpDirWithAlternateSyntax(CliGuy $I)
+    {
+        $collection = $I->taskCollection();
+
+        // This test is equivalent to toUseATmpDirAndConfirmItIsDeleted,
+        // but uses a different technique to create a collection of tasks.
+        // We start off the same way, using runLater() to add our temporary
+        // directory task to the collection, so that we have easy access to the
+        // temporary directory's path via the getPath() method.
+        $tmpPath = $I->taskTmpDir()
+            ->runLater($collection)
+            ->getPath();
+
+        // Now, rather than creating a series of tasks and adding them
+        // all with runLater(), we will add them directly to the collection
+        // via the add() method.
+        $result = $collection->add(
+            [
+                $I->taskFileSystemStack()->mkdir("$tmpPath/log")->touch("$tmpPath/log/error.txt"),
+                $I->taskCopyDir([$tmpPath => 'copied2']),
+            ]
+        )->runNow();
+
+        // The results of this operation should be the same.
+        $I->assertEquals(0, $result->getExitCode(), $result->getMessage());
+        $I->seeFileFound('copied2/log/error.txt');
+        $I->dontSeeFileFound("$tmpPath/log/error.txt");
+    }
+
 }

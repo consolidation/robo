@@ -11,8 +11,12 @@ use Robo\Task\FileSystem\DeleteDir;
  * Create a temporary directory that is automatically cleaned up
  * once the task collection is is part of completes.
  *
- * Use ->setTransient(false) to make the directory persist after
+ * Use setTransient(false) to make the directory persist after
  * completion, but still be deleted on rollback.
+ *
+ * Note that the path to the temporary file is available immediately
+ * via the getPath() method, even though the directory is not
+ * created until the task's run() method is executed..
  *
  * ``` php
  * <?php
@@ -20,7 +24,7 @@ use Robo\Task\FileSystem\DeleteDir;
  *      ->line('-----')
  *      ->line(date('Y-m-d').' '.$title)
  *      ->line('----')
- *      ->collect($collection)
+ *      ->runLater($collection)
  *      ->getPath();
  * ?>
  * ```

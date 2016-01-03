@@ -19,12 +19,12 @@ use Robo\Task\FileSystem\DeleteDir;
  * // Delete on rollback or on successful completion.
  * // Note that in this example, everything is deleted at
  * // the end of $collection->run().
- * $tmpPath = $this->taskTmpDir()->collect($collection)->getPath();
+ * $tmpPath = $this->taskTmpDir()->runLater($collection)->getPath();
  * $this->taskFileSystemStack()
  *           ->mkdir("$tmpPath/log")
  *           ->touch("$tmpPath/log/error.txt")
- *           ->collect($collection);
- * $collection->run();
+ *           ->runLater($collection);
+ * $collection->runNow();
  * // as shortcut (deleted when program exits)
  * $result = $this->_tmpDir();
  * $data = $result->getData();

@@ -37,6 +37,7 @@ class Collection implements TaskInterface {
     protected $taskStack = [];
     protected $rollbackStack = [];
     protected $completionStack = [];
+    protected $frozen = false;
 
     /**
      * Add a list of tasks to our task collection.
@@ -85,6 +86,7 @@ class Collection implements TaskInterface {
      * Add the provided task to our task list.
      */
     protected function addToTaskStack(TaskInterface $task) {
+        $this->checkFrozen();
         $this->taskStack[] = $task;
     }
 
@@ -146,6 +148,7 @@ class Collection implements TaskInterface {
      * Run our tasks, and roll back if necessary.
      */
     public function run() {
+        $this->freezeCollection();
         $result = $this->runTaskList($this->taskStack);
         if (!$result->wasSuccessful()) {
             $this->runRollbackTasks();
@@ -194,6 +197,7 @@ class Collection implements TaskInterface {
         $this->taskStack = [];
         $this->completionStack = [];
         $this->rollbackStack = [];
+        $this->frozen = false;
         return $this;
     }
 
@@ -217,7 +221,7 @@ class Collection implements TaskInterface {
      * Run every task in a list, but only up to the first failure.
      * Return the failing result, or success if all tasks run.
      */
-    public function runTaskList($taskList) {
+    protected function runTaskList($taskList) {
         try {
             foreach ($taskList as $task) {
                 $result = $task->run();
@@ -250,5 +254,27 @@ class Collection implements TaskInterface {
             }
         }
         return Result::success($this);
+    }
+
+    /**
+     * Once the collection has been executed at least once,
+     * prevent additional tasks from being added to it.  It
+     * is okay to run a collection multiple times, e.g. to
+     * retry a failed operation; however, calling `add()` after
+     * `run()` is generally not useful, and is probably an
+     * indication of a logic error.
+     */
+    protected function freezeCollection() {
+        $this->frozen = true;
+    }
+
+    /**
+     * Do not allow frozen collections to be modified. This should
+     * never happen, so we'll just throw a RuntimeException.
+     */
+    protected function checkFrozen() {
+        if ($this->frozen) {
+            throw new RuntimeException("Collection cannot be modified after execution.");
+        }
     }
 }

@@ -146,7 +146,7 @@ class Write extends BaseTask
         return $body . $text;
     }
 
-    public function buildContents() {
+    protected function getContents() {
         $body = "";
         if ($this->append) {
             $body = file_get_contents($this->filename);
@@ -164,7 +164,7 @@ class Write extends BaseTask
     public function run()
     {
         $this->printTaskInfo("Writing to <info>{$this->filename}</info>.");
-        $body = $this->buildContents();
+        $body = $this->getContents();
         if (!file_exists(dirname($this->filename))) {
             mkdir(dirname($this->filename), 0777, true);
         }

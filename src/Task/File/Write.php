@@ -130,45 +130,45 @@ class Write extends BaseTask
         return $this;
     }
 
-    protected function _textFromFile($body, $filename) {
-        return $body . file_get_contents($filename);
+    protected function _textFromFile($contents, $filename) {
+        return $contents . file_get_contents($filename);
     }
 
-    protected function _replace($body, $string, $replacement) {
-        return str_replace($string, $replacement, $body);
+    protected function _replace($contents, $string, $replacement) {
+        return str_replace($string, $replacement, $contents);
     }
 
-    protected function _regexReplace($body, $pattern, $replacement) {
-        return preg_replace($pattern, $replacement, $body);
+    protected function _regexReplace($contents, $pattern, $replacement) {
+        return preg_replace($pattern, $replacement, $contents);
     }
 
-    protected function _text($body, $text) {
-        return $body . $text;
+    protected function _text($contents, $text) {
+        return $contents . $text;
     }
 
     protected function getContents() {
-        $body = "";
+        $contents = "";
         if ($this->append) {
-            $body = file_get_contents($this->filename);
+            $contents = file_get_contents($this->filename);
         }
         foreach ($this->stack as $action) {
             $command = array_shift($action);
             if (method_exists($this, $command)) {
-                array_unshift($action, $body);
-                $body = call_user_func_array([$this, $command], $action);
+                array_unshift($action, $contents);
+                $contents = call_user_func_array([$this, $command], $action);
             }
         }
-        return $body;
+        return $contents;
     }
 
     public function run()
     {
         $this->printTaskInfo("Writing to <info>{$this->filename}</info>.");
-        $body = $this->getContents();
+        $contents = $this->getContents();
         if (!file_exists(dirname($this->filename))) {
             mkdir(dirname($this->filename), 0777, true);
         }
-        $res = file_put_contents($this->filename, $body);
+        $res = file_put_contents($this->filename, $contents);
         if ($res === false) {
             return Result::error($this, "File {$this->filename} couldn't be created");
         }

@@ -66,7 +66,7 @@ trait loadShortcuts
      * @param $dir
      * @return string|empty
      */
-    protected function _tmpdir($prefix = 'tmp', $base = '', $includeRandomPart = true)
+    protected function _tmpDir($prefix = 'tmp', $base = '', $includeRandomPart = true)
     {
         $result = TransientManager::transientTask(new TmpDir($prefix, $base, $includeRandomPart))->run();
         $data = $result->getData() + ['path' => ''];

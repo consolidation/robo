@@ -64,11 +64,13 @@ trait loadShortcuts
 
     /**
      * @param $dir
-     * @return \Robo\Result
+     * @return string|empty
      */
     protected function _tmpdir($prefix = 'tmp', $base = '', $includeRandomPart = true)
     {
-        return TransientManager::transientTask(new TmpDir($prefix, $base, $includeRandomPart))->run();
+        $result = TransientManager::transientTask(new TmpDir($prefix, $base, $includeRandomPart))->run();
+        $data = $result->getData() + ['path' => ''];
+        return $data['path'];
     }
 
     /**

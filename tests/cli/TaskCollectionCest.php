@@ -2,6 +2,7 @@
 use \CliGuy;
 
 use Robo\Contract\TaskInterface;
+use Robo\TaskCollection\TransientManager;
 use Robo\Result;
 
 class TaskCollectionCest
@@ -178,4 +179,17 @@ class TaskCollectionCest
         $I->dontSeeFileFound("$tmpPath/log/error.txt");
     }
 
+    public function toCreateATmpDirUsingShortcut(CliGuy $I) {
+        // Create a temporary directory, using our function name as
+        // the prefix for the directory name.
+        $tmpPath = $I->shortcutTmpDir(__FUNCTION__);
+        $I->seeFileFound($tmpPath);
+        // Creating a temporary directory without a task collection will
+        // cause the temporary directory to be deleted when the program
+        // terminates.  We can force it to clean up sooner by calling
+        // TransientManager::complete(); note that this deletes ALL Robo tmp
+        // directories, so this is not thread-safe!  Useful in tests, though.
+        TransientManager::complete();
+        $I->dontSeeFileFound($tmpPath);
+    }
 }

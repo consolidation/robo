@@ -30,6 +30,7 @@ class CliHelper extends \Codeception\Module
     use \Robo\Task\FileSystem\loadShortcuts {
         _copyDir as public shortcutCopyDir;
         _mirrorDir as public shortcutMirrorDir;
+        _tmpdir as public shortcutTmpDir;
     }
 
     use \Robo\TaskCollection\loadTasks {

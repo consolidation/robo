@@ -26,9 +26,7 @@ use Robo\Task\FileSystem\DeleteDir;
  *           ->runLater($collection);
  * $collection->runNow();
  * // as shortcut (deleted when program exits)
- * $result = $this->_tmpDir();
- * $data = $result->getData();
- * $tmpPath = $data['path'];
+ * $tmpPath = $this->_tmpDir();
  * ?>
  * ```
  */

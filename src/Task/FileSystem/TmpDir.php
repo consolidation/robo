@@ -38,6 +38,8 @@ class TmpDir extends BaseDir implements TransientInterface
 
     protected $base;
     protected $prefix;
+    protected $cwd;
+    protected $savedWorkingDirectory;
 
     public function __construct($prefix = 'tmp', $base = '', $includeRandomPart = true)
     {
@@ -60,13 +62,29 @@ class TmpDir extends BaseDir implements TransientInterface
     }
 
     /**
+     * Flag that we should cwd to the temporary directory when it is
+     * created, and restore the old working directory when it is deleted.
+     */
+    public function cwd() {
+        $this->cwd = true;
+        return $this;
+    }
+
+    /**
      * Create our temporary directory.
      */
     public function run()
     {
+        // Save the current working directory
+        $this->savedWorkingDirectory = getcwd();
         foreach ($this->dirs as $dir) {
             $this->fs->mkdir($dir);
             $this->printTaskInfo("Created <info>$dir</info>...");
+
+            // Change the current working directory, if requested
+            if ($this->cwd) {
+                chdir($dir);
+            }
         }
         return Result::success($this, '', ['path' => $this->getPath()]);
     }
@@ -75,6 +93,10 @@ class TmpDir extends BaseDir implements TransientInterface
      * Delete our directory when requested to clean up our transient objects.
      */
     public function cleanupTransients() {
+        // Restore the current working directory, if we redirected it.
+        if ($this->cwd) {
+            chdir($this->savedWorkingDirectory);
+        }
         (new DeleteDir($this->dirs))->run();
     }
 

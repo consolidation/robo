@@ -1,6 +1,9 @@
 <?php
 use \CliGuy;
 
+use Robo\Contract\TaskInterface;
+use Robo\Result;
+
 class TaskCollectionCest
 {
     public function _before(CliGuy $I)
@@ -65,6 +68,55 @@ class TaskCollectionCest
         $I->dontSeeFileFound("$tmpPath/log/error.txt");
     }
 
+    public function toUseATmpDirAndChangeWorkingDirectory(CliGuy $I)
+    {
+        // Set up a collection to add tasks to
+        $collection = $I->taskCollection();
+
+        $cwd = getcwd();
+
+        // Get a temporary directory to work in. Note that we get a
+        // name back, but the directory is not created until the task
+        // runs.  This technically is not thread-safe, but we create
+        // a random name, so it is unlikely to conflict.
+        $tmpPath = $I->taskTmpDir()
+            ->cwd()
+            ->runLater($collection)
+            ->getPath();
+
+        // Set up a filesystem stack, but use runLater() to defer execution.
+        // Note that since we used 'cwd()' above, the relative file paths
+        // used below will be inside the temporary directory.
+        $I->taskFileSystemStack()
+            ->mkdir("log")
+            ->touch("log/error.txt")
+            ->runLater($collection);
+
+        // Copy our tmp directory to a location that is not transient
+        $I->taskCopyDir(['log' => "$cwd/copied2"])
+            ->runLater($collection);
+
+        // FileSystemStack has not run yet, so no files should be found.
+        $I->dontSeeFileFound("$tmpPath/log/error.txt");
+        $I->dontSeeFileFound('$cwd/copied2/log/error.txt');
+
+        // Run the task collection
+        $result = $collection->runNow();
+        $I->assertEquals(0, $result->getExitCode(), $result->getMessage());
+
+        // The file 'error.txt' should have been copied into the "copied" dir
+        $I->seeFileFound("$cwd/copied2/error.txt");
+        // $tmpPath should be deleted after $collection->runNow() completes.
+        $I->dontSeeFileFound("$tmpPath/log/error.txt");
+        // Make sure that 'log' was created in the temporary directory, not
+        // at the current working directory.
+        $I->dontSeeFileFound("$cwd/log/error.txt");
+
+        // Make sure that our working directory was restored.
+        $finalWorkingDir = getcwd();
+        $I->assertEquals($cwd, $finalWorkingDir);
+    }
+
     public function toCreateATmpFileAndConfirmItIsDeleted(CliGuy $I)
     {
         // Set up a collection to add tasks to
@@ -116,13 +168,13 @@ class TaskCollectionCest
         $result = $collection->add(
             [
                 $I->taskFileSystemStack()->mkdir("$tmpPath/log")->touch("$tmpPath/log/error.txt"),
-                $I->taskCopyDir([$tmpPath => 'copied2']),
+                $I->taskCopyDir([$tmpPath => 'copied3']),
             ]
         )->runNow();
 
         // The results of this operation should be the same.
         $I->assertEquals(0, $result->getExitCode(), $result->getMessage());
-        $I->seeFileFound('copied2/log/error.txt');
+        $I->seeFileFound('copied3/log/error.txt');
         $I->dontSeeFileFound("$tmpPath/log/error.txt");
     }
 

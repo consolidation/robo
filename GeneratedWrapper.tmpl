@@ -1,0 +1,37 @@
+<?php
+namespace Robo\Task\{delegateNamespace};
+
+use Robo\Result;
+use Robo\Task\WrapperTask;
+use {delegateNamespace}\{delegate};
+
+/**
+ * Wrapper for {delegate} Component.
+ * Comands are executed in stack and can be stopped on first fail with `stopOnFail` option.
+ *
+ * ``` php
+ * <?php
+ * $this->task{wrapperClassName}()
+ *      ...
+ *      ->run();
+ *
+ * // one line
+ * ...
+ *
+ * ?>
+ * ```
+ *
+{methodList}
+ */
+class {wrapperClassName} extends WrapperTask
+{
+    protected $delegate;
+
+    public function __construct() {
+        $this->{delegate} = new {delegate}();
+    }
+
+    protected function getDelegate() {
+        return $this->delegate;
+    }
+}

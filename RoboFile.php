@@ -3,6 +3,48 @@ use Symfony\Component\Finder\Finder;
 
 class RoboFile extends \Robo\Tasks
 {
+    public function wrap($className, $wrapperClassName = "") {
+        $delegate = new ReflectionClass($className);
+
+        $leadingCommentChars = " * ";
+        $methodDescriptions = [];
+        foreach ($delegate->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
+            $methodName = $method->getName();
+            $argList = [];
+            foreach($method->getParameters() AS $arg) {
+                $argDescription = '$' . $arg->name;
+                if ($arg->isOptional()) {
+                    $argDescription = $argDescription . ' = ' . str_replace("\n", "", var_export($arg->getDefaultValue(), TRUE));
+                }
+                $argList[] = $argDescription;
+            }
+            $argString = implode(', ', $argList);
+
+            if ($methodName[0] != '_') {
+                $methodDescriptions[] = "@method $methodName($argString)";
+            }
+        }
+
+        $classNameParts = explode('\\', $className);
+        $delegate = array_pop($classNameParts);
+        $delegateNamespace = implode('\\', $classNameParts);
+
+        if (empty($wrapperClassName)) {
+            $wrapperClassName = $delegate;
+        }
+
+        $replacements['{delegateNamespace}'] = $delegateNamespace;
+        $replacements['{delegate}'] = $delegate;
+        $replacements['{wrapperClassName}'] = $wrapperClassName;
+        $replacements['{taskname}'] = "task$delegate";
+        $replacements['{methodList}'] = $leadingCommentChars . implode("\n$leadingCommentChars", $methodDescriptions);
+
+        $template = file_get_contents(__DIR__ . "/GeneratedWrapper.tmpl");
+        $template = str_replace(array_keys($replacements), array_values($replacements), $template);
+
+        print $template;
+    }
+
     public function release()
     {
         $this->yell("Releasing Robo");
@@ -255,5 +297,5 @@ class RoboFile extends \Robo\Tasks
         new SomeTask();
         $this->_exec('php -r "echo php_sapi_name();"');
     }
-    
+
 }

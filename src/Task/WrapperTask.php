@@ -122,12 +122,33 @@ abstract class WrapperTask extends BaseTask {
     {
         foreach ($this->getDelegateCommandList($function) as $command) {
             if (method_exists($command[0], $command[1])) {
+                // If the function is a getter, call it now and
+                // return the result.
+                if ($this->isGetter($command[1])) {
+                    return call_user_func_array($command, $args);
+                }
+                // If the function is a setter, call it now, and
+                // return $this.
+                if ($this->isSetter($command[1])) {
+                    call_user_func_array($command, $args);
+                    return $this;
+                }
+                // Otherwise, we'll defer calling this function
+                // until run(), and return $this.
                 $this->addToCommandStack($command, $args);
                 return $this;
             }
         }
 
         die("Method $function does not exist.\n");
+    }
+
+    protected function isGetter($function) {
+        return substr($function, 0, 3) == "get";
+    }
+
+    protected function isSetter($function) {
+        return substr($function, 0, 3) == "set";
     }
 
     /**

@@ -4,11 +4,12 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4c146f082ebbabf4f5d4e797db4d52d3",
+    "hash": "f3c3d5e97422b992cfe5313b8ae06136",
+    "content-hash": "937d6cd1a4b1e2a7fbf2a507996da5cb",
     "packages": [
         {
             "name": "henrikbjorn/lurker",
-            "version": "dev-master",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/flint/Lurker.git",

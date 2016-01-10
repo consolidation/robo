@@ -57,10 +57,6 @@ abstract class WrapperTask extends BaseTask {
 
     protected $stopOnFail = true;
 
-    /**
-     * Call this with 'false' to ignore errors from all functions, and
-     * try to run all of them.
-     */
     public function stopOnFail($stop = true)
     {
         $this->stopOnFail = $stop;

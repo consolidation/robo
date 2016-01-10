@@ -67,7 +67,6 @@ $this->_mkdir('logs');
 ?>
 ```
 
-* `stopOnFail($stop = null)` 
 * `mkdir($dir)` 
 * `touch($file)` 
 * `copy($from, $to, $force = null)` 
@@ -78,6 +77,8 @@ $this->_mkdir('logs');
 * `mirror($from, $to)` 
 * `chgrp($file, $group)` 
 * `chown($file, $user)` 
+
+* `stopOnFail($stop = null)` 
 
 ## FlattenDir
 
@@ -159,7 +160,6 @@ $this->_mirrorDir('dist/config/', 'config/');
 
 ?>
 ```
-
 
 
 

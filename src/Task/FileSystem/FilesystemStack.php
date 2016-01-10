@@ -25,6 +25,17 @@ use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
  *
  * ?>
  * ```
+ *
+ * @method mkdir($dir)
+ * @method touch($file)
+ * @method copy($from, $to, $force = null)
+ * @method chmod($file, $permissions, $umask = null, $recursive = null)
+ * @method remove($file)
+ * @method rename($from, $to)
+ * @method symlink($from, $to)
+ * @method mirror($from, $to)
+ * @method chgrp($file, $group)
+ * @method chown($file, $user)
  */
 class FilesystemStack extends WrapperTask
 {
@@ -44,12 +55,12 @@ class FilesystemStack extends WrapperTask
         return $this->fs;
     }
 
-    public function _copy($from, $to, $force = false)
+    protected function _copy($from, $to, $force = false)
     {
         $this->fs->copy($from, $to, $force);
     }
 
-    public function _chmod($file, $permissions, $umask = 0000, $recursive = false)
+    protected function _chmod($file, $permissions, $umask = 0000, $recursive = false)
     {
         $this->fs->chmod($file, $permissions, $umask, $recursive);
     }

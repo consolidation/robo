@@ -25,7 +25,7 @@ wget http://robo.li/robo.phar
 To install globally put `robo.phar` in `/usr/bin`.
 
 ```
-sudo chmod +x robo.phar && mv robo.phar /usr/bin/robo
+chmod +x robo.phar && sudo mv robo.phar /usr/bin/robo
 ```
 
 Now you can use it just like `robo`.

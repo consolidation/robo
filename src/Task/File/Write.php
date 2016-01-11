@@ -130,23 +130,28 @@ class Write extends BaseTask
         return $this;
     }
 
-    protected function textFromFileCollect($contents, $filename) {
+    protected function textFromFileCollect($contents, $filename)
+    {
         return $contents . file_get_contents($filename);
     }
 
-    protected function replaceCollect($contents, $string, $replacement) {
+    protected function replaceCollect($contents, $string, $replacement)
+    {
         return str_replace($string, $replacement, $contents);
     }
 
-    protected function regexReplaceCollect($contents, $pattern, $replacement) {
+    protected function regexReplaceCollect($contents, $pattern, $replacement)
+    {
         return preg_replace($pattern, $replacement, $contents);
     }
 
-    protected function textCollect($contents, $text) {
+    protected function textCollect($contents, $text)
+    {
         return $contents . $text;
     }
 
-    protected function getContents() {
+    protected function getContents()
+    {
         $contents = "";
         if ($this->append) {
             $contents = file_get_contents($this->filename);

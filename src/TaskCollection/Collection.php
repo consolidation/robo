@@ -246,8 +246,7 @@ class Collection implements TaskInterface
                     return $result;
                 }
             }
-        }
-        catch(Exception $e) {
+        } catch (Exception $e) {
             // Tasks typically do not throw, but if one does, we will
             // convert it into an error and roll back.
             // TODO: should we re-throw it again instead?
@@ -264,8 +263,7 @@ class Collection implements TaskInterface
         foreach ($taskList as $task) {
             try {
                 $task->run();
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 // Ignore rollback failures.
             }
         }

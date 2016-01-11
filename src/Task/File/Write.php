@@ -65,7 +65,7 @@ class Write extends BaseTask
      */
     public function text($text)
     {
-        $this->stack[] = array_merge(['_' . __FUNCTION__], func_get_args());
+        $this->stack[] = array_merge([__FUNCTION__ . 'Collect'], func_get_args());
         return $this;
     }
 
@@ -84,7 +84,7 @@ class Write extends BaseTask
      */
     public function textFromFile($filename)
     {
-        $this->stack[] = array_merge(['_' . __FUNCTION__], func_get_args());
+        $this->stack[] = array_merge([__FUNCTION__ . 'Collect'], func_get_args());
         return $this;
     }
 
@@ -112,7 +112,7 @@ class Write extends BaseTask
      */
     public function replace($string, $replacement)
     {
-        $this->stack[] = array_merge(['_' . __FUNCTION__], func_get_args());
+        $this->stack[] = array_merge([__FUNCTION__ . 'Collect'], func_get_args());
         return $this;
     }
 
@@ -126,23 +126,23 @@ class Write extends BaseTask
      */
     public function regexReplace($pattern, $replacement)
     {
-        $this->stack[] = array_merge(['_' . __FUNCTION__], func_get_args());
+        $this->stack[] = array_merge([__FUNCTION__ . 'Collect'], func_get_args());
         return $this;
     }
 
-    protected function _textFromFile($contents, $filename) {
+    protected function textFromFileCollect($contents, $filename) {
         return $contents . file_get_contents($filename);
     }
 
-    protected function _replace($contents, $string, $replacement) {
+    protected function replaceCollect($contents, $string, $replacement) {
         return str_replace($string, $replacement, $contents);
     }
 
-    protected function _regexReplace($contents, $pattern, $replacement) {
+    protected function regexReplaceCollect($contents, $pattern, $replacement) {
         return preg_replace($pattern, $replacement, $contents);
     }
 
-    protected function _text($contents, $text) {
+    protected function textCollect($contents, $text) {
         return $contents . $text;
     }
 

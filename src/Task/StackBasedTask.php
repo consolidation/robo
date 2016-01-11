@@ -128,6 +128,8 @@ abstract class StackBasedTask extends BaseTask
      * Any API function provided by the delegate that executes immediately
      * may be handled by __call automatically.  These operations will all
      * be deferred until this task's run() method is called.
+     *
+     * @throws \BadMethodCallException
      */
     public function __call($function, $args)
     {
@@ -151,7 +153,8 @@ abstract class StackBasedTask extends BaseTask
             }
         }
 
-        throw new \RuntimeException("Method $function does not exist.\n");
+        $message = "Method $function does not exist.\n";
+        throw new \BadMethodCallException($message);
     }
 
     protected function isGetter($function)

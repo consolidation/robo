@@ -167,7 +167,7 @@ class Extract extends BaseTask
                             // See http://en.wikipedia.org/wiki/Bzip2#File_format
                             $content_type = 'application/x-bzip2';
                             break;
-                  }
+                    }
                 }
             }
         }

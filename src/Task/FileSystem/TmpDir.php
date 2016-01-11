@@ -1,11 +1,11 @@
 <?php
+
 namespace Robo\Task\FileSystem;
 
 use Robo\Result;
 use Robo\TaskCollection\Collection;
 use Robo\Contract\TransientInterface;
 use Robo\TaskCollection\Transient;
-use Robo\Task\FileSystem\DeleteDir;
 
 /**
  * Create a temporary directory that is automatically cleaned up
@@ -48,23 +48,26 @@ class TmpDir extends BaseDir implements TransientInterface
             $random = static::randomString();
             $prefix = "{$prefix}_{$random}";
         }
-        parent::__construct([ "{$base}/{$prefix}" ]);
+        parent::__construct(["{$base}/{$prefix}"]);
     }
 
     /**
      * Generate a suitably random string to use as the suffix for our
      * temporary directory.
      */
-    private static function randomString($length = 12) {
-        return substr(str_shuffle("23456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ"), 0, $length);
+    private static function randomString($length = 12)
+    {
+        return substr(str_shuffle('23456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ'), 0, $length);
     }
 
     /**
      * Flag that we should cwd to the temporary directory when it is
      * created, and restore the old working directory when it is deleted.
      */
-    public function cwd() {
+    public function cwd()
+    {
         $this->cwd = true;
+
         return $this;
     }
 
@@ -84,13 +87,15 @@ class TmpDir extends BaseDir implements TransientInterface
                 chdir($dir);
             }
         }
+
         return Result::success($this, '', ['path' => $this->getPath()]);
     }
 
     /**
      * Delete our directory when requested to clean up our transient objects.
      */
-    public function cleanupTransients() {
+    public function cleanupTransients()
+    {
         // Restore the current working directory, if we redirected it.
         if ($this->cwd) {
             chdir($this->savedWorkingDirectory);
@@ -103,7 +108,8 @@ class TmpDir extends BaseDir implements TransientInterface
      * it may be used to create other tasks.  Note that the directory
      * is not actually created until the task runs.
      */
-    public function getPath() {
+    public function getPath()
+    {
         return $this->dirs[0];
     }
 }

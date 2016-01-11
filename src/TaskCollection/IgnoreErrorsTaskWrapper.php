@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo\TaskCollection;
 
 use Robo\Contract\TaskInterface;
@@ -11,28 +12,30 @@ use Robo\Contract\TaskInterface;
  * task is added to a task collection via the addAndIgnoreErrors()
  * method, it will automatically be protected with IgnoreErrorsTaskWrapper.
  */
-class IgnoreErrorsTaskWrapper implements TaskInterface {
-
+class IgnoreErrorsTaskWrapper implements TaskInterface
+{
     private $task;
 
-    public function __construct(TaskInterface $task) {
+    public function __construct(TaskInterface $task)
+    {
         $this->task = $task;
     }
 
     /**
-     * Run the task; catch any errors, and always return a 'success'
+     * Run the task; catch any errors, and always return a 'success'.
      */
-    public function run() {
+    public function run()
+    {
         $data = [];
         try {
             $result = $this->task->run();
             $message = $result->getMessage();
             $data = $result->getData();
             $data['exitcode'] = $result->getExitCode();
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $message = $e->getMessage();
         }
+
         return Result::success($this->task, $message, $data);
     }
 };

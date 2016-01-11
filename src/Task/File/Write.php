@@ -1,11 +1,12 @@
 <?php
+
 namespace Robo\Task\File;
 
 use Robo\Result;
 use Robo\Task\BaseTask;
 
 /**
- * Writes to file
+ * Writes to file.
  *
  * ``` php
  * <?php
@@ -16,6 +17,7 @@ use Robo\Task\BaseTask;
  *      ->run();
  * ?>
  * ```
+ *
  * @method append()
  */
 class Write extends BaseTask
@@ -31,7 +33,7 @@ class Write extends BaseTask
     }
 
     /**
-     * add a line
+     * add a line.
      *
      * @param string $line
      *
@@ -44,7 +46,7 @@ class Write extends BaseTask
     }
 
     /**
-     * add more lines
+     * add more lines.
      *
      * @param array $lines
      *
@@ -57,7 +59,7 @@ class Write extends BaseTask
     }
 
     /**
-     * add a text
+     * add a text.
      *
      * @param string $text
      *
@@ -70,7 +72,7 @@ class Write extends BaseTask
     }
 
     /**
-     * add a text from a file
+     * add a text from a file.
      *
      * Note that the file is read in the run() method of this task.
      * To load text from the current state of a file (e.g. one that may
@@ -89,7 +91,7 @@ class Write extends BaseTask
     }
 
     /**
-     * substitute a placeholder with value, placeholder must be enclosed by `{}`
+     * substitute a placeholder with value, placeholder must be enclosed by `{}`.
      *
      * @param string $name
      * @param string $val
@@ -98,12 +100,13 @@ class Write extends BaseTask
      */
     public function place($name, $val)
     {
-        $this->replace('{' . $name . '}', $val);
+        $this->replace('{'.$name.'}', $val);
+
         return $this;
     }
 
     /**
-     * replace any string with value
+     * replace any string with value.
      *
      * @param string $string
      * @param string $replacement
@@ -117,7 +120,7 @@ class Write extends BaseTask
     }
 
     /**
-     * replace any string with value using regular expression
+     * replace any string with value using regular expression.
      *
      * @param string $pattern
      * @param string $replacement
@@ -177,10 +180,12 @@ class Write extends BaseTask
         if ($res === false) {
             return Result::error($this, "File {$this->filename} couldn't be created");
         }
+
         return Result::success($this);
     }
 
-    public function getPath() {
+    public function getPath()
+    {
         return $this->filename;
     }
 }

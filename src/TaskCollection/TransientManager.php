@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo\TaskCollection;
 
 use Robo\Contract\TaskInterface;
@@ -28,13 +29,15 @@ class TransientManager
     /**
      * Provides direct access to the collection of transients, if necessary.
      */
-    public static function getCollection() {
+    public static function getCollection()
+    {
         if (!static::$collection) {
             static::$collection = new Collection();
-            register_shutdown_function( function() {
+            register_shutdown_function(function () {
                 static::complete();
             });
         }
+
         return static::$collection;
     }
 
@@ -42,14 +45,16 @@ class TransientManager
      * Register a task that creates transient objects. Its complete
      * function will be called when the program exits.
      */
-    public static function transientTask(TaskInterface $task) {
+    public static function transientTask(TaskInterface $task)
+    {
         return new CollectionTask(static::getCollection(), $task);
     }
 
     /**
      * Call the rollback method of all of the registered objects.
      */
-    public static function fail() {
+    public static function fail()
+    {
         // Force the rollback and completion functions to run.
         $collection = static::getCollection();
         $collection->fail();
@@ -60,7 +65,8 @@ class TransientManager
     /**
      * Call the complete method of all of the registered objects.
      */
-    public static function complete() {
+    public static function complete()
+    {
         // Run the collection of tasks. This will also run the
         // completion tasks.
         $collection = static::getCollection();

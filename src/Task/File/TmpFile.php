@@ -1,11 +1,10 @@
 <?php
+
 namespace Robo\Task\File;
 
-use Robo\Result;
 use Robo\TaskCollection\Collection;
 use Robo\Contract\TransientInterface;
 use Robo\TaskCollection\Transient;
-use Robo\Task\FileSystem\DeleteDir;
 
 /**
  * Create a temporary directory that is automatically cleaned up
@@ -50,14 +49,16 @@ class TmpFile extends Write implements TransientInterface
      * Generate a suitably random string to use as the suffix for our
      * temporary file.
      */
-    private static function randomString($length = 12) {
-        return substr(str_shuffle("23456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ"), 0, $length);
+    private static function randomString($length = 12)
+    {
+        return substr(str_shuffle('23456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ'), 0, $length);
     }
 
     /**
      * Delete our directory when requested to clean up our transient objects.
      */
-    public function cleanupTransients() {
+    public function cleanupTransients()
+    {
         unlink($this->getPath());
     }
 }

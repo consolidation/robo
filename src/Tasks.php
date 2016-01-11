@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo;
 
 use Robo\Common\IO;
@@ -36,8 +37,6 @@ class Tasks
     use Task\Base\loadShortcuts;
     use Task\FileSystem\loadShortcuts;
     use Task\Vcs\loadShortcuts;
-
-
 
     use IO;
 

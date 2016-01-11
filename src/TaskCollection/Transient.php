@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo\TaskCollection;
 
 /**
@@ -9,21 +10,25 @@ trait Transient
 {
     private $transient = true;
 
-    public function setTransient($transient) {
+    public function setTransient($transient)
+    {
         $this->transient = $transient;
     }
 
-    public function isTransient() {
+    public function isTransient()
+    {
         return $this->transient;
     }
 
-    public function complete() {
+    public function complete()
+    {
         if ($this->isTransient()) {
-          $this->cleanupTransients();
+            $this->cleanupTransients();
         }
     }
 
-    public function rollback() {
+    public function rollback()
+    {
         $this->cleanupTransients();
     }
 }

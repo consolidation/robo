@@ -1,8 +1,8 @@
 <?php
+
 namespace Robo\TaskCollection;
 
 use Robo\Task\BaseTask;
-use Robo\Contract\TaskInterface;
 use Robo\Contract\CompletionInterface;
 
 /**
@@ -14,15 +14,17 @@ use Robo\Contract\CompletionInterface;
  * will automatically be registered with a CompletionTask if it implements
  * CompletionInterface.
  */
-class CompletionTask extends BaseTask {
-
+class CompletionTask extends BaseTask
+{
     private $task;
 
-    public function __construct(CompletionInterface $task) {
+    public function __construct(CompletionInterface $task)
+    {
         $this->task = $task;
     }
 
-    public function run() {
+    public function run()
+    {
         return $this->task->complete();
     }
 };

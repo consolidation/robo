@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo\TaskCollection;
 
 /**
@@ -10,13 +11,17 @@ namespace Robo\TaskCollection;
  */
 trait Collectable
 {
-    public function runLater(Collection $collection, TaskInterface $rollbackTask = NULL) {
+    public function runLater(Collection $collection, TaskInterface $rollbackTask = null)
+    {
         $collection->add($this, $rollbackTask);
+
         return $this;
     }
 
-    public function runLaterAndIgnoreErrors(Collection $collection) {
+    public function runLaterAndIgnoreErrors(Collection $collection)
+    {
         $collection->addAndIgnoreErrors($this);
+
         return $this;
     }
 }

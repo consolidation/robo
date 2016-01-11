@@ -27,11 +27,13 @@ class {wrapperClassName} extends WrapperTask
 {
     protected $delegate;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->{delegate} = new {delegate}();
     }
 
-    protected function getDelegate() {
+    protected function getDelegate()
+    {
         return $this->delegate;
     }
 }

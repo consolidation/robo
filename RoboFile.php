@@ -11,10 +11,10 @@ class RoboFile extends \Robo\Tasks
         foreach ($delegate->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
             $methodName = $method->getName();
             $argList = [];
-            foreach($method->getParameters() AS $arg) {
+            foreach ($method->getParameters() as $arg) {
                 $argDescription = '$' . $arg->name;
                 if ($arg->isOptional()) {
-                    $argDescription = $argDescription . ' = ' . str_replace("\n", "", var_export($arg->getDefaultValue(), TRUE));
+                    $argDescription = $argDescription . ' = ' . str_replace("\n", "", var_export($arg->getDefaultValue(), true));
                 }
                 $argList[] = $argDescription;
             }

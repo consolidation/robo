@@ -57,8 +57,8 @@ use Robo\Contract\TaskInterface;
  * call $this->taskFrobinator()->foo() to get deferred execution
  * of _foo().
  */
-abstract class StackBasedTask extends BaseTask {
-
+abstract class StackBasedTask extends BaseTask
+{
     protected $stack = [];
 
     protected $stopOnFail = true;
@@ -76,7 +76,8 @@ abstract class StackBasedTask extends BaseTask {
      * this class.  Calling one of the delegate's methods will defer
      * execution until the run() method is called.
      */
-    protected function getDelegate() {
+    protected function getDelegate()
+    {
         return null;
     }
 
@@ -85,14 +86,16 @@ abstract class StackBasedTask extends BaseTask {
      * getCommandList to add as many delegate commands as desired to
      * the list of potential functions that __call() tried to find.
      */
-    protected function getDelegateCommandList($function) {
+    protected function getDelegateCommandList($function)
+    {
         return [[$this, "_$function"], [$this->getDelegate(), $function]];
     }
 
     /**
      * Print progress about the commands being executed
      */
-    protected function printTaskProgress($command, $action) {
+    protected function printTaskProgress($command, $action)
+    {
         $this->printTaskInfo("{$command[1]} " . json_encode($action));
     }
 
@@ -102,7 +105,8 @@ abstract class StackBasedTask extends BaseTask {
      * is assumed that if a function returns in int, then
      * 0 == success, and any other value is the error code.
      */
-    protected function processResult($function_result) {
+    protected function processResult($function_result)
+    {
         if (is_int($function_result)) {
             if ($function_result) {
                 return Result::error($this, $function_result);
@@ -114,7 +118,8 @@ abstract class StackBasedTask extends BaseTask {
     /**
      * Record a function to call later.
      */
-    protected function addToCommandStack($command, $args) {
+    protected function addToCommandStack($command, $args)
+    {
         $this->stack[] = array_merge([$command], $args);
         return $this;
     }
@@ -149,18 +154,21 @@ abstract class StackBasedTask extends BaseTask {
         throw new \RuntimeException("Method $function does not exist.\n");
     }
 
-    protected function isGetter($function) {
+    protected function isGetter($function)
+    {
         return substr($function, 0, 3) == "get";
     }
 
-    protected function isSetter($function) {
+    protected function isSetter($function)
+    {
         return substr($function, 0, 3) == "set";
     }
 
     /**
      * Run all of the queued objects on the stack
      */
-    public function run() {
+    public function run()
+    {
         $result = Result::success($this);
 
         foreach ($this->stack as $action) {
@@ -182,7 +190,8 @@ abstract class StackBasedTask extends BaseTask {
     /**
      * Execute one task method
      */
-    protected function callTaskMethod($command, $action) {
+    protected function callTaskMethod($command, $action)
+    {
         try {
             $function_result = call_user_func_array($command, $action);
             return $this->processResult($function_result);
@@ -191,4 +200,5 @@ abstract class StackBasedTask extends BaseTask {
             return Result::error($this, $e->getMessage());
         }
     }
-};
+}
+

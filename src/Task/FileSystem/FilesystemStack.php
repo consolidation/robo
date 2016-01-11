@@ -46,12 +46,14 @@ class FilesystemStack extends StackBasedTask
      * stopOnFail(false), but WrapperTask defaults
      * to stopOnFail(true).
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->fs = new sfFileSystem();
         $this->stopOnFail(false);
     }
 
-    protected function getDelegate() {
+    protected function getDelegate()
+    {
         return $this->fs;
     }
 
@@ -68,7 +70,8 @@ class FilesystemStack extends StackBasedTask
     /**
      * Execute one task method
      */
-    protected function callTaskMethod($command, $action) {
+    protected function callTaskMethod($command, $action)
+    {
         try {
             $function_result = call_user_func_array($command, $action);
             return $this->processResult($function_result);

@@ -67,7 +67,7 @@ class Collection implements TaskInterface
      * @param TaskInterface
      *   The rollback function to run if any command in the collection fails
      */
-    public function addTask(TaskInterface $task, TaskInterface $rollbackTask = NULL)
+    public function addTask(TaskInterface $task, TaskInterface $rollbackTask = null)
     {
         $this->addToTaskStack(new CollectionTask($this, $task, $rollbackTask));
         return $this;

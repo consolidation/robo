@@ -32,7 +32,8 @@ use Robo\Contract\CompletionInterface;
  * ?>
  * ```
  */
-class Collection implements TaskInterface {
+class Collection implements TaskInterface
+{
 
     protected $taskStack = [];
     protected $rollbackStack = [];
@@ -45,7 +46,8 @@ class Collection implements TaskInterface {
      * @param TaskInterface|TaskInterface[]
      *   An array of tasks to run with rollback protection
      */
-    public function add($tasks) {
+    public function add($tasks)
+    {
         if ($tasks instanceof TaskInterface) {
             $tasks = [$tasks];
         }
@@ -65,7 +67,8 @@ class Collection implements TaskInterface {
      * @param TaskInterface
      *   The rollback function to run if any command in the collection fails
      */
-    public function addTask(TaskInterface $task, TaskInterface $rollbackTask = NULL) {
+    public function addTask(TaskInterface $task, TaskInterface $rollbackTask = NULL)
+    {
         $this->addToTaskStack(new CollectionTask($this, $task, $rollbackTask));
         return $this;
     }
@@ -77,7 +80,8 @@ class Collection implements TaskInterface {
      * @param TaskInterface
      *   The task to run
      */
-    public function addAndIgnoreErrors(TaskInterface $task) {
+    public function addAndIgnoreErrors(TaskInterface $task)
+    {
         $this->addToTaskStack(new IgnoreErrorsTaskWrapper($task));
         return $this;
     }
@@ -85,7 +89,8 @@ class Collection implements TaskInterface {
     /**
      * Add the provided task to our task list.
      */
-    protected function addToTaskStack(TaskInterface $task) {
+    protected function addToTaskStack(TaskInterface $task)
+    {
         $this->checkFrozen();
         $this->taskStack[] = $task;
     }
@@ -106,7 +111,8 @@ class Collection implements TaskInterface {
      * @param TaskInterface
      *   The rollback task to run on failure.
      */
-    public function registerRollback(TaskInterface $rollbackTask) {
+    public function registerRollback(TaskInterface $rollbackTask)
+    {
         $this->rollbackStack[] = $rollbackTask;
         return $this;
     }
@@ -128,7 +134,8 @@ class Collection implements TaskInterface {
      * @param TaskInterface
      *   The completion task to run at the end of all other operations.
      */
-    public function registerCompletion(TaskInterface $completionTask) {
+    public function registerCompletion(TaskInterface $completionTask)
+    {
         $this->completionStack[] = $completionTask;
         return $this;
     }
@@ -140,14 +147,16 @@ class Collection implements TaskInterface {
      * Note that this is a synonym for run(); it is included for
      * symetry with the runLater() method of Collectable.
      */
-    public function runNow() {
+    public function runNow()
+    {
         return $this->run();
     }
 
     /**
      * Run our tasks, and roll back if necessary.
      */
-    public function run() {
+    public function run()
+    {
         $this->freezeCollection();
         $result = $this->runTaskList($this->taskStack);
         if (!$result->wasSuccessful()) {
@@ -163,7 +172,8 @@ class Collection implements TaskInterface {
      *
      * This usually happens automatically, via CollectionTask
      */
-    public function register($task) {
+    public function register($task)
+    {
         if ($task instanceof RollbackInterface) {
             $this->registerRollback(new RollbackTask($task));
         }
@@ -176,7 +186,8 @@ class Collection implements TaskInterface {
     /**
      * Force the rollback functions to run
      */
-    public function fail() {
+    public function fail()
+    {
         $this->runRollbackTasks();
         $this->complete();
         return $this;
@@ -185,7 +196,8 @@ class Collection implements TaskInterface {
     /**
      * Force the completion functions to run
      */
-    public function complete() {
+    public function complete()
+    {
         $this->runTaskListIgnoringFailures($this->completionStack);
         return $this;
     }
@@ -193,7 +205,8 @@ class Collection implements TaskInterface {
     /**
      * Reset this collection, removing all tasks.
      */
-    public function reset() {
+    public function reset()
+    {
         $this->taskStack = [];
         $this->completionStack = [];
         $this->rollbackStack = [];
@@ -208,7 +221,8 @@ class Collection implements TaskInterface {
      * it may still be used as a task inside another task collection
      * (i.e. you can nest task collections, if desired).
      */
-    protected function runRollbackTasks() {
+    protected function runRollbackTasks()
+    {
         $this->runTaskListIgnoringFailures($this->rollbackStack);
         // Erase our rollback stack once we have finished rolling
         // everything back.  This will allow us to potentially use
@@ -221,7 +235,8 @@ class Collection implements TaskInterface {
      * Run every task in a list, but only up to the first failure.
      * Return the failing result, or success if all tasks run.
      */
-    protected function runTaskList($taskList) {
+    protected function runTaskList($taskList)
+    {
         try {
             foreach ($taskList as $task) {
                 $result = $task->run();
@@ -244,7 +259,8 @@ class Collection implements TaskInterface {
     /**
      * Run all of the tasks in a provided list, ignoring failures.
      */
-    protected function runTaskListIgnoringFailures($taskList) {
+    protected function runTaskListIgnoringFailures($taskList)
+    {
         foreach ($taskList as $task) {
             try {
                 $task->run();
@@ -264,7 +280,8 @@ class Collection implements TaskInterface {
      * `run()` is generally not useful, and is probably an
      * indication of a logic error.
      */
-    protected function freezeCollection() {
+    protected function freezeCollection()
+    {
         $this->frozen = true;
     }
 
@@ -272,7 +289,8 @@ class Collection implements TaskInterface {
      * Do not allow frozen collections to be modified. This should
      * never happen, so we'll just throw a RuntimeException.
      */
-    protected function checkFrozen() {
+    protected function checkFrozen()
+    {
         if ($this->frozen) {
             throw new RuntimeException("Collection cannot be modified after execution.");
         }

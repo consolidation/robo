@@ -27,4 +27,4 @@ class CompletionTask extends BaseTask
     {
         return $this->task->complete();
     }
-};
+}

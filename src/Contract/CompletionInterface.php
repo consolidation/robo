@@ -22,5 +22,5 @@ interface CompletionInterface
     /**
      * Revert an operation that can be rolled back
      */
-    function complete();
+    public function complete();
 }

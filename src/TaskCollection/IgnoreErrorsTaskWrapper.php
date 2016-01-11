@@ -38,4 +38,4 @@ class IgnoreErrorsTaskWrapper implements TaskInterface
 
         return Result::success($this->task, $message, $data);
     }
-};
+}

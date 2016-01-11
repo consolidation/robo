@@ -25,5 +25,5 @@ interface TransientInterface extends RollbackInterface, CompletionInterface
     /**
      * Revert an operation that can be rolled back
      */
-    function cleanupTransients();
+    public function cleanupTransients();
 }

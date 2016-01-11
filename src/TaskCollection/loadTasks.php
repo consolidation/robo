@@ -1,7 +1,6 @@
 <?php
 namespace Robo\TaskCollection;
 
-
 trait loadTasks
 {
     /**

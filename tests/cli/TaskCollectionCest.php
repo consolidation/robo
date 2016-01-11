@@ -1,4 +1,6 @@
 <?php
+namespace Robo;
+
 use \CliGuy;
 
 use Robo\Contract\TaskInterface;
@@ -179,7 +181,8 @@ class TaskCollectionCest
         $I->dontSeeFileFound("$tmpPath/log/error.txt");
     }
 
-    public function toCreateATmpDirUsingShortcut(CliGuy $I) {
+    public function toCreateATmpDirUsingShortcut(CliGuy $I)
+    {
         // Create a temporary directory, using our function name as
         // the prefix for the directory name.
         $tmpPath = $I->shortcutTmpDir(__FUNCTION__);

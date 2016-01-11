@@ -27,4 +27,4 @@ class RollbackTask extends BaseTask
     {
         return $this->task->rollback();
     }
-};
+}

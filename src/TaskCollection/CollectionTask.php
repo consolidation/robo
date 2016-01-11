@@ -48,4 +48,4 @@ class CollectionTask extends BaseTask
     {
         return call_user_func_array(array($this->task, $function), $args);
     }
-};
+}

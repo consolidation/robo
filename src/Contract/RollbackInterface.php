@@ -22,5 +22,5 @@ interface RollbackInterface
     /**
      * Revert an operation that can be rolled back
      */
-    function rollback();
+    public function rollback();
 }

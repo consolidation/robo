@@ -3,6 +3,7 @@
 **Modern and simple PHP task runner** inspired by Gulp and Rake aimed to automate common tasks:
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Codegyre/Robo?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Build Status](https://travis-ci.org/Codegyre/Robo.svg?branch=master)](https://travis-ci.org/Codegyre/Robo) [![Latest Stable Version](https://poser.pugx.org/codegyre/robo/v/stable.png)](https://packagist.org/packages/codegyre/robo) [![Total Downloads](https://poser.pugx.org/codegyre/robo/downloads.png)](https://packagist.org/packages/codegyre/robo) [![Latest Unstable Version](https://poser.pugx.org/codegyre/robo/v/unstable.png)](https://packagist.org/packages/codegyre/robo) [![License](https://poser.pugx.org/codegyre/robo/license.png)](https://packagist.org/packages/codegyre/robo)
+[![PHP 7 ready](http://php7ready.timesplinter.ch/Codegyre/Robo/badge.svg)](https://travis-ci.org/Codegyre/Robo)
 
 * writing cross-platform scripts
 * processing assets (less, sass, minification)
@@ -24,7 +25,7 @@ wget http://robo.li/robo.phar
 To install globally put `robo.phar` in `/usr/bin`.
 
 ```
-sudo chmod +x robo.phar && mv robo.phar /usr/bin/robo
+chmod +x robo.phar && sudo mv robo.phar /usr/bin/robo
 ```
 
 Now you can use it just like `robo`.

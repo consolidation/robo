@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo\Task\Archive;
 
 use Robo\Result;
@@ -44,14 +45,16 @@ class Extract extends BaseTask
         $this->filename = $filename;
     }
 
-    function run()
+    public function run()
     {
         if (!file_exists($this->filename)) {
             $this->printTaskError("File {$this->filename} does not exist");
+
             return false;
         }
         if (!($mimetype = static::archiveType($this->filename))) {
             $this->printTaskError("Could not determine type of archive for {$this->filename}");
+
             return false;
         }
 
@@ -89,12 +92,12 @@ class Extract extends BaseTask
             if ($hasEncapsulatingFolder && !$this->preserveTopDirectory) {
                 rename($filesInExtractLocation[0], $this->to);
                 rmdir($extractLocation);
-            }
-            else {
+            } else {
                 rename($extractLocation, $this->to);
             }
         }
         $this->stopTimer();
+
         return $result->copy(['time' => $this->getExecutionTime()]);
     }
 
@@ -106,7 +109,7 @@ class Extract extends BaseTask
         }
 
         $zip = new \ZipArchive();
-        if (($status = $zip->open($this->filename)) !== TRUE) {
+        if (($status = $zip->open($this->filename)) !== true) {
             return Result::error($this, "Could not open zip archive {$this->filename}");
         }
         if (!$zip->extractTo($extractLocation)) {
@@ -129,13 +132,13 @@ class Extract extends BaseTask
 
     protected static function archiveType($filename)
     {
-        $content_type = FALSE;
+        $content_type = false;
         if (class_exists('finfo')) {
             $finfo = new \finfo(FILEINFO_MIME_TYPE);
             $content_type = $finfo->file($filename);
             // If finfo cannot determine the content type, then we will try other methods
             if ($content_type == 'application/octet-stream') {
-                $content_type = FALSE;
+                $content_type = false;
             }
         }
         // Examing the file's magic header bytes.
@@ -143,10 +146,10 @@ class Extract extends BaseTask
             if ($file = fopen($filename, 'rb')) {
                 $first = fread($file, 2);
                 fclose($file);
-                if ($first !== FALSE) {
-                  // Interpret the two bytes as a little endian 16-bit unsigned int.
+                if ($first !== false) {
+                    // Interpret the two bytes as a little endian 16-bit unsigned int.
                   $data = unpack('v', $first);
-                  switch ($data[1]) {
+                    switch ($data[1]) {
                       case 0x8b1f:
                           // First two bytes of gzip files are 0x1f, 0x8b (little-endian).
                           // See http://www.gzip.org/zlib/rfc-gzip.html#header-trailer
@@ -175,9 +178,9 @@ class Extract extends BaseTask
             // Remove querystring from the filename, if present.
             $filename = basename(current(explode('?', $filename, 2)));
             $extension_mimetype = array(
-                '.tar.gz'  => 'application/x-gzip',
-                '.tgz'     => 'application/x-gzip',
-                '.tar'     => 'application/x-tar',
+                '.tar.gz' => 'application/x-gzip',
+                '.tgz' => 'application/x-gzip',
+                '.tar' => 'application/x-tar',
             );
             foreach ($extension_mimetype as $extension => $ct) {
                 if (substr($filename, -strlen($extension)) === $extension) {
@@ -186,11 +189,12 @@ class Extract extends BaseTask
                 }
             }
         }
+
         return $content_type;
     }
 
     protected static function getTmpDir()
     {
-        return getcwd() . '/tmp' . rand() . time();
+        return getcwd().'/tmp'.rand().time();
     }
 }

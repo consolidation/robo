@@ -1,11 +1,11 @@
 <?php
+
 namespace Robo\Task\Archive;
 
 use Robo\Contract\PrintedInterface;
 use Robo\Result;
 use Robo\Task\BaseTask;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Console\Helper\ProgressBar;
 
 /**
  * Creates a zip or tar archive.
@@ -30,22 +30,22 @@ class Pack extends BaseTask implements PrintedInterface
     /**
      * The list of items to be packed into the archive.
      *
-     * @var    array
+     * @var array
      */
     private $items = [];
 
     /**
      * The full path to the archive to be created.
      *
-     * @var    string
+     * @var string
      */
     private $archiveFile;
 
     /**
      * Construct the class.
      *
-     * @param   string  $folder   The full path to the folder and subfolders to pack.
-     * @param   string  $zipname  The full path and name of the zipfile to create.
+     * @param string $folder  The full path to the folder and subfolders to pack.
+     * @param string $zipname The full path and name of the zipfile to create.
      *
      * @since   1.0
      */
@@ -57,7 +57,7 @@ class Pack extends BaseTask implements PrintedInterface
     /**
      * Satisfy the parent requirement.
      *
-     * @return  bool  Always returns true.
+     * @return bool Always returns true.
      *
      * @since   1.0
      */
@@ -71,13 +71,14 @@ class Pack extends BaseTask implements PrintedInterface
      * may be a file or a directory.
      *
      * @var string
-     *   Relative path and name of item to store in archive
+     *             Relative path and name of item to store in archive
      * @var string
-     *   Absolute or relative path to file or directory's location in filesystem
+     *             Absolute or relative path to file or directory's location in filesystem
      */
     public function addFile($placementLocation, $filesystemLocation)
     {
         $this->items[$placementLocation] = $filesystemLocation;
+
         return $this;
     }
 
@@ -86,13 +87,14 @@ class Pack extends BaseTask implements PrintedInterface
      * addFile with a directory.
      *
      * @var string
-     *   Relative path and name of directory to store in archive
+     *             Relative path and name of directory to store in archive
      * @var string
-     *   Absolute or relative path to directory or directory's location in filesystem
+     *             Absolute or relative path to directory or directory's location in filesystem
      */
     public function addDir($placementLocation, $filesystemLocation)
     {
         $this->addFile($placementLocation, $filesystemLocation);
+
         return $this;
     }
 
@@ -100,28 +102,28 @@ class Pack extends BaseTask implements PrintedInterface
      * Add a file or directory, or list of same to the archive.
      *
      * @var string|array
-     *   If given a string, should contain the relative filesystem path to the
-     *   the item to store in archive; this will also be used as the item's
-     *   path in the archive, so absolute paths should not be used here.
-     *   If given an array, the key of each item should be the path to store
-     *   in the archive, and the value should be the filesystem path to the
-     *   item to store.
+     *                   If given a string, should contain the relative filesystem path to the
+     *                   the item to store in archive; this will also be used as the item's
+     *                   path in the archive, so absolute paths should not be used here.
+     *                   If given an array, the key of each item should be the path to store
+     *                   in the archive, and the value should be the filesystem path to the
+     *                   item to store.
      */
     public function add($item)
     {
         if (is_array($item)) {
             $this->items = array_merge($this->items, $item);
-        }
-        else {
+        } else {
             $this->addFile($item, $item);
         }
+
         return $this;
     }
 
     /**
      * Create a zip archive for distribution.
      *
-     * @return  bool  True on success | False on failure.
+     * @return bool True on success | False on failure.
      *
      * @since   1.0
      */
@@ -139,19 +141,18 @@ class Pack extends BaseTask implements PrintedInterface
         try {
             // Inform the user which archive we are creating
             $this->printTaskInfo("Creating archive <info>{$this->archiveFile}</info>");
-            if ($extension == "zip") {
+            if ($extension == 'zip') {
                 $result = $this->archiveZip($this->archiveFile, $this->items);
-            }
-            else {
+            } else {
                 $result = $this->archiveTar($this->archiveFile, $this->items);
             }
             $this->printTaskSuccess("<info>{$this->archiveFile}</info> created.");
-        }
-        catch(Exception $e) {
-            $this->printTaskError("Could not create {$this->archiveFile}. " . $e->getMessage());
+        } catch (Exception $e) {
+            $this->printTaskError("Could not create {$this->archiveFile}. ".$e->getMessage());
             $result = Result::error($this);
         }
         $this->stopTimer();
+
         return $result->copy(['time' => $this->getExecutionTime()]);
     }
 
@@ -173,6 +174,7 @@ class Pack extends BaseTask implements PrintedInterface
                 return Result::error($this, "Could not add $fileSystemLocation to the archive.");
             }
         }
+
         return Result::success($this);
     }
 
@@ -205,16 +207,15 @@ class Pack extends BaseTask implements PrintedInterface
                         return Result::error($this, "Could not add directory $fileSystemLocation to the archive; error adding {$file->getRealpath()}.");
                     }
                 }
-            }
-            elseif (is_file($fileSystemLocation)) {
+            } elseif (is_file($fileSystemLocation)) {
                 if (!$zip->addFile($fileSystemLocation, $placementLocation)) {
                     return Result::error($this, "Could not add file $fileSystemLocation to the archive.");
                 }
-            }
-            else {
+            } else {
                 return Result::error($this, "Could not find $fileSystemLocation for the archive.");
             }
         }
+
         return Result::success($this);
     }
 }

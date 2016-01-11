@@ -2,7 +2,7 @@
 namespace Robo\Task\FileSystem;
 
 use Robo\Result;
-use Robo\Task\WrapperTask;
+use Robo\Task\StackBasedTask;
 use Symfony\Component\Filesystem\Filesystem as sfFileSystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
@@ -37,7 +37,7 @@ use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
  * @method chgrp($file, $group)
  * @method chown($file, $user)
  */
-class FilesystemStack extends WrapperTask
+class FilesystemStack extends StackBasedTask
 {
     protected $fs;
 

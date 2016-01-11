@@ -6,13 +6,17 @@ use Robo\Task\BaseTask;
 use Robo\Contract\TaskInterface;
 
 /**
- * Extend WrapperTask to create a Robo task based on an
- * existing object-oriented API.  Doing it this way required
+ * Extend StackBasedTask to create a Robo task that
+ * runs a sequence of commands.
+ *
+ * This is particularly useful for wrapping an existing
+ * object-oriented API.  Doing it this way requires
  * less code than manually adding a method for each wrapped
- * function in the delegate.  Additionally, using WrapperTask
- * creates a loosely-coupled interface -- i.e. if a new method
- * is added to the delegate class, it is not necessary to update
- * your wrapper, as the new functionality will be inherited.
+ * function in the delegate.  Additionally, wrapping the
+ * external class in a StackBasedTask creates a loosely-coupled
+ * interface -- i.e. if a new method is added to the delegate
+ * class, it is not necessary to update your wrapper, as the
+ * new functionality will be inherited.
  *
  * For example, you have:
  *
@@ -31,7 +35,9 @@ use Robo\Contract\TaskInterface;
  *      ->frob()
  *      ->run();
  *
- * Execution is deferred until run(), and a Robo\Result instance is returned.
+ * Execution is deferred until run(), and a Robo\Result instance is
+ * returned. Additionally, using Robo will covert Exceptions
+ * into RoboResult objects.
  *
  * To create a new Robo task:
  *
@@ -51,7 +57,7 @@ use Robo\Contract\TaskInterface;
  * call $this->taskFrobinator()->foo() to get deferred execution
  * of _foo().
  */
-abstract class WrapperTask extends BaseTask {
+abstract class StackBasedTask extends BaseTask {
 
     protected $stack = [];
 
@@ -140,7 +146,7 @@ abstract class WrapperTask extends BaseTask {
             }
         }
 
-        die("Method $function does not exist.\n");
+        throw new \RuntimeException("Method $function does not exist.\n");
     }
 
     protected function isGetter($function) {

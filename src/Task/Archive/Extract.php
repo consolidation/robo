@@ -69,9 +69,8 @@ class Extract extends BaseTask
         // Perform the extraction of a zip file.
         if (($mimetype == 'application/zip') || ($mimetype == 'application/x-zip')) {
             $result = $this->extractZip($extractLocation);
-        }
-        // Otherwise we have a possibly-compressed Tar file.
-        else {
+        } else {
+            // Otherwise we have a possibly-compressed Tar file.
             $result = $this->extractTar($extractLocation);
         }
         if ($result->wasSuccessful()) {

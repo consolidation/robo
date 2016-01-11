@@ -12,8 +12,11 @@ class RoboFile extends \Robo\Tasks
         $leadingCommentChars = " * ";
         $methodDescriptions = [];
         $methodImplementations = [];
+        $immediateMethods = [];
         foreach ($delegate->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
             $methodName = $method->getName();
+            $getter = preg_match('/^(get|has|is)/', $methodName);
+            $setter = preg_match('/^(set|unset)/', $methodName);
             $argPrototypeList = [];
             $argNameList = [];
             $needsImplementation = false;
@@ -34,8 +37,13 @@ class RoboFile extends \Robo\Tasks
             if ($methodName[0] != '_') {
                 $methodDescriptions[] = "@method $methodName($argPrototypeString)";
 
+                if ($getter) {
+                    $immediateMethods[] = "    public function $methodName($argPrototypeString)\n    {\n        return \$this->delegate->$methodName($argNameListString);\n    }";
+                } elseif($setter) {
+                    $immediateMethods[] = "    public function $methodName($argPrototypeString)\n    {\n        \$this->delegate->$methodName($argNameListString);\n        return \$this;\n    }";
+                }
                 // Include an implementation for the wrapper method if necessary
-                if ($needsImplementation) {
+                elseif ($needsImplementation) {
                     $methodImplementations[] = "    protected function _$methodName($argPrototypeString)\n    {\n        \$this->delegate->$methodName($argNameListString);\n    }";
                 }
             }
@@ -54,7 +62,8 @@ class RoboFile extends \Robo\Tasks
         $replacements['{wrapperClassName}'] = $wrapperClassName;
         $replacements['{taskname}'] = "task$delegate";
         $replacements['{methodList}'] = $leadingCommentChars . implode("\n$leadingCommentChars", $methodDescriptions);
-        $replacements['{methodImplementations}'] = implode("\n\n", $methodImplementations);
+        $replacements['{immediateMethods}'] = "\n\n" . implode("\n\n", $immediateMethods);
+        $replacements['{methodImplementations}'] = "\n\n" . implode("\n\n", $methodImplementations);
 
         $template = file_get_contents(__DIR__ . "/GeneratedWrapper.tmpl");
         $template = str_replace(array_keys($replacements), array_values($replacements), $template);

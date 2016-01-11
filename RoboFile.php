@@ -3,26 +3,41 @@ use Symfony\Component\Finder\Finder;
 
 class RoboFile extends \Robo\Tasks
 {
+    // Example:
+    // ./robo wrap 'Symfony\Component\Filesystem\Filesystem' FilesystemStack
     public function wrap($className, $wrapperClassName = "")
     {
         $delegate = new ReflectionClass($className);
 
         $leadingCommentChars = " * ";
         $methodDescriptions = [];
+        $methodImplementations = [];
         foreach ($delegate->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
             $methodName = $method->getName();
-            $argList = [];
+            $argPrototypeList = [];
+            $argNameList = [];
+            $needsImplementation = false;
             foreach ($method->getParameters() as $arg) {
                 $argDescription = '$' . $arg->name;
+                $argNameList[] = $argDescription;
                 if ($arg->isOptional()) {
                     $argDescription = $argDescription . ' = ' . str_replace("\n", "", var_export($arg->getDefaultValue(), true));
+                    // We will create wrapper methods for any method that
+                    // has default parameters.
+                    $needsImplementation = true;
                 }
-                $argList[] = $argDescription;
+                $argPrototypeList[] = $argDescription;
             }
-            $argString = implode(', ', $argList);
+            $argPrototypeString = implode(', ', $argPrototypeList);
+            $argNameListString = implode(', ', $argNameList);
 
             if ($methodName[0] != '_') {
-                $methodDescriptions[] = "@method $methodName($argString)";
+                $methodDescriptions[] = "@method $methodName($argPrototypeString)";
+
+                // Include an implementation for the wrapper method if necessary
+                if ($needsImplementation) {
+                    $methodImplementations[] = "    protected function _$methodName($argPrototypeString)\n    {\n        \$this->delegate->$methodName($argNameListString);\n    }";
+                }
             }
         }
 
@@ -39,6 +54,7 @@ class RoboFile extends \Robo\Tasks
         $replacements['{wrapperClassName}'] = $wrapperClassName;
         $replacements['{taskname}'] = "task$delegate";
         $replacements['{methodList}'] = $leadingCommentChars . implode("\n$leadingCommentChars", $methodDescriptions);
+        $replacements['{methodImplementations}'] = implode("\n\n", $methodImplementations);
 
         $template = file_get_contents(__DIR__ . "/GeneratedWrapper.tmpl");
         $template = str_replace(array_keys($replacements), array_values($replacements), $template);

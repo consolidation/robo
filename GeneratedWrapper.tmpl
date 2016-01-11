@@ -2,7 +2,7 @@
 namespace Robo\Task\{delegateNamespace};
 
 use Robo\Result;
-use Robo\Task\WrapperTask;
+use Robo\Task\StackBasedTask;
 use {delegateNamespace}\{delegate};
 
 /**
@@ -23,7 +23,7 @@ use {delegateNamespace}\{delegate};
  *
 {methodList}
  */
-class {wrapperClassName} extends WrapperTask
+class {wrapperClassName} extends StackBasedTask
 {
     protected $delegate;
 
@@ -36,4 +36,5 @@ class {wrapperClassName} extends WrapperTask
     {
         return $this->delegate;
     }
+{methodImplementations}
 }

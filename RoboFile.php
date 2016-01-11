@@ -3,7 +3,8 @@ use Symfony\Component\Finder\Finder;
 
 class RoboFile extends \Robo\Tasks
 {
-    public function wrap($className, $wrapperClassName = "") {
+    public function wrap($className, $wrapperClassName = "")
+    {
         $delegate = new ReflectionClass($className);
 
         $leadingCommentChars = " * ";

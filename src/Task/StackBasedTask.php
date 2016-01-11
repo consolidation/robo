@@ -201,4 +201,3 @@ abstract class StackBasedTask extends BaseTask
         }
     }
 }
-

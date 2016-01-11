@@ -10,7 +10,7 @@ $I->seeFileFound('existing_file', 'some/deeply');
 foreach (['zip', 'tar', 'tar.gz', 'tar.bz2', 'tgz'] as $archiveType) {
   // First, take everything from the folder 'some/deeply' and make
   // an archive for it located in 'deep'
-  $I->taskArchive("deeply.$archiveType")
+  $I->taskPack("deeply.$archiveType")
       ->add(['deep' => 'some/deeply'])
       ->run();
   $I->seeFileFound("deeply.$archiveType");
@@ -36,7 +36,7 @@ foreach (['zip', 'tar', 'tar.gz', 'tar.bz2', 'tgz'] as $archiveType) {
   $I->seeDirFound("preserved-$archiveType/deep/nested");
   $I->seeFileFound('structu.re', "preserved-$archiveType/deep/nested");
   // Make another archive, this time composed of fanciful locations
-  $I->taskArchive("composed.$archiveType")
+  $I->taskPack("composed.$archiveType")
       ->add(['a/b/existing_file' => 'some/deeply/existing_file'])
       ->add(['x/y/z/structu.re' => 'some/deeply/nested/structu.re'])
       ->run();

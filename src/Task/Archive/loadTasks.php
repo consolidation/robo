@@ -7,9 +7,9 @@ trait loadTasks
      * @param $filename
      * @return Archive
      */
-    protected function taskArchive($filename)
+    protected function taskPack($filename)
     {
-        return new Archive($filename);
+        return new Pack($filename);
     }
 
     /**

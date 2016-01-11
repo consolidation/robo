@@ -3,7 +3,6 @@ namespace Robo\Task\Archive;
 
 use Robo\Result;
 use Robo\Task\BaseTask;
-use Alchemy\Zippy\Zippy;
 
 /**
  * Extracts an archive.
@@ -34,7 +33,7 @@ class Extract extends BaseTask
 {
     use \Robo\Common\DynamicParams;
     use \Robo\Common\Timer;
-    use \Robo\Common\PHP;
+    use \Robo\Common\PHPStatus;
 
     protected $filename;
     protected $to;
@@ -45,7 +44,8 @@ class Extract extends BaseTask
         $this->filename = $filename;
     }
 
-    function run() {
+    function run()
+    {
         if (!file_exists($this->filename)) {
             $this->printTaskError("File {$this->filename} does not exist");
             return false;
@@ -98,7 +98,8 @@ class Extract extends BaseTask
         return $result->copy(['time' => $this->getExecutionTime()]);
     }
 
-    protected function extractZip($extractLocation) {
+    protected function extractZip($extractLocation)
+    {
         $result = $this->checkExtension('zip extracter', 'zlib');
         if (!$result->wasSuccessful()) {
             return $result;
@@ -116,7 +117,8 @@ class Extract extends BaseTask
         return Result::success($this);
     }
 
-    protected function extractTar($extractLocation) {
+    protected function extractTar($extractLocation)
+    {
         $tar_object = new \Archive_Tar($this->filename);
         if (!$tar_object->extract($extractLocation)) {
             return Result::error($this, "Could not extract tar archive {$this->filename}");
@@ -125,7 +127,8 @@ class Extract extends BaseTask
         return Result::success($this);
     }
 
-    protected static function archiveType($filename) {
+    protected static function archiveType($filename)
+    {
         $content_type = FALSE;
         if (class_exists('finfo')) {
             $finfo = new \finfo(FILEINFO_MIME_TYPE);
@@ -186,7 +189,8 @@ class Extract extends BaseTask
         return $content_type;
     }
 
-    protected static function getTmpDir() {
+    protected static function getTmpDir()
+    {
         return getcwd() . '/tmp' . rand() . time();
     }
 }

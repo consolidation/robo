@@ -12,7 +12,7 @@ use Symfony\Component\Console\Helper\ProgressBar;
  *
  * ``` php
  * <?php
- * $this->taskArchive(
+ * $this->taskPack(
  * <archiveFile>)
  * ->add('README')                         // Puts file 'README' in archive at the root
  * ->add('project')                        // Puts entire contents of directory 'project' in archinve inside 'project'
@@ -21,11 +21,11 @@ use Symfony\Component\Console\Helper\ProgressBar;
  * ?>
  * ```
  */
-class Archive extends BaseTask implements PrintedInterface
+class Pack extends BaseTask implements PrintedInterface
 {
     use \Robo\Common\DynamicParams;
     use \Robo\Common\Timer;
-    use \Robo\Common\PHP;
+    use \Robo\Common\PHPStatus;
 
     /**
      * The list of items to be packed into the archive.
@@ -67,16 +67,16 @@ class Archive extends BaseTask implements PrintedInterface
     }
 
     /**
-     * Add an item to the archive.
-     *
-     * Like file_exists(), the parameter may be a file or a directory.
+     * Add an item to the archive. Like file_exists(), the parameter
+     * may be a file or a directory.
      *
      * @var string
      *   Relative path and name of item to store in archive
      * @var string
      *   Absolute or relative path to file or directory's location in filesystem
      */
-    public function addFile($placementLocation, $filesystemLocation) {
+    public function addFile($placementLocation, $filesystemLocation)
+    {
         $this->items[$placementLocation] = $filesystemLocation;
         return $this;
     }
@@ -90,7 +90,8 @@ class Archive extends BaseTask implements PrintedInterface
      * @var string
      *   Absolute or relative path to directory or directory's location in filesystem
      */
-    public function addDir($placementLocation, $filesystemLocation) {
+    public function addDir($placementLocation, $filesystemLocation)
+    {
         $this->addFile($placementLocation, $filesystemLocation);
         return $this;
     }
@@ -106,7 +107,8 @@ class Archive extends BaseTask implements PrintedInterface
      *   in the archive, and the value should be the filesystem path to the
      *   item to store.
      */
-    public function add($item) {
+    public function add($item)
+    {
         if (is_array($item)) {
             $this->items = array_merge($this->items, $item);
         }
@@ -153,7 +155,8 @@ class Archive extends BaseTask implements PrintedInterface
         return $result->copy(['time' => $this->getExecutionTime()]);
     }
 
-    protected function archiveTar($archiveFile, $items) {
+    protected function archiveTar($archiveFile, $items)
+    {
         $tar_object = new \Archive_Tar($archiveFile);
         foreach ($items as $placementLocation => $fileSystemLocation) {
             $p_remove_dir = $fileSystemLocation;
@@ -173,7 +176,8 @@ class Archive extends BaseTask implements PrintedInterface
         return Result::success($this);
     }
 
-    protected function archiveZip($archiveFile, $items) {
+    protected function archiveZip($archiveFile, $items)
+    {
         $result = $this->checkExtension('zip archiver', 'zlib');
         if (!$result->wasSuccessful()) {
             return $result;
@@ -189,7 +193,8 @@ class Archive extends BaseTask implements PrintedInterface
         return $result;
     }
 
-    protected function addItemsToZip($zip, $items) {
+    protected function addItemsToZip($zip, $items)
+    {
         foreach ($items as $placementLocation => $fileSystemLocation) {
             if (is_dir($fileSystemLocation)) {
                 $finder = new Finder();

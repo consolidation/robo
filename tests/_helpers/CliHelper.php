@@ -38,7 +38,7 @@ class CliHelper extends \Codeception\Module
     }
 
     use \Robo\Task\Archive\loadTasks {
-        taskArchive as public;
+        taskPack as public;
         taskExtract as public;
     }
 

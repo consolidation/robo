@@ -145,7 +145,6 @@ abstract class StackBasedTask extends BaseTask
         $message = "Method $function does not exist.\n";
         throw new \BadMethodCallException($message);
     }
-    }
 
     /**
      * Run all of the queued objects on the stack

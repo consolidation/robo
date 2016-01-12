@@ -39,11 +39,10 @@ class RoboFile extends \Robo\Tasks
 
                 if ($getter) {
                     $immediateMethods[] = "    public function $methodName($argPrototypeString)\n    {\n        return \$this->delegate->$methodName($argNameListString);\n    }";
-                } elseif($setter) {
+                } elseif ($setter) {
                     $immediateMethods[] = "    public function $methodName($argPrototypeString)\n    {\n        \$this->delegate->$methodName($argNameListString);\n        return \$this;\n    }";
-                }
-                // Include an implementation for the wrapper method if necessary
-                elseif ($needsImplementation) {
+                } elseif ($needsImplementation) {
+                    // Include an implementation for the wrapper method if necessary
                     $methodImplementations[] = "    protected function _$methodName($argPrototypeString)\n    {\n        \$this->delegate->$methodName($argNameListString);\n    }";
                 }
             }

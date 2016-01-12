@@ -5,7 +5,7 @@ use Robo\Common\TaskIO;
 use Robo\Contract\PrintedInterface;
 use Robo\Contract\TaskInterface;
 
-class Result
+class Result implements \ArrayAccess
 {
     use TaskIO;
 
@@ -153,4 +153,25 @@ class Result
         $this->printTaskSuccess("Done $time", $this->task);
     }
 
+    public function offsetExists($offset)
+    {
+        return isset($this->data[$offset]);
+    }
+
+    public function offsetGet($offset)
+    {
+        if (isset($this->data[$offset])) {
+            return $this->data[$offset];
+        }
+    }
+
+    public function offsetSet($offset, $value)
+    {
+        $this->data[$offset] = $value;
+    }
+
+    public function offsetUnset($offset)
+    {
+        unset($this->data[$offset]);
+    }
 } 

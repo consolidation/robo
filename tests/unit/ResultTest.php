@@ -27,6 +27,13 @@ class ResultTest extends \Codeception\TestCase\Test {
         $this->assertNotSame($task, $taskClone);
         $this->assertInstanceOf('Robo\Contract\TaskInterface', $taskClone);
     }
+
+    public function testArrayAccess()
+    {
+        $task = new ResultDummyTask();
+        $result = new Result($task, 1, 'The foo barred', ['time' => 10]);
+        $this->assertEquals($result['time'], 10);
+    }
 }
 
 class ResultDummyTask implements \Robo\Contract\TaskInterface

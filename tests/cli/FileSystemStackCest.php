@@ -1,6 +1,4 @@
 <?php
-use \CliGuy;
-
 class FileSystemStackCest
 {
     public function _before(CliGuy $I)

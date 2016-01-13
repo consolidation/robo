@@ -34,6 +34,9 @@ use Robo\Contract\CompletionInterface;
  */
 class Collection implements TaskInterface
 {
+    // Unnamed tasks are assigned an arbitrary numeric index
+    // in the task list. Any numeric value may be used.
+    const UNNAMEDTASK = 0;
 
     protected $taskStack = [];
     protected $rollbackStack = [];
@@ -41,18 +44,58 @@ class Collection implements TaskInterface
     protected $frozen = false;
 
     /**
+     * Add a task or a list of tasks to our task collection.  Each task
+     * will run via its 'run()' method once (and if) all of the tasks
+     * added before it complete successfully.  If the task also implements
+     * RollbackInterface, then it will be rolled back via its 'rollback()'
+     * method ONLY if its 'run()' method completes successfully, and some
+     * task added after it fails.
+     *
+     * @param string|TaskInterface|TaskInterface[]
+     *   An optional name for the task -- missing or NULL for unnamed tasks.
+     *   Names are used for positioning before and after tasks.  If
+     *   a name is not provided, then the first parameter may contain
+     *   a task to add, or an array of tasks to add.
+     * @param TaskInterface
+     *   If the first parameter is a string, then the second parameter
+     *   holds a single task to add to our collection.
+     */
+    public function add($name, $task = NULL)
+    {
+        if (is_array($name)) {
+            return $this->addTaskList($name);
+        }
+        if (isset($name) && is_string($name)) {
+            return $this->addTask($name, $task);
+        }
+        return $this->addTask(self::UNNAMEDTASK, $task);
+    }
+
+    /**
+     * Add a rollback task to our task collection.  A rollback task
+     * will execute ONLY if all of the tasks added before it complete
+     * successfully, AND some task added after it fails.
+     *
+     * @param TaskInterface
+     *   The rollback task to add.  Note that the 'run()' method of the
+     *   task executes, not its 'rollback()' method.  To use the 'rollback()'
+     *   method, add the task via 'Collection::add()' instead.
+     */
+    public function rollback($rollbackTask) {
+        $this->addToTaskStack($name, new CollectionTask(0, NULL, $rollbackTask));
+        return $this;
+    }
+
+    /**
      * Add a list of tasks to our task collection.
      *
-     * @param TaskInterface|TaskInterface[]
+     * @param TaskInterface[]
      *   An array of tasks to run with rollback protection
      */
-    public function add($tasks)
+    protected function addTaskList($tasks)
     {
-        if ($tasks instanceof TaskInterface) {
-            $tasks = [$tasks];
-        }
-        foreach ($tasks as $task) {
-            $this->addTask($task);
+        foreach ($tasks as $name => $task) {
+            $this->addTask($name, $task);
         }
         return $this;
     }
@@ -62,14 +105,17 @@ class Collection implements TaskInterface
      * then run the provided rollback operation.  The rollback() method of
      * the task will also be executed, if the task implements RollbackInterface.
      *
+     * @param string
+     *   A name for the task, used for positioning before and after tasks.
      * @param TaskInterface
      *   The task to run
      * @param TaskInterface
-     *   The rollback function to run if any command in the collection fails
+     *   The rollback function to run if any command in the collection fails.
+     *   n.b. Rollback is done via $rollbackTask->run() and $task->rollback().
      */
-    public function addTask(TaskInterface $task, TaskInterface $rollbackTask = null)
+    public function addTask($name, TaskInterface $task, TaskInterface $rollbackTask = null)
     {
-        $this->addToTaskStack(new CollectionTask($this, $task, $rollbackTask));
+        $this->addToTaskStack($name, new CollectionTask($this, $task, $rollbackTask));
         return $this;
     }
 
@@ -77,22 +123,54 @@ class Collection implements TaskInterface
      * Add a task to our task stack; when it runs, ignore any errors that
      * it may generate.
      *
+     * @param string
+     *   A name for the task, used for positioning before and after tasks.
      * @param TaskInterface
      *   The task to run
      */
-    public function addAndIgnoreErrors(TaskInterface $task)
+    public function addAndIgnoreErrors($name, TaskInterface $task)
     {
-        $this->addToTaskStack(new IgnoreErrorsTaskWrapper($task));
+        $this->addToTaskStack($name, new IgnoreErrorsTaskWrapper($task));
         return $this;
     }
 
     /**
      * Add the provided task to our task list.
      */
-    protected function addToTaskStack(TaskInterface $task)
+    protected function addToTaskStack($name, TaskInterface $task)
     {
         $this->checkFrozen();
-        $this->taskStack[] = $task;
+        // If a task name is not provided, then we'll let php pick
+        // the array index.
+        if (static::isUnnamedTask($name)) {
+            $this->taskStack[] = $task;
+        } else {
+            // If we are replacing an existing task with the
+            // same name, ensure that our new task is added to
+            // the end.
+            // TODO: This could have bad consequences.  Perhaps
+            // we should just `throw` here.  We should probably
+            // encourage folks to use a naming convention such
+            // as 'groupname.taskname', in case clients group
+            // collections from multiple sources.
+            unset($this->taskStack[$name]);
+            $this->taskStack[$name] = $task;
+        }
+    }
+
+    /**
+     * Test to see if the given name is an unnamed task, or
+     * something functionally equivalent.  Any numeric index,
+     * for example, is renumbered when added to the collection.
+     */
+    public static function isUnnamedTask($name)
+    {
+        // Note that the comparison with UNNAMEDTASK is, strictly speaking,
+        // unnecessary.  It is included for clarity.
+        return ($name == self::UNNAMEDTASK) ||
+            !is_string($name) ||
+            empty($name) ||
+            is_numeric($name);
     }
 
     /**
@@ -171,6 +249,7 @@ class Collection implements TaskInterface
      * do NOT add it to the execution queue.
      *
      * This usually happens automatically, via CollectionTask
+     * TODO: protected?
      */
     public function register($task)
     {

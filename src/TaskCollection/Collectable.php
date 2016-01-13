@@ -13,14 +13,14 @@ trait Collectable
 {
     public function runLater(Collection $collection, TaskInterface $rollbackTask = null)
     {
-        $collection->add($this, $rollbackTask);
+        $collection->addTask(Collection::UNNAMEDTASK, $this, $rollbackTask);
 
         return $this;
     }
 
     public function runLaterAndIgnoreErrors(Collection $collection)
     {
-        $collection->addAndIgnoreErrors($this);
+        $collection->addAndIgnoreErrors(Collection::UNNAMEDTASK, $this);
 
         return $this;
     }

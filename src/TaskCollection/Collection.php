@@ -62,7 +62,7 @@ class Collection implements TaskInterface
      *   If the first parameter is a string, then the second parameter
      *   holds a single task to add to our collection.
      */
-    public function add($name, $task = NULL)
+    public function add($name, $task = null)
     {
         if (is_array($name)) {
             return $this->addTaskList($name);
@@ -80,7 +80,8 @@ class Collection implements TaskInterface
      *   task executes, not its 'rollback()' method.  To use the 'rollback()'
      *   method, add the task via 'Collection::add()' instead.
      */
-    public function rollback($rollbackTask) {
+    public function rollback($rollbackTask)
+    {
         $this->addToTaskStack($name, new CollectionTask(0, new EmptyTask(), $rollbackTask));
         return $this;
     }

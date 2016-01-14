@@ -5,6 +5,7 @@ use Robo\Result;
 use Robo\Contract\TaskInterface;
 use Robo\Contract\RollbackInterface;
 use Robo\Contract\CompletionInterface;
+use Robo\Contract\FilterTaskInterface;
 
 /**
  * Group tasks into a collection that run together. Supports
@@ -35,7 +36,8 @@ use Robo\Contract\CompletionInterface;
 class Collection implements TaskInterface
 {
     // Unnamed tasks are assigned an arbitrary numeric index
-    // in the task list. Any numeric value may be used.
+    // in the task list. Any numeric value may be used, but the
+    // UNNAMEDTASK constant is recommended for clarity.
     const UNNAMEDTASK = 0;
 
     protected $taskStack = [];
@@ -65,10 +67,7 @@ class Collection implements TaskInterface
         if (is_array($name)) {
             return $this->addTaskList($name);
         }
-        if (isset($name) && is_string($name)) {
-            return $this->addTask($name, $task);
-        }
-        return $this->addTask(self::UNNAMEDTASK, $task);
+        return $this->addTask($name, $task);
     }
 
     /**
@@ -82,8 +81,67 @@ class Collection implements TaskInterface
      *   method, add the task via 'Collection::add()' instead.
      */
     public function rollback($rollbackTask) {
-        $this->addToTaskStack($name, new CollectionTask(0, NULL, $rollbackTask));
+        $this->addToTaskStack($name, new CollectionTask(0, new EmptyTask(), $rollbackTask));
         return $this;
+    }
+
+    /**
+     * Add a task before an existing named task.
+     *
+     * @param string
+     *   The name of the task to insert before.  The named task MUST exist.
+     * @param TaskInterface|FilterTaskInterface
+     *   The task to add. Either an ordinary task or a filter task may
+     *   be added.
+     */
+    public function before($name, $task)
+    {
+        $existingTask = $this->namedTask($name);
+        $existingTask->before($task);
+        return $this;
+    }
+
+    /**
+     * Add a task after an existing named task.
+     *
+     * @param string
+     *   The name of the task to insert before.  The named task MUST exist.
+     * @param TaskInterface|FilterTaskInterface
+     *   The task to add. Either an ordinary task or a filter task may
+     *   be added.
+     */
+    public function after($name, $task)
+    {
+        $existingTask = $this->namedTask($name);
+        $existingTask->after($task);
+        return $this;
+    }
+
+    public function taskNames()
+    {
+        return array_keys($this->taskStack);
+    }
+
+    /**
+     * Find an existing named task.
+     *
+     * @param string
+     *   The name of the task to insert before.  The named task MUST exist.
+     * @returns TaskWrapper
+     *   The wrapper task for the named task. Generally this should only be
+     *   used to call 'before()' and 'after()'.
+     */
+    public function namedTask($name)
+    {
+        if (!$this->hasTask($name)) {
+            throw new \RuntimeException("Could not find task named $name");
+        }
+        return $this->taskStack[$name];
+    }
+
+    public function hasTask($name)
+    {
+        return array_key_exists($name, $this->taskStack);
     }
 
     /**
@@ -140,6 +198,11 @@ class Collection implements TaskInterface
     protected function addToTaskStack($name, TaskInterface $task)
     {
         $this->checkFrozen();
+        // If the task being added is not a FilterTaskInterface,
+        // then wrap it, so that it always is.
+        if (!$task instanceof FilterTaskInterface) {
+            $task = new TaskWrapper($task);
+        }
         // If a task name is not provided, then we'll let php pick
         // the array index.
         if (static::isUnnamedTask($name)) {
@@ -148,29 +211,18 @@ class Collection implements TaskInterface
             // If we are replacing an existing task with the
             // same name, ensure that our new task is added to
             // the end.
-            // TODO: This could have bad consequences.  Perhaps
-            // we should just `throw` here.  We should probably
-            // encourage folks to use a naming convention such
-            // as 'groupname.taskname', in case clients group
-            // collections from multiple sources.
-            unset($this->taskStack[$name]);
             $this->taskStack[$name] = $task;
         }
     }
 
     /**
      * Test to see if the given name is an unnamed task, or
-     * something functionally equivalent.  Any numeric index,
-     * for example, is renumbered when added to the collection.
+     * something functionally equivalent.  Any numeric index
+     * is renumbered when added to the collection.
      */
     public static function isUnnamedTask($name)
     {
-        // Note that the comparison with UNNAMEDTASK is, strictly speaking,
-        // unnecessary.  It is included for clarity.
-        return ($name == self::UNNAMEDTASK) ||
-            !is_string($name) ||
-            empty($name) ||
-            is_numeric($name);
+        return is_numeric($name);
     }
 
     /**
@@ -316,22 +368,25 @@ class Collection implements TaskInterface
      */
     protected function runTaskList($taskList)
     {
+        $incrementalResult = Result::success($this);
         try {
             foreach ($taskList as $task) {
-                $result = $task->run();
+                // We always wrap tasks with WrapperTask, so
+                // every task will always be a FilterTaskInterface here.
+                $incrementalResult = $task->run($incrementalResult);
                 // If the current task returns an error code, then stop
                 // execution and signal a rollback.
-                if (($result instanceof Result) && (!$result->wasSuccessful())) {
-                    return $result;
+                if (($incrementalResult instanceof Result) && (!$incrementalResult->wasSuccessful())) {
+                    return $incrementalResult;
                 }
             }
         } catch (Exception $e) {
             // Tasks typically do not throw, but if one does, we will
             // convert it into an error and roll back.
             // TODO: should we re-throw it again instead?
-            $result = new Result($this, -1, $e->getMessage());
+            return new Result($this, -1, $e->getMessage());
         }
-        return Result::success($this);
+        return $incrementalResult;
     }
 
     /**

@@ -23,14 +23,14 @@ class Result implements \ArrayAccess
         $this->exitCode = $exitCode;
         $this->message = $message;
         $this->data = $data;
-        
+
         $this->printResult();
-        
+
         if (self::$stopOnFail) {
             $this->stopOnFail();
         }
     }
-    
+
     protected function printResult()
     {
         if (!$this->wasSuccessful()) {
@@ -153,6 +153,26 @@ class Result implements \ArrayAccess
         $this->printTaskSuccess("Done $time", $this->task);
     }
 
+    /**
+     * Merge the provided data array into this result.
+     * In the case of conflicting data keys, data already
+     * in this object takes precedence.
+     */
+    public function overlay($data)
+    {
+        $this->data = $data + $this->data;
+    }
+
+    /**
+     * Merge another result into this result.  Data already
+     * existing in this result takes precedence over the
+     * data in the Result being merged.
+     */
+    public function merge(Result $result)
+    {
+        $this->data += $result->getData();
+    }
+
     public function offsetExists($offset)
     {
         return isset($this->data[$offset]);
@@ -174,4 +194,4 @@ class Result implements \ArrayAccess
     {
         unset($this->data[$offset]);
     }
-} 
+}

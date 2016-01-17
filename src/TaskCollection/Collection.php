@@ -5,7 +5,7 @@ use Robo\Result;
 use Robo\Contract\TaskInterface;
 use Robo\Contract\RollbackInterface;
 use Robo\Contract\CompletionInterface;
-use Robo\Contract\FilterTaskInterface;
+use Robo\Contract\AfterTaskInterface;
 
 /**
  * Group tasks into a collection that run together. Supports
@@ -91,9 +91,11 @@ class Collection implements TaskInterface
      *
      * @param string
      *   The name of the task to insert before.  The named task MUST exist.
-     * @param TaskInterface|FilterTaskInterface
-     *   The task to add. Either an ordinary task or a filter task may
-     *   be added.
+     * @param TaskInterface|AfterTaskInterface
+     *   The task to add. Either an ordinary task or an "after task" may
+     *   be added. Note that if an "after task" interface is provided,
+     *   the incremental results provided to it will be from all of the
+     *   tasks that ran before it.
      */
     public function before($name, $task)
     {
@@ -107,9 +109,12 @@ class Collection implements TaskInterface
      *
      * @param string
      *   The name of the task to insert before.  The named task MUST exist.
-     * @param TaskInterface|FilterTaskInterface
-     *   The task to add. Either an ordinary task or a filter task may
-     *   be added.
+     * @param TaskInterface|AfterTaskInterface
+     *   The task to add. Either an ordinary task or an "after task" may
+     *   be added. If an "after task" interface is provided, it will
+     *   be given a reference to the results produced by the task it is
+     *   running after. This result object will also contain the results
+     *   of all of the other tasks that also ran before.
      */
     public function after($name, $task)
     {
@@ -199,9 +204,9 @@ class Collection implements TaskInterface
     protected function addToTaskStack($name, TaskInterface $task)
     {
         $this->checkFrozen();
-        // If the task being added is not a FilterTaskInterface,
+        // If the task being added is not a AfterTaskInterface,
         // then wrap it, so that it always is.
-        if (!$task instanceof FilterTaskInterface) {
+        if (!$task instanceof AfterTaskInterface) {
             $task = new TaskWrapper($task);
         }
         // If a task name is not provided, then we'll let php pick
@@ -373,7 +378,7 @@ class Collection implements TaskInterface
         try {
             foreach ($taskList as $task) {
                 // We always wrap tasks with WrapperTask, so
-                // every task will always be a FilterTaskInterface here.
+                // every task will always be a AfterTaskInterface here.
                 $incrementalResult = $task->run($incrementalResult);
                 // If the current task returns an error code, then stop
                 // execution and signal a rollback.

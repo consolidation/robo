@@ -1,10 +1,14 @@
 <?php
-
 namespace unit;
+
+// @codingStandardsIgnoreFile
+// We do not want NitPick CI to report results about this file,
+// as we have a couple of private test classes that appear in this file
+// rather than in their own file.
 
 use Robo\Result;
 use Robo\Task\BaseTask;
-use Robo\Contract\FilterTaskInterface;
+use Robo\Contract\AfterTaskInterface;
 use Robo\TaskCollection\Collection;
 
 class CollectionTest extends \Codeception\TestCase\Test
@@ -64,7 +68,7 @@ class CollectionTestTask extends BaseTask
     }
 }
 
-class CollectionTestFilterTask implements FilterTaskInterface
+class CollectionTestFilterTask implements AfterTaskInterface
 {
     protected $key;
     protected $pre;

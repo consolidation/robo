@@ -4,7 +4,7 @@ namespace Robo\TaskCollection;
 
 use Robo\Result;
 use Robo\Contract\TaskInterface;
-use Robo\Contract\FilterTaskInterface;
+use Robo\Contract\AfterTaskInterface;
 
 /**
  * Creates a task wrapper that just calls the rollback() function
@@ -12,10 +12,10 @@ use Robo\Contract\FilterTaskInterface;
  *
  * Clients usually do not need to use this class directly; when a
  * task is added to a task collection via the add() method, the task
- * will automatically be registered with a RollbackTask if it implements
- * RollbackInterface.
+ * will automatically be wrapped in a task wrapper so that it presents
+ * a unified interface for the collection.
  */
-class TaskWrapper implements FilterTaskInterface
+class TaskWrapper implements AfterTaskInterface
 {
     private $task;
     private $before = [];
@@ -38,7 +38,7 @@ class TaskWrapper implements FilterTaskInterface
 
     protected function wrapIfNecessary($task)
     {
-        if ($task instanceof FilterTaskInterface) {
+        if ($task instanceof AfterTaskInterface) {
             return $task;
         }
         return new TaskWrapper($task);
@@ -49,7 +49,7 @@ class TaskWrapper implements FilterTaskInterface
         // Run all of the 'before' tasks
         $incrementalResults = $this->runFilters($this->before, $incrementalResults);
         // Run the main task
-        if ($this->task instanceof FilterTaskInterface) {
+        if ($this->task instanceof AfterTaskInterface) {
             $incrementalResults = $this->task->run($incrementalResults);
         } else {
             $result = $this->task->run();

@@ -19,12 +19,12 @@ use Robo\TaskCollection\Transient;
  * // Delete on rollback or on successful completion.
  * // Note that in this example, everything is deleted at
  * // the end of $collection->run().
- * $tmpPath = $this->taskTmpDir()->runLater($collection)->getPath();
+ * $tmpPath = $this->taskTmpDir()->addToCollection($collection)->getPath();
  * $this->taskFileSystemStack()
  *           ->mkdir("$tmpPath/log")
  *           ->touch("$tmpPath/log/error.txt")
- *           ->runLater($collection);
- * $collection->runNow();
+ *           ->addToCollection($collection);
+ * $collection->run();
  * // as shortcut (deleted when program exits)
  * $tmpPath = $this->_tmpDir();
  * ?>

@@ -19,17 +19,17 @@ class TaskCollectionCest
         // Set up a collection to add tasks to
         $collection = $I->taskCollection();
 
-        // Set up a filesystem stack, but use runLater() to defer execution
+        // Set up a filesystem stack, but use addToCollection() to defer execution
         $I->taskFileSystemStack()
             ->mkdir('log')
             ->touch('log/error.txt')
-            ->runLater($collection);
+            ->addToCollection($collection);
 
         // FileSystemStack has not run yet, so file should not be found.
         $I->dontSeeFileFound('log/error.txt');
 
         // Run the task collection; now the files should be present
-        $collection->runNow();
+        $collection->run();
         $I->seeFileFound('log/error.txt');
         $I->seeDirFound('log');
     }
@@ -44,30 +44,30 @@ class TaskCollectionCest
         // runs.  This technically is not thread-safe, but we create
         // a random name, so it is unlikely to conflict.
         $tmpPath = $I->taskTmpDir()
-            ->runLater($collection)
+            ->addToCollection($collection)
             ->getPath();
 
-        // Set up a filesystem stack, but use runLater() to defer execution
+        // Set up a filesystem stack, but use addToCollection() to defer execution
         $I->taskFileSystemStack()
             ->mkdir("$tmpPath/log")
             ->touch("$tmpPath/log/error.txt")
-            ->runLater($collection);
+            ->addToCollection($collection);
 
         // Copy our tmp directory to a location that is not transient
         $I->taskCopyDir([$tmpPath => 'copied'])
-            ->runLater($collection);
+            ->addToCollection($collection);
 
         // FileSystemStack has not run yet, so no files should be found.
         $I->dontSeeFileFound("$tmpPath/log/error.txt");
         $I->dontSeeFileFound('copied/log/error.txt');
 
         // Run the task collection
-        $result = $collection->runNow();
+        $result = $collection->run();
         $I->assertEquals(0, $result->getExitCode(), $result->getMessage());
 
         // The file 'error.txt' should have been copied into the "copied" dir
         $I->seeFileFound('copied/log/error.txt');
-        // $tmpPath should be deleted after $collection->runNow() completes.
+        // $tmpPath should be deleted after $collection->run() completes.
         $I->dontSeeFileFound("$tmpPath/log/error.txt");
     }
 
@@ -84,32 +84,32 @@ class TaskCollectionCest
         // a random name, so it is unlikely to conflict.
         $tmpPath = $I->taskTmpDir()
             ->cwd()
-            ->runLater($collection)
+            ->addToCollection($collection)
             ->getPath();
 
-        // Set up a filesystem stack, but use runLater() to defer execution.
+        // Set up a filesystem stack, but use addToCollection() to defer execution.
         // Note that since we used 'cwd()' above, the relative file paths
         // used below will be inside the temporary directory.
         $I->taskFileSystemStack()
             ->mkdir("log")
             ->touch("log/error.txt")
-            ->runLater($collection);
+            ->addToCollection($collection);
 
         // Copy our tmp directory to a location that is not transient
         $I->taskCopyDir(['log' => "$cwd/copied2"])
-            ->runLater($collection);
+            ->addToCollection($collection);
 
         // FileSystemStack has not run yet, so no files should be found.
         $I->dontSeeFileFound("$tmpPath/log/error.txt");
         $I->dontSeeFileFound('$cwd/copied2/log/error.txt');
 
         // Run the task collection
-        $result = $collection->runNow();
+        $result = $collection->run();
         $I->assertEquals(0, $result->getExitCode(), $result->getMessage());
 
         // The file 'error.txt' should have been copied into the "copied" dir
         $I->seeFileFound("$cwd/copied2/error.txt");
-        // $tmpPath should be deleted after $collection->runNow() completes.
+        // $tmpPath should be deleted after $collection->run() completes.
         $I->dontSeeFileFound("$tmpPath/log/error.txt");
         // Make sure that 'log' was created in the temporary directory, not
         // at the current working directory.
@@ -130,20 +130,20 @@ class TaskCollectionCest
         // the file is not created until the task collecction runs.
         $tmpPath = $I->taskTmpFile('tmp', '.txt')
             ->line("This is a test file")
-            ->runLater($collection)
+            ->addToCollection($collection)
             ->getPath();
 
         // Copy our tmp directory to a location that is not transient
         $I->taskFileSystemStack()
             ->copy($tmpPath, 'copied.txt')
-            ->runLater($collection);
+            ->addToCollection($collection);
 
         // FileSystemStack has not run yet, so no files should be found.
         $I->dontSeeFileFound("$tmpPath");
         $I->dontSeeFileFound('copied.txt');
 
         // Run the task collection
-        $result = $collection->runNow();
+        $result = $collection->run();
         $I->assertEquals(0, $result->getExitCode(), $result->getMessage());
 
         // The file 'copied.txt' should have been copied from the tmp file
@@ -158,22 +158,22 @@ class TaskCollectionCest
 
         // This test is equivalent to toUseATmpDirAndConfirmItIsDeleted,
         // but uses a different technique to create a collection of tasks.
-        // We start off the same way, using runLater() to add our temporary
+        // We start off the same way, using addToCollection() to add our temporary
         // directory task to the collection, so that we have easy access to the
         // temporary directory's path via the getPath() method.
         $tmpPath = $I->taskTmpDir()
-            ->runLater($collection)
+            ->addToCollection($collection)
             ->getPath();
 
         // Now, rather than creating a series of tasks and adding them
-        // all with runLater(), we will add them directly to the collection
+        // all with addToCollection(), we will add them directly to the collection
         // via the add() method.
         $result = $collection->add(
             [
                 $I->taskFileSystemStack()->mkdir("$tmpPath/log")->touch("$tmpPath/log/error.txt"),
                 $I->taskCopyDir([$tmpPath => 'copied3']),
             ]
-        )->runNow();
+        )->run();
 
         // The results of this operation should be the same.
         $I->assertEquals(0, $result->getExitCode(), $result->getMessage());

@@ -26,9 +26,9 @@ use Robo\Contract\AfterTaskInterface;
  *      ->touch('logs/.gitignore')
  *      ->chgrp('logs', 'www-data')
  *      ->symlink('/var/log/nginx/error.log', 'logs/error.log')
- *      ->runLater($collection, $this->taskDeleteDir('logs'));
- * /// ... add other tasks to collection via runLater()
- * $collection->runNow();
+ *      ->addToCollection($collection, $this->taskDeleteDir('logs'));
+ * /// ... add other tasks to collection via addToCollection()
+ * $collection->run();
  *
  * ?>
  * ```
@@ -274,18 +274,6 @@ class Collection implements TaskInterface
     {
         $this->completionStack[] = $completionTask;
         return $this;
-    }
-
-    /**
-     * Try to run our tasks.  If any of them fail, then run all
-     * of our rollback tasks.
-     *
-     * Note that this is a synonym for run(); it is included for
-     * symetry with the runLater() method of Collectable.
-     */
-    public function runNow()
-    {
-        return $this->run();
     }
 
     /**

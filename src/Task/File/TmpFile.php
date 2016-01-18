@@ -23,7 +23,7 @@ use Robo\TaskCollection\Transient;
  *      ->line('-----')
  *      ->line(date('Y-m-d').' '.$title)
  *      ->line('----')
- *      ->runLater($collection)
+ *      ->addToCollection($collection)
  *      ->getPath();
  * ?>
  * ```

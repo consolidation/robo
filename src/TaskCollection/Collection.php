@@ -206,9 +206,7 @@ class Collection implements TaskInterface
         $this->checkFrozen();
         // If the task being added is not a AfterTaskInterface,
         // then wrap it, so that it always is.
-        if (!$task instanceof AfterTaskInterface) {
-            $task = new TaskWrapper($task);
-        }
+        $task = TaskWrapper::wrap($task);
         // If a task name is not provided, then we'll let php pick
         // the array index.
         if (static::isUnnamedTask($name)) {

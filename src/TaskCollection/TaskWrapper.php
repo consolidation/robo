@@ -7,8 +7,8 @@ use Robo\Contract\TaskInterface;
 use Robo\Contract\AfterTaskInterface;
 
 /**
- * Creates a task wrapper that just calls the rollback() function
- * of the provided task.
+ * Creates a task wrapper that serves as an adapter to convert a
+ * TaskInterface task into an AfterTaskInterface.
  *
  * Clients usually do not need to use this class directly; when a
  * task is added to a task collection via the add() method, the task
@@ -28,18 +28,21 @@ class TaskWrapper implements AfterTaskInterface
 
     public function before($before)
     {
-        $this->before[] = $this->wrapIfNecessary($before);
+        $this->before[] = static::wrap($before);
     }
 
     public function after($after)
     {
-        $this->after[] = $this->wrapIfNecessary($after);
+        $this->after[] = static::wrap($after);
     }
 
-    protected function wrapIfNecessary($task)
+    public static function wrap($task)
     {
         if ($task instanceof AfterTaskInterface) {
             return $task;
+        }
+        if ($task instanceof \Closure) {
+            return new FunctionWrapper($task);
         }
         return new TaskWrapper($task);
     }

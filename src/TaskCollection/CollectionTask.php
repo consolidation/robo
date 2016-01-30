@@ -22,6 +22,22 @@ class CollectionTask extends BaseTask
     private $task;
     private $rollbackTask;
 
+    /**
+     * Create a CollectionTask.
+     *
+     * Transient tasks are always wrapped in a CollectionTask, as are
+     * any tasks that are added to a collection.  If a transient task
+     * is added to a collection, then it is first unwrapped from its
+     * CollectionTask (via its getTask method), and then added to a
+     * new CollectionTask for the collection it is added to.
+     *
+     * In this way, when the CollectionTask is finally executed, the
+     * task's rollback and completion handlers will be registered on
+     * whichever collection it was registered on.
+     *
+     * TODO: Could we just make transient tasks implement CollectedTask,
+     * and handle it that way?
+     */
     public function __construct(Collection $collection, TaskInterface $task, TaskInterface $rollbackTask = null)
     {
         $this->collection = $collection;
@@ -34,16 +50,23 @@ class CollectionTask extends BaseTask
         return $this->task;
     }
 
+    /**
+     * The purpose of this function.  Once a collection task runs,
+     * register it on its collection.
+     */
     public function run()
     {
         if ($this->rollbackTask) {
             $this->collection->registerRollback($this->rollbackTask);
         }
-        $this->collection->register($this->task);
+        $this->collection->registerRollbackAndCompletionHandlers($this->task);
 
         return $this->task->run();
     }
 
+    /**
+     * Make this wrapper object act like the class it wraps.
+     */
     public function __call($function, $args)
     {
         return call_user_func_array(array($this->task, $function), $args);

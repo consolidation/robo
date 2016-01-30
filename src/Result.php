@@ -161,6 +161,7 @@ class Result implements \ArrayAccess
     public function overlay($data)
     {
         $this->data = $data + $this->data;
+        return $this;
     }
 
     /**
@@ -171,6 +172,7 @@ class Result implements \ArrayAccess
     public function merge(Result $result)
     {
         $this->data += $result->getData();
+        return $this;
     }
 
     public function offsetExists($offset)

@@ -8,7 +8,8 @@ namespace unit;
 
 use Robo\Result;
 use Robo\Task\BaseTask;
-use Robo\Contract\AfterTaskInterface;
+use Robo\Contract\TaskInterface;
+use Robo\Contract\CollectedInterface;
 use Robo\TaskCollection\Collection;
 
 class CollectionTest extends \Codeception\TestCase\Test
@@ -20,11 +21,11 @@ class CollectionTest extends \Codeception\TestCase\Test
         $taskA = new CollectionTestTask('a', 'value-a');
         $taskB = new CollectionTestTask('b', 'value-b');
 
-        $parenthesizerA = new CollectionTestFilterTask('a', '(', ')');
-        $parenthesizerB = new CollectionTestFilterTask('b', '{', '}');
+        $parenthesizerA = new CollectionTestFilterTask($collection, 'a', '(', ')');
+        $parenthesizerB = new CollectionTestFilterTask($collection, 'b', '{', '}');
 
-        $emphasizerA = new CollectionTestFilterTask('a', '*', '*');
-        $emphasizerB = new CollectionTestFilterTask('b', '__', '__');
+        $emphasizerA = new CollectionTestFilterTask($collection, 'a', '*', '*');
+        $emphasizerB = new CollectionTestFilterTask($collection, 'b', '__', '__');
 
         $collection
             ->add('a-name', $taskA)
@@ -68,21 +69,34 @@ class CollectionTestTask extends BaseTask
     }
 }
 
-class CollectionTestFilterTask implements AfterTaskInterface
+class CollectionTestFilterTask implements TaskInterface
 {
     protected $key;
     protected $pre;
     protected $post;
+    protected $collection;
 
-    public function __construct($key, $pre, $post)
+    public function __construct($collection, $key, $pre, $post)
     {
+        $this->collection = $collection;
         $this->key = $key;
         $this->pre = $pre;
         $this->post = $post;
     }
 
-    public function run(Result $incrementalResult)
+    public function getCollection()
     {
+        return $this->collection;
+    }
+
+    public function setCollection($collection)
+    {
+        $this->collection = $collection;
+    }
+
+    public function run()
+    {
+        $incrementalResult = $this->getCollection()->getIncrementalResults();
         $value = isset($incrementalResult[$this->key]) ? $incrementalResult[$this->key] : "";
         $incrementalResult[$this->key] = "{$this->pre}{$value}{$this->post}";
         return $incrementalResult;

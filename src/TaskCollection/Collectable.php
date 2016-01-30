@@ -11,17 +11,22 @@ namespace Robo\TaskCollection;
  */
 trait Collectable
 {
-    public function addToCollection(Collection $collection, TaskInterface $rollbackTask = null)
+    public function addToCollection(Collection $collection, $taskName = Collection::UNNAMEDTASK, TaskInterface $rollbackTask = null)
     {
-        $collection->addTask(Collection::UNNAMEDTASK, $this, $rollbackTask);
-
-        return $this;
+        return $this->addCollectableToCollection($this, $collection, $taskName, $rollbackTask);
     }
 
-    public function addToCollectionAndIgnoreErrors(Collection $collection)
+    public function addToCollectionAndIgnoreErrors(Collection $collection, $taskName = Collection::UNNAMEDTASK)
     {
-        $collection->addAndIgnoreErrors(Collection::UNNAMEDTASK, $this);
+        return $this->addCollectableToCollection(new IgnoreErrorsTaskWrapper($this), $collection, $taskName);
+    }
 
+    private function addCollectableToCollection($task, Collection $collection, $taskName = Collection::UNNAMEDTASK, TaskInterface $rollbackTask = null)
+    {
+        $collection->addTask($taskName, $task);
+        if ($rollbackTask) {
+            $collection->rollback($rollbackTask);
+        }
         return $this;
     }
 }

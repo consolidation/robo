@@ -5,7 +5,6 @@ use Robo\Result;
 use Robo\Contract\TaskInterface;
 use Robo\Contract\RollbackInterface;
 use Robo\Contract\CompletionInterface;
-use Robo\Contract\AfterTaskInterface;
 
 /**
  * Group tasks into a collection that run together. Supports
@@ -43,7 +42,16 @@ class Collection implements TaskInterface
     protected $taskStack = [];
     protected $rollbackStack = [];
     protected $completionStack = [];
+    protected $incrementalResults;
     protected $frozen = false;
+
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->incrementalResults = Result::success($this);
+    }
 
     /**
      * Add a task or a list of tasks to our task collection.  Each task
@@ -82,6 +90,9 @@ class Collection implements TaskInterface
      */
     public function rollback($rollbackTask)
     {
+        // TODO: Make a rollback registration class to replace this
+        // use of CollectionTask, get rid of $rollbackClass in CollectionTask,
+        // and delete EmptyTask.
         $this->addToTaskStack($name, new CollectionTask(0, new EmptyTask(), $rollbackTask));
         return $this;
     }
@@ -91,11 +102,8 @@ class Collection implements TaskInterface
      *
      * @param string
      *   The name of the task to insert before.  The named task MUST exist.
-     * @param TaskInterface|AfterTaskInterface
-     *   The task to add. Either an ordinary task or an "after task" may
-     *   be added. Note that if an "after task" interface is provided,
-     *   the incremental results provided to it will be from all of the
-     *   tasks that ran before it.
+     * @param TaskInterface
+     *   The task to add.
      */
     public function before($name, $task)
     {
@@ -109,12 +117,8 @@ class Collection implements TaskInterface
      *
      * @param string
      *   The name of the task to insert before.  The named task MUST exist.
-     * @param TaskInterface|AfterTaskInterface
-     *   The task to add. Either an ordinary task or an "after task" may
-     *   be added. If an "after task" interface is provided, it will
-     *   be given a reference to the results produced by the task it is
-     *   running after. This result object will also contain the results
-     *   of all of the other tasks that also ran before.
+     * @param TaskInterface
+     *   The task to add.
      */
     public function after($name, $task)
     {
@@ -133,11 +137,11 @@ class Collection implements TaskInterface
      *
      * @param string
      *   The name of the task to insert before.  The named task MUST exist.
-     * @returns TaskWrapper
-     *   The wrapper task for the named task. Generally this should only be
+     * @returns TaskBeforeAfterGroup
+     *   The task group for the named task. Generally this is only
      *   used to call 'before()' and 'after()'.
      */
-    public function namedTask($name)
+    protected function namedTask($name)
     {
         if (!$this->hasTask($name)) {
             throw new \RuntimeException("Could not find task named $name");
@@ -173,49 +177,54 @@ class Collection implements TaskInterface
      *   A name for the task, used for positioning before and after tasks.
      * @param TaskInterface
      *   The task to run
-     * @param TaskInterface
-     *   The rollback function to run if any command in the collection fails.
-     *   n.b. Rollback is done via $rollbackTask->run() and $task->rollback().
      */
-    public function addTask($name, TaskInterface $task, TaskInterface $rollbackTask = null)
+    public function addTask($name, TaskInterface $task)
     {
-        $this->addToTaskStack($name, new CollectionTask($this, $task, $rollbackTask));
+        $this->addToTaskStack($name, new CollectionTask($this, $task));
         return $this;
     }
 
     /**
-     * Add a task to our task stack; when it runs, ignore any errors that
-     * it may generate.
-     *
-     * @param string
-     *   A name for the task, used for positioning before and after tasks.
-     * @param TaskInterface
-     *   The task to run
+     * If the task needs to be wrapped, create whatever wrapper objects are
+     * needed for it.
      */
-    public function addAndIgnoreErrors($name, TaskInterface $task)
+    protected function collectAndWrapTask($task)
     {
-        $this->addToTaskStack($name, new IgnoreErrorsTaskWrapper($task));
-        return $this;
+        // If the task implements `CollectedInterface`, then tell it it was
+        // collected. Collection may involve the creation of a wrapper,
+        // or it may return the same task.
+        if ($task instanceof CollectedInterface) {
+            $task = $task->collected($collection);
+        }
+        // If the caller provided a function pointer instead of a TaskInstance,
+        // then wrap it in a FunctionWrapper.
+        if ($task instanceof \Closure) {
+            $task = new FunctionWrapper($task);
+        }
+        return $task;
     }
 
     /**
      * Add the provided task to our task list.
      */
-    protected function addToTaskStack($name, TaskInterface $task)
+    protected function addToTaskStack($name, $task)
     {
+        // Fail if the collection has been executed -- no more adding once we start.
         $this->checkFrozen();
-        // If the task being added is not a AfterTaskInterface,
-        // then wrap it, so that it always is.
-        $task = TaskWrapper::wrap($task);
+        // Wrap the task as necessary.
+        $task = $this->collectAndWrapTask($task);
+        // All tasks are stored in a task group so that we have a place
+        // to hang 'before' and 'after' tasks.
+        $taskGroup = new TaskBeforeAfterGroup($task);
         // If a task name is not provided, then we'll let php pick
         // the array index.
         if (static::isUnnamedTask($name)) {
-            $this->taskStack[] = $task;
+            $this->taskStack[] = $taskGroup;
         } else {
             // If we are replacing an existing task with the
             // same name, ensure that our new task is added to
             // the end.
-            $this->taskStack[$name] = $task;
+            $this->taskStack[$name] = $taskGroup;
         }
     }
 
@@ -247,7 +256,9 @@ class Collection implements TaskInterface
      */
     public function registerRollback(TaskInterface $rollbackTask)
     {
-        $this->rollbackStack[] = $rollbackTask;
+        if ($rollbackTask) {
+            $this->rollbackStack[] = $rollbackTask;
+        }
         return $this;
     }
 
@@ -270,7 +281,9 @@ class Collection implements TaskInterface
      */
     public function registerCompletion(TaskInterface $completionTask)
     {
-        $this->completionStack[] = $completionTask;
+        if ($completionTask) {
+            $this->completionStack[] = $completionTask;
+        }
         return $this;
     }
 
@@ -280,7 +293,8 @@ class Collection implements TaskInterface
     public function run()
     {
         $this->freezeCollection();
-        $result = $this->runTaskList($this->taskStack);
+        $taskList = $this->getAccumulatedTaskList();
+        $result = $this->runTaskList($taskList, Result::success($this));
         if (!$result->wasSuccessful()) {
             $this->runRollbackTasks();
         }
@@ -292,10 +306,10 @@ class Collection implements TaskInterface
      * Register a task for rollback and completion handling, but
      * do NOT add it to the execution queue.
      *
-     * This usually happens automatically, via CollectionTask
-     * TODO: protected?
+     * This should be called after the task executes.  See
+     * CollectionTask.
      */
-    public function register($task)
+    public function registerRollbackAndCompletionHandlers($task)
     {
         if ($task instanceof RollbackInterface) {
             $this->registerRollback(new RollbackTask($task));
@@ -355,22 +369,38 @@ class Collection implements TaskInterface
     }
 
     /**
+     * Iterate over all of the task groups in the task list,
+     * and concatenate all of the before, primary and after
+     * tasks into one list.
+     */
+    protected function getAccumulatedTaskList()
+    {
+        $result = [];
+        foreach ($this->taskStack as $taskGroup) {
+            $result = array_merge($result, $taskGroup->getTaskList());
+        }
+        return $result;
+    }
+
+    /**
      * Run every task in a list, but only up to the first failure.
      * Return the failing result, or success if all tasks run.
      */
-    protected function runTaskList($taskList)
+    protected function runTaskList($taskList, $incrementalResults)
     {
-        $incrementalResult = Result::success($this);
+        $result = $incrementalResults;
         try {
-            foreach ($taskList as $task) {
-                // We always wrap tasks with WrapperTask, so
-                // every task will always be a AfterTaskInterface here.
-                $incrementalResult = $task->run($incrementalResult);
+            foreach ($taskList as $taskName => $task) {
+                $result = $task->run();
                 // If the current task returns an error code, then stop
                 // execution and signal a rollback.
-                if (($incrementalResult instanceof Result) && (!$incrementalResult->wasSuccessful())) {
-                    return $incrementalResult;
+                if (!$result->wasSuccessful()) {
+                    return $result;
                 }
+                // We accumulate our results into a field so that tasks that
+                // have a reference to the collection may examine and modify
+                // the incremental results, if they wish.
+                $result = $this->accumulateResults($result);
             }
         } catch (Exception $e) {
             // Tasks typically do not throw, but if one does, we will
@@ -378,11 +408,30 @@ class Collection implements TaskInterface
             // TODO: should we re-throw it again instead?
             return new Result($this, -1, $e->getMessage());
         }
-        return $incrementalResult;
+        return $result;
+    }
+
+    public function accumulateResults(Result $result)
+    {
+        if (isset($result) && $result instanceof Result) {
+            return $this->incrementalResults->merge($result);
+        }
+        return $this->incrementalResults;
+    }
+
+    public function getIncrementalResults()
+    {
+        return $this->incrementalResults;
+    }
+
+    protected function setIncrementalResults(Result $result)
+    {
+        $this->incrementalResults = $result;
     }
 
     /**
      * Run all of the tasks in a provided list, ignoring failures.
+     * This is used to roll back or complete.
      */
     protected function runTaskListIgnoringFailures($taskList)
     {
@@ -393,7 +442,6 @@ class Collection implements TaskInterface
                 // Ignore rollback failures.
             }
         }
-        return Result::success($this);
     }
 
     /**

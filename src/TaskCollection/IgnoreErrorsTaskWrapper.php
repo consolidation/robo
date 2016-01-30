@@ -14,6 +14,7 @@ use Robo\Contract\TaskInterface;
  */
 class IgnoreErrorsTaskWrapper implements TaskInterface
 {
+    use Collectable;
     private $task;
 
     public function __construct(TaskInterface $task)

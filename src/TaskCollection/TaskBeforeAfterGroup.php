@@ -22,14 +22,24 @@ class TaskBeforeAfterGroup
         $this->task = $task;
     }
 
-    public function before($before)
+    public function before($before, $name)
     {
-        $this->before[] = $before;
+        if ($name) {
+            $this->before[$name] = $before;
+        }
+        else {
+            $this->before[] = $before;
+        }
     }
 
-    public function after($after)
+    public function after($after, $name)
     {
-        $this->after[] = $after;
+        if ($name) {
+            $this->after[$name] = $after;
+        }
+        else {
+            $this->after[] = $after;
+        }
     }
 
     public function getBefore()

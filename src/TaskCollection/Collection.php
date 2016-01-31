@@ -104,11 +104,14 @@ class Collection implements TaskInterface
      *   The name of the task to insert before.  The named task MUST exist.
      * @param TaskInterface
      *   The task to add.
+     * @param string
+     *   The name of the task to add. If not provided, will be associated
+     *   with the named task it was added before.
      */
-    public function before($name, $task)
+    public function before($name, $task, $nameOfTaskToAdd = self::UNNAMEDTASK)
     {
         $existingTask = $this->namedTask($name);
-        $existingTask->before($task);
+        $existingTask->before($task, $nameOfTaskToAdd);
         return $this;
     }
 
@@ -119,11 +122,14 @@ class Collection implements TaskInterface
      *   The name of the task to insert before.  The named task MUST exist.
      * @param TaskInterface
      *   The task to add.
+     * @param string
+     *   The name of the task to add. If not provided, will be associated
+     *   with the named task it was added after.
      */
-    public function after($name, $task)
+    public function after($name, $task, $nameOfTaskToAdd = self::UNNAMEDTASK)
     {
         $existingTask = $this->namedTask($name);
-        $existingTask->after($task);
+        $existingTask->after($task, $nameOfTaskToAdd);
         return $this;
     }
 
@@ -292,11 +298,15 @@ class Collection implements TaskInterface
      */
     public function run()
     {
+        $result = Result::success($this);
         $this->freezeCollection();
-        $taskList = $this->getAccumulatedTaskList();
-        $result = $this->runTaskList($taskList, Result::success($this));
-        if (!$result->wasSuccessful()) {
-            $this->runRollbackTasks();
+        foreach ($this->taskStack as $name => $taskGroup) {
+            $taskList = $taskGroup->getTaskList();
+            $result = $this->runTaskList($name, $taskList, $result);
+            if (!$result->wasSuccessful()) {
+                $this->runRollbackTasks();
+                return $result;
+            }
         }
         $this->complete();
         return $result;
@@ -369,24 +379,10 @@ class Collection implements TaskInterface
     }
 
     /**
-     * Iterate over all of the task groups in the task list,
-     * and concatenate all of the before, primary and after
-     * tasks into one list.
-     */
-    protected function getAccumulatedTaskList()
-    {
-        $result = [];
-        foreach ($this->taskStack as $taskGroup) {
-            $result = array_merge($result, $taskGroup->getTaskList());
-        }
-        return $result;
-    }
-
-    /**
      * Run every task in a list, but only up to the first failure.
      * Return the failing result, or success if all tasks run.
      */
-    protected function runTaskList($taskList, $incrementalResults)
+    protected function runTaskList($name, $taskList, $incrementalResults)
     {
         $result = $incrementalResults;
         try {
@@ -400,10 +396,10 @@ class Collection implements TaskInterface
                 // We accumulate our results into a field so that tasks that
                 // have a reference to the collection may examine and modify
                 // the incremental results, if they wish.
-                $result = $this->accumulateResults($result);
+                $result = $this->accumulateResults(static::isUnnamedTask($taskName) ? $name : $taskName, $result);
             }
         } catch (Exception $e) {
-            // Tasks typically do not throw, but if one does, we will
+            // Tasks typically should not throw, but if one does, we will
             // convert it into an error and roll back.
             // TODO: should we re-throw it again instead?
             return new Result($this, -1, $e->getMessage());
@@ -411,10 +407,24 @@ class Collection implements TaskInterface
         return $result;
     }
 
-    public function accumulateResults(Result $result)
+    public function accumulateResults($taskName, Result $result)
     {
-        if (isset($result) && $result instanceof Result) {
-            return $this->incrementalResults->merge($result);
+        // If the result is not set or is not a Result, then
+        // do nothing.
+        if (isset($result) && ($result instanceof Result)) {
+            // If the task is unnamed, then all of its data elements
+            // just get merged in at the top-level of the final Result object.
+            if (static::isUnnamedTask($taskName)) {
+                return $this->incrementalResults->merge($result);
+            }
+            // There can only be one task with a given name; however, if
+            // there are tasks added 'before' or 'after' the named task,
+            // then the results from these will be stored under the same
+            // name unless they are given a name of their own when added.
+            if (isset($this->incrementalResults[$taskName])) {
+                return $this->incrementalResults[$taskName]->merge($result);
+            }
+            $this->incrementalResults[$taskName] = $result;
         }
         return $this->incrementalResults;
     }

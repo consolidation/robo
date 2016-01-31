@@ -21,11 +21,11 @@ class CollectionTest extends \Codeception\TestCase\Test
         $taskA = new CollectionTestTask('a', 'value-a');
         $taskB = new CollectionTestTask('b', 'value-b');
 
-        $parenthesizerA = new CollectionTestFilterTask($collection, 'a', '(', ')');
-        $parenthesizerB = new CollectionTestFilterTask($collection, 'b', '{', '}');
+        $parenthesizerA = new CollectionTestFilterTask($collection, 'a-name', 'a', '(', ')');
+        $parenthesizerB = new CollectionTestFilterTask($collection, 'b-name', 'b', '{', '}');
 
-        $emphasizerA = new CollectionTestFilterTask($collection, 'a', '*', '*');
-        $emphasizerB = new CollectionTestFilterTask($collection, 'b', '__', '__');
+        $emphasizerA = new CollectionTestFilterTask($collection, 'a-name', 'a', '*', '*');
+        $emphasizerB = new CollectionTestFilterTask($collection, 'b-name', 'b', '__', '__');
 
         $collection
             ->add('a-name', $taskA)
@@ -44,8 +44,8 @@ class CollectionTest extends \Codeception\TestCase\Test
 
         // Verify that all of the after tasks ran in
         // the correct order.
-        verify($result['a'])->equals('*(value-a)*');
-        verify($result['b'])->equals('{__value-b__}');
+        verify($result['a-name']['a'])->equals('*(value-a)*');
+        verify($result['b-name']['b'])->equals('{__value-b__}');
     }
 }
 
@@ -71,14 +71,16 @@ class CollectionTestTask extends BaseTask
 
 class CollectionTestFilterTask implements TaskInterface
 {
+    protected $collection;
+    protected $fromname;
     protected $key;
     protected $pre;
     protected $post;
-    protected $collection;
 
-    public function __construct($collection, $key, $pre, $post)
+    public function __construct($collection, $fromname, $key, $pre, $post)
     {
         $this->collection = $collection;
+        $this->fromname = $fromname;
         $this->key = $key;
         $this->pre = $pre;
         $this->post = $post;
@@ -97,8 +99,8 @@ class CollectionTestFilterTask implements TaskInterface
     public function run()
     {
         $incrementalResult = $this->getCollection()->getIncrementalResults();
-        $value = isset($incrementalResult[$this->key]) ? $incrementalResult[$this->key] : "";
-        $incrementalResult[$this->key] = "{$this->pre}{$value}{$this->post}";
+        $value = isset($incrementalResult[$this->fromname][$this->key]) ? $incrementalResult[$this->fromname][$this->key] : "";
+        $incrementalResult[$this->fromname][$this->key] = "{$this->pre}{$value}{$this->post}";
         return $incrementalResult;
     }
 }

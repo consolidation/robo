@@ -215,8 +215,6 @@ class Collection implements TaskInterface
      */
     protected function addToTaskStack($name, $task)
     {
-        // Fail if the collection has been executed -- no more adding once we start.
-        $this->checkFrozen();
         // Wrap the task as necessary.
         $task = $this->collectAndWrapTask($task);
         // All tasks are stored in a task group so that we have a place
@@ -298,17 +296,35 @@ class Collection implements TaskInterface
      */
     public function run()
     {
-        $result = Result::success($this);
-        $this->freezeCollection();
-        foreach ($this->taskStack as $name => $taskGroup) {
-            $taskList = $taskGroup->getTaskList();
-            $result = $this->runTaskList($name, $taskList, $result);
-            if (!$result->wasSuccessful()) {
-                $this->runRollbackTasks();
-                return $result;
-            }
-        }
+        $result = $this->runPreservingTransients();
         $this->complete();
+        return $result;
+    }
+
+    /**
+     * Like 'run()', but does not delete transients.
+     * Allows caller to continue adding tasks to the
+     * same collection, e.g. perhaps to re-use a temporary
+     * directory or other transient which will persist
+     * until 'run()' or 'complete()' is called.
+     */
+    public function runPreservingTransients()
+    {
+        // If there were some tasks that were run before, and they
+        // failed, subsequent calls to run() will do nothing further,
+        // and will continue to return the same error result.
+        $result = $this->getIncrementalResults();
+        if ($result->wasSuccessful()) {
+            foreach ($this->taskStack as $name => $taskGroup) {
+                $taskList = $taskGroup->getTaskList();
+                $result = $this->runTaskList($name, $taskList, $result);
+                if (!$result->wasSuccessful()) {
+                    $this->fail();
+                    return $result;
+                }
+            }
+            $taskStack = [];
+        }
         return $result;
     }
 
@@ -346,6 +362,7 @@ class Collection implements TaskInterface
     public function complete()
     {
         $this->runTaskListIgnoringFailures($this->completionStack);
+        $this->reset();
         return $this;
     }
 
@@ -357,7 +374,7 @@ class Collection implements TaskInterface
         $this->taskStack = [];
         $this->completionStack = [];
         $this->rollbackStack = [];
-        $this->frozen = false;
+        $this->incrementalResults = Result::success($this);
         return $this;
     }
 
@@ -451,30 +468,6 @@ class Collection implements TaskInterface
             } catch (Exception $e) {
                 // Ignore rollback failures.
             }
-        }
-    }
-
-    /**
-     * Once the collection has been executed at least once,
-     * prevent additional tasks from being added to it.  It
-     * is okay to run a collection multiple times, e.g. to
-     * retry a failed operation; however, calling `add()` after
-     * `run()` is generally not useful, and is probably an
-     * indication of a logic error.
-     */
-    protected function freezeCollection()
-    {
-        $this->frozen = true;
-    }
-
-    /**
-     * Do not allow frozen collections to be modified. This should
-     * never happen, so we'll just throw a RuntimeException.
-     */
-    protected function checkFrozen()
-    {
-        if ($this->frozen) {
-            throw new RuntimeException("Collection cannot be modified after execution.");
         }
     }
 }

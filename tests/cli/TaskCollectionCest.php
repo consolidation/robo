@@ -47,6 +47,12 @@ class TaskCollectionCest
             ->addToCollection($collection)
             ->getPath();
 
+        // We can create the temporary directory early by running
+        // 'runPreservingTransients()'
+        $mktmpResult = $collection->runPreservingTransients();
+        $I->assertEquals($mktmpResult['path'], $tmpPath, "Tmp dir result matches accessor.");
+        $I->seeDirFound($tmpPath);
+
         // Set up a filesystem stack, but use addToCollection() to defer execution
         $I->taskFileSystemStack()
             ->mkdir("$tmpPath/log")

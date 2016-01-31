@@ -26,8 +26,7 @@ class TaskBeforeAfterGroup
     {
         if ($name) {
             $this->before[$name] = $before;
-        }
-        else {
+        } else {
             $this->before[] = $before;
         }
     }
@@ -36,8 +35,7 @@ class TaskBeforeAfterGroup
     {
         if ($name) {
             $this->after[$name] = $after;
-        }
-        else {
+        } else {
             $this->after[] = $after;
         }
     }

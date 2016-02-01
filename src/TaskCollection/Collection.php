@@ -227,12 +227,13 @@ class Collection implements TaskInterface
         // the array index.
         if (static::isUnnamedTask($name)) {
             $this->taskStack[] = $taskGroup;
-        } else {
-            // If we are replacing an existing task with the
-            // same name, ensure that our new task is added to
-            // the end.
-            $this->taskStack[$name] = $taskGroup;
+            return $this;
         }
+        // If we are replacing an existing task with the
+        // same name, ensure that our new task is added to
+        // the end.
+        $this->taskStack[$name] = $taskGroup;
+        return $this;
     }
 
     /**
@@ -436,15 +437,13 @@ class Collection implements TaskInterface
             // just get merged in at the top-level of the final Result object.
             if (static::isUnnamedTask($taskName)) {
                 $this->incrementalResults->merge($result);
-            }
-            // There can only be one task with a given name; however, if
-            // there are tasks added 'before' or 'after' the named task,
-            // then the results from these will be stored under the same
-            // name unless they are given a name of their own when added.
-            elseif (isset($this->incrementalResults[$taskName])) {
+            } elseif (isset($this->incrementalResults[$taskName])) {
+                // There can only be one task with a given name; however, if
+                // there are tasks added 'before' or 'after' the named task,
+                // then the results from these will be stored under the same
+                // name unless they are given a name of their own when added.
                 $this->incrementalResults[$taskName]->merge($result);
-            }
-            else {
+            } else {
                 $this->incrementalResults[$taskName] = $result;
             }
         }

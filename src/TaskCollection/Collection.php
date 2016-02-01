@@ -43,7 +43,6 @@ class Collection implements TaskInterface
     protected $rollbackStack = [];
     protected $completionStack = [];
     protected $incrementalResults;
-    protected $frozen = false;
 
     /**
      * Constructor.
@@ -110,6 +109,8 @@ class Collection implements TaskInterface
      */
     public function before($name, $task, $nameOfTaskToAdd = self::UNNAMEDTASK)
     {
+        // Wrap the task as necessary.
+        $task = $this->collectAndWrapTask($task);
         $existingTask = $this->namedTask($name);
         $existingTask->before($task, $nameOfTaskToAdd);
         return $this;
@@ -128,6 +129,8 @@ class Collection implements TaskInterface
      */
     public function after($name, $task, $nameOfTaskToAdd = self::UNNAMEDTASK)
     {
+        // Wrap the task as necessary.
+        $task = $this->collectAndWrapTask($task);
         $existingTask = $this->namedTask($name);
         $existingTask->after($task, $nameOfTaskToAdd);
         return $this;
@@ -200,12 +203,12 @@ class Collection implements TaskInterface
         // collected. Collection may involve the creation of a wrapper,
         // or it may return the same task.
         if ($task instanceof CollectedInterface) {
-            $task = $task->collected($collection);
+            $task = $task->collected($this);
         }
         // If the caller provided a function pointer instead of a TaskInstance,
         // then wrap it in a FunctionWrapper.
         if ($task instanceof \Closure) {
-            $task = new FunctionWrapper($task);
+            $task = new FunctionWrapper($task, $this);
         }
         return $task;
     }
@@ -432,16 +435,18 @@ class Collection implements TaskInterface
             // If the task is unnamed, then all of its data elements
             // just get merged in at the top-level of the final Result object.
             if (static::isUnnamedTask($taskName)) {
-                return $this->incrementalResults->merge($result);
+                $this->incrementalResults->merge($result);
             }
             // There can only be one task with a given name; however, if
             // there are tasks added 'before' or 'after' the named task,
             // then the results from these will be stored under the same
             // name unless they are given a name of their own when added.
-            if (isset($this->incrementalResults[$taskName])) {
-                return $this->incrementalResults[$taskName]->merge($result);
+            elseif (isset($this->incrementalResults[$taskName])) {
+                $this->incrementalResults[$taskName]->merge($result);
             }
-            $this->incrementalResults[$taskName] = $result;
+            else {
+                $this->incrementalResults[$taskName] = $result;
+            }
         }
         return $this->incrementalResults;
     }

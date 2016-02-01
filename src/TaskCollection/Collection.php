@@ -341,10 +341,10 @@ class Collection implements TaskInterface
     public function registerRollbackAndCompletionHandlers($task)
     {
         if ($task instanceof RollbackInterface) {
-            $this->registerRollback(new RollbackTask($task));
+            $this->registerRollback(new FunctionWrapper([$task, 'complete']));
         }
         if ($task instanceof CompletionInterface) {
-            $this->registerCompletion(new CompletionTask($task));
+            $this->registerCompletion(new FunctionWrapper([$task, 'complete']));
         }
         return $this;
     }

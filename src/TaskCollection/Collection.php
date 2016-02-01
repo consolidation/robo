@@ -206,9 +206,9 @@ class Collection implements TaskInterface
             $task = $task->collected($this);
         }
         // If the caller provided a function pointer instead of a TaskInstance,
-        // then wrap it in a FunctionWrapper.
+        // then wrap it in a FunctionPointerTask.
         if ($task instanceof \Closure) {
-            $task = new FunctionWrapper($task, $this);
+            $task = new FunctionPointerTask($task, $this);
         }
         return $task;
     }
@@ -341,10 +341,10 @@ class Collection implements TaskInterface
     public function registerRollbackAndCompletionHandlers($task)
     {
         if ($task instanceof RollbackInterface) {
-            $this->registerRollback(new FunctionWrapper([$task, 'complete']));
+            $this->registerRollback(new FunctionPointerTask([$task, 'complete']));
         }
         if ($task instanceof CompletionInterface) {
-            $this->registerCompletion(new FunctionWrapper([$task, 'complete']));
+            $this->registerCompletion(new FunctionPointerTask([$task, 'complete']));
         }
         return $this;
     }

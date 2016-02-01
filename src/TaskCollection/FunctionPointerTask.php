@@ -8,14 +8,17 @@ use Robo\TaskCollection\Collection;
 
 /**
  * Creates a task wrapper that converts a function pointer into an
- * interface that can be used directly with a task collection.
+ * object that can be used directly with a task collection.  This class
+ * also works with methods of objects.
  *
- * Clients usually do not need to use this class directly; when an
- * anonymous function added to a task collection via the add() method, it
- * will automatically be wrapped in a function wrapper so that it presents
- * a unified interface for the collection.
+ * Example usage:
+ *
+ *      $collection->add(new FunctionPointerTask([$myobject, 'mymethod']));
+ *
+ * The collection will call $myobject->mymethod() when $collection->add() is
+ * called.
  */
-class FunctionWrapper implements TaskInterface, CollectedInterface
+class FunctionPointerTask implements TaskInterface, CollectedInterface
 {
     private $fn;
     private $collection = null;

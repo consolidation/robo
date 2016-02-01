@@ -20,7 +20,7 @@ class FunctionWrapper implements TaskInterface, CollectedInterface
     private $fn;
     private $collection = null;
 
-    public function __construct(\Closure $fn, $collection = null)
+    public function __construct($fn, $collection = null)
     {
         $this->fn = $fn;
         $this->collection = $collection;
@@ -43,8 +43,7 @@ class FunctionWrapper implements TaskInterface, CollectedInterface
         if ($this->collection) {
             $resultsFromPreviousTasks = $this->collection->getIncrementalResults();
         }
-        $fn = $this->fn;
-        $result = $fn($resultsFromPreviousTasks);
+        $result = call_user_func($this->fn, $resultsFromPreviousTasks);
         // If the function returns no result, then count it
         // as a success.
         if (!isset($result)) {

@@ -90,10 +90,9 @@ class Collection implements TaskInterface
         // Wrap the task as necessary.
         $rollbackTask = $this->wrapTask($rollbackTask);
         $collection = $this;
-        $this->addToTaskStack(self::UNNAMEDTASK, function() use ($collection, $rollbackTask) {
+        $this->addToTaskStack(self::UNNAMEDTASK, function () use ($collection, $rollbackTask) {
                 $collection->registerRollback($rollbackTask);
-            }
-        );
+            });
         return $this;
     }
 
@@ -151,7 +150,7 @@ class Collection implements TaskInterface
     public function ignoreErrorsTaskWrapper($task)
     {
         $task = $this->wrapTask($task);
-        return function() use($task) {
+        return function () use ($task) {
             $data = [];
             try {
                 $result = $task->run();

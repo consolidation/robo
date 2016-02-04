@@ -91,8 +91,8 @@ class Collection implements TaskInterface
         $rollbackTask = $this->wrapTask($rollbackTask);
         $collection = $this;
         $this->addToTaskStack(self::UNNAMEDTASK, function () use ($collection, $rollbackTask) {
-                $collection->registerRollback($rollbackTask);
-            });
+            $collection->registerRollback($rollbackTask);
+        });
         return $this;
     }
 

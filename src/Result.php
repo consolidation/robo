@@ -154,17 +154,6 @@ class Result implements \ArrayAccess
     }
 
     /**
-     * Merge the provided data array into this result.
-     * In the case of conflicting data keys, data already
-     * in this object takes precedence.
-     */
-    public function overlay($data)
-    {
-        $this->data = $data + $this->data;
-        return $this;
-    }
-
-    /**
      * Merge another result into this result.  Data already
      * existing in this result takes precedence over the
      * data in the Result being merged.

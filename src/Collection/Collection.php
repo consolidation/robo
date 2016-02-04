@@ -148,7 +148,7 @@ class Collection implements TaskInterface
      *
      * @param string
      *   The name of the task to insert before.  The named task MUST exist.
-     * @returns TaskBeforeAfterGroup
+     * @returns Element
      *   The task group for the named task. Generally this is only
      *   used to call 'before()' and 'after()'.
      */
@@ -224,7 +224,7 @@ class Collection implements TaskInterface
     {
         // All tasks are stored in a task group so that we have a place
         // to hang 'before' and 'after' tasks.
-        $taskGroup = new TaskBeforeAfterGroup($task);
+        $taskGroup = new Element($task);
         // If a task name is not provided, then we'll let php pick
         // the array index.
         if (static::isUnnamedTask($name)) {

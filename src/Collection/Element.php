@@ -6,12 +6,12 @@ use Robo\Result;
 use Robo\Contract\TaskInterface;
 
 /**
- * Creates a task group consisting of a task, all of the before tasks,
- * and all of the after tasks.
+ * One element in a collection.  Each element consists of a task
+ * all of its before tasks, and all of its after tasks.
  *
  * This class is internal to Collection; it should not be used directly.
  */
-class TaskBeforeAfterGroup
+class Element
 {
     protected $task;
     protected $before = [];

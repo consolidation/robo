@@ -1,6 +1,6 @@
 <?php
 
-namespace Robo\TaskCollection;
+namespace Robo\Collection;
 
 /**
  * The 'Collectable' trait is used by Robo\Task\BaseTask, so all Robo

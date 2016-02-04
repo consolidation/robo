@@ -10,7 +10,7 @@ use Robo\Result;
 use Robo\Task\BaseTask;
 use Robo\Contract\TaskInterface;
 use Robo\Contract\CollectedInterface;
-use Robo\TaskCollection\Collection;
+use Robo\Collection\Collection;
 
 class CollectionTest extends \Codeception\TestCase\Test
 {

@@ -1,10 +1,10 @@
 <?php
-namespace Robo\TaskCollection;
+namespace Robo\Collection;
 
 use Robo\Result;
 use Robo\Contract\TaskInterface;
 use Robo\Contract\CollectedInterface;
-use Robo\TaskCollection\Collection;
+use Robo\Collection\Collection;
 
 /**
  * Creates a task wrapper that converts any Callable into an

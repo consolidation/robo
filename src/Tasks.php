@@ -7,7 +7,7 @@ use Robo\Common\IO;
 class Tasks
 {
     // collections of tasks
-    use TaskCollection\loadTasks;
+    use Collection\loadTasks;
 
     // standard tasks
     use Task\Base\loadTasks;

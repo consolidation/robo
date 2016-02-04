@@ -1,7 +1,7 @@
 <?php
 namespace Robo\Task\File;
 
-use Robo\TaskCollection\TransientManager;
+use Robo\Collection\TransientManager;
 
 trait loadTasks
 {

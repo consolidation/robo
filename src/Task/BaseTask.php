@@ -3,7 +3,7 @@ namespace Robo\Task;
 
 use Robo\Common\Configuration;
 use Robo\Common\TaskIO;
-use Robo\TaskCollection\Collectable;
+use Robo\Collection\Collectable;
 use Robo\Contract\TaskInterface;
 
 abstract class BaseTask implements TaskInterface

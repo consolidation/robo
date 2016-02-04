@@ -1,6 +1,6 @@
 <?php
 
-namespace Robo\TaskCollection;
+namespace Robo\Collection;
 
 use Robo\Contract\TaskInterface;
 

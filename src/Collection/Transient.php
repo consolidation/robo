@@ -1,6 +1,6 @@
 <?php
 
-namespace Robo\TaskCollection;
+namespace Robo\Collection;
 
 /**
  * Transient tasks should implement TransientInterface

@@ -33,8 +33,8 @@ class CliHelper extends \Codeception\Module
         _tmpDir as public shortcutTmpDir;
     }
 
-    use \Robo\TaskCollection\loadTasks {
-        taskCollection as public;
+    use \Robo\Collection\loadTasks {
+        collection as public;
     }
 
     public function seeDirFound($dir)

@@ -1,5 +1,5 @@
 <?php
-namespace Robo\TaskCollection;
+namespace Robo\Collection;
 
 trait loadTasks
 {
@@ -7,7 +7,7 @@ trait loadTasks
      * @param $dirs
      * @return CleanDir
      */
-    protected function taskCollection()
+    protected function collection()
     {
         return new Collection();
     }

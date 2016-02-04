@@ -3,9 +3,9 @@
 namespace Robo\Task\FileSystem;
 
 use Robo\Result;
-use Robo\TaskCollection\Collection;
+use Robo\Collection\Collection;
 use Robo\Contract\TransientInterface;
-use Robo\TaskCollection\Transient;
+use Robo\Collection\Transient;
 
 /**
  * Create a temporary directory that is automatically cleaned up

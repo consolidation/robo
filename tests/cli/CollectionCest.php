@@ -4,10 +4,10 @@ namespace Robo;
 use \CliGuy;
 
 use Robo\Contract\TaskInterface;
-use Robo\TaskCollection\TransientManager;
+use Robo\Collection\TransientManager;
 use Robo\Result;
 
-class TaskCollectionCest
+class CollectionCest
 {
     public function _before(CliGuy $I)
     {
@@ -17,7 +17,7 @@ class TaskCollectionCest
     public function toCreateDirViaCollection(CliGuy $I)
     {
         // Set up a collection to add tasks to
-        $collection = $I->taskCollection();
+        $collection = $I->collection();
 
         // Set up a filesystem stack, but use addToCollection() to defer execution
         $I->taskFileSystemStack()
@@ -37,7 +37,7 @@ class TaskCollectionCest
     public function toUseATmpDirAndConfirmItIsDeleted(CliGuy $I)
     {
         // Set up a collection to add tasks to
-        $collection = $I->taskCollection();
+        $collection = $I->collection();
 
         // Get a temporary directory to work in. Note that we get a
         // name back, but the directory is not created until the task
@@ -80,7 +80,7 @@ class TaskCollectionCest
     public function toUseATmpDirAndChangeWorkingDirectory(CliGuy $I)
     {
         // Set up a collection to add tasks to
-        $collection = $I->taskCollection();
+        $collection = $I->collection();
 
         $cwd = getcwd();
 
@@ -129,7 +129,7 @@ class TaskCollectionCest
     public function toCreateATmpFileAndConfirmItIsDeleted(CliGuy $I)
     {
         // Set up a collection to add tasks to
-        $collection = $I->taskCollection();
+        $collection = $I->collection();
 
         // Write to a temporary file. Note that we can get the path
         // to the tempoary file that will be created, even though the
@@ -160,7 +160,7 @@ class TaskCollectionCest
 
     public function toUseATmpDirWithAlternateSyntax(CliGuy $I)
     {
-        $collection = $I->taskCollection();
+        $collection = $I->collection();
 
         // This test is equivalent to toUseATmpDirAndConfirmItIsDeleted,
         // but uses a different technique to create a collection of tasks.

@@ -1,7 +1,7 @@
 <?php
 namespace Robo\Contract;
 
-use Robo\TaskCollection\Collection;
+use Robo\Collection\Collection;
 
 /**
  * A Robo CollectedInterface is a mixin interface implemented

@@ -89,10 +89,11 @@ class Collection implements TaskInterface
     {
         // Wrap the task as necessary.
         $rollbackTask = $this->wrapTask($rollbackTask);
-        // TODO: Make a rollback registration class to replace this
-        // use of CollectionTask, get rid of $rollbackClass in CollectionTask,
-        // and delete EmptyTask.
-        $this->addToTaskStack($name, new CollectionTask(0, new EmptyTask(), $rollbackTask));
+        $collection = $this;
+        $this->addToTaskStack(self::UNNAMEDTASK, function() use ($collection, $rollbackTask) {
+                $collection->registerRollback($rollbackTask);
+            }
+        );
         return $this;
     }
 

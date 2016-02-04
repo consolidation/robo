@@ -21,12 +21,6 @@ class CollectionTest extends \Codeception\TestCase\Test
         $taskA = new CollectionTestTask('a', 'value-a');
         $taskB = new CollectionTestTask('b', 'value-b');
 
-        $parenthesizerA = new CollectionTestFilterTask($collection, 'a-name', 'a', '(', ')');
-        $parenthesizerB = new CollectionTestFilterTask($collection, 'b-name', 'b', '{', '}');
-
-        $emphasizerA = new CollectionTestFilterTask($collection, 'a-name', 'a', '*', '*');
-        $emphasizerB = new CollectionTestFilterTask($collection, 'b-name', 'b', '__', '__');
-
         $collection
             ->add('a-name', $taskA)
             ->add('b-name', $taskB);
@@ -34,18 +28,28 @@ class CollectionTest extends \Codeception\TestCase\Test
         $taskKeys = $collection->taskNames();
         verify(implode(',', $taskKeys))->equals('a-name,b-name');
 
+        // We add methods of our task instances as before and
+        // after tasks. These methods have access to the task
+        // class' fields, and may modify them as needed.
         $collection
-            ->after('a-name', $parenthesizerA)
-            ->before('b-name', $emphasizerA)
-            ->after('b-name', $emphasizerB)
-            ->after('b-name', $parenthesizerB);
+            ->after('a-name', [$taskA, 'parenthesizer'])
+            ->after('a-name', [$taskA, 'emphasizer'])
+            ->after('b-name', [$taskB, 'emphasizer'])
+            ->after('b-name', [$taskB, 'parenthesizer'])
+            ->after('b-name', [$taskB, 'parenthesizer'], 'special-name');
 
         $result = $collection->run();
+
+        // verify(var_export($result->getData(), true))->equals('');
+
+        // Ensure that the results have the correct key values
+        verify(implode(',', array_keys($result->getData())))->equals('a-name,b-name,special-name');
 
         // Verify that all of the after tasks ran in
         // the correct order.
         verify($result['a-name']['a'])->equals('*(value-a)*');
-        verify($result['b-name']['b'])->equals('{__value-b__}');
+        verify($result['b-name']['b'])->equals('(*value-b*)');
+        verify($result['special-name']['b'])->equals('((*value-b*))');
     }
 }
 
@@ -62,45 +66,31 @@ class CollectionTestTask extends BaseTask
 
     public function run()
     {
+        return $this->getValue();
+    }
+
+    protected function getValue()
+    {
         $result = Result::success($this);
         $result[$this->key] = $this->value;
 
         return $result;
     }
-}
 
-class CollectionTestFilterTask implements TaskInterface
-{
-    protected $collection;
-    protected $fromname;
-    protected $key;
-    protected $pre;
-    protected $post;
-
-    public function __construct($collection, $fromname, $key, $pre, $post)
+    // Note that by returning a value with the same
+    // key as the result, we overwrite the value generated
+    // by the primary task method ('run()').  If we returned
+    // a result with a different key, then both values
+    // would appear in the result.
+    public function parenthesizer()
     {
-        $this->collection = $collection;
-        $this->fromname = $fromname;
-        $this->key = $key;
-        $this->pre = $pre;
-        $this->post = $post;
+        $this->value = "({$this->value})";
+        return $this->getValue();
     }
 
-    public function getCollection()
+    public function emphasizer()
     {
-        return $this->collection;
-    }
-
-    public function setCollection($collection)
-    {
-        $this->collection = $collection;
-    }
-
-    public function run()
-    {
-        $incrementalResult = $this->getCollection()->getIncrementalResults();
-        $value = isset($incrementalResult[$this->fromname][$this->key]) ? $incrementalResult[$this->fromname][$this->key] : "";
-        $incrementalResult[$this->fromname][$this->key] = "{$this->pre}{$value}{$this->post}";
-        return $incrementalResult;
+        $this->value = "*{$this->value}*";
+        return $this->getValue();
     }
 }

@@ -42,14 +42,14 @@ class Collection implements TaskInterface
     protected $taskStack = [];
     protected $rollbackStack = [];
     protected $completionStack = [];
-    protected $incrementalResults;
+    protected $previousResult;
 
     /**
      * Constructor.
      */
     public function __construct()
     {
-        $this->incrementalResults = Result::success($this);
+        $this->previousResult = Result::success($this);
     }
 
     /**
@@ -323,7 +323,7 @@ class Collection implements TaskInterface
         // If there were some tasks that were run before, and they
         // failed, subsequent calls to run() will do nothing further,
         // and will continue to return the same error result.
-        $result = $this->getIncrementalResults();
+        $result = $this->previousResult;
         if ($result->wasSuccessful()) {
             foreach ($this->taskStack as $name => $taskGroup) {
                 $taskList = $taskGroup->getTaskList();
@@ -333,8 +333,9 @@ class Collection implements TaskInterface
                     return $result;
                 }
             }
-            $taskStack = [];
+            $this->taskStack = [];
         }
+        $this->previousResult = $result;
         return $result;
     }
 
@@ -409,12 +410,11 @@ class Collection implements TaskInterface
      * Run every task in a list, but only up to the first failure.
      * Return the failing result, or success if all tasks run.
      */
-    protected function runTaskList($name, $taskList, $incrementalResults)
+    protected function runTaskList($name, $taskList, $result)
     {
-        $result = $incrementalResults;
         try {
             foreach ($taskList as $taskName => $task) {
-                $result = $task->run();
+                $taskResult = $task->run();
                 // If the current task returns an error code, then stop
                 // execution and signal a rollback.
                 if (!$result->wasSuccessful()) {
@@ -423,47 +423,38 @@ class Collection implements TaskInterface
                 // We accumulate our results into a field so that tasks that
                 // have a reference to the collection may examine and modify
                 // the incremental results, if they wish.
-                $result = $this->accumulateResults(static::isUnnamedTask($taskName) ? $name : $taskName, $result);
+                $key = static::isUnnamedTask($taskName) ? $name : $taskName;
+                $result = $this->accumulateResults($key, $result, $taskResult);
             }
         } catch (Exception $e) {
             // Tasks typically should not throw, but if one does, we will
             // convert it into an error and roll back.
             // TODO: should we re-throw it again instead?
-            return new Result($this, -1, $e->getMessage());
+            return new Result($this, -1, $e->getMessage(), $result->getData());
         }
         return $result;
     }
 
-    public function accumulateResults($taskName, Result $result)
+    public function accumulateResults($key, Result $result, Result $taskResult)
     {
-        // If the result is not set or is not a Result, then
-        // do nothing.
+        // If the result is not set or is not a Result, then ignore it
         if (isset($result) && ($result instanceof Result)) {
             // If the task is unnamed, then all of its data elements
             // just get merged in at the top-level of the final Result object.
-            if (static::isUnnamedTask($taskName)) {
-                $this->incrementalResults->merge($result);
-            } elseif (isset($this->incrementalResults[$taskName])) {
+            if (static::isUnnamedTask($key)) {
+                $result->merge($taskResult);
+            } elseif (isset($result[$key])) {
                 // There can only be one task with a given name; however, if
                 // there are tasks added 'before' or 'after' the named task,
                 // then the results from these will be stored under the same
                 // name unless they are given a name of their own when added.
-                $this->incrementalResults[$taskName]->merge($result);
+                $current = $result[$key];
+                $result[$key] = $taskResult->merge($current);
             } else {
-                $this->incrementalResults[$taskName] = $result;
+                $result[$key] = $taskResult;
             }
         }
-        return $this->incrementalResults;
-    }
-
-    public function getIncrementalResults()
-    {
-        return $this->incrementalResults;
-    }
-
-    protected function setIncrementalResults(Result $result)
-    {
-        $this->incrementalResults = $result;
+        return $result;
     }
 
     /**

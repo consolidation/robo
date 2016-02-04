@@ -37,11 +37,7 @@ class CallableTask implements TaskInterface, CollectedInterface
 
     public function run()
     {
-        $resultsFromPreviousTasks = null;
-        if ($this->collection) {
-            $resultsFromPreviousTasks = $this->collection->getIncrementalResults();
-        }
-        $result = call_user_func($this->fn, $resultsFromPreviousTasks);
+        $result = call_user_func($this->fn);
         // If the function returns no result, then count it
         // as a success.
         if (!isset($result)) {

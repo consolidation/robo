@@ -4,14 +4,14 @@ namespace Robo\Task\FileSystem;
 
 use Robo\Result;
 use Robo\Collection\Collection;
-use Robo\Contract\TransientInterface;
-use Robo\Collection\Transient;
+use Robo\Contract\TemporaryInterface;
+use Robo\Collection\Temporary;
 
 /**
  * Create a temporary directory that is automatically cleaned up
  * once the task collection is is part of completes.
  *
- * Use ->setTransient(false) to make the directory persist after
+ * Use ->setTemporary(false) to make the directory persist after
  * completion, but still be deleted on rollback.
  *
  * ``` php
@@ -30,9 +30,9 @@ use Robo\Collection\Transient;
  * ?>
  * ```
  */
-class TmpDir extends BaseDir implements TransientInterface
+class TmpDir extends BaseDir implements TemporaryInterface
 {
-    use Transient;
+    use Temporary;
 
     protected $base;
     protected $prefix;
@@ -92,9 +92,9 @@ class TmpDir extends BaseDir implements TransientInterface
     }
 
     /**
-     * Delete our directory when requested to clean up our transient objects.
+     * Delete our directory when requested to clean up our temporary objects.
      */
-    public function cleanupTransients()
+    public function cleanupTemporaries()
     {
         // Restore the current working directory, if we redirected it.
         if ($this->cwd) {

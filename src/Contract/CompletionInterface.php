@@ -8,11 +8,11 @@ namespace Robo\Contract;
  *
  * Tasks that should be cleaned up when the program
  * terminates whenever they are used outside of a
- * task collection should be wrapped in TransientManager::transientTask().
+ * task collection should be wrapped in TemporaryManager::temporaryTask().
  * @see Robo\Task\FileSystem\loadTasks::taskTmpDir
  *
  * Tasks that implement RollbackInterface should consider
- * implementing TransientInterface instead.
+ * implementing TemporaryInterface instead.
  *
  * Interface CompletionInterface
  * @package Robo\Contract

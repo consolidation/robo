@@ -4,7 +4,7 @@ namespace Robo;
 use \CliGuy;
 
 use Robo\Contract\TaskInterface;
-use Robo\Collection\TransientManager;
+use Robo\Collection\TemporaryManager;
 use Robo\Result;
 
 class CollectionCest
@@ -48,8 +48,8 @@ class CollectionCest
             ->getPath();
 
         // We can create the temporary directory early by running
-        // 'runPreservingTransients()'
-        $mktmpResult = $collection->runPreservingTransients();
+        // 'runPreservingTemporaries()'
+        $mktmpResult = $collection->runPreservingTemporaries();
         $I->assertEquals($mktmpResult['path'], $tmpPath, "Tmp dir result matches accessor.");
         $I->seeDirFound($tmpPath);
 
@@ -198,7 +198,7 @@ class CollectionCest
         // terminates.  We can force it to clean up sooner by calling
         // TransientManager::complete(); note that this deletes ALL Robo tmp
         // directories, so this is not thread-safe!  Useful in tests, though.
-        TransientManager::complete();
+        TemporaryManager::complete();
         $I->dontSeeFileFound($tmpPath);
     }
 }

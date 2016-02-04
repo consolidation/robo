@@ -280,7 +280,7 @@ class Collection implements TaskInterface
      * triggered. They do not trigger rollbacks if they fail.
      *
      * The typical use-case for a completion function is to clean up
-     * transient objects (e.g. temporary folders).
+     * temporary objects (e.g. temporary folders).
      *
      * On failures, completion tasks will run after all rollback tasks.
      * If one task collection is nested inside another task collection,
@@ -306,19 +306,19 @@ class Collection implements TaskInterface
      */
     public function run()
     {
-        $result = $this->runPreservingTransients();
+        $result = $this->runPreservingTemporaries();
         $this->complete();
         return $result;
     }
 
     /**
-     * Like 'run()', but does not delete transients.
+     * Like 'run()', but does not delete temporaries.
      * Allows caller to continue adding tasks to the
      * same collection, e.g. perhaps to re-use a temporary
-     * directory or other transient which will persist
+     * directory or other temporary which will persist
      * until 'run()' or 'complete()' is called.
      */
-    public function runPreservingTransients()
+    public function runPreservingTemporaries()
     {
         // If there were some tasks that were run before, and they
         // failed, subsequent calls to run() will do nothing further,

@@ -3,14 +3,14 @@
 namespace Robo\Task\File;
 
 use Robo\Collection\Collection;
-use Robo\Contract\TransientInterface;
-use Robo\Collection\Transient;
+use Robo\Contract\TemporaryInterface;
+use Robo\Collection\Temporary;
 
 /**
  * Create a temporary directory that is automatically cleaned up
  * once the task collection is is part of completes.
  *
- * Use setTransient(false) to make the directory persist after
+ * Use setTemporary(false) to make the directory persist after
  * completion, but still be deleted on rollback.
  *
  * Note that the path to the temporary file is available immediately
@@ -28,9 +28,9 @@ use Robo\Collection\Transient;
  * ?>
  * ```
  */
-class TmpFile extends Write implements TransientInterface
+class TmpFile extends Write implements TemporaryInterface
 {
-    use Transient;
+    use Temporary;
 
     public function __construct($filename = 'tmp', $extension = '', $baseDir = '', $includeRandomPart = true)
     {
@@ -55,9 +55,9 @@ class TmpFile extends Write implements TransientInterface
     }
 
     /**
-     * Delete our directory when requested to clean up our transient objects.
+     * Delete our directory when requested to clean up our temporary objects.
      */
-    public function cleanupTransients()
+    public function cleanupTemporaries()
     {
         unlink($this->getPath());
     }

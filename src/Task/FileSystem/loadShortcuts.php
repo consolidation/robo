@@ -1,7 +1,7 @@
 <?php
 namespace Robo\Task\FileSystem;
 
-use Robo\Collection\TransientManager;
+use Robo\Collection\TemporaryManager;
 
 trait loadShortcuts
 {
@@ -68,7 +68,7 @@ trait loadShortcuts
      */
     protected function _tmpDir($prefix = 'tmp', $base = '', $includeRandomPart = true)
     {
-        $result = TransientManager::transientTask(new TmpDir($prefix, $base, $includeRandomPart))->run();
+        $result = TemporaryManager::temporaryTask(new TmpDir($prefix, $base, $includeRandomPart))->run();
         $data = $result->getData() + ['path' => ''];
         return $data['path'];
     }

@@ -11,8 +11,8 @@ use Robo\Contract\TaskInterface;
  * wrapped in a CollectionTask when added to a task collection.
  *
  * Clients may need to wrap their task in a CollectionTask if it
- * creates transient objects.  This is usually best done via
- * TransientManager::transientTask().
+ * creates temporary objects.  This is usually best done via
+ * TemporaryManager::temporaryTask().
  *
  * @see Robo\Task\FileSystem\loadTasks::taskTmpDir
  */
@@ -25,8 +25,8 @@ class CollectionTask extends BaseTask
     /**
      * Create a CollectionTask.
      *
-     * Transient tasks are always wrapped in a CollectionTask, as are
-     * any tasks that are added to a collection.  If a transient task
+     * Temporary tasks are always wrapped in a CollectionTask, as are
+     * any tasks that are added to a collection.  If a temporary task
      * is added to a collection, then it is first unwrapped from its
      * CollectionTask (via its getTask method), and then added to a
      * new CollectionTask for the collection it is added to.
@@ -35,7 +35,7 @@ class CollectionTask extends BaseTask
      * task's rollback and completion handlers will be registered on
      * whichever collection it was registered on.
      *
-     * TODO: Could we just make transient tasks implement CollectedTask,
+     * TODO: Could we just make temporary tasks implement CollectedTask,
      * and handle it that way?
      */
     public function __construct(Collection $collection, TaskInterface $task, TaskInterface $rollbackTask = null)

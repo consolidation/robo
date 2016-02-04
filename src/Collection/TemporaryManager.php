@@ -5,29 +5,29 @@ namespace Robo\Collection;
 use Robo\Contract\TaskInterface;
 
 /**
- * The transient manager keeps track of the global collection of
- * transient cleanup tasks in instances where transient-generating
+ * The temporary manager keeps track of the global collection of
+ * temporary cleanup tasks in instances where temporary-generating
  * tasks are executed directly via their run() method, rather than
  * as part of a collection.
  *
- * In general, transient-generating tasks should always be run in
+ * In general, temporary-generating tasks should always be run in
  * a collection, as the cleanup functions registered with the
- * TransientManager will not run until requested.
+ * TemporaryManager will not run until requested.
  *
  * Since the results could be undefined if cleanup functions were called
  * at arbitrary times during a program's execution, cleanup should only
  * be done immeidately prior to program termination, when there is no
  * danger of cleaning up after some unrelated task.
  *
- * An application need never use the TransientManager directly, save to
- * call TransientManager::complete() immediately prior to terminating.
+ * An application need never use the TemporaryManager directly, save to
+ * call TemporaryManager::complete() immediately prior to terminating.
  */
-class TransientManager
+class TemporaryManager
 {
     private static $collection;
 
     /**
-     * Provides direct access to the collection of transients, if necessary.
+     * Provides direct access to the collection of temporaries, if necessary.
      */
     public static function getCollection()
     {
@@ -42,10 +42,10 @@ class TransientManager
     }
 
     /**
-     * Register a task that creates transient objects. Its complete
+     * Register a task that creates temporary objects. Its complete
      * function will be called when the program exits.
      */
-    public static function transientTask(TaskInterface $task)
+    public static function temporaryTask(TaskInterface $task)
     {
         return new CollectionTask(static::getCollection(), $task);
     }

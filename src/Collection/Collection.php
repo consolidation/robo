@@ -318,19 +318,19 @@ class Collection implements TaskInterface
      */
     public function run()
     {
-        $result = $this->runPreservingTemporaries();
+        $result = $this->runWithoutCompletion();
         $this->complete();
         return $result;
     }
 
     /**
-     * Like 'run()', but does not delete temporaries.
+     * Like 'run()', but does not call complete().
      * Allows caller to continue adding tasks to the
      * same collection, e.g. perhaps to re-use a temporary
      * directory or other temporary which will persist
      * until 'run()' or 'complete()' is called.
      */
-    public function runPreservingTemporaries()
+    public function runWithoutCompletion()
     {
         // If there were some tasks that were run before, and they
         // failed, subsequent calls to run() will do nothing further,

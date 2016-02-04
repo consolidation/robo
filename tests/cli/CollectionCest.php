@@ -48,8 +48,10 @@ class CollectionCest
             ->getPath();
 
         // We can create the temporary directory early by running
-        // 'runPreservingTemporaries()'
-        $mktmpResult = $collection->runPreservingTemporaries();
+        // 'runWithoutCompletion()'.  n.b. if we called 'run()' at
+        // this point, the collection's 'complete()' method would be
+        // called, and the temporary directory would be deleted.
+        $mktmpResult = $collection->runWithoutCompletion();
         $I->assertEquals($mktmpResult['path'], $tmpPath, "Tmp dir result matches accessor.");
         $I->seeDirFound($tmpPath);
 

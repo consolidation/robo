@@ -31,7 +31,7 @@ trait loadTasks
      */
     protected function taskTmpDir($prefix = 'tmp', $base = '', $includeRandomPart = true)
     {
-        return Temporary::temporaryTask(new TmpDir($prefix, $base, $includeRandomPart));
+        return Temporary::wrap(new TmpDir($prefix, $base, $includeRandomPart));
     }
 
     /**

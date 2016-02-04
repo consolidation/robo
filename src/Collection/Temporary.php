@@ -44,12 +44,14 @@ class Temporary
     }
 
     /**
-     * Register a task that creates temporary objects. Its complete
-     * function will be called when the program exits.
+     * Wrap the given task in a wrapper class that will ensure
+     * that its 'complete()' function is called when the program
+     * terminates, if not sooner (e.g. if the task is added to
+     * some other collection).
      */
-    public static function temporaryTask(TaskInterface $task)
+    public static function wrap(TaskInterface $task)
     {
-        return new CollectionTask(static::getCollection(), $task);
+        return new TaskWrapper(static::getCollection(), $task);
     }
 
     /**

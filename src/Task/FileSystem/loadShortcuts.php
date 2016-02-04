@@ -68,7 +68,7 @@ trait loadShortcuts
      */
     protected function _tmpDir($prefix = 'tmp', $base = '', $includeRandomPart = true)
     {
-        $result = Temporary::temporaryTask(new TmpDir($prefix, $base, $includeRandomPart))->run();
+        $result = Temporary::wrap(new TmpDir($prefix, $base, $includeRandomPart))->run();
         $data = $result->getData() + ['path' => ''];
         return $data['path'];
     }

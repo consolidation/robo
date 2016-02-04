@@ -10,30 +10,30 @@ use Robo\Contract\CompletionInterface;
 /**
  * Creates a task wrapper that will manage rollback and collection
  * management to a task when it runs.  Tasks are automatically
- * wrapped in a CollectionTask when added to a task collection.
+ * wrapped in a TaskWrapper when added to a task collection.
  *
- * Clients may need to wrap their task in a CollectionTask if it
+ * Clients may need to wrap their task in a TaskWrapper if it
  * creates temporary objects.  This is usually best done via
- * Temporary::temporaryTask().
+ * Temporary::wrap().
  *
  * @see Robo\Task\FileSystem\loadTasks::taskTmpDir
  */
-class CollectionTask extends BaseTask
+class TaskWrapper extends BaseTask
 {
     private $collection;
     private $task;
     private $rollbackTask;
 
     /**
-     * Create a CollectionTask.
+     * Create a TaskWrapper.
      *
-     * Temporary tasks are always wrapped in a CollectionTask, as are
+     * Temporary tasks are always wrapped in a TaskWrapper, as are
      * any tasks that are added to a collection.  If a temporary task
      * is added to a collection, then it is first unwrapped from its
-     * CollectionTask (via its getTask method), and then added to a
-     * new CollectionTask for the collection it is added to.
+     * TaskWrapper (via its getTask method), and then added to a
+     * new TaskWrapper for the collection it is added to.
      *
-     * In this way, when the CollectionTask is finally executed, the
+     * In this way, when the TaskWrapper is finally executed, the
      * task's rollback and completion handlers will be registered on
      * whichever collection it was registered on.
      */

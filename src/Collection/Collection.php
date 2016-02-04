@@ -192,7 +192,7 @@ class Collection implements TaskInterface
     {
         // Wrap the task as necessary.
         $task = $this->wrapTask($task);
-        $this->addToTaskStack($name, new CollectionTask($this, $task));
+        $this->addToTaskStack($name, new TaskWrapper($this, $task));
         return $this;
     }
 

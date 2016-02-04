@@ -40,6 +40,6 @@ trait loadTasks
      */
     protected function taskTmpFile($filename = 'tmp', $extension = '', $baseDir = '', $includeRandomPart = true)
     {
-        return Temporary::temporaryTask(new TmpFile($filename, $extension, $baseDir, $includeRandomPart));
+        return Temporary::wrap(new TmpFile($filename, $extension, $baseDir, $includeRandomPart));
     }
 }

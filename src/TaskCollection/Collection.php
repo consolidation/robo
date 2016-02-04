@@ -210,9 +210,9 @@ class Collection implements TaskInterface
             $task = $task->collected($this);
         }
         // If the caller provided a function pointer instead of a TaskInstance,
-        // then wrap it in a FunctionPointerTask.
+        // then wrap it in a CallableTask.
         if (is_callable($task)) {
-            $task = new FunctionPointerTask($task, $this);
+            $task = new CallableTask($task, $this);
         }
         return $task;
     }

@@ -89,6 +89,8 @@ class Collection implements TaskInterface
      */
     public function rollback($rollbackTask)
     {
+        // Wrap the task as necessary.
+        $rollbackTask = $this->collectAndWrapTask($rollbackTask);
         // TODO: Make a rollback registration class to replace this
         // use of CollectionTask, get rid of $rollbackClass in CollectionTask,
         // and delete EmptyTask.
@@ -189,6 +191,8 @@ class Collection implements TaskInterface
      */
     public function addTask($name, TaskInterface $task)
     {
+        // Wrap the task as necessary.
+        $task = $this->collectAndWrapTask($task);
         $this->addToTaskStack($name, new CollectionTask($this, $task));
         return $this;
     }
@@ -207,7 +211,7 @@ class Collection implements TaskInterface
         }
         // If the caller provided a function pointer instead of a TaskInstance,
         // then wrap it in a FunctionPointerTask.
-        if ($task instanceof \Closure) {
+        if (is_callable($task)) {
             $task = new FunctionPointerTask($task, $this);
         }
         return $task;
@@ -218,8 +222,6 @@ class Collection implements TaskInterface
      */
     protected function addToTaskStack($name, $task)
     {
-        // Wrap the task as necessary.
-        $task = $this->collectAndWrapTask($task);
         // All tasks are stored in a task group so that we have a place
         // to hang 'before' and 'after' tasks.
         $taskGroup = new TaskBeforeAfterGroup($task);
@@ -262,8 +264,10 @@ class Collection implements TaskInterface
      * @param TaskInterface
      *   The rollback task to run on failure.
      */
-    public function registerRollback(TaskInterface $rollbackTask)
+    public function registerRollback($rollbackTask)
     {
+        // Wrap the task as necessary.
+        $rollbackTask = $this->collectAndWrapTask($rollbackTask);
         if ($rollbackTask) {
             $this->rollbackStack[] = $rollbackTask;
         }
@@ -287,8 +291,10 @@ class Collection implements TaskInterface
      * @param TaskInterface
      *   The completion task to run at the end of all other operations.
      */
-    public function registerCompletion(TaskInterface $completionTask)
+    public function registerCompletion($completionTask)
     {
+        // Wrap the task as necessary.
+        $completionTask = $this->collectAndWrapTask($completionTask);
         if ($completionTask) {
             $this->completionStack[] = $completionTask;
         }
@@ -342,10 +348,10 @@ class Collection implements TaskInterface
     public function registerRollbackAndCompletionHandlers($task)
     {
         if ($task instanceof RollbackInterface) {
-            $this->registerRollback(new FunctionPointerTask([$task, 'complete']));
+            $this->registerRollback([$task, 'complete']);
         }
         if ($task instanceof CompletionInterface) {
-            $this->registerCompletion(new FunctionPointerTask([$task, 'complete']));
+            $this->registerCompletion([$task, 'complete']);
         }
         return $this;
     }

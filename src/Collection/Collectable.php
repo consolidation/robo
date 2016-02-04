@@ -18,7 +18,7 @@ trait Collectable
 
     public function addToCollectionAndIgnoreErrors(Collection $collection, $taskName = Collection::UNNAMEDTASK)
     {
-        return $this->addCollectableToCollection(new IgnoreErrorsTaskWrapper($this), $collection, $taskName);
+        return $this->addCollectableToCollection($collection->ignoreErrorsTaskWrapper($this), $collection, $taskName);
     }
 
     private function addCollectableToCollection($task, Collection $collection, $taskName = Collection::UNNAMEDTASK, TaskInterface $rollbackTask = null)

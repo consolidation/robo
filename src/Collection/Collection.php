@@ -211,6 +211,24 @@ class Collection implements TaskInterface
         return $task;
     }
 
+    public function ignoreErrorsTaskWrapper($task)
+    {
+        $task = $this->wrapTask($task);
+        return function() use($task) {
+            $data = [];
+            try {
+                $result = $task->run();
+                $message = $result->getMessage();
+                $data = $result->getData();
+                $data['exitcode'] = $result->getExitCode();
+            } catch (Exception $e) {
+                $message = $e->getMessage();
+            }
+
+            return Result::success($task, $message, $data);
+        };
+    }
+
     /**
      * Add the provided task to our task list.
      */

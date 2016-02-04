@@ -3,8 +3,6 @@ namespace Robo\Collection;
 
 use Robo\Result;
 use Robo\Contract\TaskInterface;
-use Robo\Contract\RollbackInterface;
-use Robo\Contract\CompletionInterface;
 
 /**
  * Group tasks into a collection that run together. Supports
@@ -349,24 +347,6 @@ class Collection implements TaskInterface
         }
         $this->previousResult = $result;
         return $result;
-    }
-
-    /**
-     * Register a task for rollback and completion handling, but
-     * do NOT add it to the execution queue.
-     *
-     * This should be called after the task executes.  See
-     * CollectionTask.
-     */
-    public function registerRollbackAndCompletionHandlers($task)
-    {
-        if ($task instanceof RollbackInterface) {
-            $this->registerRollback([$task, 'complete']);
-        }
-        if ($task instanceof CompletionInterface) {
-            $this->registerCompletion([$task, 'complete']);
-        }
-        return $this;
     }
 
     /**

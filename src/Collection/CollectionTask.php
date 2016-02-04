@@ -4,6 +4,8 @@ namespace Robo\Collection;
 
 use Robo\Task\BaseTask;
 use Robo\Contract\TaskInterface;
+use Robo\Contract\RollbackInterface;
+use Robo\Contract\CompletionInterface;
 
 /**
  * Creates a task wrapper that will manage rollback and collection
@@ -48,15 +50,21 @@ class CollectionTask extends BaseTask
     }
 
     /**
-     * The purpose of this function.  Once a collection task runs,
-     * register it on its collection.
+     * Before running this task, register its rollback and completion
+     * handlers on its collection. The reason this class exists is to
+     * defer registration of rollback and completion tasks until 'run()' time.
      */
     public function run()
     {
         if ($this->rollbackTask) {
             $this->collection->registerRollback($this->rollbackTask);
         }
-        $this->collection->registerRollbackAndCompletionHandlers($this->task);
+        if ($this->task instanceof RollbackInterface) {
+            $this->collection->registerRollback([$this->task, 'rollback']);
+        }
+        if ($this->task instanceof CompletionInterface) {
+            $this->collection->registerCompletion([$this->task, 'complete']);
+        }
 
         return $this->task->run();
     }

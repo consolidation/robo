@@ -1,7 +1,7 @@
 <?php
 namespace Robo\Task\File;
 
-use Robo\Collection\TemporaryManager;
+use Robo\Collection\Temporary;
 
 trait loadTasks
 {
@@ -40,6 +40,6 @@ trait loadTasks
      */
     protected function taskTmpFile($filename = 'tmp', $extension = '', $baseDir = '', $includeRandomPart = true)
     {
-        return TemporaryManager::temporaryTask(new TmpFile($filename, $extension, $baseDir, $includeRandomPart));
+        return Temporary::temporaryTask(new TmpFile($filename, $extension, $baseDir, $includeRandomPart));
     }
 }

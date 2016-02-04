@@ -4,7 +4,7 @@ namespace Robo;
 use \CliGuy;
 
 use Robo\Contract\TaskInterface;
-use Robo\Collection\TemporaryManager;
+use Robo\Collection\Temporary;
 use Robo\Result;
 
 class CollectionCest
@@ -196,9 +196,9 @@ class CollectionCest
         // Creating a temporary directory without a task collection will
         // cause the temporary directory to be deleted when the program
         // terminates.  We can force it to clean up sooner by calling
-        // TransientManager::complete(); note that this deletes ALL Robo tmp
+        // TransientManager::complete(); note that this deletes ALL global tmp
         // directories, so this is not thread-safe!  Useful in tests, though.
-        TemporaryManager::complete();
+        Temporary::complete();
         $I->dontSeeFileFound($tmpPath);
     }
 }

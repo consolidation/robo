@@ -1,7 +1,7 @@
 <?php
 namespace Robo\Task\FileSystem;
 
-use Robo\Collection\TemporaryManager;
+use Robo\Collection\Temporary;
 
 trait loadTasks
 {
@@ -31,7 +31,7 @@ trait loadTasks
      */
     protected function taskTmpDir($prefix = 'tmp', $base = '', $includeRandomPart = true)
     {
-        return TemporaryManager::temporaryTask(new TmpDir($prefix, $base, $includeRandomPart));
+        return Temporary::temporaryTask(new TmpDir($prefix, $base, $includeRandomPart));
     }
 
     /**

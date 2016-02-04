@@ -3,8 +3,7 @@
 namespace Robo\Task\File;
 
 use Robo\Collection\Collection;
-use Robo\Contract\TemporaryInterface;
-use Robo\Collection\Temporary;
+use Robo\Contract\CompletionInterface;
 
 /**
  * Create a temporary directory that is automatically cleaned up
@@ -15,7 +14,7 @@ use Robo\Collection\Temporary;
  *
  * Note that the path to the temporary file is available immediately
  * via the getPath() method, even though the directory is not
- * created until the task's run() method is executed..
+ * created until the task's run() method is executed.
  *
  * ``` php
  * <?php
@@ -28,10 +27,8 @@ use Robo\Collection\Temporary;
  * ?>
  * ```
  */
-class TmpFile extends Write implements TemporaryInterface
+class TmpFile extends Write implements CompletionInterface
 {
-    use Temporary;
-
     public function __construct($filename = 'tmp', $extension = '', $baseDir = '', $includeRandomPart = true)
     {
         if (empty($base)) {
@@ -55,9 +52,12 @@ class TmpFile extends Write implements TemporaryInterface
     }
 
     /**
-     * Delete our directory when requested to clean up our temporary objects.
+     * Delete this file when our collection completes.
+     * If this temporary file is not part of a collection,
+     * then it will be deleted when the program terminates,
+     * presuming that it was created by taskTmpFile() or _tmpFile().
      */
-    public function cleanupTemporaries()
+    public function complete()
     {
         unlink($this->getPath());
     }

@@ -4,8 +4,7 @@ namespace Robo\Task\FileSystem;
 
 use Robo\Result;
 use Robo\Collection\Collection;
-use Robo\Contract\TemporaryInterface;
-use Robo\Collection\Temporary;
+use Robo\Contract\CompletionInterface;
 
 /**
  * Create a temporary directory that is automatically cleaned up
@@ -30,10 +29,8 @@ use Robo\Collection\Temporary;
  * ?>
  * ```
  */
-class TmpDir extends BaseDir implements TemporaryInterface
+class TmpDir extends BaseDir implements CompletionInterface
 {
-    use Temporary;
-
     protected $base;
     protected $prefix;
     protected $cwd;
@@ -92,9 +89,12 @@ class TmpDir extends BaseDir implements TemporaryInterface
     }
 
     /**
-     * Delete our directory when requested to clean up our temporary objects.
+     * Delete this directory when our collection completes.
+     * If this temporary directory is not part of a collection,
+     * then it will be deleted when the program terminates,
+     * presuming that it was created by taskTmpDir() or _tmpDir().
      */
-    public function cleanupTemporaries()
+    public function complete()
     {
         // Restore the current working directory, if we redirected it.
         if ($this->cwd) {

@@ -12,7 +12,7 @@ use Robo\Contract\TaskInterface;
  *
  * Clients may need to wrap their task in a CollectionTask if it
  * creates temporary objects.  This is usually best done via
- * TemporaryManager::temporaryTask().
+ * Temporary::temporaryTask().
  *
  * @see Robo\Task\FileSystem\loadTasks::taskTmpDir
  */

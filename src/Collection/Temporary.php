@@ -2,33 +2,78 @@
 
 namespace Robo\Collection;
 
+use Robo\Contract\TaskInterface;
+
 /**
- * Temporary tasks should implement TemporaryInterface
- * and use Temporary.
+ * The temporary collection keeps track of the global collection of
+ * temporary cleanup tasks in instances where temporary-generating
+ * tasks are executed directly via their run() method, rather than
+ * as part of a collection.
+ *
+ * In general, temporary-generating tasks should always be run in
+ * a collection, as the cleanup functions registered with the
+ * Temporary collection will not run until requested.
+ *
+ * Since the results could be undefined if cleanup functions were called
+ * at arbitrary times during a program's execution, cleanup should only
+ * be done immeidately prior to program termination, when there is no
+ * danger of cleaning up after some unrelated task.
+ *
+ * An application need never use Temporary directly, save to
+ * call Temporary::complete() immediately prior to terminating.
+ * This is recommended, but not required; this function will be
+ * registered as a shutdown function, and called on termination.
  */
-trait Temporary
+class Temporary
 {
-    private $temporary = true;
+    private static $collection;
 
-    public function setTemporary($temporary)
+    /**
+     * Provides direct access to the collection of temporaries, if necessary.
+     */
+    public static function getCollection()
     {
-        $this->temporary = $temporary;
-    }
-
-    public function isTemporary()
-    {
-        return $this->temporary;
-    }
-
-    public function complete()
-    {
-        if ($this->isTemporary()) {
-            $this->cleanupTemporaries();
+        if (!static::$collection) {
+            static::$collection = new Collection();
+            register_shutdown_function(function () {
+                static::complete();
+            });
         }
+
+        return static::$collection;
     }
 
-    public function rollback()
+    /**
+     * Register a task that creates temporary objects. Its complete
+     * function will be called when the program exits.
+     */
+    public static function temporaryTask(TaskInterface $task)
     {
-        $this->cleanupTemporaries();
+        return new CollectionTask(static::getCollection(), $task);
+    }
+
+    /**
+     * Call the rollback method of all of the registered objects.
+     */
+    public static function fail()
+    {
+        // Force the rollback and completion functions to run.
+        $collection = static::getCollection();
+        $collection->fail();
+        // Make sure that our completion functions do not run twice.
+        $collection->reset();
+    }
+
+    /**
+     * Call the complete method of all of the registered objects.
+     */
+    public static function complete()
+    {
+        // Run the collection of tasks. This will also run the
+        // completion tasks.
+        $collection = static::getCollection();
+        $collection->run();
+        // Make sure that our completion functions do not run twice.
+        $collection->reset();
     }
 }

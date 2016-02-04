@@ -137,9 +137,62 @@ class Collection implements TaskInterface
         return $this;
     }
 
+    /**
+     * Wrap the provided task in a wrapper that will ignore
+     * any errors or exceptions that may be produced.  This
+     * is useful, for example, in adding optional cleanup tasks
+     * at the beginning of a task collection, to remove previous
+     * results which may or may not exist.
+     *
+     * TODO: Provide some way to specify which sort of errors
+     * are ignored, so that 'file not found' may be ignored,
+     * but 'permission denied' reported?
+     */
+    public function ignoreErrorsTaskWrapper($task)
+    {
+        $task = $this->wrapTask($task);
+        return function() use($task) {
+            $data = [];
+            try {
+                $result = $task->run();
+                $message = $result->getMessage();
+                $data = $result->getData();
+                $data['exitcode'] = $result->getExitCode();
+            } catch (Exception $e) {
+                $message = $e->getMessage();
+            }
+
+            return Result::success($task, $message, $data);
+        };
+    }
+
+    /**
+     * Return the list of task names added to this collection.
+     */
     public function taskNames()
     {
         return array_keys($this->taskStack);
+    }
+
+    /**
+     * Test to see if a specified task name exists.
+     * n.b. before() and after() require that the named
+     * task exist; use this function to test first, if
+     * unsure.
+     */
+    public function hasTask($name)
+    {
+        return array_key_exists($name, $this->taskStack);
+    }
+
+    /**
+     * Test to see if the given name is an unnamed task, or
+     * something functionally equivalent.  Any numeric index
+     * is renumbered when added to the collection.
+     */
+    public static function isUnnamedTask($name)
+    {
+        return is_numeric($name);
     }
 
     /**
@@ -159,13 +212,9 @@ class Collection implements TaskInterface
         return $this->taskStack[$name];
     }
 
-    public function hasTask($name)
-    {
-        return array_key_exists($name, $this->taskStack);
-    }
-
     /**
-     * Add a list of tasks to our task collection.
+     * Add a list of tasks to our task collection. This is
+     * protected because clients should just call 'add()'.
      *
      * @param TaskInterface[]
      *   An array of tasks to run with rollback protection
@@ -181,14 +230,16 @@ class Collection implements TaskInterface
     /**
      * Add a task to our task collection.  If there is a later failure,
      * then run the provided rollback operation.  The rollback() method of
-     * the task will also be executed, if the task implements RollbackInterface.
+     * the task will also be executed, if the task implements
+     * RollbackInterface.  addTask is protected because clients should
+     * just call 'add()'.
      *
      * @param string
      *   A name for the task, used for positioning before and after tasks.
      * @param TaskInterface
      *   The task to run
      */
-    public function addTask($name, TaskInterface $task)
+    protected function addTask($name, TaskInterface $task)
     {
         // Wrap the task as necessary.
         $task = $this->wrapTask($task);
@@ -208,24 +259,6 @@ class Collection implements TaskInterface
             $task = new CallableTask($task, $this);
         }
         return $task;
-    }
-
-    public function ignoreErrorsTaskWrapper($task)
-    {
-        $task = $this->wrapTask($task);
-        return function() use($task) {
-            $data = [];
-            try {
-                $result = $task->run();
-                $message = $result->getMessage();
-                $data = $result->getData();
-                $data['exitcode'] = $result->getExitCode();
-            } catch (Exception $e) {
-                $message = $e->getMessage();
-            }
-
-            return Result::success($task, $message, $data);
-        };
     }
 
     /**
@@ -250,23 +283,14 @@ class Collection implements TaskInterface
     }
 
     /**
-     * Test to see if the given name is an unnamed task, or
-     * something functionally equivalent.  Any numeric index
-     * is renumbered when added to the collection.
-     */
-    public static function isUnnamedTask($name)
-    {
-        return is_numeric($name);
-    }
-
-    /**
      * Register a rollback task to run if there is any failure.
      *
      * Clients are free to add tasks to the rollback stack as
      * desired; however, usually it is preferable to call
-     * Collection::addWithRollback() instead.  With that function,
-     * the rollback function will only be called if its associated
-     * task completes successfully, AND some later task fails.
+     * Collection::rollback() instead.  With that function,
+     * the rollback function will only be called if all of the
+     * tasks added before it complete successfully, AND some later
+     * task fails.
      *
      * One example of a good use-case for registering a callback
      * function directly is to add a task that sends notification
@@ -291,7 +315,8 @@ class Collection implements TaskInterface
      * triggered. They do not trigger rollbacks if they fail.
      *
      * The typical use-case for a completion function is to clean up
-     * temporary objects (e.g. temporary folders).
+     * temporary objects (e.g. temporary folders).  The preferred
+     * way to do that, though, is to use Temporary::wrap().
      *
      * On failures, completion tasks will run after all rollback tasks.
      * If one task collection is nested inside another task collection,
@@ -428,6 +453,11 @@ class Collection implements TaskInterface
         return $result;
     }
 
+    /**
+     * Add the results from the most recent task to the accumulated
+     * results from all tasks that have run so far, merging data
+     * as necessary.
+     */
     public function accumulateResults($key, Result $result, Result $taskResult)
     {
         // If the result is not set or is not a Result, then ignore it

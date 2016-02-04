@@ -20,7 +20,8 @@ use Robo\Contract\TaskInterface;
  * danger of cleaning up after some unrelated task.
  *
  * An application need never use Temporary directly, save to
- * call Temporary::complete() immediately prior to terminating.
+ * call Temporary::wrap() inside loadTasks or loadShortcuts, and
+ * to call Temporary::complete() immediately prior to terminating.
  * This is recommended, but not required; this function will be
  * registered as a shutdown function, and called on termination.
  */

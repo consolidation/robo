@@ -24,9 +24,6 @@ class CollectionTest extends \Codeception\TestCase\Test
             ->add('a-name', $taskA)
             ->add('b-name', $taskB);
 
-        $taskKeys = $collection->taskNames();
-        verify(implode(',', $taskKeys))->equals('a-name,b-name');
-
         // We add methods of our task instances as before and
         // after tasks. These methods have access to the task
         // class' fields, and may modify them as needed.

@@ -23,7 +23,7 @@ trait Collectable
 
     private function addCollectableToCollection($task, Collection $collection, $taskName = Collection::UNNAMEDTASK, TaskInterface $rollbackTask = null)
     {
-        $collection->addTask($taskName, $task);
+        $collection->add($taskName, $task);
         if ($rollbackTask) {
             $collection->rollback($rollbackTask);
         }

@@ -9,7 +9,6 @@ namespace unit;
 use Robo\Result;
 use Robo\Task\BaseTask;
 use Robo\Contract\TaskInterface;
-use Robo\Contract\CollectedInterface;
 use Robo\Collection\Collection;
 
 class CollectionTest extends \Codeception\TestCase\Test
@@ -49,6 +48,10 @@ class CollectionTest extends \Codeception\TestCase\Test
         // the correct order.
         verify($result['a-name']['a'])->equals('*(value-a)*');
         verify($result['b-name']['b'])->equals('(*value-b*)');
+
+        // Note that the last after task is added with a special name;
+        // its results therefore show up under the name given, rather
+        // than being stored under the name of the task it was added after.
         verify($result['special-name']['b'])->equals('((*value-b*))');
     }
 }

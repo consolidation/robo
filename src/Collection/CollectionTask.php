@@ -34,9 +34,6 @@ class CollectionTask extends BaseTask
      * In this way, when the CollectionTask is finally executed, the
      * task's rollback and completion handlers will be registered on
      * whichever collection it was registered on.
-     *
-     * TODO: Could we just make temporary tasks implement CollectedTask,
-     * and handle it that way?
      */
     public function __construct(Collection $collection, TaskInterface $task, TaskInterface $rollbackTask = null)
     {

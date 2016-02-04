@@ -90,7 +90,7 @@ class Collection implements TaskInterface
     public function rollback($rollbackTask)
     {
         // Wrap the task as necessary.
-        $rollbackTask = $this->collectAndWrapTask($rollbackTask);
+        $rollbackTask = $this->wrapTask($rollbackTask);
         // TODO: Make a rollback registration class to replace this
         // use of CollectionTask, get rid of $rollbackClass in CollectionTask,
         // and delete EmptyTask.
@@ -112,7 +112,7 @@ class Collection implements TaskInterface
     public function before($name, $task, $nameOfTaskToAdd = self::UNNAMEDTASK)
     {
         // Wrap the task as necessary.
-        $task = $this->collectAndWrapTask($task);
+        $task = $this->wrapTask($task);
         $existingTask = $this->namedTask($name);
         $existingTask->before($task, $nameOfTaskToAdd);
         return $this;
@@ -132,7 +132,7 @@ class Collection implements TaskInterface
     public function after($name, $task, $nameOfTaskToAdd = self::UNNAMEDTASK)
     {
         // Wrap the task as necessary.
-        $task = $this->collectAndWrapTask($task);
+        $task = $this->wrapTask($task);
         $existingTask = $this->namedTask($name);
         $existingTask->after($task, $nameOfTaskToAdd);
         return $this;
@@ -192,7 +192,7 @@ class Collection implements TaskInterface
     public function addTask($name, TaskInterface $task)
     {
         // Wrap the task as necessary.
-        $task = $this->collectAndWrapTask($task);
+        $task = $this->wrapTask($task);
         $this->addToTaskStack($name, new CollectionTask($this, $task));
         return $this;
     }
@@ -201,14 +201,8 @@ class Collection implements TaskInterface
      * If the task needs to be wrapped, create whatever wrapper objects are
      * needed for it.
      */
-    protected function collectAndWrapTask($task)
+    protected function wrapTask($task)
     {
-        // If the task implements `CollectedInterface`, then tell it it was
-        // collected. Collection may involve the creation of a wrapper,
-        // or it may return the same task.
-        if ($task instanceof CollectedInterface) {
-            $task = $task->collected($this);
-        }
         // If the caller provided a function pointer instead of a TaskInstance,
         // then wrap it in a CallableTask.
         if (is_callable($task)) {
@@ -267,7 +261,7 @@ class Collection implements TaskInterface
     public function registerRollback($rollbackTask)
     {
         // Wrap the task as necessary.
-        $rollbackTask = $this->collectAndWrapTask($rollbackTask);
+        $rollbackTask = $this->wrapTask($rollbackTask);
         if ($rollbackTask) {
             $this->rollbackStack[] = $rollbackTask;
         }
@@ -294,7 +288,7 @@ class Collection implements TaskInterface
     public function registerCompletion($completionTask)
     {
         // Wrap the task as necessary.
-        $completionTask = $this->collectAndWrapTask($completionTask);
+        $completionTask = $this->wrapTask($completionTask);
         if ($completionTask) {
             $this->completionStack[] = $completionTask;
         }

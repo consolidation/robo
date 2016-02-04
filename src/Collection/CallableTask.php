@@ -3,7 +3,6 @@ namespace Robo\Collection;
 
 use Robo\Result;
 use Robo\Contract\TaskInterface;
-use Robo\Contract\CollectedInterface;
 use Robo\Collection\Collection;
 
 /**
@@ -13,26 +12,13 @@ use Robo\Collection\Collection;
  * It is not necessary to use this class directly; Collection will
  * automatically wrap Callables when they are added.
  */
-class CallableTask implements TaskInterface, CollectedInterface
+class CallableTask implements TaskInterface
 {
     private $fn;
-    private $collection = null;
 
-    public function __construct($fn, $collection = null)
+    public function __construct($fn)
     {
         $this->fn = $fn;
-        $this->collection = $collection;
-    }
-
-    public function collected(Collection $collection)
-    {
-        // If this function wrapper already has a reference to
-        // the correct collection, then we can use this instance.
-        if ($collection == $this->collection) {
-            return $this;
-        }
-        // Otherwise, make a new one.
-        return new self($this->fn, $collection);
     }
 
     public function run()

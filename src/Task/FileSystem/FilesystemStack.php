@@ -2,7 +2,7 @@
 namespace Robo\Task\FileSystem;
 
 use Robo\Result;
-use Robo\Task\BaseTask;
+use Robo\Task\StackBasedTask;
 use Symfony\Component\Filesystem\Filesystem as sfFileSystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
@@ -25,100 +25,60 @@ use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
  *
  * ?>
  * ```
+ *
+ * @method mkdir($dir)
+ * @method touch($file)
+ * @method copy($from, $to, $force = null)
+ * @method chmod($file, $permissions, $umask = null, $recursive = null)
+ * @method remove($file)
+ * @method rename($from, $to)
+ * @method symlink($from, $to)
+ * @method mirror($from, $to)
+ * @method chgrp($file, $group)
+ * @method chown($file, $user)
  */
-class FilesystemStack extends BaseTask
+class FilesystemStack extends StackBasedTask
 {
-    protected $stack = [];
+    protected $fs;
 
-    protected $stopOnFail = false;
-
-    public function stopOnFail($stop = true)
+    /**
+     * Historically, FilesystemStack defaults to
+     * stopOnFail(false), but WrapperTask defaults
+     * to stopOnFail(true).
+     */
+    public function __construct()
     {
-        $this->stopOnFail = $stop;
-        return $this;
+        $this->fs = new sfFileSystem();
+        $this->stopOnFail(false);
     }
 
-    public function mkdir($dir)
+    protected function getDelegate()
     {
-        $this->stack[] = array_merge([__FUNCTION__], func_get_args());
-        return $this;
+        return $this->fs;
     }
 
-    public function touch($file)
+    protected function _copy($from, $to, $force = false)
     {
-        $this->stack[] = array_merge([__FUNCTION__], func_get_args());
-        return $this;
+        $this->fs->copy($from, $to, $force);
     }
 
-    public function copy($from, $to, $force = false)
+    protected function _chmod($file, $permissions, $umask = 0000, $recursive = false)
     {
-        $this->stack[] = array_merge([__FUNCTION__], func_get_args());
-        return $this;
+        $this->fs->chmod($file, $permissions, $umask, $recursive);
     }
 
-    public function chmod($file, $permissions, $umask = 0000, $recursive = false)
+    /**
+     * Execute one task method
+     */
+    protected function callTaskMethod($command, $action)
     {
-        $this->stack[] = array_merge([__FUNCTION__], func_get_args());
-        return $this;
-    }
-
-    public function remove($file)
-    {
-        $this->stack[] = array_merge([__FUNCTION__], func_get_args());
-        return $this;
-    }
-
-    public function rename($from, $to)
-    {
-        $this->stack[] = array_merge([__FUNCTION__], func_get_args());
-        return $this;
-    }
-
-    public function symlink($from, $to)
-    {
-        $this->stack[] = array_merge([__FUNCTION__], func_get_args());
-        return $this;
-    }
-
-    public function mirror($from, $to)
-    {
-        $this->stack[] = array_merge([__FUNCTION__], func_get_args());
-        return $this;
-    }
-
-    public function chgrp($file, $group)
-    {
-        $this->stack[] = array_merge([__FUNCTION__], func_get_args());
-        return $this;
-    }
-
-    public function chown($file, $user)
-    {
-        $this->stack[] = array_merge([__FUNCTION__], func_get_args());
-        return $this;
-    }
-
-    public function run()
-    {
-        $fs = new sfFileSystem();
-        $code = 0;
-        foreach ($this->stack as $action) {
-            $command = array_shift($action);
-            if (!method_exists($fs, $command)) {
-                continue;
-            }
-            $this->printTaskInfo("$command " . json_encode($action));
-            try {
-                call_user_func_array([$fs, $command], $action);
-            } catch (IOExceptionInterface $e) {
-                if ($this->stopOnFail) {
-                    return Result::error($this, $e->getMessage(), $e->getPath());
-                }
-                $code = 1;
-                $this->printTaskInfo("<error>" . $e->getMessage() . "</error>");
-            }
+        try {
+            $function_result = call_user_func_array($command, $action);
+            return $this->processResult($function_result);
+        } catch (IOExceptionInterface $e) {
+            $this->printTaskInfo("<error>" . $e->getMessage() . "</error>");
+            return Result::error($this, $e->getMessage(), $e->getPath());
         }
-        return new Result($this, $code);
     }
 
 }

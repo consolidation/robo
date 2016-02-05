@@ -3,6 +3,73 @@ use Symfony\Component\Finder\Finder;
 
 class RoboFile extends \Robo\Tasks
 {
+    // Example:
+    // ./robo wrap 'Symfony\Component\Filesystem\Filesystem' FilesystemStack
+    public function wrap($className, $wrapperClassName = "")
+    {
+        $delegate = new ReflectionClass($className);
+
+        $leadingCommentChars = " * ";
+        $methodDescriptions = [];
+        $methodImplementations = [];
+        $immediateMethods = [];
+        foreach ($delegate->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
+            $methodName = $method->getName();
+            $getter = preg_match('/^(get|has|is)/', $methodName);
+            $setter = preg_match('/^(set|unset)/', $methodName);
+            $argPrototypeList = [];
+            $argNameList = [];
+            $needsImplementation = false;
+            foreach ($method->getParameters() as $arg) {
+                $argDescription = '$' . $arg->name;
+                $argNameList[] = $argDescription;
+                if ($arg->isOptional()) {
+                    $argDescription = $argDescription . ' = ' . str_replace("\n", "", var_export($arg->getDefaultValue(), true));
+                    // We will create wrapper methods for any method that
+                    // has default parameters.
+                    $needsImplementation = true;
+                }
+                $argPrototypeList[] = $argDescription;
+            }
+            $argPrototypeString = implode(', ', $argPrototypeList);
+            $argNameListString = implode(', ', $argNameList);
+
+            if ($methodName[0] != '_') {
+                $methodDescriptions[] = "@method $methodName($argPrototypeString)";
+
+                if ($getter) {
+                    $immediateMethods[] = "    public function $methodName($argPrototypeString)\n    {\n        return \$this->delegate->$methodName($argNameListString);\n    }";
+                } elseif ($setter) {
+                    $immediateMethods[] = "    public function $methodName($argPrototypeString)\n    {\n        \$this->delegate->$methodName($argNameListString);\n        return \$this;\n    }";
+                } elseif ($needsImplementation) {
+                    // Include an implementation for the wrapper method if necessary
+                    $methodImplementations[] = "    protected function _$methodName($argPrototypeString)\n    {\n        \$this->delegate->$methodName($argNameListString);\n    }";
+                }
+            }
+        }
+
+        $classNameParts = explode('\\', $className);
+        $delegate = array_pop($classNameParts);
+        $delegateNamespace = implode('\\', $classNameParts);
+
+        if (empty($wrapperClassName)) {
+            $wrapperClassName = $delegate;
+        }
+
+        $replacements['{delegateNamespace}'] = $delegateNamespace;
+        $replacements['{delegate}'] = $delegate;
+        $replacements['{wrapperClassName}'] = $wrapperClassName;
+        $replacements['{taskname}'] = "task$delegate";
+        $replacements['{methodList}'] = $leadingCommentChars . implode("\n$leadingCommentChars", $methodDescriptions);
+        $replacements['{immediateMethods}'] = "\n\n" . implode("\n\n", $immediateMethods);
+        $replacements['{methodImplementations}'] = "\n\n" . implode("\n\n", $methodImplementations);
+
+        $template = file_get_contents(__DIR__ . "/GeneratedWrapper.tmpl");
+        $template = str_replace(array_keys($replacements), array_values($replacements), $template);
+
+        print $template;
+    }
+
     public function release()
     {
         $this->yell("Releasing Robo");
@@ -255,5 +322,5 @@ class RoboFile extends \Robo\Tasks
         new SomeTask();
         $this->_exec('php -r "echo php_sapi_name();"');
     }
-    
+
 }

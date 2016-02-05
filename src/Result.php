@@ -5,7 +5,7 @@ use Robo\Common\TaskIO;
 use Robo\Contract\PrintedInterface;
 use Robo\Contract\TaskInterface;
 
-class Result implements \ArrayAccess
+class Result implements \ArrayAccess, \IteratorAggregate
 {
     use TaskIO;
 
@@ -164,11 +164,17 @@ class Result implements \ArrayAccess
         return $this;
     }
 
+    /**
+     * \ArrayAccess accessor for `isset()`
+     */
     public function offsetExists($offset)
     {
         return isset($this->data[$offset]);
     }
 
+    /**
+     * \ArrayAccess accessor for array data access.
+     */
     public function offsetGet($offset)
     {
         if (isset($this->data[$offset])) {
@@ -176,13 +182,29 @@ class Result implements \ArrayAccess
         }
     }
 
+    /**
+     * \ArrayAccess method for array assignment.
+     */
     public function offsetSet($offset, $value)
     {
         $this->data[$offset] = $value;
     }
 
+    /**
+     * \ArrayAccess method for `unset`
+     */
     public function offsetUnset($offset)
     {
         unset($this->data[$offset]);
+    }
+
+    /**
+     * \IteratorAggregate accessor for `foreach`.
+     *
+     * @return \Iterator
+     */
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->data);
     }
 }

@@ -41,7 +41,7 @@ use Robo\Contract\TaskInterface;
  *
  * To create a new Robo task:
  *
- *  - Make a new class that extends WrapperTask
+ *  - Make a new class that extends StackBasedTask
  *  - Give it a constructor that creates a new Frobinator
  *  - Override getDelegate(), and return the Frobinator instance
  *

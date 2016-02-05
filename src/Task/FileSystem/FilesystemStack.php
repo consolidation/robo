@@ -43,7 +43,7 @@ class FilesystemStack extends StackBasedTask
 
     /**
      * Historically, FilesystemStack defaults to
-     * stopOnFail(false), but WrapperTask defaults
+     * stopOnFail(false), but StackBasedTask defaults
      * to stopOnFail(true).
      */
     public function __construct()

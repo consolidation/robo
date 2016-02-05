@@ -87,6 +87,8 @@ class Collection implements TaskInterface
      */
     public function rollback($rollbackTask)
     {
+        // Rollback tasks always try as hard as they can, and never report failures.
+        $rollbackTask = $this->ignoreErrorsTaskWrapper($rollbackTask);
         // Wrap the task as necessary.
         $rollbackTask = $this->wrapTask($rollbackTask);
         $collection = $this;
@@ -149,6 +151,12 @@ class Collection implements TaskInterface
      */
     public function ignoreErrorsTaskWrapper($task)
     {
+        // If the task is a stack-based task, then tell it
+        // to try to run all of its operations, even if some
+        // of them fail.
+        if ($task instanceof StackBasedTask) {
+            $task->stopOnFail(false);
+        }
         $task = $this->wrapTask($task);
         return function () use ($task) {
             $data = [];
@@ -328,6 +336,8 @@ class Collection implements TaskInterface
      */
     public function registerCompletion($completionTask)
     {
+        // Completion tasks always try as hard as they can, and never report failures.
+        $completionTask = $this->ignoreErrorsTaskWrapper($completionTask);
         // Wrap the task as necessary.
         $completionTask = $this->wrapTask($completionTask);
         if ($completionTask) {

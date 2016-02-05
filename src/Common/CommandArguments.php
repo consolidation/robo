@@ -35,10 +35,13 @@ trait CommandArguments
     }
 
     /**
-     * Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+     * Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
+     *
+     * Option values must be explicitly escaped with escapeshellarg if necessary before being passed to
+     * this function.
      *
      * @param $option
-     * @param null $value
+     * @param string $value
      * @return $this
      */
     public function option($option, $value = null)
@@ -51,5 +54,28 @@ trait CommandArguments
         return $this;
     }
 
+    /**
+     * Pass multiple options to executable. Value can be a string or array.
+     *
+     * Option values should be provided in raw, unescaped form; they are always
+     * escaped via escapeshellarg in this function.
+     *
+     * @param $option
+     * @param string|array $value
+     * @return $this
+     */
+    public function optionList($option, $value = array())
+    {
+        if (is_array($value)) {
+            foreach ($value as $item) {
+                $this->optionList($option, $item);
+            }
+        }
+        else {
+            $this->option($option, escapeshellarg($value));
+        }
 
-} 
+        return $this;
+    }
+
+}

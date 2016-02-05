@@ -224,16 +224,12 @@ class Rsync extends BaseTask implements CommandInterface
      */
     public function excludeVcs()
     {
-        $this->exclude('.git/')
-            ->exclude('.svn/')
-            ->exclude('.hg/');
-
-        return $this;
+        return $this->exclude(['.git/', '.svn/', '.hg/']);
     }
 
     public function exclude($pattern)
     {
-        return $this->option('exclude', escapeshellarg($pattern));
+        return $this->optionList(__FUNCTION__, $pattern);
     }
 
     public function excludeFrom($file)
@@ -243,6 +239,16 @@ class Rsync extends BaseTask implements CommandInterface
         }
 
         return $this->option('exclude-from', $file);
+    }
+
+    public function includeFilter($pattern)
+    {
+        return $this->optionList('include', $pattern);
+    }
+
+    public function filter($pattern)
+    {
+        return $this->optionList(__FUNCTION__, $pattern);
     }
 
     public function filesFrom($file)

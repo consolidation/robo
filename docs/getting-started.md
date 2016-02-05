@@ -323,6 +323,8 @@ class RoboFile
 ?>
 ```
 
+Some tasks may also attach data to the Result object.  If this is done, the data may be accessed as an array; for example, `$result['path'];`. This is not common.
+
 ### Stack
 
 Some tasks contain `Stack` in their name. These are called "stack" tasks, and they execute similar tasks one after the other.  Each of the primary methods in a stack class executes an operation.

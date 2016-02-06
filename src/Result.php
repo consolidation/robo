@@ -58,6 +58,11 @@ class Result implements \ArrayAccess
         return new self($task, 0, $message, $data);
     }
 
+    public function copy($data = [])
+    {
+        return new self($this->getTask(), $this->getExitCode(), $this->getMessage(), $data + $this->getData());
+    }
+
     /**
      * @return array
      */

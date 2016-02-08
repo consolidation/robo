@@ -152,8 +152,9 @@ class Pack extends BaseTask implements PrintedInterface
             $result = Result::error($this);
         }
         $this->stopTimer();
+        $result['time'] = $this->getExecutionTime();
 
-        return $result->copy(['time' => $this->getExecutionTime()]);
+        return $result;
     }
 
     protected function archiveTar($archiveFile, $items)

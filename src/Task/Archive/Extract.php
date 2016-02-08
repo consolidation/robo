@@ -96,8 +96,9 @@ class Extract extends BaseTask
             }
         }
         $this->stopTimer();
+        $result['time'] = $this->getExecutionTime();
 
-        return $result->copy(['time' => $this->getExecutionTime()]);
+        return $result;
     }
 
     protected function extractZip($extractLocation)

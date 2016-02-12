@@ -109,8 +109,12 @@ class Result implements \ArrayAccess, \IteratorAggregate
         return $this->exitCode === 0;
     }
 
+    /**
+     * @deprecated since 1.0.  @see wasSuccessful()
+     */
     public function __invoke()
     {
+        trigger_error(__METHOD__ . ' is deprecated: use wasSuccessful() instead.', E_USER_DEPRECATED);
         return $this->wasSuccessful();
     }
 

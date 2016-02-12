@@ -35,7 +35,7 @@ $loader->load(basename($servicesFile));
 // $container->compile();
 
 // Store the container somewhere
-// setContainer($container);
+Robo\Config::setContainer($container);
 
 $runner = new \Robo\Runner();
 $runner->execute();

@@ -6,6 +6,3 @@
 services:
   logger:
     class: Robo\Common\Logger
-
-  configuration:
-    class: Robo\Common\Configuration

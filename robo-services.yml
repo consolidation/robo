@@ -1,0 +1,11 @@
+#
+# Robo services
+#
+# This file defines the core Robo serivce classes
+#
+services:
+  logger:
+    class: Robo\Common\Logger
+
+  configuration:
+    class: Robo\Common\Configuration

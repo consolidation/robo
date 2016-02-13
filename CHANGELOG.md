@@ -1,12 +1,71 @@
 # Changelog
 
-Thanks to everyone for using it and submitting pull requests! You are awesome.
+#### 0.6.0
 
-Next release is going to be 0.5.0 with some refactorings included.
-File structure will be changed to match PSR-4 standard.
+* Added `--load-from` option to make Robo start RoboFiles from other directories. Use it like `robo --load-from /path/to/where/RobFile/located`.
+* Robo will not ask to create RoboFile if it does not exist, `init` command should be used.
+* [ImageMinify] task added by @gabor-udvari
+* [OpenBrowser] task added by @oscarotero
+* [FlattenDir] task added by @gabor-udvari
+* Robo Runner can easily extended for custom runner by passing RoboClass and RoboFile parameters to constructor. By @rdeutz See #232
 
-Thanks to everyone who submitted useful tasks. It's better to have many tasks than few.
-However, once the core is stabilized we plan to move some tasks out of main repo but make them easily installed via composer.
+#### 0.5.4
+
+* [WriteToFile] Fixed by @gabor-udvari: always writing to file regardless whether any changes were made or not. This can bring the taskrunner into an inifinite loop if a replaced file is being watched.
+* [Scss] task added, requires `leafo/scssphp` library to compile by @gabor-udvari
+* [PhpSpec] TAP formatter added by @orls
+* [Less] Added ability to set import dir for less compilers by @MAXakaWIZARD
+* [Less] fixed passing closure as compiler by @pr0nbaer
+* [Sass] task added by *2015-08-31*
+
+#### 0.5.3
+
+ * [Rsync] Ability to use remote shell with identity file by @Mihailoff
+ * [Less] Task added by @burzum
+ * [PHPUnit] allow to test specific files with `files` parameter by @burzum.
+ * [GitStack] `tag` added by @SebSept
+ * [Concat] Fixing concat, it breaks some files if there is no new line. @burzum *2015-03-03-13*
+ * [Minify] BC fix to support Jsqueeze 1.x and 2.x @burzum *2015-03-12*
+ * [PHPUnit] Replace log-xml with log-junit @vkunz *2015-03-06*
+ * [Minify] Making it possible to pass options to the JS minification @burzum *2015-03-05*
+ * [CopyDir] Create destination recursively @boedah *2015-02-28*
+
+#### 0.5.2
+
+* [Phar] do not compress phar if more than 1000 files included (causes internal PHP error) *2015-02-24*
+* _copyDir and _mirrorDir shortcuts fixed by @boedah *2015-02-24*
+* [File\Write] methods replace() and regexReplace() added by @asterixcapri *2015-02-24*
+* [Codecept] Allow to set custom name of coverage file raw name by @raistlin *2015-02-24*
+* [Ssh] Added property `remoteDir` by @boedah *2015-02-24*
+* [PhpServer] fixed passing arguments to server *2015-02-24*
+
+
+#### 0.5.1
+
+* [Exec] fixed execution of background jobs, processes persist till the end of PHP script *2015-01-27*
+* [Ssh] Fixed SSH task by @Butochnikov *2015-01-27*
+* [CopyDir] fixed shortcut usage by @boedah *2015-01-27*
+* Added default value options for Configuration trait by @TamasBarta *2015-01-27*
+
+#### 0.5.0
+
+Refactored core
+
+* All traits moved to `Robo\Common` namespace
+* Interfaces moved to `Robo\Contract` namespace
+* All task extend `Robo\Task\BaseTask` to use common IO.
+* All classes follow PSR-4 standard
+* Tasks are loaded into RoboFile with `loadTasks` trait
+* One-line tasks are available as shortcuts loaded by `loadShortucts` and used like `$this->_exec('ls')`
+* Robo runner is less coupled. Output can be set by `\Robo\Config::setOutput`, `RoboFile` can be changed to any provided class.
+* Tasks can be used outside of Robo runner (inside a project)
+* Timer for long-running tasks added
+* Tasks can be globally configured (WIP) via `Robo\Config` class.
+* Updated to Symfony >= 2.5
+* IO methods added `askHidden`, `askDefault`, `confirm`
+* TaskIO methods added `printTaskError`, `printTaskSuccess` with different formatting.
+* [Docker] Tasks added
+* [Gulp] Task added by @schorsch3000
 
 #### 0.4.7
 

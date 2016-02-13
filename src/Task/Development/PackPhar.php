@@ -8,11 +8,11 @@ use Robo\Task\BaseTask;
 use Symfony\Component\Console\Helper\ProgressBar;
 
 /**
- * Creates Phar
+ * Creates Phar.
  *
  * ``` php
  * <?php
- * $pharTask = $this->PackPhar('package/codecept.phar')
+ * $pharTask = $this->taskPackPhar('package/codecept.phar')
  *   ->compress()
  *   ->stub('package/stub.php');
  *
@@ -99,12 +99,12 @@ EOF;
 
     public function run()
     {
-        $this->printTaskInfo("creating <info>{$this->filename}</info>");
+        $this->printTaskInfo("Creating <info>{$this->filename}</info>");
         $this->phar->setSignatureAlgorithm(\Phar::SHA1);
         $this->phar->startBuffering();
 
-        $this->printTaskInfo('packing ' . count($this->files) . ' files into phar');
-        
+        $this->printTaskInfo('Packing ' . count($this->files) . ' files into phar');
+
         $progress = new ProgressBar($this->getOutput());
         $progress->start(count($this->files));
         $this->startTimer();
@@ -117,8 +117,12 @@ EOF;
         $this->getOutput()->writeln('');
 
         if ($this->compress and in_array('GZ', \Phar::getSupportedCompression())) {
-            $this->printTaskInfo($this->filename . " compressed");
-            $this->phar = $this->phar->compressFiles(\Phar::GZ);
+            if (count($this->files) > 1000) {
+                $this->printTaskInfo("Too many files. Compression DISABLED");
+            } else {
+                $this->printTaskInfo($this->filename . " compressed");
+                $this->phar = $this->phar->compressFiles(\Phar::GZ);
+            }
         }
         $this->stopTimer();
         $this->printTaskSuccess("<info>{$this->filename}</info> produced");

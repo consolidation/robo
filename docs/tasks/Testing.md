@@ -28,17 +28,17 @@ $this->taskCodecept()
 * `html($dir = null)`  Generate html report
 * `tap($file = null)`  generate tap report
 * `configFile($file)`  provides config file other then default `codeception.yml` with `-c` option
-* `coverage()`  turn on collecting code coverage
+* `coverage($cov = null)`  collect codecoverage in raw format. You may pass name of cov file to save results
 * `silent()`  execute in silent mode
 * `coverageXml($xml = null)`  collect code coverage in xml format. You may pass name of xml file to save results
 * `coverageHtml($html = null)`  collect code coverage and generate html report. You may pass
 * `env($env)` 
 * `debug()` 
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
-* `dir($dir)`  changes working directory of command
-* `printed($arg)`  Should command output be printed
 
 ## PHPUnit
 
@@ -59,16 +59,17 @@ $this->taskPHPUnit()
 * `group($group)` 
 * `excludeGroup($group)` 
 * `json($file = null)`  adds `log-json` option to runner
-* `xml($file = null)`  adds `log-xml` option
+* `xml($file = null)`  adds `log-junit` option
 * `tap($file = null)` 
 * `bootstrap($file)` 
 * `configFile($file)` 
 * `debug()` 
+* `files($files)`  Test files to run.
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
-* `dir($dir)`  changes working directory of command
-* `printed($arg)`  Should command output be printed
 
 ## Phpspec
 
@@ -93,9 +94,9 @@ $this->taskPhpspec()
 * `noInteraction()` 
 * `config($config_file)` 
 * `format($formater)` 
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
-* `dir($dir)`  changes working directory of command
-* `printed($arg)`  Should command output be printed
 

@@ -1,5 +1,7 @@
-<?php 
+<?php
 namespace Robo\Task\File;
+
+use Robo\Collection\Temporary;
 
 trait loadTasks
 {
@@ -11,21 +13,33 @@ trait loadTasks
     {
         return new Concat($files);
     }
+
     /**
      * @param $file
-     * @return ReplaceInFile
+     * @return Replace
      */
     protected function taskReplaceInFile($file)
     {
-        return new ReplaceInFile($file);
+        return new Replace($file);
     }
 
     /**
      * @param $file
-     * @return WriteToFile
+     * @return Write
      */
     protected function taskWriteToFile($file)
     {
         return new Write($file);
     }
-} 
+
+    /**
+     * @param $prefix
+     * @param $base
+     * @param $includeRandomPart
+     * @return TmpFile
+     */
+    protected function taskTmpFile($filename = 'tmp', $extension = '', $baseDir = '', $includeRandomPart = true)
+    {
+        return Temporary::wrap(new TmpFile($filename, $extension, $baseDir, $includeRandomPart));
+    }
+}

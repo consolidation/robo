@@ -1,33 +1,4 @@
 # Vcs Tasks
-
-## GitHubRelease
-
-
-Publishes new GitHub release.
-
-``` php
-<?php
-$this->taskGitHubRelease('0.1.0')
-  ->uri('Codegyre/Robo')
-  ->askDescription()
-  ->run();
-?>
-```
-
-* ` tag(string $tag)` 
-* ` name(string $name)` 
-* ` body(string $body)` 
-* ` draft(boolean $isDraft)` 
-* ` prerelease(boolean $isPrerelease)` 
-* ` comittish(string $branch)` 
-
-* `askName()` 
-* `askDescription()` 
-* `askForChanges()` 
-* `changes(array $changes)` 
-* `uri($uri)` 
-* `askAuth()` 
-
 ## GitStack
 
 
@@ -40,6 +11,8 @@ $this->taskGitStack()
  ->add('-A')
  ->commit('adding everything')
  ->push('origin','master')
+ ->tag('0.6.0')
+ ->push('origin','0.6.0')
  ->run()
 
 $this->taskGitStack()
@@ -56,10 +29,12 @@ $this->taskGitStack()
 * `commit($message, $options = null)`  Executes `git commit` command with a message
 * `pull($origin = null, $branch = null)`  Executes `git pull` command.
 * `push($origin = null, $branch = null)`  Executes `git push` command
+* `merge($branch)`  Performs git merge
 * `checkout($branch)`  Executes `git checkout` command
+* `tag($tag_name)`  Executes `git tag` command
 * `exec($command)` 
-* `printed($arg)`  Should command output be printed
 * `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
 
 ## SvnStack
 
@@ -89,7 +64,7 @@ $this->taskSvnStack('username', 'password')
 * `commit($message, $options = null)`  Executes `svn commit` command with a message
 * `checkout($branch)`  Executes `svn checkout` command
 * `exec($command)` 
-* `printed($arg)`  Should command output be printed
 * `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
 
 

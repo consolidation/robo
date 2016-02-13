@@ -17,4 +17,15 @@ class SemVerTest extends \Codeception\TestCase\Test
         verify($res->getMessage())->equals('v1.0.1-RC.1');
         $semver->verifyInvoked('dump');
     }
-} 
+
+    public function testThrowsExceptionWhenSemverFileNotWriteable()
+    {
+        \PHPUnit_Framework_TestCase::setExpectedExceptionRegExp(
+            'Robo\Exception\TaskException',
+            '/Failed to write semver file./'
+        );
+        $this->taskSemVer('/.semver')
+            ->increment('major')
+            ->run();
+    }
+}

@@ -13,6 +13,8 @@ use Robo\Task\CommandStack;
  *  ->add('-A')
  *  ->commit('adding everything')
  *  ->push('origin','master')
+ *  ->tag('0.6.0')
+ *  ->push('origin','0.6.0')
  *  ->run()
  *
  * $this->taskGitStack()
@@ -92,6 +94,17 @@ class GitStack extends CommandStack
     }
 
     /**
+     * Performs git merge
+     *
+     * @param string $branch
+     * @return $this
+     */
+    public function merge($branch)
+    {
+        return $this->exec([__FUNCTION__, $branch]);
+    }
+
+    /**
      * Executes `git checkout` command
      *
      * @param $branch
@@ -102,6 +115,17 @@ class GitStack extends CommandStack
         return $this->exec([__FUNCTION__, $branch]);
     }
 
+    /**
+     * Executes `git tag` command
+     *
+     * @param $tag_name
+     * @return $this
+     */
+    public function tag($tag_name)
+    {
+        return $this->exec([__FUNCTION__, $tag_name]);
+    }
+    
     public function run()
     {
         $this->printTaskInfo("Running git commands...");

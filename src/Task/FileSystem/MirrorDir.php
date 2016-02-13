@@ -10,7 +10,7 @@ use Robo\Result;
  * <?php
  * $this->taskMirrorDir(['dist/config/' => 'config/'])->run();
  * // or use shortcut
- * $this->_mirrorDir(['dist/config/' => 'config/']);
+ * $this->_mirrorDir('dist/config/', 'config/');
  *
  * ?>
  * ```

@@ -1,6 +1,7 @@
 <?php
 namespace Robo\Task\FileSystem;
 
+use Robo\Collection\Temporary;
 
 trait loadTasks
 {
@@ -23,6 +24,17 @@ trait loadTasks
     }
 
     /**
+     * @param $prefix
+     * @param $base
+     * @param $includeRandomPart
+     * @return TmpDir
+     */
+    protected function taskTmpDir($prefix = 'tmp', $base = '', $includeRandomPart = true)
+    {
+        return Temporary::wrap(new TmpDir($prefix, $base, $includeRandomPart));
+    }
+
+    /**
      * @param $dirs
      * @return CopyDir
      */
@@ -41,10 +53,19 @@ trait loadTasks
     }
 
     /**
-     * @return Filesystem
+     * @param $dirs
+     * @return FlattenDir
+     */
+    protected function taskFlattenDir($dirs)
+    {
+        return new FlattenDir($dirs);
+    }
+
+    /**
+     * @return FilesystemStack
      */
     protected function taskFilesystemStack()
     {
         return new FilesystemStack();
     }
-} 
+}

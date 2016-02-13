@@ -1,6 +1,8 @@
 <?php
 namespace Robo\Task\FileSystem;
 
+use Robo\Collection\Temporary;
+
 trait loadShortcuts
 {
     /**
@@ -10,7 +12,7 @@ trait loadShortcuts
      */
     protected function _copyDir($src, $dst)
     {
-        return (new CleanDir($src, $dst))->run();
+        return (new CopyDir([$src => $dst]))->run();
     }
 
     /**
@@ -20,7 +22,7 @@ trait loadShortcuts
      */
     protected function _mirrorDir($src, $dst)
     {
-        return (new MirrorDir($src, $dst))->run();
+        return (new MirrorDir([$src => $dst]))->run();
     }
 
     /**
@@ -40,7 +42,7 @@ trait loadShortcuts
     {
         return (new CleanDir($dir))->run();
     }
-    
+
     /**
      * @param $from
      * @param $to
@@ -58,6 +60,17 @@ trait loadShortcuts
     protected function _mkdir($dir)
     {
         return (new FilesystemStack)->mkdir($dir)->run();
+    }
+
+    /**
+     * @param $dir
+     * @return string|empty
+     */
+    protected function _tmpDir($prefix = 'tmp', $base = '', $includeRandomPart = true)
+    {
+        $result = Temporary::wrap(new TmpDir($prefix, $base, $includeRandomPart))->run();
+        $data = $result->getData() + ['path' => ''];
+        return $data['path'];
     }
 
     /**
@@ -109,4 +122,24 @@ trait loadShortcuts
     {
         return (new FilesystemStack)->symlink($from, $to)->run();
     }
-} 
+
+    /**
+     * @param $from
+     * @param $to
+     * @return \Robo\Result
+     */
+    protected function _copy($from, $to)
+    {
+        return (new FilesystemStack)->copy($from, $to)->run();
+    }
+
+    /**
+     * @param $from
+     * @param $to
+     * @return \Robo\Result
+     */
+    protected function _flattenDir($from, $to)
+    {
+        return (new FlattenDir([$from => $to]))->run();
+    }
+}

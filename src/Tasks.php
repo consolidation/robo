@@ -1,15 +1,20 @@
 <?php
+
 namespace Robo;
 
 use Robo\Common\IO;
 
 class Tasks
 {
+    // collections of tasks
+    use Collection\loadTasks;
+
     // standard tasks
     use Task\Base\loadTasks;
     use Task\Development\loadTasks;
     use Task\FileSystem\loadTasks;
     use Task\File\loadTasks;
+    use Task\Archive\loadTasks;
     use Task\Vcs\loadTasks;
 
     // package managers
@@ -33,7 +38,6 @@ class Tasks
     use Task\Base\loadShortcuts;
     use Task\FileSystem\loadShortcuts;
     use Task\Vcs\loadShortcuts;
-    
 
     use IO;
 

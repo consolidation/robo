@@ -5,13 +5,18 @@ use Robo\Config;
 
 trait Configuration
 {
-    public static function configure($key, $value)
+    private static function getClassKey($key)
     {
-        Config::set(__CLASS__.".$key", $value);
+        return sprintf('%s.%s', get_called_class(), $key);
     }
 
-    protected function getConfigValue($key)
+    public static function configure($key, $value)
     {
-        return Config::get(__CLASS__.".$key");
+        Config::set(static::getClassKey($key), $value);
+    }
+
+    protected function getConfigValue($key, $default = null)
+    {
+        return Config::get(static::getClassKey($key), $default);
     }
 } 

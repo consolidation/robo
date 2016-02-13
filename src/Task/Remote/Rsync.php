@@ -15,6 +15,7 @@ use Robo\Exception\TaskException;
  *   ->toHost('localhost')
  *   ->toUser('dev')
  *   ->toPath('/var/www/html/app/')
+ *   ->remoteShell('ssh -i public_key')
  *   ->recursive()
  *   ->excludeVcs()
  *   ->checksum()
@@ -223,16 +224,12 @@ class Rsync extends BaseTask implements CommandInterface
      */
     public function excludeVcs()
     {
-        $this->exclude('.git/')
-            ->exclude('.svn/')
-            ->exclude('.hg/');
-
-        return $this;
+        return $this->exclude(['.git/', '.svn/', '.hg/']);
     }
 
     public function exclude($pattern)
     {
-        return $this->option('exclude', escapeshellarg($pattern));
+        return $this->optionList(__FUNCTION__, $pattern);
     }
 
     public function excludeFrom($file)
@@ -244,6 +241,16 @@ class Rsync extends BaseTask implements CommandInterface
         return $this->option('exclude-from', $file);
     }
 
+    public function includeFilter($pattern)
+    {
+        return $this->optionList('include', $pattern);
+    }
+
+    public function filter($pattern)
+    {
+        return $this->optionList(__FUNCTION__, $pattern);
+    }
+
     public function filesFrom($file)
     {
         if (!is_readable($file)) {
@@ -253,13 +260,20 @@ class Rsync extends BaseTask implements CommandInterface
         return $this->option('files-from', $file);
     }
 
+    public function remoteShell($command)
+    {
+        $this->option('rsh', "'$command'");
+
+        return $this;
+    }
+
     /**
      * @return \Robo\Result
      */
     public function run()
     {
         $command = $this->getCommand();
-        $this->printTaskInfo("running <info>{$command}</info>");
+        $this->printTaskInfo("Running <info>{$command}</info>");
 
         return $this->executeCommand($command);
     }

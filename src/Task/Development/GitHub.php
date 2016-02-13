@@ -1,16 +1,18 @@
 <?php
-namespace Robo\Task\Vcs;
+namespace Robo\Task\Development;
 
 use Robo\Exception\TaskException;
 use Robo\Task\BaseTask;
 
 /**
- * @method \Robo\Task\Vcs\GitHub repo(string)
- * @method \Robo\Task\Vcs\GitHub owner(string)
+ * @method \Robo\Task\Development\GitHub repo(string)
+ * @method \Robo\Task\Development\GitHub owner(string)
  */
 abstract class GitHub extends BaseTask
 {
     use \Robo\Common\DynamicParams;
+
+    const GITHUB_URL = 'https://api.github.com';
 
     protected static $user;
     protected static $pass;
@@ -44,7 +46,7 @@ abstract class GitHub extends BaseTask
         }
 
         $ch = curl_init();
-        $url = sprintf('%s/repos/%s/%s', GITHUB_URL, $this->getUri(), $uri);
+        $url = sprintf('%s/repos/%s/%s', self::GITHUB_URL, $this->getUri(), $uri);
         $this->printTaskInfo("$method $url");
 
         if (!self::$user) {

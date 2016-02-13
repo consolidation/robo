@@ -5,7 +5,7 @@ use Robo\Common\TaskIO;
 use Robo\Contract\PrintedInterface;
 use Robo\Contract\TaskInterface;
 
-class Result
+class Result implements \ArrayAccess, \IteratorAggregate
 {
     use TaskIO;
 
@@ -24,15 +24,28 @@ class Result
         $this->message = $message;
         $this->data = $data;
 
-        if (!$this->wasSuccessful()) {
-            $this->printError($task);
-        } else {
-            $this->printSuccess($task);
-        }
+        $this->printResult();
 
         if (self::$stopOnFail) {
             $this->stopOnFail();
         }
+    }
+
+    protected function printResult()
+    {
+        if (!$this->wasSuccessful()) {
+            $this->printError($this->task);
+        } else {
+            $this->printSuccess($this->task);
+        }
+    }
+
+    public static function errorMissingPackage(TaskInterface $task, $class, $package)
+    {
+        $messageTpl = 'Class %s not found. Please install %s Composer package';
+        $message = sprintf($messageTpl, $class, $package);
+
+        return self::error($task, $message);
     }
 
     static function error(TaskInterface $task, $message, $data = [])
@@ -71,6 +84,7 @@ class Result
 
     public function getExecutionTime()
     {
+        if (!is_array($this->data)) return null;
         if (!isset($this->data['time'])) return null;
         $rawTime = $this->data['time'];
         return round($rawTime, 3).'s';
@@ -95,8 +109,12 @@ class Result
         return $this->exitCode === 0;
     }
 
+    /**
+     * @deprecated since 1.0.  @see wasSuccessful()
+     */
     public function __invoke()
     {
+        trigger_error(__METHOD__ . ' is deprecated: use wasSuccessful() instead.', E_USER_DEPRECATED);
         return $this->wasSuccessful();
     }
 
@@ -139,4 +157,58 @@ class Result
         $this->printTaskSuccess("Done $time", $this->task);
     }
 
-} 
+    /**
+     * Merge another result into this result.  Data already
+     * existing in this result takes precedence over the
+     * data in the Result being merged.
+     */
+    public function merge(Result $result)
+    {
+        $this->data += $result->getData();
+        return $this;
+    }
+
+    /**
+     * \ArrayAccess accessor for `isset()`
+     */
+    public function offsetExists($offset)
+    {
+        return isset($this->data[$offset]);
+    }
+
+    /**
+     * \ArrayAccess accessor for array data access.
+     */
+    public function offsetGet($offset)
+    {
+        if (isset($this->data[$offset])) {
+            return $this->data[$offset];
+        }
+    }
+
+    /**
+     * \ArrayAccess method for array assignment.
+     */
+    public function offsetSet($offset, $value)
+    {
+        $this->data[$offset] = $value;
+    }
+
+    /**
+     * \ArrayAccess method for `unset`
+     */
+    public function offsetUnset($offset)
+    {
+        unset($this->data[$offset]);
+    }
+
+    /**
+     * \IteratorAggregate accessor for `foreach`.
+     *
+     * @return \Iterator
+     */
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->data);
+    }
+}

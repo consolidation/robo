@@ -1,6 +1,7 @@
 <?php
-namespace Robo\Task\Vcs;
+namespace Robo\Task\Development;
 
+use Robo\Common\Timer;
 use Robo\Result;
 
 /**
@@ -15,15 +16,17 @@ use Robo\Result;
  * ?>
  * ```
  *
- * @method \Robo\Task\Vcs\GitHubRelease tag(string $tag)
- * @method \Robo\Task\Vcs\GitHubRelease name(string $name)
- * @method \Robo\Task\Vcs\GitHubRelease body(string $body)
- * @method \Robo\Task\Vcs\GitHubRelease draft(boolean $isDraft)
- * @method \Robo\Task\Vcs\GitHubRelease prerelease(boolean $isPrerelease)
- * @method \Robo\Task\Vcs\GitHubRelease comittish(string $branch)
+ * @method \Robo\Task\Development\GitHubRelease tag(string $tag)
+ * @method \Robo\Task\Development\GitHubRelease name(string $name)
+ * @method \Robo\Task\Development\GitHubRelease body(string $body)
+ * @method \Robo\Task\Development\GitHubRelease draft(boolean $isDraft)
+ * @method \Robo\Task\Development\GitHubRelease prerelease(boolean $isPrerelease)
+ * @method \Robo\Task\Development\GitHubRelease comittish(string $branch)
  */
 class GitHubRelease extends GitHub
 {
+    use Timer;
+
     protected $tag;
     protected $name;
     protected $body;
@@ -69,6 +72,7 @@ class GitHubRelease extends GitHub
     public function run()
     {
         $this->printTaskInfo("Releasing " . $this->tag);
+        $this->startTimer();
         list($code, $data) = $this->sendRequest(
             'releases', [
                 "tag_name" => $this->tag,
@@ -79,12 +83,13 @@ class GitHubRelease extends GitHub
                 "prerelease" => $this->prerelease
             ]
         );
+        $this->stopTimer();
 
         return new Result(
             $this,
             in_array($code, [200, 201]) ? 0 : 1,
             isset($data->message) ? $data->message : '',
-            $data
+            ['response' => $data, 'time' => $this->getExecutionTime()]
         );
     }
 }

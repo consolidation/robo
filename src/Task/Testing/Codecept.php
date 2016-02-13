@@ -74,7 +74,7 @@ class Codecept extends BaseTask implements CommandInterface, PrintedInterface
 
     public function excludeGroup($group)
     {
-        $this->option("exclude-group", $group);
+        $this->option("skip-group", $group);
         return $this;
     }
 
@@ -106,6 +106,7 @@ class Codecept extends BaseTask implements CommandInterface, PrintedInterface
      * Generate html report
      *
      * @param string $dir
+     * @return $this
      */
     public function html($dir = null)
     {
@@ -138,13 +139,14 @@ class Codecept extends BaseTask implements CommandInterface, PrintedInterface
     }
 
     /**
-     * turn on collecting code coverage
+     * collect codecoverage in raw format. You may pass name of cov file to save results
      *
+     * @param string $cov
      * @return $this
      */
-    public function coverage()
+    public function coverage($cov = null)
     {
-        $this->option("coverage");
+        $this->option("coverage", $cov);
         return $this;
     }
 

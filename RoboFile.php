@@ -3,11 +3,78 @@ use Symfony\Component\Finder\Finder;
 
 class RoboFile extends \Robo\Tasks
 {
+    // Example:
+    // ./robo wrap 'Symfony\Component\Filesystem\Filesystem' FilesystemStack
+    public function wrap($className, $wrapperClassName = "")
+    {
+        $delegate = new ReflectionClass($className);
+
+        $leadingCommentChars = " * ";
+        $methodDescriptions = [];
+        $methodImplementations = [];
+        $immediateMethods = [];
+        foreach ($delegate->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
+            $methodName = $method->getName();
+            $getter = preg_match('/^(get|has|is)/', $methodName);
+            $setter = preg_match('/^(set|unset)/', $methodName);
+            $argPrototypeList = [];
+            $argNameList = [];
+            $needsImplementation = false;
+            foreach ($method->getParameters() as $arg) {
+                $argDescription = '$' . $arg->name;
+                $argNameList[] = $argDescription;
+                if ($arg->isOptional()) {
+                    $argDescription = $argDescription . ' = ' . str_replace("\n", "", var_export($arg->getDefaultValue(), true));
+                    // We will create wrapper methods for any method that
+                    // has default parameters.
+                    $needsImplementation = true;
+                }
+                $argPrototypeList[] = $argDescription;
+            }
+            $argPrototypeString = implode(', ', $argPrototypeList);
+            $argNameListString = implode(', ', $argNameList);
+
+            if ($methodName[0] != '_') {
+                $methodDescriptions[] = "@method $methodName($argPrototypeString)";
+
+                if ($getter) {
+                    $immediateMethods[] = "    public function $methodName($argPrototypeString)\n    {\n        return \$this->delegate->$methodName($argNameListString);\n    }";
+                } elseif ($setter) {
+                    $immediateMethods[] = "    public function $methodName($argPrototypeString)\n    {\n        \$this->delegate->$methodName($argNameListString);\n        return \$this;\n    }";
+                } elseif ($needsImplementation) {
+                    // Include an implementation for the wrapper method if necessary
+                    $methodImplementations[] = "    protected function _$methodName($argPrototypeString)\n    {\n        \$this->delegate->$methodName($argNameListString);\n    }";
+                }
+            }
+        }
+
+        $classNameParts = explode('\\', $className);
+        $delegate = array_pop($classNameParts);
+        $delegateNamespace = implode('\\', $classNameParts);
+
+        if (empty($wrapperClassName)) {
+            $wrapperClassName = $delegate;
+        }
+
+        $replacements['{delegateNamespace}'] = $delegateNamespace;
+        $replacements['{delegate}'] = $delegate;
+        $replacements['{wrapperClassName}'] = $wrapperClassName;
+        $replacements['{taskname}'] = "task$delegate";
+        $replacements['{methodList}'] = $leadingCommentChars . implode("\n$leadingCommentChars", $methodDescriptions);
+        $replacements['{immediateMethods}'] = "\n\n" . implode("\n\n", $immediateMethods);
+        $replacements['{methodImplementations}'] = "\n\n" . implode("\n\n", $methodImplementations);
+
+        $template = file_get_contents(__DIR__ . "/GeneratedWrapper.tmpl");
+        $template = str_replace(array_keys($replacements), array_values($replacements), $template);
+
+        print $template;
+    }
+
     public function release()
     {
         $this->yell("Releasing Robo");
 
-        $this->docsGenerate();
+        $this->docs();
         $this->taskGitStack()
             ->add('-A')
             ->commit("auto-update")
@@ -15,14 +82,14 @@ class RoboFile extends \Robo\Tasks
             ->push()
             ->run();
 
-        $this->docsPublish();
+        $this->pharPublish();
+        $this->publish();
 
         $this->taskGitHubRelease(\Robo\Runner::VERSION)
             ->uri('Codegyre/Robo')
             ->askDescription()
             ->run();
-        
-        $this->pharPublish();
+
         $this->versionBump();
     }
 
@@ -57,7 +124,7 @@ class RoboFile extends \Robo\Tasks
     /**
      * generate docs
      */
-    public function docsGenerate()
+    public function docs()
     {
         $files = Finder::create()->files()->name('*.php')->in('src/Task');
         $docs = [];
@@ -65,7 +132,7 @@ class RoboFile extends \Robo\Tasks
             if ($file->getFileName() == 'loadTasks.php') {
                 continue;
             }
-            if ($file->getFileName() == 'loadShortucts.php') {
+            if ($file->getFileName() == 'loadShortcuts.php') {
                 continue;
             }
             $ns = $file->getRelativePath();
@@ -119,16 +186,25 @@ class RoboFile extends \Robo\Tasks
     }
 
     /**
-     * Builds a site in gh-pages branch
+     * Builds a site in gh-pages branch. Uses mkdocs
      */
-    public function docsPublish()
+    public function publish()
     {
+        $this->stopOnFail();
+        $this->taskGitStack()
+            ->checkout('site')
+            ->merge('master')
+            ->run();
+        $this->_copy('CHANGELOG.md', 'docs/changelog.md');
         $this->_exec('mkdocs gh-deploy');
+        $this->taskGitStack()
+            ->checkout('master')
+            ->run();
+        $this->_remove('docs/changelog.md');
     }
 
     public function pharBuild()
     {
-
         $packer = $this->taskPackPhar('robo.phar');
         $this->taskComposerInstall()
             ->noDev()
@@ -140,6 +216,13 @@ class RoboFile extends \Robo\Tasks
             ->name('*.php')
             ->path('src')
             ->path('vendor')
+            ->exclude('symfony/config/Tests')
+            ->exclude('symfony/console/Tests')
+            ->exclude('symfony/event-dispatcher/Tests')
+            ->exclude('symfony/filesystem/Tests')
+            ->exclude('symfony/finder/Tests')
+            ->exclude('symfony/process/Tests')
+            ->exclude('henrikbjorn/lurker/tests')
             ->in(__DIR__);
         foreach ($files as $file) {
             $packer->addFile($file->getRelativePathname(), $file->getRealPath());
@@ -165,9 +248,12 @@ class RoboFile extends \Robo\Tasks
     {
         $this->pharBuild();
 
-        rename('robo.phar', 'robo-release.phar');
+        $this->_rename('robo.phar', 'robo-release.phar');
         $this->taskGitStack()->checkout('gh-pages')->run();
-        rename('robo-release.phar', 'robo.phar');
+        $this->taskFilesystemStack()
+            ->remove('robo.phar')
+            ->rename('robo-release.phar', 'robo.phar')
+            ->run();
         $this->taskGitStack()
             ->add('robo.phar')
             ->commit('robo.phar published')
@@ -213,5 +299,28 @@ class RoboFile extends \Robo\Tasks
     {
         if (!$opts['silent']) $this->say("Hello, world");
     }
-    
+
+    public function tryServer()
+    {
+        $this->taskServer(8000)
+            ->dir('site')
+            ->arg('site/index.php')
+            ->run();
+    }
+
+    public function tryOpenBrowser()
+    {
+        $this->taskOpenBrowser([
+            'http://robo.li',
+            'https://github.com/Codegyre/Robo'
+            ])
+            ->run();
+    }
+
+    public function tryInteractive()
+    {
+        new SomeTask();
+        $this->_exec('php -r "echo php_sapi_name();"');
+    }
+
 }

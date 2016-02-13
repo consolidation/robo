@@ -23,12 +23,17 @@ use Robo\Task\BaseTask;
  *  ->regex('~^service:~')
  *  ->to('services:')
  *  ->run();
+ *
+ * $this->taskReplaceInFile('box/robo.txt')
+ *  ->from(array('##dbname##', '##dbhost##'))
+ *  ->to(array('robo', 'localhost'))
+ *  ->run();
  * ?>
  * ```
  *
  * @method regex(string) regex to match string to be replaced
- * @method from(string) string to be replaced
- * @method to(string) value to be set as a replacement
+ * @method from(string|array) string(s) to be replaced
+ * @method to(string|array) value(s) to be set as a replacement
  */
 class Replace extends BaseTask
 {
@@ -57,11 +62,15 @@ class Replace extends BaseTask
         } else {
             $text = str_replace($this->from, $this->to, $text, $count);
         }
-        $res = file_put_contents($this->filename, $text);
-        if ($res === false) {
-            return Result::error($this, "Error writing to file {$this->filename}.");
+        if ($count > 0) {
+            $res = file_put_contents($this->filename, $text);
+            if ($res === false) {
+                return Result::error($this, "Error writing to file {$this->filename}.");
+            }
+            $this->printTaskSuccess("<info>{$this->filename}</info> updated. $count items replaced");
+        } else {
+            $this->printTaskInfo("<info>{$this->filename}</info> unchanged. $count items replaced");
         }
-        $this->printTaskSuccess("<info>{$this->filename}</info> updated. $count items replaced");
         return Result::success($this, '', ['replaced' => $count]);
     }
 }

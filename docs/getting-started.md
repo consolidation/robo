@@ -1,13 +1,12 @@
 # Getting Started
 
-To begin you need to create a Robofile. Just run `robo` in empty dir:
+To begin you need to create a Robofile. Just run `robo init` in empty dir:
 
 ```
-php vendor/bin/robo
+robo init
 ```
 
-You will be asked to create a file. New `RoboFile.php` extends `\Robo\Tasks` class. It includes all bundled tasks from traits.
-It's not necessary for your RoboFile to extend `\Robo\Tasks` so if you need to customize tasks inclusion do not inherit from it.
+This will create a new `RoboFile.php` for you. There will be RoboFile class which extends `\Robo\Tasks`, which includes all bundled tasks of Robo.
 
 ``` php
 <?php
@@ -19,7 +18,7 @@ class RoboFile extends \Robo\Tasks
 
 ## Commands
 
-All public methods of this class will be treated as **commands**. You can run them from CLI and pass arguments.
+All public methods of this class will be treated as **commands**. You can run them from the CLI and pass arguments.
 
 ``` php
 <?php
@@ -36,11 +35,11 @@ class RoboFile extends \Robo\Tasks
 When we run:
 
 ```
-php vendor/bin/robo hello davert
+robo hello davert
 ➜ Hello, davert
 ```
 
-Methods should be camelCased. In CLI `camelCased` method will be available as `camel:cased` command.
+Method names should be camelCased. In CLI `camelCased` method will be available as `camel:cased` command.
 `longCamelCased` method will be transformed to `long:camel-cased` command.
 
 ### Arguments
@@ -58,11 +57,11 @@ If you pass a default value to parameter the argument becomes optional:
 ```
 
 ```
-php vendor/bin/robo hello
+robo hello
 ➜ Hello, world
 ```
 
-If you define parameter as `array` you can accept multiple arguments:
+To accept multiple, variable arguments, define a parameter as an `array`; Robo will then pass all CLI arguments in this variable:
 
 
 ``` php
@@ -75,37 +74,37 @@ If you define parameter as `array` you can accept multiple arguments:
 ```
 
 ```
-php vendor/bin/robo hello davert jon bill bob
+robo hello davert jon bill bob
 ➜ Hello, davert, jon, bill, bob
 ```
 
 ### Options
 
-To define command options you should define last method parameter as an associative array where keys are options and values are default values:
+To define command options you should define the last method parameter as an associative array where the keys define the option names and the values provide each option's default values:
 
 ``` php
 <?php
     function hello($opts = ['silent' => false])
     {
-        if (!$opt['silent']) $this->say("Hello, world");
+        if (!$opts['silent']) $this->say("Hello, world");
     }
 ?>
 ```
 
 ```
-php vendor/bin/robo hello
+robo hello
 ➜ Hello, world
 
-php vendor/bin/robo hello --silent
+robo hello --silent
 ```
 
-A one-char shortcut can be specified for option:
+A one-character shortcut can be specified for option:
 
 ``` php
 <?php
     function hello($opts = ['silent|s' => false])
     {
-        if (!$opt['silent']) $this->say("Hello, world");
+        if (!$opts['silent']) $this->say("Hello, world");
     }
 ?>
 ```
@@ -113,13 +112,21 @@ A one-char shortcut can be specified for option:
 Now command can be executed with '-s' to run in silent mode: 
 
 ```
-php vendor/bin/robo hello -s
+robo hello -s
 ```
 
+### Load From Other Directories
+
+Robo can execute commands from a RoboFile located in different directory.
+You can specify the path to another RoboFile by including the `--load-from` option:
+
+```
+robo run --load-from /path/to/my/other/project
+```
 
 ### Pass-Through Arguments
 
-Sometimes you need to pass arguments from you command into a task. A command line after the `--` characters is treated as one argument.
+Sometimes you need to pass arguments from your command into a task. A command line after the `--` characters is treated as one argument.
 Any special character like `-` will be passed into without change.
 
 ``` php
@@ -132,14 +139,14 @@ Any special character like `-` will be passed into without change.
 ```
 
 ```
-php vendor/bin/robo ls -- Robo -c --all
+robo ls -- Robo -c --all
  [Robo\Task\ExecTask] running ls Robo -c --all
  .  ..  CHANGELOG.md  codeception.yml  composer.json  composer.lock  docs  .git  .gitignore  .idea  LICENSE  README.md  robo  RoboFile.php  robo.phar  src  tests  .travis.yml  vendor
 ```
 
 ### Help
 
-Doc-Block comments can be used to display help per commands. It turns
+The help text for a command in a RoboFile may be provided in Doc-Block comments. An example help Doc-Block comment is shown below:
 
 ``` php
 <?php
@@ -168,10 +175,10 @@ public function fibonacci($start, $steps, $opts = ['graphic' => false])
 ?>
 ```
 
-into
+The corresponding help text produced is:
 
 ```
-$ ./robo fibonacci --help
+robo fibonacci --help
 Usage:
  fibonacci [--graphic] start steps
 
@@ -200,12 +207,17 @@ Added with [PR by @jonsa](https://github.com/Codegyre/Robo/pull/71)
 
 ## Tasks
 
-All tasks are loaded by Traits. There is convention when all tasks should start with `task` prefix and use **chained method calls** for configuration.
-Task execution should be triggered by method `run`. A very basic task may look like:
+The convention used to add new tasks for use in your RoboFiles is to create a wrapper trait that instantiates the implementation class for each task. Each task method in the trait should start with the prefix `task`, and should use **chained method calls** for configuration. Task execution should be triggered by the method `run`. 
+
+*It is recommended to have store your trait loading task in a `loadTasks` file in the same namespace as the task implementation.*
+
+A very basic task is shown below:
 
 ``` php
 <?php
-trait CompileAssets
+namespace CompileAssets;
+
+trait loadTasks
 {
     function taskCompileAssets($path)
     {
@@ -213,7 +225,7 @@ trait CompileAssets
     }
 }
 
-class CompileAssetsTask implements Robo\TaskInterface
+class CompileAssetsTask implements Robo\Contract\TaskInterface
 {
     // configuration params
     protected $path;
@@ -238,13 +250,13 @@ class CompileAssetsTask implements Robo\TaskInterface
 }
 ?>
 ```
-To use it you should include this task via trait:
+To use it in a RoboFile, you should include this task via its trait:
 
 ``` php
 <?php
 class RoboFile extends Robo\Tasks
 {
-    use CompileAssets;
+    use CompileAssets\loadTasks;
 
     function build()
     {
@@ -256,11 +268,23 @@ class RoboFile extends Robo\Tasks
 ?>
 ```
 
-You can use various preinstalled tasks in the same way. Just include corresponding trait and call the `$this->taskXXX` method.
+Robo\Tasks includes all of the standard task traits by default, so a RoboFile may call the `$this->taskXXX` method for any of these tasks. To use an external task, ensure that its class files are available (e.g. `require` its project in your composer.json file) and include corresponding trait or traits.
+
+## Shortcuts
+
+Some tasks may have shortcuts. If a task does not require multi-step configuration, it can be executed with a single line:
+ 
+```php
+<?php
+$this->_exec('ps aux');
+$this->_copy('config/env.example.yml','config/env.yml');
+?>
+```
 
 ## Result
 
-Each task should provide `Robo\Result` class in response. It contains task instance, exit code, message, and some data.
+Each task must return an instance of `Robo\Result`. A Robo Result contains the task instance, exit code, message, and any variable data that the task may wish to return.
+
 The `run` method of `CompileAssets` class may look like this:
 
 ```
@@ -274,19 +298,18 @@ return Robo\Result::success($this, "Assets compiled");
 return Robo\Result::error($this, "Failed to compile assets");
 ```
 
-Thus you can use this results to check if execution was successful, and use some data from them. Lets use `Exec` task in next example:
+You can use this results to check if execution was successful, either using the `wasSuccessful()` method, or via the `invoke` shortcut. We will use the `Exec` task in next example to illustrate this:
 
 ``` php
 <?php
 class RoboFile
 {
-    use Robo\Output;
-    use Robo\Task\Exec;
+    use Robo\Task\Base\loadShortcuts;
 
     function test()
     {
-        $res1 = $this->taskExec('phpunit tests/integration')->run();
-        $res2 = $this->taskExec('phpunit tests/unit')->run();
+        $res1 = $this->_exec('phpunit tests/integration');
+        $res2 = $this->_exec('phpunit tests/unit');
 
         // print message when tests passed
         if ($res1->wasSuccessful() and $res2->wasSuccessful()) $this->say("All tests passed");
@@ -300,10 +323,13 @@ class RoboFile
 ?>
 ```
 
+Some tasks may also attach data to the Result object.  If this is done, the data may be accessed as an array; for example, `$result['path'];`. This is not common.
+
 ### Stack
 
-There are tasks with a `Stack` name inside it. They execute similar tasks one by one.
-They contain option `stopOnFail` which can be used to stop task execution if one of its commands was unsuccessful.
+Some tasks contain `Stack` in their name. These are called "stack" tasks, and they execute similar tasks one after the other.  Each of the primary methods in a stack class executes an operation.
+
+Stack tasks also contain a `stopOnFail` method which can be used to stop task execution if one of its commands was unsuccessful.
 
 ### Global StopOnFail
 
@@ -315,19 +341,23 @@ $this->stopOnFail(true);
 
 ## Output
 
-As you noticed you can print text with `say` method taken from `Robo\Output` trait.
+As you noticed, you can print text via the `say` method, which is taken from the `Robo\Output` trait.
 
 ```
 $this->say("Hello");
 ```
 
-Also you can ask for input from console
+Also, you can ask for input from console:
 
 ```
 $name = $this->ask("What is your name?");
 ```
 
-Inside tasks you should print process details with `printTaskInfo`
+There are also `askDefault`, `askHidden`, and `confirm` methods.
+
+Inside tasks you should print process details with `printTaskInfo`, ``printTaskSuccess`, and `printTaskError`.
+
+To allow tasks access IO, use the `Robo\Common\TaskIO` trait, or inherit your task class from `Robo\Task\BaseTask` (recommended).
 
 ```
 $this->printTaskInfo('Processing...');

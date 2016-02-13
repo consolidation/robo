@@ -90,14 +90,65 @@ $this->taskGenerateMarkdownDoc('models.md')
 
 
 
-## PackPhar
+
+## GitHubRelease
 
 
-Creates Phar
+Publishes new GitHub release.
 
 ``` php
 <?php
-$pharTask = $this->PackPhar('package/codecept.phar')
+$this->taskGitHubRelease('0.1.0')
+  ->uri('Codegyre/Robo')
+  ->askDescription()
+  ->run();
+?>
+```
+
+* ` tag(string $tag)` 
+* ` name(string $name)` 
+* ` body(string $body)` 
+* ` draft(boolean $isDraft)` 
+* ` prerelease(boolean $isPrerelease)` 
+* ` comittish(string $branch)` 
+
+* `askName()` 
+* `askDescription()` 
+* `askForChanges()` 
+* `changes(array $changes)` 
+* `uri($uri)` 
+* `askAuth()` 
+
+## OpenBrowser
+
+
+Opens the default's user browser
+code inspired from openBrowser() function in https://github.com/composer/composer/blob/master/src/Composer/Command/HomeCommand.php
+
+``` php
+<?php
+// open one browser window
+$this->taskOpenBrowser('http://localhost')
+ ->run();
+
+// open two browser windows
+$this->taskOpenBrowser([
+    'http://localhost/mysite',
+    'http://localhost/mysite2'
+  ])
+  ->run();
+```
+
+
+
+## PackPhar
+
+
+Creates Phar.
+
+``` php
+<?php
+$pharTask = $this->taskPackPhar('package/codecept.phar')
   ->compress()
   ->stub('package/stub.php');
 
@@ -137,31 +188,32 @@ Runs PHP server and stops it when task finishes.
 ``` php
 <?php
 // run server in /public directory
-$this->taskPhpServer(8000)
+$this->taskServer(8000)
  ->dir('public')
  ->run();
 
 // run with IP 0.0.0.0
-$this->taskPhpServer(8000)
+$this->taskServer(8000)
  ->host('0.0.0.0')
  ->run();
 
 // execute server in background
-$this->taskPhpServer(8000)
+$this->taskServer(8000)
  ->background()
  ->run();
 ?>
 ```
 
-* `host($host)` 
+#### *public static* instances* `host($host)` 
 * `dir($path)`  changes working directory of command
 * `background()`  Executes command in background mode (asynchronously)
 * `timeout($timeout)`  Stop command if it runs longer then $timeout in seconds
 * `idleTimeout($timeout)`  Stops command if it does not output something for a while
+* `env(array $env)`  Sets the environment variables for the command
+* `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
-* `printed($arg)`  Should command output be printed
 
 ## SemVer
 

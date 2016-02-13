@@ -5,7 +5,6 @@ use Lurker\Event\FilesystemEvent;
 use Lurker\ResourceWatcher;
 use Robo\Result;
 use Robo\Task\BaseTask;
-use Symfony\Component\EventDispatcher\Event;
 
 /**
  * Runs task when specified file or dir was changed.
@@ -52,7 +51,7 @@ class Watch extends BaseTask
             $closure->bindTo($this->bindTo);
             foreach ($monitor[0] as $i => $dir) {
                 $watcher->track("fs.$k.$i", $dir, FilesystemEvent::MODIFY);
-                $this->printTaskInfo("watching <info>$dir</info> for changes...");
+                $this->printTaskInfo("Watching <info>$dir</info> for changes...");
                 $watcher->addListener("fs.$k.$i", $closure);
             }
         }

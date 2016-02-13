@@ -2,6 +2,7 @@
 
 namespace Robo\Task\Remote;
 
+use Robo\Result;
 use Robo\Contract\CommandInterface;
 use Robo\Exception\TaskException;
 use Robo\Task\BaseTask;
@@ -10,11 +11,11 @@ use Robo\Task\BaseTask;
  * Runs multiple commands on a remote server.
  * Per default, commands are combined with &&, unless stopOnFail is false.
  *
- * ``` php
+ * ```php
  * <?php
  *
- * $this->taskSsh('remote.example.com', 'user')
- *     ->exec('cd /var/www/html')
+ * $this->taskSshExec('remote.example.com', 'user')
+ *     ->remoteDir('/var/www/html')
  *     ->exec('ls -la')
  *     ->exec('chmod g+x logs')
  *     ->run();
@@ -23,16 +24,26 @@ use Robo\Task\BaseTask;
  *
  * You can even exec other tasks (which implement CommandInterface):
  *
- * ``` php
+ * ```php
  * $gitTask = $this->taskGitStack()
  *     ->checkout('master')
  *     ->pull();
  *
- * $this->taskSsh('remote.example.com')
- *     ->exec('cd /var/www/html/site')
+ * $this->taskSshExec('remote.example.com')
+ *     ->remoteDir('/var/www/html/site')
  *     ->exec($gitTask)
  *     ->run();
  * ```
+ *
+ * You can configure the remote directory for all future calls:
+ *
+ * ```php
+ * \Robo\Task\Remote\Ssh::configure('remoteDir', '/some-dir');
+ * ```
+ *
+ * @method $this stopOnFail(bool $stopOnFail) Whether or not to chain commands together with &&
+ *                                            and stop the chain if one command fails
+ * @method $this remoteDir(string $remoteWorkingDirectory) Changes to the given directory before running commands
  */
 class Ssh extends BaseTask implements CommandInterface
 {
@@ -47,6 +58,13 @@ class Ssh extends BaseTask implements CommandInterface
     protected $stopOnFail = true;
 
     protected $exec = [];
+
+    /**
+     * Changes to the given directory before running commands.
+     *
+     * @var string
+     */
+    protected $remoteDir;
 
     public function __construct($hostname = null, $user = null)
     {
@@ -115,6 +133,11 @@ class Ssh extends BaseTask implements CommandInterface
         $commands = [];
         foreach ($this->exec as $command) {
             $commands[] = $this->receiveCommand($command);
+        }
+
+        $remoteDir = $this->remoteDir ? $this->remoteDir : $this->getConfigValue('remoteDir');
+        if (!empty($remoteDir)) {
+            array_unshift($commands, sprintf('cd "%s"', $remoteDir));
         }
         $command = implode($this->stopOnFail ? ' && ' : ' ; ', $commands);
 

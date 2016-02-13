@@ -15,13 +15,31 @@ class CliHelper extends \Codeception\Module
         taskWriteToFile as public;
         taskReplaceInFile as public;
         taskConcat as public;
+        taskTmpFile as public;
     }
 
    	use \Robo\Task\FileSystem\loadTasks {
         taskCleanDir as public;
         taskCopyDir as public;
         taskDeleteDir as public;
+        taskFlattenDir as public;
         taskFileSystemStack as public;
+        taskTmpDir as public;
+    }
+
+    use \Robo\Task\FileSystem\loadShortcuts {
+        _copyDir as public shortcutCopyDir;
+        _mirrorDir as public shortcutMirrorDir;
+        _tmpDir as public shortcutTmpDir;
+    }
+
+    use \Robo\Collection\loadTasks {
+        collection as public;
+    }
+
+    use \Robo\Task\Archive\loadTasks {
+        taskPack as public;
+        taskExtract as public;
     }
 
     public function seeDirFound($dir)

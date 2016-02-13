@@ -1,6 +1,7 @@
 <?php
 namespace Robo;
 
+use Robo\Config;
 use Robo\Common\IO;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -38,12 +39,20 @@ class Runner
      * @param null $roboClass
      * @param null $roboFile
      */
-    public function __construct($roboClass = null, $roboFile = null)
+    public function __construct($roboClass = null, $roboFile = null, $container = null)
     {
         // set the const as class properties to allow overwriting in child classes
         $this->roboClass = $roboClass ? $roboClass : self::ROBOCLASS ;
         $this->roboFile  = $roboFile ? $roboFile : self::ROBOFILE;
         $this->dir = getcwd();
+
+        // If we were not provided with a container, then create one
+        if ($container == null) {
+            $container = Config::createContainer();
+        }
+
+        // Store the container somewhere for future use
+        Config::setContainer($container);
     }
 
 

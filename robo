@@ -16,26 +16,5 @@ if (strpos(basename(__FILE__), 'phar')) {
         require_once 'phar://robo.phar/vendor/autoload.php';
     }
 }
-
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-
-$servicesFile = __DIR__ . "/robo-services.yml";
-
-// Set up our dependency injection container.
-$container = new ContainerBuilder();
-
-$loader = new YamlFileLoader($container, new FileLocator(dirname($servicesFile)));
-$loader->load(basename($servicesFile));
-
-// Note: this freezes our container, preventing us from adding any further
-// services to it.
-// $container->compile();
-
-// Store the container somewhere
-Robo\Config::setContainer($container);
-
 $runner = new \Robo\Runner();
 $runner->execute();

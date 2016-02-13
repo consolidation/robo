@@ -2,6 +2,9 @@
 namespace Robo;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -25,6 +28,26 @@ class Config
     }
 
     /**
+     * Create a container, and initiailze it from robo-services.yml.
+     */
+    public static function createContainer()
+    {
+        $servicesFile = dirname(__DIR__) . "/robo-services.yml";
+
+        // Set up our dependency injection container.
+        $container = new ContainerBuilder();
+
+        $loader = new YamlFileLoader($container, new FileLocator(dirname($servicesFile)));
+        $loader->load(basename($servicesFile));
+
+        // Note: this freezes our container, preventing us from adding any further
+        // services to it.
+        // $container->compile();
+
+        return $container;
+    }
+
+    /**
      * Unsets the global container.
      */
     public static function unsetContainer() {
@@ -40,7 +63,7 @@ class Config
      */
     public static function getContainer() {
         if (static::$container === NULL) {
-            throw new RuntimeException('container is not initialized yet. \Robo\Config::setContainer() must be called with a real container.');
+            throw new \RuntimeException('container is not initialized yet. \Robo\Config::setContainer() must be called with a real container.');
         }
         return static::$container;
     }
@@ -72,6 +95,13 @@ class Config
     }
 
     /**
+     * Add a service to the container.
+     */
+    public static function setService($id, $service) {
+        static::getContainer()->set($id, $service);
+    }
+
+    /**
      * Indicates if a service is defined in the container.
      *
      * @param string $id
@@ -94,28 +124,44 @@ class Config
         return static::service('logger');
     }
 
-    protected static $config = [
-        'output' => null,
-        'input' => null
-    ];
+    /**
+     * Return the output object.
+     *
+     * @return OutputInterface
+     */
+    public static function output() {
+        return static::service('output');
+    }
+
+    /**
+     * Return the input object.
+     *
+     * @return InputInterface
+     */
+    public static function input() {
+        return static::service('input');
+    }
 
     public static function setOutput(OutputInterface $output)
     {
-        self::$config['output'] = $output;
+        static::setService('output', $output);
     }
 
     public static function setInput(InputInterface $input)
     {
-        self::$config['input'] = $input;
+        static::setService('input', $input);
     }
 
     public static function get($key, $default = null)
     {
-        return isset(self::$config[$key]) ? self::$config[$key] : $default;
+        if (!static::$container->hasParameter($key)) {
+            return $default;
+        }
+        return static::$container->getParameter($key);
     }
 
     public static function set($key, $value)
     {
-        self::$config[$key] = $value;
+        static::$container->setParameter($key, $value);
     }
 }

@@ -10,8 +10,7 @@ use Robo\Contract\CompletionInterface;
  * Create a temporary directory that is automatically cleaned up
  * once the task collection is is part of completes.
  *
- * Use ->setTemporary(false) to make the directory persist after
- * completion, but still be deleted on rollback.
+ * Move the directory to another location to prevent its deletion.
  *
  * ``` php
  * <?php

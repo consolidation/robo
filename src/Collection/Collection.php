@@ -69,9 +69,18 @@ class Collection implements TaskInterface
      */
     public function add($name, $task = null)
     {
-        if (is_array($name)) {
-            return $this->addTaskList($name);
+        // If '$name' was unspecified, then the single parameter provided
+        // is the task or Callable object.  Make $name 'UNNAMEDTASK'.
+        if (!is_string($name) && ($task == null)) {
+            $task = $name;
+            $name = self::UNNAMEDTASK;
         }
+        // If $task is an array (and isn't a Callable), then add every item
+        // in the array individually.
+        if (!is_callable($task) && is_array($task)) {
+            return $this->addTaskList($task);
+        }
+        // Otherwise, add the named (or unnamed) task.
         return $this->addTask($name, $task);
     }
 
@@ -90,9 +99,32 @@ class Collection implements TaskInterface
         // Wrap the task as necessary.
         $rollbackTask = $this->wrapTask($rollbackTask);
         $collection = $this;
-        $this->addToTaskStack(self::UNNAMEDTASK, function () use ($collection, $rollbackTask) {
+        $rollbackRegistrationTask = $this->wrapTask(function () use ($collection, $rollbackTask) {
             $collection->registerRollback($rollbackTask);
         });
+        $this->addToTaskStack(self::UNNAMEDTASK, $rollbackRegistrationTask);
+        return $this;
+    }
+
+    /**
+     * Add a completion task to our task collection.  A completion task
+     * will execute EITHER after all tasks succeed, OR immediatley after
+     * any task fails.  Completion tasks never cause errors to be returned
+     * from Collection::run(), even if they fail.
+     *
+     * @param TaskInterface
+     *   The completion task to add.  Note that the 'run()' method of the
+     *   task executes, just as if the task was added normally.
+     */
+    public function completion($completionTask)
+    {
+        // Wrap the task as necessary.
+        $completionTask = $this->wrapTask($completionTask);
+        $collection = $this;
+        $completionRegistrationTask = $this->wrapTask(function () use ($collection, $completionTask) {
+            $collection->registerCompletion($completionTask);
+        });
+        $this->addToTaskStack(self::UNNAMEDTASK, $completionRegistrationTask);
         return $this;
     }
 
@@ -238,7 +270,7 @@ class Collection implements TaskInterface
      * @param TaskInterface
      *   The task to run
      */
-    protected function addTask($name, TaskInterface $task)
+    protected function addTask($name, $task)
     {
         // Wrap the task as necessary.
         $task = $this->wrapTask($task);
@@ -434,8 +466,8 @@ class Collection implements TaskInterface
                 $taskResult = $task->run();
                 // If the current task returns an error code, then stop
                 // execution and signal a rollback.
-                if (!$result->wasSuccessful()) {
-                    return $result;
+                if (!$taskResult->wasSuccessful()) {
+                    return $taskResult;
                 }
                 // We accumulate our results into a field so that tasks that
                 // have a reference to the collection may examine and modify

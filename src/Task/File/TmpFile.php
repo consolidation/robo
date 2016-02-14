@@ -6,15 +6,11 @@ use Robo\Collection\Collection;
 use Robo\Contract\CompletionInterface;
 
 /**
- * Create a temporary directory that is automatically cleaned up
- * once the task collection is is part of completes.
+ * Create a temporary file that is automatically cleaned up
+ * once the task collection is is part of completes. When created,
+ * it is given a random filename.
  *
- * Use setTemporary(false) to make the directory persist after
- * completion, but still be deleted on rollback.
- *
- * Note that the path to the temporary file is available immediately
- * via the getPath() method, even though the directory is not
- * created until the task's run() method is executed.
+ * This temporary file may be manipulated exacatly like taskWrite().
  *
  * ``` php
  * <?php

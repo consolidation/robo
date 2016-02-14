@@ -16,6 +16,18 @@ trait Collectable
         return $this->addCollectableToCollection($this, $collection, $taskName, $rollbackTask);
     }
 
+    public function addAsRollback(Collection $collection)
+    {
+        $collection->rollback($this);
+        return $this;
+    }
+
+    public function addAsCompletion(Collection $collection)
+    {
+        $collection->completion($this);
+        return $this;
+    }
+
     public function addToCollectionAndIgnoreErrors(Collection $collection, $taskName = Collection::UNNAMEDTASK)
     {
         return $this->addCollectableToCollection($collection->ignoreErrorsTaskWrapper($this), $collection, $taskName);

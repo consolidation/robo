@@ -1,6 +1,7 @@
 # Robo Documentation
 
 * [Getting Started](getting-started.md)
+* [Collections](collections.md)
 
 ## Tasks
 

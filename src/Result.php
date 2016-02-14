@@ -1,14 +1,12 @@
 <?php
 namespace Robo;
 
-use Robo\Common\TaskIO;
-use Robo\Contract\PrintedInterface;
+use Robo\Config;
 use Robo\Contract\TaskInterface;
+use Robo\Contract\LogResultInterface;
 
 class Result implements \ArrayAccess, \IteratorAggregate
 {
-    use TaskIO;
-
     static $stopOnFail = false;
 
     protected $exitCode;
@@ -24,19 +22,16 @@ class Result implements \ArrayAccess, \IteratorAggregate
         $this->message = $message;
         $this->data = $data;
 
-        $this->printResult();
+        // For historic reasons, the Result constructor is responsible
+        // for printing task results.
+        // TODO: Make IO the responsibility of some other class.
+        $resultLogger = Config::service('logger');
+        if ($resultLogger && ($resultLogger instanceof LogResultInterface)) {
+            $resultLogger->logResult($this);
+        }
 
         if (self::$stopOnFail) {
             $this->stopOnFail();
-        }
-    }
-
-    protected function printResult()
-    {
-        if (!$this->wasSuccessful()) {
-            $this->printError($this->task);
-        } else {
-            $this->printSuccess($this->task);
         }
     }
 
@@ -121,40 +116,13 @@ class Result implements \ArrayAccess, \IteratorAggregate
     public function stopOnFail()
     {
         if (!$this->wasSuccessful()) {
-            $this->printTaskError("Stopping on fail. Exiting....");
-            $this->printTaskError("<error>Exit Code: {$this->exitCode}</error>");
+            $resultLogger = Config::service('logger');
+            if ($resultLogger && ($resultLogger instanceof LogResultInterface)) {
+                $resultLogger->logStopOnFail($this);
+            }
             exit($this->exitCode);
         }
         return $this;
-    }
-
-    protected function printError()
-    {
-        $lines = explode("\n", $this->message);
-
-        $printOutput = true;
-
-        $time = $this->getExecutionTime();
-        if ($time) $time = "Time <fg=yellow>$time</fg=yellow>";
-
-        if ($this->task instanceof PrintedInterface) {
-            $printOutput = !$this->task->getPrinted();
-        }
-        if ($printOutput) {
-            foreach ($lines as $msg) {
-                if (!$msg) continue;
-                $this->printTaskError($msg, $this->task);
-            }
-        }
-        $this->printTaskError("<error> Exit code " . $this->exitCode. " </error> $time", $this->task);
-    }
-
-    protected function printSuccess()
-    {
-        $time = $this->getExecutionTime();
-        if (!$time) return;
-        $time = "in <fg=yellow>$time</fg=yellow>";
-        $this->printTaskSuccess("Done $time", $this->task);
     }
 
     /**

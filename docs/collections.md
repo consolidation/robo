@@ -73,9 +73,7 @@ Since the concept of temporary objects that are cleaned up  on failure is a comm
 
 ### Temporary Directories
 
-It is recommended that operations that perform multiple filesystem operations should, whenever possible, do most of their work in a temporary directory that is moved into its final location near the end of the task collection. This makes it easy to clean up after an aborted task.
-
-If you use a temporary directory created by `$this->taskTmpDir()`, it will automatically be removed when the collection completes or rolls back. Move the temporary directory to another location to prevent its deletion.
+It is recommended that operations that perform multiple filesystem operations should, whenever possible, do most of their work in a temporary directory. Temporary directories are created by `$this->taskTmpDir()`, and are automatically be removed when the collection completes or rolls back. Move the temporary directory to another location to prevent its deletion.
 
 ``` php
 <?php

@@ -43,20 +43,19 @@ class Logger extends StyledConsoleLogger implements LogResultInterface
     protected function logErrorResult(Result $result)
     {
         $task = $result->getTask();
-        $taskName = TaskInfo::formatTaskName($task);
+        $context = $result->getContext();
         $time = $result->getExecutionTime();
-        $message = $result->getMessage();
 
         $printOutput = true;
         if ($task instanceof PrintedInterface) {
             $printOutput = !$task->getPrinted();
         }
         if ($printOutput) {
-            $this->error("[$taskName] $message");
+            $this->error("[{name}] {message}", $context);
         }
-        $this->error('[{name}] Exit code {code}', ['name' => $taskName, 'code' => $result->getExitCode()]);
+        $this->error('[{name}] Exit code {code}', $context);
         if ($time) {
-            $this->notice('Time {time}', ['time' => $time]);
+            $this->notice('Time {time}', $context);
         }
     }
 
@@ -66,10 +65,10 @@ class Logger extends StyledConsoleLogger implements LogResultInterface
     protected function logSuccessResult(Result $result)
     {
         $task = $result->getTask();
-        $taskName = TaskInfo::formatTaskName($task);
+        $context = $result->getContext();
         $time = $result->getExecutionTime();
         if ($time) {
-            $this->success('[{name}] Done in {time}', ['name' => $taskName, 'time' => $time]);
+            $this->success('[{name}] Done in {time}', $context);
         }
     }
 }

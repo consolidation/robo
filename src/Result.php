@@ -2,6 +2,7 @@
 namespace Robo;
 
 use Robo\Config;
+use Robo\TaskInfo;
 use Robo\Contract\TaskInterface;
 use Robo\Contract\LogResultInterface;
 
@@ -13,7 +14,6 @@ class Result implements \ArrayAccess, \IteratorAggregate
     protected $message;
     protected $data = [];
     protected $task;
-    protected $previousTask;
 
     public function __construct(TaskInterface $task, $exitCode, $message = '', $data = [])
     {
@@ -54,6 +54,23 @@ class Result implements \ArrayAccess, \IteratorAggregate
     static function success(TaskInterface $task, $message = '', $data = [])
     {
         return new self($task, 0, $message, $data);
+    }
+
+    /**
+     * Return a context useful for logging messages.
+     */
+    public function getContext()
+    {
+        $task = $this->getTask();
+
+        return [
+            'name' => TaskInfo::formatTaskName($task),
+            'task' => $task,
+            'code' => $this->getExitCode(),
+            'data' => $this->getData(),
+            'time' => $this->getExecutionTime(),
+            'message' => $this->getMessage(),
+        ];
     }
 
     /**

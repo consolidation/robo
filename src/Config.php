@@ -23,7 +23,8 @@ class Config
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
      *   A new container instance to replace the current.
      */
-    public static function setContainer(ContainerInterface $container) {
+    public static function setContainer(ContainerInterface $container)
+    {
         static::$container = $container;
     }
 
@@ -50,8 +51,9 @@ class Config
     /**
      * Unsets the global container.
      */
-    public static function unsetContainer() {
-        static::$container = NULL;
+    public static function unsetContainer()
+    {
+        static::$container = null;
     }
 
     /**
@@ -61,8 +63,9 @@ class Config
      *
      * @throws \Drupal\Core\DependencyInjection\ContainerNotInitializedException
      */
-    public static function getContainer() {
-        if (static::$container === NULL) {
+    public static function getContainer()
+    {
+        if (static::$container === null) {
             throw new \RuntimeException('container is not initialized yet. \Robo\Config::setContainer() must be called with a real container.');
         }
         return static::$container;
@@ -73,8 +76,9 @@ class Config
      *
      * @return bool
      */
-    public static function hasContainer() {
-        return static::$container !== NULL;
+    public static function hasContainer()
+    {
+        return static::$container !== null;
     }
 
     /**
@@ -90,14 +94,16 @@ class Config
      * @return mixed
      *   The specified service.
      */
-    public static function service($id) {
+    public static function service($id)
+    {
         return static::getContainer()->get($id);
     }
 
     /**
      * Add a service to the container.
      */
-    public static function setService($id, $service) {
+    public static function setService($id, $service)
+    {
         static::getContainer()->set($id, $service);
     }
 
@@ -110,7 +116,8 @@ class Config
      * @return bool
      *   TRUE if the specified service exists, FALSE otherwise.
      */
-    public static function hasService($id) {
+    public static function hasService($id)
+    {
         // Check hasContainer() first in order to always return a Boolean.
         return static::hasContainer() && static::getContainer()->has($id);
     }
@@ -120,7 +127,8 @@ class Config
      *
      * @return LoggerInterface
      */
-    public static function logger() {
+    public static function logger()
+    {
         return static::service('logger');
     }
 
@@ -129,7 +137,8 @@ class Config
      *
      * @return OutputInterface
      */
-    public static function output() {
+    public static function output()
+    {
         return static::service('output');
     }
 
@@ -138,7 +147,8 @@ class Config
      *
      * @return InputInterface
      */
-    public static function input() {
+    public static function input()
+    {
         return static::service('input');
     }
 

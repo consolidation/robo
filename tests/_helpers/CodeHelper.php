@@ -11,8 +11,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CodeHelper extends \Codeception\Module
 {
-    static $testPrinter;
-    static $capturedOutput;
+    protected static $testPrinter;
+    protected static $capturedOutput;
 
     public function _before(\Codeception\TestCase $test)
     {

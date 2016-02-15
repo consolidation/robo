@@ -50,7 +50,8 @@ class StyledConsoleLogger extends AbstractLogger // extends ConsoleLogger
         $this->formatLevelMap = $formatLevelMap + $this->formatLevelMap;
     }
 
-    protected function createStyler(OutputInterface $output) {
+    protected function createStyler(OutputInterface $output)
+    {
         // It is a little odd that SymfonyStyle & c. mix input and output
         // functions. We only need the output methods here, so create a
         // stand-in input object to satisfy the SymfonyStyle constructor.

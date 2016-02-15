@@ -117,9 +117,9 @@ class StyledConsoleLogger extends AbstractLogger // extends ConsoleLogger
 
         // Write to the error output if necessary and available
         if ($this->formatLevelMap[$level] !== self::ERROR) {
-            $outputStyler = $this->getErrorStyler();
-        } else {
             $outputStyler = $this->getOutputStyler();
+        } else {
+            $outputStyler = $this->getErrorStyler();
         }
 
         if ($this->output->getVerbosity() >= $this->verbosityLevelMap[$level]) {

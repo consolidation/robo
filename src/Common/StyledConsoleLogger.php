@@ -46,7 +46,7 @@ class StyledConsoleLogger extends AbstractLogger // extends ConsoleLogger
         // parent::__construct($output, $verbosityLevelMap, $formatLevelMap);
 
         $this->output = $output;
-        $this->verbosityLevelMap = $verbosityLevelMap + $this->verbosityLevelMap;
+        $this->verbosityLevelMap = $verbosityLevelMap + $this->verbosityLevelForConsoleApplicationsMap + $this->verbosityLevelMap;
         $this->formatLevelMap = $formatLevelMap + $this->formatLevelMap;
     }
 
@@ -102,7 +102,6 @@ class StyledConsoleLogger extends AbstractLogger // extends ConsoleLogger
             if (array_key_exists($level, $this->formatFunctionMap)) {
                 $formatFunction = $this->formatFunctionMap[$level];
             }
-            // $output->$formatFunction(sprintf('<%1$s>[%2$s] %3$s</%1$s>', $this->formatLevelMap[$level], $level, $this->interpolate($message, $context)));
             $output->$formatFunction($this->interpolate($message, $context));
         }
     }
@@ -137,6 +136,11 @@ class StyledConsoleLogger extends AbstractLogger // extends ConsoleLogger
         ConsoleLogLevel::OK => OutputInterface::VERBOSITY_NORMAL,
         ConsoleLogLevel::SUCCESS => OutputInterface::VERBOSITY_NORMAL,
     );
+
+    protected $verbosityLevelForConsoleApplicationsMap = array(
+        LogLevel::NOTICE => OutputInterface::VERBOSITY_NORMAL,
+    );
+
     /**
      * @var array
      */

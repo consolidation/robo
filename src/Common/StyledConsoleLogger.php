@@ -97,7 +97,7 @@ class StyledConsoleLogger extends AbstractLogger // extends ConsoleLogger
             $output = $this->getOutputStyler();
         }
 
-        if (true || $output->getVerbosity() >= $this->verbosityLevelMap[$level]) {
+        if ($output->getVerbosity() >= $this->verbosityLevelMap[$level]) {
             $formatFunction = 'writeln';
             if (array_key_exists($level, $this->formatFunctionMap)) {
                 $formatFunction = $this->formatFunctionMap[$level];

@@ -323,23 +323,13 @@ class RoboFile extends \Robo\Tasks
         $this->_exec('php -r "echo php_sapi_name();"');
     }
 
-
     public function tryError()
     {
-        $task = new ResultDummyTask();
-        $result = new \Robo\Result($task, 1, 'This is a big badda boom', ['time' => 10]);
+        $result = $this->taskExec('ls xyzzy' . date('U'))->run();
     }
 
     public function trySuccess()
     {
-        $task = new ResultDummyTask();
-        $result = new \Robo\Result($task, 0, 'This is what success looks like', ['time' => 1]);
-    }
-}
-
-class ResultDummyTask implements \Robo\Contract\TaskInterface
-{
-    public function run()
-    {
+        $result = $this->taskExec('pwd')->run();
     }
 }

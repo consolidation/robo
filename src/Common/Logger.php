@@ -1,30 +1,29 @@
 <?php
 namespace Robo\Common;
 
-use Robo\Contract\LogResultInterface;
 use Robo\Result;
-use Psr\Log\AbstractLogger;
-use Robo\Common\TaskIO;
+use Robo\TaskInfo;
 use Robo\Contract\PrintedInterface;
+use Robo\Contract\LogResultInterface;
+
+use Psr\Log\AbstractLogger;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Logger\ConsoleLogger;
 
 /**
  * Robo's default logger
- *
- * TODO: Make this a Psr\Log logger
  */
-class Logger /* extends AbstractLogger */ implements LogResultInterface
+class Logger extends StyledConsoleLogger implements LogResultInterface
 {
-    use TaskIO;
-
     /**
      * Log the result of a Robo task.
      */
     public function logResult(Result $result)
     {
         if (!$result->wasSuccessful()) {
-            $this->printError($result);
+            $this->logErrorResult($result);
         } else {
-            $this->printSuccess($result);
+            $this->logSuccessResult($result);
         }
     }
 
@@ -34,39 +33,43 @@ class Logger /* extends AbstractLogger */ implements LogResultInterface
      */
     public function logStopOnFail($result)
     {
-        $this->printTaskError("Stopping on fail. Exiting....");
-        $this->printTaskError("<error>Exit Code: {$result->getExitCode()}</error>");
+        $this->notice('Stopping on fail. Exiting....');
+        $this->error('Exit Code: {code}', ['code' => $result->getExitCode()]);
     }
 
-    protected function printError(Result $result)
+    /**
+     * Log the result of a Robo task that returned an error.
+     */
+    protected function logErrorResult(Result $result)
     {
         $task = $result->getTask();
+        $taskName = TaskInfo::formatTaskName($task);
+        $time = $result->getExecutionTime();
         $message = $result->getMessage();
-        $lines = explode("\n", $message);
 
         $printOutput = true;
-
-        $time = $result->getExecutionTime();
-        if ($time) $time = "Time <fg=yellow>$time</fg=yellow>";
-
         if ($task instanceof PrintedInterface) {
             $printOutput = !$task->getPrinted();
         }
         if ($printOutput) {
-            foreach ($lines as $msg) {
-                if (!$msg) continue;
-                $this->printTaskError($msg, $task);
-            }
+            $this->error("[$taskName] $message");
         }
-        $this->printTaskError("<error> Exit code " . $result->getExitCode() . " </error> $time", $task);
+        $this->error('[{name}] Exit code {code}', ['name' => $taskName, 'code' => $result->getExitCode()]);
+        if ($time) {
+            $this->notice('Time {time}', ['time' => $time]);
+        }
     }
 
-    protected function printSuccess(Result $result)
+    /**
+     * Log the result of a Robo task that was successful.
+     */
+    protected function logSuccessResult(Result $result)
     {
         $task = $result->getTask();
+        $taskName = TaskInfo::formatTaskName($task);
         $time = $result->getExecutionTime();
-        if (!$time) return;
-        $time = "in <fg=yellow>$time</fg=yellow>";
-        $this->printTaskSuccess("Done $time", $task);
+        if ($time) {
+            $this->success('[{name}] Done in {time}', ['name' => $taskName, 'time' => $time]);
+        }
     }
 }

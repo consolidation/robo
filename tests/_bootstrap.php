@@ -11,7 +11,3 @@ $kernel->init([
         __DIR__.'/../vendor/symfony/console',
     ]
 ]);
-
-// Default container will do for unit tests.
-// Might want to change this in the future.
-Config::setContainer(Config::createContainer());

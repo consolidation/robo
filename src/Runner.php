@@ -83,7 +83,6 @@ class Runner
     {
         register_shutdown_function(array($this, 'shutdown'));
         set_error_handler(array($this, 'handleError'));
-        Config::setOutput(new ConsoleOutput());
 
         $input = $this->prepareInput($input ? $input : $_SERVER['argv']);
         Config::setInput($input);

@@ -24,7 +24,10 @@ class Result implements \ArrayAccess, \IteratorAggregate
 
         // For historic reasons, the Result constructor is responsible
         // for printing task results.
-        // TODO: Make IO the responsibility of some other class.
+        // TODO: Make IO the responsibility of some other class. Maintaining
+        // existing behavior for backwards compatibility. This is undesirable
+        // in the long run, though, as it can result in unwanted repeated input
+        // in task collections et. al.
         $resultLogger = Config::service('logger');
         if ($resultLogger && ($resultLogger instanceof LogResultInterface)) {
             $resultLogger->logResult($this);

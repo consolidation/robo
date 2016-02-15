@@ -1,7 +1,9 @@
 <?php
 namespace Robo\Common;
 
-trait TaskIO 
+use Robo\TaskInfo;
+
+trait TaskIO
 {
     use IO;
 
@@ -38,10 +40,6 @@ trait TaskIO
         if (!$task) {
             $task = $this;
         }
-        $name = get_class($task);
-        $name = preg_replace('~Stack^~', '' , $name);
-        $name = str_replace('Robo\Task\Base\\', '' , $name);
-        $name = str_replace('Robo\Task\\', '' , $name);
-        return $name;
+        return TaskInfo::formatTaskName($task);
     }
 }

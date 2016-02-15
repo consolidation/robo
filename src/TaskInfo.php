@@ -231,5 +231,14 @@ class TaskInfo
         return trim(implode(' ', array_filter(array_map('trim', $doc))));
     }
 
+
+    public static function formatTaskName($task)
+    {
+        $name = get_class($task);
+        $name = preg_replace('~Stack^~', '' , $name);
+        $name = str_replace('Robo\Task\Base\\', '' , $name);
+        $name = str_replace('Robo\Task\\', '' , $name);
+        return $name;
+    }
+
 }
- 

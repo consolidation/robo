@@ -95,7 +95,7 @@ class Runner
             return;
         }
         $app->addCommandsFromClass($this->roboClass, $this->passThroughArgs);
-        $app->run($input);
+        $app->run($input, Config::output());
     }
 
     /**

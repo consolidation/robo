@@ -35,15 +35,37 @@ class StyledConsoleLogger extends AbstractLogger // extends ConsoleLogger
 {
     protected $outputStyler;
     protected $errorStyler;
+    protected $stylerClassname;
+
+    protected $formatFunctionMap = array(
+        LogLevel::EMERGENCY => 'error',
+        LogLevel::ALERT => 'error',
+        LogLevel::CRITICAL => 'error',
+        LogLevel::ERROR => 'error',
+        LogLevel::WARNING => 'warning',
+        LogLevel::NOTICE => 'text',
+        LogLevel::INFO => 'text',
+        LogLevel::DEBUG => 'comment',
+        ConsoleLogLevel::OK => 'success',
+        ConsoleLogLevel::SUCCESS => 'success',
+    );
+
+    protected $verbosityLevelForConsoleApplicationsMap = array(
+        LogLevel::NOTICE => OutputInterface::VERBOSITY_NORMAL,
+    );
 
     /**
      * @param OutputInterface $output
      * @param array           $verbosityLevelMap
      * @param array           $formatLevelMap
+     * @param array           $formatFunctionMap
+     * @param string          $stylerClassname
      */
-    public function __construct(OutputInterface $output, array $verbosityLevelMap = array(), array $formatLevelMap = array())
+    public function __construct(OutputInterface $output, array $verbosityLevelMap = array(), array $formatLevelMap = array(), array $formatFunctionMap = array(), string $stylerClassname = null)
     {
         // parent::__construct($output, $verbosityLevelMap, $formatLevelMap);
+        $this->formatFunctionMap = $formatFunctionMap + $this->formatFunctionMap;
+        $this->stylerClassname = $stylerClassname;
 
         $this->output = $output;
         $this->verbosityLevelMap = $verbosityLevelMap + $this->verbosityLevelForConsoleApplicationsMap + $this->verbosityLevelMap;
@@ -52,17 +74,24 @@ class StyledConsoleLogger extends AbstractLogger // extends ConsoleLogger
 
     protected function createStyler(OutputInterface $output)
     {
-        // It is a little odd that SymfonyStyle & c. mix input and output
-        // functions. We only need the output methods here, so create a
-        // stand-in input object to satisfy the SymfonyStyle constructor.
-        $nullInput = new StringInput('');
-        $styler = new SymfonyStyle($nullInput, $output);
+        // If no styler classname was given, create a SymfonyStyle
+        if (!$this->stylerClassname) {
+            // It is a little odd that SymfonyStyle & c. mix input and output
+            // functions. We only need the output methods here, so create a
+            // stand-in input object to satisfy the SymfonyStyle constructor.
+            $nullInput = new StringInput('');
+            $styler = new SymfonyStyle($nullInput, $output);
+        }
+        else {
+            $classname = $this->stylerClassname;
+            $styler = new $classname($output);
+        }
         $styler->setVerbosity($output->getVerbosity());
 
         return $styler;
     }
 
-    public function getOutputStyler()
+    protected function getOutputStyler()
     {
         if (!isset($this->outputStyler)) {
             $this->outputStyler = $this->createStyler($this->output);
@@ -70,9 +99,9 @@ class StyledConsoleLogger extends AbstractLogger // extends ConsoleLogger
         return $this->outputStyler;
     }
 
-    public function getErrorStyler()
+    protected function getErrorStyler()
     {
-        if (true || !$this->output instanceof ConsoleOutputInterface) {
+        if (!$this->output instanceof ConsoleOutputInterface) {
             return $this->getOutputStyler();
         }
         if (!isset($this->errorStyler)) {
@@ -92,17 +121,17 @@ class StyledConsoleLogger extends AbstractLogger // extends ConsoleLogger
 
         // Write to the error output if necessary and available
         if ($this->formatLevelMap[$level] === self::ERROR) {
-            $output = $this->getErrorStyler();
+            $outputStyler = $this->getErrorStyler();
         } else {
-            $output = $this->getOutputStyler();
+            $outputStyler = $this->getOutputStyler();
         }
 
-        if ($output->getVerbosity() >= $this->verbosityLevelMap[$level]) {
+        if ($this->output->getVerbosity() >= $this->verbosityLevelMap[$level]) {
             $formatFunction = 'writeln';
             if (array_key_exists($level, $this->formatFunctionMap)) {
                 $formatFunction = $this->formatFunctionMap[$level];
             }
-            $output->$formatFunction($this->interpolate($message, $context));
+            $outputStyler->$formatFunction($this->interpolate($message, $context));
         }
     }
 
@@ -137,10 +166,6 @@ class StyledConsoleLogger extends AbstractLogger // extends ConsoleLogger
         ConsoleLogLevel::SUCCESS => OutputInterface::VERBOSITY_NORMAL,
     );
 
-    protected $verbosityLevelForConsoleApplicationsMap = array(
-        LogLevel::NOTICE => OutputInterface::VERBOSITY_NORMAL,
-    );
-
     /**
      * @var array
      */
@@ -155,19 +180,6 @@ class StyledConsoleLogger extends AbstractLogger // extends ConsoleLogger
         LogLevel::DEBUG => self::INFO,
         ConsoleLogLevel::OK => self::INFO,
         ConsoleLogLevel::SUCCESS => self::INFO,
-    );
-
-    private $formatFunctionMap = array(
-        LogLevel::EMERGENCY => 'error',
-        LogLevel::ALERT => 'error',
-        LogLevel::CRITICAL => 'error',
-        LogLevel::ERROR => 'error',
-        LogLevel::WARNING => 'warning',
-        LogLevel::NOTICE => 'note',
-        LogLevel::INFO => 'note',
-        LogLevel::DEBUG => 'note',
-        ConsoleLogLevel::OK => 'success',
-        ConsoleLogLevel::SUCCESS => 'success',
     );
 
     /**

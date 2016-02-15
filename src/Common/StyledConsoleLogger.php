@@ -50,10 +50,6 @@ class StyledConsoleLogger extends AbstractLogger // extends ConsoleLogger
         ConsoleLogLevel::SUCCESS => 'success',
     );
 
-    protected $verbosityLevelForConsoleApplicationsMap = array(
-        LogLevel::NOTICE => OutputInterface::VERBOSITY_NORMAL,
-    );
-
     /**
      * @param OutputInterface $output
      * @param array           $verbosityLevelMap
@@ -68,7 +64,7 @@ class StyledConsoleLogger extends AbstractLogger // extends ConsoleLogger
         $this->stylerClassname = $stylerClassname;
 
         $this->output = $output;
-        $this->verbosityLevelMap = $verbosityLevelMap + $this->verbosityLevelForConsoleApplicationsMap + $this->verbosityLevelMap;
+        $this->verbosityLevelMap = $verbosityLevelMap + $this->verbosityLevelMap;
         $this->formatLevelMap = $formatLevelMap + $this->formatLevelMap;
     }
 

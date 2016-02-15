@@ -120,7 +120,7 @@ class StyledConsoleLogger extends AbstractLogger // extends ConsoleLogger
         }
 
         // Write to the error output if necessary and available
-        if ($this->formatLevelMap[$level] === self::ERROR) {
+        if ($this->formatLevelMap[$level] !== self::ERROR) {
             $outputStyler = $this->getErrorStyler();
         } else {
             $outputStyler = $this->getOutputStyler();
@@ -174,12 +174,12 @@ class StyledConsoleLogger extends AbstractLogger // extends ConsoleLogger
         LogLevel::ALERT => self::ERROR,
         LogLevel::CRITICAL => self::ERROR,
         LogLevel::ERROR => self::ERROR,
-        LogLevel::WARNING => self::INFO,
-        LogLevel::NOTICE => self::INFO,
-        LogLevel::INFO => self::INFO,
-        LogLevel::DEBUG => self::INFO,
-        ConsoleLogLevel::OK => self::INFO,
-        ConsoleLogLevel::SUCCESS => self::INFO,
+        LogLevel::WARNING => self::ERROR,
+        LogLevel::NOTICE => self::ERROR,
+        LogLevel::INFO => self::ERROR,
+        LogLevel::DEBUG => self::ERROR,
+        ConsoleLogLevel::OK => self::ERROR,
+        ConsoleLogLevel::SUCCESS => self::ERROR,
     );
 
     /**

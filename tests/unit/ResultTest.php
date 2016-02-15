@@ -12,14 +12,7 @@ class ResultTest extends \Codeception\TestCase\Test {
     public function testBasics()
     {
         $task = new ResultDummyTask();
-        $logger = Config::service('logger');
-        $this->assertInstanceOf('Robo\Common\Logger', $logger);
-        $testOutput = Config::service('output');
-        $testLogger = new Robo\Common\Logger($testOutput);
-
-        Config::setService('logger', $testLogger);
         $result = new Result($task, 1, 'The foo barred', ['time' => 10]);
-        Config::setService('logger', $logger);
 
         $this->guy->seeInOutput('The foo barred');
         $this->guy->seeInOutput('Exit code 1');

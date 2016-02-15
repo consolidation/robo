@@ -57,7 +57,7 @@ class StyledConsoleLogger extends AbstractLogger // extends ConsoleLogger
      * @param array           $formatFunctionMap
      * @param string          $stylerClassname
      */
-    public function __construct(OutputInterface $output, array $verbosityLevelMap = array(), array $formatLevelMap = array(), array $formatFunctionMap = array(), string $stylerClassname = null)
+    public function __construct(OutputInterface $output, array $verbosityLevelMap = array(), array $formatLevelMap = array(), array $formatFunctionMap = array(), $stylerClassname = null)
     {
         // parent::__construct($output, $verbosityLevelMap, $formatLevelMap);
         $this->formatFunctionMap = $formatFunctionMap + $this->formatFunctionMap;
@@ -71,18 +71,11 @@ class StyledConsoleLogger extends AbstractLogger // extends ConsoleLogger
     protected function createStyler(OutputInterface $output)
     {
         // If no styler classname was given, create a SymfonyStyle
-        if (!$this->stylerClassname) {
-            // It is a little odd that SymfonyStyle & c. mix input and output
-            // functions. We only need the output methods here, so create a
-            // stand-in input object to satisfy the SymfonyStyle constructor.
-            $nullInput = new StringInput('');
-            $styler = new SymfonyStyle($nullInput, $output);
+        $classname = $this->stylerClassname;
+        if (!$classname) {
+            $classname = '\Robo\Common\SymfonyLogStyle';
         }
-        else {
-            $classname = $this->stylerClassname;
-            $styler = new $classname($output);
-        }
-        $styler->setVerbosity($output->getVerbosity());
+        $styler = new $classname($output);
 
         return $styler;
     }
@@ -123,11 +116,11 @@ class StyledConsoleLogger extends AbstractLogger // extends ConsoleLogger
         }
 
         if ($this->output->getVerbosity() >= $this->verbosityLevelMap[$level]) {
-            $formatFunction = 'writeln';
+            $formatFunction = 'text';
             if (array_key_exists($level, $this->formatFunctionMap)) {
                 $formatFunction = $this->formatFunctionMap[$level];
             }
-            $outputStyler->$formatFunction($this->interpolate($message, $context));
+            $outputStyler->$formatFunction($this->interpolate($message, $context), $context);
         }
     }
 

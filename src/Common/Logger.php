@@ -15,6 +15,11 @@ use Symfony\Component\Console\Logger\ConsoleLogger;
  */
 class Logger extends StyledConsoleLogger implements LogResultInterface
 {
+    public function __construct(OutputInterface $output, array $verbosityLevelMap = array(), array $formatLevelMap = array(), array $formatFunctionMap = array(), string $stylerClassname = null)
+    {
+        parent::__construct($output, [], [], [], '\Robo\Common\LogStyler');
+    }
+
     /**
      * Log the result of a Robo task.
      */
@@ -43,20 +48,16 @@ class Logger extends StyledConsoleLogger implements LogResultInterface
     protected function logErrorResult(Result $result)
     {
         $task = $result->getTask();
-        $context = $result->getContext();
-        $time = $result->getExecutionTime();
+        $context = $result->getContext() + ['timer-label' => 'Time'];
 
         $printOutput = true;
         if ($task instanceof PrintedInterface) {
             $printOutput = !$task->getPrinted();
         }
         if ($printOutput) {
-            $this->error("[{name}] {message}", $context);
+            $this->error("{message}", $context);
         }
-        $this->error('[{name}] Exit code {code}', $context);
-        if ($time) {
-            $this->notice('Time {time}', $context);
-        }
+        $this->error('Exit code {code}', $context);
     }
 
     /**
@@ -65,10 +66,10 @@ class Logger extends StyledConsoleLogger implements LogResultInterface
     protected function logSuccessResult(Result $result)
     {
         $task = $result->getTask();
-        $context = $result->getContext();
+        $context = $result->getContext() + ['timer-label' => 'in'];
         $time = $result->getExecutionTime();
         if ($time) {
-            $this->success('[{name}] Done in {time}', $context);
+            $this->success('Done', $context);
         }
     }
 }

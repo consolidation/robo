@@ -1,10 +1,12 @@
 <?php
 namespace Robo;
 
+use Robo\Common\IO;
+
 class Tasks
 {
     use Tasklib;
-    use Common\IO;
+    use IO;
 
     protected function stopOnFail($stopOnFail = true)
     {

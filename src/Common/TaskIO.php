@@ -1,6 +1,7 @@
 <?php
 namespace Robo\Common;
 
+use Robo\Config;
 use Robo\TaskInfo;
 
 trait TaskIO
@@ -9,20 +10,20 @@ trait TaskIO
 
     protected function printTaskInfo($text, $task = null)
     {
-        $name = $this->getPrintedTaskName($task);
-        $this->writeln(" <fg=white;bg=cyan;options=bold>[$name]</fg=white;bg=cyan;options=bold> $text");
+        // The 'note' style is used for both 'notice' and 'info' log levels;
+        // However, 'notice' is printed at VERBOSITY_NORMAL, whereas 'info'
+        // is only printed at VERBOSITY_VERBOSE.
+        Config::logger()->notice($text, $this->getTaskContext($task));
     }
 
     protected function printTaskSuccess($text, $task = null)
     {
-        $name = $this->getPrintedTaskName($task);
-        $this->writeln(" <fg=white;bg=green;options=bold>[$name]</fg=white;bg=green;options=bold> $text");
+        Config::logger()->success($text, $this->getTaskContext($task));
     }
 
     protected function printTaskError($text, $task = null)
     {
-        $name = $this->getPrintedTaskName($task);
-        $this->writeln(" <fg=white;bg=red;options=bold>[$name]</fg=white;bg=red;options=bold> $text");
+        Config::logger()->error($text, $this->getTaskContext($task));
     }
 
     protected function formatBytes($size, $precision = 2)
@@ -41,5 +42,13 @@ trait TaskIO
             $task = $this;
         }
         return TaskInfo::formatTaskName($task);
+    }
+
+    protected function getTaskContext($task = null)
+    {
+        if (!$task) {
+            $task = $this;
+        }
+        return TaskInfo::getTaskContext($task);
     }
 }

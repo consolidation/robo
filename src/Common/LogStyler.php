@@ -15,6 +15,7 @@ class LogStyler implements LogStyleInterface
 
     const TASK_STYLE_INFO = 'fg=white;bg=cyan;options=bold';
     const TASK_STYLE_SUCCESS = 'fg=white;bg=green;options=bold';
+    const TASK_STYLE_WARNING = 'fg=black;bg=yellow;options=bold;';
     const TASK_STYLE_ERROR = 'fg=white;bg=red;options=bold';
 
     protected function wrapFormatString($string, $style)

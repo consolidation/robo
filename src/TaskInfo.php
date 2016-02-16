@@ -231,6 +231,16 @@ class TaskInfo
         return trim(implode(' ', array_filter(array_map('trim', $doc))));
     }
 
+    /**
+     * Return a context useful for logging messages.
+     */
+    public static function getTaskContext($task)
+    {
+        return [
+            'name' => TaskInfo::formatTaskName($task),
+            'task' => $task,
+        ];
+    }
 
     public static function formatTaskName($task)
     {

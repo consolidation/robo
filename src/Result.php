@@ -63,9 +63,7 @@ class Result implements \ArrayAccess, \IteratorAggregate
     {
         $task = $this->getTask();
 
-        return [
-            'name' => TaskInfo::formatTaskName($task),
-            'task' => $task,
+        return TaskInfo::getTaskContext($task) + [
             'code' => $this->getExitCode(),
             'data' => $this->getData(),
             'time' => $this->getExecutionTime(),

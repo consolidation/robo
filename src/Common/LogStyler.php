@@ -21,7 +21,7 @@ class LogStyler implements LogStyleInterface
     protected function wrapFormatString($string, $style)
     {
         if ($style) {
-            return "<{$style}>$string</{$style}>";
+            return "<{$style}>$string</>";
         }
         return $string;
     }

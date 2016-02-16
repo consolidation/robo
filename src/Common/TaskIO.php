@@ -6,8 +6,6 @@ use Robo\TaskInfo;
 
 trait TaskIO
 {
-    use IO;
-
     protected function printTaskInfo($text, $context = null)
     {
         // The 'note' style is used for both 'notice' and 'info' log levels;

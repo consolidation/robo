@@ -32,6 +32,7 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
     use Timer;
     use \Robo\Common\DynamicParams;
     use \Robo\Common\CommandReceiver;
+    use \Robo\Common\IO;
 
     protected $processes = [];
     protected $timeout = null;

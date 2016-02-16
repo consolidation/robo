@@ -120,22 +120,8 @@ class StyledConsoleLogger extends AbstractLogger // extends ConsoleLogger
             if (array_key_exists($level, $this->formatFunctionMap)) {
                 $formatFunction = $this->formatFunctionMap[$level];
             }
-            $outputStyler->$formatFunction($this->interpolate($message, $this->style($context)), $context);
+            $outputStyler->$formatFunction($this->interpolate($message, $outputStyler->style($context)), $context);
         }
-    }
-
-    protected function style($context) {
-        foreach ($context as $key => $value) {
-            $styleKey = $key;
-            if (!isset($context['_style'][$styleKey])) {
-                $styleKey = '*';
-            }
-            if (is_string($value) && isset($context['_style'][$styleKey])) {
-                $style = $context['_style'][$styleKey];
-                $context[$key] = "<$style>{$context[$key]}</>";
-            }
-        }
-        return $context;
     }
 
     public function success($message, array $context = array())

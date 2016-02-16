@@ -18,6 +18,26 @@ class LogStyler implements LogStyleInterface
     const TASK_STYLE_WARNING = 'fg=black;bg=yellow;options=bold;';
     const TASK_STYLE_ERROR = 'fg=white;bg=red;options=bold';
 
+    public function defaultStyles() {
+        return ['*' => 'info'];
+    }
+
+    public function style($context) {
+        $context += ['_style' => []];
+        $context['_style'] += $this->defaultStyles();
+        foreach ($context as $key => $value) {
+            $styleKey = $key;
+            if (!isset($context['_style'][$styleKey])) {
+                $styleKey = '*';
+            }
+            if (is_string($value) && isset($context['_style'][$styleKey])) {
+                $style = $context['_style'][$styleKey];
+                $context[$key] = $this->wrapFormatString($context[$key], $style);
+            }
+        }
+        return $context;
+    }
+
     protected function wrapFormatString($string, $style)
     {
         if ($style) {

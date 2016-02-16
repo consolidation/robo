@@ -6,6 +6,9 @@ namespace Robo\Common;
  */
 interface LogStyleInterface
 {
+    public function defaultStyles();
+    public function style($context);
+
     public function text($message, $context);
     public function success($message, $context);
     public function error($message, $context);

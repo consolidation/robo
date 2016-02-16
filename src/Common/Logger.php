@@ -5,7 +5,9 @@ use Robo\Result;
 use Robo\TaskInfo;
 use Robo\Contract\PrintedInterface;
 use Robo\Contract\LogResultInterface;
+use Robo\Common\ConsoleLogLevel; // maybe: use Symfony\Component\Console\ConsoleLogLevel;
 
+use Psr\Log\LogLevel;
 use Psr\Log\AbstractLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Logger\ConsoleLogger;
@@ -15,9 +17,31 @@ use Symfony\Component\Console\Logger\ConsoleLogger;
  */
 class Logger extends StyledConsoleLogger implements LogResultInterface
 {
-    public function __construct(OutputInterface $output, array $verbosityLevelMap = array(), array $formatLevelMap = array(), array $formatFunctionMap = array(), string $stylerClassname = null)
+    public function __construct(OutputInterface $output)
     {
-        parent::__construct($output, [], [], [], '\Robo\Common\LogStyler');
+        // In Robo, we use log level 'notice' for messages that appear all
+        // the time, and 'info' for messages that appear only during verbose
+        // output. We have no 'very verbose' (-vv) level. 'Debug' is -vvv, as usual.
+        $roboVerbosityOverrides = [
+          LogLevel::NOTICE => OutputInterface::VERBOSITY_NORMAL,
+          LogLevel::INFO => OutputInterface::VERBOSITY_VERBOSE,
+        ];
+        // Robo should send all log messages to stderr. So should Symfony.
+        // See: https://en.wikipedia.org/wiki/Standard_streams
+        //   "Standard error was added to Unix after several wasted phototypesetting runs ended with error messages being typeset instead of displayed on the user's terminal."
+        $roboFormatLevelOverrides = array(
+            LogLevel::EMERGENCY => self::ERROR,
+            LogLevel::ALERT => self::ERROR,
+            LogLevel::CRITICAL => self::ERROR,
+            LogLevel::ERROR => self::ERROR,
+            LogLevel::WARNING => self::ERROR,
+            LogLevel::NOTICE => self::ERROR,
+            LogLevel::INFO => self::ERROR,
+            LogLevel::DEBUG => self::ERROR,
+            ConsoleLogLevel::OK => self::ERROR,
+            ConsoleLogLevel::SUCCESS => self::ERROR,
+        );
+        parent::__construct($output, $roboVerbosityOverrides, $roboFormatLevelOverrides, [], '\Robo\Common\LogStyler');
     }
 
     /**

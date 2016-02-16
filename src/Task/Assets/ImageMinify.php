@@ -31,7 +31,7 @@ use Symfony\Component\Filesystem\Filesystem as sfFileSystem;
  *
  * When the minifier is specified the task will use that for all the input files. In that case
  * it is useful to filter the files with the extension:
- * 
+ *
  * ```php
  * $this->taskImageMinify('assets/images/*.png')
  *     ->to('dist/images/')
@@ -118,7 +118,7 @@ class ImageMinify extends BaseTask
 
     /**
      * Array for minifier options.
-     * 
+     *
      * @var array
      */
     protected $minifierOptions = [];
@@ -211,14 +211,15 @@ class ImageMinify extends BaseTask
         }
 
         $amount = (count($files) == 1 ? 'image' : 'images');
-        $message = sprintf('Minified <info>%d</info> out of <info>%d</info> %s into <info>%s</info>', count($this->results['success']), count($files), $amount, $this->to);
+        $message = "Minified {filecount} out of {filetotal} $amount into {destination}";
+        $context = ['filecount' => count($this->results['success']), 'filetotal' => count($files), 'destination' => $this->to];
 
         if (count($this->results['success']) == count($files)) {
-            $this->printTaskSuccess($message);
+            $this->printTaskSuccess($message, $context);
 
-            return Result::success($this);
+            return Result::success($this, $message, $context);
         } else {
-            return Result::error($this, $message);
+            return Result::error($this, $message, $context);
         }
     }
 
@@ -293,8 +294,8 @@ class ImageMinify extends BaseTask
                 // store the absolute path as key and target as value in the files array
                 $files[$file->getRealpath()] = $this->getTarget($file->getRealPath(), $to);
             }
-            $amount = count($finder).(count($finder) == 1 ? ' file' : ' files');
-            $this->printTaskInfo('Found <info>'.$amount.'</info> in <info>'.$dir.'</info>');
+            $fileNoun = count($finder) == 1 ? ' file' : ' files';
+            $this->printTaskInfo("Found {filecount} $fileNoun in {dir}", ['filecount' => count($finder), 'dir' => $dir]);
         }
 
         return $files;
@@ -363,12 +364,12 @@ class ImageMinify extends BaseTask
             }
 
             // launch the command
-            $this->printTaskInfo(sprintf('Minifying <info>%s</info> with %s', $from, $minifier));
+            $this->printTaskInfo('Minifying {filepath} with {minifier}', ['filepath' => $from, 'minifier' => $minifier]);
             $result = $this->executeCommand($command);
 
             // check the return code
             if ($result->getExitCode() == 127) {
-                $this->printTaskError(sprintf('The <info>%s</info> executable cannot be found', $minifier));
+                $this->printTaskError('The {minifier} executable cannot be found', ['minifier' => $minifier]);
                 // try to install from imagemin repository
                 if (array_key_exists($minifier, $this->imageminRepos)) {
                     $result = $this->installFromImagemin($minifier);
@@ -382,7 +383,7 @@ class ImageMinify extends BaseTask
                                 $command = $this->{$minifier}($from, $to);
                             }
                             // launch the command
-                            $this->printTaskInfo(sprintf('Minifying <info>%s</info> with %s', $from, $minifier));
+                            $this->printTaskInfo('Minifying {filepath} with {minifier}', ['filepath' => $from, 'minifier' => $minifier]);
                             $result = $this->executeCommand($command);
                         } else {
                             $this->printTaskError($result->getMessage());
@@ -454,7 +455,7 @@ class ImageMinify extends BaseTask
 
             return Result::error($this, $message);
         }
-        $this->printTaskInfo(sprintf('Downloading the <info>%s</info> executable from the imagemin repository', $executable));
+        $this->printTaskInfo('Downloading the {executable} executable from the imagemin repository', ['executable' => $executable]);
 
         $os = $this->getOS();
         $url = $this->imageminRepos[$executable].'/blob/master/vendor/'.$os.'/'.$executable.'?raw=true';

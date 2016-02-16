@@ -96,7 +96,7 @@ abstract class StackBasedTask extends BaseTask
      */
     protected function printTaskProgress($command, $action)
     {
-        $this->printTaskInfo("{$command[1]} " . json_encode($action));
+        $this->printTaskInfo('{command} {action}', ['command' => "{$command[1]}", 'action' => json_encode($action)]);
     }
 
     /**
@@ -178,7 +178,7 @@ abstract class StackBasedTask extends BaseTask
             $function_result = call_user_func_array($command, $action);
             return $this->processResult($function_result);
         } catch (Exception $e) {
-            $this->printTaskInfo("<error>" . $e->getMessage() . "</error>");
+            $this->printTaskError($e->getMessage());
             return Result::error($this, $e->getMessage());
         }
     }

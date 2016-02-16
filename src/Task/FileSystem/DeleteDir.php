@@ -26,7 +26,7 @@ class DeleteDir extends BaseDir
         }
         foreach ($this->dirs as $dir) {
             $this->fs->remove($dir);
-            $this->printTaskInfo("Deleted <info>$dir</info>...");
+            $this->printTaskInfo("Deleted {dir}...", ['dir' => $dir]);
         }
         return Result::success($this);
     }

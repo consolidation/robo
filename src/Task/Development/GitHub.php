@@ -47,7 +47,7 @@ abstract class GitHub extends BaseTask
 
         $ch = curl_init();
         $url = sprintf('%s/repos/%s/%s', self::GITHUB_URL, $this->getUri(), $uri);
-        $this->printTaskInfo("$method $url");
+        $this->printTaskInfo('{method} {$url}', ['method' => $method, 'url' => $url]);
 
         if (!self::$user) {
             $this->askAuth();

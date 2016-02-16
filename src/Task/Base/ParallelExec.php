@@ -86,7 +86,7 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
                     $progress->advance();
                     if ($this->isPrinted) {
                         $this->getOutput()->writeln("");
-                        $this->printTaskInfo("Output for <fg=white;bg=magenta> " . $process->getCommandLine()." </fg=white;bg=magenta>");
+                        $this->printTaskInfo("Output for {command}", ['command' => $process->getCommandLine(), '_style' => ['command' => 'fg=white;bg=magenta']]);
                         $this->getOutput()->writeln($process->getOutput(), OutputInterface::OUTPUT_RAW);
                         if ($process->getErrorOutput()) {
                             $this->getOutput()->writeln("<error>" . $process->getErrorOutput() . "</error>");
@@ -110,7 +110,7 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
             $errorMessage .= "'" . $p->getCommandLine() . "' exited with code ". $p->getExitCode()." \n";
             $exitCode = max($exitCode, $p->getExitCode());
         }
-        if (!$errorMessage) $this->printTaskSuccess(count($this->processes) . " processes finished running");
+        if (!$errorMessage) $this->printTaskSuccess('{process-count} processes finished running', ['process-count' => count($this->processes)]);
 
         return new Result($this, $exitCode, $errorMessage, ['time' => $this->getExecutionTime()]);
     }

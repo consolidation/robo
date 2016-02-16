@@ -25,7 +25,7 @@ class Install extends Base implements CommandInterface
 
     public function run()
     {
-        $this->printTaskInfo('Install Bower packages: ' . $this->arguments);
+        $this->printTaskInfo('Install Bower packages: {arguments}', ['arguments' => $this->arguments]);
         return $this->executeCommand($this->getCommand());
     }
 }

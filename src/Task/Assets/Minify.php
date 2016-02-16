@@ -258,14 +258,12 @@ class Minify extends BaseTask
             $minified_percent = number_format(100 - ($size_after / $size_before * 100), 1);
         }
         $this->printTaskSuccess('Wrote {filepath}', ['filepath' => $this->dst]);
-        $this->printTaskSuccess(
-                'Wrote {bytes} (reduced by {reduction} / {percentage})',
-                [
-                    'bytes' => $this->formatBytes($size_after),
-                    'reduction' => $this->formatBytes(($size_before - $size_after)),
-                    'percentage' => $minified_percent
-                ]
-        );
+        $context = [
+            'bytes' => $this->formatBytes($size_after),
+            'reduction' => $this->formatBytes(($size_before - $size_after)),
+            'percentage' => $minified_percent,
+        ];
+        $this->printTaskSuccess('Wrote {bytes} (reduced by {reduction} / {percentage})', $context);
         return Result::success($this, 'Asset minified.');
     }
 }

@@ -110,7 +110,9 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
             $errorMessage .= "'" . $p->getCommandLine() . "' exited with code ". $p->getExitCode()." \n";
             $exitCode = max($exitCode, $p->getExitCode());
         }
-        if (!$errorMessage) $this->printTaskSuccess('{process-count} processes finished running', ['process-count' => count($this->processes)]);
+        if (!$errorMessage) {
+            $this->printTaskSuccess('{process-count} processes finished running', ['process-count' => count($this->processes)]);
+        }
 
         return new Result($this, $exitCode, $errorMessage, ['time' => $this->getExecutionTime()]);
     }

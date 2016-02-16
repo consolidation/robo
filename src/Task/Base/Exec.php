@@ -110,7 +110,7 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface
     {
         if ($this->background && $this->process->isRunning()) {
             $this->process->stop();
-            $this->printTaskInfo("Stopped {command}", ['command' => $this->getCommand(), '_style' => ['*' => 'info']]);
+            $this->printTaskInfo("Stopped {command}", ['command' => $this->getCommand()]);
         }
     }
 
@@ -118,7 +118,7 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface
     {
         $command = $this->getCommand();
         $dir = $this->workingDirectory ? " in {dir}" : "";
-        $this->printTaskInfo("Running {command}$dir", ['command' => $command, 'dir' => $this->workingDirectory, '_style' => ['*' => 'info']]);
+        $this->printTaskInfo("Running {command}$dir", ['command' => $command, 'dir' => $this->workingDirectory]);
         $this->process = new Process($command);
         $this->process->setTimeout($this->timeout);
         $this->process->setIdleTimeout($this->idleTimeout);

@@ -22,7 +22,7 @@ class Update extends Base
 
     public function run()
     {
-        $this->printTaskInfo('Update Npm packages: ' . $this->arguments);
+        $this->printTaskInfo('Update Npm packages: {arguments}', ['arguments' => $this->arguments]);
         return $this->executeCommand($this->getCommand());
     }
 }

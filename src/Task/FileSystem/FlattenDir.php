@@ -219,8 +219,8 @@ class FlattenDir extends BaseDir
                 // store the absolute path as key and target as value in the files array
                 $files[$file->getRealpath()] = $this->getTarget($file->getRealPath(), $to);
             }
-            $amount = count($finder).(count($finder) == 1 ? ' file' : ' files');
-            $this->printTaskInfo('Found <info>'.$amount.'</info> in <info>'.$dir.'</info>');
+            $fileNoun = count($files) == 1 ? ' file' : ' files';
+            $this->printTaskInfo("Found {count} $fileNoun in {dir}", ['count' => count($files), 'dir' => $dir]);
         }
 
         return $files;

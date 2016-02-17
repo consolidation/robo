@@ -15,6 +15,15 @@ trait TaskIO
 {
     /**
      * Print information about a task in progress.
+     *
+     * With the Symfony Console logger, NOTICE is displayed at VERBOSITY_VERBOSE
+     * and INFO is displayed at VERBOSITY_VERY_VERBOSE.
+     *
+     * Robo overrides the default such that NOTICE is displayed at
+     * VERBOSITY_NORMAL and INFO is displayed at VERBOSITY_VERBOSE.
+     *
+     * n.b. We should probably have printTaskNotice for our ordinary
+     * output, and use printTaskInfo for less interesting messages.
      */
     protected function printTaskInfo($text, $context = null)
     {
@@ -26,19 +35,50 @@ trait TaskIO
 
     /**
      * Provide notification that some part of the task succeeded.
+     *
+     * With the Symfony Console logger, success messages are remapped to NOTICE,
+     * and displayed in VERBOSITY_VERBOSE. When used with the Robo logger,
+     * success messages are displayed at VERBOSITY_NORMAL.
      */
     protected function printTaskSuccess($text, $context = null)
     {
-        Config::logger()->success($text, $this->getTaskContext($context));
+        // Not all loggers will recognize ConsoleLogLevel::SUCCESS.
+        // We therefore log as LogLevel::NOTICE, and apply a '_level'
+        // override in the context so that this message will be
+        // logged as SUCCESS if that log level is recognized.
+        $context['_level'] = ConsoleLogLevel::SUCCESS;
+        Config::logger()->notice($text, $this->getTaskContext($context));
+    }
+
+    /**
+     * Provide notification that there is something wrong, but
+     * execution can continue.
+     *
+     * Warning messages are displayed at VERBOSITY_NORMAL.
+     */
+    protected function printTaskWarning($text, $context = null)
+    {
+        Config::logger()->warning($text, $this->getTaskContext($context));
     }
 
     /**
      * Provide notification that some operation in the task failed,
      * and the task cannot continue.
+     *
+     * Error messages are displayed at VERBOSITY_NORMAL.
      */
     protected function printTaskError($text, $context = null)
     {
         Config::logger()->error($text, $this->getTaskContext($context));
+    }
+
+    /**
+     * Provide debugging notification.  These messages are only
+     * displayed if the log level is VERBOSITY_DEBUG.
+     */
+    protected function printTaskDebug($text, $context = null)
+    {
+        Config::logger()->debug($text, $this->getTaskContext($context));
     }
 
     /**

@@ -103,17 +103,31 @@ class StyledConsoleLogger extends AbstractLogger // extends ConsoleLogger
      */
     public function log($level, $message, array $context = array())
     {
+        // We use the '_level' context variable to allow log messages
+        // to be logged at one level (e.g. NOTICE) and formatted at another
+        // level (e.g. SUCCESS). This helps in instances where we want
+        // to style log messages at a custom log level that might not
+        // be available in all loggers. If the logger does not recognize
+        // the log level, then it is treated like the original log level.
+        if (array_key_exists('_level', $context) && array_key_exists($context['_level'], $this->verbosityLevelMap)) {
+            $level = $this->formatFunctionMap[$context['_level']];
+        }
+        // It is a runtime error if someone logs at a log level that
+        // we do not recognize.
         if (!isset($this->verbosityLevelMap[$level])) {
             throw new InvalidArgumentException(sprintf('The log level "%s" does not exist.', $level));
         }
 
-        // Write to the error output if necessary and available
-        if ($this->formatLevelMap[$level] !== self::ERROR) {
+        // Write to the error output if necessary and available.
+        // Usually, loggers that log to a terminal should send
+        // all log messages to stderr.
+        if (array_key_exists($level, $this->formatLevelMap) && ($this->formatLevelMap[$level] !== self::ERROR)) {
             $outputStyler = $this->getOutputStyler();
         } else {
             $outputStyler = $this->getErrorStyler();
         }
 
+        // Ignore messages that are not at the right verbosity level
         if ($this->output->getVerbosity() >= $this->verbosityLevelMap[$level]) {
             $formatFunction = 'text';
             if (array_key_exists($level, $this->formatFunctionMap)) {

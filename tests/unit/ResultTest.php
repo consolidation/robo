@@ -1,6 +1,5 @@
 <?php
 use Robo\Result;
-use Robo\Config;
 
 class ResultTest extends \Codeception\TestCase\Test {
 

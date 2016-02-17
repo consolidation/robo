@@ -3,6 +3,7 @@ namespace Robo;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Console\Input\InputInterface;
@@ -37,9 +38,11 @@ class Config
 
         // Set up our dependency injection container.
         $container = new ContainerBuilder();
-
-        $loader = new YamlFileLoader($container, new FileLocator(dirname($servicesFile)));
-        $loader->load(basename($servicesFile));
+        $container
+            ->register('output', 'Symfony\Component\Console\Output\ConsoleOutput');
+        $container
+            ->register('logger', 'Robo\Common\Logger')
+            ->addArgument(new Reference('output'));
 
         // Note: this freezes our container, preventing us from adding any further
         // services to it.

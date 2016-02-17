@@ -4,6 +4,9 @@ namespace Robo\Common;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\OutputStyle;
 
+/**
+ * Robo Log Styler.
+ */
 class LogStyler implements LogStyleInterface
 {
     protected $output;
@@ -18,11 +21,19 @@ class LogStyler implements LogStyleInterface
     const TASK_STYLE_WARNING = 'fg=black;bg=yellow;options=bold;';
     const TASK_STYLE_ERROR = 'fg=white;bg=red;options=bold';
 
+    /**
+     * {@inheritdoc}
+     */
     public function defaultStyles()
     {
         return ['*' => 'info'];
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * TODO: Move to a BaseLogStyler?
+     */
     public function style($context)
     {
         $context += ['_style' => []];
@@ -40,6 +51,57 @@ class LogStyler implements LogStyleInterface
         return $context;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function text($message, $context)
+    {
+        $this->output->writeln($message);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function success($message, $context)
+    {
+        return $this->text($this->formatMessage($message, $context, self::TASK_STYLE_SUCCESS), $context);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function error($message, $context)
+    {
+        return $this->text($this->formatMessage($message, $context, self::TASK_STYLE_ERROR, self::TASK_STYLE_ERROR), $context);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function warning($message, $context)
+    {
+        return $this->text($this->formatMessage($message, $context, self::TASK_STYLE_WARNING), $context);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function note($message, $context)
+    {
+        return $this->text($this->formatMessage($message, $context, self::TASK_STYLE_INFO), $context);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function caution($message, $context)
+    {
+        return $this->warning($message, $context);
+    }
+
+    /**
+     * Wrap a string in a format element.
+     */
     protected function wrapFormatString($string, $style)
     {
         if ($style) {
@@ -48,6 +110,9 @@ class LogStyler implements LogStyleInterface
         return $string;
     }
 
+    /**
+     * Apply styling for one of the style methods.
+     */
     protected function formatMessage($message, $context, $taskNameStyle, $messageStyle = '')
     {
         if (!empty($messageStyle)) {
@@ -61,35 +126,5 @@ class LogStyler implements LogStyleInterface
         }
 
         return $message;
-    }
-
-    public function text($message, $context)
-    {
-        $this->output->writeln($message);
-    }
-
-    public function success($message, $context)
-    {
-        return $this->text($this->formatMessage($message, $context, self::TASK_STYLE_SUCCESS), $context);
-    }
-
-    public function error($message, $context)
-    {
-        return $this->text($this->formatMessage($message, $context, self::TASK_STYLE_ERROR, self::TASK_STYLE_ERROR), $context);
-    }
-
-    public function warning($message, $context)
-    {
-        return $this->text($this->formatMessage($message, $context, self::TASK_STYLE_WARNING), $context);
-    }
-
-    public function note($message, $context)
-    {
-        return $this->text($this->formatMessage($message, $context, self::TASK_STYLE_INFO), $context);
-    }
-
-    public function caution($message, $context)
-    {
-        return $this->warning($message, $context);
     }
 }

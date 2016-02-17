@@ -26,8 +26,8 @@ use Symfony\Component\Console\Input\StringInput;
  * Extend Symfony\Component\Console\Logger\ConsoleLogger
  * so that each of the different log level messages are
  * routed through the corresponding SymfonyStyle formatting
- * method.  Log messages are always sent to stderr, so the
- * provided output object must implement ConsoleOutputInterface.
+ * method.  Log messages are always sent to stderr if the
+ * provided output object implements ConsoleOutputInterface.
  *
  * @author Greg Anderson <greg.1.anderson@greenknowe.org>
  */
@@ -45,7 +45,7 @@ class StyledConsoleLogger extends AbstractLogger // extends ConsoleLogger
         LogLevel::WARNING => 'warning',
         LogLevel::NOTICE => 'note',
         LogLevel::INFO => 'note',
-        LogLevel::DEBUG => 'comment',
+        LogLevel::DEBUG => 'note',
         ConsoleLogLevel::OK => 'success',
         ConsoleLogLevel::SUCCESS => 'success',
     );

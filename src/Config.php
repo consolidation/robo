@@ -8,6 +8,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\StringInput;
 
 class Config
 {
@@ -32,21 +33,21 @@ class Config
     /**
      * Create a container, and initiailze it from robo-services.yml.
      */
-    public static function createContainer()
+    public static function createContainer($input = null)
     {
-        $servicesFile = dirname(__DIR__) . "/robo-services.yml";
+        // If no input was provided, then create an empty input object.
+        if (!$input) {
+            $input = new StringInput('');
+        }
 
         // Set up our dependency injection container.
         $container = new ContainerBuilder();
+        $container->set('input', $input);
         $container
             ->register('output', 'Symfony\Component\Console\Output\ConsoleOutput');
         $container
             ->register('logger', 'Robo\Common\Logger')
             ->addArgument(new Reference('output'));
-
-        // Note: this freezes our container, preventing us from adding any further
-        // services to it.
-        // $container->compile();
 
         return $container;
     }

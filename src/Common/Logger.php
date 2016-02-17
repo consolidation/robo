@@ -40,7 +40,7 @@ class Logger extends StyledConsoleLogger implements LogResultInterface
             LogLevel::DEBUG => self::ERROR,
             ConsoleLogLevel::SUCCESS => self::ERROR,
         );
-        parent::__construct($output, $roboVerbosityOverrides, $roboFormatLevelOverrides, [], '\Robo\Common\LogStyler');
+        parent::__construct($output, $roboVerbosityOverrides, $roboFormatLevelOverrides, [], '\Robo\Common\RoboLogStyle');
     }
 
     /**

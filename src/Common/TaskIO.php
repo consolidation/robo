@@ -97,8 +97,9 @@ trait TaskIO
     /**
      * Get the formatted task name for use in task output.
      * This is placed in the task context under 'name', and
-     * inserted at the head of log messages by
-     * Robo\Common\LogStyler::formatMessage().
+     * used as the log label by Robo\Common\RoboLogStyle,
+     * which is inserted at the head of log messages by
+     * Robo\Common\CustomLogStyle::formatMessage().
      *
      * @return string
      */

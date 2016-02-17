@@ -81,7 +81,7 @@ class CustomLogStyle implements LogStyleInterface
      */
     public function success($message, $context)
     {
-        return $this->text($this->formatLevel(__FUNCTION__, $message, $context), $context);
+        return $this->text($this->formatMessageByLevel(__FUNCTION__, $message, $context), $context);
     }
 
     /**
@@ -89,7 +89,7 @@ class CustomLogStyle implements LogStyleInterface
      */
     public function error($message, $context)
     {
-        return $this->text($this->formatLevel(__FUNCTION__, $message, $context), $context);
+        return $this->text($this->formatMessageByLevel(__FUNCTION__, $message, $context), $context);
     }
 
     /**
@@ -97,7 +97,7 @@ class CustomLogStyle implements LogStyleInterface
      */
     public function warning($message, $context)
     {
-        return $this->text($this->formatLevel(__FUNCTION__, $message, $context), $context);
+        return $this->text($this->formatMessageByLevel(__FUNCTION__, $message, $context), $context);
     }
 
     /**
@@ -105,7 +105,7 @@ class CustomLogStyle implements LogStyleInterface
      */
     public function note($message, $context)
     {
-        return $this->text($this->formatLevel(__FUNCTION__, $message, $context), $context);
+        return $this->text($this->formatMessageByLevel(__FUNCTION__, $message, $context), $context);
     }
 
     /**
@@ -113,7 +113,7 @@ class CustomLogStyle implements LogStyleInterface
      */
     public function caution($message, $context)
     {
-        return $this->text($this->formatLevel(__FUNCTION__, $message, $context), $context);
+        return $this->text($this->formatMessageByLevel(__FUNCTION__, $message, $context), $context);
     }
 
     /**
@@ -131,14 +131,14 @@ class CustomLogStyle implements LogStyleInterface
      * Look up the label and message styles for the specified log level,
      * and use the log level as the label for the log message.
      */
-    protected function formatLevel($level, $message, $context)
+    protected function formatMessageByLevel($level, $message, $context)
     {
         $label = $level;
         return $this->formatMessage($label, $message, $context, $this->labelStyles[$level], $this->messageStyles[$level]);
     }
 
     /**
-     * Apply styling for one of the style methods.
+     * Apply styling with the provided label and message styles.
      */
     protected function formatMessage($label, $message, $context, $labelStyle, $messageStyle = '')
     {

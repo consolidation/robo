@@ -13,7 +13,7 @@ class RoboLogStyle extends CustomLogStyle
      * Log style customization for Robo: replace the log level with
      * the task name.
      */
-    protected function formatLevel($level, $message, $context)
+    protected function formatMessageByLevel($level, $message, $context)
     {
         $label = $level;
         if (array_key_exists('name', $context)) {

@@ -46,7 +46,6 @@ class StyledConsoleLogger extends AbstractLogger // extends ConsoleLogger
         LogLevel::NOTICE => 'note',
         LogLevel::INFO => 'note',
         LogLevel::DEBUG => 'note',
-        ConsoleLogLevel::OK => 'success',
         ConsoleLogLevel::SUCCESS => 'success',
     );
 
@@ -151,7 +150,6 @@ class StyledConsoleLogger extends AbstractLogger // extends ConsoleLogger
         LogLevel::NOTICE => OutputInterface::VERBOSITY_VERBOSE,
         LogLevel::INFO => OutputInterface::VERBOSITY_VERY_VERBOSE,
         LogLevel::DEBUG => OutputInterface::VERBOSITY_DEBUG,
-        ConsoleLogLevel::OK => OutputInterface::VERBOSITY_NORMAL,
         ConsoleLogLevel::SUCCESS => OutputInterface::VERBOSITY_NORMAL,
     );
 
@@ -167,7 +165,6 @@ class StyledConsoleLogger extends AbstractLogger // extends ConsoleLogger
         LogLevel::NOTICE => self::ERROR,
         LogLevel::INFO => self::ERROR,
         LogLevel::DEBUG => self::ERROR,
-        ConsoleLogLevel::OK => self::ERROR,
         ConsoleLogLevel::SUCCESS => self::ERROR,
     );
 

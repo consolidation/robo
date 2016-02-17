@@ -23,8 +23,8 @@ class Logger extends StyledConsoleLogger implements LogResultInterface
         // the time, and 'info' for messages that appear only during verbose
         // output. We have no 'very verbose' (-vv) level. 'Debug' is -vvv, as usual.
         $roboVerbosityOverrides = [
-            LogLevel::NOTICE => OutputInterface::VERBOSITY_NORMAL,
-            LogLevel::INFO => OutputInterface::VERBOSITY_VERBOSE,
+            LogLevel::NOTICE => OutputInterface::VERBOSITY_NORMAL, // Default is "verbose"
+            LogLevel::INFO => OutputInterface::VERBOSITY_VERBOSE, // Default is "very verbose"
         ];
         // Robo should send all log messages to stderr. So should Symfony.
         // See: https://en.wikipedia.org/wiki/Standard_streams
@@ -38,7 +38,6 @@ class Logger extends StyledConsoleLogger implements LogResultInterface
             LogLevel::NOTICE => self::ERROR,
             LogLevel::INFO => self::ERROR,
             LogLevel::DEBUG => self::ERROR,
-            ConsoleLogLevel::OK => self::ERROR,
             ConsoleLogLevel::SUCCESS => self::ERROR,
         );
         parent::__construct($output, $roboVerbosityOverrides, $roboFormatLevelOverrides, [], '\Robo\Common\LogStyler');

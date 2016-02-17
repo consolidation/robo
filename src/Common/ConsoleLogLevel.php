@@ -7,20 +7,17 @@ namespace Robo\Common;
  * ConsoleLogLevels may be used by methods of Symfony Command
  * in applications where it is known that the StyledConsoleLogger
  * is in use.  These log levels provide access to the 'success'
- * styled output method.
+ * styled output method.  Code in reusable libraries that may
+ * be used with a standard Psr-3 logger should aviod using these
+ * log levels.
  *
  * @author Greg Anderson <greg.1.anderson@greenknowe.org>
  */
 class ConsoleLogLevel extends \Psr\Log\LogLevel
 {
-    // Notify the user that forward progress was made on the command.
-    // Uses the 'success' styled output method.  Displayed at
-    // VERBOSITY_NORMAL.  Use LogLevel::INFO for messages that should
-    // only appear at VERBOSITY_VERBOSE.
-    const OK = 'ok';
-
-    // Means the command was successful. Should appear at most once
-    // per command, although may occasionally appear multiple times
-    // if subcommands are executed.  Displayed at VERBOSITY_NORMAL.
+    /**
+     * Command successfully completed some operation.
+     * Displayed at VERBOSITY_NORMAL.
+     */
     const SUCCESS = 'success';
 }

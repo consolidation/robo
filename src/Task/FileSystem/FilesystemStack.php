@@ -76,8 +76,8 @@ class FilesystemStack extends StackBasedTask
             $function_result = call_user_func_array($command, $action);
             return $this->processResult($function_result);
         } catch (IOExceptionInterface $e) {
-            $this->printTaskInfo("<error>" . $e->getMessage() . "</error>");
-            return Result::error($this, $e->getMessage(), $e->getPath());
+            $this->printTaskError($e->getMessage());
+            return Result::error($this, $e->getMessage(), ['path' => $e->getPath()]);
         }
     }
 

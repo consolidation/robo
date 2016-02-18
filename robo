@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 /**
  * if we're running from phar load the phar autoload,
  * else let the script 'robo' search for the autoloader

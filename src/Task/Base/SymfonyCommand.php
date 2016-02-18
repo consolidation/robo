@@ -57,7 +57,7 @@ class SymfonyCommand extends BaseTask
 
     public function run()
     {
-        $this->printTaskInfo("Running command ".$this->command->getName());
+        $this->printTaskInfo('Running command {command}', ['command' => $this->command->getName()]);
         return new Result($this,
             $this->command->run(new ArrayInput($this->input), $this->getOutput())
         );

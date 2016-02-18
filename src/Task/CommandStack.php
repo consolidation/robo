@@ -51,12 +51,12 @@ abstract class CommandStack extends BaseTask implements CommandInterface, Printe
             throw new TaskException($this, 'You must add at least one command');
         }
         if (!$this->stopOnFail) {
-            $this->printTaskInfo("<info>".$this->getCommand()."</info>");
+            $this->printTaskInfo('{command}', ['command' => $this->getCommand()]);
             return $this->executeCommand($this->getCommand());
         }
 
         foreach ($this->exec as $command) {
-            $this->printTaskInfo("Executing <info>$command</info>");
+            $this->printTaskInfo("Executing {command}", ['command' => $command]);
             $result = $this->executeCommand($command);
             if (!$result->wasSuccessful()) {
                 return $result;

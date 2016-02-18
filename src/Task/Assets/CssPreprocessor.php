@@ -195,12 +195,7 @@ abstract class CssPreprocessor extends BaseTask
                 return Result::error($this, $message);
             }
 
-            $this->printTaskSuccess(
-                sprintf(
-                    'Wrote CSS to <info>%s</info>',
-                    $out
-                )
-            );
+            $this->printTaskSuccess('Wrote CSS to {filename}', ['filename' => $out]);
         }
 
         return Result::success($this, 'All ' . static::FORMAT_NAME . ' files compiled.');

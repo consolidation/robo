@@ -17,7 +17,10 @@ trait IO
      */
     protected function getOutput()
     {
-        return Config::get('output', new NullOutput());
+        if (!Config::hasService('output')) {
+            return new NullOutput();
+        }
+        return Config::output();
     }
 
     /**
@@ -25,7 +28,10 @@ trait IO
      */
     protected function getInput()
     {
-        return Config::get('input', new ArgvInput());
+        if (!Config::hasService('input')) {
+            return new ArgvInput();
+        }
+        return Config::input();
     }
 
     protected function say($text)
@@ -53,7 +59,7 @@ trait IO
         }
         return $this->doAsk(new Question($this->formatQuestion($question)));
     }
-    
+
     protected function askHidden($question)
     {
         $question = new Question($this->formatQuestion($question));

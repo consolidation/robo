@@ -4,6 +4,7 @@ namespace Robo\Task\Archive;
 
 use Robo\Result;
 use Robo\Task\BaseTask;
+use Robo\Task\FileSystem\FilesystemStack;
 
 /**
  * Extracts an archive.
@@ -89,34 +90,16 @@ class Extract extends BaseTask
             $filesInExtractLocation = glob("$extractLocation/*");
             $hasEncapsulatingFolder = ((count($filesInExtractLocation) == 1) && is_dir($filesInExtractLocation[0]));
             if ($hasEncapsulatingFolder && !$this->preserveTopDirectory) {
-                $this->renameSafely($filesInExtractLocation[0], $this->to);
-                rmdir($extractLocation);
+                $result = (new FileSystemStack())->rename($filesInExtractLocation[0], $this->to)->run();
+                @rmdir($extractLocation);
             } else {
-                $this->renameSafely($extractLocation, $this->to);
+                $result = (new FileSystemStack())->rename($extractLocation, $this->to)->run();
             }
         }
         $this->stopTimer();
         $result['time'] = $this->getExecutionTime();
 
         return $result;
-    }
-
-    /**
-     * Rename a file or directory, coping with cross-partition PHP bug.
-     *
-     * @see https://bugs.php.net/bug.php?id=54097
-     *
-     * @param string $from
-     *   Location to rename from.
-     * @param string $to
-     *   Location to rename to.
-     */
-    protected function renameSafely($from, $to)
-    {
-        if (@rename($from, $to)) {
-            return;
-        }
-        exec("mv " . escapeshellarg($from) . " " . escapeshellarg($to));
     }
 
     protected function extractZip($extractLocation)

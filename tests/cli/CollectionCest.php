@@ -57,8 +57,9 @@ class CollectionCest
 
         // Set up a filesystem stack, but use addToCollection() to defer execution
         $I->taskFileSystemStack()
-            ->mkdir("$tmpPath/log")
-            ->touch("$tmpPath/log/error.txt")
+            ->mkdir("$tmpPath/tmp")
+            ->touch("$tmpPath/tmp/error.txt")
+            ->rename("$tmpPath/tmp", "$tmpPath/log")
             ->addToCollection($collection);
 
         // Copy our tmp directory to a location that is not transient
@@ -66,6 +67,7 @@ class CollectionCest
             ->addToCollection($collection);
 
         // FileSystemStack has not run yet, so no files should be found.
+        $I->dontSeeFileFound("$tmpPath/tmp/error.txt");
         $I->dontSeeFileFound("$tmpPath/log/error.txt");
         $I->dontSeeFileFound('copied/log/error.txt');
 
@@ -76,6 +78,7 @@ class CollectionCest
         // The file 'error.txt' should have been copied into the "copied" dir
         $I->seeFileFound('copied/log/error.txt');
         // $tmpPath should be deleted after $collection->run() completes.
+        $I->dontSeeFileFound("$tmpPath/tmp/error.txt");
         $I->dontSeeFileFound("$tmpPath/log/error.txt");
     }
 

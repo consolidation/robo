@@ -337,4 +337,13 @@ class RoboFile extends \Robo\Tasks
         $this->_exec('php -r "echo php_sapi_name();"');
     }
 
+    public function tryError()
+    {
+        $result = $this->taskExec('ls xyzzy' . date('U'))->run();
+    }
+
+    public function trySuccess()
+    {
+        $result = $this->taskExec('pwd')->run();
+    }
 }

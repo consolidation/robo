@@ -172,6 +172,12 @@ abstract class CssPreprocessor extends BaseTask
                 return Result::error($this, $message);
             }
 
+            if (file_exists($out) && !is_writable($out)) {
+                return Result::error($this, 'Destination already exists and cannot be overwritten.');
+            }
+        }
+
+        foreach ($this->files as $in => $out) {
             $css = $this->compile($in);
 
             if ($css instanceof Result) {
@@ -187,13 +193,16 @@ abstract class CssPreprocessor extends BaseTask
 
             $dst = $out . '.part';
             $write_result = file_put_contents($dst, $css);
-            rename($dst, $out);
 
             if (false === $write_result) {
                 $message = sprintf('File write failed: %s', $out);
+                @unlink($dst);
 
                 return Result::error($this, $message);
             }
+
+            // Cannot be cross-volume: should always succeed
+            @rename($dst, $out);
 
             $this->printTaskSuccess(
                 sprintf(

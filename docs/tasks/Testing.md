@@ -34,11 +34,16 @@ $this->taskCodecept()
 * `coverageHtml($html = null)`  collect code coverage and generate html report. You may pass
 * `env($env)` 
 * `debug()` 
+* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
+* `addAsRollback($collection)` 
+* `addAsCompletion($collection)` 
+* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
-* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
+* `optionList($option, $value = null)`  Pass multiple options to executable. Value can be a string or array.
 
 ## PHPUnit
 
@@ -65,11 +70,16 @@ $this->taskPHPUnit()
 * `configFile($file)` 
 * `debug()` 
 * `files($files)`  Test files to run.
+* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
+* `addAsRollback($collection)` 
+* `addAsCompletion($collection)` 
+* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
-* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
+* `optionList($option, $value = null)`  Pass multiple options to executable. Value can be a string or array.
 
 ## Phpspec
 
@@ -94,9 +104,14 @@ $this->taskPhpspec()
 * `noInteraction()` 
 * `config($config_file)` 
 * `format($formater)` 
+* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
+* `addAsRollback($collection)` 
+* `addAsCompletion($collection)` 
+* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
-* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
+* `optionList($option, $value = null)`  Pass multiple options to executable. Value can be a string or array.
 

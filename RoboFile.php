@@ -126,6 +126,7 @@ class RoboFile extends \Robo\Tasks
      */
     public function docs()
     {
+        $collection = $this->collection();
         $files = Finder::create()->files()->name('*.php')->in('src/Task');
         $docs = [];
         foreach ($files as $file) {
@@ -181,8 +182,9 @@ class RoboFile extends \Robo\Tasks
 
                     return $text ? ' ' . trim(strtok($text, "\n"), "\n") : '';
                 }
-            )->run();
+            )->addToCollection($collection);
         }
+        $collection->run();
     }
 
     /**
@@ -190,27 +192,37 @@ class RoboFile extends \Robo\Tasks
      */
     public function publish()
     {
-        $this->stopOnFail();
+        $current_branch = exec('git rev-parse --abbrev-ref HEAD');
+
+        $collection = $this->collection();
         $this->taskGitStack()
             ->checkout('site')
             ->merge('master')
-            ->run();
-        $this->_copy('CHANGELOG.md', 'docs/changelog.md');
-        $this->_exec('mkdocs gh-deploy');
+            ->addToCollection($collection);
         $this->taskGitStack()
-            ->checkout('master')
-            ->run();
-        $this->_remove('docs/changelog.md');
+            ->checkout($current_branch)
+            ->addAsCompletion($collection);
+        $this->taskFilesystemStack()
+            ->copy('CHANGELOG.md', 'docs/changelog.md')
+            ->addToCollection($collection);
+        $this->taskFilesystemStack()
+            ->remove('docs/changelog.md')
+            ->addAsCompletion($collection);
+        $this->taskExec('mkdocs gh-deploy')
+            ->addToCollection($collection);
+        $collection->run();
     }
 
     public function pharBuild()
     {
-        $packer = $this->taskPackPhar('robo.phar');
+        $collection = $this->collection();
+
         $this->taskComposerInstall()
             ->noDev()
             ->printed(false)
-            ->run();
+            ->addToCollection($collection);
 
+        $packer = $this->taskPackPhar('robo.phar');
         $files = Finder::create()->ignoreVCS(true)
             ->files()
             ->name('*.php')
@@ -229,11 +241,13 @@ class RoboFile extends \Robo\Tasks
         }
         $packer->addFile('robo','robo')
             ->executable('robo')
-            ->run();
+            ->addToCollection($collection);
 
         $this->taskComposerInstall()
             ->printed(false)
-            ->run();
+            ->addToCollection($collection);
+
+        $collection->run();
     }
 
     public function pharInstall()
@@ -323,4 +337,13 @@ class RoboFile extends \Robo\Tasks
         $this->_exec('php -r "echo php_sapi_name();"');
     }
 
+    public function tryError()
+    {
+        $result = $this->taskExec('ls xyzzy' . date('U'))->run();
+    }
+
+    public function trySuccess()
+    {
+        $result = $this->taskExec('pwd')->run();
+    }
 }

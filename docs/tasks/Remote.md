@@ -66,13 +66,20 @@ if ('y' === $this->ask('Do you want to run (y/n)')) {
 * `excludeVcs()`  Excludes .git/, .svn/ and .hg/ folders.
 * `exclude($pattern)` 
 * `excludeFrom($file)` 
+* `includeFilter($pattern)` 
+* `filter($pattern)` 
 * `filesFrom($file)` 
 * `remoteShell($command)` 
+* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
+* `addAsRollback($collection)` 
+* `addAsCompletion($collection)` 
+* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
-* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
+* `optionList($option, $value = null)`  Pass multiple options to executable. Value can be a string or array.
 
 ## Ssh
 
@@ -120,9 +127,14 @@ You can configure the remote directory for all future calls:
 * `quiet()` 
 * `verbose()` 
 * `exec($command)`   * `param string|CommandInterface` $command
+* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
+* `addAsRollback($collection)` 
+* `addAsCompletion($collection)` 
+* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
-* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
+* `optionList($option, $value = null)`  Pass multiple options to executable. Value can be a string or array.
 

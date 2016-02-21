@@ -4,6 +4,7 @@ namespace Robo\Task\Archive;
 
 use Robo\Result;
 use Robo\Task\BaseTask;
+use Robo\Task\FileSystem\FilesystemStack;
 
 /**
  * Extracts an archive.
@@ -89,10 +90,10 @@ class Extract extends BaseTask
             $filesInExtractLocation = glob("$extractLocation/*");
             $hasEncapsulatingFolder = ((count($filesInExtractLocation) == 1) && is_dir($filesInExtractLocation[0]));
             if ($hasEncapsulatingFolder && !$this->preserveTopDirectory) {
-                rename($filesInExtractLocation[0], $this->to);
-                rmdir($extractLocation);
+                $result = (new FileSystemStack())->rename($filesInExtractLocation[0], $this->to)->run();
+                @rmdir($extractLocation);
             } else {
-                rename($extractLocation, $this->to);
+                $result = (new FileSystemStack())->rename($extractLocation, $this->to)->run();
             }
         }
         $this->stopTimer();

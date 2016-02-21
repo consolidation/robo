@@ -17,6 +17,10 @@ $this->taskConcat([
 ```
 
 * `to($dst)`  set the destination file
+* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
+* `addAsRollback($collection)` 
+* `addAsCompletion($collection)` 
+* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## Replace
 
@@ -51,12 +55,49 @@ $this->taskReplaceInFile('box/robo.txt')
 * `from(string|array)`  string(s) to be replaced
 * `to(string|array)`  value(s) to be set as a replacement
 
+* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
+* `addAsRollback($collection)` 
+* `addAsCompletion($collection)` 
+* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
+## TmpFile
+
+
+Create a temporary file that is automatically cleaned up
+once the task collection is is part of completes. When created,
+it is given a random filename.
+
+This temporary file may be manipulated exacatly like taskWrite().
+
+``` php
+<?php
+$tmpFilePath = $this->taskTmpFile()
+     ->line('-----')
+     ->line(date('Y-m-d').' '.$title)
+     ->line('----')
+     ->addToCollection($collection)
+     ->getPath();
+?>
+```
+
+* `complete()`  Delete this file when our collection completes.
+* `line($line)`  add a line.
+* `lines(array $lines)`  add more lines.
+* `text($text)`  add a text.
+* `textFromFile($filename)`  add a text from a file.
+* `place($name, $val)`  substitute a placeholder with value, placeholder must be enclosed by `{}`.
+* `replace($string, $replacement)`  replace any string with value.
+* `regexReplace($pattern, $replacement)`  replace any string with value using regular expression.
+* `getPath()` 
+* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
+* `addAsRollback($collection)` 
+* `addAsCompletion($collection)` 
+* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## Write
 
 
-Writes to file
+Writes to file.
 
 ``` php
 <?php
@@ -67,13 +108,19 @@ $this->taskWriteToFile('blogpost.md')
      ->run();
 ?>
 ```
+
 * `append()` 
 
-* `line($line)`  add a line
-* `lines(array $lines)`  add more lines
-* `text($text)`  add a text
-* `textFromFile($filename)`  add a text from a file
-* `place($name, $val)`  substitute a placeholder with value, placeholder must be enclosed by `{}`
-* `replace($string, $replacement)`  replace any string with value
-* `regexReplace($pattern, $replacement)`  replace any string with value using regular expression
+* `line($line)`  add a line.
+* `lines(array $lines)`  add more lines.
+* `text($text)`  add a text.
+* `textFromFile($filename)`  add a text from a file.
+* `place($name, $val)`  substitute a placeholder with value, placeholder must be enclosed by `{}`.
+* `replace($string, $replacement)`  replace any string with value.
+* `regexReplace($pattern, $replacement)`  replace any string with value using regular expression.
+* `getPath()` 
+* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
+* `addAsRollback($collection)` 
+* `addAsCompletion($collection)` 
+* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 

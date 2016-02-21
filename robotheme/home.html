@@ -25,6 +25,17 @@
 
 
         <div class="well">
+
+            <p>
+              <a class="twitter-follow-button"
+  href="https://twitter.com/robo_php"
+  data-show-count="false"
+  data-lang="en">
+Follow @Robo_PHP
+</a>
+<script>window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));</script>
+            </p>
+
             <p>
             <a href="https://gitter.im/Codegyre/Robo?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">
                 <img src="https://badges.gitter.im/Join%20Chat.svg" alt="Gitter"/>
@@ -57,7 +68,7 @@
         <div class="col-md-6">
             <div class="col-md-6 features">
                 <h3>What is Robo?</h3>
-                Robo is a task runner you always has been looking for.
+                Robo is a task runner you always have been looking for.
                 It allows you to write fully customizable tasks in common OOP PHP style.
                 Robo has comprehensive list of built-in common tasks for development, testing, and deployment.
             </div>
@@ -117,7 +128,7 @@ class RoboFile {
 function test($pathToSelenium = '~/selenium.jar')
 {
     // starts PHP server in background
-    $this->taskServer(8000)
+    $this->taskPhpServer(8000)
         ->background()
         ->dir('web')
         ->run();

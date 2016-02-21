@@ -14,10 +14,13 @@ pages:
 - [tasks/Vcs.md, Tasks, VCS Tasks]
 - [tasks/Development.md, Tasks, Development Tasks]
 - [tasks/Assets.md, Tasks, Assets Tasks]
-- [tasks/Remote.md, Tasks, Remote Tasks]
+- [tasks/Remote.md, Tasks, 'SSH, Rsync Tasks']
 - [tasks/Testing.md, Tasks, Testing Tasks]
 - [tasks/Npm.md, Tasks, NPM Tasks]
 - [tasks/Bower.md, Tasks, Bower Tasks]
+- [tasks/Gulp.md, Tasks, Gulp Tasks]
 - [tasks/Docker.md, Tasks, Docker Tasks]
+- [tasks/ApiGen.md, Tasks, ApiGen Tasks]
+- [changelog.md, 'Releases']
 extra_css:
 - /css/robo.css

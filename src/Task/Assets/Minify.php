@@ -49,10 +49,11 @@ class Minify extends BaseTask
     public function __construct($input)
     {
         if (file_exists($input)) {
-            return $this->fromFile($input);
+            $this->fromFile($input);
+            return;
         }
 
-        return $this->fromText($input);
+        $this->fromText($input);
     }
 
     /**
@@ -217,7 +218,7 @@ class Minify extends BaseTask
      */
     public function __toString()
     {
-        return $this->getMinifiedText();
+        return (string) $this->getMinifiedText();
     }
 
     /**

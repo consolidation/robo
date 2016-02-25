@@ -35,7 +35,6 @@ class Extract extends BaseTask
 {
     use \Robo\Common\DynamicParams;
     use \Robo\Common\Timer;
-    use \Robo\Common\PHPStatus;
 
     protected $filename;
     protected $to;
@@ -104,9 +103,8 @@ class Extract extends BaseTask
 
     protected function extractZip($extractLocation)
     {
-        $result = $this->checkExtension('zip extracter', 'zlib');
-        if (!$result->wasSuccessful()) {
-            return $result;
+        if (!extension_loaded('zlib')) {
+            return Result::errorMissingExtension($this, 'zlib', 'zip extracting');
         }
 
         $zip = new \ZipArchive();
@@ -123,6 +121,9 @@ class Extract extends BaseTask
 
     protected function extractTar($extractLocation)
     {
+        if (!class_exists('Archive_Tar')) {
+            return Result::errorMissingPackage($this, 'Archive_Tar', 'pear/archive_tar');
+        }
         $tar_object = new \Archive_Tar($this->filename);
         if (!$tar_object->extract($extractLocation)) {
             return Result::error($this, "Could not extract tar archive {$this->filename}");

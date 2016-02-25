@@ -44,6 +44,10 @@ class Watch extends BaseTask
 
     public function run()
     {
+        if (!class_exists('Lurker\\ResourceWatcher\\ResourceWatcher')) {
+            return Result::errorMissingPackage($this, 'ResourceWatcher', 'henrikbjorn/lurker');
+        }
+
         $watcher = new ResourceWatcher();
 
         foreach ($this->monitor as $k => $monitor) {

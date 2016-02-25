@@ -40,6 +40,14 @@ class Result implements \ArrayAccess, \IteratorAggregate
         }
     }
 
+    public static function errorMissingExtension(TaskInterface $task, $extension, $service)
+    {
+        $messageTpl = 'PHP extension required for %s is not loaded. Please enable %s';
+        $message = sprintf($messageTpl, $service, $extension);
+
+        return self::error($task, $message);
+    }
+
     public static function errorMissingPackage(TaskInterface $task, $class, $package)
     {
         $messageTpl = 'Class %s not found. Please install %s Composer package';

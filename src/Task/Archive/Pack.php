@@ -25,7 +25,6 @@ class Pack extends BaseTask implements PrintedInterface
 {
     use \Robo\Common\DynamicParams;
     use \Robo\Common\Timer;
-    use \Robo\Common\PHPStatus;
 
     /**
      * The list of items to be packed into the archive.
@@ -159,6 +158,10 @@ class Pack extends BaseTask implements PrintedInterface
 
     protected function archiveTar($archiveFile, $items)
     {
+        if (!class_exists('Archive_Tar')) {
+            return Result::errorMissingPackage($this, 'Archive_Tar', 'pear/archive_tar');
+        }
+
         $tar_object = new \Archive_Tar($archiveFile);
         foreach ($items as $placementLocation => $fileSystemLocation) {
             $p_remove_dir = $fileSystemLocation;
@@ -181,9 +184,8 @@ class Pack extends BaseTask implements PrintedInterface
 
     protected function archiveZip($archiveFile, $items)
     {
-        $result = $this->checkExtension('zip archiver', 'zlib');
-        if (!$result->wasSuccessful()) {
-            return $result;
+        if (!extension_loaded('zlib')) {
+            return Result::errorMissingExtension($this, 'zlib', 'zip packing');
         }
 
         $zip = new \ZipArchive($archiveFile, \ZipArchive::CREATE);

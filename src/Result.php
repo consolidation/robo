@@ -42,7 +42,7 @@ class Result implements \ArrayAccess, \IteratorAggregate
 
     public static function errorMissingExtension(TaskInterface $task, $extension, $service)
     {
-        $messageTpl = 'PHP extension required for %s is not loaded. Please enable %s';
+        $messageTpl = 'PHP extension required for %s. Please enable %s';
         $message = sprintf($messageTpl, $service, $extension);
 
         return self::error($task, $message);

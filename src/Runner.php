@@ -87,7 +87,8 @@ class Runner
             return;
         }
         $app->addCommandsFromClass($this->roboClass, $this->passThroughArgs);
-        $app->run($input);
+        $app->setAutoExit(false);
+        return $app->run($input);
     }
 
     /**

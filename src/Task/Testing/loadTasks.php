@@ -29,4 +29,13 @@ trait loadTasks
     {
         return new Phpspec($pathToPhpspec);
     }
-} 
+
+    /**
+     * @param null $pathToAtoum
+     * @return Atoum
+     */
+    protected function taskAtoum($pathToAtoum = null)
+    {
+        return new Atoum($pathToAtoum);
+    }
+}

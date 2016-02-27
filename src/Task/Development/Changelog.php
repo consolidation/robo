@@ -58,7 +58,7 @@ class Changelog extends BaseTask
     {
         while ($resp = $this->ask("Changed in this release: ")) {
             $this->log[] = $resp;
-        };
+        }
         return $this;
     }
 

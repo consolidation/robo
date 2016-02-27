@@ -3,7 +3,6 @@ namespace Robo\Task\Development;
 
 use Robo\Task\BaseTask;
 use Robo\Task\File\Replace;
-use Robo\Task\FileSystem;
 use Robo\Result;
 use Robo\Task\Development;
 

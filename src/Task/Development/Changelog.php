@@ -127,12 +127,14 @@ class Changelog extends BaseTask
     {
         return function () {
             $text = implode(
-                    "\n", array_map(
-                        function ($i) {
-                            return "* $i *" . date('Y-m-d') . "*";
-                        }, $this->log
-                    )
-                ) . "\n";
+                "\n",
+                array_map(
+                    function ($i) {
+                        return "* $i *" . date('Y-m-d') . "*";
+                    },
+                    $this->log
+                )
+            ) . "\n";
             $ver = "#### {$this->version}\n\n";
             $text = $ver . $text;
 

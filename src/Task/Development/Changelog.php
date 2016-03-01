@@ -31,6 +31,24 @@ use Robo\Task\Development;
  * ?>
  * ```
  *
+ * Changes may be formatted into a custom file format. Handler can be either a function,
+ * a public method or a closure.
+ *
+ * ``` php
+ * <?php
+ * function myChangelogHandler($changelogTask)
+ * {
+ *     // how to manage contents of your CHANGELOG file
+ * }
+ *
+ * $this->taskChangelog()
+ *  ->handler('myChangelogHandler')
+ *  ->version($version)
+ *  ->askForChanges()
+ *  ->run();
+ * ?>
+ * ```
+ *
  * @method Development\Changelog filename(string $filename)
  * @method Development\Changelog anchor(string $anchor)
  * @method Development\Changelog version(string $version)

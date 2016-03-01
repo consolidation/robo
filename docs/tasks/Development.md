@@ -26,6 +26,24 @@ $this->taskChangelog()
 ?>
 ```
 
+Changes may be formatted into a custom file format. Handler can be either a function,
+a public method or a closure.
+
+``` php
+<?php
+$handler = function ($changelogTask)
+{
+    // how to manage contents of your CHANGELOG file
+}
+
+$this->taskChangelog()
+ ->handler($handler)
+ ->version($version)
+ ->askForChanges()
+ ->run();
+?>
+```
+
 * `Development\Changelog filename(string $filename)` 
 * `Development\Changelog anchor(string $anchor)` 
 * `Development\Changelog version(string $version)` 
@@ -34,6 +52,7 @@ $this->taskChangelog()
 * `changes(array $data)` 
 * `change($change)` 
 * `getChanges()` 
+* `handler($handler)`
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 

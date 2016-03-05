@@ -139,15 +139,15 @@ class Pack extends BaseTask implements PrintedInterface
 
         try {
             // Inform the user which archive we are creating
-            $this->printTaskInfo("Creating archive <info>{$this->archiveFile}</info>");
+            $this->printTaskInfo("Creating archive {filename}", ['filename' => $this->archiveFile]);
             if ($extension == 'zip') {
                 $result = $this->archiveZip($this->archiveFile, $this->items);
             } else {
                 $result = $this->archiveTar($this->archiveFile, $this->items);
             }
-            $this->printTaskSuccess("<info>{$this->archiveFile}</info> created.");
+            $this->printTaskSuccess("{filename} created.", ['filename' => $this->archiveFile]);
         } catch (Exception $e) {
-            $this->printTaskError("Could not create {$this->archiveFile}. ".$e->getMessage());
+            $this->printTaskError("Could not create {filename}. {exception}", ['filename' => $this->archiveFile, 'exception' => $e->getMessage(), '_style' => ['exception' => '']]);
             $result = Result::error($this);
         }
         $this->stopTimer();

@@ -33,10 +33,6 @@ $this->taskGitStack()
 * `checkout($branch)`  Executes `git checkout` command
 * `tag($tag_name)`  Executes `git tag` command
 * `exec($command)` 
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 
@@ -68,10 +64,7 @@ $this->taskSvnStack('username', 'password')
 * `commit($message, $options = null)`  Executes `svn commit` command with a message
 * `checkout($branch)`  Executes `svn checkout` command
 * `exec($command)` 
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
+
 

@@ -4,7 +4,6 @@ namespace Robo\Task\Archive;
 
 use Robo\Result;
 use Robo\Task\BaseTask;
-use Robo\Task\FileSystem\FilesystemStack;
 
 /**
  * Extracts an archive.
@@ -48,12 +47,12 @@ class Extract extends BaseTask
     public function run()
     {
         if (!file_exists($this->filename)) {
-            $this->printTaskError("File {$this->filename} does not exist");
+            $this->printTaskError("File {filename} does not exist", ['filename' => $this->filename]);
 
             return false;
         }
         if (!($mimetype = static::archiveType($this->filename))) {
-            $this->printTaskError("Could not determine type of archive for {$this->filename}");
+            $this->printTaskError("Could not determine type of archive for {filename}", ['filename' => $this->filename]);
 
             return false;
         }
@@ -65,7 +64,7 @@ class Extract extends BaseTask
 
         $this->startTimer();
 
-        $this->printTaskInfo("Extracting <info>{$this->filename}</info>");
+        $this->printTaskInfo("Extracting {filename}", ['filename' => $this->filename]);
         // Perform the extraction of a zip file.
         if (($mimetype == 'application/zip') || ($mimetype == 'application/x-zip')) {
             $result = $this->extractZip($extractLocation);
@@ -74,7 +73,7 @@ class Extract extends BaseTask
             $result = $this->extractTar($extractLocation);
         }
         if ($result->wasSuccessful()) {
-            $this->printTaskInfo("<info>{$this->filename}</info> extracted");
+            $this->printTaskInfo("{filename} extracted", ['filename' => $this->filename]);
             // Now, we want to move the extracted files to $this->to. There
             // are two possibilities that we must consider:
             //
@@ -89,10 +88,10 @@ class Extract extends BaseTask
             $filesInExtractLocation = glob("$extractLocation/*");
             $hasEncapsulatingFolder = ((count($filesInExtractLocation) == 1) && is_dir($filesInExtractLocation[0]));
             if ($hasEncapsulatingFolder && !$this->preserveTopDirectory) {
-                $result = (new FileSystemStack())->rename($filesInExtractLocation[0], $this->to)->run();
-                @rmdir($extractLocation);
+                rename($filesInExtractLocation[0], $this->to);
+                rmdir($extractLocation);
             } else {
-                $result = (new FileSystemStack())->rename($extractLocation, $this->to)->run();
+                rename($extractLocation, $this->to);
             }
         }
         $this->stopTimer();

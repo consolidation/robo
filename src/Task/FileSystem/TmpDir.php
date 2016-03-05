@@ -76,7 +76,7 @@ class TmpDir extends BaseDir implements CompletionInterface
         $this->savedWorkingDirectory = getcwd();
         foreach ($this->dirs as $dir) {
             $this->fs->mkdir($dir);
-            $this->printTaskInfo("Created <info>$dir</info>...");
+            $this->printTaskInfo("Created {dir}...", ['dir' => $dir]);
 
             // Change the current working directory, if requested
             if ($this->cwd) {

@@ -42,14 +42,17 @@ class Config
 
         // Set up our dependency injection container.
         $container = new ContainerBuilder();
-        $container->register('logStyler', 'Robo\Common\RoboLogStyle');
+        $container->register('logStyler', 'Robo\Log\RoboLogStyle');
         $container->set('input', $input);
         $container
             ->register('output', 'Symfony\Component\Console\Output\ConsoleOutput');
         $container
-            ->register('logger', 'Robo\Common\RoboLogger')
+            ->register('logger', 'Robo\Log\RoboLogger')
             ->addArgument(new Reference('output'))
             ->addMethodCall('setLogOutputStyler', array(new Reference('logStyler')));
+        $container
+            ->register('resultPrinter', 'Robo\Log\ResultPrinter')
+            ->addArgument(new Reference('logger'));
 
         return $container;
     }
@@ -136,6 +139,16 @@ class Config
     public static function logger()
     {
         return static::service('logger');
+    }
+
+    /**
+     * Return the result printer object.
+     *
+     * @return ResultPrinter
+     */
+    public static function resultPrinter()
+    {
+        return static::service('resultPrinter');
     }
 
     /**

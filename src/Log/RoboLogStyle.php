@@ -1,5 +1,5 @@
 <?php
-namespace Robo\Common;
+namespace Robo\Log;
 
 use Consolidation\Log\LogOutputStyler;
 use Symfony\Component\Console\Output\OutputInterface;

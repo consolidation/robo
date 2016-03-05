@@ -28,9 +28,9 @@ class Result implements \ArrayAccess, \IteratorAggregate
         // existing behavior for backwards compatibility. This is undesirable
         // in the long run, though, as it can result in unwanted repeated input
         // in task collections et. al.
-        $resultLogger = Config::service('logger');
-        if ($resultLogger && ($resultLogger instanceof LogResultInterface)) {
-            $resultLogger->logResult($this);
+        $resultPrinter = Config::resultPrinter();
+        if ($resultPrinter) {
+            $resultPrinter->printResult($this);
         }
 
         if (self::$stopOnFail) {
@@ -134,9 +134,9 @@ class Result implements \ArrayAccess, \IteratorAggregate
     public function stopOnFail()
     {
         if (!$this->wasSuccessful()) {
-            $resultLogger = Config::service('logger');
-            if ($resultLogger && ($resultLogger instanceof LogResultInterface)) {
-                $resultLogger->logStopOnFail($this);
+            $resultPrinter = Config::resultPrinter();
+            if ($resultPrinter) {
+                $resultPrinter->printStopOnFail($this);
             }
             exit($this->exitCode);
         }

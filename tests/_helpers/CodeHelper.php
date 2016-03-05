@@ -18,11 +18,13 @@ class CodeHelper extends \Codeception\Module
     {
         static::$capturedOutput = '';
         static::$testPrinter = new BufferedOutput(OutputInterface::VERBOSITY_DEBUG);
-        $testLogger = new \Robo\Common\RoboLogger(static::$testPrinter);
-        $testLogger->setLogOutputStyler(new \Robo\Common\RoboLogStyle());
+        $testLogger = new \Robo\Log\RoboLogger(static::$testPrinter);
+        $testLogger->setLogOutputStyler(new \Robo\Log\RoboLogStyle());
+        $resultPrinter = new \Robo\Log\ResultPrinter($testLogger);
 
         Config::setOutput(static::$testPrinter);
         Config::setService('logger', $testLogger);
+        Config::setService('resultPrinter', $resultPrinter);
     }
 
     public function _after(\Codeception\TestCase $test)

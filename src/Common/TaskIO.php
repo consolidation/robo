@@ -3,6 +3,7 @@ namespace Robo\Common;
 
 use Robo\Config;
 use Robo\TaskInfo;
+use Consolidation\Log\ConsoleLogLevel;
 
 /**
  * Task input/output methods.  TaskIO is 'used' in BaseTask, so any

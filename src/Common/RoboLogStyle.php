@@ -1,13 +1,14 @@
 <?php
 namespace Robo\Common;
 
+use Consolidation\Log\LogOutputStyler;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\OutputStyle;
 
 /**
  * Robo Log Styler.
  */
-class RoboLogStyle extends CustomLogStyle
+class RoboLogStyle extends LogOutputStyler
 {
     /**
      * Log style customization for Robo: replace the log level with

@@ -5,7 +5,8 @@ use Robo\Result;
 use Robo\TaskInfo;
 use Robo\Contract\PrintedInterface;
 use Robo\Contract\LogResultInterface;
-use Robo\Common\ConsoleLogLevel; // maybe: use Symfony\Component\Console\ConsoleLogLevel;
+use Consolidation\Log\ConsoleLogLevel;
+use Consolidation\Log\Logger;
 
 use Psr\Log\LogLevel;
 use Psr\Log\AbstractLogger;
@@ -15,7 +16,7 @@ use Symfony\Component\Console\Logger\ConsoleLogger;
 /**
  * Robo's default logger
  */
-class Logger extends StyledConsoleLogger implements LogResultInterface
+class RoboLogger extends Logger implements LogResultInterface
 {
     public function __construct(OutputInterface $output)
     {

@@ -18,7 +18,8 @@ class CodeHelper extends \Codeception\Module
     {
         static::$capturedOutput = '';
         static::$testPrinter = new BufferedOutput(OutputInterface::VERBOSITY_DEBUG);
-        $testLogger = new \Robo\Common\Logger(static::$testPrinter);
+        $testLogger = new \Robo\Common\RoboLogger(static::$testPrinter);
+        $testLogger->setLogOutputStyler(new \Robo\Common\RoboLogStyle());
 
         Config::setOutput(static::$testPrinter);
         Config::setService('logger', $testLogger);
@@ -29,7 +30,7 @@ class CodeHelper extends \Codeception\Module
         \AspectMock\Test::clean();
         $consoleOutput = new ConsoleOutput();
         Config::setOutput($consoleOutput);
-        Config::setService('logger', new \Robo\Common\Logger($consoleOutput));
+        Config::setService('logger', new \Consolidation\Log\Logger($consoleOutput));
     }
 
     public function accumulate()

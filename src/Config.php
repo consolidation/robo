@@ -31,7 +31,7 @@ class Config
     }
 
     /**
-     * Create a container, and initiailze it from robo-services.yml.
+     * Create a container and initiailze it.
      */
     public static function createContainer($input = null)
     {
@@ -42,12 +42,14 @@ class Config
 
         // Set up our dependency injection container.
         $container = new ContainerBuilder();
+        $container->register('logStyler', 'Robo\Common\RoboLogStyle');
         $container->set('input', $input);
         $container
             ->register('output', 'Symfony\Component\Console\Output\ConsoleOutput');
         $container
-            ->register('logger', 'Robo\Common\Logger')
-            ->addArgument(new Reference('output'));
+            ->register('logger', 'Robo\Common\RoboLogger')
+            ->addArgument(new Reference('output'))
+            ->addMethodCall('setLogOutputStyler', array(new Reference('logStyler')));
 
         return $container;
     }

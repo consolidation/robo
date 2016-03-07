@@ -33,7 +33,9 @@ class Simulator extends BaseTask
             $callchain .= "\n    ->$command(<fg=green>$parameters</>)";
         }
         // RoboLogLevel::SIMULATED_ACTION
-        $this->logger()->log(RoboLogLevel::SIMULATED_ACTION, "Simulating {simulated}({parameters})$callchain",
+        $this->logger()->log(
+            RoboLogLevel::SIMULATED_ACTION,
+            "Simulating {simulated}({parameters})$callchain",
             $this->getTaskContext(
                 [
                     'simulated' => TaskInfo::formatTaskName($this->task),
@@ -45,9 +47,10 @@ class Simulator extends BaseTask
         return Result::success($this);
     }
 
-    protected function formatParameters($action) {
+    protected function formatParameters($action)
+    {
         $parameterList = array_map(
-            function($item) {
+            function ($item) {
                 if (is_callable($item)) {
                     return 'inline_function(...)';
                 }
@@ -63,5 +66,4 @@ class Simulator extends BaseTask
         );
         return implode(', ', $parameterList);
     }
-
 }

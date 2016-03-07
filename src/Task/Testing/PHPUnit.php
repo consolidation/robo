@@ -139,7 +139,7 @@ class PHPUnit extends BaseTask implements CommandInterface, PrintedInterface
 
     public function run()
     {
-        $this->printTaskInfo('Running PHPUnit ' . $this->arguments);
+        $this->printTaskInfo('Running PHPUnit {arguments}', ['arguments' => $this->arguments]);
         return $this->executeCommand($this->getCommand());
     }
 }

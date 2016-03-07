@@ -339,7 +339,7 @@ class RoboFile extends \Robo\Tasks
 
     public function tryError()
     {
-        $result = $this->taskExec('ls xyzzy' . date('U'))->run();
+        $result = $this->taskExec('ls xyzzy' . date('U'))->dir('/tmp')->run();
     }
 
     public function trySuccess()

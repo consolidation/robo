@@ -100,10 +100,10 @@ class Changelog extends BaseTask
         $text = $ver . $text;
 
         if (!file_exists($this->filename)) {
-            $this->printTaskInfo("Creating {$this->filename}");
+            $this->printTaskInfo('Creating {filename}', ['filename' => $this->filename]);
             $res = file_put_contents($this->filename, $this->anchor);
             if ($res === false) {
-                return Result::error($this, "File {$this->filename} cant be created");
+                return Result::error($this, "File {filename} cant be created", ['filename' => $this->filename]);
             }
         }
 

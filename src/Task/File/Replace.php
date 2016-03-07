@@ -52,7 +52,7 @@ class Replace extends BaseTask
     function run()
     {
         if (!file_exists($this->filename)) {
-            $this->printTaskError("File {$this->filename} does not exist");
+            $this->printTaskError('File {filename} does not exist', ['filename' => $this->filename]);
             return false;
         }
 
@@ -65,11 +65,11 @@ class Replace extends BaseTask
         if ($count > 0) {
             $res = file_put_contents($this->filename, $text);
             if ($res === false) {
-                return Result::error($this, "Error writing to file {$this->filename}.");
+                return Result::error($this, "Error writing to file {filename}.", ['filename' => $this->filename]);
             }
-            $this->printTaskSuccess("<info>{$this->filename}</info> updated. $count items replaced");
+            $this->printTaskSuccess("{filename} updated. {count} items replaced", ['filename' => $this->filename, 'count' => $count]);
         } else {
-            $this->printTaskInfo("<info>{$this->filename}</info> unchanged. $count items replaced");
+            $this->printTaskInfo("{filename} unchanged. {count} items replaced", ['filename' => $this->filename, 'count' => $count]);
         }
         return Result::success($this, '', ['replaced' => $count]);
     }

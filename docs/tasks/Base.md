@@ -23,16 +23,11 @@ if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
 * `timeout($timeout)`  Stop command if it runs longer then $timeout in seconds
 * `idleTimeout($timeout)`  Stops command if it does not output something for a while
 * `env(array $env)`  Sets the environment variables for the command
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
-* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
-* `optionList($option, $value = null)`  Pass multiple options to executable. Value can be a string or array.
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
 
 ## ExecStack
 
@@ -54,10 +49,6 @@ $this->taskExecStack()
 * `$this stopOnFail()` 
 
 * `exec($command)` 
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 
@@ -82,10 +73,6 @@ $this->taskParallelExec()
 
 * `printed($isPrinted = null)` 
 * `process($command)` 
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## SymfonyCommand
 
@@ -109,10 +96,6 @@ $this->taskSymfonyCommand(new ModelGeneratorCommand())
 
 * `arg($arg, $value)` 
 * `opt($option, $value = null)` 
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## Watch
 
@@ -132,8 +115,5 @@ $this->taskWatch()
 ```
 
 * `monitor($paths, $callable)` 
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
+
 

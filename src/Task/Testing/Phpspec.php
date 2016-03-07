@@ -107,7 +107,7 @@ class Phpspec extends BaseTask implements CommandInterface, PrintedInterface
 
     public function run()
     {
-        $this->printTaskInfo('Running phpspec ' . $this->arguments);
+        $this->printTaskInfo('Running phpspec {arguments}', ['arguments' => $this->arguments]);
         return $this->executeCommand($this->getCommand());
     }
 

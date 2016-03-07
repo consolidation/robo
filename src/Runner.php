@@ -1,6 +1,7 @@
 <?php
 namespace Robo;
 
+use Robo\Config;
 use Robo\Common\IO;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -9,7 +10,7 @@ class Runner
 {
     use IO;
 
-    const VERSION = '0.7.1';
+    const VERSION = '0.6.1';
     const ROBOCLASS = 'RoboFile';
     const ROBOFILE = 'RoboFile.php';
 
@@ -38,14 +39,18 @@ class Runner
      * @param null $roboClass
      * @param null $roboFile
      */
-    public function __construct($roboClass = null, $roboFile = null)
+    public function __construct($roboClass = null, $roboFile = null, $container = null)
     {
         // set the const as class properties to allow overwriting in child classes
         $this->roboClass = $roboClass ? $roboClass : self::ROBOCLASS ;
         $this->roboFile  = $roboFile ? $roboFile : self::ROBOFILE;
         $this->dir = getcwd();
-    }
 
+        // Store the container in our config object if it was provided.
+        if ($container != null) {
+            Config::setContainer($container);
+        }
+    }
 
     protected function loadRoboFile()
     {
@@ -74,21 +79,28 @@ class Runner
     {
         register_shutdown_function(array($this, 'shutdown'));
         set_error_handler(array($this, 'handleError'));
-        Config::setOutput(new ConsoleOutput());
 
-        $input = $this->prepareInput($input ? $input : $_SERVER['argv']);
-        Config::setInput($input);
+        // If we were not provided with a container, then create one
+        if (!Config::hasContainer()) {
+            $input = $this->prepareInput($input ? $input : $_SERVER['argv']);
+            $container = Config::createContainer($input);
+            Config::setContainer($container);
+
+            // Note: this freezes our container, preventing us from adding any further
+            // services to it.
+            $container->compile();
+        }
+
         $app = new Application('Robo', self::VERSION);
 
         if (!$this->loadRoboFile()) {
             $this->yell("Robo is not initialized here. Please run `robo init` to create a new RoboFile", 40, 'yellow');
             $app->addInitRoboFileCommand($this->roboFile, $this->roboClass);
-            $app->run($input);
+            $app->run(Config::input(), Config::output());
             return;
         }
         $app->addCommandsFromClass($this->roboClass, $this->passThroughArgs);
-        $app->setAutoExit(false);
-        return $app->run($input);
+        $app->run(Config::input(), Config::output());
     }
 
     /**

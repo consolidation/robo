@@ -24,9 +24,9 @@ class Run extends Base implements CommandInterface
     public function run()
     {
         if (strlen($this->arguments)) {
-            $this->printTaskInfo('Running Gulp task: ' . $this->task . ' with arguments: ' . $this->arguments);
+            $this->printTaskInfo('Running Gulp task: {task} with arguments: {arguments}', ['task' => $this->task, 'arguments' => $this->arguments]);
         } else {
-            $this->printTaskInfo('Running Gulp task: ' . $this->task . ' without arguments');
+            $this->printTaskInfo('Running Gulp task: {task} without arguments', ['task' => $this->task]);
         }
         return $this->executeCommand($this->getCommand());
     }

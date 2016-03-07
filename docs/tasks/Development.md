@@ -34,10 +34,6 @@ $this->taskChangelog()
 * `changes(array $data)` 
 * `change($change)` 
 * `getChanges()` 
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## GenerateMarkdownDoc
 
@@ -92,10 +88,7 @@ $this->taskGenerateMarkdownDoc('models.md')
 * ` prepend($text)`  inserts text into beginning of markdown file
 * ` append($text)`  inserts text in the end of markdown file
 
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
+
 
 
 ## GitHubRelease
@@ -125,10 +118,6 @@ $this->taskGitHubRelease('0.1.0')
 * `changes(array $changes)` 
 * `uri($uri)` 
 * `askAuth()` 
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## OpenBrowser
 
@@ -150,10 +139,7 @@ $this->taskOpenBrowser([
   ->run();
 ```
 
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
+
 
 ## PackPhar
 
@@ -193,10 +179,6 @@ $pharTask = $this->taskPackPhar('package/codecept.phar')
 * `addStripped($path, $file)` 
 * `addFile($path, $file)` 
 * `executable($file)` 
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## PhpServer
 
@@ -228,15 +210,10 @@ $this->taskServer(8000)
 * `timeout($timeout)`  Stop command if it runs longer then $timeout in seconds
 * `idleTimeout($timeout)`  Stops command if it does not output something for a while
 * `env(array $env)`  Sets the environment variables for the command
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
-* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
-* `optionList($option, $value = null)`  Pass multiple options to executable. Value can be a string or array.
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
 
 ## SemVer
 

@@ -10,7 +10,7 @@ use Symfony\Component\Console\Style\OutputStyle;
  */
 class RoboLogStyle extends LogOutputStyler
 {
-    const TASK_STYLE_SIMULATED = 'fg=white;bg=black;options=bold';
+    const TASK_STYLE_SIMULATED = 'options=reverse;bold';
 
     public function __construct($labelStyles = [], $messageStyles = [])
     {

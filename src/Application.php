@@ -33,6 +33,34 @@ class Application extends  SymfonyApplication
         return $this->taskAssembler;
     }
 
+    protected static function findAccessorMethods($commandNames)
+    {
+        $accessorNames = [];
+        // Using get_class_vars is not reliable, because it only
+        // exposes public class variables.
+        foreach ($commandNames as $commandName) {
+            // We count a set of methods as accessor methods if
+            // there is a setter and at least one getter.
+            if (strpos($commandName, 'set') === 0) {
+                $name = lcfirst(substr($commandName, 3));
+                $getter = 'get' . ucfirst($name);
+                $hasGetter = false;
+                if (in_array($name, $commandNames)) {
+                    $accessorNames[] = $name;
+                    $hasGetter = true;
+                }
+                if (in_array($getter, $commandNames)) {
+                    $accessorNames[] = $getter;
+                    $hasGetter = true;
+                }
+                if ($hasGetter) {
+                    $accessorNames[] = $commandName;
+                }
+            }
+        }
+        return $accessorNames;
+    }
+
     public function addCommandsFromClass($className, $passThrough = null)
     {
         $roboTasks = new $className;
@@ -40,9 +68,11 @@ class Application extends  SymfonyApplication
             $roboTasks->setTaskAssembler($this->taskAssembler);
         }
 
-        $commandNames = array_filter(get_class_methods($className), function($m) {
+        $commandNames = array_filter(get_class_methods($className), function ($m) {
             return !in_array($m, ['__construct']);
         });
+        $accessorNames = static::findAccessorMethods($commandNames);
+        $commandNames = array_diff($commandNames, $accessorNames);
 
         foreach ($commandNames as $commandName) {
             $command = $this->createCommand(new TaskInfo($className, $commandName));

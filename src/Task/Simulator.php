@@ -30,15 +30,15 @@ class Simulator extends BaseTask
         foreach ($this->stack as $action) {
             $command = array_shift($action);
             $parameters = $this->formatParameters($action);
-            $callchain .= "\n    ->$command($parameters)";
+            $callchain .= "\n    ->$command(<fg=green>$parameters</>)";
         }
         // RoboLogLevel::SIMULATED_ACTION
-        $this->logger()->log(RoboLogLevel::SIMULATED_ACTION, 'Simulating {simulated}({parameters}){callchain}',
+        $this->logger()->log(RoboLogLevel::SIMULATED_ACTION, "Simulating {simulated}({parameters})$callchain",
             $this->getTaskContext(
                 [
                     'simulated' => TaskInfo::formatTaskName($this->task),
                     'parameters' => $this->formatParameters($this->constructorParameters),
-                    'callchain' => $callchain,
+                    '_style' => ['simulated' => 'fg=blue;options=bold'],
                 ]
             )
         );
@@ -48,6 +48,9 @@ class Simulator extends BaseTask
     protected function formatParameters($action) {
         $parameterList = array_map(
             function($item) {
+                if (is_callable($item)) {
+                    return 'inline_function(...)';
+                }
                 if (is_array($item) || is_object($item)) {
                     return var_export($item, true);
                 }

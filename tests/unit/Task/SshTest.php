@@ -1,9 +1,16 @@
 <?php
 
+use AspectMock\Test as test;
+use Robo\Config;
 
 class SshTest extends \Codeception\TestCase\Test
 {
     use \Robo\Task\Remote\loadTasks;
+    use \Robo\TaskSupport;
+    protected function _before()
+    {
+        $this->setTaskAssembler(new \Robo\TaskAssembler(Config::logger()));
+    }
     // tests
     public function testBasicCommand()
     {

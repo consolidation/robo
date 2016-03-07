@@ -42,6 +42,11 @@ class CliHelper extends \Codeception\Module
         taskExtract as public;
     }
 
+    public function taskAssembler()
+    {
+        return Config::service('taskAssembler');
+    }
+
     public function seeDirFound($dir)
     {
         $this->assertTrue(is_dir($dir) && file_exists($dir), "Directory does not exist");

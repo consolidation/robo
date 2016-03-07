@@ -9,7 +9,10 @@ trait loadTasks
      */
     protected function taskChangelog($filename = 'CHANGELOG.md')
     {
-        return new Changelog($filename);
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\Development\Changelog',
+            [$filename]
+        );
     }
 
     /**
@@ -18,7 +21,10 @@ trait loadTasks
      */
     protected function taskGenDoc($filename)
     {
-        return new GenerateMarkdownDoc($filename);
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\Development\GenerateMarkdownDoc',
+            [$filename]
+        );
     }
 
     /**
@@ -27,7 +33,10 @@ trait loadTasks
      */
      protected function taskSemVer($pathToSemVer = '.semver')
      {
-         return new SemVer($pathToSemVer);
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\Development\SemVer',
+            [$pathToSemVer]
+        );
      }
 
     /**
@@ -36,7 +45,10 @@ trait loadTasks
      */
     protected function taskServer($port = 8000)
     {
-        return new PhpServer($port);
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\Development\PhpServer',
+            [$port]
+        );
     }
 
     /**
@@ -45,7 +57,10 @@ trait loadTasks
      */
     protected function taskPackPhar($filename)
     {
-        return new PackPhar($filename);
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\Development\PackPhar',
+            [$filename]
+        );
     }
 
     /**
@@ -54,7 +69,10 @@ trait loadTasks
      */
     protected function taskGitHubRelease($tag)
     {
-        return new GitHubRelease($tag);
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\Development\GitHubRelease',
+            [$tag]
+        );
     }
 
     /**
@@ -63,6 +81,9 @@ trait loadTasks
      */
     protected function taskOpenBrowser($url)
     {
-        return new OpenBrowser($url);
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\Development\OpenBrowser',
+            [$url]
+        );
     }
-} 
+}

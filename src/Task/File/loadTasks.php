@@ -11,7 +11,10 @@ trait loadTasks
      */
     protected function taskConcat($files)
     {
-        return new Concat($files);
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\File\Concat',
+            [$files]
+        );
     }
 
     /**
@@ -20,7 +23,10 @@ trait loadTasks
      */
     protected function taskReplaceInFile($file)
     {
-        return new Replace($file);
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\File\Replace',
+            [$file]
+        );
     }
 
     /**
@@ -29,7 +35,10 @@ trait loadTasks
      */
     protected function taskWriteToFile($file)
     {
-        return new Write($file);
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\File\Write',
+            [$file]
+        );
     }
 
     /**
@@ -40,6 +49,9 @@ trait loadTasks
      */
     protected function taskTmpFile($filename = 'tmp', $extension = '', $baseDir = '', $includeRandomPart = true)
     {
-        return Temporary::wrap(new TmpFile($filename, $extension, $baseDir, $includeRandomPart));
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\File\TmpFile',
+            [$filename, $extension, $baseDir, $includeRandomPart]
+        );
     }
 }

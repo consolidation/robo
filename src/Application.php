@@ -9,10 +9,36 @@ use Symfony\Component\Console\Input\InputOption;
 
 class Application extends  SymfonyApplication
 {
+    /**
+     * @var \Robo\TaskAssembler
+     */
+    protected $taskAssembler;
+
+    public function __construct($name, $version)
+    {
+        parent::__construct($name, $version);
+
+        $this->getDefinition()->addOption(
+            new InputOption('--simulate', null, InputOption::VALUE_NONE, 'Run in simulated mode (show what would have happened).')
+        );
+    }
+
+    public function setTaskAssembler($taskAssembler)
+    {
+        $this->taskAssembler = $taskAssembler;
+    }
+
+    public function taskAssembler()
+    {
+        return $this->taskAssembler;
+    }
 
     public function addCommandsFromClass($className, $passThrough = null)
     {
         $roboTasks = new $className;
+        if ($roboTasks instanceof \Robo\Tasks) {
+            $roboTasks->setTaskAssembler($this->taskAssembler);
+        }
 
         $commandNames = array_filter(get_class_methods($className), function($m) {
             return !in_array($m, ['__construct']);
@@ -28,6 +54,11 @@ class Application extends  SymfonyApplication
                     $args[key(array_slice($args, -1, 1, TRUE))] = $passThrough;
                 }
                 $args[] = $input->getOptions();
+                // Need a better way to handle global options
+                // Also, this is not necessarily the best place to do this
+                Config::setGlobalOptions($input);
+                // Avoid making taskAssembler depend on Config class.
+                Config::service('taskAssembler')->setSimulated(Config::isSimulated());
 
                 $res = call_user_func_array([$roboTasks, $commandName], $args);
                 if (is_int($res)) exit($res);

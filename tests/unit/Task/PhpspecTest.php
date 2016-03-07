@@ -1,9 +1,11 @@
 <?php
 use AspectMock\Test as test;
+use Robo\Config;
 
 class PhpspecTest extends \Codeception\TestCase\Test
 {
     use \Robo\Task\Testing\loadTasks;
+    use \Robo\TaskSupport;
     /**
      * @var \AspectMock\Proxy\ClassProxy
      */
@@ -15,6 +17,7 @@ class PhpspecTest extends \Codeception\TestCase\Test
             'executeCommand' => null,
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
+        $this->setTaskAssembler(new \Robo\TaskAssembler(Config::logger()));
     }
 
     // tests

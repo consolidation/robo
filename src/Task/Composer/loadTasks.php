@@ -9,7 +9,10 @@ trait loadTasks
      */
     protected function taskComposerInstall($pathToComposer = null)
     {
-        return new Install($pathToComposer);
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\Composer\Install',
+            [$pathToComposer]
+        );
     }
 
     /**
@@ -18,7 +21,10 @@ trait loadTasks
      */
     protected function taskComposerUpdate($pathToComposer = null)
     {
-        return new Update($pathToComposer);
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\Composer\Update',
+            [$pathToComposer]
+        );
     }
 
     /**
@@ -27,7 +33,10 @@ trait loadTasks
      */
     protected function taskComposerDumpAutoload($pathToComposer = null)
     {
-        return new DumpAutoload($pathToComposer);
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\Composer\DumpAutoload',
+            [$pathToComposer]
+        );
     }
 
-} 
+}

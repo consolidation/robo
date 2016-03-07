@@ -9,12 +9,18 @@ trait loadTasks
      */
     protected function taskExec($command)
     {
-        return new Exec($command);
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\Base\Exec',
+            [$command]
+        );
     }
 
     protected function taskExecStack()
     {
-        return new ExecStack();
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\Base\ExecStack',
+            []
+        );
     }
 
     /**
@@ -22,7 +28,10 @@ trait loadTasks
      */
     protected function taskParallelExec()
     {
-        return new ParallelExec();
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\Base\ParallelExec',
+            []
+        );
     }
 
     /**
@@ -31,7 +40,10 @@ trait loadTasks
      */
     protected function taskSymfonyCommand($command)
     {
-        return new SymfonyCommand($command);
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\Base\SymfonyCommand',
+            [$command]
+        );
     }
 
     /**
@@ -39,6 +51,9 @@ trait loadTasks
      */
     protected function taskWatch()
     {
-        return new Watch($this);
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\Base\Watch',
+            [$this]
+        );
     }
 }

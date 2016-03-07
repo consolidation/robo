@@ -1,9 +1,11 @@
 <?php
 use AspectMock\Test as test;
+use Robo\Config;
 
 class PHPUnitTest extends \Codeception\TestCase\Test
 {
     use \Robo\Task\Testing\loadTasks;
+    use \Robo\TaskSupport;
     /**
      * @var \AspectMock\Proxy\ClassProxy
      */
@@ -15,6 +17,7 @@ class PHPUnitTest extends \Codeception\TestCase\Test
             'executeCommand' => null,
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
+        $this->setTaskAssembler(new \Robo\TaskAssembler(Config::logger()));
     }
 
     // tests
@@ -22,7 +25,7 @@ class PHPUnitTest extends \Codeception\TestCase\Test
     {
         $isWindows = defined('PHP_WINDOWS_VERSION_MAJOR');
         $command = $isWindows ? 'call vendor/bin/phpunit' : 'vendor/bin/phpunit';
-        
+
         $this->taskPHPUnit()->run();
         $this->phpunit->verifyInvoked('executeCommand', [$command]);
     }

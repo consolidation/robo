@@ -80,7 +80,7 @@ class Runner
         register_shutdown_function(array($this, 'shutdown'));
         set_error_handler(array($this, 'handleError'));
 
-        // If we were not provided with a container, then create one
+        // If we were not provided a container, then create one
         if (!Config::hasContainer()) {
             $input = $this->prepareInput($input ? $input : $_SERVER['argv']);
             $container = Config::createContainer($input);
@@ -92,6 +92,7 @@ class Runner
         }
 
         $app = new Application('Robo', self::VERSION);
+        $app->setTaskAssembler(Config::service('taskAssembler'));
 
         if (!$this->loadRoboFile()) {
             $this->yell("Robo is not initialized here. Please run `robo init` to create a new RoboFile", 40, 'yellow');

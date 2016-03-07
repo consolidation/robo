@@ -1,9 +1,11 @@
 <?php
 use AspectMock\Test as test;
+use Robo\Config;
 
 class NpmTest extends \Codeception\TestCase\Test
 {
     use \Robo\Task\Npm\loadTasks;
+    use \Robo\TaskSupport;
 
     /**
      * @var \AspectMock\Proxy\ClassProxy
@@ -15,6 +17,7 @@ class NpmTest extends \Codeception\TestCase\Test
         $this->baseNpm = test::double('Robo\Task\Npm\Base', [
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
+        $this->setTaskAssembler(new \Robo\TaskAssembler(Config::logger()));
     }
     // tests
     public function testNpmInstall()

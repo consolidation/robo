@@ -12,6 +12,8 @@ use Symfony\Component\Console\Input\StringInput;
 
 class Config
 {
+    protected static $simulated;
+
     /**
      * The currently active container object, or NULL if not initialized yet.
      *
@@ -52,6 +54,9 @@ class Config
             ->addMethodCall('setLogOutputStyler', array(new Reference('logStyler')));
         $container
             ->register('resultPrinter', 'Robo\Log\ResultPrinter')
+            ->addArgument(new Reference('logger'));
+        $container
+            ->register('taskAssembler', 'Robo\TaskAssembler')
             ->addArgument(new Reference('logger'));
 
         return $container;
@@ -192,5 +197,15 @@ class Config
     public static function set($key, $value)
     {
         static::$container->setParameter($key, $value);
+    }
+
+    public static function setGlobalOptions($input)
+    {
+        static::$simulated = $input->getOption('simulate');
+    }
+
+    public static function isSimulated()
+    {
+        return static::$simulated;
     }
 }

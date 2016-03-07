@@ -3,6 +3,9 @@ namespace Robo;
 
 trait Tasklib
 {
+    // Support methods required for 'load' traits to work.
+    use TaskSupport;
+
     // collections of tasks
     use Collection\loadTasks;
 

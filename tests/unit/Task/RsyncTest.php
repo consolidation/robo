@@ -1,8 +1,16 @@
 <?php
 
+use AspectMock\Test as test;
+use Robo\Config;
+
 class RsyncTest extends \Codeception\TestCase\Test
 {
     use \Robo\Task\Remote\loadTasks;
+    use \Robo\TaskSupport;
+    protected function _before()
+    {
+        $this->setTaskAssembler(new \Robo\TaskAssembler(Config::logger()));
+    }
 
     /**
      * @var \CodeGuy

@@ -1,9 +1,11 @@
 <?php
 use AspectMock\Test as test;
+use Robo\Config;
 
 class GulpTest extends \Codeception\TestCase\Test
 {
     use \Robo\Task\Gulp\loadTasks;
+    use \Robo\TaskSupport;
 
     /**
      * @var \AspectMock\Proxy\ClassProxy
@@ -15,6 +17,7 @@ class GulpTest extends \Codeception\TestCase\Test
         $this->baseGulp = test::double('Robo\Task\Gulp\Base', [
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
+        $this->setTaskAssembler(new \Robo\TaskAssembler(Config::logger()));
     }
 
     // tests
@@ -26,7 +29,7 @@ class GulpTest extends \Codeception\TestCase\Test
             verify(
                 $this->taskGulpRun('default','gulp')->getCommand()
             )->equals('gulp "default"');
-            
+
             verify(
                 $this->taskGulpRun('another','gulp')->getCommand()
             )->equals('gulp "another"');
@@ -56,7 +59,7 @@ class GulpTest extends \Codeception\TestCase\Test
             verify(
                 $this->taskGulpRun('default','gulp')->getCommand()
             )->equals('gulp \'default\'');
-            
+
             verify(
                 $this->taskGulpRun('another','gulp')->getCommand()
             )->equals('gulp \'another\'');

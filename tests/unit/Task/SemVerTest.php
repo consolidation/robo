@@ -1,10 +1,16 @@
 <?php
 
 use AspectMock\Test as test;
+use Robo\Config;
 
 class SemVerTest extends \Codeception\TestCase\Test
 {
     use \Robo\Task\Development\loadTasks;
+    use \Robo\TaskSupport;
+    protected function _before()
+    {
+        $this->setTaskAssembler(new \Robo\TaskAssembler(Config::logger()));
+    }
 
     public function testSemver()
     {

@@ -9,7 +9,10 @@ trait loadTasks
      */
     protected function taskBowerInstall($pathToBower = null)
     {
-   		return new Install($pathToBower);
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\Bower\Install',
+            [$pathToBower]
+        );
    	}
 
     /**
@@ -18,7 +21,10 @@ trait loadTasks
      */
    	protected function taskBowerUpdate($pathToBower = null)
     {
-   		return new Update($pathToBower);
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\Bower\Update',
+            [$pathToBower]
+        );
    	}
 
-} 
+}

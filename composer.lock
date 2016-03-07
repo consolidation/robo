@@ -9,16 +9,16 @@
     "packages": [
         {
             "name": "consolidation/log",
-            "version": "0.1.2",
+            "version": "0.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation-org/log.git",
-                "reference": "35f6c653037de312f0d8834c9f0dd41f2ff76ebf"
+                "reference": "9db36693a66f02ab315ecf4447d4fe1bfefc4e5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation-org/log/zipball/35f6c653037de312f0d8834c9f0dd41f2ff76ebf",
-                "reference": "35f6c653037de312f0d8834c9f0dd41f2ff76ebf",
+                "url": "https://api.github.com/repos/consolidation-org/log/zipball/9db36693a66f02ab315ecf4447d4fe1bfefc4e5c",
+                "reference": "9db36693a66f02ab315ecf4447d4fe1bfefc4e5c",
                 "shasum": ""
             },
             "require": {
@@ -56,7 +56,7 @@
                 }
             ],
             "description": "Improved Psr-3 / Psr\\Log logger based on Symfony Console components.",
-            "time": "2016-03-05 06:42:28"
+            "time": "2016-03-07 01:12:40"
         },
         {
             "name": "psr/log",

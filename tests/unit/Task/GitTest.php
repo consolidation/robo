@@ -1,10 +1,12 @@
 <?php
 
 use AspectMock\Test as test;
+use Robo\Config;
 
 class GitTest extends \Codeception\TestCase\Test
 {
     use \Robo\Task\Vcs\loadTasks;
+    use \Robo\TaskSupport;
     /**
      * @var \AspectMock\Proxy\ClassProxy
      */
@@ -16,6 +18,7 @@ class GitTest extends \Codeception\TestCase\Test
             'executeCommand' => new \AspectMock\Proxy\Anything(),
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
+        $this->setTaskAssembler(new \Robo\TaskAssembler(Config::logger()));
     }
     // tests
     public function testGitStackRun()

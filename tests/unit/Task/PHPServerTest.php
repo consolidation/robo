@@ -1,9 +1,11 @@
 <?php
 
 use AspectMock\Test as test;
+use Robo\Config;
 class PHPServerTest extends \Codeception\TestCase\Test
 {
     use \Robo\Task\Development\loadTasks;
+    use \Robo\TaskSupport;
     /**
      * @var \AspectMock\Proxy\ClassProxy
      */
@@ -18,6 +20,7 @@ class PHPServerTest extends \Codeception\TestCase\Test
             'getExitCode' => 0
         ]);
         test::double('Robo\Task\Development\PhpServer', ['getOutput' => new \Symfony\Component\Console\Output\NullOutput()]);
+        $this->setTaskAssembler(new \Robo\TaskAssembler(Config::logger()));
     }
 
     public function testServerBackgroundRun()

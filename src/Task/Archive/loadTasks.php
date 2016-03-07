@@ -11,7 +11,10 @@ trait loadTasks
      */
     protected function taskPack($filename)
     {
-        return new Pack($filename);
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\Archive\Pack',
+            [$filename]
+        );
     }
 
     /**
@@ -21,6 +24,9 @@ trait loadTasks
      */
     protected function taskExtract($filename)
     {
-        return new Extract($filename);
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\Archive\Extract',
+            [$filename]
+        );
     }
 }

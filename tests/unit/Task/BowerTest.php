@@ -1,9 +1,11 @@
 <?php
 use AspectMock\Test as test;
+use Robo\Config;
 
 class BowerTest extends \Codeception\TestCase\Test
 {
     use \Robo\Task\Bower\loadTasks;
+    use \Robo\TaskSupport;
 
     /**
      * @var \AspectMock\Proxy\ClassProxy
@@ -15,6 +17,7 @@ class BowerTest extends \Codeception\TestCase\Test
         $this->baseBower = test::double('Robo\Task\Bower\Base', [
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
+        $this->setTaskAssembler(new \Robo\TaskAssembler(Config::logger()));
     }
     // tests
     public function testBowerInstall()

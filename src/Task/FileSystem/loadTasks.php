@@ -1,8 +1,6 @@
 <?php
 namespace Robo\Task\FileSystem;
 
-use Robo\Collection\Temporary;
-
 trait loadTasks
 {
     /**
@@ -11,7 +9,10 @@ trait loadTasks
      */
     protected function taskCleanDir($dirs)
     {
-        return new CleanDir($dirs);
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\FileSystem\CleanDir',
+            [$dirs]
+        );
     }
 
     /**
@@ -20,7 +21,10 @@ trait loadTasks
      */
     protected function taskDeleteDir($dirs)
     {
-        return new DeleteDir($dirs);
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\FileSystem\DeleteDir',
+            [$dirs]
+        );
     }
 
     /**
@@ -31,7 +35,10 @@ trait loadTasks
      */
     protected function taskTmpDir($prefix = 'tmp', $base = '', $includeRandomPart = true)
     {
-        return Temporary::wrap(new TmpDir($prefix, $base, $includeRandomPart));
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\FileSystem\TmpDir',
+            [$prefix, $base, $includeRandomPart]
+        );
     }
 
     /**
@@ -40,7 +47,10 @@ trait loadTasks
      */
     protected function taskCopyDir($dirs)
     {
-        return new CopyDir($dirs);
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\FileSystem\CopyDir',
+            [$dirs]
+        );
     }
 
     /**
@@ -49,7 +59,10 @@ trait loadTasks
      */
     protected function taskMirrorDir($dirs)
     {
-        return new MirrorDir($dirs);
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\FileSystem\MirrorDir',
+            [$dirs]
+        );
     }
 
     /**
@@ -58,7 +71,10 @@ trait loadTasks
      */
     protected function taskFlattenDir($dirs)
     {
-        return new FlattenDir($dirs);
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\FileSystem\FlattenDir',
+            [$dirs]
+        );
     }
 
     /**
@@ -66,6 +82,8 @@ trait loadTasks
      */
     protected function taskFilesystemStack()
     {
-        return new FilesystemStack();
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\FileSystem\FilesystemStack'
+        );
     }
 }

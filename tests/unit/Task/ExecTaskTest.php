@@ -1,9 +1,11 @@
 <?php
 use AspectMock\Test as test;
+use Robo\Config;
 
 class ExecTaskTest extends \Codeception\TestCase\Test
 {
     use \Robo\Task\Base\loadTasks;
+    use \Robo\TaskSupport;
     /**
      * @var \AspectMock\Proxy\ClassProxy
      */
@@ -18,6 +20,7 @@ class ExecTaskTest extends \Codeception\TestCase\Test
             'getExitCode' => 0
         ]);
         test::double('Robo\Task\Base\Exec', ['getOutput' => new \Symfony\Component\Console\Output\NullOutput()]);
+        $this->setTaskAssembler(new \Robo\TaskAssembler(Config::logger()));
     }
 
     public function testExec()

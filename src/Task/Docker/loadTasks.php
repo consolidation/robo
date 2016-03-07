@@ -1,39 +1,63 @@
-<?php 
+<?php
 namespace Robo\Task\Docker;
 
 trait loadTasks
 {
     protected function taskDockerRun($image)
     {
-        return new Run($image);
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\Docker\Run',
+            [$image]
+        );
     }
     protected function taskDockerPull($image)
     {
-        return new Pull($image);
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\Docker\Pull',
+            [$image]
+        );
     }
     protected function taskDockerBuild($path = '.')
     {
-        return new Build($path);
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\Docker\Build',
+            [$path]
+        );
     }
     protected function taskDockerStop($cidOrResult)
     {
-        return new Stop($cidOrResult);
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\Docker\Stop',
+            [$cidOrResult]
+        );
     }
     protected function taskDockerCommit($cidOrResult)
     {
-        return new Commit($cidOrResult);
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\Docker\Commit',
+            [$cidOrResult]
+        );
     }
     protected function taskDockerStart($cidOrResult)
     {
-        return new Start($cidOrResult);
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\Docker\Start',
+            [$cidOrResult]
+        );
     }
     protected function taskDockerRemove($cidOrResult)
     {
-        return new Remove($cidOrResult);
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\Docker\Remove',
+            [$cidOrResult]
+        );
     }
 
     protected function taskDockerExec($cidOrResult)
     {
-        return new Exec($cidOrResult);
+        return $this->taskAssembler()->assemble(
+            '\Robo\Task\Docker\Exec',
+            [$cidOrResult]
+        );
     }
 }

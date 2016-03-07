@@ -15,6 +15,21 @@ use Consolidation\Log\ConsoleLogLevel;
 trait TaskIO
 {
     /**
+     * @var \Psr\Log\LoggerInterface
+     */
+    protected $logger;
+
+    public function setLogger($logger)
+    {
+        $this->logger = $logger;
+    }
+
+    public function logger()
+    {
+        return $this->logger ?: Config::logger();
+    }
+
+    /**
      * Print information about a task in progress.
      *
      * With the Symfony Console logger, NOTICE is displayed at VERBOSITY_VERBOSE
@@ -31,7 +46,7 @@ trait TaskIO
         // The 'note' style is used for both 'notice' and 'info' log levels;
         // However, 'notice' is printed at VERBOSITY_NORMAL, whereas 'info'
         // is only printed at VERBOSITY_VERBOSE.
-        Config::logger()->notice($text, $this->getTaskContext($context));
+        $this->logger()->notice($text, $this->getTaskContext($context));
     }
 
     /**
@@ -48,7 +63,7 @@ trait TaskIO
         // override in the context so that this message will be
         // logged as SUCCESS if that log level is recognized.
         $context['_level'] = ConsoleLogLevel::SUCCESS;
-        Config::logger()->notice($text, $this->getTaskContext($context));
+        $this->logger()->notice($text, $this->getTaskContext($context));
     }
 
     /**
@@ -59,7 +74,7 @@ trait TaskIO
      */
     protected function printTaskWarning($text, $context = null)
     {
-        Config::logger()->warning($text, $this->getTaskContext($context));
+        $this->logger()->warning($text, $this->getTaskContext($context));
     }
 
     /**
@@ -70,7 +85,7 @@ trait TaskIO
      */
     protected function printTaskError($text, $context = null)
     {
-        Config::logger()->error($text, $this->getTaskContext($context));
+        $this->logger()->error($text, $this->getTaskContext($context));
     }
 
     /**
@@ -79,7 +94,7 @@ trait TaskIO
      */
     protected function printTaskDebug($text, $context = null)
     {
-        Config::logger()->debug($text, $this->getTaskContext($context));
+        $this->logger()->debug($text, $this->getTaskContext($context));
     }
 
     /**

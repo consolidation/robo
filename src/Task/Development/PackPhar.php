@@ -125,7 +125,7 @@ EOF;
             }
         }
         $this->stopTimer();
-        $this->printTaskSuccess("{filename} produced', ['filename' => $this->filename]);
+        $this->printTaskSuccess('{filename} produced', ['filename' => $this->filename]);
         return Result::success($this, '', ['time' => $this->getExecutionTime()]);
     }
 

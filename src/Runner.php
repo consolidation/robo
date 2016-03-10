@@ -163,7 +163,7 @@ class Runner
      */
     protected function isShebangLine($line)
     {
-        return ((substr($line,0,2) == '#!') && (strstr($line, 'robo') !== FALSE));
+        return ((substr($line, 0, 2) == '#!') && (strstr($line, 'robo') !== false));
     }
 
     /**

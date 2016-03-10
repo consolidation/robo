@@ -49,6 +49,10 @@ class Runner
 
     protected function loadRoboFile()
     {
+        if (class_exists($this->roboClass)) {
+            return true;
+        }
+
         if (!file_exists($this->dir)) {
             $this->yell("Path in `{$this->dir}` is invalid, please provide valid absolute path to load Robofile", 40, 'red');
             return false;
@@ -76,7 +80,7 @@ class Runner
         set_error_handler(array($this, 'handleError'));
         Config::setOutput(new ConsoleOutput());
 
-        $input = $this->prepareInput($input ? $input : $_SERVER['argv']);
+        $input = $this->prepareInput($input ? $input : $this->shebang($_SERVER['argv']));
         Config::setInput($input);
         $app = new Application('Robo', self::VERSION);
 
@@ -89,6 +93,77 @@ class Runner
         $app->addCommandsFromClass($this->roboClass, $this->passThroughArgs);
         $app->setAutoExit(false);
         return $app->run($input);
+    }
+
+    /**
+     * Process a shebang script, if one was used to launch this Runner.
+     *
+     * @param array $args
+     * @return $args with shebang script removed
+     */
+    protected function shebang($args)
+    {
+        // Option 1: Shebang line names Robo, but includes no parameters.
+        // #!/bin/env robo
+        // The robo class may contain multiple commands; the user may
+        // select which one to run, or even get a list of commands or
+        // run 'help' on any of the available commands as usual.
+        if ($this->isShebangFile($args[1])) {
+            return array_merge([$args[0]], array_slice($args, 2));
+        }
+        // Option 2: Shebang line stipulates which command to run.
+        // #!/bin/env robo mycommand
+        // The robo class must contain a public method named 'mycommand'.
+        // This command will be executed every time.  Arguments and options
+        // may be provided on the commandline as usual.
+        if ($this->isShebangFile($args[2])) {
+            return array_merge([$args[0]], explode(' ', $args[1]), array_slice($args, 3));
+        }
+        return $args;
+    }
+
+    /**
+     * Determine if the specified argument is a path to a shebang script.
+     * If so, load it.
+     *
+     * @param $filepath file to check
+     * @return true if shebang script was processed
+     */
+    protected function isShebangFile($filepath)
+    {
+        if (!file_exists($filepath)) {
+            return false;
+        }
+        $fp = fopen($filepath, "r");
+        if ($fp === false) {
+            return false;
+        }
+        $line = fgets($fp);
+        $result = $this->isShebangLine($line);
+        if ($result) {
+            while ($line = fgets($fp)) {
+                $line = trim($line);
+                if ($line == '<?php') {
+                    $script = stream_get_contents($fp);
+                    if (preg_match('#^class *([^ ]+)#m', $script, $matches)) {
+                        $this->roboClass = $matches[1];
+                        eval($script);
+                        $result = true;
+                    }
+                }
+            }
+        }
+        fclose($fp);
+
+        return $result;
+    }
+
+    /**
+     * Test to see if the provided line is a robo 'shebang' line.
+     */
+    protected function isShebangLine($line)
+    {
+        return ((substr($line,0,2) == '#!') && (strstr($line, 'robo') !== FALSE));
     }
 
     /**
@@ -113,6 +188,11 @@ class Runner
                 unset($argv[$pos +1]);
             }
             unset($argv[$pos]);
+            // Make adjustments if '--load-from' points at a file.
+            if (is_file($this->dir)) {
+                $this->roboFile = basename($this->dir);
+                $this->dir = dirname($this->dir);
+            }
         }
         return new ArgvInput($argv);
     }

@@ -1,26 +1,29 @@
 <?php
 namespace Robo;
 
-use Psr\Log\LoggerInterface;
 use Robo\Collection\Temporary;
 use Robo\Task\Simulator;
 use Robo\Config;
 
-class TaskAssembler
+use Psr\Log\LoggerInterface;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
+
+
+/**
+ * Put together tasks
+ */
+class TaskAssembler implements LoggerAwareInterface
 {
-    /**
-     * @var LoggerInterface
-     */
-    protected $logger;
+   use LoggerAwareTrait;
 
     /**
      * @var boolean
      */
     protected $simulated;
 
-    public function __construct(LoggerInterface $logger)
+    public function __construct()
     {
-        $this->logger = $logger;
         $this->simulated = false;
     }
 

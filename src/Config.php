@@ -1,11 +1,9 @@
 <?php
 namespace Robo;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use League\Container\Container;
+use League\Container\ContainerInterface;
+
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\StringInput;
@@ -13,18 +11,19 @@ use Symfony\Component\Console\Input\StringInput;
 class Config
 {
     protected static $simulated;
+    protected static $config = [];
 
     /**
      * The currently active container object, or NULL if not initialized yet.
      *
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface|null
+     * @var ContainerInterface|null
      */
     protected static $container;
 
     /**
      * Sets a new global container.
      *
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param ContainerInterface $container
      *   A new container instance to replace the current.
      */
     public static function setContainer(ContainerInterface $container)
@@ -43,21 +42,19 @@ class Config
         }
 
         // Set up our dependency injection container.
-        $container = new ContainerBuilder();
-        $container->register('logStyler', 'Robo\Log\RoboLogStyle');
-        $container->set('input', $input);
-        $container
-            ->register('output', 'Symfony\Component\Console\Output\ConsoleOutput');
-        $container
-            ->register('logger', 'Robo\Log\RoboLogger')
-            ->addArgument(new Reference('output'))
-            ->addMethodCall('setLogOutputStyler', array(new Reference('logStyler')));
-        $container
-            ->register('resultPrinter', 'Robo\Log\ResultPrinter')
-            ->addArgument(new Reference('logger'));
-        $container
-            ->register('taskAssembler', 'Robo\TaskAssembler')
-            ->addArgument(new Reference('logger'));
+        $container = new Container();
+
+        $container->add('input', $input);
+        $container->share('output', 'Symfony\Component\Console\Output\ConsoleOutput');
+        $container->share('logStyler', 'Robo\Log\RoboLogStyle');
+        $container->share('logger', 'Robo\Log\RoboLogger')
+            ->withArgument('output')
+            ->withMethodCall('setLogOutputStyler', ['logStyler']);
+        $container->share('resultPrinter', 'Robo\Log\ResultPrinter');
+        $container->share('taskAssembler', 'Robo\TaskAssembler');
+
+        $container->inflector('Psr\Log\LoggerAwareInterface')
+            ->invokeMethod('setLogger', ['logger']);
 
         return $container;
     }
@@ -118,7 +115,7 @@ class Config
      */
     public static function setService($id, $service)
     {
-        static::getContainer()->set($id, $service);
+        static::getContainer()->add($id, $service);
     }
 
     /**
@@ -188,15 +185,12 @@ class Config
 
     public static function get($key, $default = null)
     {
-        if (!static::$container->hasParameter($key)) {
-            return $default;
-        }
-        return static::$container->getParameter($key);
+        return isset(self::$config[$key]) ? self::$config[$key] : $default;
     }
 
     public static function set($key, $value)
     {
-        static::$container->setParameter($key, $value);
+        self::$config[$key] = $value;
     }
 
     public static function setGlobalOptions($input)

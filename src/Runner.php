@@ -85,10 +85,6 @@ class Runner
             $input = $this->prepareInput($input ? $input : $_SERVER['argv']);
             $container = Config::createContainer($input);
             Config::setContainer($container);
-
-            // Note: this freezes our container, preventing us from adding any further
-            // services to it.
-            $container->compile();
         }
 
         $app = new Application('Robo', self::VERSION);

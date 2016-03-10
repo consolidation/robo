@@ -9,13 +9,12 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 
-
 /**
  * Put together tasks
  */
 class TaskAssembler implements LoggerAwareInterface
 {
-   use LoggerAwareTrait;
+    use LoggerAwareTrait;
 
     /**
      * @var boolean

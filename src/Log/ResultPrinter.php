@@ -14,7 +14,7 @@ use Psr\Log\LoggerAwareTrait;
  */
 class ResultPrinter implements LoggerAwareInterface
 {
-   use LoggerAwareTrait;
+    use LoggerAwareTrait;
 
     /**
      * Log the result of a Robo task.

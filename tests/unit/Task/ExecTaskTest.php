@@ -41,6 +41,21 @@ class ExecTaskTest extends \Codeception\TestCase\Test
         verify($this->taskExec('ls')->getCommand())->equals('ls');
     }
 
+    public function testGetProcessReturnsNullIfNotStarted()
+    {
+        verify($this->taskExec('ls')->getProcess())->equals(null);
+    }
+
+    public function testGetProcessReturnsProcessInstanceIfStarted()
+    {
+        $result = $this->taskExec('ls')->run();
+
+        /** @var \Robo\Task\Base\Exec $task */
+        $task = $result->getTask();
+        $process = $task->getProcess();
+        $this->assertInstanceOf('Symfony\Component\Process\Process', $process);
+    }
+
     public function testExecStack()
     {
         $this->taskExecStack()

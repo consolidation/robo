@@ -57,7 +57,7 @@ class TaskAssembler implements LoggerAwareInterface
 
         // If we are in simulated mode, then wrap the task in
         // a TaskSimulator.
-        if ($this->isSimulated() || Config::isSimulated()) {
+        if ($this->isSimulated()) {
             $task = new Simulator($task, $taskConstructorParameters);
         }
 

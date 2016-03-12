@@ -181,7 +181,7 @@ class Runner
         }
 
         // loading from other directory
-        $pos = array_search('--load-from', $argv);
+        $pos = array_search('--load-from', $argv) ?: array_search('-f', $argv);
         if ($pos !== false) {
             if (isset($argv[$pos +1])) {
                 $this->dir = $argv[$pos +1];

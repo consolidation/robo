@@ -192,6 +192,10 @@ class Runner
             if (is_file($this->dir)) {
                 $this->roboFile = basename($this->dir);
                 $this->dir = dirname($this->dir);
+                $className = basename($this->roboFile, '.php');
+                if ($className != $this->roboFile) {
+                    $this->roboClass = $className;
+                }
             }
         }
         return new ArgvInput($argv);

@@ -108,7 +108,7 @@ class Runner
         // The robo class may contain multiple commands; the user may
         // select which one to run, or even get a list of commands or
         // run 'help' on any of the available commands as usual.
-        if ($this->isShebangFile($args[1])) {
+        if ((count($args) > 1) && $this->isShebangFile($args[1])) {
             return array_merge([$args[0]], array_slice($args, 2));
         }
         // Option 2: Shebang line stipulates which command to run.
@@ -116,7 +116,7 @@ class Runner
         // The robo class must contain a public method named 'mycommand'.
         // This command will be executed every time.  Arguments and options
         // may be provided on the commandline as usual.
-        if ($this->isShebangFile($args[2])) {
+        if ((count($args) > 2) && $this->isShebangFile($args[2])) {
             return array_merge([$args[0]], explode(' ', $args[1]), array_slice($args, 3));
         }
         return $args;

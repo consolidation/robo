@@ -30,9 +30,9 @@ class RsyncTest extends \Codeception\TestCase\Test
         )->equals(
             sprintf(
                 'rsync --recursive --exclude %s --exclude %s --exclude %s --checksum --whole-file --verbose --progress --human-readable --stats %s %s',
-                escapeshellarg('.git/'),
-                escapeshellarg('.svn/'),
-                escapeshellarg('.hg/'),
+                escapeshellarg('.git'),
+                escapeshellarg('.svn'),
+                escapeshellarg('.hg'),
                 escapeshellarg('src/'),
                 escapeshellarg('dev@localhost:/var/www/html/app/')
             )

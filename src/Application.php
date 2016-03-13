@@ -71,8 +71,8 @@ class Application extends  SymfonyApplication
         $commandNames = array_filter(get_class_methods($className), function ($m) {
             return !in_array($m, ['__construct']);
         });
-        $accessorNames = static::findAccessorMethods($commandNames);
-        $commandNames = array_diff($commandNames, $accessorNames);
+        //$accessorNames = static::findAccessorMethods($commandNames);
+        //$commandNames = array_diff($commandNames, $accessorNames);
 
         foreach ($commandNames as $commandName) {
             $command = $this->createCommand(new TaskInfo($className, $commandName));

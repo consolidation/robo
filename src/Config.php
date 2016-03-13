@@ -45,15 +45,15 @@ class Config
         $container = new Container();
 
         $container->add('input', $input);
-        $container->share('output', 'Symfony\Component\Console\Output\ConsoleOutput');
-        $container->share('logStyler', 'Robo\Log\RoboLogStyle');
-        $container->share('logger', 'Robo\Log\RoboLogger')
+        $container->share('output', \Symfony\Component\Console\Output\ConsoleOutput::class);
+        $container->share('logStyler', \Robo\Log\RoboLogStyle::class);
+        $container->share('logger', \Robo\Log\RoboLogger::class)
             ->withArgument('output')
             ->withMethodCall('setLogOutputStyler', ['logStyler']);
-        $container->share('resultPrinter', 'Robo\Log\ResultPrinter');
-        $container->share('taskAssembler', 'Robo\TaskAssembler');
+        $container->share('resultPrinter', \Robo\Log\ResultPrinter::class);
+        $container->share('taskAssembler', \Robo\TaskAssembler::class);
 
-        $container->inflector('Psr\Log\LoggerAwareInterface')
+        $container->inflector(\Psr\Log\LoggerAwareInterface::class)
             ->invokeMethod('setLogger', ['logger']);
 
         return $container;

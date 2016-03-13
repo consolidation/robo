@@ -154,6 +154,17 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface
         return Result::success($this);
     }
 
+    /**
+     * Returns the Symfony process instance.
+     * If `run()` has not been called before, NULL is returned.
+     *
+     * @return Process
+     */
+    public function getProcess()
+    {
+        return $this->process;
+    }
+
     static function stopRunningJobs()
     {
         foreach (self::$instances as $instance) {

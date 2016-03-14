@@ -31,8 +31,11 @@ class Application extends  SymfonyApplication implements ContainerAwareInterface
             $roboTasks->setContainer($container);
         }
 
+        // Ignore special functions, such as __construct() and __call(), and
+        // accessor methods such as getFoo() and setFoo(), while allowing
+        // set or setup.
         $commandNames = array_filter(get_class_methods($className), function ($m) {
-            return !in_array($m, ['__construct']);
+            return !preg_match('#^(_|get[A-Z]|set[A-Z])#', $m);
         });
 
         foreach ($commandNames as $commandName) {

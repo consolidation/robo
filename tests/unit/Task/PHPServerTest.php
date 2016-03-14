@@ -1,11 +1,13 @@
 <?php
 
 use AspectMock\Test as test;
-use Robo\Config;
+use Robo\Runner;
+use Robo\Container\RoboContainer;
+
 class PHPServerTest extends \Codeception\TestCase\Test
 {
-    use \Robo\Task\Development\loadTasks;
-    use \Robo\TaskSupport;
+    protected $container;
+
     /**
      * @var \AspectMock\Proxy\ClassProxy
      */
@@ -20,18 +22,20 @@ class PHPServerTest extends \Codeception\TestCase\Test
             'getExitCode' => 0
         ]);
         test::double('Robo\Task\Development\PhpServer', ['getOutput' => new \Symfony\Component\Console\Output\NullOutput()]);
-        $this->setTaskAssembler(new \Robo\TaskAssembler(Config::logger()));
+        $this->container = new RoboContainer();
+        Runner::configureContainer($this->container);
+        $this->container->addServiceProvider(\Robo\Task\Development\ServiceProvider::class);
     }
 
     public function testServerBackgroundRun()
     {
-        $this->taskServer('8000')->background()->run();
+        $this->container->get('taskServer', ['8000'])->background()->run();
         $this->process->verifyInvoked('start');
     }
 
     public function testServerRun()
     {
-        $this->taskServer('8000')->run();
+        $this->container->get('taskServer', ['8000'])->run();
         $this->process->verifyInvoked('run');
     }
 
@@ -44,7 +48,7 @@ class PHPServerTest extends \Codeception\TestCase\Test
         }
 
         verify(
-            $this->taskServer('8000')
+            $this->container->get('taskServer', ['8000'])
                 ->host('127.0.0.1')
                 ->dir('web')
                 ->getCommand()

@@ -1,21 +1,24 @@
 <?php
 
 use AspectMock\Test as test;
-use Robo\Config;
+use Robo\Runner;
+use Robo\Container\RoboContainer;
 
 class SemVerTest extends \Codeception\TestCase\Test
 {
-    use \Robo\Task\Development\loadTasks;
-    use \Robo\TaskSupport;
+    protected $container;
+
     protected function _before()
     {
-        $this->setTaskAssembler(new \Robo\TaskAssembler(Config::logger()));
+        $this->container = new RoboContainer();
+        Runner::configureContainer($this->container);
+        $this->container->addServiceProvider(\Robo\Task\Development\ServiceProvider::class);
     }
 
     public function testSemver()
     {
         $semver = test::double('Robo\Task\Development\SemVer', ['dump' => null]);
-        $res = $this->taskSemVer()
+        $res = $this->container->get('taskSemVer')
             ->increment('major')
             ->prerelease('RC')
             ->increment('patch')
@@ -30,7 +33,7 @@ class SemVerTest extends \Codeception\TestCase\Test
             'Robo\Exception\TaskException',
             '/Failed to write semver file./'
         );
-        $this->taskSemVer('/.semver')
+        $this->container->get('taskSemVer', ['/.semver'])
             ->increment('major')
             ->run();
     }

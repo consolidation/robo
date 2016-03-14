@@ -1,11 +1,13 @@
-<?php 
+<?php
 $I = new CliGuy($scenario);
+$I->getContainer()->addServiceProvider(\Robo\Task\FileSystem\ServiceProvider::class);
+
 $I->wantTo('flatten dir with FlattenDir task');
 $I->amInPath(codecept_data_dir().'sandbox');
-$I->taskFlattenDir([
+$I->getContainer()->get('taskFlattenDir', [[
     'some/deeply/nested/*.re' => 'flattened',
     '*.txt' => 'flattened'
-    ])
+    ]])
     ->run();
 $I->seeDirFound('flattened');
 $I->seeFileFound('structu.re', 'flattened');

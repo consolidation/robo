@@ -1,11 +1,12 @@
 <?php
 use AspectMock\Test as test;
-use Robo\Config;
+use Robo\Runner;
+use Robo\Container\RoboContainer;
 
 class ExecTaskTest extends \Codeception\TestCase\Test
 {
-    use \Robo\Task\Base\loadTasks;
-    use \Robo\TaskSupport;
+    protected $container;
+
     /**
      * @var \AspectMock\Proxy\ClassProxy
      */
@@ -20,12 +21,14 @@ class ExecTaskTest extends \Codeception\TestCase\Test
             'getExitCode' => 0
         ]);
         test::double('Robo\Task\Base\Exec', ['getOutput' => new \Symfony\Component\Console\Output\NullOutput()]);
-        $this->setTaskAssembler(new \Robo\TaskAssembler(Config::logger()));
+        $this->container = new RoboContainer();
+        Runner::configureContainer($this->container);
+        $this->container->addServiceProvider(\Robo\Task\Base\ServiceProvider::class);
     }
 
     public function testExec()
     {
-        $result = $this->taskExec('ls')->run();
+        $result = $this->container->get('taskExec', ['ls'])->run();
         $this->process->verifyInvoked('run');
         verify($result->getMessage())->equals('Hello world');
         verify($result->getExitCode())->equals(0);
@@ -33,7 +36,7 @@ class ExecTaskTest extends \Codeception\TestCase\Test
 
     public function testExecInBackground()
     {
-        $result = $this->taskExec('ls')->background()->run();
+        $result = $this->container->get('taskExec', ['ls'])->background()->run();
         $this->process->verifyInvoked('start');
         $this->process->verifyNeverInvoked('run');
         verify('exit code was not received', $result->getExitCode())->notEquals(100);
@@ -41,12 +44,12 @@ class ExecTaskTest extends \Codeception\TestCase\Test
 
     public function testGetCommand()
     {
-        verify($this->taskExec('ls')->getCommand())->equals('ls');
+        verify($this->container->get('taskExec', ['ls'])->getCommand())->equals('ls');
     }
 
     public function testExecStack()
     {
-        $this->taskExecStack()
+        $this->container->get('taskExecStack')
             ->exec('ls')
             ->exec('cd /')
             ->exec('cd home')
@@ -56,7 +59,7 @@ class ExecTaskTest extends \Codeception\TestCase\Test
 
     public function testExecStackCommand()
     {
-        verify($this->taskExecStack()
+        verify($this->container->get('taskExecStack')
             ->exec('ls')
             ->exec('cd /')
             ->exec('cd home')

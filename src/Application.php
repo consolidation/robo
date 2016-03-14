@@ -7,12 +7,12 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 
-class Application extends  SymfonyApplication
+use League\Container\ContainerAwareInterface;
+use League\Container\ContainerAwareTrait;
+
+class Application extends  SymfonyApplication implements ContainerAwareInterface
 {
-    /**
-     * @var \Robo\TaskAssembler
-     */
-    protected $taskAssembler;
+    use ContainerAwareTrait;
 
     public function __construct($name, $version)
     {
@@ -23,60 +23,21 @@ class Application extends  SymfonyApplication
         );
     }
 
-    public function setTaskAssembler($taskAssembler)
-    {
-        $this->taskAssembler = $taskAssembler;
-    }
-
-    public function taskAssembler()
-    {
-        return $this->taskAssembler;
-    }
-
-    protected static function findAccessorMethods($commandNames)
-    {
-        $accessorNames = [];
-        // Using get_class_vars is not reliable, because it only
-        // exposes public class variables.
-        foreach ($commandNames as $commandName) {
-            // We count a set of methods as accessor methods if
-            // there is a setter and at least one getter.
-            if (strpos($commandName, 'set') === 0) {
-                $name = lcfirst(substr($commandName, 3));
-                $getter = 'get' . ucfirst($name);
-                $hasGetter = false;
-                if (in_array($name, $commandNames)) {
-                    $accessorNames[] = $name;
-                    $hasGetter = true;
-                }
-                if (in_array($getter, $commandNames)) {
-                    $accessorNames[] = $getter;
-                    $hasGetter = true;
-                }
-                if ($hasGetter) {
-                    $accessorNames[] = $commandName;
-                }
-            }
-        }
-        return $accessorNames;
-    }
-
     public function addCommandsFromClass($className, $passThrough = null)
     {
+        $container = $this->getContainer();
         $roboTasks = new $className;
-        if ($roboTasks instanceof \Robo\Tasks) {
-            $roboTasks->setTaskAssembler($this->taskAssembler);
+        if ($roboTasks instanceof ContainerAwareInterface) {
+            $roboTasks->setContainer($container);
         }
 
         $commandNames = array_filter(get_class_methods($className), function ($m) {
             return !in_array($m, ['__construct']);
         });
-        //$accessorNames = static::findAccessorMethods($commandNames);
-        //$commandNames = array_diff($commandNames, $accessorNames);
 
         foreach ($commandNames as $commandName) {
             $command = $this->createCommand(new TaskInfo($className, $commandName));
-            $command->setCode(function(InputInterface $input) use ($roboTasks, $commandName, $passThrough) {
+            $command->setCode(function(InputInterface $input) use ($roboTasks, $commandName, $passThrough, $container) {
                 // get passthru args
                 $args = $input->getArguments();
                 array_shift($args);
@@ -87,8 +48,7 @@ class Application extends  SymfonyApplication
                 // Need a better way to handle global options
                 // Also, this is not necessarily the best place to do this
                 Config::setGlobalOptions($input);
-                // Avoid making taskAssembler depend on Config class.
-                Config::service('taskAssembler')->setSimulated(Config::isSimulated());
+                $container->setSimulated(Config::isSimulated());
 
                 $res = call_user_func_array([$roboTasks, $commandName], $args);
                 if (is_int($res)) exit($res);

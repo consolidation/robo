@@ -1,12 +1,13 @@
 <?php
 
 use AspectMock\Test as test;
-use Robo\Config;
+use Robo\Runner;
+use Robo\Container\RoboContainer;
 
 class SvnTest extends \Codeception\TestCase\Test
 {
-    use \Robo\Task\Vcs\loadTasks;
-    use \Robo\TaskSupport;
+    protected $container;
+
     /**
      * @var \AspectMock\Proxy\ClassProxy
      */
@@ -18,7 +19,10 @@ class SvnTest extends \Codeception\TestCase\Test
             'executeCommand' => new \AspectMock\Proxy\Anything(),
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
-        $this->setTaskAssembler(new \Robo\TaskAssembler(Config::logger()));
+
+        $this->container = new RoboContainer();
+        Runner::configureContainer($this->container);
+        $this->container->addServiceProvider(\Robo\Task\Vcs\ServiceProvider::class);
     }
 
     // tests
@@ -31,7 +35,7 @@ class SvnTest extends \Codeception\TestCase\Test
     public function testSvnStackCommands()
     {
         verify(
-            $this->taskSvnStack('guest', 'foo')
+            $this->container->get('taskSvnStack', ['guest', 'foo'])
                 ->checkout('svn://server/trunk')
                 ->update()
                 ->add()

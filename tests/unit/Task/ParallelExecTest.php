@@ -1,11 +1,12 @@
 <?php
 use AspectMock\Test as test;
-use Robo\Config;
+use Robo\Runner;
+use Robo\Container\RoboContainer;
 
 class ParallelExecTest extends \Codeception\TestCase\Test
 {
-    use \Robo\Task\Base\loadTasks;
-    use \Robo\TaskSupport;
+    protected $container;
+
     /**
      * @var \CodeGuy
      */
@@ -25,12 +26,14 @@ class ParallelExecTest extends \Codeception\TestCase\Test
             'getOutput' => 'Hello world',
             'getExitCode' => 0
         ]);
-        $this->setTaskAssembler(new \Robo\TaskAssembler(Config::logger()));
+        $this->container = new RoboContainer();
+        Runner::configureContainer($this->container);
+        $this->container->addServiceProvider(\Robo\Task\Base\ServiceProvider::class);
     }
 
     public function testParallelExec()
     {
-        $result = $this->taskParallelExec()
+        $result = $this->container->get('taskParallelExec')
             ->process('ls 1')
             ->process('ls 2')
             ->process('ls 3')

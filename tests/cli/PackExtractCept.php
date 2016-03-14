@@ -1,6 +1,8 @@
 <?php
 
 $I = new CliGuy($scenario);
+$I->getContainer()->addServiceProvider(\Robo\Task\Archive\ServiceProvider::class);
+
 $I->wantTo('archive directory and then extract it again with Archive and Extract tasks');
 $I->amInPath(codecept_data_dir().'sandbox');
 $I->seeDirFound('some/deeply/nested');
@@ -11,7 +13,7 @@ $I->seeFileFound('existing_file', 'some/deeply');
 foreach (['zip', 'tar', 'tar.gz', 'tar.bz2', 'tgz'] as $archiveType) {
     // First, take everything from the folder 'some/deeply' and make
     // an archive for it located in 'deep'
-    $I->taskPack("deeply.$archiveType")
+    $I->getContainer()->get('taskPack', ["deeply.$archiveType"])
         ->add(['deep' => 'some/deeply'])
         ->run();
     $I->seeFileFound("deeply.$archiveType");
@@ -20,7 +22,7 @@ foreach (['zip', 'tar', 'tar.gz', 'tar.bz2', 'tgz'] as $archiveType) {
     // for each archive type we test).  We rely on the default behavior
     // of our extractor to remove the top-level directory in the archive
     // ("deeply").
-    $I->taskExtract("deeply.$archiveType")
+    $I->getContainer()->get('taskExtract', ["deeply.$archiveType"])
         ->to("extracted-$archiveType")
         ->preserveTopDirectory(false) // this is the default
         ->run();
@@ -29,7 +31,7 @@ foreach (['zip', 'tar', 'tar.gz', 'tar.bz2', 'tgz'] as $archiveType) {
     $I->seeFileFound('structu.re', "extracted-$archiveType/nested");
     // Next, we'll extract the same archive again, this time preserving
     // the top-level folder.
-    $I->taskExtract("deeply.$archiveType")
+    $I->getContainer()->get('taskExtract', ["deeply.$archiveType"])
         ->to("preserved-$archiveType")
         ->preserveTopDirectory()
         ->run();
@@ -37,14 +39,14 @@ foreach (['zip', 'tar', 'tar.gz', 'tar.bz2', 'tgz'] as $archiveType) {
     $I->seeDirFound("preserved-$archiveType/deep/nested");
     $I->seeFileFound('structu.re', "preserved-$archiveType/deep/nested");
     // Make another archive, this time composed of fanciful locations
-    $I->taskPack("composed.$archiveType")
+    $I->getContainer()->get('taskPack', ["composed.$archiveType"])
         ->add(['a/b/existing_file' => 'some/deeply/existing_file'])
         ->add(['x/y/z/structu.re' => 'some/deeply/nested/structu.re'])
         ->run();
     $I->seeFileFound("composed.$archiveType");
     // Extract our composed archive, and see if the resulting file
     // structure matches expectations.
-    $I->taskExtract("composed.$archiveType")
+    $I->getContainer()->get('taskExtract', ["composed.$archiveType"])
         ->to("decomposed-$archiveType")
         ->preserveTopDirectory()
         ->run();

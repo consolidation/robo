@@ -1,11 +1,11 @@
 <?php
 use AspectMock\Test as test;
-use Robo\Config;
+use Robo\Runner;
+use Robo\Container\RoboContainer;
 
 class BowerTest extends \Codeception\TestCase\Test
 {
-    use \Robo\Task\Bower\loadTasks;
-    use \Robo\TaskSupport;
+    protected $container;
 
     /**
      * @var \AspectMock\Proxy\ClassProxy
@@ -17,35 +17,37 @@ class BowerTest extends \Codeception\TestCase\Test
         $this->baseBower = test::double('Robo\Task\Bower\Base', [
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
-        $this->setTaskAssembler(new \Robo\TaskAssembler(Config::logger()));
+        $this->container = new RoboContainer();
+        Runner::configureContainer($this->container);
+        $this->container->addServiceProvider(Robo\Task\Bower\ServiceProvider::class);
     }
     // tests
     public function testBowerInstall()
     {
         $bower = test::double('Robo\Task\Bower\Install', ['executeCommand' => null]);
-        $this->taskBowerInstall('bower')->run();
+        $this->container->get('taskBowerInstall', ['bower'])->run();
         $bower->verifyInvoked('executeCommand', ['bower install']);
     }
 
     public function testBowerUpdate()
     {
         $bower = test::double('Robo\Task\Bower\Update', ['executeCommand' => null]);
-        $this->taskBowerUpdate('bower')->run();
+        $this->container->get('taskBowerUpdate', ['bower'])->run();
         $bower->verifyInvoked('executeCommand', ['bower update']);
     }
 
     public function testBowerInstallCommand()
     {
         verify(
-            $this->taskBowerInstall('bower')->getCommand()
+            $this->container->get('taskBowerInstall', ['bower'])->getCommand()
         )->equals('bower install');
 
         verify(
-            $this->taskBowerInstall('bower')->getCommand()
+            $this->container->get('taskBowerInstall', ['bower'])->getCommand()
         )->equals('bower install');
 
         verify(
-            $this->taskBowerInstall('bower')
+            $this->container->get('taskBowerInstall', ['bower'])
                 ->allowRoot()
                 ->forceLatest()
                 ->offline()

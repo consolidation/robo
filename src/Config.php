@@ -32,34 +32,6 @@ class Config
     }
 
     /**
-     * Create a container and initiailze it.
-     */
-    public static function createContainer($input = null)
-    {
-        // If no input was provided, then create an empty input object.
-        if (!$input) {
-            $input = new StringInput('');
-        }
-
-        // Set up our dependency injection container.
-        $container = new Container();
-
-        $container->add('input', $input);
-        $container->share('output', \Symfony\Component\Console\Output\ConsoleOutput::class);
-        $container->share('logStyler', \Robo\Log\RoboLogStyle::class);
-        $container->share('logger', \Robo\Log\RoboLogger::class)
-            ->withArgument('output')
-            ->withMethodCall('setLogOutputStyler', ['logStyler']);
-        $container->share('resultPrinter', \Robo\Log\ResultPrinter::class);
-        $container->share('taskAssembler', \Robo\TaskAssembler::class);
-
-        $container->inflector(\Psr\Log\LoggerAwareInterface::class)
-            ->invokeMethod('setLogger', ['logger']);
-
-        return $container;
-    }
-
-    /**
      * Unsets the global container.
      */
     public static function unsetContainer()

@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputOption;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 
-class Application extends  SymfonyApplication implements ContainerAwareInterface
+class Application extends SymfonyApplication implements ContainerAwareInterface
 {
     use ContainerAwareTrait;
 
@@ -40,7 +40,7 @@ class Application extends  SymfonyApplication implements ContainerAwareInterface
 
         foreach ($commandNames as $commandName) {
             $command = $this->createCommand(new TaskInfo($className, $commandName));
-            $command->setCode(function(InputInterface $input) use ($roboTasks, $commandName, $passThrough, $container) {
+            $command->setCode(function (InputInterface $input) use ($roboTasks, $commandName, $passThrough, $container) {
                 // get passthru args
                 $args = $input->getArguments();
                 array_shift($args);

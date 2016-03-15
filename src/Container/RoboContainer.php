@@ -17,11 +17,10 @@ class RoboContainer extends Container
     protected $simulated;
 
     public function __construct(
-        ServiceProviderAggregateInterface $providers         = null,
-        InflectorAggregateInterface       $inflectors        = null,
-        DefinitionFactoryInterface        $definitionFactory = null
-    )
-    {
+        ServiceProviderAggregateInterface $providers = null,
+        InflectorAggregateInterface $inflectors = null,
+        DefinitionFactoryInterface $definitionFactory = null
+    ) {
         parent::__construct($providers, $inflectors, $definitionFactory);
         $this->simulated = false;
     }

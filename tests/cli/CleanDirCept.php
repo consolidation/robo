@@ -5,7 +5,7 @@ $I->getContainer()->addServiceProvider(\Robo\Task\FileSystem\ServiceProvider::cl
 $I->wantTo('clean dir with DeleteDirTask');
 $I->amInPath(codecept_data_dir());
 $I->seeFileFound('robo.txt', 'sandbox');
-$I->getContainer()->get('taskCleanDir', [['sandbox']])
+$I->task('CleanDir', ['sandbox'])
     ->run();
 $I->dontSeeFileFound('box', 'sandbox');
 $I->dontSeeFileFound('robo.txt', 'sandbox');

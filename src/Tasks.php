@@ -20,9 +20,34 @@ class Tasks implements ContainerAwareInterface
         Result::$stopOnFail = $stopOnFail;
     }
 
+    /**
+     * Convenience function. Use:
+     *
+     * $this->collection();
+     *
+     * instead of:
+     *
+     * $this->getContainer()->get('collection');
+     */
     protected function collection()
     {
         return $this->getContainer()->get('collection');
+    }
+
+    /**
+     * Convenience function. Use:
+     *
+     * $this->task('Foo', $a, $b);
+     *
+     * instead of:
+     *
+     * $this->getContainer()->get('taskFoo', [$a, $b]);
+     */
+    protected function task()
+    {
+        $args = func_get_args();
+        $name = array_shift($args);
+        return $this->getContainer()->get("task$name", $args);
     }
 
     /**

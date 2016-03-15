@@ -4,10 +4,10 @@ $I->getContainer()->addServiceProvider(\Robo\Task\FileSystem\ServiceProvider::cl
 
 $I->wantTo('flatten dir with FlattenDir task');
 $I->amInPath(codecept_data_dir().'sandbox');
-$I->getContainer()->get('taskFlattenDir', [[
+$I->task('FlattenDir', [
     'some/deeply/nested/*.re' => 'flattened',
     '*.txt' => 'flattened'
-    ]])
+    ])
     ->run();
 $I->seeDirFound('flattened');
 $I->seeFileFound('structu.re', 'flattened');

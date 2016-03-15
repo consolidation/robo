@@ -28,4 +28,10 @@ class CliGuy extends \Codeception\Actor
     /**
      * Define custom actions here
      */
+    public function task()
+    {
+        $args = func_get_args();
+        $name = array_shift($args);
+        return $this->getContainer()->get("task$name", $args);
+    }
 }

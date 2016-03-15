@@ -11,7 +11,7 @@ class WriteFileCest {
     public function writeFewLines(CliGuy $I)
     {
         $I->wantTo('write lines with WriteToFile task');
-        $I->getContainer()->get('taskWriteToFile', ['blogpost.md'])
+        $I->task('WriteToFile', 'blogpost.md')
            ->line('****')
            ->line('hello world')
            ->line('****')
@@ -28,7 +28,7 @@ HERE
 
     public function appendToFile(CliGuy $I)
     {
-        $I->getContainer()->get('taskWriteToFile', ['a.txt'])
+        $I->task('WriteToFile', 'a.txt')
            ->append()
            ->line('hello world')
            ->run();
@@ -42,7 +42,7 @@ HERE
 
     public function insertFile(CliGuy $I)
     {
-        $I->getContainer()->get('taskWriteToFile', ['a.txt'])
+        $I->task('WriteToFile', 'a.txt')
             ->line('****')
             ->textFromFile('b.txt')
             ->line("C")
@@ -58,7 +58,7 @@ HERE
 
     public function replaceInFile(CliGuy $I)
     {
-        $I->getContainer()->get('taskReplaceInFile', ['a.txt'])
+        $I->task('ReplaceInFile', 'a.txt')
             ->from('A')
             ->to('B')
             ->run();
@@ -69,7 +69,7 @@ HERE
 
     public function replaceMultipleInFile(CliGuy $I)
     {
-        $I->getContainer()->get('taskReplaceInFile', ['box/robo.txt'])
+        $I->task('ReplaceInFile', 'box/robo.txt')
             ->from(array('HELLO', 'ROBO'))
             ->to(array('Hello ', 'robo.li!'))
             ->run();

@@ -24,7 +24,7 @@ class CollectionCest
         $collection = $I->getContainer()->get('collection');
 
         // Set up a filesystem stack, but use addToCollection() to defer execution
-        $I->getContainer()->get('taskFileSystemStack')
+        $I->task('FileSystemStack')
             ->mkdir('log')
             ->touch('log/error.txt')
             ->addToCollection($collection);
@@ -47,7 +47,7 @@ class CollectionCest
         // name back, but the directory is not created until the task
         // runs.  This technically is not thread-safe, but we create
         // a random name, so it is unlikely to conflict.
-        $tmpPath = $I->getContainer()->get('taskTmpDir')
+        $tmpPath = $I->task('TmpDir')
             ->addToCollection($collection)
             ->getPath();
 
@@ -60,13 +60,13 @@ class CollectionCest
         $I->seeDirFound($tmpPath);
 
         // Set up a filesystem stack, but use addToCollection() to defer execution
-        $I->getContainer()->get('taskFileSystemStack')
+        $I->task('FileSystemStack')
             ->mkdir("$tmpPath/log")
             ->touch("$tmpPath/log/error.txt")
             ->addToCollection($collection);
 
         // Copy our tmp directory to a location that is not transient
-        $I->getContainer()->get('taskCopyDir', [[$tmpPath => 'copied']])
+        $I->task('CopyDir', [$tmpPath => 'copied'])
             ->addToCollection($collection);
 
         // FileSystemStack has not run yet, so no files should be found.
@@ -94,7 +94,7 @@ class CollectionCest
         // name back, but the directory is not created until the task
         // runs.  This technically is not thread-safe, but we create
         // a random name, so it is unlikely to conflict.
-        $tmpPath = $I->getContainer()->get('taskTmpDir')
+        $tmpPath = $I->task('TmpDir')
             ->cwd()
             ->addToCollection($collection)
             ->getPath();
@@ -102,13 +102,13 @@ class CollectionCest
         // Set up a filesystem stack, but use addToCollection() to defer execution.
         // Note that since we used 'cwd()' above, the relative file paths
         // used below will be inside the temporary directory.
-        $I->getContainer()->get('taskFileSystemStack')
+        $I->task('FileSystemStack')
             ->mkdir("log")
             ->touch("log/error.txt")
             ->addToCollection($collection);
 
         // Copy our tmp directory to a location that is not transient
-        $I->getContainer()->get('taskCopyDir', [['log' => "$cwd/copied2"]])
+        $I->task('CopyDir', ['log' => "$cwd/copied2"])
             ->addToCollection($collection);
 
         // FileSystemStack has not run yet, so no files should be found.
@@ -140,13 +140,13 @@ class CollectionCest
         // Write to a temporary file. Note that we can get the path
         // to the tempoary file that will be created, even though the
         // the file is not created until the task collecction runs.
-        $tmpPath = $I->getContainer()->get('taskTmpFile', ['tmp', '.txt'])
+        $tmpPath = $I->task('TmpFile', 'tmp', '.txt')
             ->line("This is a test file")
             ->addToCollection($collection)
             ->getPath();
 
         // Copy our tmp directory to a location that is not transient
-        $I->getContainer()->get('taskFileSystemStack')
+        $I->task('FileSystemStack')
             ->copy($tmpPath, 'copied.txt')
             ->addToCollection($collection);
 
@@ -173,7 +173,7 @@ class CollectionCest
         // We start off the same way, using addToCollection() to add our temporary
         // directory task to the collection, so that we have easy access to the
         // temporary directory's path via the getPath() method.
-        $tmpPath = $I->getContainer()->get('taskTmpDir')
+        $tmpPath = $I->task('TmpDir')
             ->addToCollection($collection)
             ->getPath();
 
@@ -182,8 +182,8 @@ class CollectionCest
         // via the add() method.
         $result = $collection->add(
             [
-                $I->getContainer()->get('taskFileSystemStack')->mkdir("$tmpPath/log")->touch("$tmpPath/log/error.txt"),
-                $I->getContainer()->get('taskCopyDir', [[$tmpPath => 'copied3']]),
+                $I->task('FileSystemStack')->mkdir("$tmpPath/log")->touch("$tmpPath/log/error.txt"),
+                $I->task('CopyDir', [$tmpPath => 'copied3']),
             ]
         )->run();
 

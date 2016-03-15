@@ -10,7 +10,7 @@ class FileSystemStackCest
 
     public function toCreateDir(CliGuy $I)
     {
-        $I->getContainer()->get('taskFileSystemStack')
+        $I->task('FileSystemStack')
             ->mkdir('log')
             ->touch('log/error.txt')
             ->run();
@@ -19,7 +19,7 @@ class FileSystemStackCest
 
     public function toDeleteFile(CliGuy $I)
     {
-        $I->getContainer()->get('taskFileSystemStack')
+        $I->task('FileSystemStack')
             ->stopOnFail()
             ->remove('a.txt')
             ->run();

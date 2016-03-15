@@ -75,7 +75,7 @@ class RoboFile extends \Robo\Tasks
         $this->yell("Releasing Robo");
 
         $this->docs();
-        $this->taskGitStack()
+        $this->task('GitStack')
             ->add('-A')
             ->commit("auto-update")
             ->pull()
@@ -85,7 +85,7 @@ class RoboFile extends \Robo\Tasks
         $this->pharPublish();
         $this->publish();
 
-        $this->taskGitHubRelease(\Robo\Runner::VERSION)
+        $this->task('GitHubRelease', \Robo\Runner::VERSION)
             ->uri('Codegyre/Robo')
             ->askDescription()
             ->run();
@@ -95,14 +95,14 @@ class RoboFile extends \Robo\Tasks
 
     public function test($args = "")
     {
-        return $this->taskCodecept()
+        return $this->task('Codecept')
             ->args($args)
             ->run();
     }
 
     public function changed($addition)
     {
-        $this->taskChangelog()
+        $this->task('Changelog')
             ->version(\Robo\Runner::VERSION)
             ->change($addition)
             ->run();
@@ -115,7 +115,7 @@ class RoboFile extends \Robo\Tasks
             $versionParts[count($versionParts)-1]++;
             $version = implode('.', $versionParts);
         }
-        $this->taskReplaceInFile(__DIR__.'/src/Runner.php')
+        $this->task('ReplaceInFile', __DIR__.'/src/Runner.php')
             ->from("VERSION = '".\Robo\Runner::VERSION."'")
             ->to("VERSION = '".$version."'")
             ->run();
@@ -147,7 +147,7 @@ class RoboFile extends \Robo\Tasks
         ksort($docs);
 
         foreach ($docs as $ns => $tasks) {
-            $taskGenerator = $this->taskGenDoc("docs/tasks/$ns.md");
+            $taskGenerator = $this->task('GenDoc', "docs/tasks/$ns.md");
             $taskGenerator->filterClasses(function (\ReflectionClass $r) {
                 return !($r->isAbstract() or $r->isTrait()) and $r->implementsInterface('Robo\Contract\TaskInterface');
             })->prepend("# $ns Tasks");
@@ -195,20 +195,20 @@ class RoboFile extends \Robo\Tasks
         $current_branch = exec('git rev-parse --abbrev-ref HEAD');
 
         $collection = $this->collection();
-        $this->taskGitStack()
+        $this->task('GitStack')
             ->checkout('site')
             ->merge('master')
             ->addToCollection($collection);
-        $this->taskGitStack()
+        $this->task('GitStack')
             ->checkout($current_branch)
             ->addAsCompletion($collection);
-        $this->taskFilesystemStack()
+        $this->task('FilesystemStack')
             ->copy('CHANGELOG.md', 'docs/changelog.md')
             ->addToCollection($collection);
-        $this->taskFilesystemStack()
+        $this->task('FilesystemStack')
             ->remove('docs/changelog.md')
             ->addAsCompletion($collection);
-        $this->taskExec('mkdocs gh-deploy')
+        $this->task('Exec', 'mkdocs gh-deploy')
             ->addToCollection($collection);
         $collection->run();
     }
@@ -217,12 +217,12 @@ class RoboFile extends \Robo\Tasks
     {
         $collection = $this->collection();
 
-        $this->taskComposerInstall()
+        $this->task('ComposerInstall')
             ->noDev()
             ->printed(false)
             ->addToCollection($collection);
 
-        $packer = $this->taskPackPhar('robo.phar');
+        $packer = $this->task('PackPhar', 'robo.phar');
         $files = Finder::create()->ignoreVCS(true)
             ->files()
             ->name('*.php')
@@ -243,7 +243,7 @@ class RoboFile extends \Robo\Tasks
             ->executable('robo')
             ->addToCollection($collection);
 
-        $this->taskComposerInstall()
+        $this->task('ComposerInstall')
             ->printed(false)
             ->addToCollection($collection);
 
@@ -252,7 +252,7 @@ class RoboFile extends \Robo\Tasks
 
     public function pharInstall()
     {
-        $this->taskExec('sudo cp')
+        $this->task('Exec', 'sudo cp')
             ->arg('robo.phar')
             ->arg('/usr/bin/robo')
             ->run();
@@ -263,12 +263,12 @@ class RoboFile extends \Robo\Tasks
         $this->pharBuild();
 
         $this->_rename('robo.phar', 'robo-release.phar');
-        $this->taskGitStack()->checkout('gh-pages')->run();
-        $this->taskFilesystemStack()
+        $this->task('GitStack')->checkout('gh-pages')->run();
+        $this->task('FilesystemStack')
             ->remove('robo.phar')
             ->rename('robo-release.phar', 'robo.phar')
             ->run();
-        $this->taskGitStack()
+        $this->task('GitStack')
             ->add('robo.phar')
             ->commit('robo.phar published')
             ->push('origin','gh-pages')
@@ -278,8 +278,8 @@ class RoboFile extends \Robo\Tasks
 
     public function tryWatch()
     {
-        $this->taskWatch()->monitor(['composer.json', 'composer.lock'], function() {
-            $this->taskComposerUpdate()->run();
+        $this->task('Watch')->monitor(['composer.json', 'composer.lock'], function() {
+            $this->task('ComposerUpdate')->run();
         })->run();
     }
 
@@ -301,7 +301,7 @@ class RoboFile extends \Robo\Tasks
      */
     public function tryPara()
     {
-        $this->taskParallelExec()
+        $this->task('ParallelExec')
             ->process('php ~/demos/robotests/parascript.php hey')
             ->process('php ~/demos/robotests/parascript.php hoy')
             ->process('php ~/demos/robotests/parascript.php gou')
@@ -316,7 +316,7 @@ class RoboFile extends \Robo\Tasks
 
     public function tryServer()
     {
-        $this->taskServer(8000)
+        $this->task('Server', 8000)
             ->dir('site')
             ->arg('site/index.php')
             ->run();
@@ -324,7 +324,7 @@ class RoboFile extends \Robo\Tasks
 
     public function tryOpenBrowser()
     {
-        $this->taskOpenBrowser([
+        $this->task('OpenBrowser', [
             'http://robo.li',
             'https://github.com/Codegyre/Robo'
             ])
@@ -339,11 +339,11 @@ class RoboFile extends \Robo\Tasks
 
     public function tryError()
     {
-        $result = $this->taskExec('ls xyzzy' . date('U'))->dir('/tmp')->run();
+        $result = $this->task('Exec', 'ls xyzzy' . date('U'))->dir('/tmp')->run();
     }
 
     public function trySuccess()
     {
-        $result = $this->taskExec('pwd')->run();
+        $result = $this->task('Exec', 'pwd')->run();
     }
 }

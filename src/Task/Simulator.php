@@ -5,8 +5,9 @@ use Robo\TaskInfo;
 use Robo\Result;
 use Robo\Contract\TaskInterface;
 use Robo\Log\RoboLogLevel;
+use Robo\Contract\WrappedTaskInterface;
 
-class Simulator extends BaseTask
+class Simulator extends BaseTask implements WrappedTaskInterface
 {
     protected $task;
     protected $constructorParameters;
@@ -14,8 +15,14 @@ class Simulator extends BaseTask
 
     public function __construct(TaskInterface $task, $constructorParameters)
     {
-        $this->task = $task;
+        $this->task = ($task instanceof WrappedTaskInterface) ? $task->original() : $task;
+
         $this->constructorParameters = $constructorParameters;
+    }
+
+    public function original()
+    {
+        return $this->task;
     }
 
     public function __call($function, $args)
@@ -54,8 +61,12 @@ class Simulator extends BaseTask
                 if (is_callable($item)) {
                     return 'inline_function(...)';
                 }
-                if (is_array($item) || is_object($item)) {
+                if (is_array($item)) {
                     return var_export($item, true);
+                }
+                if (is_object($item)) {
+                    return '[object]';
+//                    return var_export($item, true);
                 }
                 if (is_string($item)) {
                     return "'$item'";

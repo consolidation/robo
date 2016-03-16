@@ -133,7 +133,6 @@ class Runner
             ->withMethodCall('setLogOutputStyler', ['logStyler']);
         $container->share('resultPrinter', \Robo\Log\ResultPrinter::class);
         $container->add('simulator', \Robo\Task\Simulator::class);
-        $container->add('completionWrapper', \Robo\Collection\CompletionWrapper::class);
 
         // Register our various inflectors.
         $container->inflector(\Psr\Log\LoggerAwareInterface::class)

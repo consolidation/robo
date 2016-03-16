@@ -6,6 +6,7 @@ use Robo\Task\BaseTask;
 use Robo\Contract\TaskInterface;
 use Robo\Contract\RollbackInterface;
 use Robo\Contract\CompletionInterface;
+use Robo\Contract\WrappedTaskInterface;
 
 /**
  * Creates a task wrapper that will manage rollback and collection
@@ -18,7 +19,7 @@ use Robo\Contract\CompletionInterface;
  *
  * @see Robo\Task\FileSystem\loadTasks::taskTmpDir
  */
-class CompletionWrapper extends BaseTask
+class CompletionWrapper extends BaseTask implements WrappedTaskInterface
 {
     private $collection;
     private $task;
@@ -30,7 +31,7 @@ class CompletionWrapper extends BaseTask
      * Temporary tasks are always wrapped in a CompletionWrapper, as are
      * any tasks that are added to a collection.  If a temporary task
      * is added to a collection, then it is first unwrapped from its
-     * CompletionWrapper (via its getTask method), and then added to a
+     * CompletionWrapper (via its original() method), and then added to a
      * new CompletionWrapper for the collection it is added to.
      *
      * In this way, when the CompletionWrapper is finally executed, the
@@ -40,11 +41,11 @@ class CompletionWrapper extends BaseTask
     public function __construct(Collection $collection, TaskInterface $task, TaskInterface $rollbackTask = null)
     {
         $this->collection = $collection;
-        $this->task = ($task instanceof self) ? $task->getTask() : $task;
+        $this->task = ($task instanceof WrappedTaskInterface) ? $task->original() : $task;
         $this->rollbackTask = $rollbackTask;
     }
 
-    public function getTask()
+    public function original()
     {
         return $this->task;
     }

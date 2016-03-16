@@ -7,10 +7,12 @@ class ServiceProvider extends AbstractServiceProvider
 {
     protected $provides = [
         'collection',
+        'completionWrapper',
     ];
 
     public function register()
     {
         $this->getContainer()->add('collection', Collection::class);
+        $this->getContainer()->add('completionWrapper', CompletionWrapper::class);
     }
 }

@@ -1,8 +1,6 @@
 <?php
 use AspectMock\Test as test;
 use Robo\Config;
-use Robo\Runner;
-use Robo\Container\RoboContainer;
 
 class GulpTest extends \Codeception\TestCase\Test
 {
@@ -18,8 +16,7 @@ class GulpTest extends \Codeception\TestCase\Test
         $this->baseGulp = test::double('Robo\Task\Gulp\Base', [
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
-        $this->container = new RoboContainer();
-        Runner::configureContainer($this->container);
+        $this->container = Config::getContainer();
         $this->container->addServiceProvider(\Robo\Task\Gulp\ServiceProvider::class);
     }
 

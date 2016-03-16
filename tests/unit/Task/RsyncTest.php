@@ -1,8 +1,7 @@
 <?php
 
 use AspectMock\Test as test;
-use Robo\Runner;
-use Robo\Container\RoboContainer;
+use Robo\Config;
 
 class RsyncTest extends \Codeception\TestCase\Test
 {
@@ -15,8 +14,7 @@ class RsyncTest extends \Codeception\TestCase\Test
 
     protected function _before()
     {
-        $this->container = new RoboContainer();
-        Runner::configureContainer($this->container);
+        $this->container = Config::getContainer();
         $this->container->addServiceProvider(\Robo\Task\Remote\ServiceProvider::class);
     }
 

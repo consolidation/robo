@@ -1,8 +1,7 @@
 <?php
 
 use AspectMock\Test as test;
-use Robo\Runner;
-use Robo\Container\RoboContainer;
+use Robo\Config;
 
 class GitTest extends \Codeception\TestCase\Test
 {
@@ -19,8 +18,7 @@ class GitTest extends \Codeception\TestCase\Test
             'executeCommand' => new \AspectMock\Proxy\Anything(),
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
-        $this->container = new RoboContainer();
-        Runner::configureContainer($this->container);
+        $this->container = Config::getContainer();
         $this->container->addServiceProvider(\Robo\Task\Vcs\ServiceProvider::class);
     }
     // tests

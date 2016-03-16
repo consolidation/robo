@@ -10,8 +10,7 @@ use Robo\Result;
 use Robo\Task\BaseTask;
 use Robo\Contract\TaskInterface;
 use Robo\Collection\Collection;
-use Robo\Runner;
-use Robo\Container\RoboContainer;
+use Robo\Config;
 
 class CollectionTest extends \Codeception\TestCase\Test
 {
@@ -19,8 +18,7 @@ class CollectionTest extends \Codeception\TestCase\Test
 
     protected function _before()
     {
-        $this->container = new RoboContainer();
-        Runner::configureContainer($this->container);
+        $this->container = Config::getContainer();
         $this->container->addServiceProvider(\Robo\Collection\ServiceProvider::class);
     }
 

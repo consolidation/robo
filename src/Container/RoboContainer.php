@@ -5,7 +5,6 @@ use League\Container\Container;
 
 use Robo\Contract\CompletionInterface;
 use Robo\Collection\Temporary;
-use Robo\Task\Simulator;
 use Robo\Contract\TaskInterface;
 use Robo\Collection\Collection;
 
@@ -53,13 +52,13 @@ class RoboContainer extends Container
         // first.  If the task is added to a collection, then its
         // complete method will be called after the collection completes.
         if ($service instanceof CompletionInterface) {
-            $service = Temporary::wrap($service);
+            $service = parent::get('completionWrapper', [Temporary::getCollection(), $service]);
         }
 
         // If we are in simulated mode, then wrap any task in
         // a TaskSimulator.
         if ($isTask && !$isCollection && ($this->isSimulated())) {
-            $service = new Simulator($service, $args);
+            $service = parent::get('simulator', [$service, $args]);
         }
 
         return $service;

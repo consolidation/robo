@@ -4,6 +4,8 @@ namespace Robo\Common;
 use Robo\Config;
 use Robo\TaskInfo;
 use Consolidation\Log\ConsoleLogLevel;
+use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
 
 /**
  * Task input/output methods.  TaskIO is 'used' in BaseTask, so any
@@ -14,15 +16,7 @@ use Consolidation\Log\ConsoleLogLevel;
  */
 trait TaskIO
 {
-    /**
-     * @var \Psr\Log\LoggerInterface
-     */
-    protected $logger;
-
-    public function setLogger($logger)
-    {
-        $this->logger = $logger;
-    }
+    use LoggerAwareTrait;
 
     public function logger()
     {

@@ -1,8 +1,7 @@
 <?php
 
 use AspectMock\Test as test;
-use Robo\Runner;
-use Robo\Container\RoboContainer;
+use Robo\Config;
 
 class PHPServerTest extends \Codeception\TestCase\Test
 {
@@ -22,8 +21,7 @@ class PHPServerTest extends \Codeception\TestCase\Test
             'getExitCode' => 0
         ]);
         test::double('Robo\Task\Development\PhpServer', ['getOutput' => new \Symfony\Component\Console\Output\NullOutput()]);
-        $this->container = new RoboContainer();
-        Runner::configureContainer($this->container);
+        $this->container = Config::getContainer();
         $this->container->addServiceProvider(\Robo\Task\Development\ServiceProvider::class);
     }
 

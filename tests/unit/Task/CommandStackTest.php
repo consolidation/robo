@@ -1,7 +1,6 @@
 <?php
 use Codeception\Util\Stub;
-use Robo\Runner;
-use Robo\Container\RoboContainer;
+use Robo\Config;
 
 class CommandStackTest extends \Codeception\TestCase\Test
 {
@@ -9,8 +8,7 @@ class CommandStackTest extends \Codeception\TestCase\Test
 
     protected function _before()
     {
-        $this->container = new RoboContainer();
-        Runner::configureContainer($this->container);
+        $this->container = Config::getContainer();
     }
 
     public function testExecStackExecutableIsTrimmedFromCommand()

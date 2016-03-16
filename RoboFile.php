@@ -278,7 +278,7 @@ class RoboFile extends \Robo\Tasks
 
     public function tryWatch()
     {
-        $this->task('Watch')->monitor(['composer.json', 'composer.lock'], function() {
+        $this->task('Watch')->monitor(['composer.json', 'composer.lock'], function () {
             $this->task('ComposerUpdate')->run();
         })->run();
     }

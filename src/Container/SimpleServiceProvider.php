@@ -16,7 +16,8 @@ abstract class SimpleServiceProvider implements ServiceProviderInterface
 {
     use ContainerAwareTrait;
 
-    public function __construct($provides = []) {
+    public function __construct($provides = [])
+    {
         $this->provides += $provides;
     }
 

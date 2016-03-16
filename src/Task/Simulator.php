@@ -5,9 +5,8 @@ use Robo\TaskInfo;
 use Robo\Result;
 use Robo\Contract\TaskInterface;
 use Robo\Log\RoboLogLevel;
-use Robo\Contract\WrappedTaskInterface;
 
-class Simulator extends BaseTask implements WrappedTaskInterface
+class Simulator extends BaseTask
 {
     protected $task;
     protected $constructorParameters;
@@ -15,14 +14,10 @@ class Simulator extends BaseTask implements WrappedTaskInterface
 
     public function __construct(TaskInterface $task, $constructorParameters)
     {
+        // TODO: If we ever want to convert the simulated task back into
+        // an executable task, then we should save the wrapped task.
         $this->task = ($task instanceof WrappedTaskInterface) ? $task->original() : $task;
-
         $this->constructorParameters = $constructorParameters;
-    }
-
-    public function original()
-    {
-        return $this->task;
     }
 
     public function __call($function, $args)

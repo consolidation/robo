@@ -7,6 +7,8 @@ use Robo\Contract\CompletionInterface;
 use Robo\Collection\Temporary;
 use Robo\Contract\TaskInterface;
 use Robo\Collection\Collection;
+use Robo\Collection\CompletionWrapper;
+use Robo\Task\Simulator;
 
 class RoboContainer extends Container
 {
@@ -41,6 +43,11 @@ class RoboContainer extends Container
     {
         $service = parent::get($alias, $args);
 
+        // Do not wrap our wrappers.
+        if ($service instanceof CompletionWrapper || $service instanceof Simulator) {
+            return $service;
+        }
+
         // Remember whether or not this is a task before
         // it gets wrapped in any service decorator.
         $isTask = $service instanceof TaskInterface;
@@ -49,8 +56,10 @@ class RoboContainer extends Container
         // If the task implements CompletionInterface, ensure
         // that its 'complete' method is called when the application
         // terminates -- but only if its 'run' method is called
-        // first.  If the task is added to a collection, then its
-        // complete method will be called after the collection completes.
+        // first.  If the task is added to a collection, then the
+        // task will be unwrapped via its `original` method, and
+        // it will be re-wrapped with a new completion wrapper for
+        // its new collection.
         if ($service instanceof CompletionInterface) {
             $service = parent::get('completionWrapper', [Temporary::getCollection(), $service]);
         }

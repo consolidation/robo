@@ -14,13 +14,14 @@ class SvnTest extends \Codeception\TestCase\Test
 
     protected function _before()
     {
-        $this->svn = test::double('Robo\Task\Vcs\SvnStack', [
-            'executeCommand' => new \AspectMock\Proxy\Anything(),
-            'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
-        ]);
-
         $this->container = Config::getContainer();
         $this->container->addServiceProvider(\Robo\Task\Vcs\ServiceProvider::class);
+
+        $this->svn = test::double('Robo\Task\Vcs\SvnStack', [
+            'executeCommand' => new \AspectMock\Proxy\Anything(),
+            'getOutput' => new \Symfony\Component\Console\Output\NullOutput(),
+            'logger' => $this->container->get('logger'),
+        ]);
     }
 
     // tests

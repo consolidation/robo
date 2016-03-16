@@ -18,9 +18,21 @@ trait TaskIO
 {
     use LoggerAwareTrait;
 
+    static $gaveDeprecationWarning = false;
+
     public function logger()
     {
-        return $this->logger ?: Config::logger();
+        // $this->logger will always be set in Robo core tasks.
+        // TODO: Remove call to Config::logger() once maintaining backwards
+        // compatibility with legacy external Robo tasks is no longer desired.
+        if (!$this->logger) {
+            if (!static::$gaveDeprecationWarning) {
+                trigger_error('No logger set for ' . get_class($this) . '. Use $this->task("Foo") rather than new Foo() in loadTasks to ensure the DI container can initialize tasks.', E_USER_DEPRECATED);
+                static::$gaveDeprecationWarning = true;
+            }
+            return Config::logger();
+        }
+        return $this->logger;
     }
 
     /**

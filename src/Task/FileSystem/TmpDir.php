@@ -6,6 +6,9 @@ use Robo\Result;
 use Robo\Collection\Collection;
 use Robo\Contract\CompletionInterface;
 
+use League\Container\ContainerAwareInterface;
+use League\Container\ContainerAwareTrait;
+
 /**
  * Create a temporary directory that is automatically cleaned up
  * once the task collection is is part of completes.
@@ -28,8 +31,10 @@ use Robo\Contract\CompletionInterface;
  * ?>
  * ```
  */
-class TmpDir extends BaseDir implements CompletionInterface
+class TmpDir extends BaseDir implements CompletionInterface, ContainerAwareInterface
 {
+    use ContainerAwareTrait;
+
     protected $base;
     protected $prefix;
     protected $cwd;
@@ -99,7 +104,7 @@ class TmpDir extends BaseDir implements CompletionInterface
         if ($this->cwd) {
             chdir($this->savedWorkingDirectory);
         }
-        (new DeleteDir($this->dirs))->run();
+        $this->getContainer()->get('taskDeleteDir', [$this->dirs])->run();
     }
 
     /**

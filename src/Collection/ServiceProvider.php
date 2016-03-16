@@ -1,18 +1,17 @@
 <?php
 namespace Robo\Collection;
 
-use League\Container\ServiceProvider\AbstractServiceProvider;
+use Robo\Container\SimpleServiceProvider;
 
-class ServiceProvider extends AbstractServiceProvider
+class ServiceProvider extends SimpleServiceProvider
 {
-    protected $provides = [
-        'collection',
-        'completionWrapper',
-    ];
-
-    public function register()
+    public function __construct()
     {
-        $this->getContainer()->add('collection', Collection::class);
-        $this->getContainer()->add('completionWrapper', CompletionWrapper::class);
+        parent::__construct(
+            [
+                'collection' => Collection::class,
+                'completionWrapper' => CompletionWrapper::class,
+            ]
+        );
     }
 }

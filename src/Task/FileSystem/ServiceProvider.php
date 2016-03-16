@@ -15,7 +15,7 @@ class ServiceProvider extends SimpleServiceProvider
                 'taskCopyDir' => CopyDir::class,
                 'taskMirrorDir' => MirrorDir::class,
                 'taskFlattenDir' => FlattenDir::class,
-                'taskFileSystemStack' => FilesystemStack::class,
+                'taskFilesystemStack' => FilesystemStack::class,
             ]
         );
     }

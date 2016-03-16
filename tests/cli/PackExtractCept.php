@@ -13,7 +13,7 @@ $I->seeFileFound('existing_file', 'some/deeply');
 foreach (['zip', 'tar', 'tar.gz', 'tar.bz2', 'tgz'] as $archiveType) {
     // First, take everything from the folder 'some/deeply' and make
     // an archive for it located in 'deep'
-    $I->task('Pack', "deeply.$archiveType")
+    $I->taskPack("deeply.$archiveType")
         ->add(['deep' => 'some/deeply'])
         ->run();
     $I->seeFileFound("deeply.$archiveType");
@@ -22,7 +22,7 @@ foreach (['zip', 'tar', 'tar.gz', 'tar.bz2', 'tgz'] as $archiveType) {
     // for each archive type we test).  We rely on the default behavior
     // of our extractor to remove the top-level directory in the archive
     // ("deeply").
-    $I->task('Extract', "deeply.$archiveType")
+    $I->taskExtract("deeply.$archiveType")
         ->to("extracted-$archiveType")
         ->preserveTopDirectory(false) // this is the default
         ->run();
@@ -31,7 +31,7 @@ foreach (['zip', 'tar', 'tar.gz', 'tar.bz2', 'tgz'] as $archiveType) {
     $I->seeFileFound('structu.re', "extracted-$archiveType/nested");
     // Next, we'll extract the same archive again, this time preserving
     // the top-level folder.
-    $I->task('Extract', "deeply.$archiveType")
+    $I->taskExtract("deeply.$archiveType")
         ->to("preserved-$archiveType")
         ->preserveTopDirectory()
         ->run();
@@ -39,14 +39,14 @@ foreach (['zip', 'tar', 'tar.gz', 'tar.bz2', 'tgz'] as $archiveType) {
     $I->seeDirFound("preserved-$archiveType/deep/nested");
     $I->seeFileFound('structu.re', "preserved-$archiveType/deep/nested");
     // Make another archive, this time composed of fanciful locations
-    $I->task('Pack', "composed.$archiveType")
+    $I->taskPack("composed.$archiveType")
         ->add(['a/b/existing_file' => 'some/deeply/existing_file'])
         ->add(['x/y/z/structu.re' => 'some/deeply/nested/structu.re'])
         ->run();
     $I->seeFileFound("composed.$archiveType");
     // Extract our composed archive, and see if the resulting file
     // structure matches expectations.
-    $I->task('Extract', "composed.$archiveType")
+    $I->taskExtract("composed.$archiveType")
         ->to("decomposed-$archiveType")
         ->preserveTopDirectory()
         ->run();

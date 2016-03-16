@@ -12,10 +12,43 @@ class CliHelper extends \Codeception\Module implements ContainerAwareInterface
 {
     use ContainerAwareTrait;
 
+    use \Robo\Task\Base\loadTasks {
+        taskExec as public;
+        taskExecStack as public;
+    }
+
+    use \Robo\Task\File\loadTasks {
+        taskWriteToFile as public;
+        taskReplaceInFile as public;
+        taskConcat as public;
+        taskTmpFile as public;
+    }
+
+    use \Robo\Task\FileSystem\loadTasks {
+        taskCleanDir as public;
+        taskCopyDir as public;
+        taskDeleteDir as public;
+        taskFlattenDir as public;
+        taskFileSystemStack as public;
+        taskTmpDir as public;
+    }
+
     use \Robo\Task\FileSystem\loadShortcuts {
         _copyDir as public shortcutCopyDir;
         _mirrorDir as public shortcutMirrorDir;
         _tmpDir as public shortcutTmpDir;
+    }
+
+    use \Robo\Task\Archive\loadTasks {
+        taskPack as public;
+        taskExtract as public;
+    }
+
+    public function task()
+    {
+        $args = func_get_args();
+        $name = array_shift($args);
+        return $this->getContainer()->get("task$name", $args);
     }
 
     public function seeDirFound($dir)

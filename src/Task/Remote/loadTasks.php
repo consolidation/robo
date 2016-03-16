@@ -8,7 +8,7 @@ trait loadTasks
      */
     protected function taskRsync()
     {
-        return $this->task('Rsync');
+        return $this->task(__FUNCTION__);
     }
 
     /**
@@ -18,6 +18,6 @@ trait loadTasks
      */
     protected function taskSshExec($hostname = null, $user = null)
     {
-        return $this->task('Ssh', $hostname, $user);
+        return $this->task(__FUNCTION__, $hostname, $user);
     }
 }

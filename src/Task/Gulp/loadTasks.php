@@ -9,6 +9,6 @@ trait loadTasks
      * @return Run
      */
     protected function taskGulpRun($task='default',$pathToGulp = null) {
-        return $this->task('GulpRun', $task,$pathToGulp);
+        return $this->task(__FUNCTION__, $task,$pathToGulp);
     }
 }

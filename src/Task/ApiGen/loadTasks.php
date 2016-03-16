@@ -9,6 +9,6 @@ trait loadTasks
      */
     protected function taskApiGen($pathToApiGen = null)
     {
-        return $this->task('ApiGen', $pathToApiGen);
+        return $this->task(__FUNCTION__, $pathToApiGen);
     }
 }

@@ -69,6 +69,12 @@ trait Tasklib
     {
         $args = func_get_args();
         $name = array_shift($args);
-        return $this->getContainer()->get("task$name", $args);
+        // We'll allow callers to include the literal 'task'
+        // or not, as they wish; however, the container object
+        // that we fetch must always begin with 'task'
+        if (!preg_match('#^task#', $name)) {
+            $name = "task$name";
+        }
+        return $this->getContainer()->get($name, $args);
     }
 }

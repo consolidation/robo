@@ -9,7 +9,7 @@ trait loadTasks
      */
     protected function taskChangelog($filename = 'CHANGELOG.md')
     {
-        return $this->task('Changelog', $filename);
+        return $this->task(__FUNCTION__, $filename);
     }
 
     /**
@@ -18,7 +18,7 @@ trait loadTasks
      */
     protected function taskGenDoc($filename)
     {
-        return $this->task('GenDoc', $filename);
+        return $this->task(__FUNCTION__, $filename);
     }
 
     /**
@@ -27,7 +27,7 @@ trait loadTasks
      */
      protected function taskSemVer($pathToSemVer = '.semver')
      {
-         return $this->task('SemVer', $pathToSemVer);
+         return $this->task(__FUNCTION__, $pathToSemVer);
      }
 
     /**
@@ -36,7 +36,7 @@ trait loadTasks
      */
     protected function taskServer($port = 8000)
     {
-        return $this->task('Server', $port);
+        return $this->task(__FUNCTION__, $port);
     }
 
     /**
@@ -45,7 +45,7 @@ trait loadTasks
      */
     protected function taskPackPhar($filename)
     {
-        return $this->task('PackPhar', $filename);
+        return $this->task(__FUNCTION__, $filename);
     }
 
     /**
@@ -54,7 +54,7 @@ trait loadTasks
      */
     protected function taskGitHubRelease($tag)
     {
-        return $this->task('GitHubRelease', $tag);
+        return $this->task(__FUNCTION__, $tag);
     }
 
     /**
@@ -63,6 +63,6 @@ trait loadTasks
      */
     protected function taskOpenBrowser($url)
     {
-        return $this->task('OpenBrowser', $url);
+        return $this->task(__FUNCTION__, $url);
     }
 }

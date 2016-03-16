@@ -8,7 +8,7 @@ trait loadTasks
      * @return Install
      */
     protected function taskNpmInstall($pathToNpm = null) {
-        return $this->task('NpmInstall', $pathToNpm);
+        return $this->task(__FUNCTION__, $pathToNpm);
     }
 
     /**
@@ -16,6 +16,6 @@ trait loadTasks
      * @return Update
      */
     protected function taskNpmUpdate($pathToNpm = null) {
-        return $this->task('NpmUpdate', $pathToNpm);
+        return $this->task(__FUNCTION__, $pathToNpm);
     }
 }

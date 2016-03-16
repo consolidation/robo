@@ -11,7 +11,7 @@ trait loadTasks
      */
     protected function taskConcat($files)
     {
-        return $this->task('Concat', $files);
+        return $this->task(__FUNCTION__, $files);
     }
 
     /**
@@ -20,7 +20,7 @@ trait loadTasks
      */
     protected function taskReplaceInFile($file)
     {
-        return $this->task('ReplaceInFile', $file);
+        return $this->task(__FUNCTION__, $file);
     }
 
     /**
@@ -29,7 +29,7 @@ trait loadTasks
      */
     protected function taskWriteToFile($file)
     {
-        return $this->task('WriteToFile', $file);
+        return $this->task(__FUNCTION__, $file);
     }
 
     /**
@@ -40,6 +40,6 @@ trait loadTasks
      */
     protected function taskTmpFile($filename = 'tmp', $extension = '', $baseDir = '', $includeRandomPart = true)
     {
-        return $this->task('TmpFile', $filename, $extension, $baseDir, $includeRandomPart);
+        return $this->task(__FUNCTION__, $filename, $extension, $baseDir, $includeRandomPart);
     }
 }

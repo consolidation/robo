@@ -11,7 +11,7 @@ trait loadTasks
      */
     protected function taskCleanDir($dirs)
     {
-        return $this->task('CleanDir', $dirs);
+        return $this->task(__FUNCTION__, $dirs);
     }
 
     /**
@@ -20,7 +20,7 @@ trait loadTasks
      */
     protected function taskDeleteDir($dirs)
     {
-        return $this->task('DeleteDir', $dirs);
+        return $this->task(__FUNCTION__, $dirs);
     }
 
     /**
@@ -31,7 +31,7 @@ trait loadTasks
      */
     protected function taskTmpDir($prefix = 'tmp', $base = '', $includeRandomPart = true)
     {
-        return $this->task('TmpDir', $prefix, $base, $includeRandomPart);
+        return $this->task(__FUNCTION__, $prefix, $base, $includeRandomPart);
     }
 
     /**
@@ -40,7 +40,7 @@ trait loadTasks
      */
     protected function taskCopyDir($dirs)
     {
-        return $this->task('CopyDir', $dirs);
+        return $this->task(__FUNCTION__, $dirs);
     }
 
     /**
@@ -49,7 +49,7 @@ trait loadTasks
      */
     protected function taskMirrorDir($dirs)
     {
-        return $this->task('MirrorDir', $dirs);
+        return $this->task(__FUNCTION__, $dirs);
     }
 
     /**
@@ -58,7 +58,7 @@ trait loadTasks
      */
     protected function taskFlattenDir($dirs)
     {
-        return $this->task('FlattenDir', $dirs);
+        return $this->task(__FUNCTION__, $dirs);
     }
 
     /**
@@ -66,6 +66,6 @@ trait loadTasks
      */
     protected function taskFilesystemStack()
     {
-        return $this->task('FilesystemStack');
+        return $this->task(__FUNCTION__);
     }
 }

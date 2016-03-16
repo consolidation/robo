@@ -11,7 +11,7 @@ trait loadTasks
      */
     protected function taskPack($filename)
     {
-        return $this->task('Pack', $filename);
+        return $this->task(__FUNCTION__, $filename);
     }
 
     /**
@@ -21,6 +21,6 @@ trait loadTasks
      */
     protected function taskExtract($filename)
     {
-        return $this->task('Extract', $filename);
+        return $this->task(__FUNCTION__, $filename);
     }
 }

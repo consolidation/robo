@@ -12,7 +12,7 @@ use League\Container\ServiceProvider\ServiceProviderInterface;
  * for each element is the service alias, and its corresponding value
  * is the name of the implementing service class.
  */
-abstract class SimpleServiceProvider implements ServiceProviderInterface
+class SimpleServiceProvider implements ServiceProviderInterface
 {
     use ContainerAwareTrait;
 

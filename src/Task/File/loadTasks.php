@@ -2,9 +2,25 @@
 namespace Robo\Task\File;
 
 use Robo\Collection\Temporary;
+use Robo\Container\SimpleServiceProvider;
 
 trait loadTasks
 {
+    /**
+     * Return services.
+     */
+    public static function getFileServices()
+    {
+        return new SimpleServiceProvider(
+            [
+                'taskConcat' => Concat::class,
+                'taskReplaceInFile' => Replace::class,
+                'taskWriteToFile' => Write::class,
+                'taskTmpFile' => TmpFile::class,
+            ]
+        );
+    }
+
     /**
      * @param $files
      * @return Concat

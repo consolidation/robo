@@ -6,6 +6,24 @@ use Robo\Collection\Temporary;
 trait loadTasks
 {
     /**
+     * Return services.
+     */
+    public static function getFileSystemServices()
+    {
+        return new SimpleServiceProvider(
+            [
+                'taskCleanDir' => CleanDir::class,
+                'taskDeleteDir' => DeleteDir::class,
+                'taskTmpDir' => TmpDir::class,
+                'taskCopyDir' => CopyDir::class,
+                'taskMirrorDir' => MirrorDir::class,
+                'taskFlattenDir' => FlattenDir::class,
+                'taskFilesystemStack' => FilesystemStack::class,
+            ]
+        );
+    }
+
+    /**
      * @param $dirs
      * @return CleanDir
      */

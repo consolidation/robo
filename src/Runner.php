@@ -157,7 +157,7 @@ class Runner
         $container->addServiceProvider(\Robo\Task\Composer\ServiceProvider::class);
         $container->addServiceProvider(\Robo\Task\Development\ServiceProvider::class);
         $container->addServiceProvider(\Robo\Task\Docker\ServiceProvider::class);
-        $container->addServiceProvider(\Robo\Task\File\ServiceProvider::class);
+        $container->addServiceProvider(\Robo\Task\File\loadTasks::getFileServices());
         $container->addServiceProvider(\Robo\Task\FileSystem\ServiceProvider::class);
         $container->addServiceProvider(\Robo\Task\Remote\ServiceProvider::class);
         $container->addServiceProvider(\Robo\Task\Testing\ServiceProvider::class);

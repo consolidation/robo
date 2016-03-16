@@ -4,7 +4,7 @@ class WriteFileCest {
 
     public function _before(CliGuy $I)
     {
-        $I->getContainer()->addServiceProvider(\Robo\Task\File\ServiceProvider::class);
+        $I->getContainer()->addServiceProvider(\Robo\Task\File\loadTasks::getFileServices());
         $I->amInPath(codecept_data_dir('sandbox'));
     }
 

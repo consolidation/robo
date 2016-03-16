@@ -1,18 +1,17 @@
 <?php
 namespace Robo\Task\Archive;
 
-use League\Container\ServiceProvider\AbstractServiceProvider;
+use Robo\Container\SimpleServiceProvider;
 
-class ServiceProvider extends AbstractServiceProvider
+class ServiceProvider extends SimpleServiceProvider
 {
-    protected $provides = [
-        'taskExtract',
-        'taskPack',
-    ];
-
-    public function register()
+    public function __construct()
     {
-        $this->getContainer()->add('taskExtract', Extract::class);
-        $this->getContainer()->add('taskPack', Pack::class);
+        parent::__construct(
+            [
+                'taskExtract' => Extract::class,
+                'taskPack' => Pack::class,
+            ]
+        );
     }
 }

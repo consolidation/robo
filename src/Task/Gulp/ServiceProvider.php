@@ -1,16 +1,16 @@
 <?php
 namespace Robo\Task\Gulp;
 
-use League\Container\ServiceProvider\AbstractServiceProvider;
+use Robo\Container\SimpleServiceProvider;
 
-class ServiceProvider extends AbstractServiceProvider
+class ServiceProvider extends SimpleServiceProvider
 {
-    protected $provides = [
-        'taskGulpRun',
-    ];
-
-    public function register()
+    public function __construct()
     {
-        $this->getContainer()->add('taskGulpRun', Run::class);
+        parent::__construct(
+            [
+                'taskGulpRun' => Run::class,
+            ]
+        );
     }
 }

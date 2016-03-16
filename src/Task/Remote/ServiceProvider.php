@@ -1,18 +1,17 @@
 <?php
 namespace Robo\Task\Remote;
 
-use League\Container\ServiceProvider\AbstractServiceProvider;
+use Robo\Container\SimpleServiceProvider;
 
-class ServiceProvider extends AbstractServiceProvider
+class ServiceProvider extends SimpleServiceProvider
 {
-    protected $provides = [
-        'taskRsync',
-        'taskSshExec',
-    ];
-
-    public function register()
+    public function __construct()
     {
-        $this->getContainer()->add('taskRsync', Rsync::class);
-        $this->getContainer()->add('taskSshExec', Ssh::class);
+        parent::__construct(
+            [
+                'taskRsync' => Rsync::class,
+                'taskSshExec' => Ssh::class,
+            ]
+        );
     }
 }

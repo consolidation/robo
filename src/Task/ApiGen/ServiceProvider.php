@@ -1,16 +1,16 @@
 <?php
 namespace Robo\Task\ApiGen;
 
-use League\Container\ServiceProvider\AbstractServiceProvider;
+use Robo\Container\SimpleServiceProvider;
 
-class ServiceProvider extends AbstractServiceProvider
+class ServiceProvider extends SimpleServiceProvider
 {
-    protected $provides = [
-        'taskApiGen',
-    ];
-
-    public function register()
+    public function __construct()
     {
-        $this->getContainer()->add('taskApiGen', ApiGen::class);
+        parent::__construct(
+            [
+                'taskApiGen' => ApiGen::class,
+            ]
+        );
     }
 }

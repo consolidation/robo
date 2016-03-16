@@ -1,18 +1,17 @@
 <?php
 namespace Robo\Task\Bower;
 
-use League\Container\ServiceProvider\AbstractServiceProvider;
+use Robo\Container\SimpleServiceProvider;
 
-class ServiceProvider extends AbstractServiceProvider
+class ServiceProvider extends SimpleServiceProvider
 {
-    protected $provides = [
-        'taskBowerInstall',
-        'taskBowerUpdate',
-    ];
-
-    public function register()
+    public function __construct()
     {
-        $this->getContainer()->add('taskBowerInstall', Install::class);
-        $this->getContainer()->add('taskBowerUpdate', Update::class);
+        parent::__construct(
+            [
+                'taskBowerInstall' => Install::class,
+                'taskBowerUpdate' => Update::class,
+            ]
+        );
     }
 }

@@ -1,22 +1,19 @@
 <?php
 namespace Robo\Task\File;
 
-use League\Container\ServiceProvider\AbstractServiceProvider;
+use Robo\Container\SimpleServiceProvider;
 
-class ServiceProvider extends AbstractServiceProvider
+class ServiceProvider extends SimpleServiceProvider
 {
-    protected $provides = [
-        'taskConcat',
-        'taskReplaceInFile',
-        'taskWriteToFile',
-        'taskTmpFile',
-    ];
-
-    public function register()
+    public function __construct()
     {
-        $this->getContainer()->add('taskConcat', Concat::class);
-        $this->getContainer()->add('taskReplaceInFile', Replace::class);
-        $this->getContainer()->add('taskWriteToFile', Write::class);
-        $this->getContainer()->add('taskTmpFile', TmpFile::class);
+        parent::__construct(
+            [
+                'taskConcat' => Concat::class,
+                'taskReplaceInFile' => Replace::class,
+                'taskWriteToFile' => Write::class,
+                'taskTmpFile' => TmpFile::class,
+            ]
+        );
     }
 }

@@ -1,20 +1,18 @@
 <?php
 namespace Robo\Task\Composer;
 
-use League\Container\ServiceProvider\AbstractServiceProvider;
+use Robo\Container\SimpleServiceProvider;
 
-class ServiceProvider extends AbstractServiceProvider
+class ServiceProvider extends SimpleServiceProvider
 {
-    protected $provides = [
-        'taskComposerInstall',
-        'taskComposerUpdate',
-        'taskComposerDumpAutoload',
-    ];
-
-    public function register()
+    public function __construct()
     {
-        $this->getContainer()->add('taskComposerInstall', Install::class);
-        $this->getContainer()->add('taskComposerUpdate', Update::class);
-        $this->getContainer()->add('taskComposerDumpAutoload', DumpAutoload::class);
+        parent::__construct(
+            [
+                'taskComposerInstall' => Install::class,
+                'taskComposerUpdate' => Update::class,
+                'taskComposerDumpAutoload' => DumpAutoload::class,
+            ]
+        );
     }
 }

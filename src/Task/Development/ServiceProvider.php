@@ -1,28 +1,22 @@
 <?php
 namespace Robo\Task\Development;
 
-use League\Container\ServiceProvider\AbstractServiceProvider;
+use Robo\Container\SimpleServiceProvider;
 
-class ServiceProvider extends AbstractServiceProvider
+class ServiceProvider extends SimpleServiceProvider
 {
-    protected $provides = [
-        'taskChangelog',
-        'taskGenDoc',
-        'taskSemVer',
-        'taskServer',
-        'taskPackPhar',
-        'taskGitHubRelease',
-        'taskOpenBrowser',
-    ];
-
-    public function register()
+    public function __construct()
     {
-        $this->getContainer()->add('taskChangelog', Changelog::class);
-        $this->getContainer()->add('taskGenDoc', GenerateMarkdownDoc::class);
-        $this->getContainer()->add('taskSemVer', SemVer::class);
-        $this->getContainer()->add('taskServer', PhpServer::class);
-        $this->getContainer()->add('taskPackPhar', PackPhar::class);
-        $this->getContainer()->add('taskGitHubRelease', DumpAutoload::class);
-        $this->getContainer()->add('taskOpenBrowser', OpenBrowser::class);
+        parent::__construct(
+            [
+                'taskChangelog' => Changelog::class,
+                'taskGenDoc' => GenerateMarkdownDoc::class,
+                'taskSemVer' => SemVer::class,
+                'taskServer' => PhpServer::class,
+                'taskPackPhar' => PackPhar::class,
+                'taskGitHubRelease' => GitHubRelease::class,
+                'taskOpenBrowser' => OpenBrowser::class,
+            ]
+        );
     }
 }

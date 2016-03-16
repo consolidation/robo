@@ -1,20 +1,18 @@
 <?php
 namespace Robo\Task\Testing;
 
-use League\Container\ServiceProvider\AbstractServiceProvider;
+use Robo\Container\SimpleServiceProvider;
 
-class ServiceProvider extends AbstractServiceProvider
+class ServiceProvider extends SimpleServiceProvider
 {
-    protected $provides = [
-        'taskCodecept',
-        'taskPHPUnit',
-        'taskPhpspec',
-    ];
-
-    public function register()
+    public function __construct()
     {
-        $this->getContainer()->add('taskCodecept', Codecept::class);
-        $this->getContainer()->add('taskPHPUnit', PHPUnit::class);
-        $this->getContainer()->add('taskPhpspec', Phpspec::class);
+        parent::__construct(
+            [
+                'taskCodecept' => Codecept::class,
+                'taskPHPUnit' => PHPUnit::class,
+                'taskPhpspec' => Phpspec::class,
+            ]
+        );
     }
 }

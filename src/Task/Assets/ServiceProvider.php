@@ -1,22 +1,19 @@
 <?php
 namespace Robo\Task\Assets;
 
-use League\Container\ServiceProvider\AbstractServiceProvider;
+use Robo\Container\SimpleServiceProvider;
 
-class ServiceProvider extends AbstractServiceProvider
+class ServiceProvider extends SimpleServiceProvider
 {
-    protected $provides = [
-        'taskMinify',
-        'taskImageMinify',
-        'taskLess',
-        'taskScss',
-    ];
-
-    public function register()
+    public function __construct()
     {
-        $this->getContainer()->add('taskMinify', Minify::class);
-        $this->getContainer()->add('taskImageMinify', ImageMinify::class);
-        $this->getContainer()->add('taskLess', Less::class);
-        $this->getContainer()->add('taskScss', Scss::class);
+        parent::__construct(
+            [
+                'taskMinify' => Minify::class,
+                'taskImageMinify' => ImageMinify::class,
+                'taskLess' => Less::class,
+                'taskScss' => Scss::class,
+            ]
+        );
     }
 }

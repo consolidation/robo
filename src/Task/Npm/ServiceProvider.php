@@ -1,18 +1,17 @@
 <?php
 namespace Robo\Task\Npm;
 
-use League\Container\ServiceProvider\AbstractServiceProvider;
+use Robo\Container\SimpleServiceProvider;
 
-class ServiceProvider extends AbstractServiceProvider
+class ServiceProvider extends SimpleServiceProvider
 {
-    protected $provides = [
-        'taskNpmInstall',
-        'taskNpmUpdate',
-    ];
-
-    public function register()
+    public function __construct()
     {
-        $this->getContainer()->add('taskNpmInstall', Install::class);
-        $this->getContainer()->add('taskNpmUpdate', Update::class);
+        parent::__construct(
+            [
+                'taskNpmInstall' => Install::class,
+                'taskNpmUpdate' => Update::class,
+            ]
+        );
     }
 }

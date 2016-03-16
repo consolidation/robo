@@ -1,28 +1,22 @@
 <?php
 namespace Robo\Task\Docker;
 
-use League\Container\ServiceProvider\AbstractServiceProvider;
+use Robo\Container\SimpleServiceProvider;
 
-class ServiceProvider extends AbstractServiceProvider
+class ServiceProvider extends SimpleServiceProvider
 {
-    protected $provides = [
-        'taskDockerRun',
-        'taskDockerPull',
-        'taskDockerBuild',
-        'taskDockerStop',
-        'taskDockerCommit',
-        'taskDockerStart',
-        'taskDockerRemove',
-    ];
-
-    public function register()
+    public function __construct()
     {
-        $this->getContainer()->add('taskDockerRun', Run::class);
-        $this->getContainer()->add('taskDockerPull', Pull::class);
-        $this->getContainer()->add('taskDockerBuild', Build::class);
-        $this->getContainer()->add('taskDockerStop', Stop::class);
-        $this->getContainer()->add('taskDockerCommit', Commit::class);
-        $this->getContainer()->add('taskDockerStart', Start::class);
-        $this->getContainer()->add('taskDockerRemove', Remove::class);
+        parent::__construct(
+            [
+                'taskDockerRun' => Run::class,
+                'taskDockerPull' => Pull::class,
+                'taskDockerBuild' => Build::class,
+                'taskDockerStop' => Stop::class,
+                'taskDockerCommit' => Commit::class,
+                'taskDockerStart' => Start::class,
+                'taskDockerRemove' => Remove::class,
+            ]
+        );
     }
 }

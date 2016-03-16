@@ -1,24 +1,20 @@
 <?php
 namespace Robo\Task\Base;
 
-use League\Container\ServiceProvider\AbstractServiceProvider;
+use Robo\Container\SimpleServiceProvider;
 
-class ServiceProvider extends AbstractServiceProvider
+class ServiceProvider extends SimpleServiceProvider
 {
-    protected $provides = [
-        'taskExec',
-        'taskExecStack',
-        'taskParallelExec',
-        'taskSymfonyCommand',
-        'taskWatch',
-    ];
-
-    public function register()
+    public function __construct()
     {
-        $this->getContainer()->add('taskExec', Exec::class);
-        $this->getContainer()->add('taskExecStack', ExecStack::class);
-        $this->getContainer()->add('taskParallelExec', ParallelExec::class);
-        $this->getContainer()->add('taskSymfonyCommand', SymfonyCommand::class);
-        $this->getContainer()->add('taskWatch', Watch::class);
+        parent::__construct(
+            [
+                'taskExec' => Exec::class,
+                'taskExecStack' => ExecStack::class,
+                'taskParallelExec' => ParallelExec::class,
+                'taskSymfonyCommand' => SymfonyCommand::class,
+                'taskWatch' => Watch::class,
+            ]
+        );
     }
 }

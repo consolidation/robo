@@ -1,18 +1,17 @@
 <?php
 namespace Robo\Task\Vcs;
 
-use League\Container\ServiceProvider\AbstractServiceProvider;
+use Robo\Container\SimpleServiceProvider;
 
-class ServiceProvider extends AbstractServiceProvider
+class ServiceProvider extends SimpleServiceProvider
 {
-    protected $provides = [
-        'taskSvnStack',
-        'taskGitStack',
-    ];
-
-    public function register()
+    public function __construct()
     {
-        $this->getContainer()->add('taskSvnStack', SvnStack::class);
-        $this->getContainer()->add('taskGitStack', GitStack::class);
+        parent::__construct(
+            [
+                'taskSvnStack' => SvnStack::class,
+                'taskGitStack' => GitStack::class,
+            ]
+        );
     }
 }

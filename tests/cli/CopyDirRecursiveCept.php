@@ -1,6 +1,6 @@
 <?php
 $I = new CliGuy($scenario);
-$I->getContainer()->addServiceProvider(\Robo\Task\FileSystem\ServiceProvider::class);
+$I->getContainer()->addServiceProvider(\Robo\Task\FileSystem\loadTasks::getFileSystemServices());
 
 $I->wantTo('copy dir recursively with CopyDir task');
 $I->amInPath(codecept_data_dir() . 'sandbox');

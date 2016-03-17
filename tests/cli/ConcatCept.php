@@ -9,3 +9,4 @@ $I->taskConcat(['a.txt', 'b.txt'])
     ->run();
 $I->seeFileFound('merged.txt');
 $I->seeFileContentsEqual("A\nB\n");
+

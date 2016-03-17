@@ -17,7 +17,7 @@ class GulpTest extends \Codeception\TestCase\Test
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
         $this->container = Config::getContainer();
-        $this->container->addServiceProvider(\Robo\Task\Gulp\ServiceProvider::class);
+        $this->container->addServiceProvider(\Robo\Task\Gulp\loadTasks::getGulpServices());
     }
 
     // tests

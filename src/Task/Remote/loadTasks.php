@@ -1,8 +1,23 @@
 <?php
 namespace Robo\Task\Remote;
 
+use Robo\Container\SimpleServiceProvider;
+
 trait loadTasks
 {
+    /**
+     * Return services.
+     */
+    public static function getRemoteServices()
+    {
+        return new SimpleServiceProvider(
+            [
+                'taskRsync' => Rsync::class,
+                'taskSshExec' => Ssh::class,
+            ]
+        );
+    }
+
     /**
      * @return Rsync
      */

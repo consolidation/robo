@@ -1,8 +1,24 @@
 <?php
 namespace Robo\Task\Testing;
 
+use Robo\Container\SimpleServiceProvider;
+
 trait loadTasks
 {
+    /**
+     * Return services.
+     */
+    public static function getTestingServices()
+    {
+        return new SimpleServiceProvider(
+            [
+                'taskCodecept' => Codecept::class,
+                'taskPHPUnit' => PHPUnit::class,
+                'taskPhpspec' => Phpspec::class,
+            ]
+        );
+    }
+
     /**
      * @param null $pathToCodeception
      * @return Codecept

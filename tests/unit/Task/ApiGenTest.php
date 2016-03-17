@@ -19,7 +19,7 @@ class ApiGenTest extends \Codeception\TestCase\Test
         ]);
 
         $this->container = Config::getContainer();
-        $this->container->addServiceProvider(\Robo\Task\ApiGen\ServiceProvider::class);
+        $this->container->addServiceProvider(\Robo\Task\ApiGen\loadTasks::getApiGenServices());
     }
 
     // tests

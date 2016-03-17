@@ -17,7 +17,7 @@ class ComposerTest extends \Codeception\TestCase\Test
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
         $this->container = Config::getContainer();
-        $this->container->addServiceProvider(\Robo\Task\Composer\ServiceProvider::class);
+        $this->container->addServiceProvider(\Robo\Task\Composer\loadTasks::getComposerServices());
     }
     // tests
     public function testComposerInstall()

@@ -1,8 +1,28 @@
 <?php
 namespace Robo\Task\Development;
 
+use Robo\Container\SimpleServiceProvider;
+
 trait loadTasks
 {
+    /**
+     * Return services.
+     */
+    public static function getDevelopmentServices()
+    {
+        return new SimpleServiceProvider(
+            [
+                'taskChangelog' => Changelog::class,
+                'taskGenDoc' => GenerateMarkdownDoc::class,
+                'taskSemVer' => SemVer::class,
+                'taskServer' => PhpServer::class,
+                'taskPackPhar' => PackPhar::class,
+                'taskGitHubRelease' => GitHubRelease::class,
+                'taskOpenBrowser' => OpenBrowser::class,
+            ]
+        );
+    }
+
     /**
      * @param string $filename
      * @return Changelog

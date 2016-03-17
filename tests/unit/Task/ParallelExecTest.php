@@ -26,7 +26,7 @@ class ParallelExecTest extends \Codeception\TestCase\Test
             'getExitCode' => 0
         ]);
         $this->container = Config::getContainer();
-        $this->container->addServiceProvider(\Robo\Task\Base\ServiceProvider::class);
+        $this->container->addServiceProvider(\Robo\Task\Base\loadTasks::getBaseServices());
     }
 
     public function testParallelExec()

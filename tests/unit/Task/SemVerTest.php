@@ -10,7 +10,7 @@ class SemVerTest extends \Codeception\TestCase\Test
     protected function _before()
     {
         $this->container = Config::getContainer();
-        $this->container->addServiceProvider(\Robo\Task\Development\ServiceProvider::class);
+        $this->container->addServiceProvider(\Robo\Task\Development\loadTasks::getDevelopmentServices());
     }
 
     public function testSemver()

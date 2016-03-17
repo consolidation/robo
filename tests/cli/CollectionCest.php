@@ -11,9 +11,9 @@ class CollectionCest
 {
     public function _before(CliGuy $I)
     {
-        $I->getContainer()->addServiceProvider(\Robo\Collection\ServiceProvider::class);
+        $I->getContainer()->addServiceProvider(\Robo\Collection\Collection::getCollectionServices());
         $I->getContainer()->addServiceProvider(\Robo\Task\File\loadTasks::getFileServices());
-        $I->getContainer()->addServiceProvider(\Robo\Task\FileSystem\ServiceProvider::class);
+        $I->getContainer()->addServiceProvider(\Robo\Task\FileSystem\loadTasks::getFileSystemServices());
 
         $I->amInPath(codecept_data_dir().'sandbox');
     }

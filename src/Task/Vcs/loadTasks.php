@@ -1,8 +1,23 @@
 <?php
 namespace Robo\Task\Vcs;
 
+use Robo\Container\SimpleServiceProvider;
+
 trait loadTasks
 {
+    /**
+     * Return services.
+     */
+    public static function getVcsServices()
+    {
+        return new SimpleServiceProvider(
+            [
+                'taskSvnStack' => SvnStack::class,
+                'taskGitStack' => GitStack::class,
+            ]
+        );
+    }
+
     /**
      * @param string $username
      * @param string $password

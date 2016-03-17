@@ -1,6 +1,6 @@
 <?php
 $I = new CliGuy($scenario);
-$I->getContainer()->addServiceProvider(\Robo\Task\FileSystem\ServiceProvider::class);
+$I->getContainer()->addServiceProvider(\Robo\Task\FileSystem\loadTasks::getFileSystemServices());
 
 $I->wantTo('clean dir with DeleteDirTask');
 $I->amInPath(codecept_data_dir());
@@ -10,3 +10,5 @@ $I->taskCleanDir(['sandbox'])
 $I->dontSeeFileFound('box', 'sandbox');
 $I->dontSeeFileFound('robo.txt', 'sandbox');
 $I->dontSeeFileFound('a.txt' , 'sandbox');
+
+

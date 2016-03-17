@@ -19,7 +19,7 @@ class CollectionTest extends \Codeception\TestCase\Test
     protected function _before()
     {
         $this->container = Config::getContainer();
-        $this->container->addServiceProvider(\Robo\Collection\ServiceProvider::class);
+        $this->container->addServiceProvider(\Robo\Collection\Collection::getCollectionServices());
     }
 
     public function testBeforeAndAfterFilters()

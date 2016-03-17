@@ -18,7 +18,7 @@ class PhpspecTest extends \Codeception\TestCase\Test
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
         $this->container = Config::getContainer();
-        $this->container->addServiceProvider(\Robo\Task\Testing\ServiceProvider::class);
+        $this->container->addServiceProvider(\Robo\Task\Testing\loadTasks::getTestingServices());
     }
 
     // tests

@@ -17,7 +17,7 @@ class NpmTest extends \Codeception\TestCase\Test
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
         $this->container = Config::getContainer();
-        $this->container->addServiceProvider(\Robo\Task\Npm\ServiceProvider::class);
+        $this->container->addServiceProvider(\Robo\Task\Npm\loadTasks::getNpmServices());
     }
 
     // tests

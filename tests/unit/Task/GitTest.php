@@ -19,7 +19,7 @@ class GitTest extends \Codeception\TestCase\Test
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
         $this->container = Config::getContainer();
-        $this->container->addServiceProvider(\Robo\Task\Vcs\ServiceProvider::class);
+        $this->container->addServiceProvider(\Robo\Task\Vcs\loadTasks::getVcsServices());
     }
     // tests
     public function testGitStackRun()

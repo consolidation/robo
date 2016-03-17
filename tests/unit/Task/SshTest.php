@@ -10,7 +10,7 @@ class SshTest extends \Codeception\TestCase\Test
     protected function _before()
     {
         $this->container = Config::getContainer();
-        $this->container->addServiceProvider(\Robo\Task\Remote\ServiceProvider::class);
+        $this->container->addServiceProvider(\Robo\Task\Remote\loadTasks::getRemoteServices());
     }
 
     // tests

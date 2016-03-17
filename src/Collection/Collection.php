@@ -3,6 +3,7 @@ namespace Robo\Collection;
 
 use Robo\Result;
 use Robo\Contract\TaskInterface;
+use Robo\Container\SimpleServiceProvider;
 
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
@@ -46,6 +47,19 @@ class Collection implements TaskInterface, ContainerAwareInterface
     protected $rollbackStack = [];
     protected $completionStack = [];
     protected $previousResult;
+
+    /**
+     * Return services.
+     */
+    public static function getCollectionServices()
+    {
+        return new SimpleServiceProvider(
+            [
+                'collection' => Collection::class,
+                'completionWrapper' => CompletionWrapper::class,
+            ]
+        );
+    }
 
     /**
      * Constructor.

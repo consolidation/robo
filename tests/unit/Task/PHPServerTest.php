@@ -22,7 +22,7 @@ class PHPServerTest extends \Codeception\TestCase\Test
         ]);
         test::double('Robo\Task\Development\PhpServer', ['getOutput' => new \Symfony\Component\Console\Output\NullOutput()]);
         $this->container = Config::getContainer();
-        $this->container->addServiceProvider(\Robo\Task\Development\ServiceProvider::class);
+        $this->container->addServiceProvider(\Robo\Task\Development\loadTasks::getDevelopmentServices());
     }
 
     public function testServerBackgroundRun()

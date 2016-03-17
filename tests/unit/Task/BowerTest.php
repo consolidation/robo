@@ -17,7 +17,7 @@ class BowerTest extends \Codeception\TestCase\Test
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
         $this->container = Config::getContainer();
-        $this->container->addServiceProvider(Robo\Task\Bower\ServiceProvider::class);
+        $this->container->addServiceProvider(Robo\Task\Bower\loadTasks::getBowerServices());
     }
     // tests
     public function testBowerInstall()

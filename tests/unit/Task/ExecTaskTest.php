@@ -21,7 +21,7 @@ class ExecTaskTest extends \Codeception\TestCase\Test
         ]);
         test::double('Robo\Task\Base\Exec', ['getOutput' => new \Symfony\Component\Console\Output\NullOutput()]);
         $this->container = Config::getContainer();
-        $this->container->addServiceProvider(\Robo\Task\Base\ServiceProvider::class);
+        $this->container->addServiceProvider(\Robo\Task\Base\loadTasks::getBaseServices());
     }
 
     public function testExec()

@@ -148,20 +148,20 @@ class Runner
      */
     public static function addServiceProviders($container)
     {
-        $container->addServiceProvider(\Robo\Collection\ServiceProvider::class);
-        $container->addServiceProvider(\Robo\Task\ApiGen\ServiceProvider::class);
-        $container->addServiceProvider(\Robo\Task\Archive\ServiceProvider::class);
-        $container->addServiceProvider(\Robo\Task\Assets\ServiceProvider::class);
-        $container->addServiceProvider(\Robo\Task\Base\ServiceProvider::class);
-        $container->addServiceProvider(\Robo\Task\Bower\ServiceProvider::class);
-        $container->addServiceProvider(\Robo\Task\Composer\ServiceProvider::class);
-        $container->addServiceProvider(\Robo\Task\Development\ServiceProvider::class);
-        $container->addServiceProvider(\Robo\Task\Docker\ServiceProvider::class);
+        $container->addServiceProvider(\Robo\Collection\Collection::getCollectionServices());
+        $container->addServiceProvider(\Robo\Task\ApiGen\loadTasks::getApiGenServices());
+        $container->addServiceProvider(\Robo\Task\Archive\loadTasks::getArchiveServices());
+        $container->addServiceProvider(\Robo\Task\Assets\loadTasks::getAssetsServices());
+        $container->addServiceProvider(\Robo\Task\Base\loadTasks::getBaseServices());
+        $container->addServiceProvider(\Robo\Task\Bower\loadTasks::getBowerServices());
+        $container->addServiceProvider(\Robo\Task\Composer\loadTasks::getComposerServices());
+        $container->addServiceProvider(\Robo\Task\Development\loadTasks::getDevelopmentServices());
+        $container->addServiceProvider(\Robo\Task\Docker\loadTasks::getDockerServices());
         $container->addServiceProvider(\Robo\Task\File\loadTasks::getFileServices());
-        $container->addServiceProvider(\Robo\Task\FileSystem\ServiceProvider::class);
-        $container->addServiceProvider(\Robo\Task\Remote\ServiceProvider::class);
-        $container->addServiceProvider(\Robo\Task\Testing\ServiceProvider::class);
-        $container->addServiceProvider(\Robo\Task\Vcs\ServiceProvider::class);
+        $container->addServiceProvider(\Robo\Task\FileSystem\loadTasks::getFileSystemServices());
+        $container->addServiceProvider(\Robo\Task\Remote\loadTasks::getRemoteServices());
+        $container->addServiceProvider(\Robo\Task\Testing\loadTasks::getTestingServices());
+        $container->addServiceProvider(\Robo\Task\Vcs\loadTasks::getVcsServices());
     }
 
     /**

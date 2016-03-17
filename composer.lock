@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9c54c76d0a06954f830009874e36f2ba",
-    "content-hash": "7d0df9389baa0ec268c11f86122c168e",
+    "hash": "144b0cbc221523a48a63dab2017a27cf",
+    "content-hash": "607979e772abdfbc17aa7bff75f0b476",
     "packages": [
         {
             "name": "consolidation/log",
@@ -87,7 +87,7 @@
         },
         {
             "name": "league/container",
-            "version": "dev-master",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/container.git",
@@ -2652,9 +2652,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "league/container": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

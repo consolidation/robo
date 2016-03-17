@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "15d62a29b192b8970d071cff5ce71350",
-    "content-hash": "37b5fc93d771c0b587e3413af833b2e3",
+    "hash": "9c54c76d0a06954f830009874e36f2ba",
+    "content-hash": "7d0df9389baa0ec268c11f86122c168e",
     "packages": [
         {
             "name": "consolidation/log",
@@ -87,16 +87,16 @@
         },
         {
             "name": "league/container",
-            "version": "2.1.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/container.git",
-                "reference": "bf916eb2023c4cc73724e945d264a4ae5eb4df38"
+                "reference": "c0e7d947b690891f700dc4967ead7bdb3d6708c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/container/zipball/bf916eb2023c4cc73724e945d264a4ae5eb4df38",
-                "reference": "bf916eb2023c4cc73724e945d264a4ae5eb4df38",
+                "url": "https://api.github.com/repos/thephpleague/container/zipball/c0e7d947b690891f700dc4967ead7bdb3d6708c1",
+                "reference": "c0e7d947b690891f700dc4967ead7bdb3d6708c1",
                 "shasum": ""
             },
             "require": {
@@ -115,8 +115,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.1-dev",
-                    "dev-1.x": "1.5-dev"
+                    "dev-master": "2.x-dev",
+                    "dev-1.x": "1.x-dev"
                 }
             },
             "autoload": {
@@ -147,7 +147,7 @@
                 "provider",
                 "service"
             ],
-            "time": "2016-03-15 08:17:43"
+            "time": "2016-03-17 11:07:59"
         },
         {
             "name": "psr/log",
@@ -2652,7 +2652,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "league/container": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

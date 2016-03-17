@@ -2,9 +2,7 @@
 
 namespace Robo\Container;
 
-use League\Container\ContainerAwareInterface;
-use League\Container\ContainerAwareTrait;
-use League\Container\ServiceProvider\ServiceProviderInterface;
+use League\Container\ServiceProvider\AbstractSignatureServiceProvider;
 
 /**
  * This works like a League\Container\AbstractServiceProvider, except that
@@ -12,19 +10,23 @@ use League\Container\ServiceProvider\ServiceProviderInterface;
  * for each element is the service alias, and its corresponding value
  * is the name of the implementing service class.
  */
-class SimpleServiceProvider implements ServiceProviderInterface
+class SimpleServiceProvider extends AbstractSignatureServiceProvider
 {
-    use ContainerAwareTrait;
-
-    public function __construct($provides = [])
-    {
-        $this->provides += $provides;
-    }
+    /**
+     * @var string
+     */
+    protected $signature;
 
     /**
      * @var array
      */
     protected $provides = [];
+
+    public function __construct($provides = [])
+    {
+        $this->provides += $provides;
+        $this->signature = array_keys($provides)[0];
+    }
 
     /**
      * {@inheritdoc}

@@ -346,4 +346,12 @@ class RoboFile extends \Robo\Tasks
     {
         $result = $this->taskExec('pwd')->run();
     }
+
+    public function sniff($autofix = false)
+    {
+        $this->taskExec('./vendor/bin/phpcs --standard=PSR2 src/')->run();
+        if ($autofix == true) {
+            $this->taskExec('./vendor/bin/phpcbf --standard=PSR2 src/')->run();
+        }
+    }
 }

@@ -373,8 +373,7 @@ class RoboFile extends \Robo\Tasks
 
         if (is_dir($tmpPath)) {
             $this->say("Created a temporary directory at $tmpPath");
-        }
-        else {
+        } else {
             $this->say("Requested a temporary directory at $tmpPath, but it was not created");
         }
 
@@ -383,8 +382,7 @@ class RoboFile extends \Robo\Tasks
 
         if (is_dir($tmpPath)) {
             $this->say("The temporary directory at $tmpPath was not cleaned up after the collection completed.");
-        }
-        else {
+        } else {
             $this->say("The temporary directory at $tmpPath was automatically deleted.");
         }
     }

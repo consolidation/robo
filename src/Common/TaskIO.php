@@ -18,7 +18,7 @@ trait TaskIO
 {
     use LoggerAwareTrait;
 
-    static $gaveDeprecationWarning = false;
+    private static $gaveDeprecationWarning = false;
 
     public function logger()
     {

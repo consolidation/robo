@@ -347,11 +347,19 @@ class RoboFile extends \Robo\Tasks
         $result = $this->taskExec('pwd')->run();
     }
 
-    public function sniff($autofix = false)
+    /**
+     * Run the PHP Codesniffer on a file or directory.
+     *
+     * @param string $file
+     *    A file or directory to analyze.
+     * @param bool $autofix
+     *    Whether to run the automatic fixer or not.
+     */
+    public function sniff($file = 'src/', $autofix = false)
     {
-        $this->taskExec('./vendor/bin/phpcs --standard=PSR2 src/')->run();
+        $this->taskExec("./vendor/bin/phpcs --standard=PSR2 {$file}")->run();
         if ($autofix == true) {
-            $this->taskExec('./vendor/bin/phpcbf --standard=PSR2 src/')->run();
+            $this->taskExec('./vendor/bin/phpcbf --standard=PSR2 {$file}')->run();
         }
     }
 }

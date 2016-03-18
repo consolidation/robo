@@ -72,6 +72,16 @@ class Application extends  SymfonyApplication
             }
         }
 
+        // TODO: Symfony Console commands by default put aliases and example
+        // usages together in a list, one per line, in the "Usage" section.
+        // There is no way to attach a description to a sample usage.  We
+        // need to figure out how to replace the built-in help command with
+        // our own version that has additional help sections (e.g. topics).
+        $task->setAliases($taskInfo->getAliases());
+        foreach ($taskInfo->getExampleUsages() as $usage => $description) {
+            $task->addUsage($usage);
+        }
+
         return $task;
     }
 

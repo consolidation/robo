@@ -1,37 +1,119 @@
 <?php
 namespace Robo;
 
+use phpDocumentor\Reflection\DocBlock\Tag\ParamTag;
+use phpDocumentor\Reflection\DocBlock;
+
 class TaskInfo
 {
     const PARAM_IS_REQUIRED = '__param_is_required__';
 
-    protected static $annotationRegex = '/@%s(?:[ \t]+(.*?))?[ \t]*\r?$/m';
     /**
      * @var \ReflectionMethod
      */
     protected $reflection;
 
     /**
+     * @var boolean
+     */
+    protected $docBlockIsParsed;
+
+    /**
+     * @var string
+     */
+    protected $description = '';
+
+    /**
+     * @var string
+     */
+    protected $help = '';
+
+    /**
      * @var array
      */
-    protected $parsedDocBlock;
+    protected $tagProcessors = [
+        'param' => 'processArgumentTag',
+        'option' => 'processOptionTag',
+        'aliases' => 'processAliases',
+        'usage' => 'processUsageTag',
+        'description' => 'processAlternateDescriptionTag',
+        'desc' => 'processAlternateDescriptionTag',
+    ];
+
+    /**
+     * @var array
+     */
+    protected $argumentDescriptions = [];
+
+    /**
+     * @var array
+     */
+    protected $optionDescriptions = [];
+
+    /**
+     * @var array
+     */
+    protected $exampleUsage = [];
+
+    /**
+     * @var array
+     */
+    protected $otherAnnotations = [];
+
+    /**
+     * @var array
+     */
+    protected $aliases = [];
 
     public function __construct($className, $methodName)
     {
         $this->reflection = new \ReflectionMethod($className, $methodName);
     }
 
+    /**
+     * Get the synopsis of the command (~first line).
+     */
     public function getDescription()
     {
-        $desc = $this->getAnnotation('description');
-        if (!$desc) {
-            $desc = $this->getAnnotation('desc');
+        $this->parseDocBlock();
+        return $this->description;
+    }
+
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * Get the help text of the command (the description)
+     */
+    public function getHelp()
+    {
+        $parsed = $this->parseDocBlock();
+        return $this->help;
+    }
+
+    public function setHelp($help)
+    {
+        $this->help = $help;
+    }
+
+    public function getAliases()
+    {
+        return $this->aliases;
+    }
+
+    public function setAliases($aliases)
+    {
+        if (is_string($aliases)) {
+            $aliases = explode(',', static::convertListToCommaSeparated($aliases));
         }
-        if (!$desc) {
-            $parsed = $this->parseDocBlock();
-            $desc = $parsed['description'];
-        }
-        return $desc;
+        $this->aliases = array_filter($aliases);
+    }
+
+    public function getExampleUsages()
+    {
+        return $this->exampleUsage;
     }
 
     public function getName()
@@ -85,18 +167,11 @@ class TaskInfo
         return $param->getDefaultValue();
     }
 
-    public function getHelp()
-    {
-        $parsed = $this->parseDocBlock();
-        return $parsed['help'];
-    }
-
     public function getArgumentDescription($name)
     {
-        $parsed = $this->parseDocBlock();
-
-        if (array_key_exists($name, $parsed['param'])) {
-            return $parsed['param'][$name];
+        $this->parseDocBlock();
+        if (array_key_exists($name, $this->argumentDescriptions)) {
+            return $this->argumentDescriptions[$name];
         }
 
         return '';
@@ -104,10 +179,10 @@ class TaskInfo
 
     public function getOptionDescription($name)
     {
-        $parsed = $this->parseDocBlock();
+        $this->parseDocBlock();
 
-        if (array_key_exists($name, $parsed['option'])) {
-            return $parsed['option'][$name];
+        if (array_key_exists($name, $this->optionDescriptions)) {
+            return $this->optionDescriptions[$name];
         }
 
         return '';
@@ -121,14 +196,14 @@ class TaskInfo
 
     protected function getAnnotation($annotation)
     {
-        $docBlock = $this->reflection->getDocComment();
-        $matched = array();
-        $res = preg_match(sprintf(self::$annotationRegex, $annotation), $docBlock, $matched);
-        if (!$res) return null;
-        return $matched[1];
+        $this->parseDocBlock();
+        if (!array_key_exists($annotation, $this->otherAnnotations)) {
+            return null;
+        }
+        return $this->otherAnnotations[$annotation];
     }
 
-    private function convertName($camel)
+    protected function convertName($camel)
     {
         $splitter="-";
         $camel=preg_replace('/(?!^)[[:upper:]][[:lower:]]/', '$0', preg_replace('/(?!^)[[:upper:]]+/', $splitter.'$0', $camel));
@@ -136,100 +211,115 @@ class TaskInfo
         return strtolower($camel);
     }
 
-    private function parseDocBlock()
+    /**
+     * Parse the docBlock comment for this command, and set the
+     * fields of this class with the data thereby obtained.
+     */
+    protected function parseDocBlock()
     {
-        if (!$this->parsedDocBlock) {
-            $parsed = [
-                'description' => [],
-                'help' => [],
-                'param' => [],
-                'option' => [],
-            ];
+        if (!$this->docBlockIsParsed) {
+            $docblock = $this->reflection->getDocComment();
+            $phpdoc = new DocBlock($docblock);
 
-            $tag = '@(?P<tag>[^ \t]+)[ \t]+';
-            $name = '\\$(?P<name>[^ \t]+)[ \t]+';
-            $type = '(?P<type>[^ \t]+)[ \t]+';
-            $description = '(?P<description>.*)';
+            // First set the description (synopsis) and help.
+            $this->setDescription((string)$phpdoc->getShortDescription());
+            $this->setHelp((string)$phpdoc->getLongDescription());
 
-            $isTag = '/^\*[* \t]+@/';
-            $option = "/{$tag}{$name}{$description}/";
-            $argument1 = "/{$tag}{$type}{$name}{$description}/";
-            $argument2 = "/{$tag}{$name}{$type}{$description}/";
-
-            $null = [];
-
-            $doc = $this->reflection->getDocComment();
-            if ($doc) {
-                $current =& $parsed['description'];
-                foreach (explode("\n", $doc) as $row) {
-                    $row = trim($row);
-
-                    if ($row == '/**' || $row == '*/') {
-                        continue;
-                    }
-
-                    // @option definitions
-                    if (stripos($row, '@option') !== false && preg_match($option, $row, $match)) {
-                        $parsed[$match['tag']][$match['name']] = [$match['description']];
-                        $current =& $parsed[$match['tag']][$match['name']];
-                    }
-                    // @param definitions where type is specified before the variable name
-                    elseif (stripos($row, '@param') !== false && preg_match($argument1, $row, $match)) {
-                        $parsed[$match['tag']][$match['name']] = [$match['description']];
-                        $current =& $parsed[$match['tag']][$match['name']];
-                    }
-                    // @param definitions where type is specified after the variable name
-                    elseif (stripos($row, '@param') !== false && preg_match($argument2, $row, $match)) {
-                        $parsed[$match['tag']][$match['name']] = [$match['description']];
-                        $current =& $parsed[$match['tag']][$match['name']];
-                    }
-                    // If no tag is defined is it treated as part of the last definition
-                    elseif (!preg_match($isTag, $row)) {
-                        $current[] = substr(trim($row, '*/'), 1);
-
-                        if ($current === $parsed['description']) {
-                            $current =& $parsed['help'];
-                        }
-                    }
-                    // Anything else is discarded
-                    else {
-                        $current =& $null;
-                    }
+            // Iterate over all of the tags, and process them as necessary.
+            foreach ($phpdoc->getTags() as $tag) {
+                $processFn = [$this, 'processGenericTag'];
+                if (array_key_exists($tag->getName(), $this->tagProcessors)) {
+                    $processFn = [$this, $this->tagProcessors[$tag->getName()]];
                 }
+                $processFn($tag);
             }
-
-            $parsed['description'] = $this->combineParsedComment($parsed['description']);
-            $parsed['help'] = trim($this->combineParsedComment($parsed['help'], true));
-
-            foreach ($parsed['param'] as &$param) {
-                $param = $this->combineParsedComment($param);
-            }
-
-            foreach ($parsed['option'] as &$option) {
-                $option = $this->combineParsedComment($option);
-            }
-
-            if (empty($parsed['description'])) {
-                $parsed['description'] = null;
-            }
-
-            if (empty($parsed['help'])) {
-                $parsed['help'] = null;
-            }
-
-            $this->parsedDocBlock = $parsed;
+            $this->docBlockIsParsed = true;
         }
-
-        return $this->parsedDocBlock;
     }
 
-    private function combineParsedComment(array $doc, $keepFormatting = false)
+    /**
+     * Save any tag that we do not explicitly recognize in the
+     * 'otherAnnotations' map.
+     */
+    protected function processGenericTag($tag)
     {
-        if ($keepFormatting) {
-            return implode(PHP_EOL, $doc);
-        }
-        return trim(implode(' ', array_filter(array_map('trim', $doc))));
+        $this->otherAnnotations[$tag->getName()] = $tag->getContent();
     }
 
+    /**
+     * The @description and @desc annotations may be used in
+     * place of the synopsis (which we call 'description').
+     * This is discouraged.
+     *
+     * @deprecated
+     */
+    protected function processAlternateDescriptionTag($tag)
+    {
+        $this->setDescription($tag->getContent());
+    }
+
+    /**
+     * Store the data from a @param annotation in our argument descriptions.
+     */
+    protected function processArgumentTag($tag)
+    {
+        if ($tag instanceof ParamTag) {
+            $variableName = $tag->getVariableName();
+            $variableName = str_replace('$', '', $variableName);
+            $this->argumentDescriptions[$variableName] = static::removeLineBreaks($tag->getDescription());
+        }
+    }
+
+    /**
+     * Store the data from an @option annotation in our argument descriptions.
+     */
+    protected function processOptionTag($tag)
+    {
+        $name = '\\$(?P<name>[^ \t]+)[ \t]+';
+        $description = '(?P<description>.*)';
+        $optionRegEx = "/{$name}{$description}/s";
+
+        if (preg_match($optionRegEx, $tag->getDescription(), $match)) {
+            $this->optionDescriptions[$match['name']] = static::removeLineBreaks($match['description']);
+        }
+    }
+
+    /**
+     * Process the comma-separated list of aliases
+     */
+    protected function processAliases($tag)
+    {
+        $this->setAliases($tag->getDescription());
+    }
+
+    /**
+     * Store the data from a @usage annotation in our example usage list.
+     */
+    protected function processUsageTag($tag)
+    {
+        $lines = explode("\n", $tag->getContent());
+        $usage = array_shift($lines);
+        $description = implode("\n", $lines);
+
+        $this->exampleUsage[$usage] = $description;
+    }
+
+    /**
+     * Given a list that might be 'a b c' or 'a, b, c' or 'a,b,c',
+     * convert the data into the last of these forms.
+     */
+    protected static function convertListToCommaSeparated($text)
+    {
+        return preg_replace('#[ \t\n\r,]+#', ',', $text);
+    }
+
+    /**
+     * Take a multiline description and convert it into a single
+     * long unbroken line.
+     */
+    protected static function removeLineBreaks($text)
+    {
+        return trim(preg_replace('#[ \t\n\r]+#', ' ', $text));
+    }
 }
- 
+

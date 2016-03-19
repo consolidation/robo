@@ -6,21 +6,15 @@ use Robo\TaskInfo;
 use Robo\Contract\PrintedInterface;
 
 use Psr\Log\LoggerInterface;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 
 /**
  * Robo's default logger
  */
-class ResultPrinter
+class ResultPrinter implements LoggerAwareInterface
 {
-    /**
-     * var LoggerInterface
-     */
-    protected $logger;
-
-    public function __construct(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
-    }
+    use LoggerAwareTrait;
 
     /**
      * Log the result of a Robo task.

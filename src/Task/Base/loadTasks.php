@@ -1,20 +1,38 @@
 <?php
 namespace Robo\Task\Base;
 
+use Robo\Container\SimpleServiceProvider;
+
 trait loadTasks
 {
+    /**
+     * Return services.
+     */
+    public static function getBaseServices()
+    {
+        return new SimpleServiceProvider(
+            [
+                'taskExec' => Exec::class,
+                'taskExecStack' => ExecStack::class,
+                'taskParallelExec' => ParallelExec::class,
+                'taskSymfonyCommand' => SymfonyCommand::class,
+                'taskWatch' => Watch::class,
+            ]
+        );
+    }
+
     /**
      * @param $command
      * @return Exec
      */
     protected function taskExec($command)
     {
-        return new Exec($command);
+        return $this->task(__FUNCTION__, $command);
     }
 
     protected function taskExecStack()
     {
-        return new ExecStack();
+        return $this->task(__FUNCTION__);
     }
 
     /**
@@ -22,7 +40,7 @@ trait loadTasks
      */
     protected function taskParallelExec()
     {
-        return new ParallelExec();
+        return $this->task(__FUNCTION__);
     }
 
     /**
@@ -31,7 +49,7 @@ trait loadTasks
      */
     protected function taskSymfonyCommand($command)
     {
-        return new SymfonyCommand($command);
+        return $this->task(__FUNCTION__, $command);
     }
 
     /**
@@ -39,6 +57,6 @@ trait loadTasks
      */
     protected function taskWatch()
     {
-        return new Watch($this);
+        return $this->task(__FUNCTION__, $this);
     }
 }

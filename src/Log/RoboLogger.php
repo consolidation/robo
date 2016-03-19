@@ -24,6 +24,7 @@ class RoboLogger extends Logger
         // the time, and 'info' for messages that appear only during verbose
         // output. We have no 'very verbose' (-vv) level. 'Debug' is -vvv, as usual.
         $roboVerbosityOverrides = [
+            RoboLogLevel::SIMULATED_ACTION => OutputInterface::VERBOSITY_NORMAL, // Default is "verbose"
             LogLevel::NOTICE => OutputInterface::VERBOSITY_NORMAL, // Default is "verbose"
             LogLevel::INFO => OutputInterface::VERBOSITY_VERBOSE, // Default is "very verbose"
         ];

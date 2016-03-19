@@ -1,19 +1,28 @@
 <?php
 
+use AspectMock\Test as test;
+use Robo\Config;
+
 class RsyncTest extends \Codeception\TestCase\Test
 {
-    use \Robo\Task\Remote\loadTasks;
-
     /**
      * @var \CodeGuy
      */
     protected $guy;
 
+    protected $container;
+
+    protected function _before()
+    {
+        $this->container = Config::getContainer();
+        $this->container->addServiceProvider(\Robo\Task\Remote\loadTasks::getRemoteServices());
+    }
+
     // tests
     public function testRsync()
     {
         verify(
-            $this->taskRsync()
+            $this->container->get('taskRsync')
                 ->fromPath('src/')
                 ->toHost('localhost')
                 ->toUser('dev')

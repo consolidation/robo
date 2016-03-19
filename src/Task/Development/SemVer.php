@@ -39,7 +39,7 @@ class SemVer implements TaskInterface
         'metadata' => ''
     ];
 
-    public function __construct($filename)
+    public function __construct($filename = '')
     {
         $this->path = $filename;
 

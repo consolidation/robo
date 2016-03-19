@@ -1,6 +1,12 @@
 <?php
+
 class ExecCest
 {
+    public function _before(CliGuy $I)
+    {
+        $I->getContainer()->addServiceProvider(\Robo\Task\Base\loadTasks::getBaseServices());
+    }
+
     // tests
     public function toExecLsCommand(CliGuy $I)
     {

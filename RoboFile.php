@@ -346,4 +346,44 @@ class RoboFile extends \Robo\Tasks
     {
         $result = $this->taskExec('pwd')->run();
     }
+
+    public function tryDeprecated()
+    {
+        $result = (new \Robo\Task\Base\Exec('pwd'))->run();
+    }
+
+    public function tryTmpDir()
+    {
+        // Set up a collection to add tasks to
+        $collection = $this->collection();
+
+        // Get a temporary directory to work in. Note that we get a
+        // name back, but the directory is not created until the task
+        // runs.  This technically is not thread-safe, but we create
+        // a random name, so it is unlikely to conflict.
+        $tmpPath = $this->taskTmpDir()
+            ->addToCollection($collection)
+            ->getPath();
+
+        // We can create the temporary directory early by running
+        // 'runWithoutCompletion()'.  n.b. if we called 'run()' at
+        // this point, the collection's 'complete()' method would be
+        // called, and the temporary directory would be deleted.
+        $mktmpResult = $collection->runWithoutCompletion();
+
+        if (is_dir($tmpPath)) {
+            $this->say("Created a temporary directory at $tmpPath");
+        } else {
+            $this->say("Requested a temporary directory at $tmpPath, but it was not created");
+        }
+
+        // Run the task collection
+        $result = $collection->run();
+
+        if (is_dir($tmpPath)) {
+            $this->say("The temporary directory at $tmpPath was not cleaned up after the collection completed.");
+        } else {
+            $this->say("The temporary directory at $tmpPath was automatically deleted.");
+        }
+    }
 }

@@ -10,6 +10,20 @@ use Symfony\Component\Console\Style\OutputStyle;
  */
 class RoboLogStyle extends LogOutputStyler
 {
+    const TASK_STYLE_SIMULATED = 'options=reverse;bold';
+
+    public function __construct($labelStyles = [], $messageStyles = [])
+    {
+        parent::__construct($labelStyles, $messageStyles);
+
+        $this->labelStyles += [
+            RoboLogLevel::SIMULATED_ACTION => self::TASK_STYLE_SIMULATED,
+        ];
+        $this->messageStyles += [
+            RoboLogLevel::SIMULATED_ACTION => '',
+        ];
+    }
+
     /**
      * Log style customization for Robo: replace the log level with
      * the task name.

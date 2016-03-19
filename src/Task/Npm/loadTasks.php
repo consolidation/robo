@@ -1,14 +1,29 @@
 <?php
 namespace Robo\Task\Npm;
 
-trait loadTasks 
+use Robo\Container\SimpleServiceProvider;
+
+trait loadTasks
 {
+    /**
+     * Return services.
+     */
+    public static function getNpmServices()
+    {
+        return new SimpleServiceProvider(
+            [
+                'taskNpmInstall' => Install::class,
+                'taskNpmUpdate' => Update::class,
+            ]
+        );
+    }
+
     /**
      * @param null $pathToNpm
      * @return Install
      */
     protected function taskNpmInstall($pathToNpm = null) {
-        return new Install($pathToNpm);
+        return $this->task(__FUNCTION__, $pathToNpm);
     }
 
     /**
@@ -16,6 +31,6 @@ trait loadTasks
      * @return Update
      */
     protected function taskNpmUpdate($pathToNpm = null) {
-        return new Update($pathToNpm);
+        return $this->task(__FUNCTION__, $pathToNpm);
     }
-} 
+}

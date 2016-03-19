@@ -16,11 +16,16 @@
  *
  * @SuppressWarnings(PHPMD)
 */
+
+use League\Container\ContainerAwareInterface;
+use League\Container\ContainerAwareTrait;
+use Robo\Config;
+
 class CliGuy extends \Codeception\Actor
 {
     use _generated\CliGuyActions;
 
-   /**
-    * Define custom actions here
-    */
+    /**
+     * Define custom actions here
+     */
 }

@@ -1,15 +1,28 @@
 <?php
 namespace Robo\Task\ApiGen;
 
-trait loadTasks 
+use Robo\Container\SimpleServiceProvider;
+
+trait loadTasks
 {
+    /**
+     * Return services.
+     */
+    public static function getApiGenServices()
+    {
+        return new SimpleServiceProvider(
+            [
+                'taskApiGen' => ApiGen::class,
+            ]
+        );
+    }
+
     /**
      * @param null $pathToApiGen
      * @return \Robo\Task\ApiGen\ApiGen
      */
     protected function taskApiGen($pathToApiGen = null)
     {
-        return new ApiGen($pathToApiGen);
+        return $this->task(__FUNCTION__, $pathToApiGen);
     }
-
-} 
+}

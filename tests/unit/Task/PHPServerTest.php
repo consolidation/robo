@@ -1,9 +1,12 @@
 <?php
 
 use AspectMock\Test as test;
+use Robo\Config;
+
 class PHPServerTest extends \Codeception\TestCase\Test
 {
-    use \Robo\Task\Development\loadTasks;
+    protected $container;
+
     /**
      * @var \AspectMock\Proxy\ClassProxy
      */
@@ -18,17 +21,19 @@ class PHPServerTest extends \Codeception\TestCase\Test
             'getExitCode' => 0
         ]);
         test::double('Robo\Task\Development\PhpServer', ['getOutput' => new \Symfony\Component\Console\Output\NullOutput()]);
+        $this->container = Config::getContainer();
+        $this->container->addServiceProvider(\Robo\Task\Development\loadTasks::getDevelopmentServices());
     }
 
     public function testServerBackgroundRun()
     {
-        $this->taskServer('8000')->background()->run();
+        $this->container->get('taskServer', ['8000'])->background()->run();
         $this->process->verifyInvoked('start');
     }
 
     public function testServerRun()
     {
-        $this->taskServer('8000')->run();
+        $this->container->get('taskServer', ['8000'])->run();
         $this->process->verifyInvoked('run');
     }
 
@@ -41,7 +46,7 @@ class PHPServerTest extends \Codeception\TestCase\Test
         }
 
         verify(
-            $this->taskServer('8000')
+            $this->container->get('taskServer', ['8000'])
                 ->host('127.0.0.1')
                 ->dir('web')
                 ->getCommand()

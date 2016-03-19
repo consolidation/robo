@@ -1,5 +1,7 @@
-<?php 
+<?php
 $I = new CliGuy($scenario);
+$I->getContainer()->addServiceProvider(\Robo\Task\FileSystem\loadTasks::getFileSystemServices());
+
 $I->wantTo('overwrite a file with CopyDir task');
 $I->amInPath(codecept_data_dir() . 'sandbox');
 $I->seeDirFound('some');

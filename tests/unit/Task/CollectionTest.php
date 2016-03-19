@@ -10,12 +10,21 @@ use Robo\Result;
 use Robo\Task\BaseTask;
 use Robo\Contract\TaskInterface;
 use Robo\Collection\Collection;
+use Robo\Config;
 
 class CollectionTest extends \Codeception\TestCase\Test
 {
+    protected $container;
+
+    protected function _before()
+    {
+        $this->container = Config::getContainer();
+        $this->container->addServiceProvider(\Robo\Collection\Collection::getCollectionServices());
+    }
+
     public function testBeforeAndAfterFilters()
     {
-        $collection = new Collection();
+        $collection = $this->container->get('collection');
 
         $taskA = new CollectionTestTask('a', 'value-a');
         $taskB = new CollectionTestTask('b', 'value-b');

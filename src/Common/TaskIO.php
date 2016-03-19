@@ -4,6 +4,8 @@ namespace Robo\Common;
 use Robo\Config;
 use Robo\TaskInfo;
 use Consolidation\Log\ConsoleLogLevel;
+use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
 
 /**
  * Task input/output methods.  TaskIO is 'used' in BaseTask, so any
@@ -14,6 +16,25 @@ use Consolidation\Log\ConsoleLogLevel;
  */
 trait TaskIO
 {
+    use LoggerAwareTrait;
+
+    private static $gaveDeprecationWarning = false;
+
+    public function logger()
+    {
+        // $this->logger will always be set in Robo core tasks.
+        // TODO: Remove call to Config::logger() once maintaining backwards
+        // compatibility with legacy external Robo tasks is no longer desired.
+        if (!$this->logger) {
+            if (!static::$gaveDeprecationWarning) {
+                trigger_error('No logger set for ' . get_class($this) . '. Use $this->task("Foo") rather than new Foo() in loadTasks to ensure the DI container can initialize tasks.', E_USER_DEPRECATED);
+                static::$gaveDeprecationWarning = true;
+            }
+            return Config::logger();
+        }
+        return $this->logger;
+    }
+
     /**
      * Print information about a task in progress.
      *
@@ -31,7 +52,7 @@ trait TaskIO
         // The 'note' style is used for both 'notice' and 'info' log levels;
         // However, 'notice' is printed at VERBOSITY_NORMAL, whereas 'info'
         // is only printed at VERBOSITY_VERBOSE.
-        Config::logger()->notice($text, $this->getTaskContext($context));
+        $this->logger()->notice($text, $this->getTaskContext($context));
     }
 
     /**
@@ -48,7 +69,7 @@ trait TaskIO
         // override in the context so that this message will be
         // logged as SUCCESS if that log level is recognized.
         $context['_level'] = ConsoleLogLevel::SUCCESS;
-        Config::logger()->notice($text, $this->getTaskContext($context));
+        $this->logger()->notice($text, $this->getTaskContext($context));
     }
 
     /**
@@ -59,7 +80,7 @@ trait TaskIO
      */
     protected function printTaskWarning($text, $context = null)
     {
-        Config::logger()->warning($text, $this->getTaskContext($context));
+        $this->logger()->warning($text, $this->getTaskContext($context));
     }
 
     /**
@@ -70,7 +91,7 @@ trait TaskIO
      */
     protected function printTaskError($text, $context = null)
     {
-        Config::logger()->error($text, $this->getTaskContext($context));
+        $this->logger()->error($text, $this->getTaskContext($context));
     }
 
     /**
@@ -79,7 +100,7 @@ trait TaskIO
      */
     protected function printTaskDebug($text, $context = null)
     {
-        Config::logger()->debug($text, $this->getTaskContext($context));
+        $this->logger()->debug($text, $this->getTaskContext($context));
     }
 
     /**

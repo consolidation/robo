@@ -7,20 +7,40 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 
-class Application extends  SymfonyApplication
+use League\Container\ContainerAwareInterface;
+use League\Container\ContainerAwareTrait;
+
+class Application extends SymfonyApplication implements ContainerAwareInterface
 {
+    use ContainerAwareTrait;
+
+    public function __construct($name, $version)
+    {
+        parent::__construct($name, $version);
+
+        $this->getDefinition()->addOption(
+            new InputOption('--simulate', null, InputOption::VALUE_NONE, 'Run in simulated mode (show what would have happened).')
+        );
+    }
 
     public function addCommandsFromClass($className, $passThrough = null)
     {
+        $container = $this->getContainer();
         $roboTasks = new $className;
+        if ($roboTasks instanceof ContainerAwareInterface) {
+            $roboTasks->setContainer($container);
+        }
 
-        $commandNames = array_filter(get_class_methods($className), function($m) {
-            return !in_array($m, ['__construct']);
+        // Ignore special functions, such as __construct() and __call(), and
+        // accessor methods such as getFoo() and setFoo(), while allowing
+        // set or setup.
+        $commandNames = array_filter(get_class_methods($className), function ($m) {
+            return !preg_match('#^(_|get[A-Z]|set[A-Z])#', $m);
         });
 
         foreach ($commandNames as $commandName) {
             $command = $this->createCommand(new TaskInfo($className, $commandName));
-            $command->setCode(function(InputInterface $input) use ($roboTasks, $commandName, $passThrough) {
+            $command->setCode(function (InputInterface $input) use ($roboTasks, $commandName, $passThrough, $container) {
                 // get passthru args
                 $args = $input->getArguments();
                 array_shift($args);
@@ -28,6 +48,10 @@ class Application extends  SymfonyApplication
                     $args[key(array_slice($args, -1, 1, TRUE))] = $passThrough;
                 }
                 $args[] = $input->getOptions();
+                // Need a better way to handle global options
+                // Also, this is not necessarily the best place to do this
+                Config::setGlobalOptions($input);
+                $container->setSimulated(Config::isSimulated());
 
                 $res = call_user_func_array([$roboTasks, $commandName], $args);
                 if (is_int($res)) exit($res);

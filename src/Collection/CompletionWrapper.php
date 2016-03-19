@@ -6,45 +6,46 @@ use Robo\Task\BaseTask;
 use Robo\Contract\TaskInterface;
 use Robo\Contract\RollbackInterface;
 use Robo\Contract\CompletionInterface;
+use Robo\Contract\WrappedTaskInterface;
 
 /**
  * Creates a task wrapper that will manage rollback and collection
  * management to a task when it runs.  Tasks are automatically
- * wrapped in a TaskWrapper when added to a task collection.
+ * wrapped in a CompletionWrapper when added to a task collection.
  *
- * Clients may need to wrap their task in a TaskWrapper if it
+ * Clients may need to wrap their task in a CompletionWrapper if it
  * creates temporary objects.  This is usually best done via
  * Temporary::wrap().
  *
  * @see Robo\Task\FileSystem\loadTasks::taskTmpDir
  */
-class TaskWrapper extends BaseTask
+class CompletionWrapper extends BaseTask implements WrappedTaskInterface
 {
     private $collection;
     private $task;
     private $rollbackTask;
 
     /**
-     * Create a TaskWrapper.
+     * Create a CompletionWrapper.
      *
-     * Temporary tasks are always wrapped in a TaskWrapper, as are
+     * Temporary tasks are always wrapped in a CompletionWrapper, as are
      * any tasks that are added to a collection.  If a temporary task
      * is added to a collection, then it is first unwrapped from its
-     * TaskWrapper (via its getTask method), and then added to a
-     * new TaskWrapper for the collection it is added to.
+     * CompletionWrapper (via its original() method), and then added to a
+     * new CompletionWrapper for the collection it is added to.
      *
-     * In this way, when the TaskWrapper is finally executed, the
+     * In this way, when the CompletionWrapper is finally executed, the
      * task's rollback and completion handlers will be registered on
      * whichever collection it was registered on.
      */
     public function __construct(Collection $collection, TaskInterface $task, TaskInterface $rollbackTask = null)
     {
         $this->collection = $collection;
-        $this->task = ($task instanceof self) ? $task->getTask() : $task;
+        $this->task = ($task instanceof WrappedTaskInterface) ? $task->original() : $task;
         $this->rollbackTask = $rollbackTask;
     }
 
-    public function getTask()
+    public function original()
     {
         return $this->task;
     }

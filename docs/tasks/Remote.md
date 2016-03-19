@@ -63,13 +63,17 @@ if ('y' === $this->ask('Do you want to run (y/n)')) {
 * `wholeFile()` 
 * `dryRun()` 
 * `itemizeChanges()` 
-* `excludeVcs()`  Excludes .git/, .svn/ and .hg/ folders.
+* `excludeVcs()`  Excludes .git, .svn and .hg items at any depth.
 * `exclude($pattern)` 
 * `excludeFrom($file)` 
 * `includeFilter($pattern)` 
 * `filter($pattern)` 
 * `filesFrom($file)` 
 * `remoteShell($command)` 
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
@@ -127,6 +131,10 @@ You can configure the remote directory for all future calls:
 * `quiet()` 
 * `verbose()` 
 * `exec($command)`   * `param string|CommandInterface` $command
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 

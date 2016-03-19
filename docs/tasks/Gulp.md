@@ -21,6 +21,10 @@ $this->taskGulpRun('clean')
 * `noColor()`  adds `--no-color` option to gulp
 * `color()`  adds `--color` option to gulp
 * `simple()`  adds `--tasks-simple` option to gulp
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 

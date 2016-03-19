@@ -18,6 +18,10 @@ $this->taskNpmInstall('path/to/my/npm')
 ```
 
 * `noDev()`  adds `production` option to npm
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
@@ -47,6 +51,10 @@ $this->taskNpmUpdate('path/to/my/npm')
 ```
 
 * `noDev()`  adds `production` option to npm
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 

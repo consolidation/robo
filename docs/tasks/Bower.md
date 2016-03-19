@@ -21,6 +21,10 @@ $this->taskBowerInstall('path/to/my/bower')
 * `forceLatest()`  adds `force-latest` option to bower
 * `noDev()`  adds `production` option to bower
 * `offline()`  adds `offline` option to bower
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
@@ -53,6 +57,10 @@ $this->taskBowerUpdate('path/to/my/bower')
 * `forceLatest()`  adds `force-latest` option to bower
 * `noDev()`  adds `production` option to bower
 * `offline()`  adds `offline` option to bower
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 

@@ -13,6 +13,10 @@ $this->_cleanDir('app/cache');
 ?>
 ```
 
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
@@ -32,6 +36,10 @@ $this->_copyDir('dist/config', 'config');
 ```
 
 * `dirPermissions($value)`  Sets the default folder permissions for the destination if it doesn't exist
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
@@ -50,6 +58,10 @@ $this->_deleteDir(['tmp', 'log']);
 ?>
 ```
 
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
@@ -89,6 +101,10 @@ $this->_mkdir('logs');
 * `chown($file, $user)` 
 
 * `stopOnFail($stop = null)` 
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
@@ -160,6 +176,10 @@ $this->taskFlattenDir(['assets/*.min.js' => 'dist'])
 * `includeParents($parents)`  Sets the value from which direction and how much parent dirs should be included.
 * `parentDir($dir)`  Sets the parent directory from which the relative parent directories will be calculated.
 * `to($target)`  Sets the target directory where the files will be copied to.
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
@@ -179,6 +199,10 @@ $this->_mirrorDir('dist/config/', 'config/');
 ?>
 ```
 
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
@@ -211,6 +235,10 @@ $tmpPath = $this->_tmpDir();
 * `cwd()`  Flag that we should cwd to the temporary directory when it is
 * `complete()`  Delete this directory when our collection completes.
 * `getPath()`  Get a reference to the path to the temporary directory, so that
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 

@@ -277,7 +277,7 @@ class Rsync extends BaseTask implements CommandInterface
     public function run()
     {
         $command = $this->getCommand();
-        $this->printTaskInfo("Running <info>{$command}</info>");
+        $this->printTaskInfo("Running {command}", ['command' => $command]);
 
         return $this->executeCommand($command);
     }
@@ -290,8 +290,8 @@ class Rsync extends BaseTask implements CommandInterface
      */
     public function getCommand()
     {
-        $this->option(null, escapeshellarg($this->getPathSpec('from')))
-            ->option(null, escapeshellarg($this->getPathSpec('to')));
+        $this->option(null, $this->getPathSpec('from'))
+            ->option(null, $this->getPathSpec('to'));
 
         return $this->command . $this->arguments;
     }

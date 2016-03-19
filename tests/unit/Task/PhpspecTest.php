@@ -1,9 +1,11 @@
 <?php
 use AspectMock\Test as test;
+use Robo\Config;
 
 class PhpspecTest extends \Codeception\TestCase\Test
 {
-    use \Robo\Task\Testing\loadTasks;
+    protected $container;
+
     /**
      * @var \AspectMock\Proxy\ClassProxy
      */
@@ -15,18 +17,20 @@ class PhpspecTest extends \Codeception\TestCase\Test
             'executeCommand' => null,
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
+        $this->container = Config::getContainer();
+        $this->container->addServiceProvider(\Robo\Task\Testing\loadTasks::getTestingServices());
     }
 
     // tests
     public function testPhpSpecRun()
     {
-        $this->taskPhpspec('phpspec')->run();
+        $this->container->get('taskPhpspec', ['phpspec'])->run();
         $this->phpspec->verifyInvoked('executeCommand', ['phpspec run']);
     }
 
     public function testPHPSpecCommand()
     {
-        $task = $this->taskPhpspec('phpspec')
+        $task = $this->container->get('taskPhpspec', ['phpspec'])
             ->stopOnFail()
             ->noCodeGeneration()
             ->quiet()

@@ -110,7 +110,7 @@ class GenerateMarkdownDoc extends BaseTask
     public function run()
     {
         foreach ($this->docClass as $class) {
-            $this->printTaskInfo("Processing $class");
+            $this->printTaskInfo("Processing {class}", ['class' => $class]);
             $this->textForClass[$class] = $this->documentClass($class);
         }
 
@@ -121,13 +121,13 @@ class GenerateMarkdownDoc extends BaseTask
 
         $this->text = implode("\n", $this->textForClass);
 
-        $result = (new Write($this->filename))
+        $result = $this->getContainer()->get('taskWriteToFile', [$this->filename])
             ->line($this->prepend)
             ->text($this->text)
             ->line($this->append)
             ->run();
 
-        $this->printTaskSuccess("<info>{$this->filename}</info> created. ".count($this->docClass)." classes documented");
+        $this->printTaskSuccess('{filename} created. {class-count} classes documented', ['filename' => $this->filename, 'class-count' => count($this->docClass)]);
 
         return new Result($this, $result->getExitCode(), $result->getMessage(), $this->textForClass);
     }

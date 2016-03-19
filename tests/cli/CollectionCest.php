@@ -11,13 +11,17 @@ class CollectionCest
 {
     public function _before(CliGuy $I)
     {
+        $I->getContainer()->addServiceProvider(\Robo\Collection\Collection::getCollectionServices());
+        $I->getContainer()->addServiceProvider(\Robo\Task\File\loadTasks::getFileServices());
+        $I->getContainer()->addServiceProvider(\Robo\Task\FileSystem\loadTasks::getFileSystemServices());
+
         $I->amInPath(codecept_data_dir().'sandbox');
     }
 
     public function toCreateDirViaCollection(CliGuy $I)
     {
         // Set up a collection to add tasks to
-        $collection = $I->collection();
+        $collection = $I->getContainer()->get('collection');
 
         // Set up a filesystem stack, but use addToCollection() to defer execution
         $I->taskFileSystemStack()
@@ -37,7 +41,7 @@ class CollectionCest
     public function toUseATmpDirAndConfirmItIsDeleted(CliGuy $I)
     {
         // Set up a collection to add tasks to
-        $collection = $I->collection();
+        $collection = $I->getContainer()->get('collection');
 
         // Get a temporary directory to work in. Note that we get a
         // name back, but the directory is not created until the task
@@ -57,9 +61,8 @@ class CollectionCest
 
         // Set up a filesystem stack, but use addToCollection() to defer execution
         $I->taskFileSystemStack()
-            ->mkdir("$tmpPath/tmp")
-            ->touch("$tmpPath/tmp/error.txt")
-            ->rename("$tmpPath/tmp", "$tmpPath/log")
+            ->mkdir("$tmpPath/log")
+            ->touch("$tmpPath/log/error.txt")
             ->addToCollection($collection);
 
         // Copy our tmp directory to a location that is not transient
@@ -67,7 +70,6 @@ class CollectionCest
             ->addToCollection($collection);
 
         // FileSystemStack has not run yet, so no files should be found.
-        $I->dontSeeFileFound("$tmpPath/tmp/error.txt");
         $I->dontSeeFileFound("$tmpPath/log/error.txt");
         $I->dontSeeFileFound('copied/log/error.txt');
 
@@ -78,14 +80,13 @@ class CollectionCest
         // The file 'error.txt' should have been copied into the "copied" dir
         $I->seeFileFound('copied/log/error.txt');
         // $tmpPath should be deleted after $collection->run() completes.
-        $I->dontSeeFileFound("$tmpPath/tmp/error.txt");
         $I->dontSeeFileFound("$tmpPath/log/error.txt");
     }
 
     public function toUseATmpDirAndChangeWorkingDirectory(CliGuy $I)
     {
         // Set up a collection to add tasks to
-        $collection = $I->collection();
+        $collection = $I->getContainer()->get('collection');
 
         $cwd = getcwd();
 
@@ -134,7 +135,7 @@ class CollectionCest
     public function toCreateATmpFileAndConfirmItIsDeleted(CliGuy $I)
     {
         // Set up a collection to add tasks to
-        $collection = $I->collection();
+        $collection = $I->getContainer()->get('collection');
 
         // Write to a temporary file. Note that we can get the path
         // to the tempoary file that will be created, even though the
@@ -165,7 +166,7 @@ class CollectionCest
 
     public function toUseATmpDirWithAlternateSyntax(CliGuy $I)
     {
-        $collection = $I->collection();
+        $collection = $I->getContainer()->get('collection');
 
         // This test is equivalent to toUseATmpDirAndConfirmItIsDeleted,
         // but uses a different technique to create a collection of tasks.

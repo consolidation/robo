@@ -321,5 +321,24 @@ class TaskInfo
     {
         return trim(preg_replace('#[ \t\n\r]+#', ' ', $text));
     }
-}
 
+    /**
+     * Return a context useful for logging messages.
+     */
+    public static function getTaskContext($task)
+    {
+        return [
+            'name' => TaskInfo::formatTaskName($task),
+            'task' => $task,
+        ];
+    }
+
+    public static function formatTaskName($task)
+    {
+        $name = get_class($task);
+        $name = preg_replace('~Stack^~', '', $name);
+        $name = str_replace('Robo\Task\Base\\', '', $name);
+        $name = str_replace('Robo\Task\\', '', $name);
+        return $name;
+    }
+}

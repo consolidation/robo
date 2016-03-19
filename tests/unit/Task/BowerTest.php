@@ -1,9 +1,10 @@
 <?php
 use AspectMock\Test as test;
+use Robo\Config;
 
 class BowerTest extends \Codeception\TestCase\Test
 {
-    use \Robo\Task\Bower\loadTasks;
+    protected $container;
 
     /**
      * @var \AspectMock\Proxy\ClassProxy
@@ -15,34 +16,36 @@ class BowerTest extends \Codeception\TestCase\Test
         $this->baseBower = test::double('Robo\Task\Bower\Base', [
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
+        $this->container = Config::getContainer();
+        $this->container->addServiceProvider(Robo\Task\Bower\loadTasks::getBowerServices());
     }
     // tests
     public function testBowerInstall()
     {
         $bower = test::double('Robo\Task\Bower\Install', ['executeCommand' => null]);
-        $this->taskBowerInstall('bower')->run();
+        $this->container->get('taskBowerInstall', ['bower'])->run();
         $bower->verifyInvoked('executeCommand', ['bower install']);
     }
 
     public function testBowerUpdate()
     {
         $bower = test::double('Robo\Task\Bower\Update', ['executeCommand' => null]);
-        $this->taskBowerUpdate('bower')->run();
+        $this->container->get('taskBowerUpdate', ['bower'])->run();
         $bower->verifyInvoked('executeCommand', ['bower update']);
     }
 
     public function testBowerInstallCommand()
     {
         verify(
-            $this->taskBowerInstall('bower')->getCommand()
+            $this->container->get('taskBowerInstall', ['bower'])->getCommand()
         )->equals('bower install');
 
         verify(
-            $this->taskBowerInstall('bower')->getCommand()
+            $this->container->get('taskBowerInstall', ['bower'])->getCommand()
         )->equals('bower install');
 
         verify(
-            $this->taskBowerInstall('bower')
+            $this->container->get('taskBowerInstall', ['bower'])
                 ->allowRoot()
                 ->forceLatest()
                 ->offline()

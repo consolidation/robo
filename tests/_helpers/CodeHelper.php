@@ -6,46 +6,49 @@ namespace Codeception\Module;
 
 use Robo\Config;
 use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class CodeHelper extends \Codeception\Module
 {
+    protected static $testPrinter;
+    protected static $capturedOutput;
+    protected static $container;
 
     public function _before(\Codeception\TestCase $test)
     {
-        TestPrinter::$output = '';
-        Config::setOutput(new TestPrinter());
+        static::$capturedOutput = '';
+        static::$testPrinter = new BufferedOutput(OutputInterface::VERBOSITY_DEBUG);
+        Config::setOutput(static::$testPrinter);
+
+        static::$container = new \Robo\Container\RoboContainer();
+        \Robo\Runner::configureContainer(static::$container, null, static::$testPrinter);
+        Config::setContainer(static::$container);
     }
 
     public function _after(\Codeception\TestCase $test)
     {
         \AspectMock\Test::clean();
-        Config::setOutput(new ConsoleOutput());
+        $consoleOutput = new ConsoleOutput();
+        Config::setOutput($consoleOutput);
+        Config::setService('logger', new \Consolidation\Log\Logger($consoleOutput));
+    }
+
+    public function accumulate()
+    {
+        static::$capturedOutput .= static::$testPrinter->fetch();
+        return static::$capturedOutput;
     }
 
     public function seeInOutput($value)
     {
-        $this->assertContains($value, TestPrinter::$output);
+        $output = $this->accumulate();
+        $this->assertContains($value, $output);
     }
 
     public function seeOutputEquals($value)
     {
-        $this->assertEquals($value, TestPrinter::$output);
+        $output = $this->accumulate();
+        $this->assertEquals($value, $output);
     }
-}
-
-class TestPrinter extends NullOutput {
-
-    static $output = '';
-
-    public function writeln($messages, $type = self::OUTPUT_NORMAL)
-    {
-        static::$output .= $messages."\n";
-    }
-
-    public function write($messages, $newline = false, $type = self::OUTPUT_NORMAL)
-    {
-        static::$output .= $messages;
-    }
-
 }

@@ -3,6 +3,10 @@ namespace Robo\Collection;
 
 use Robo\Result;
 use Robo\Contract\TaskInterface;
+use Robo\Container\SimpleServiceProvider;
+
+use League\Container\ContainerAwareInterface;
+use League\Container\ContainerAwareTrait;
 
 /**
  * Group tasks into a collection that run together. Supports
@@ -30,8 +34,10 @@ use Robo\Contract\TaskInterface;
  * ?>
  * ```
  */
-class Collection implements TaskInterface
+class Collection implements TaskInterface, ContainerAwareInterface
 {
+    use ContainerAwareTrait;
+
     // Unnamed tasks are assigned an arbitrary numeric index
     // in the task list. Any numeric value may be used, but the
     // UNNAMEDTASK constant is recommended for clarity.
@@ -41,6 +47,19 @@ class Collection implements TaskInterface
     protected $rollbackStack = [];
     protected $completionStack = [];
     protected $previousResult;
+
+    /**
+     * Return services.
+     */
+    public static function getCollectionServices()
+    {
+        return new SimpleServiceProvider(
+            [
+                'collection' => Collection::class,
+                'completionWrapper' => CompletionWrapper::class,
+            ]
+        );
+    }
 
     /**
      * Constructor.
@@ -274,7 +293,8 @@ class Collection implements TaskInterface
     {
         // Wrap the task as necessary.
         $task = $this->wrapTask($task);
-        $this->addToTaskStack($name, new TaskWrapper($this, $task));
+        $task = $this->getContainer()->get('completionWrapper', [$this, $task]);
+        $this->addToTaskStack($name, $task);
         return $this;
     }
 

@@ -1,8 +1,10 @@
 <?php
+
 class WriteFileCest {
 
     public function _before(CliGuy $I)
     {
+        $I->getContainer()->addServiceProvider(\Robo\Task\File\loadTasks::getFileServices());
         $I->amInPath(codecept_data_dir('sandbox'));
     }
 
@@ -62,7 +64,7 @@ HERE
             ->run();
         $I->seeFileFound('a.txt');
         $I->seeFileContentsEqual('B');
-        
+
     }
 
     public function replaceMultipleInFile(CliGuy $I)

@@ -1,19 +1,28 @@
 <?php
 
+use AspectMock\Test as test;
+use Robo\Config;
+
 class RsyncTest extends \Codeception\TestCase\Test
 {
-    use \Robo\Task\Remote\loadTasks;
-
     /**
      * @var \CodeGuy
      */
     protected $guy;
 
+    protected $container;
+
+    protected function _before()
+    {
+        $this->container = Config::getContainer();
+        $this->container->addServiceProvider(\Robo\Task\Remote\loadTasks::getRemoteServices());
+    }
+
     // tests
     public function testRsync()
     {
         verify(
-            $this->taskRsync()
+            $this->container->get('taskRsync')
                 ->fromPath('src/')
                 ->toHost('localhost')
                 ->toUser('dev')
@@ -27,31 +36,10 @@ class RsyncTest extends \Codeception\TestCase\Test
                 ->humanReadable()
                 ->stats()
                 ->getCommand()
-        )->equals(
-            sprintf(
-                'rsync --recursive --exclude %s --exclude %s --exclude %s --checksum --whole-file --verbose --progress --human-readable --stats %s %s',
-                escapeshellarg('.git'),
-                escapeshellarg('.svn'),
-                escapeshellarg('.hg'),
-                escapeshellarg('src/'),
-                escapeshellarg('dev@localhost:/var/www/html/app/')
-            )
-        );
-
-        verify(
-            $this->taskRsync()
-                ->fromPath('src/foo bar/baz')
-                ->toHost('localhost')
-                ->toUser('dev')
-                ->toPath('/var/path/with/a space')
-                ->getCommand()
-        )->equals(
-            sprintf(
-                'rsync %s %s',
-                escapeshellarg('src/foo bar/baz'),
-                escapeshellarg('dev@localhost:/var/path/with/a space')
-            )
-        );
+        )->equals(sprintf('rsync --recursive --exclude %s --exclude %s --exclude %s --checksum --whole-file --verbose --progress --human-readable --stats src/ dev@localhost:/var/www/html/app/',
+            escapeshellarg('.git'),
+            escapeshellarg('.svn'),
+            escapeshellarg('.hg')
+        ));
     }
-
 }

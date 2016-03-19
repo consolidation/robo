@@ -25,7 +25,7 @@ use Symfony\Component\Finder\Finder;
  *
  * The following code will search the `*.min.js` files and copy them
  * inside a new `dist` folder:
- * 
+ *
  * ``` php
  * <?php
  * $this->taskFlattenDir(['assets/*.min.js' => 'dist'])->run();
@@ -33,7 +33,7 @@ use Symfony\Component\Finder\Finder;
  * $this->_flattenDir('assets/*.min.js', 'dist');
  * ?>
  * ```
- * 
+ *
  * You can also define the target directory with an additional method, instead of
  * key/value pairs. More similar to the gulp-flatten syntax:
  *
@@ -91,8 +91,8 @@ class FlattenDir extends BaseDir
         // copy the files
         $this->copyFiles($files);
 
-        $amount = count($files).(count($files) == 1 ? ' file' : ' files');
-        $this->printTaskSuccess('Copied <info>'.$amount.'</info> to <info>'.$this->to.'</info>');
+        $fileNoun = count($files) == 1 ? ' file' : ' files';
+        $this->printTaskSuccess("Copied {count} $fileNoun to {destination}", ['count' => count($files), 'destination' => $this->to]);
 
         return Result::success($this);
     }
@@ -219,8 +219,8 @@ class FlattenDir extends BaseDir
                 // store the absolute path as key and target as value in the files array
                 $files[$file->getRealpath()] = $this->getTarget($file->getRealPath(), $to);
             }
-            $amount = count($finder).(count($finder) == 1 ? ' file' : ' files');
-            $this->printTaskInfo('Found <info>'.$amount.'</info> in <info>'.$dir.'</info>');
+            $fileNoun = count($files) == 1 ? ' file' : ' files';
+            $this->printTaskInfo("Found {count} $fileNoun in {dir}", ['count' => count($files), 'dir' => $dir]);
         }
 
         return $files;

@@ -17,6 +17,10 @@ $this->taskConcat([
 ```
 
 * `to($dst)`  set the destination file
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
@@ -55,6 +59,10 @@ $this->taskReplaceInFile('box/robo.txt')
 * `from(string|array)`  string(s) to be replaced
 * `to(string|array)`  value(s) to be set as a replacement
 
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
@@ -89,6 +97,10 @@ $tmpFilePath = $this->taskTmpFile()
 * `replace($string, $replacement)`  replace any string with value.
 * `regexReplace($pattern, $replacement)`  replace any string with value using regular expression.
 * `getPath()` 
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
@@ -119,6 +131,10 @@ $this->taskWriteToFile('blogpost.md')
 * `replace($string, $replacement)`  replace any string with value.
 * `regexReplace($pattern, $replacement)`  replace any string with value using regular expression.
 * `getPath()` 
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 

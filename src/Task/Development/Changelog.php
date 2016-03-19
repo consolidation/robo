@@ -48,10 +48,12 @@ class Changelog extends BaseTask
     /**
      * @param string $filename
      * @return \Robo\Task\Development\Changelog
+     * @deprecated
+     *   Use $this->taskChangelog($filename) instead.
      */
     public static function init($filename = 'CHANGELOG.md')
     {
-        return new Changelog($filename);
+        return \Robo\Config::getContainer()->get('taskChangelog', [$filename]);
     }
 
     public function askForChanges()
@@ -100,21 +102,21 @@ class Changelog extends BaseTask
         $text = $ver . $text;
 
         if (!file_exists($this->filename)) {
-            $this->printTaskInfo("Creating {$this->filename}");
+            $this->printTaskInfo('Creating {filename}', ['filename' => $this->filename]);
             $res = file_put_contents($this->filename, $this->anchor);
             if ($res === false) {
-                return Result::error($this, "File {$this->filename} cant be created");
+                return Result::error($this, "File {filename} cant be created", ['filename' => $this->filename]);
             }
         }
 
         // trying to append to changelog for today
-        $result = (new Replace($this->filename))
+        $result = $this->getContainer()->get('taskReplaceInFile', [$this->filename])
             ->from($ver)
             ->to($text)
             ->run();
 
         if (!$result->getData()['replaced']) {
-            $result = (new Replace($this->filename))
+            $result = $this->getContainer()->get('taskReplaceInFile', [$this->filename])
                 ->from($this->anchor)
                 ->to($this->anchor . "\n\n" . $text)
                 ->run();

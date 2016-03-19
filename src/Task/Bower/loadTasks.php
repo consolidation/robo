@@ -1,24 +1,38 @@
 <?php
 namespace Robo\Task\Bower;
 
+use Robo\Container\SimpleServiceProvider;
+
 trait loadTasks
 {
+    /**
+     * Return services.
+     */
+    public static function getBowerServices()
+    {
+        return new SimpleServiceProvider(
+            [
+                'taskBowerInstall' => Install::class,
+                'taskBowerUpdate' => Update::class,
+            ]
+        );
+    }
+
     /**
      * @param null $pathToBower
      * @return Install
      */
     protected function taskBowerInstall($pathToBower = null)
     {
-   		return new Install($pathToBower);
-   	}
+        return $this->task(__FUNCTION__, $pathToBower);
+    }
 
     /**
      * @param null $pathToBower
      * @return Update
      */
-   	protected function taskBowerUpdate($pathToBower = null)
+    protected function taskBowerUpdate($pathToBower = null)
     {
-   		return new Update($pathToBower);
-   	}
-
-} 
+        return $this->task(__FUNCTION__, $pathToBower);
+    }
+}

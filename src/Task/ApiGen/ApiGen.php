@@ -1,5 +1,4 @@
 <?php
-
 namespace Robo\Task\ApiGen;
 
 use Robo\Contract\CommandInterface;
@@ -8,7 +7,7 @@ use Robo\Task\BaseTask;
 use Traversable;
 
 /**
- * Executes ApiGen command to generate documentation 
+ * Executes ApiGen command to generate documentation
  *
  * ``` php
  * <?php
@@ -47,8 +46,8 @@ class ApiGen extends BaseTask implements CommandInterface
     }
 
     /**
-     * @param array|Traversable|string $arg a single object or something traversable 
-     * @return array|Traversable the provided argument if it was already traversable, or the given 
+     * @param array|Traversable|string $arg a single object or something traversable
+     * @return array|Traversable the provided argument if it was already traversable, or the given
      *                           argument returned as a one-element array
      */
     protected static function forceTraversable($arg)
@@ -62,7 +61,7 @@ class ApiGen extends BaseTask implements CommandInterface
 
     /**
      * @param array|string $arg a single argument or an array of multiple string values
-     * @return string a comma-separated string of all of the provided arguments, suitable 
+     * @return string a comma-separated string of all of the provided arguments, suitable
      *                as a command-line "list" type argument for ApiGen
      */
     protected static function asList($arg)
@@ -74,7 +73,7 @@ class ApiGen extends BaseTask implements CommandInterface
     /**
      * @param boolean|string $val an argument to be normalized
      * @param string $default one of self::BOOL_YES or self::BOOK_NO if the provided
-     *               value could not deterministically be converted to a 
+     *               value could not deterministically be converted to a
      *               yes or no value
      * @return string the given value as a command-line "yes|no" type of argument for ApiGen,
      *                or the default value if none could be determined
@@ -409,7 +408,7 @@ class ApiGen extends BaseTask implements CommandInterface
 
     public function run()
     {
-        $this->printTaskInfo('Running ApiGen '. $this->arguments);
+        $this->printTaskInfo('Running ApiGen {args}', ['args' => $this->arguments]);
         return $this->executeCommand($this->getCommand());
     }
 

@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace Robo\Task\Vcs;
 
 trait loadShortcuts
@@ -9,7 +9,7 @@ trait loadShortcuts
      */
     protected function _svnCheckout($url)
     {
-        return (new SvnStack())->checkout($url)->run();
+        return $this->getContainer()->get('taskSvnStack')->checkout($url)->run();
     }
 
     /**
@@ -18,6 +18,6 @@ trait loadShortcuts
      */
     protected function _gitClone($url)
     {
-        return (new GitStack())->cloneRepo($url)->run();
+        return $this->getContainer()->get('taskGitStack')->cloneRepo($url)->run();
     }
-} 
+}

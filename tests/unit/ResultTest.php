@@ -12,7 +12,7 @@ class ResultTest extends \Codeception\TestCase\Test {
     {
         $task = new ResultDummyTask();
         $result = new Result($task, 1, 'The foo barred', ['time' => 10]);
-        
+
         $this->guy->seeInOutput('The foo barred');
         $this->guy->seeInOutput('Exit code 1');
         $this->guy->seeInOutput('10s');

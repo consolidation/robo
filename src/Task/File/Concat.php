@@ -72,10 +72,6 @@ class Concat extends BaseTask
             return Result::error($this, 'Source files are missing!');
         }
 
-        if (file_exists($this->dst) && !is_writable($this->dst)) {
-            return Result::error($this, 'Destination already exists and cannot be overwritten.');
-        }
-
         $dump = '';
 
         foreach ($this->files as $path) {
@@ -84,17 +80,11 @@ class Concat extends BaseTask
             }
         }
 
-        $this->printTaskInfo(sprintf('Writing <info>%s</info>', $this->dst));
+        $this->printTaskInfo('Writing {destination}', ['destination' => $this->dst]);
 
         $dst = $this->dst . '.part';
-        $write_result = file_put_contents($dst, $dump);
-
-        if (false === $write_result) {
-            @unlink($dst);
-            return Result::error($this, 'File write failed.');
-        }
-        // Cannot be cross-volume; should always succeed.
-        @rename($dst, $this->dst);
+        file_put_contents($dst, $dump);
+        rename($dst, $this->dst);
 
         return Result::success($this);
     }

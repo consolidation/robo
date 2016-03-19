@@ -1,15 +1,18 @@
 <?php
 namespace Robo;
 
+use Robo\Config;
 use Robo\Common\IO;
+use Robo\Container\RoboContainer;
 use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 class Runner
 {
     use IO;
 
-    const VERSION = '0.7.1';
+    const VERSION = '0.6.1';
     const ROBOCLASS = 'RoboFile';
     const ROBOFILE = 'RoboFile.php';
 
@@ -38,14 +41,18 @@ class Runner
      * @param null $roboClass
      * @param null $roboFile
      */
-    public function __construct($roboClass = null, $roboFile = null)
+    public function __construct($roboClass = null, $roboFile = null, $container = null)
     {
         // set the const as class properties to allow overwriting in child classes
         $this->roboClass = $roboClass ? $roboClass : self::ROBOCLASS ;
         $this->roboFile  = $roboFile ? $roboFile : self::ROBOFILE;
         $this->dir = getcwd();
-    }
 
+        // Store the container in our config object if it was provided.
+        if ($container != null) {
+            Config::setContainer($container);
+        }
+    }
 
     protected function loadRoboFile()
     {
@@ -78,21 +85,87 @@ class Runner
     {
         register_shutdown_function(array($this, 'shutdown'));
         set_error_handler(array($this, 'handleError'));
-        Config::setOutput(new ConsoleOutput());
 
-        $input = $this->prepareInput($input ? $input : $this->shebang($_SERVER['argv']));
-        Config::setInput($input);
-        $app = new Application('Robo', self::VERSION);
+        // If we were not provided a container, then create one
+        if (!Config::hasContainer()) {
+            $input = $this->prepareInput($input ? $input : $this->shebang($_SERVER['argv']));
+            // Set up our dependency injection container.
+            $container = new RoboContainer();
+            static::configureContainer($container, $input);
+            static::addServiceProviders($container);
+            $container->share('application', \Robo\Application::class)
+                ->withArgument('Robo')
+                ->withArgument(self::VERSION);
+            Config::setContainer($container);
+        }
+
+        $container = Config::getContainer();
+        $app = $container->get('application');
 
         if (!$this->loadRoboFile()) {
             $this->yell("Robo is not initialized here. Please run `robo init` to create a new RoboFile", 40, 'yellow');
             $app->addInitRoboFileCommand($this->roboFile, $this->roboClass);
-            $app->run($input);
+            $app->run(Config::input(), Config::output());
             return;
         }
         $app->addCommandsFromClass($this->roboClass, $this->passThroughArgs);
-        $app->setAutoExit(false);
-        return $app->run($input);
+        $app->run($container->get('input'), $container->get('output'));
+    }
+
+    /**
+     * Create a container and initiailze it.
+     */
+    public static function configureContainer($container, $input = null, $output = null)
+    {
+        // Self-referential container refernce for the inflector
+        $container->add('container', $container);
+
+        // Create default input and output objects if they were not provided
+        if (!$input) {
+            $input = new StringInput('');
+        }
+        if (!$output) {
+            $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+        }
+        $container->add('input', $input);
+        $container->add('output', $output);
+
+        // Register logging and related services.
+        $container->share('logStyler', \Robo\Log\RoboLogStyle::class);
+        $container->share('logger', \Robo\Log\RoboLogger::class)
+            ->withArgument('output')
+            ->withMethodCall('setLogOutputStyler', ['logStyler']);
+        $container->share('resultPrinter', \Robo\Log\ResultPrinter::class);
+        $container->add('simulator', \Robo\Task\Simulator::class);
+
+        // Register our various inflectors.
+        $container->inflector(\Psr\Log\LoggerAwareInterface::class)
+            ->invokeMethod('setLogger', ['logger']);
+        $container->inflector(\League\Container\ContainerAwareInterface::class)
+            ->invokeMethod('setContainer', ['container']);
+        $container->inflector(\Symfony\Component\Console\Input\InputAwareInterface::class)
+            ->invokeMethod('setInput', ['input']);
+    }
+
+    /**
+     * Register our service providers
+     */
+    public static function addServiceProviders($container)
+    {
+        $container->addServiceProvider(\Robo\Collection\Collection::getCollectionServices());
+        $container->addServiceProvider(\Robo\Task\ApiGen\loadTasks::getApiGenServices());
+        $container->addServiceProvider(\Robo\Task\Archive\loadTasks::getArchiveServices());
+        $container->addServiceProvider(\Robo\Task\Assets\loadTasks::getAssetsServices());
+        $container->addServiceProvider(\Robo\Task\Base\loadTasks::getBaseServices());
+        $container->addServiceProvider(\Robo\Task\Bower\loadTasks::getBowerServices());
+        $container->addServiceProvider(\Robo\Task\Composer\loadTasks::getComposerServices());
+        $container->addServiceProvider(\Robo\Task\Development\loadTasks::getDevelopmentServices());
+        $container->addServiceProvider(\Robo\Task\Docker\loadTasks::getDockerServices());
+        $container->addServiceProvider(\Robo\Task\File\loadTasks::getFileServices());
+        $container->addServiceProvider(\Robo\Task\FileSystem\loadTasks::getFileSystemServices());
+        $container->addServiceProvider(\Robo\Task\Remote\loadTasks::getRemoteServices());
+        $container->addServiceProvider(\Robo\Task\Testing\loadTasks::getTestingServices());
+        $container->addServiceProvider(\Robo\Task\Vcs\loadTasks::getVcsServices());
     }
 
     /**

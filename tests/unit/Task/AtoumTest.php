@@ -1,9 +1,9 @@
 <?php
 use AspectMock\Test as test;
+use Robo\Config;
 
 class AtoumTest extends \Codeception\TestCase\Test
 {
-    use \Robo\Task\Testing\loadTasks;
     /**
      * @var \AspectMock\Proxy\ClassProxy
      */
@@ -15,6 +15,9 @@ class AtoumTest extends \Codeception\TestCase\Test
             'executeCommand' => null,
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
+
+        $this->container = Config::getContainer();
+        $this->container->addServiceProvider(\Robo\Task\Testing\loadTasks::getTestingServices());
     }
 
     public function testAtoumRun()
@@ -22,14 +25,13 @@ class AtoumTest extends \Codeception\TestCase\Test
         $isWindows = defined('PHP_WINDOWS_VERSION_MAJOR');
         $command = $isWindows ? 'vendor/bin/atoum.bat' : 'vendor/bin/atoum';
 
-        $this->taskAtoum("vendor/bin/atoum")->run();
+        $this->container->get('taskAtoum', ['vendor/bin/atoum'])->run();
         $this->atoum->verifyInvoked('executeCommand', [$command]);
     }
 
-
     public function testAtoumCommand()
     {
-        $task = $this->taskAtoum('atoum')
+        $task = $this->container->get('taskAtoum', ['atoum'])
             ->bootstrap('bootstrap.php')
             ->tags("needDb")
             ->lightReport()

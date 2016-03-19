@@ -1,15 +1,22 @@
 <?php
 
 use AspectMock\Test as test;
+use Robo\Config;
 
 class SemVerTest extends \Codeception\TestCase\Test
 {
-    use \Robo\Task\Development\loadTasks;
+    protected $container;
+
+    protected function _before()
+    {
+        $this->container = Config::getContainer();
+        $this->container->addServiceProvider(\Robo\Task\Development\loadTasks::getDevelopmentServices());
+    }
 
     public function testSemver()
     {
         $semver = test::double('Robo\Task\Development\SemVer', ['dump' => null]);
-        $res = $this->taskSemVer()
+        $res = $this->container->get('taskSemVer')
             ->increment('major')
             ->prerelease('RC')
             ->increment('patch')
@@ -21,11 +28,11 @@ class SemVerTest extends \Codeception\TestCase\Test
     public function testSemverIncrementMinorAfterIncrementedPatch()
     {
         $semver = test::double('Robo\Task\Development\SemVer', ['dump' => null]);
-        $res = $this->taskSemVer()
+        $res = $this->container->get('taskSemVer')
             ->increment('patch')
             ->run();
         verify($res->getMessage())->equals('v0.0.1');
-        $res = $this->taskSemVer()
+        $res = $this->container->get('taskSemVer')
             ->increment('minor')
             ->run();
         verify($res->getMessage())->equals('v0.1.0');
@@ -35,15 +42,15 @@ class SemVerTest extends \Codeception\TestCase\Test
     public function testSemverIncrementMajorAfterIncrementedMinorAndPatch()
     {
         $semver = test::double('Robo\Task\Development\SemVer', ['dump' => null]);
-        $res = $this->taskSemVer()
+        $res = $this->container->get('taskSemVer')
             ->increment('patch')
             ->run();
         verify($res->getMessage())->equals('v0.0.1');
-        $res = $this->taskSemVer()
+        $res = $this->container->get('taskSemVer')
             ->increment('minor')
             ->run();
         verify($res->getMessage())->equals('v0.1.0');
-        $res = $this->taskSemVer()
+        $res = $this->container->get('taskSemVer')
             ->increment('major')
             ->run();
         verify($res->getMessage())->equals('v1.0.0');
@@ -56,7 +63,7 @@ class SemVerTest extends \Codeception\TestCase\Test
             'Robo\Exception\TaskException',
             '/Bad argument, only one of the following is allowed: major, minor, patch/'
         );
-        $this->taskSemVer()
+        $res = $this->container->get('taskSemVer')
             ->increment('wrongParameter');
     }
 
@@ -66,7 +73,7 @@ class SemVerTest extends \Codeception\TestCase\Test
             'Robo\Exception\TaskException',
             '/Failed to write semver file./'
         );
-        $this->taskSemVer('/.semver')
+        $this->container->get('taskSemVer', ['/.semver'])
             ->increment('major')
             ->run();
     }

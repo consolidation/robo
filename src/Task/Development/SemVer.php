@@ -84,16 +84,25 @@ class SemVer implements TaskInterface
 
     public function increment($what = 'patch')
     {
-        $types = ['major', 'minor', 'patch'];
-        if (!in_array($what, $types)) {
-            throw new TaskException(
-                $this,
-                'Bad argument, only one of the following is allowed: ' .
-                implode(', ', $types)
-            );
+        switch ($what) {
+            case 'major':
+                $this->version['major']++;
+                $this->version['minor'] = 0;
+                $this->version['patch'] = 0;
+                break;
+            case 'minor':
+                $this->version['minor']++;
+                $this->version['patch'] = 0;
+                break;
+            case 'patch':
+                $this->version['patch']++;
+                break;
+            default:
+                throw new TaskException(
+                    $this,
+                    'Bad argument, only one of the following is allowed: major, minor, patch'
+                );
         }
-
-        $this->version[$what]++;
         return $this;
     }
 

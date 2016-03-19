@@ -9,7 +9,7 @@ trait loadTasks
      */
     protected function taskChangelog($filename = 'CHANGELOG.md')
     {
-        return new Changelog($filename);
+        return new Changelog($filename, $this);
     }
 
     /**
@@ -65,4 +65,4 @@ trait loadTasks
     {
         return new OpenBrowser($url);
     }
-} 
+}

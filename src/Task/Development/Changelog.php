@@ -3,7 +3,6 @@ namespace Robo\Task\Development;
 
 use Robo\Task\BaseTask;
 use Robo\Task\File\Replace;
-use Robo\Task\FileSystem;
 use Robo\Result;
 use Robo\Task\Development;
 
@@ -32,6 +31,24 @@ use Robo\Task\Development;
  * ?>
  * ```
  *
+ * Changes may be formatted into a custom file format. Handler can be either a function,
+ * a public method or a closure.
+ *
+ * ``` php
+ * <?php
+ * function myChangelogHandler($changelogTask)
+ * {
+ *     // how to manage contents of your CHANGELOG file
+ * }
+ *
+ * $this->taskChangelog()
+ *  ->handler('myChangelogHandler')
+ *  ->version($version)
+ *  ->askForChanges()
+ *  ->run();
+ * ?>
+ * ```
+ *
  * @method Development\Changelog filename(string $filename)
  * @method Development\Changelog anchor(string $anchor)
  * @method Development\Changelog version(string $version)
@@ -44,6 +61,8 @@ class Changelog extends BaseTask
     protected $log = [];
     protected $anchor = "# Changelog";
     protected $version = "";
+    protected $handler;
+    protected $bindTo;
 
     /**
      * @param string $filename
@@ -51,20 +70,22 @@ class Changelog extends BaseTask
      */
     public static function init($filename = 'CHANGELOG.md')
     {
-        return new Changelog($filename);
+        return new Changelog($filename, $this);
     }
 
     public function askForChanges()
     {
         while ($resp = $this->ask("Changed in this release: ")) {
             $this->log[] = $resp;
-        };
+        }
         return $this;
     }
 
-    public function __construct($filename)
+    public function __construct($filename, $bindTo)
     {
         $this->filename = $filename;
+        $this->bindTo   = $bindTo;
+        $this->handler  = $this->getClosure();
     }
 
     public function changes(array $data)
@@ -84,42 +105,78 @@ class Changelog extends BaseTask
         return $this->log;
     }
 
+    public function getFilename()
+    {
+        return $this->filename;
+    }
+
+    public function getVersion()
+    {
+        return $this->version;
+    }
+
     public function run()
     {
         if (empty($this->log)) {
             return Result::error($this, "Changelog is empty");
         }
-        $text = implode(
-                "\n", array_map(
-                    function ($i) {
-                        return "* $i *" . date('Y-m-d') . "*";
-                    }, $this->log
-                )
-            ) . "\n";
-        $ver = "#### {$this->version}\n\n";
-        $text = $ver . $text;
 
-        if (!file_exists($this->filename)) {
-            $this->printTaskInfo("Creating {$this->filename}");
-            $res = file_put_contents($this->filename, $this->anchor);
-            if ($res === false) {
-                return Result::error($this, "File {$this->filename} cant be created");
-            }
-        }
+        if (is_callable($this->handler)) {
+            return call_user_func($this->handler, $this);
 
-        // trying to append to changelog for today
-        $result = (new Replace($this->filename))
-            ->from($ver)
-            ->to($text)
-            ->run();
+        } elseif (method_exists($this->bindTo, $this->handler)) {
+            return $this->bindTo->{$this->handler}($this);
 
-        if (!$result->getData()['replaced']) {
-            $result = (new Replace($this->filename))
-                ->from($this->anchor)
-                ->to($this->anchor . "\n\n" . $text)
-                ->run();
+        } else {
+            $message = sprintf('Invalid handler "%s"', $this->handler);
+            return Result::error($this, $message);
         }
 
         return new Result($this, $result->getExitCode(), $result->getMessage(), $this->log);
+    }
+
+    public function handler($handler)
+    {
+        $this->handler = $handler;
+        return $this;
+    }
+
+    protected function getClosure()
+    {
+        return function () {
+            $text = implode(
+                "\n",
+                array_map(
+                    function ($i) {
+                        return "* $i *" . date('Y-m-d') . "*";
+                    },
+                    $this->log
+                )
+            ) . "\n";
+            $ver = "#### {$this->version}\n\n";
+            $text = $ver . $text;
+
+            if (!file_exists($this->filename)) {
+                $this->printTaskInfo("Creating {$this->filename}");
+                $res = file_put_contents($this->filename, $this->anchor);
+                if ($res === false) {
+                    return Result::error($this, "File {$this->filename} cant be created");
+                }
+            }
+
+            // trying to append to changelog for today
+            $result = (new Replace($this->filename))
+                ->from($ver)
+                ->to($text)
+                ->run();
+
+            if (!$result->getData()['replaced']) {
+                $result = (new Replace($this->filename))
+                    ->from($this->anchor)
+                    ->to($this->anchor . "\n\n" . $text)
+                    ->run();
+            }
+            return $result;
+        };
     }
 }

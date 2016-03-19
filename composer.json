@@ -28,7 +28,8 @@
         "pear/archive_tar": "~1.0",
         "codeception/base": "~2.1.5",
         "codeception/verify": "0.2.*",
-        "codeception/aspect-mock": "0.5.4"
+        "codeception/aspect-mock": "0.5.4",
+        "squizlabs/php_codesniffer": "2.*"
     },
     "suggest": {
         "pear/archive_tar": "Allows tar archives to be created and extracted in taskPack and taskExtract, respectively.",

@@ -36,4 +36,4 @@ trait DynamicParams
         $this->$property = $args[0];
         return $this;
     }
-} 
+}

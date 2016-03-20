@@ -70,12 +70,10 @@ trait CommandArguments
             foreach ($value as $item) {
                 $this->optionList($option, $item);
             }
-        }
-        else {
+        } else {
             $this->option($option, escapeshellarg($value));
         }
 
         return $this;
     }
-
 }

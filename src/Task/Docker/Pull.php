@@ -24,5 +24,4 @@ class Pull extends Base
     {
         return $this->command . ' ' . $this->arguments;
     }
-
 }

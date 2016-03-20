@@ -96,5 +96,4 @@ trait IO
     {
         $this->getOutput()->writeln($text);
     }
-
 }

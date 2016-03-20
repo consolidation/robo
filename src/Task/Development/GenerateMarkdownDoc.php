@@ -327,10 +327,12 @@ class GenerateMarkdownDoc extends BaseTask
             return $doc;
         }
         return implode(
-            "\n", array_map(
+            "\n",
+            array_map(
                 function ($line) use ($indent) {
                     return substr($line, $indent);
-                }, explode("\n", $doc)
+                },
+                explode("\n", $doc)
             )
         );
     }
@@ -342,10 +344,12 @@ class GenerateMarkdownDoc extends BaseTask
         }
         $modifiers = implode(' ', \Reflection::getModifierNames($reflectedMethod->getModifiers()));
         $params = implode(
-            ', ', array_map(
+            ', ',
+            array_map(
                 function ($p) {
                     return $this->documentParam($p);
-                }, $reflectedMethod->getParameters()
+                },
+                $reflectedMethod->getParameters()
             )
         );
         $signature = "#### *$modifiers* {$reflectedMethod->name}($params)";
@@ -394,5 +398,4 @@ class GenerateMarkdownDoc extends BaseTask
 
         return $methodDoc;
     }
-
 }

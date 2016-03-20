@@ -80,12 +80,24 @@ class ApiGen extends BaseTask implements CommandInterface
      */
     protected static function asTextBool($val, $default)
     {
-        if ($val === self::BOOL_YES || $val === self::BOOL_NO) return $val;
-        if (!$val) return self::BOOL_NO;
-        if ($val === true) return self::BOOL_YES;
-        if (is_numeric($val) && $val != 0) return self::BOOL_YES;
-        if (strcasecmp($val[0], 'y') === 0) return self::BOOL_YES;
-        if (strcasecmp($val[0], 'n') === 0) return self::BOOL_NO;
+        if ($val === self::BOOL_YES || $val === self::BOOL_NO) {
+            return $val;
+        }
+        if (!$val) {
+            return self::BOOL_NO;
+        }
+        if ($val === true) {
+            return self::BOOL_YES;
+        }
+        if (is_numeric($val) && $val != 0) {
+            return self::BOOL_YES;
+        }
+        if (strcasecmp($val[0], 'y') === 0) {
+            return self::BOOL_YES;
+        }
+        if (strcasecmp($val[0], 'n') === 0) {
+            return self::BOOL_NO;
+        }
         // meh, good enough, let apigen sort it out
         return $default;
     }
@@ -411,5 +423,4 @@ class ApiGen extends BaseTask implements CommandInterface
         $this->printTaskInfo('Running ApiGen {args}', ['args' => $this->arguments]);
         return $this->executeCommand($this->getCommand());
     }
-
 }

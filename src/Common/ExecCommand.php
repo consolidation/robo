@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace Robo\Common;
 
 use Robo\Result;
@@ -73,4 +73,4 @@ trait ExecCommand
 
         return new Result($this, $process->getExitCode(), $process->getOutput(), ['time' => $this->getExecutionTime()]);
     }
-} 
+}

@@ -157,7 +157,9 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface
     static function stopRunningJobs()
     {
         foreach (self::$instances as $instance) {
-            if ($instance) unset($instance);
+            if ($instance) {
+                unset($instance);
+            }
         }
     }
 }

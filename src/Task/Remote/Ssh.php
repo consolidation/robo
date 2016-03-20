@@ -186,5 +186,4 @@ class Ssh extends BaseTask implements CommandInterface
 
         return sprintf("ssh{$sshOptions} {$hostSpec} '{$command}'");
     }
-
 }

@@ -1,7 +1,6 @@
 <?php
 namespace Robo\Task\Docker;
 
-
 /**
  * Commits docker container to an image
  *
@@ -42,5 +41,4 @@ class Commit extends Base
         $this->name = $name;
         return $this;
     }
-
 }

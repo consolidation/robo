@@ -31,5 +31,4 @@ class Update extends Base
         $this->printTaskInfo('Updating Packages: {command}', ['command' => $command]);
         return $this->executeCommand($command);
     }
-
 }

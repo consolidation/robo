@@ -63,5 +63,4 @@ class Watch extends BaseTask
         $watcher->start();
         return Result::success($this);
     }
-
 }

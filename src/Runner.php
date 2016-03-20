@@ -277,7 +277,9 @@ class Runner
     public function shutdown()
     {
         $error = error_get_last();
-        if (!is_array($error)) return;
+        if (!is_array($error)) {
+            return;
+        }
         $this->writeln(sprintf("<error>ERROR: %s \nin %s:%d\n</error>", $error['message'], $error['file'], $error['line']));
     }
 
@@ -296,4 +298,3 @@ class Runner
         return false;
     }
 }
-

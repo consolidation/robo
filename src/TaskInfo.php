@@ -134,13 +134,17 @@ class TaskInfo
 
             // last array value is option, not argument
             if (($key == count($params)-1) and $param->isDefaultValueAvailable()) {
-                if ($this->isAssoc($param->getDefaultValue())) break;
+                if ($this->isAssoc($param->getDefaultValue())) {
+                    break;
+                }
             }
 
             // arrays are array arguments
             if ($param->isArray()) {
                 if ($param->isDefaultValueAvailable()) {
-                    if (!$this->isAssoc($param->getDefaultValue())) $args[$param->getName()] = $param->getDefaultValue();
+                    if (!$this->isAssoc($param->getDefaultValue())) {
+                        $args[$param->getName()] = $param->getDefaultValue();
+                    }
                 } else {
                     $args[$param->getName()] = [];
                 }
@@ -160,10 +164,16 @@ class TaskInfo
     public function getOptions()
     {
         $params = $this->reflection->getParameters();
-        if (empty($params)) return [];
+        if (empty($params)) {
+            return [];
+        }
         $param = end($params);
-        if (!$param->isDefaultValueAvailable()) return [];
-        if (!$this->isAssoc($param->getDefaultValue())) return [];
+        if (!$param->isDefaultValueAvailable()) {
+            return [];
+        }
+        if (!$this->isAssoc($param->getDefaultValue())) {
+            return [];
+        }
         return $param->getDefaultValue();
     }
 
@@ -190,7 +200,9 @@ class TaskInfo
 
     protected function isAssoc($arr)
     {
-        if (!is_array($arr)) return false;
+        if (!is_array($arr)) {
+            return false;
+        }
         return array_keys($arr) !== range(0, count($arr) - 1);
     }
 

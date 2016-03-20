@@ -61,7 +61,7 @@ class Simulator extends BaseTask
                 }
                 if (is_object($item)) {
                     return '[object]';
-//                    return var_export($item, true);
+            //                    return var_export($item, true);
                 }
                 if (is_string($item)) {
                     return "'$item'";

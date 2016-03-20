@@ -21,7 +21,10 @@ class MirrorDir extends BaseDir
     {
         foreach ($this->dirs as $src => $dst) {
             $this->fs->mirror(
-                $src, $dst, null, [
+                $src,
+                $dst,
+                null,
+                [
                     'override' => true,
                     'copy_on_windows' => true,
                     'delete' => true

@@ -55,7 +55,8 @@ abstract class GitHub extends BaseTask
         }
 
         curl_setopt_array(
-            $ch, array(
+            $ch,
+            array(
                 CURLOPT_URL => $url,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_POST => $method != 'GET',

@@ -56,5 +56,4 @@ class PhpServer extends Exec
     {
         return sprintf($this->command . $this->arguments, $this->host, $this->port);
     }
-
 }

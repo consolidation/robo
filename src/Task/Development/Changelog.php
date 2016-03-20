@@ -92,12 +92,14 @@ class Changelog extends BaseTask
             return Result::error($this, "Changelog is empty");
         }
         $text = implode(
-                "\n", array_map(
-                    function ($i) {
+            "\n",
+            array_map(
+                function ($i) {
                         return "* $i *" . date('Y-m-d') . "*";
-                    }, $this->log
-                )
-            ) . "\n";
+                },
+                $this->log
+            )
+        ) . "\n";
         $ver = "#### {$this->version}\n\n";
         $text = $ver . $text;
 

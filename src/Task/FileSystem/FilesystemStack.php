@@ -80,5 +80,4 @@ class FilesystemStack extends StackBasedTask
             return Result::error($this, $e->getMessage(), ['path' => $e->getPath()]);
         }
     }
-
 }

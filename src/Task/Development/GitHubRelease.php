@@ -74,7 +74,8 @@ class GitHubRelease extends GitHub
         $this->printTaskInfo('Releasing {tag}', ['tag' => $this->tag]);
         $this->startTimer();
         list($code, $data) = $this->sendRequest(
-            'releases', [
+            'releases',
+            [
                 "tag_name" => $this->tag,
                 "target_commitish" => $this->comittish,
                 "name" => $this->tag,

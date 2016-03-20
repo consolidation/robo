@@ -19,4 +19,4 @@ trait Configuration
     {
         return Config::get(static::getClassKey($key), $default);
     }
-} 
+}

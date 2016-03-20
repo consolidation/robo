@@ -45,7 +45,7 @@ class Application extends SymfonyApplication implements ContainerAwareInterface
                 $args = $input->getArguments();
                 array_shift($args);
                 if ($passThrough) {
-                    $args[key(array_slice($args, -1, 1, TRUE))] = $passThrough;
+                    $args[key(array_slice($args, -1, 1, true))] = $passThrough;
                 }
                 $args[] = $input->getOptions();
                 // Need a better way to handle global options
@@ -54,9 +54,15 @@ class Application extends SymfonyApplication implements ContainerAwareInterface
                 $container->setSimulated(Config::isSimulated());
 
                 $res = call_user_func_array([$roboTasks, $commandName], $args);
-                if (is_int($res)) exit($res);
-                if (is_bool($res)) exit($res ? 0 : 1);
-                if ($res instanceof Result) exit($res->getExitCode());
+                if (is_int($res)) {
+                    exit($res);
+                }
+                if (is_bool($res)) {
+                    exit($res ? 0 : 1);
+                }
+                if ($res instanceof Result) {
+                    exit($res->getExitCode());
+                }
             });
             $this->add($command);
         }
@@ -113,7 +119,7 @@ class Application extends SymfonyApplication implements ContainerAwareInterface
     {
         $createRoboFile = new Command('init');
         $createRoboFile->setDescription("Intitalizes basic RoboFile in current dir");
-        $createRoboFile->setCode(function() use ($roboClass, $roboFile) {
+        $createRoboFile->setCode(function () use ($roboClass, $roboFile) {
             $output = Config::get('output');
             $output->writeln("<comment>  ~~~ Welcome to Robo! ~~~~ </comment>");
             $output->writeln("<comment>  ". $roboFile ." will be created in current dir </comment>");

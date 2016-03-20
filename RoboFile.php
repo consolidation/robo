@@ -356,8 +356,11 @@ class RoboFile extends \Robo\Tasks
      */
     public function sniff($file = 'src/', $options = ['autofix' => false])
     {
-        $this->taskExec("./vendor/bin/phpcs --standard=PSR2 {$file}")->run();
-        if ($options['autofix'] == true) {
+        $result = $this->taskExec("./vendor/bin/phpcs --standard=PSR2 {$file}")->run();
+        if ((!$options['autofix']) && (!$result->wasSuccessful())) {
+            $options['autofix'] = $this->confirm('Would you like to run phpcbf to fix the reported errors?');
+        }
+        if ($options['autofix']) {
             $this->taskExec("./vendor/bin/phpcbf --standard=PSR2 {$file}")->run();
         }
     }

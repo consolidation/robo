@@ -349,8 +349,8 @@ class ImageMinify extends BaseTask
                 $minifier = $this->minifier;
             }
 
-            // replace - with _ in minifier name (eg. jpeg-recompress)
-            $funcMinifier = strtr($minifier, '-', '_');
+            // Convert minifier name to camelCase (e.g. jpeg-recompress)
+            $funcMinifier = camelCase($minifier);
 
             // call the minifier method which prepares the command
             if (is_callable($funcMinifier)) {
@@ -595,10 +595,23 @@ class ImageMinify extends BaseTask
         return $command;
     }
 
-    protected function jpeg_recompress($from, $to)
+    protected function jpegRecompress($from, $to)
     {
         $command = sprintf('jpeg-recompress --quiet "%s" "%s"', $from, $to);
 
         return $command;
+    }
+
+    public static function camelCase($text)
+    {
+        // non-alpha and non-numeric characters become spaces
+        $text = preg_replace('/[^a-z0-9]+/i', ' ', $text);
+        $text = trim($text);
+        // uppercase the first character of each word
+        $text = ucwords($text);
+        $text = str_replace(" ", "", $text);
+        $text = lcfirst($text);
+
+        return $text;
     }
 }

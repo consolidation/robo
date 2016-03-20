@@ -30,7 +30,7 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface
     use \Robo\Common\CommandReceiver;
     use \Robo\Common\ExecOneCommand;
 
-    static $instances = [];
+    protected static $instances = [];
 
     protected $command;
     protected $background = false;
@@ -154,7 +154,7 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface
         return Result::success($this);
     }
 
-    static function stopRunningJobs()
+    public static function stopRunningJobs()
     {
         foreach (self::$instances as $instance) {
             if ($instance) {

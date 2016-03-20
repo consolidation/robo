@@ -8,7 +8,7 @@ use Robo\Contract\LogResultInterface;
 
 class Result implements \ArrayAccess, \IteratorAggregate
 {
-    static $stopOnFail = false;
+    protected static $stopOnFail = false;
 
     protected $exitCode;
     protected $message;
@@ -54,12 +54,12 @@ class Result implements \ArrayAccess, \IteratorAggregate
         return self::error($task, $message);
     }
 
-    static function error(TaskInterface $task, $message, $data = [])
+    public static function error(TaskInterface $task, $message, $data = [])
     {
         return new self($task, 1, $message, $data);
     }
 
-    static function success(TaskInterface $task, $message = '', $data = [])
+    public static function success(TaskInterface $task, $message = '', $data = [])
     {
         return new self($task, 0, $message, $data);
     }

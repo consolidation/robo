@@ -102,7 +102,7 @@ class GenerateMarkdownDoc extends BaseTask
         return new static($filename);
     }
 
-    function __construct($filename)
+    public function __construct($filename)
     {
         $this->filename = $filename;
     }

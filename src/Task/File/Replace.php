@@ -49,7 +49,7 @@ class Replace extends BaseTask
         $this->filename = $filename;
     }
 
-    function run()
+    public function run()
     {
         if (!file_exists($this->filename)) {
             $this->printTaskError('File {filename} does not exist', ['filename' => $this->filename]);

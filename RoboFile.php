@@ -239,7 +239,7 @@ class RoboFile extends \Robo\Tasks
         foreach ($files as $file) {
             $packer->addFile($file->getRelativePathname(), $file->getRealPath());
         }
-        $packer->addFile('robo','robo')
+        $packer->addFile('robo', 'robo')
             ->executable('robo')
             ->addToCollection($collection);
 
@@ -271,14 +271,14 @@ class RoboFile extends \Robo\Tasks
         $this->taskGitStack()
             ->add('robo.phar')
             ->commit('robo.phar published')
-            ->push('origin','gh-pages')
+            ->push('origin', 'gh-pages')
             ->checkout('master')
             ->run();
     }
 
     public function tryWatch()
     {
-        $this->taskWatch()->monitor(['composer.json', 'composer.lock'], function() {
+        $this->taskWatch()->monitor(['composer.json', 'composer.lock'], function () {
             $this->taskComposerUpdate()->run();
         })->run();
     }
@@ -288,7 +288,9 @@ class RoboFile extends \Robo\Tasks
         $answer = $this->ask('how are you?');
         $this->say('You are '.$answer);
         $yes = $this->confirm('Do you want one more question?');
-        if (!$yes) return;
+        if (!$yes) {
+            return;
+        }
         $lang = $this->askDefault('what is your favorite scripting language?', 'PHP');
         $this->say($lang);
         $pin = $this->askHidden('Ok, now tell your PIN code (it is hidden)');
@@ -311,7 +313,9 @@ class RoboFile extends \Robo\Tasks
 
     public function tryOptbool($opts = ['silent|s' => false])
     {
-        if (!$opts['silent']) $this->say("Hello, world");
+        if (!$opts['silent']) {
+            $this->say("Hello, world");
+        }
     }
 
     public function tryServer()

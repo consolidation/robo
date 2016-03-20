@@ -5,6 +5,7 @@ use Robo\Config;
 
 class GitTest extends \Codeception\TestCase\Test
 {
+
     protected $container;
 
     /**
@@ -21,6 +22,7 @@ class GitTest extends \Codeception\TestCase\Test
         $this->container = Config::getContainer();
         $this->container->addServiceProvider(\Robo\Task\Vcs\loadTasks::getVcsServices());
     }
+
     // tests
     public function testGitStackRun()
     {
@@ -42,8 +44,24 @@ class GitTest extends \Codeception\TestCase\Test
                 ->commit('changed')
                 ->push()
                 ->tag('0.6.0')
-                ->push('origin','0.6.0')
+                ->push('origin', '0.6.0')
                 ->getCommand()
         )->equals("git clone http://github.com/Codegyre/Robo && git pull && git add -A && git commit -m 'changed' && git push && git tag 0.6.0 && git push origin 0.6.0");
     }
+
+    public function testGitStackCommandsWithTagMessage()
+    {
+        verify(
+            $this->container->get('taskGitStack')
+                ->cloneRepo('http://github.com/Codegyre/Robo')
+                ->pull()
+                ->add('-A')
+                ->commit('changed')
+                ->push()
+                ->tag('0.6.0', 'message')
+                ->push('origin', '0.6.0')
+                ->getCommand()
+        )->equals("git clone http://github.com/Codegyre/Robo && git pull && git add -A && git commit -m 'changed' && git push && git tag -m 'message' 0.6.0 && git push origin 0.6.0");
+    }
+
 }

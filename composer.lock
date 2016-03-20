@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8c8fc93e7fc16db2633d16830ac4285e",
-    "content-hash": "305ddd8599d2f209e68e9e3e648652d7",
+    "hash": "f437734abc0a53d151a3617165dc3c3b",
+    "content-hash": "85da50f5f30788b505f2594be2570032",
     "packages": [
         {
             "name": "consolidation/log",
-            "version": "0.1.3",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation-org/log.git",
-                "reference": "9db36693a66f02ab315ecf4447d4fe1bfefc4e5c"
+                "reference": "84d6db9858f4c26f93fa75550ba59bc788001931"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation-org/log/zipball/9db36693a66f02ab315ecf4447d4fe1bfefc4e5c",
-                "reference": "9db36693a66f02ab315ecf4447d4fe1bfefc4e5c",
+                "url": "https://api.github.com/repos/consolidation-org/log/zipball/84d6db9858f4c26f93fa75550ba59bc788001931",
+                "reference": "84d6db9858f4c26f93fa75550ba59bc788001931",
                 "shasum": ""
             },
             "require": {
@@ -37,7 +37,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.1.x-dev"
+                    "dev-master": "1.x-dev"
                 }
             },
             "autoload": {
@@ -56,7 +56,7 @@
                 }
             ],
             "description": "Improved Psr-3 / Psr\\Log logger based on Symfony Console components.",
-            "time": "2016-03-07 01:12:40"
+            "time": "2016-03-20 04:49:58"
         },
         {
             "name": "container-interop/container-interop",

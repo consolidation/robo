@@ -38,5 +38,4 @@ class Build extends Base
     {
         return $this->option('-t', $tag);
     }
-
 }

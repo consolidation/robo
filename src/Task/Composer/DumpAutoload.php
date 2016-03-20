@@ -51,5 +51,4 @@ class DumpAutoload extends Base
         $this->printTaskInfo('Dumping Autoloader: {command}', ['command' => $command]);
         return $this->executeCommand($command);
     }
-
 }

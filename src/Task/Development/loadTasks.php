@@ -45,10 +45,10 @@ trait loadTasks
      * @param string $pathToSemVer
      * @return SemVer
      */
-     protected function taskSemVer($pathToSemVer = '.semver')
-     {
-         return $this->task(__FUNCTION__, $pathToSemVer);
-     }
+    protected function taskSemVer($pathToSemVer = '.semver')
+    {
+        return $this->task(__FUNCTION__, $pathToSemVer);
+    }
 
     /**
      * @param int $port

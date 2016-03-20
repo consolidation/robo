@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace Robo\Contract;
 
 /**
@@ -10,4 +10,4 @@ namespace Robo\Contract;
 interface PrintedInterface
 {
     public function getPrinted();
-} 
+}

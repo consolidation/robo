@@ -210,5 +210,4 @@ class Codecept extends BaseTask implements CommandInterface, PrintedInterface
         $this->printTaskInfo('Executing {command}', ['command' => $command]);
         return $this->executeCommand($command);
     }
-
 }

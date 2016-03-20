@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace Robo\Task\Docker;
 
 use Robo\Common\CommandReceiver;
@@ -63,5 +63,4 @@ class Exec extends Base
     {
         return $this->command . ' ' . $this->arguments . ' ' . $this->cid.' '.$this->run;
     }
-
 }

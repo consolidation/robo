@@ -31,5 +31,4 @@ class Install extends Base
         $this->printTaskInfo('Installing Packages: {command}', ['command' => $command]);
         return $this->executeCommand($command);
     }
-
 }

@@ -31,7 +31,6 @@ use Symfony\Component\Process\Process;
 class ParallelExec extends BaseTask implements CommandInterface, PrintedInterface
 {
     use Timer;
-    use \Robo\Common\DynamicParams;
     use \Robo\Common\CommandReceiver;
     use \Robo\Common\IO;
 
@@ -54,6 +53,18 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
     public function process($command)
     {
         $this->processes[] = new Process($this->receiveCommand($command));
+        return $this;
+    }
+
+    public function timeout($timeout)
+    {
+        $this->timeout = $timeout;
+        return $this;
+    }
+
+    public function idleTimeout($idleTimeout)
+    {
+        $this->idleTimeout = $idleTimeout;
         return $this;
     }
 

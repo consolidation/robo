@@ -60,8 +60,6 @@ use Robo\Task\Development;
  */
 class GenerateMarkdownDoc extends BaseTask
 {
-    use \Robo\Common\DynamicParams;
-
     protected $docClass = [];
     protected $filterMethods;
     protected $filterClasses;
@@ -105,6 +103,132 @@ class GenerateMarkdownDoc extends BaseTask
     public function __construct($filename)
     {
         $this->filename = $filename;
+    }
+
+    public function docClass($item)
+    {
+        $this->docClass[] = $item;
+        return $this;
+    }
+
+    public function filterMethods($filterMethods)
+    {
+        $this->filterMethods = $filterMethods;
+        return $this;
+    }
+
+    public function filterClasses($filterClasses)
+    {
+        $this->filterClasses = $filterClasses;
+        return $this;
+    }
+
+    public function filterProperties($filterProperties)
+    {
+        $this->filterProperties = $filterProperties;
+        return $this;
+    }
+
+    public function processClass($processClass)
+    {
+        $this->processClass = $processClass;
+        return $this;
+    }
+
+    public function processClassSignature($processClassSignature)
+    {
+        $this->processClassSignature = $processClassSignature;
+        return $this;
+    }
+
+    public function processClassDocBlock($processClassDocBlock)
+    {
+        $this->processClassDocBlock = $processClassDocBlock;
+        return $this;
+    }
+
+    public function processMethod($processMethod)
+    {
+        $this->processMethod = $processMethod;
+        return $this;
+    }
+
+    public function processMethodSignature($processMethodSignature)
+    {
+        $this->processMethodSignature = $processMethodSignature;
+        return $this;
+    }
+
+    public function processMethodDocBlock($processMethodDocBlock)
+    {
+        $this->processMethodDocBlock = $processMethodDocBlock;
+        return $this;
+    }
+
+    public function processProperty($processProperty)
+    {
+        $this->processProperty = $processProperty;
+        return $this;
+    }
+
+    public function processPropertySignature($processPropertySignature)
+    {
+        $this->processPropertySignature = $processPropertySignature;
+        return $this;
+    }
+
+    public function processPropertyDocBlock($processPropertyDocBlock)
+    {
+        $this->processPropertyDocBlock = $processPropertyDocBlock;
+        return $this;
+    }
+
+    public function reorder($reorder)
+    {
+        $this->reorder = $reorder;
+        return $this;
+    }
+
+    public function reorderMethods($reorderMethods)
+    {
+        $this->reorderMethods = $reorderMethods;
+        return $this;
+    }
+
+    public function reorderProperties($reorderProperties)
+    {
+        $this->reorderProperties = $reorderProperties;
+        return $this;
+    }
+
+    public function filename($filename)
+    {
+        $this->filename = $filename;
+        return $this;
+    }
+
+    public function prepend($prepend)
+    {
+        $this->prepend = $prepend;
+        return $this;
+    }
+
+    public function append($append)
+    {
+        $this->append = $append;
+        return $this;
+    }
+
+    public function text($text)
+    {
+        $this->text = $text;
+        return $this;
+    }
+
+    public function textForClass($item)
+    {
+        $this->textForClass[] = $item;
+        return $this;
     }
 
     public function run()

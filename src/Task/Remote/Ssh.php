@@ -47,7 +47,6 @@ use Robo\Task\BaseTask;
  */
 class Ssh extends BaseTask implements CommandInterface
 {
-    use \Robo\Common\DynamicParams;
     use \Robo\Common\CommandReceiver;
     use \Robo\Common\ExecOneCommand;
 
@@ -70,6 +69,30 @@ class Ssh extends BaseTask implements CommandInterface
     {
         $this->hostname = $hostname;
         $this->user = $user;
+    }
+
+    public function hostname($hostname)
+    {
+        $this->hostname = $hostname;
+        return $this;
+    }
+
+    public function user($user)
+    {
+        $this->user = $user;
+        return $this;
+    }
+
+    public function stopOnFail($stopOnFail = true)
+    {
+        $this->stopOnFail = $stopOnFail;
+        return $this;
+    }
+
+    public function remoteDir($remoteDir)
+    {
+        $this->remoteDir = $remoteDir;
+        return $this;
     }
 
     public function identityFile($filename)

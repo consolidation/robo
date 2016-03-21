@@ -10,16 +10,24 @@ use Robo\Task\BaseTask;
  */
 abstract class GitHub extends BaseTask
 {
-    use \Robo\Common\DynamicParams;
-
     const GITHUB_URL = 'https://api.github.com';
 
     protected static $user;
     protected static $pass;
 
-    protected $needs_auth = false;
     protected $repo;
     protected $owner;
+
+    public function repo($repo)
+    {
+        $this->repo = $repo;
+        return $this;
+    }
+
+    public function owner($owner)
+    {
+        $this->owner = $owner;
+    }
 
     public function uri($uri)
     {

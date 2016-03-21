@@ -32,7 +32,6 @@ use Robo\Task\BaseTask;
  */
 class Extract extends BaseTask
 {
-    use \Robo\Common\DynamicParams;
     use \Robo\Common\Timer;
 
     protected $filename;
@@ -42,6 +41,18 @@ class Extract extends BaseTask
     public function __construct($filename)
     {
         $this->filename = $filename;
+    }
+
+    public function to($to)
+    {
+        $this->to = $to;
+        return $this;
+    }
+
+    public function preserveTopDirectory($preserve = true)
+    {
+        $this->preserveTopDirectory = $preserve;
+        return $this;
     }
 
     public function run()

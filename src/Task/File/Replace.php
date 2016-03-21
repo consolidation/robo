@@ -37,8 +37,6 @@ use Robo\Task\BaseTask;
  */
 class Replace extends BaseTask
 {
-    use \Robo\Common\DynamicParams;
-
     protected $filename;
     protected $from;
     protected $to;
@@ -47,6 +45,30 @@ class Replace extends BaseTask
     public function __construct($filename)
     {
         $this->filename = $filename;
+    }
+
+    public function filename($filename)
+    {
+        $this->filename = $filename;
+        return $this;
+    }
+
+    public function from($from)
+    {
+        $this->from = $from;
+        return $this;
+    }
+
+    public function to($to)
+    {
+        $this->to = $to;
+        return $this;
+    }
+
+    public function regex($regex)
+    {
+        $this->regex = $regex;
+        return $this;
     }
 
     public function run()

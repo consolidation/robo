@@ -11,7 +11,6 @@ use Robo\Exception\TaskException;
 
 abstract class CommandStack extends BaseTask implements CommandInterface, PrintedInterface
 {
-    use DynamicParams;
     use ExecCommand;
 
     protected $executable;
@@ -24,6 +23,12 @@ abstract class CommandStack extends BaseTask implements CommandInterface, Printe
         return implode(' && ', $this->exec);
     }
 
+    public function executable($executable)
+    {
+        $this->executable = $executable;
+        return $this;
+    }
+
     public function exec($command)
     {
         if (is_array($command)) {
@@ -32,6 +37,18 @@ abstract class CommandStack extends BaseTask implements CommandInterface, Printe
 
         $command = $this->executable . ' ' . $this->stripExecutableFromCommand($command);
         array_push($this->exec, trim($command));
+        return $this;
+    }
+
+    public function stopOnFail($stopOnFail = true)
+    {
+        $this->stopOnFail = $stopOnFail;
+        return $this;
+    }
+
+    public function result($result)
+    {
+        $this->result = $result;
         return $this;
     }
 

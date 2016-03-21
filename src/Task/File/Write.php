@@ -22,14 +22,24 @@ use Robo\Task\BaseTask;
  */
 class Write extends BaseTask
 {
-    use \Robo\Common\DynamicParams;
-
     protected $filename;
     protected $append = false;
 
     public function __construct($filename)
     {
         $this->filename = $filename;
+    }
+
+    public function filename($filename)
+    {
+        $this->filename = $filename;
+        return $this;
+    }
+
+    public function append($append = true)
+    {
+        $this->append = $append;
+        return $this;
     }
 
     /**

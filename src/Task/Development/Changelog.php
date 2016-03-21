@@ -38,8 +38,6 @@ use Robo\Task\Development;
  */
 class Changelog extends BaseTask
 {
-    use \Robo\Common\DynamicParams;
-
     protected $filename;
     protected $log = [];
     protected $anchor = "# Changelog";
@@ -54,6 +52,30 @@ class Changelog extends BaseTask
     public static function init($filename = 'CHANGELOG.md')
     {
         return \Robo\Config::getContainer()->get('taskChangelog', [$filename]);
+    }
+
+    public function filename($filename)
+    {
+        $this->filename = $filename;
+        return $this;
+    }
+
+    public function log($item)
+    {
+        $this->log[] = $item;
+        return $this;
+    }
+
+    public function anchor($anchor)
+    {
+        $this->anchor = $anchor;
+        return $this;
+    }
+
+    public function version($version)
+    {
+        $this->version = $version;
+        return $this;
     }
 
     public function askForChanges()

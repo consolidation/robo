@@ -53,7 +53,6 @@ use Robo\Exception\TaskException;
 class Rsync extends BaseTask implements CommandInterface
 {
     use \Robo\Common\ExecOneCommand;
-    use \Robo\Common\DynamicParams;
 
     protected $command;
 
@@ -104,6 +103,30 @@ class Rsync extends BaseTask implements CommandInterface
     {
         $this->toPath = $path;
 
+        return $this;
+    }
+
+    public function fromUser($fromUser)
+    {
+        $this->fromUser = $fromUser;
+        return $this;
+    }
+
+    public function fromHost($fromHost)
+    {
+        $this->fromHost = $fromHost;
+        return $this;
+    }
+
+    public function toUser($toUser)
+    {
+        $this->toUser = $toUser;
+        return $this;
+    }
+
+    public function toHost($toHost)
+    {
+        $this->toHost = $toHost;
         return $this;
     }
 

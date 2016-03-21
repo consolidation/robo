@@ -23,7 +23,6 @@ use Symfony\Component\Finder\Finder;
  */
 class Pack extends BaseTask implements PrintedInterface
 {
-    use \Robo\Common\DynamicParams;
     use \Robo\Common\Timer;
 
     /**
@@ -63,6 +62,12 @@ class Pack extends BaseTask implements PrintedInterface
     public function getPrinted()
     {
         return true;
+    }
+
+    public function archiveFile($archiveFile)
+    {
+        $this->archiveFile = $archiveFile;
+        return $this;
     }
 
     /**

@@ -30,17 +30,11 @@ class ApiGen extends BaseTask implements CommandInterface
 
     public function __construct($pathToApiGen = null)
     {
-        if ($pathToApiGen) {
-            $this->command = $pathToApiGen;
-        } elseif (file_exists('vendor/bin/apigen')) {
-            $this->command = 'vendor/bin/apigen';
-        } elseif (file_exists('apigen.phar')) {
-            $this->command = 'php apigen.phar';
-        } elseif (file_exists('/usr/bin/apigen')) {
-            $this->command = '/usr/bin/apigen';
-        } elseif (file_exists('~/.composer/vendor/bin/apigen')) {
-            $this->command = '~/.composer/vendor/bin/apigen';
-        } else {
+        $this->command = $pathToApiGen;
+        if (!$this->command) {
+            $this->command = $this->findExecutablePhar('apigen');
+        }
+        if (!$this->command) {
             throw new TaskException(__CLASS__, "No apigen installation found");
         }
     }

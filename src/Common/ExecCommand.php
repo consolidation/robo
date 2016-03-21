@@ -51,6 +51,58 @@ trait ExecCommand
     }
 
     /**
+     * Look for a "{$cmd}.phar" in the current working
+     * directory; return a string to exec it if it is
+     * found.  Otherwise, look for an executable command
+     * of the same name via findExecutable.
+     */
+    protected function findExecutablePhar($cmd)
+    {
+        if (file_exists("{$cmd}.phar"))
+        {
+            return "php {$cmd}.phar";
+        }
+        return $this->findExecutable($cmd);
+    }
+
+    /**
+     * Return the best path to the executable program
+     * with the provided name.  Favor vendor/bin in the
+     * current project, or the global vendor/bin next.
+     * If not found in either of these locations, use
+     * whatever is on the $PATH.
+     */
+    protected function findExecutable($cmd)
+    {
+        if (is_executable("vendor/bin/{$cmd}")) {
+            return $this->useCallOnWindows("vendor/bin/{$cmd}");
+        }
+        $home = $_SERVER['home'];
+        if ($home && is_executable("$home/vendor/bin/{$cmd}")) {
+            return $this->useCallOnWindows("$home/vendor/bin/{$cmd}");
+        }
+        $pathToCmd = exec("which $cmd");
+        if ($pathToCmd) {
+            return $pathToCmd;
+        }
+        return false;
+    }
+
+    /**
+     * Wrap Windows executables in 'call' per 7a88757d
+     */
+    protected function useCallOnWindows($cmd)
+    {
+        if (defined('PHP_WINDOWS_VERSION_BUILD')) {
+            if (file_exists("{$cmd}.bat")) {
+                $cmd = "{$cmd}.bat";
+            }
+            return "call $cmd";
+        }
+        return $cmd;
+    }
+
+    /**
      * @param $command
      * @return Result
      */

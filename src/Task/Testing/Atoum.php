@@ -26,20 +26,12 @@ class Atoum extends BaseTask implements CommandInterface, PrintedInterface
 
     public function __construct($pathToAtoum = null)
     {
-        if ($pathToAtoum) {
-            $this->command = $pathToAtoum;
-        } elseif (file_exists('vendor/bin/atoum')) {
-            $this->command = 'vendor/bin/atoum';
-        } elseif (file_exists('atoum.phar')) {
-            $this->command = 'php atoum.phar';
-        } elseif (is_executable('~/.composer/vendor/bin/atoum')) {
-            $this->command = '~/.composer/vendor/bin/atoum';
-        } else {
-            throw new \Robo\Exception\TaskException(__CLASS__, "Neither local atoum nor global composer installation not found");
+        $this->command = $pathToAtoum;
+        if (!$this->command) {
+            $this->command = $this->findExecutable('atoum');
         }
-
-        if (defined('PHP_WINDOWS_VERSION_BUILD')) {
-            $this->command = $this->command . '.bat';
+        if (!$this->command) {
+            throw new \Robo\Exception\TaskException(__CLASS__, "Neither local atoum nor global composer installation not found");
         }
     }
 

@@ -208,7 +208,7 @@ class Collection implements TaskInterface, ContainerAwareInterface
                 $message = $result->getMessage();
                 $data = $result->getData();
                 $data['exitcode'] = $result->getExitCode();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $message = $e->getMessage();
             }
 
@@ -494,7 +494,7 @@ class Collection implements TaskInterface, ContainerAwareInterface
                 $key = static::isUnnamedTask($taskName) ? $name : $taskName;
                 $result = $this->accumulateResults($key, $result, $taskResult);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // Tasks typically should not throw, but if one does, we will
             // convert it into an error and roll back.
             // TODO: should we re-throw it again instead?
@@ -539,7 +539,7 @@ class Collection implements TaskInterface, ContainerAwareInterface
         foreach ($taskList as $task) {
             try {
                 $task->run();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // Ignore rollback failures.
             }
         }

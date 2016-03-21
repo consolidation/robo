@@ -146,7 +146,7 @@ class Pack extends BaseTask implements PrintedInterface
                 $result = $this->archiveTar($this->archiveFile, $this->items);
             }
             $this->printTaskSuccess("{filename} created.", ['filename' => $this->archiveFile]);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->printTaskError("Could not create {filename}. {exception}", ['filename' => $this->archiveFile, 'exception' => $e->getMessage(), '_style' => ['exception' => '']]);
             $result = Result::error($this);
         }

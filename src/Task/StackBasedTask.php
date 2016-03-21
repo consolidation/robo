@@ -177,7 +177,7 @@ abstract class StackBasedTask extends BaseTask
         try {
             $function_result = call_user_func_array($command, $action);
             return $this->processResult($function_result);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->printTaskError($e->getMessage());
             return Result::error($this, $e->getMessage());
         }

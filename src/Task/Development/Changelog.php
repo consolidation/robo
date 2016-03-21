@@ -112,13 +112,13 @@ class Changelog extends BaseTask
         }
 
         // trying to append to changelog for today
-        $result = $this->getContainer()->get('taskReplaceInFile', [$this->filename])
+        $result = $this->task('ReplaceInFile', $this->filename)
             ->from($ver)
             ->to($text)
             ->run();
 
         if (!$result->getData()['replaced']) {
-            $result = $this->getContainer()->get('taskReplaceInFile', [$this->filename])
+            $result = $this->task('ReplaceInFile', $this->filename)
                 ->from($this->anchor)
                 ->to($this->anchor . "\n\n" . $text)
                 ->run();

@@ -88,12 +88,12 @@ class FilesystemStack extends StackBasedTask
             // adequately rollback.  Perhaps we need to preflight the operation
             // and determine if everything inside of $target is writable.
             if (file_exists($target)) {
-                $deleteResult = $this->getContainer()->get('taskDeleteDir', [$target])->run();
+                $deleteResult = $this->task('taskDeleteDir', $target)->run();
                 if (!$deleteResult->wasSuccessful()) {
                     return $deleteResult;
                 }
             }
-            $result = $this->getContainer()->get('taskCopyDir', [[$origin => $target]])->run();
+            $result = $this->task('taskCopyDir', [$origin => $target])->run();
             if (!$result->wasSuccessful()) {
                 return $result;
             }

@@ -87,7 +87,7 @@ class RoboFile extends \Robo\Tasks
 
         $this->taskGitHubRelease(\Robo\Runner::VERSION)
             ->uri('Codegyre/Robo')
-            ->askDescription()
+            ->askDescription($this)
             ->run();
 
         $this->versionBump();

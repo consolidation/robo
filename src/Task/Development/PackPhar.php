@@ -2,6 +2,7 @@
 namespace Robo\Task\Development;
 
 use Robo\Common\Timer;
+use Robo\Common\IO;
 use Robo\Contract\PrintedInterface;
 use Robo\Result;
 use Robo\Task\BaseTask;
@@ -41,6 +42,7 @@ use Symfony\Component\Console\Helper\ProgressBar;
 class PackPhar extends BaseTask implements PrintedInterface
 {
     use Timer;
+    use IO;
 
     /**
      * @var \Phar

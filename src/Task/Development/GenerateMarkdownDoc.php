@@ -121,7 +121,7 @@ class GenerateMarkdownDoc extends BaseTask
 
         $this->text = implode("\n", $this->textForClass);
 
-        $result = $this->getContainer()->get('taskWriteToFile', [$this->filename])
+        $result = $this->task('WriteToFile', $this->filename)
             ->line($this->prepend)
             ->text($this->text)
             ->line($this->append)

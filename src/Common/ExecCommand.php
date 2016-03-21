@@ -77,7 +77,7 @@ trait ExecCommand
         if (is_executable("vendor/bin/{$cmd}")) {
             return $this->useCallOnWindows("vendor/bin/{$cmd}");
         }
-        $home = $_SERVER['home'];
+        $home = array_key_exists('HOME', $_SERVER) ? $_SERVER['HOME'] : getenv('HOME');
         if ($home && is_executable("$home/vendor/bin/{$cmd}")) {
             return $this->useCallOnWindows("$home/vendor/bin/{$cmd}");
         }

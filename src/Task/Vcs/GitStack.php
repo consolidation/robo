@@ -119,13 +119,17 @@ class GitStack extends CommandStack
      * Executes `git tag` command
      *
      * @param $tag_name
+     * @param string $message
      * @return $this
      */
-    public function tag($tag_name)
+    public function tag($tag_name, $message = "")
     {
-        return $this->exec([__FUNCTION__, $tag_name]);
+        if ($message != "") {
+            $message = "-m '$message'";
+        }
+        return $this->exec([__FUNCTION__, $message, $tag_name]);
     }
-    
+
     public function run()
     {
         $this->printTaskInfo("Running git commands...");

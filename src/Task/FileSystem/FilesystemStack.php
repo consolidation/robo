@@ -80,7 +80,9 @@ class FilesystemStack extends StackBasedTask
         if (true !== @rename($origin, $target)) {
             // First step is to try to get rid of the target. If there
             // is a single, deletable file, then we will just unlink it.
-            @unlink($target);
+            if (is_file($target)) {
+                unlink($target);
+            }
             // If the target still exists, we will try to delete it.
             // TODO: Note that if this fails partway through, then we cannot
             // adequately rollback.  Perhaps we need to preflight the operation

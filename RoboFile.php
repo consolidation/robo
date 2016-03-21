@@ -239,7 +239,7 @@ class RoboFile extends \Robo\Tasks
         foreach ($files as $file) {
             $packer->addFile($file->getRelativePathname(), $file->getRealPath());
         }
-        $packer->addFile('robo','robo')
+        $packer->addFile('robo', 'robo')
             ->executable('robo')
             ->addToCollection($collection);
 
@@ -271,14 +271,14 @@ class RoboFile extends \Robo\Tasks
         $this->taskGitStack()
             ->add('robo.phar')
             ->commit('robo.phar published')
-            ->push('origin','gh-pages')
+            ->push('origin', 'gh-pages')
             ->checkout('master')
             ->run();
     }
 
     public function tryWatch()
     {
-        $this->taskWatch()->monitor(['composer.json', 'composer.lock'], function() {
+        $this->taskWatch()->monitor(['composer.json', 'composer.lock'], function () {
             $this->taskComposerUpdate()->run();
         })->run();
     }
@@ -288,7 +288,9 @@ class RoboFile extends \Robo\Tasks
         $answer = $this->ask('how are you?');
         $this->say('You are '.$answer);
         $yes = $this->confirm('Do you want one more question?');
-        if (!$yes) return;
+        if (!$yes) {
+            return;
+        }
         $lang = $this->askDefault('what is your favorite scripting language?', 'PHP');
         $this->say($lang);
         $pin = $this->askHidden('Ok, now tell your PIN code (it is hidden)');
@@ -311,7 +313,9 @@ class RoboFile extends \Robo\Tasks
 
     public function tryOptbool($opts = ['silent|s' => false])
     {
-        if (!$opts['silent']) $this->say("Hello, world");
+        if (!$opts['silent']) {
+            $this->say("Hello, world");
+        }
     }
 
     public function tryServer()
@@ -352,14 +356,26 @@ class RoboFile extends \Robo\Tasks
      *
      * @param string $file
      *    A file or directory to analyze.
-     * @param bool $autofix
-     *    Whether to run the automatic fixer or not.
+     * @option $autofix Whether to run the automatic fixer or not.
+     * @option $strict Show warnings as well as errors.
+     *    Default is to show only errors.
      */
-    public function sniff($file = 'src/', $autofix = false)
-    {
-        $this->taskExec("./vendor/bin/phpcs --standard=PSR2 {$file}")->run();
-        if ($autofix == true) {
-            $this->taskExec('./vendor/bin/phpcbf --standard=PSR2 {$file}')->run();
+    public function sniff(
+        $file = 'src/',
+        $options = [
+            'autofix' => false,
+            'strict' => false,
+        ]
+    ) {
+        $strict = $options['strict'] ? '' : '-n';
+        $result = $this->taskExec("./vendor/bin/phpcs --standard=PSR2 {$strict} {$file}")->run();
+        if (!$result->wasSuccessful()) {
+            if (!$options['autofix']) {
+                $options['autofix'] = $this->confirm('Would you like to run phpcbf to fix the reported errors?');
+            }
+            if ($options['autofix']) {
+                $this->taskExec("./vendor/bin/phpcbf --standard=PSR2 {$file}")->run();
+            }
         }
     }
 

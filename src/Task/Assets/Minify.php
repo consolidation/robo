@@ -236,6 +236,10 @@ class Minify extends BaseTask
             return Result::error($this, 'Unknown file destination.');
         }
 
+        if (file_exists($this->dst) && !is_writable($this->dst)) {
+            return Result::error($this, 'Destination already exists and cannot be overwritten.');
+        }
+
         $size_before = strlen($this->text);
         $minified = $this->getMinifiedText();
 
@@ -248,11 +252,13 @@ class Minify extends BaseTask
         $size_after = strlen($minified);
         $dst = $this->dst . '.part';
         $write_result = file_put_contents($dst, $minified);
-        rename($dst, $this->dst);
 
         if (false === $write_result) {
+            @unlink($dst);
             return Result::error($this, 'File write failed.');
         }
+        // Cannot be cross-volume; should always succeed.
+        @rename($dst, $this->dst);
         if ($size_before === 0) {
             $minified_percent = 0;
         } else {

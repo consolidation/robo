@@ -5,6 +5,7 @@ use Robo\Result;
 use Robo\Task\StackBasedTask;
 use Symfony\Component\Filesystem\Filesystem as sfFileSystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Filesystem\Exception\IOException;
 
 /**
  * Wrapper for [Symfony FileSystem](http://symfony.com/doc/current/components/filesystem.html) Component.
@@ -65,6 +66,37 @@ class FilesystemStack extends StackBasedTask
     protected function _chmod($file, $permissions, $umask = 0000, $recursive = false)
     {
         $this->fs->chmod($file, $permissions, $umask, $recursive);
+    }
+
+    protected function _rename($origin, $target, $overwrite = false)
+    {
+        // we check that target does not exist
+        if ((!$overwrite && is_readable($target)) || (file_exists($target) && !is_writable($target))) {
+            throw new IOException(sprintf('Cannot rename because the target "%s" already exists.', $target), 0, null, $target);
+        }
+
+        // Due to a bug (limitation) in PHP, cross-volume renames do not work.
+        // See: https://bugs.php.net/bug.php?id=54097
+        if (true !== @rename($origin, $target)) {
+            // First step is to try to get rid of the target. If there
+            // is a single, deletable file, then we will just unlink it.
+            @unlink($target);
+            // If the target still exists, we will try to delete it.
+            // TODO: Note that if this fails partway through, then we cannot
+            // adequately rollback.  Perhaps we need to preflight the operation
+            // and determine if everything inside of $target is writable.
+            if (file_exists($target)) {
+                $deleteResult = $this->getContainer()->get('taskDeleteDir', [$target])->run();
+                if (!$deleteResult->wasSuccessful()) {
+                    return $deleteResult;
+                }
+            }
+            $result = $this->getContainer()->get('taskCopyDir', [[$origin => $target]])->run();
+            if (!$result->wasSuccessful()) {
+                return $result;
+            }
+        }
+        return true;
     }
 
     /**

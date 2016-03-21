@@ -93,6 +93,12 @@ class Extract extends BaseTask
             } else {
                 rename($extractLocation, $this->to);
             }
+            if ($hasEncapsulatingFolder && !$this->preserveTopDirectory) {
+                $result = $this->getContainer()->get('taskFilesystemStack')->rename($filesInExtractLocation[0], $this->to)->run();
+                @rmdir($extractLocation);
+            } else {
+                $result = $this->getContainer()->get('taskFilesystemStack')->rename($extractLocation, $this->to)->run();
+            }
         }
         $this->stopTimer();
         $result['time'] = $this->getExecutionTime();

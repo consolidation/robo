@@ -309,7 +309,7 @@ class GenerateMarkdownDoc extends BaseTask
         if ($param->isCallable()) {
             $text .= 'callable ';
         }
-        $text .= '$' . $param->getName();
+        $text .= '$' . $param->name;
         if ($param->isDefaultValueAvailable()) {
             if ($param->allowsNull()) {
                 $text .= ' = null';

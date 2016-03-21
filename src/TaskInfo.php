@@ -120,7 +120,7 @@ class TaskInfo
     {
         $name = $this->getAnnotation('name');
         if (!$name) {
-            $name = $this->reflection->getName();
+            $name = $this->reflection->name;
         }
         $name = $this->convertName($name);
         return $name;
@@ -143,10 +143,10 @@ class TaskInfo
             if ($param->isArray()) {
                 if ($param->isDefaultValueAvailable()) {
                     if (!$this->isAssoc($param->getDefaultValue())) {
-                        $args[$param->getName()] = $param->getDefaultValue();
+                        $args[$param->name] = $param->getDefaultValue();
                     }
                 } else {
-                    $args[$param->getName()] = [];
+                    $args[$param->name] = [];
                 }
                 continue;
             }
@@ -156,7 +156,7 @@ class TaskInfo
                 ? $param->getDefaultValue()
                 : self::PARAM_IS_REQUIRED;
 
-            $args[$param->getName()] = $val;
+            $args[$param->name] = $val;
         }
         return $args;
     }

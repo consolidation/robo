@@ -15,15 +15,8 @@ abstract class GitHub extends BaseTask
     protected static $user;
     protected static $pass;
 
-    protected $needs_auth = false;
     protected $repo;
     protected $owner;
-
-    public function needs_auth($needs_auth)
-    {
-        $this->needs_auth = $needs_auth;
-        return $this;
-    }
 
     public function repo($repo)
     {

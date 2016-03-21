@@ -89,7 +89,7 @@ class TaskInfo
      */
     public function getHelp()
     {
-        $parsed = $this->parseDocBlock();
+        $this->parseDocBlock();
         return $this->help;
     }
 
@@ -133,7 +133,7 @@ class TaskInfo
         foreach ($params as $key => $param) {
 
             // last array value is option, not argument
-            if (($key == count($params)-1) and $param->isDefaultValueAvailable()) {
+            if (($key == count($params)-1) && $param->isDefaultValueAvailable()) {
                 if ($this->isAssoc($param->getDefaultValue())) {
                     break;
                 }

@@ -55,6 +55,8 @@ class Rsync extends BaseTask implements CommandInterface
     use \Robo\Common\ExecOneCommand;
     use \Robo\Common\DynamicParams;
 
+    protected $command;
+
     protected $fromUser;
 
     protected $fromHost;
@@ -290,21 +292,24 @@ class Rsync extends BaseTask implements CommandInterface
      */
     public function getCommand()
     {
-        $this->option(null, escapeshellarg($this->getPathSpec('from')))
-            ->option(null, escapeshellarg($this->getPathSpec('to')));
+        $this->option(null, escapeshellarg($this->getFromPathSpec()))
+            ->option(null, escapeshellarg($this->getToPathSpec()));
 
         return $this->command . $this->arguments;
     }
 
-    protected function getPathSpec($type)
+    protected function getFromPathSpec()
     {
-        if ($type !== 'from' && $type !== 'to') {
-            throw new TaskException($this, 'Type must be "from" or "to".');
-        }
-        foreach (['host', 'user', 'path'] as $part) {
-            $varName = $type . ucfirst($part);
-            $$part = $this->$varName;
-        }
+        return $this->getPathSpec($this->fromHost, $this->fromUser, $this->fromPath);
+    }
+
+    protected function getToPathSpec()
+    {
+        return $this->getPathSpec($this->toHost, $this->toUser, $this->toPath);
+    }
+
+    protected function getPathSpec($host, $user, $path)
+    {
         $spec = isset($path) ? $path : '';
         if (!empty($host)) {
             $spec = "{$host}:{$spec}";

@@ -6,7 +6,7 @@ trait TaskAccessor
     /**
      * Commands that use TaskAccessor must provide 'getContainer()'.
      */
-    abstract function getContainer();
+    public abstract function getContainer();
 
     /**
      * Convenience function. Use:

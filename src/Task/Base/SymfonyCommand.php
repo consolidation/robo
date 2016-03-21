@@ -27,6 +27,8 @@ use Symfony\Component\Console\Input\InputInterface;
  */
 class SymfonyCommand extends BaseTask
 {
+    use \Robo\Common\IO;
+
     /**
      * @var SymfonyCommand
      */

@@ -454,7 +454,6 @@ class Collection implements TaskInterface, ContainerAwareInterface
         $this->taskStack = [];
         $this->completionStack = [];
         $this->rollbackStack = [];
-        $this->incrementalResults = Result::success($this);
         return $this;
     }
 

@@ -98,18 +98,4 @@ class FilesystemStack extends StackBasedTask
         }
         return true;
     }
-
-    /**
-     * Execute one task method
-     */
-    protected function callTaskMethod($command, $action)
-    {
-        try {
-            $function_result = call_user_func_array($command, $action);
-            return $this->processResult($function_result);
-        } catch (IOExceptionInterface $e) {
-            $this->printTaskError($e->getMessage());
-            return Result::error($this, $e->getMessage(), ['path' => $e->getPath()]);
-        }
-    }
 }

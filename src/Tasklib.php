@@ -33,6 +33,10 @@ trait Tasklib
     use Task\FileSystem\loadShortcuts;
     use Task\Vcs\loadShortcuts;
 
+    /**
+     * Commands that use TaskLib must provide 'getContainer()'.
+     */
+    abstract function getContainer();
 
     /**
      * Convenience function. Use:

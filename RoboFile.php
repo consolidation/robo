@@ -357,10 +357,18 @@ class RoboFile extends \Robo\Tasks
      * @param string $file
      *    A file or directory to analyze.
      * @option $autofix Whether to run the automatic fixer or not.
+     * @option $strict Show warnings as well as errors.
+     *    Default is to show only errors.
      */
-    public function sniff($file = 'src/', $options = ['autofix' => false])
-    {
-        $result = $this->taskExec("./vendor/bin/phpcs --standard=PSR2 {$file}")->run();
+    public function sniff(
+        $file = 'src/',
+        $options = [
+            'autofix' => false,
+            'strict' => false,
+        ]
+    ) {
+        $strict = $options['strict'] ? '' : '-n';
+        $result = $this->taskExec("./vendor/bin/phpcs --standard=PSR2 {$strict} {$file}")->run();
         if (!$result->wasSuccessful()) {
             if (!$options['autofix']) {
                 $options['autofix'] = $this->confirm('Would you like to run phpcbf to fix the reported errors?');

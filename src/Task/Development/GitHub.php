@@ -32,14 +32,14 @@ abstract class GitHub extends BaseTask
         return $this->owner . '/' . $this->repo;
     }
 
-    public function askAuth()
+    public function askAuth($io)
     {
-        self::$user = $this->ask('GitHub User');
-        self::$pass = $this->askHidden('Password');
+        self::$user = $io->ask('GitHub User');
+        self::$pass = $io->askHidden('Password');
         return $this;
     }
 
-    protected function sendRequest($uri, $params = [], $method = 'POST')
+    protected function sendRequest($uri, $params = [], $method = 'POST', $io = false)
     {
         if (!$this->owner or !$this->repo) {
             throw new TaskException($this, 'Repo URI is not set');
@@ -49,8 +49,8 @@ abstract class GitHub extends BaseTask
         $url = sprintf('%s/repos/%s/%s', self::GITHUB_URL, $this->getUri(), $uri);
         $this->printTaskInfo('{method} {$url}', ['method' => $method, 'url' => $url]);
 
-        if (!self::$user) {
-            $this->askAuth();
+        if (!self::$user && $io) {
+            $this->askAuth($io);
             curl_setopt($ch, CURLOPT_USERPWD, self::$user . ':' . self::$pass);
         }
 

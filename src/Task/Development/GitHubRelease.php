@@ -11,7 +11,7 @@ use Robo\Result;
  * <?php
  * $this->taskGitHubRelease('0.1.0')
  *   ->uri('Codegyre/Robo')
- *   ->askDescription()
+ *   ->askDescription($this)
  *   ->run();
  * ?>
  * ```
@@ -39,22 +39,22 @@ class GitHubRelease extends GitHub
         $this->tag = $tag;
     }
 
-    public function askName()
+    public function askName($io)
     {
-        $this->name = $this->ask("Release Title");
+        $this->name = $io->ask("Release Title");
         return $this;
     }
 
-    public function askDescription()
+    public function askDescription($io)
     {
-        $this->body .= $this->ask("Description of Release\n") . "\n\n";
+        $this->body .= $io->ask("Description of Release\n") . "\n\n";
         return $this;
     }
 
-    public function askForChanges()
+    public function askForChanges($io)
     {
         $this->body .= "### Changelog \n\n";
-        while ($resp = $this->ask("Added in this release:")) {
+        while ($resp = $io->ask("Added in this release:")) {
             $this->body .= "* $resp\n";
         };
         return $this;

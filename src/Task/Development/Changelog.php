@@ -27,7 +27,7 @@ use Robo\Task\Development;
  * <?php
  * $this->taskChangelog()
  *  ->version($version)
- *  ->askForChanges()
+ *  ->askForChanges($this)
  *  ->run();
  * ?>
  * ```
@@ -56,9 +56,9 @@ class Changelog extends BaseTask
         return \Robo\Config::getContainer()->get('taskChangelog', [$filename]);
     }
 
-    public function askForChanges()
+    public function askForChanges($io)
     {
-        while ($resp = $this->ask("Changed in this release: ")) {
+        while ($resp = $io->ask("Changed in this release: ")) {
             $this->log[] = $resp;
         };
         return $this;

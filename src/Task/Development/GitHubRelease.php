@@ -29,7 +29,8 @@ class GitHubRelease extends GitHub
 
     protected $tag;
     protected $name;
-    protected $body;
+    protected $body = '';
+    protected $changes = [];
     protected $draft = false;
     protected $prerelease = false;
     protected $comittish = 'master';
@@ -39,34 +40,48 @@ class GitHubRelease extends GitHub
         $this->tag = $tag;
     }
 
-    public function askName()
+    public function name($name)
     {
-        $this->name = $this->ask("Release Title");
+        $this->name = $name;
         return $this;
     }
 
-    public function askDescription()
+    public function description($description)
     {
-        $this->body .= $this->ask("Description of Release\n") . "\n\n";
+        $this->description = $description;
         return $this;
     }
 
-    public function askForChanges()
+    public function appendDescription($description)
     {
-        $this->body .= "### Changelog \n\n";
-        while ($resp = $this->ask("Added in this release:")) {
-            $this->body .= "* $resp\n";
-        };
+        if (!empty($this->description)) {
+            $$this->description .= "\n\n";
+        }
+        $this->description .= $description;
         return $this;
     }
 
     public function changes(array $changes)
     {
-        $this->body .= "### Changelog \n\n";
-        foreach ($changes as $change) {
-            $this->body .= "* $change\n";
-        }
+        $this->changes = array_merge($this->changes, $changes);
         return $this;
+    }
+
+    public function change(string $change)
+    {
+        $this->changes[] = $change;
+        return $this;
+    }
+
+    protected function getBody()
+    {
+        $body = $this->description;
+        if (!empty($changes)) {
+            $changes = array_map(function ($line) { return "* $line"; }, $this->changes);
+            $changesText = implode("\n", $this->changes);
+            $body .= "### Changelog \n\n$changesText";
+        }
+        return $body;
     }
 
     public function run()
@@ -79,7 +94,7 @@ class GitHubRelease extends GitHub
                 "tag_name" => $this->tag,
                 "target_commitish" => $this->comittish,
                 "name" => $this->tag,
-                "body" => $this->body,
+                "body" => $this->getBody(),
                 "draft" => $this->draft,
                 "prerelease" => $this->prerelease
             ]

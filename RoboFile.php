@@ -74,6 +74,8 @@ class RoboFile extends \Robo\Tasks
     {
         $this->yell("Releasing Robo");
 
+        $releaseDescription = $this->ask("Description of Release\n");
+
         $this->docs();
         $this->taskGitStack()
             ->add('-A')
@@ -87,7 +89,7 @@ class RoboFile extends \Robo\Tasks
 
         $this->taskGitHubRelease(\Robo\Runner::VERSION)
             ->uri('Codegyre/Robo')
-            ->askDescription()
+            ->eescription($releaseDescription)
             ->run();
 
         $this->versionBump();

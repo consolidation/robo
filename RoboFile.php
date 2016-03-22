@@ -4,8 +4,8 @@ use Symfony\Component\Finder\Finder;
 class RoboFile extends \Robo\Tasks
 {
     // Example:
-    // ./robo wrap 'Symfony\Component\Filesystem\Filesystem' FilesystemStack
-    public function wrap($className, $wrapperClassName = "")
+    // ./robo generate:task 'Symfony\Component\Filesystem\Filesystem' FilesystemStack
+    public function generateTask($className, $wrapperClassName = "")
     {
         $delegate = new ReflectionClass($className);
         $replacements = [];

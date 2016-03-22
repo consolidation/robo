@@ -88,6 +88,7 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
                 try {
                     $process->checkTimeout();
                 } catch (ProcessTimedOutException $e) {
+                    $this->printTaskWarning("Process timed out for {command}", ['command' => $process->getCommandLine(), '_style' => ['command' => 'fg=white;bg=magenta']]);
                 }
                 if (!$process->isRunning()) {
                     $this->advanceProgressIndicator();

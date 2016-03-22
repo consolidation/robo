@@ -164,7 +164,7 @@ class RoboFile extends \Robo\Tasks
                     if ($m->isConstructor() || $m->isDestructor() || $m->isStatic()) {
                         return false;
                     }
-                    return !in_array($m->name, ['run', '', '__call', 'getCommand', 'getPrinted']) and $m->isPublic(); // methods are not documented
+                    return !in_array($m->name, ['run', '', '__call', 'getCommand', 'getPrinted']) && $m->isPublic(); // methods are not documented
                 }
             )->processClassSignature(
                 function ($c) {
@@ -344,16 +344,6 @@ class RoboFile extends \Robo\Tasks
         $this->_exec('php -r "echo php_sapi_name();"');
     }
 
-    public function tryError()
-    {
-        $this->taskExec('ls xyzzy' . date('U'))->dir('/tmp')->run();
-    }
-
-    public function trySuccess()
-    {
-        $this->taskExec('pwd')->run();
-    }
-
     /**
      * Run the PHP Codesniffer on a file or directory.
      *
@@ -382,9 +372,22 @@ class RoboFile extends \Robo\Tasks
         }
     }
 
+    public function tryError()
+    {
+        $this->taskExec('ls xyzzy' . date('U'))->dir('/tmp')->run();
+    }
+
+    public function trySuccess()
+    {
+        $this->taskExec('pwd')->run();
+    }
+
     public function tryDeprecated()
     {
-        $result = (new \Robo\Task\Base\Exec('pwd'))->run();
+        // Calling 'new' directly without manually setting
+        // up dependencies will result in a deprecation warning.
+        // Use $this->task('Exec') or $this->taskExec() instead.
+        (new \Robo\Task\Base\Exec('pwd'))->run();
     }
 
     public function tryTmpDir()
@@ -417,7 +420,7 @@ class RoboFile extends \Robo\Tasks
         }
 
         // Run the task collection
-        $result = $collection->run();
+        $collection->run();
 
         if (is_dir($tmpPath)) {
             $this->say("The temporary directory at $tmpPath was not cleaned up after the collection completed.");

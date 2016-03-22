@@ -96,7 +96,12 @@ class GitHubRelease extends GitHub
     {
         $body = $this->description;
         if (!empty($changes)) {
-            $changes = array_map(function ($line) { return "* $line"; }, $this->changes);
+            $changes = array_map(
+                function ($line) {
+                    return "* $line";
+                },
+                $this->changes
+            );
             $changesText = implode("\n", $this->changes);
             $body .= "### Changelog \n\n$changesText";
         }

@@ -42,15 +42,9 @@ class FilesystemStack extends StackBasedTask
 {
     protected $fs;
 
-    /**
-     * Historically, FilesystemStack defaults to
-     * stopOnFail(false), but StackBasedTask defaults
-     * to stopOnFail(true).
-     */
     public function __construct()
     {
         $this->fs = new sfFileSystem();
-        $this->stopOnFail(false);
     }
 
     protected function getDelegate()

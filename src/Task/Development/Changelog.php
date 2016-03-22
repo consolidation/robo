@@ -78,14 +78,6 @@ class Changelog extends BaseTask
         return $this;
     }
 
-    public function askForChanges()
-    {
-        while ($resp = $this->ask("Changed in this release: ")) {
-            $this->log[] = $resp;
-        };
-        return $this;
-    }
-
     public function __construct($filename)
     {
         $this->filename = $filename;

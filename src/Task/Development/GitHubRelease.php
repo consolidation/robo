@@ -41,7 +41,7 @@ class GitHubRelease extends GitHub
         return $this;
     }
 
-    public function draft(boolean $draft)
+    public function draft($draft)
     {
         $this->draft = $draft;
         return $this;
@@ -95,14 +95,14 @@ class GitHubRelease extends GitHub
     protected function getBody()
     {
         $body = $this->description;
-        if (!empty($changes)) {
+        if (!empty($this->changes)) {
             $changes = array_map(
                 function ($line) {
                     return "* $line";
                 },
                 $this->changes
             );
-            $changesText = implode("\n", $this->changes);
+            $changesText = implode("\n", $changes);
             $body .= "### Changelog \n\n$changesText";
         }
         return $body;

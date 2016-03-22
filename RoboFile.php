@@ -304,13 +304,15 @@ class RoboFile extends \Robo\Tasks
     /**
      * Test parallel execution
      */
-    public function tryPara()
+    public function tryPara($options = ['printed' => false])
     {
+        $dir = __DIR__;
         $this->taskParallelExec()
-            ->process('php ~/demos/robotests/parascript.php hey')
-            ->process('php ~/demos/robotests/parascript.php hoy')
-            ->process('php ~/demos/robotests/parascript.php gou')
-            ->process('php ~/demos/robotests/parascript.php die')
+            ->process("php $dir/tests/_data/parascript.php hey 4")
+            ->process("php $dir/tests/_data/parascript.php hoy 3")
+            ->process("php $dir/tests/_data/parascript.php gou 2")
+            ->process("php $dir/tests/_data/parascript.php die 1")
+            ->printed($options['printed'])
             ->run();
     }
 

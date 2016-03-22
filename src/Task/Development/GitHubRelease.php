@@ -11,17 +11,12 @@ use Robo\Result;
  * <?php
  * $this->taskGitHubRelease('0.1.0')
  *   ->uri('Codegyre/Robo')
- *   ->askDescription()
+ *   ->description('Add stuff people need.')
+ *   ->change('Fix #123')
+ *   ->change('Add frobulation method to all widgets')
  *   ->run();
  * ?>
  * ```
- *
- * @method \Robo\Task\Development\GitHubRelease tag(string $tag)
- * @method \Robo\Task\Development\GitHubRelease name(string $name)
- * @method \Robo\Task\Development\GitHubRelease body(string $body)
- * @method \Robo\Task\Development\GitHubRelease draft(boolean $isDraft)
- * @method \Robo\Task\Development\GitHubRelease prerelease(boolean $isPrerelease)
- * @method \Robo\Task\Development\GitHubRelease comittish(string $branch)
  */
 class GitHubRelease extends GitHub
 {
@@ -29,7 +24,7 @@ class GitHubRelease extends GitHub
 
     protected $tag;
     protected $name;
-    protected $body = '';
+    protected $description = '';
     protected $changes = [];
     protected $draft = false;
     protected $prerelease = false;
@@ -38,6 +33,18 @@ class GitHubRelease extends GitHub
     public function __construct($tag)
     {
         $this->tag = $tag;
+    }
+
+    public function tag($tag)
+    {
+        $this->tag = $tag;
+        return $this;
+    }
+
+    public function draft(boolean $draft)
+    {
+        $this->draft = $draft;
+        return $this;
     }
 
     public function name($name)
@@ -49,6 +56,18 @@ class GitHubRelease extends GitHub
     public function description($description)
     {
         $this->description = $description;
+        return $this;
+    }
+
+    public function prerelease($prerelease)
+    {
+        $this->prerelease = $prerelease;
+        return $this;
+    }
+
+    public function comittish($comittish)
+    {
+        $this->comittish = $comittish;
         return $this;
     }
 

@@ -8,13 +8,14 @@ class RoboFile extends \Robo\Tasks
     public function wrap($className, $wrapperClassName = "")
     {
         $delegate = new ReflectionClass($className);
+        $replacements = [];
 
         $leadingCommentChars = " * ";
         $methodDescriptions = [];
         $methodImplementations = [];
         $immediateMethods = [];
         foreach ($delegate->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
-            $methodName = $method->getName();
+            $methodName = $method->name;
             $getter = preg_match('/^(get|has|is)/', $methodName);
             $setter = preg_match('/^(set|unset)/', $methodName);
             $argPrototypeList = [];
@@ -89,7 +90,7 @@ class RoboFile extends \Robo\Tasks
 
         $this->taskGitHubRelease(\Robo\Runner::VERSION)
             ->uri('Codegyre/Robo')
-            ->eescription($releaseDescription)
+            ->description($releaseDescription)
             ->run();
 
         $this->versionBump();
@@ -151,7 +152,7 @@ class RoboFile extends \Robo\Tasks
         foreach ($docs as $ns => $tasks) {
             $taskGenerator = $this->taskGenDoc("docs/tasks/$ns.md");
             $taskGenerator->filterClasses(function (\ReflectionClass $r) {
-                return !($r->isAbstract() or $r->isTrait()) and $r->implementsInterface('Robo\Contract\TaskInterface');
+                return !($r->isAbstract() || $r->isTrait()) && $r->implementsInterface('Robo\Contract\TaskInterface');
             })->prepend("# $ns Tasks");
             sort($tasks);
             foreach ($tasks as $class) {
@@ -160,7 +161,7 @@ class RoboFile extends \Robo\Tasks
 
             $taskGenerator->filterMethods(
                 function (\ReflectionMethod $m) {
-                    if ($m->isConstructor() or $m->isDestructor() or $m->isStatic()) {
+                    if ($m->isConstructor() || $m->isDestructor() || $m->isStatic()) {
                         return false;
                     }
                     return !in_array($m->name, ['run', '', '__call', 'getCommand', 'getPrinted']) and $m->isPublic(); // methods are not documented
@@ -172,7 +173,7 @@ class RoboFile extends \Robo\Tasks
             )->processClassDocBlock(
                 function (\ReflectionClass $c, $doc) {
                     $doc = preg_replace('~@method .*?(.*?)\)~', '* `$1)` ', $doc);
-                    $doc = str_replace('\\'.$c->getName(), '', $doc);
+                    $doc = str_replace('\\'.$c->name, '', $doc);
                     return $doc;
                 }
             )->processMethodSignature(
@@ -345,12 +346,12 @@ class RoboFile extends \Robo\Tasks
 
     public function tryError()
     {
-        $result = $this->taskExec('ls xyzzy' . date('U'))->dir('/tmp')->run();
+        $this->taskExec('ls xyzzy' . date('U'))->dir('/tmp')->run();
     }
 
     public function trySuccess()
     {
-        $result = $this->taskExec('pwd')->run();
+        $this->taskExec('pwd')->run();
     }
 
     /**
@@ -404,6 +405,10 @@ class RoboFile extends \Robo\Tasks
         // this point, the collection's 'complete()' method would be
         // called, and the temporary directory would be deleted.
         $mktmpResult = $collection->runWithoutCompletion();
+        if (!$mktmpResult->wasSuccessful()) {
+            $this->say("Could not create temporary directory.");
+            return 1;
+        }
 
         if (is_dir($tmpPath)) {
             $this->say("Created a temporary directory at $tmpPath");

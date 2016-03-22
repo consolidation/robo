@@ -386,7 +386,7 @@ class RoboFile extends \Robo\Tasks
     {
         // Calling 'new' directly without manually setting
         // up dependencies will result in a deprecation warning.
-        // Use $this->task('Exec') or $this->taskExec() instead.
+        // @see RoboFile::trySuccess()
         (new \Robo\Task\Base\Exec('pwd'))->run();
     }
 

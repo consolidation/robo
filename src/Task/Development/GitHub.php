@@ -13,7 +13,7 @@ abstract class GitHub extends BaseTask
     const GITHUB_URL = 'https://api.github.com';
 
     protected $user = '';
-    protected $pass = '';
+    protected $password = '';
 
     protected $repo;
     protected $owner;
@@ -62,8 +62,8 @@ abstract class GitHub extends BaseTask
         $url = sprintf('%s/repos/%s/%s', self::GITHUB_URL, $this->getUri(), $uri);
         $this->printTaskInfo('{method} {$url}', ['method' => $method, 'url' => $url]);
 
-        if (!empty(self::$user)) {
-            curl_setopt($ch, CURLOPT_USERPWD, self::$user . ':' . self::$pass);
+        if (!empty($this->user)) {
+            curl_setopt($ch, CURLOPT_USERPWD, $this->user . ':' . $this->password);
         }
 
         curl_setopt_array(

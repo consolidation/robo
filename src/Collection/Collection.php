@@ -117,8 +117,6 @@ class Collection implements TaskInterface, ContainerAwareInterface
     {
         // Rollback tasks always try as hard as they can, and never report failures.
         $rollbackTask = $this->ignoreErrorsTaskWrapper($rollbackTask);
-        // Wrap the task as necessary.
-        $rollbackTask = $this->wrapTask($rollbackTask);
         $collection = $this;
         $rollbackRegistrationTask = $this->wrapTask(function () use ($collection, $rollbackTask) {
             $collection->registerRollback($rollbackTask);
@@ -208,8 +206,10 @@ class Collection implements TaskInterface, ContainerAwareInterface
         if ($task instanceof StackBasedTask) {
             $task->stopOnFail(false);
         }
+        // If the task that was provided to us is a
+        // callable, then wrap it in a task.
         $task = $this->wrapTask($task);
-        return function () use ($task) {
+        $ignoreErrorsInTask = function () use ($task) {
             $data = [];
             try {
                 $result = $task->run();
@@ -222,6 +222,8 @@ class Collection implements TaskInterface, ContainerAwareInterface
 
             return Result::success($task, $message, $data);
         };
+        // Wrap our ignore errors callable in a task.
+        return $this->wrapTask($ignoreErrorsInTask);
     }
 
     /**
@@ -388,11 +390,9 @@ class Collection implements TaskInterface, ContainerAwareInterface
      */
     public function registerCompletion($completionTask)
     {
-        // Completion tasks always try as hard as they can, and never report failures.
-        $completionTask = $this->ignoreErrorsTaskWrapper($completionTask);
-        // Wrap the task as necessary.
-        $completionTask = $this->wrapTask($completionTask);
         if ($completionTask) {
+            // Completion tasks always try as hard as they can, and never report failures.
+            $completionTask = $this->ignoreErrorsTaskWrapper($completionTask);
             $this->completionStack[] = $completionTask;
         }
         return $this;

@@ -93,8 +93,9 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
                     $this->advanceProgressIndicator();
                     if ($this->isPrinted) {
                         $this->printTaskInfo("Output for {command}:\n\n{output}", ['command' => $process->getCommandLine(), 'output' => $process->getOutput(), '_style' => ['command' => 'fg=white;bg=magenta']]);
-                        if ($process->getErrorOutput()) {
-                            $this->getOutput()->writeln("<error>" . $process->getErrorOutput() . "</error>");
+                        $errorOutput = $process->getErrorOutput();
+                        if ($errorOutput) {
+                            $this->printTaskError(rtrim($errorOutput));
                         }
                     }
                     unset($running[$k]);

@@ -48,10 +48,6 @@ class Application extends SymfonyApplication implements ContainerAwareInterface
                     $args[key(array_slice($args, -1, 1, true))] = $passThrough;
                 }
                 $args[] = $input->getOptions();
-                // Need a better way to handle global options
-                // Also, this is not necessarily the best place to do this
-                Config::setGlobalOptions($input);
-                $container->setSimulated(Config::isSimulated());
 
                 $res = call_user_func_array([$roboTasks, $commandName], $args);
                 if (is_int($res)) {

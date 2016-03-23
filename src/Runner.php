@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Consolidation\AnnotationCommand\AnnotationCommandFactory;
 
 class Runner
 {
@@ -111,7 +112,18 @@ class Runner
             return;
         }
 
-        $app->addCommandsFromClass($this->roboClass, $this->passThroughArgs);
+        // Register the RoboFile with the container and then immediately
+        // fetch it; this ensures that all of the inflectors will run.
+        $commandFileName = "{$this->roboClass}Commands";
+        $container->share($commandFileName, $this->roboClass);
+        $roboCommandFileInstance = $container->get($commandFileName);
+
+        // Register commands for all of the public methods in the RoboFile.
+        $commandFactory = new AnnotationCommandFactory();
+        $commandList = $commandFactory->createCommandsFromClass($roboCommandFileInstance, $this->passThroughArgs);
+        foreach ($commandList as $command) {
+            $app->add($command);
+        }
         $app->run($container->get('input'), $container->get('output'));
     }
 

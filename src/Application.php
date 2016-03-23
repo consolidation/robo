@@ -31,6 +31,17 @@ class Application extends SymfonyApplication implements ContainerAwareInterface
             $roboTasks->setContainer($container);
         }
 
+        $commandList = $this->createCommandsFromClass($roboTasks, $passThrough);
+        foreach ($commandList as $command) {
+            $this->add($command);
+        }
+    }
+
+    public function createCommandsFromClass($roboTasks, $passThrough = null)
+    {
+        $className = get_class($roboTasks);
+        $commandList = [];
+
         // Ignore special functions, such as __construct() and __call(), and
         // accessor methods such as getFoo() and setFoo(), while allowing
         // set or setup.
@@ -40,7 +51,7 @@ class Application extends SymfonyApplication implements ContainerAwareInterface
 
         foreach ($commandNames as $commandName) {
             $command = $this->createCommand(new TaskInfo($className, $commandName));
-            $command->setCode(function (InputInterface $input) use ($roboTasks, $commandName, $passThrough, $container) {
+            $command->setCode(function (InputInterface $input) use ($roboTasks, $commandName, $passThrough) {
                 // get passthru args
                 $args = $input->getArguments();
                 array_shift($args);
@@ -60,8 +71,9 @@ class Application extends SymfonyApplication implements ContainerAwareInterface
                     exit($res->getExitCode());
                 }
             });
-            $this->add($command);
+            $commandList[] = $command;
         }
+        return $commandList;
     }
 
     public function createCommand(TaskInfo $taskInfo)

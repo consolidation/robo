@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0bbccd97ec9f87175ac60e47a1344c4e",
-    "content-hash": "370202386a7c57838469dac39502166b",
+    "hash": "1d784788b0e55b955de66bfbd6359bc2",
+    "content-hash": "e6c4d0d08ae6292ba5d9e145e8828757",
     "packages": [
         {
             "name": "consolidation/annotation-command",
-            "version": "dev-master",
+            "version": "0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation-org/annotation-command.git",
-                "reference": "5f0e7a55a63cb93bf9dada42babf7b2e3b4ff04d"
+                "reference": "94c52fe313a12eb8743f1698bcb2e258a2852ca6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation-org/annotation-command/zipball/5f0e7a55a63cb93bf9dada42babf7b2e3b4ff04d",
-                "reference": "5f0e7a55a63cb93bf9dada42babf7b2e3b4ff04d",
+                "url": "https://api.github.com/repos/consolidation-org/annotation-command/zipball/94c52fe313a12eb8743f1698bcb2e258a2852ca6",
+                "reference": "94c52fe313a12eb8743f1698bcb2e258a2852ca6",
                 "shasum": ""
             },
             "require": {
@@ -53,29 +53,30 @@
                 }
             ],
             "description": "Initialize Symfony Console commands from annotated command class methods.",
-            "time": "2016-03-23 20:26:09"
+            "time": "2016-03-23 23:43:05"
         },
         {
             "name": "consolidation/log",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation-org/log.git",
-                "reference": "247106529bd86d241f3fc07dd9ae4f4a6092a2a4"
+                "reference": "74ba81b4edc585616747cc5c5309ce56fec41254"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation-org/log/zipball/247106529bd86d241f3fc07dd9ae4f4a6092a2a4",
-                "reference": "247106529bd86d241f3fc07dd9ae4f4a6092a2a4",
+                "url": "https://api.github.com/repos/consolidation-org/log/zipball/74ba81b4edc585616747cc5c5309ce56fec41254",
+                "reference": "74ba81b4edc585616747cc5c5309ce56fec41254",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0",
+                "php": ">=5.5.0",
                 "psr/log": "~1.0",
                 "symfony/console": "~2.5|~3.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "4.*"
+                "phpunit/phpunit": "4.*",
+                "squizlabs/php_codesniffer": "2.*"
             },
             "type": "library",
             "extra": {
@@ -99,7 +100,7 @@
                 }
             ],
             "description": "Improved Psr-3 / Psr\\Log logger based on Symfony Console components.",
-            "time": "2016-03-22 20:16:45"
+            "time": "2016-03-23 23:46:42"
         },
         {
             "name": "container-interop/container-interop",
@@ -2713,9 +2714,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "consolidation/annotation-command": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

@@ -6,6 +6,8 @@ use Robo\TaskInfo;
 use Consolidation\Log\ConsoleLogLevel;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
+use Robo\Contract\ProgressIndicatorAwareInterface;
 
 /**
  * Task input/output methods.  TaskIO is 'used' in BaseTask, so any
@@ -51,7 +53,7 @@ trait TaskIO
         // The 'note' style is used for both 'notice' and 'info' log levels;
         // However, 'notice' is printed at VERBOSITY_NORMAL, whereas 'info'
         // is only printed at VERBOSITY_VERBOSE.
-        $this->logger()->notice($text, $this->getTaskContext($context));
+        $this->printTaskOutput(LogLevel::NOTICE, $text, $this->getTaskContext($context));
     }
 
     /**
@@ -68,7 +70,7 @@ trait TaskIO
         // override in the context so that this message will be
         // logged as SUCCESS if that log level is recognized.
         $context['_level'] = ConsoleLogLevel::SUCCESS;
-        $this->logger()->notice($text, $this->getTaskContext($context));
+        $this->printTaskOutput(LogLevel::NOTICE, $text, $this->getTaskContext($context));
     }
 
     /**
@@ -79,7 +81,7 @@ trait TaskIO
      */
     protected function printTaskWarning($text, $context = null)
     {
-        $this->logger()->warning($text, $this->getTaskContext($context));
+        $this->printTaskOutput(LogLevel::WARNING, $text, $this->getTaskContext($context));
     }
 
     /**
@@ -90,7 +92,7 @@ trait TaskIO
      */
     protected function printTaskError($text, $context = null)
     {
-        $this->logger()->error($text, $this->getTaskContext($context));
+        $this->printTaskOutput(LogLevel::ERROR, $text, $this->getTaskContext($context));
     }
 
     /**
@@ -99,7 +101,26 @@ trait TaskIO
      */
     protected function printTaskDebug($text, $context = null)
     {
-        $this->logger()->debug($text, $this->getTaskContext($context));
+        $this->printTaskOutput(LogLevel::DEBUG, $text, $this->getTaskContext($context));
+    }
+
+    private function printTaskOutput($level, $text, $context)
+    {
+        $inProgress = false;
+        if ($this instanceof ProgressIndicatorAwareInterface) {
+            $inProgress = $this->inProgress();
+        }
+
+        // If a progress indicator is running on this task, then we mush
+        // hide it before we print anything, or its display will be overwritten.
+        if ($inProgress) {
+            $this->hideProgressIndicator();
+        }
+        $this->logger()->log($level, $text, $this->getTaskContext($context));
+        // After we have printed our log message, redraw the progress indicator.
+        if ($inProgress) {
+            $this->showProgressIndicator();
+        }
     }
 
     /**

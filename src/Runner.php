@@ -150,6 +150,8 @@ class Runner
         $container->share('logger', \Robo\Log\RoboLogger::class)
             ->withArgument('output')
             ->withMethodCall('setLogOutputStyler', ['logStyler']);
+        $container->add('progressIndicator', \Symfony\Component\Console\Helper\ProgressBar::class)
+            ->withArgument('output');
         $container->share('resultPrinter', \Robo\Log\ResultPrinter::class);
         $container->add('simulator', \Robo\Task\Simulator::class);
         $container->share('globalOptionsEventListener', \Robo\GlobalOptionsEventListener::class);
@@ -163,6 +165,8 @@ class Runner
             ->invokeMethod('setContainer', ['container']);
         $container->inflector(\Symfony\Component\Console\Input\InputAwareInterface::class)
             ->invokeMethod('setInput', ['input']);
+        $container->inflector(\Robo\Contract\ProgressIndicatorAwareInterface::class)
+            ->invokeMethod('setProgressIndicator', ['progressIndicator']);
     }
 
     /**

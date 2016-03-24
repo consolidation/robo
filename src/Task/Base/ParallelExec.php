@@ -1,13 +1,12 @@
 <?php
 namespace Robo\Task\Base;
 
-use Robo\Common\Timer;
+use Robo\Contract\ProgressIndicatorAwareInterface;
+use Robo\Common\ProgressIndicatorAwareTrait;
 use Robo\Contract\CommandInterface;
 use Robo\Contract\PrintedInterface;
 use Robo\Result;
 use Robo\Task\BaseTask;
-use Symfony\Component\Console\Helper\ProgressBar;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Exception\ProcessTimedOutException;
 use Symfony\Component\Process\Process;
 
@@ -28,11 +27,10 @@ use Symfony\Component\Process\Process;
  * @method \Robo\Task\Base\ParallelExec timeout(int $timeout) stops process if it runs longer then `$timeout` (seconds)
  * @method \Robo\Task\Base\ParallelExec idleTimeout(int $timeout) stops process if it does not output for time longer then `$timeout` (seconds)
  */
-class ParallelExec extends BaseTask implements CommandInterface, PrintedInterface
+class ParallelExec extends BaseTask implements CommandInterface, PrintedInterface, ProgressIndicatorAwareInterface
 {
-    use Timer;
+    use ProgressIndicatorAwareTrait;
     use \Robo\Common\CommandReceiver;
-    use \Robo\Common\IO;
 
     protected $processes = [];
     protected $timeout = null;
@@ -83,25 +81,22 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
             $this->printTaskInfo($process->getCommandLine());
         }
 
-        $progress = new ProgressBar($this->getOutput());
-        $progress->start(count($this->processes));
+        $this->startProgressIndicator(count($this->processes));
         $running = $this->processes;
-        $progress->display();
-        $this->startTimer();
         while (true) {
             foreach ($running as $k => $process) {
                 try {
                     $process->checkTimeout();
                 } catch (ProcessTimedOutException $e) {
+                    $this->printTaskWarning("Process timed out for {command}", ['command' => $process->getCommandLine(), '_style' => ['command' => 'fg=white;bg=magenta']]);
                 }
                 if (!$process->isRunning()) {
-                    $progress->advance();
+                    $this->advanceProgressIndicator();
                     if ($this->isPrinted) {
-                        $this->getOutput()->writeln("");
-                        $this->printTaskInfo("Output for {command}", ['command' => $process->getCommandLine(), '_style' => ['command' => 'fg=white;bg=magenta']]);
-                        $this->getOutput()->writeln($process->getOutput(), OutputInterface::OUTPUT_RAW);
-                        if ($process->getErrorOutput()) {
-                            $this->getOutput()->writeln("<error>" . $process->getErrorOutput() . "</error>");
+                        $this->printTaskInfo("Output for {command}:\n\n{output}", ['command' => $process->getCommandLine(), 'output' => $process->getOutput(), '_style' => ['command' => 'fg=white;bg=magenta']]);
+                        $errorOutput = $process->getErrorOutput();
+                        if ($errorOutput) {
+                            $this->printTaskError(rtrim($errorOutput));
                         }
                     }
                     unset($running[$k]);
@@ -112,8 +107,7 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
             }
             usleep(1000);
         }
-        $this->getOutput()->writeln("");
-        $this->stopTimer();
+        $this->stopProgressIndicator();
 
         $errorMessage = '';
         $exitCode = 0;

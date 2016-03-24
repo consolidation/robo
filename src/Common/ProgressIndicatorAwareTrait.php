@@ -39,6 +39,10 @@ trait ProgressIndicatorAwareTrait
         }
     }
 
+    public function inProgress() {
+        return $this->progressIndicatorRunning;
+    }
+
     public function stopProgressIndicator()
     {
         $this->stopTimer();

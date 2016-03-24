@@ -58,8 +58,7 @@ trait ExecCommand
      */
     protected function findExecutablePhar($cmd)
     {
-        if (file_exists("{$cmd}.phar"))
-        {
+        if (file_exists("{$cmd}.phar")) {
             return "php {$cmd}.phar";
         }
         return $this->findExecutable($cmd);

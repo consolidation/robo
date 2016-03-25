@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Consolidation\AnnotationCommand\AnnotationCommandFactory;
+use Consolidation\AnnotationCommand\PassThroughArgsInput;
 
 class Runner
 {
@@ -17,11 +18,6 @@ class Runner
     const VERSION = '0.6.1';
     const ROBOCLASS = 'RoboFile';
     const ROBOFILE = 'RoboFile.php';
-
-    /**
-     * @var string PassThoughArgs
-     */
-    protected $passThroughArgs = null;
 
     /**
      * @var string RoboClass
@@ -87,10 +83,10 @@ class Runner
     {
         register_shutdown_function(array($this, 'shutdown'));
         set_error_handler(array($this, 'handleError'));
+        $input = $this->prepareInput($input ? $input : $this->shebang($_SERVER['argv']));
 
         // If we were not provided a container, then create one
         if (!Config::hasContainer()) {
-            $input = $this->prepareInput($input ? $input : $this->shebang($_SERVER['argv']));
             // Set up our dependency injection container.
             $container = new RoboContainer();
             static::configureContainer($container, $input);
@@ -103,6 +99,7 @@ class Runner
         }
 
         $container = Config::getContainer();
+        $output = $container->get('output');
         $app = $container->get('application');
 
         if (!$this->loadRoboFile()) {
@@ -120,11 +117,11 @@ class Runner
 
         // Register commands for all of the public methods in the RoboFile.
         $commandFactory = new AnnotationCommandFactory();
-        $commandList = $commandFactory->createCommandsFromClass($roboCommandFileInstance, $this->passThroughArgs);
+        $commandList = $commandFactory->createCommandsFromClass($roboCommandFileInstance);
         foreach ($commandList as $command) {
             $app->add($command);
         }
-        $app->run($container->get('input'), $container->get('output'));
+        $app->run($input, $output);
     }
 
     /**
@@ -267,11 +264,12 @@ class Runner
      */
     protected function prepareInput($argv)
     {
+        $passThroughArgs = [];
         $pos = array_search('--', $argv);
 
         // cutting pass-through arguments
         if ($pos !== false) {
-            $this->passThroughArgs = implode(' ', array_slice($argv, $pos+1));
+            $passThroughArgs = array_slice($argv, $pos+1);
             $argv = array_slice($argv, 0, $pos);
         }
 
@@ -293,7 +291,11 @@ class Runner
                 }
             }
         }
-        return new ArgvInput($argv);
+        $input = new ArgvInput($argv);
+        if ($passThroughArgs) {
+            $input = new PassThroughArgsInput($passThroughArgs, $input);
+        }
+        return $input;
     }
 
     public function shutdown()

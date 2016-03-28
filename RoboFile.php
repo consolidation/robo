@@ -319,6 +319,16 @@ class RoboFile extends \Robo\Tasks
         $para->run();
     }
 
+    public function tryArgs($a, $b = 'default')
+    {
+        $this->say("The parameter a is $a and b is $b");
+    }
+
+    public function tryArrayArgs(array $a)
+    {
+        $this->say("The parameters passed are:\n" . var_export($a, true));
+    }
+
     public function tryOptbool($opts = ['silent|s' => false])
     {
         if (!$opts['silent']) {

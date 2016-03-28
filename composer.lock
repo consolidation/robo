@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1d784788b0e55b955de66bfbd6359bc2",
-    "content-hash": "e6c4d0d08ae6292ba5d9e145e8828757",
+    "hash": "9c642f6bc24998a7d9c711cc406f8c56",
+    "content-hash": "dcadd99be7cbf9e90cf046d28bd0e578",
     "packages": [
         {
             "name": "consolidation/annotation-command",
-            "version": "0.1.0",
+            "version": "dev-passthrough-args",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation-org/annotation-command.git",
-                "reference": "94c52fe313a12eb8743f1698bcb2e258a2852ca6"
+                "reference": "7c5868903f499d72051bae014147354ff8686dd0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation-org/annotation-command/zipball/94c52fe313a12eb8743f1698bcb2e258a2852ca6",
-                "reference": "94c52fe313a12eb8743f1698bcb2e258a2852ca6",
+                "url": "https://api.github.com/repos/consolidation-org/annotation-command/zipball/7c5868903f499d72051bae014147354ff8686dd0",
+                "reference": "7c5868903f499d72051bae014147354ff8686dd0",
                 "shasum": ""
             },
             "require": {
@@ -53,7 +53,7 @@
                 }
             ],
             "description": "Initialize Symfony Console commands from annotated command class methods.",
-            "time": "2016-03-23 23:43:05"
+            "time": "2016-03-25 05:41:00"
         },
         {
             "name": "consolidation/log",
@@ -2714,7 +2714,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "consolidation/annotation-command": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

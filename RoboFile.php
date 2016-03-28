@@ -3,74 +3,49 @@ use Symfony\Component\Finder\Finder;
 
 class RoboFile extends \Robo\Tasks
 {
-    // Example:
-    // ./robo generate:task 'Symfony\Component\Filesystem\Filesystem' FilesystemStack
-    public function generateTask($className, $wrapperClassName = "")
+    /**
+     * Run the Robo unit tests.
+     */
+    public function test($args = "")
     {
-        $delegate = new ReflectionClass($className);
-        $replacements = [];
-
-        $leadingCommentChars = " * ";
-        $methodDescriptions = [];
-        $methodImplementations = [];
-        $immediateMethods = [];
-        foreach ($delegate->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
-            $methodName = $method->name;
-            $getter = preg_match('/^(get|has|is)/', $methodName);
-            $setter = preg_match('/^(set|unset)/', $methodName);
-            $argPrototypeList = [];
-            $argNameList = [];
-            $needsImplementation = false;
-            foreach ($method->getParameters() as $arg) {
-                $argDescription = '$' . $arg->name;
-                $argNameList[] = $argDescription;
-                if ($arg->isOptional()) {
-                    $argDescription = $argDescription . ' = ' . str_replace("\n", "", var_export($arg->getDefaultValue(), true));
-                    // We will create wrapper methods for any method that
-                    // has default parameters.
-                    $needsImplementation = true;
-                }
-                $argPrototypeList[] = $argDescription;
-            }
-            $argPrototypeString = implode(', ', $argPrototypeList);
-            $argNameListString = implode(', ', $argNameList);
-
-            if ($methodName[0] != '_') {
-                $methodDescriptions[] = "@method $methodName($argPrototypeString)";
-
-                if ($getter) {
-                    $immediateMethods[] = "    public function $methodName($argPrototypeString)\n    {\n        return \$this->delegate->$methodName($argNameListString);\n    }";
-                } elseif ($setter) {
-                    $immediateMethods[] = "    public function $methodName($argPrototypeString)\n    {\n        \$this->delegate->$methodName($argNameListString);\n        return \$this;\n    }";
-                } elseif ($needsImplementation) {
-                    // Include an implementation for the wrapper method if necessary
-                    $methodImplementations[] = "    protected function _$methodName($argPrototypeString)\n    {\n        \$this->delegate->$methodName($argNameListString);\n    }";
-                }
-            }
-        }
-
-        $classNameParts = explode('\\', $className);
-        $delegate = array_pop($classNameParts);
-        $delegateNamespace = implode('\\', $classNameParts);
-
-        if (empty($wrapperClassName)) {
-            $wrapperClassName = $delegate;
-        }
-
-        $replacements['{delegateNamespace}'] = $delegateNamespace;
-        $replacements['{delegate}'] = $delegate;
-        $replacements['{wrapperClassName}'] = $wrapperClassName;
-        $replacements['{taskname}'] = "task$delegate";
-        $replacements['{methodList}'] = $leadingCommentChars . implode("\n$leadingCommentChars", $methodDescriptions);
-        $replacements['{immediateMethods}'] = "\n\n" . implode("\n\n", $immediateMethods);
-        $replacements['{methodImplementations}'] = "\n\n" . implode("\n\n", $methodImplementations);
-
-        $template = file_get_contents(__DIR__ . "/GeneratedWrapper.tmpl");
-        $template = str_replace(array_keys($replacements), array_values($replacements), $template);
-
-        print $template;
+        return $this->taskCodecept()
+            ->args($args)
+            ->run();
     }
 
+    /**
+     * Code sniffer.
+     *
+     * Run the PHP Codesniffer on a file or directory.
+     *
+     * @param string $file
+     *    A file or directory to analyze.
+     * @option $autofix Whether to run the automatic fixer or not.
+     * @option $strict Show warnings as well as errors.
+     *    Default is to show only errors.
+     */
+    public function sniff(
+        $file = 'src/',
+        $options = [
+            'autofix' => false,
+            'strict' => false,
+        ]
+    ) {
+        $strict = $options['strict'] ? '' : '-n';
+        $result = $this->taskExec("./vendor/bin/phpcs --standard=PSR2 {$strict} {$file}")->run();
+        if (!$result->wasSuccessful()) {
+            if (!$options['autofix']) {
+                $options['autofix'] = $this->confirm('Would you like to run phpcbf to fix the reported errors?');
+            }
+            if ($options['autofix']) {
+                $this->taskExec("./vendor/bin/phpcbf --standard=PSR2 {$file}")->run();
+            }
+        }
+    }
+
+    /**
+     * Release Robo.
+     */
     public function release()
     {
         $this->yell("Releasing Robo");
@@ -96,13 +71,13 @@ class RoboFile extends \Robo\Tasks
         $this->versionBump();
     }
 
-    public function test($args = "")
-    {
-        return $this->taskCodecept()
-            ->args($args)
-            ->run();
-    }
-
+    /**
+     * Update changelog.
+     *
+     * Add an entry to the Robo CHANGELOG.md file.
+     *
+     * @param string $addition The text to add to the change log.
+     */
     public function changed($addition)
     {
         $this->taskChangelog()
@@ -111,9 +86,15 @@ class RoboFile extends \Robo\Tasks
             ->run();
     }
 
-    public function versionBump($version = null)
+    /**
+     * Update the version of Robo.
+     *
+     * @param string $version The new verison for Robo.
+     *   Defaults to the next minor (bugfix) version after the current relelase.
+     */
+    public function versionBump($version = '')
     {
-        if (!$version) {
+        if (empty($version)) {
             $versionParts = explode('.', \Robo\Runner::VERSION);
             $versionParts[count($versionParts)-1]++;
             $version = implode('.', $versionParts);
@@ -125,7 +106,7 @@ class RoboFile extends \Robo\Tasks
     }
 
     /**
-     * generate docs
+     * Generate the Robo documentation files.
      */
     public function docs()
     {
@@ -191,6 +172,8 @@ class RoboFile extends \Robo\Tasks
     }
 
     /**
+     * Publish Robo.
+     *
      * Builds a site in gh-pages branch. Uses mkdocs
      */
     public function publish()
@@ -216,6 +199,9 @@ class RoboFile extends \Robo\Tasks
         $collection->run();
     }
 
+    /**
+     * Build the Robo phar executable.
+     */
     public function pharBuild()
     {
         $collection = $this->collection();
@@ -253,6 +239,11 @@ class RoboFile extends \Robo\Tasks
         $collection->run();
     }
 
+    /**
+     * Install Robo phar.
+     *
+     * Installs the Robo phar executable in /usr/bin. Uses 'sudo'.
+     */
     public function pharInstall()
     {
         $this->taskExec('sudo cp')
@@ -261,6 +252,11 @@ class RoboFile extends \Robo\Tasks
             ->run();
     }
 
+    /**
+     * Publish Robo phar.
+     *
+     * Commits the phar executable to Robo's GitHub pages site.
+     */
     public function pharPublish()
     {
         $this->pharBuild();
@@ -279,6 +275,12 @@ class RoboFile extends \Robo\Tasks
             ->run();
     }
 
+    /**
+     * Watch a file.
+     *
+     * Demonstrates the 'watch' command. Runs 'composer update' any time
+     * composer.json changes.
+     */
     public function tryWatch()
     {
         $this->taskWatch()->monitor(['composer.json', 'composer.lock'], function () {
@@ -286,6 +288,9 @@ class RoboFile extends \Robo\Tasks
         })->run();
     }
 
+    /**
+     * Demonstrates Robo input APIs.
+     */
     public function tryInput()
     {
         $answer = $this->ask('how are you?');
@@ -302,7 +307,10 @@ class RoboFile extends \Robo\Tasks
     }
 
     /**
-     * Test parallel execution
+     * Demonstrates parallel execution.
+     *
+     * @option $printed Print the output of each process.
+     * @option $error Include an extra process that fails.
      */
     public function tryPara($options = ['printed' => false, 'error' => false])
     {
@@ -319,16 +327,32 @@ class RoboFile extends \Robo\Tasks
         $para->run();
     }
 
+    /**
+     * Demonstrates Robo argument passing.
+     *
+     * @param $a The first parameter. Required.
+     * @param $d The second parameter. Optional.
+     */
     public function tryArgs($a, $b = 'default')
     {
         $this->say("The parameter a is $a and b is $b");
     }
 
+    /**
+     * Demonstrate Robo variable argument passing.
+     *
+     * @param $a A list of commandline parameters.
+     */
     public function tryArrayArgs(array $a)
     {
         $this->say("The parameters passed are:\n" . var_export($a, true));
     }
 
+    /**
+     * Demonstrate Robo boolean options.
+     *
+     * @option $silent Supress output.
+     */
     public function tryOptbool($opts = ['silent|s' => false])
     {
         if (!$opts['silent']) {
@@ -336,6 +360,9 @@ class RoboFile extends \Robo\Tasks
         }
     }
 
+    /**
+     * Demonstrate the use of the PHP built-in webserver.
+     */
     public function tryServer()
     {
         $this->taskServer(8000)
@@ -344,6 +371,9 @@ class RoboFile extends \Robo\Tasks
             ->run();
     }
 
+    /**
+     * Demonstrate the use of the Robo open-browser task.
+     */
     public function tryOpenBrowser()
     {
         $this->taskOpenBrowser([
@@ -353,50 +383,29 @@ class RoboFile extends \Robo\Tasks
             ->run();
     }
 
-    public function tryInteractive()
-    {
-        new SomeTask();
-        $this->_exec('php -r "echo php_sapi_name();"');
-    }
-
     /**
-     * Run the PHP Codesniffer on a file or directory.
-     *
-     * @param string $file
-     *    A file or directory to analyze.
-     * @option $autofix Whether to run the automatic fixer or not.
-     * @option $strict Show warnings as well as errors.
-     *    Default is to show only errors.
+     * Demonstrate Robo error output and command failure.
      */
-    public function sniff(
-        $file = 'src/',
-        $options = [
-            'autofix' => false,
-            'strict' => false,
-        ]
-    ) {
-        $strict = $options['strict'] ? '' : '-n';
-        $result = $this->taskExec("./vendor/bin/phpcs --standard=PSR2 {$strict} {$file}")->run();
-        if (!$result->wasSuccessful()) {
-            if (!$options['autofix']) {
-                $options['autofix'] = $this->confirm('Would you like to run phpcbf to fix the reported errors?');
-            }
-            if ($options['autofix']) {
-                $this->taskExec("./vendor/bin/phpcbf --standard=PSR2 {$file}")->run();
-            }
-        }
-    }
-
     public function tryError()
     {
         $this->taskExec('ls xyzzy' . date('U'))->dir('/tmp')->run();
     }
 
+    /**
+     * Demonstrate Robo standard output and command success.
+     */
     public function trySuccess()
     {
         $this->taskExec('pwd')->run();
     }
 
+    /**
+     * Demonstrate deprecated task behavior.
+     *
+     * Demonstrate what happens when using a task that is created via
+     * direct instantiation, which omits initialization done by the
+     * container.  Emits a warning message.
+     */
     public function tryDeprecated()
     {
         // Calling 'new' directly without manually setting
@@ -405,6 +414,9 @@ class RoboFile extends \Robo\Tasks
         (new \Robo\Task\Base\Exec('pwd'))->run();
     }
 
+    /**
+     * Demonstrates Robo temporary directory usage.
+     */
     public function tryTmpDir()
     {
         // Set up a collection to add tasks to
@@ -442,5 +454,78 @@ class RoboFile extends \Robo\Tasks
         } else {
             $this->say("The temporary directory at $tmpPath was automatically deleted.");
         }
+    }
+
+    /**
+     * Generate a new Robo task that wraps an existing utility class.
+     *
+     * @param $className The name of the existing utility class to wrap.
+     * @param $wrapperClassName The name of the wrapper class to create. Optional.
+     * @example generate:task 'Symfony\Component\Filesystem\Filesystem' FilesystemStack
+     */
+    public function generateTask($className, $wrapperClassName = "")
+    {
+        $delegate = new ReflectionClass($className);
+        $replacements = [];
+
+        $leadingCommentChars = " * ";
+        $methodDescriptions = [];
+        $methodImplementations = [];
+        $immediateMethods = [];
+        foreach ($delegate->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
+            $methodName = $method->name;
+            $getter = preg_match('/^(get|has|is)/', $methodName);
+            $setter = preg_match('/^(set|unset)/', $methodName);
+            $argPrototypeList = [];
+            $argNameList = [];
+            $needsImplementation = false;
+            foreach ($method->getParameters() as $arg) {
+                $argDescription = '$' . $arg->name;
+                $argNameList[] = $argDescription;
+                if ($arg->isOptional()) {
+                    $argDescription = $argDescription . ' = ' . str_replace("\n", "", var_export($arg->getDefaultValue(), true));
+                    // We will create wrapper methods for any method that
+                    // has default parameters.
+                    $needsImplementation = true;
+                }
+                $argPrototypeList[] = $argDescription;
+            }
+            $argPrototypeString = implode(', ', $argPrototypeList);
+            $argNameListString = implode(', ', $argNameList);
+
+            if ($methodName[0] != '_') {
+                $methodDescriptions[] = "@method $methodName($argPrototypeString)";
+
+                if ($getter) {
+                    $immediateMethods[] = "    public function $methodName($argPrototypeString)\n    {\n        return \$this->delegate->$methodName($argNameListString);\n    }";
+                } elseif ($setter) {
+                    $immediateMethods[] = "    public function $methodName($argPrototypeString)\n    {\n        \$this->delegate->$methodName($argNameListString);\n        return \$this;\n    }";
+                } elseif ($needsImplementation) {
+                    // Include an implementation for the wrapper method if necessary
+                    $methodImplementations[] = "    protected function _$methodName($argPrototypeString)\n    {\n        \$this->delegate->$methodName($argNameListString);\n    }";
+                }
+            }
+        }
+
+        $classNameParts = explode('\\', $className);
+        $delegate = array_pop($classNameParts);
+        $delegateNamespace = implode('\\', $classNameParts);
+
+        if (empty($wrapperClassName)) {
+            $wrapperClassName = $delegate;
+        }
+
+        $replacements['{delegateNamespace}'] = $delegateNamespace;
+        $replacements['{delegate}'] = $delegate;
+        $replacements['{wrapperClassName}'] = $wrapperClassName;
+        $replacements['{taskname}'] = "task$delegate";
+        $replacements['{methodList}'] = $leadingCommentChars . implode("\n$leadingCommentChars", $methodDescriptions);
+        $replacements['{immediateMethods}'] = "\n\n" . implode("\n\n", $immediateMethods);
+        $replacements['{methodImplementations}'] = "\n\n" . implode("\n\n", $methodImplementations);
+
+        $template = file_get_contents(__DIR__ . "/GeneratedWrapper.tmpl");
+        $template = str_replace(array_keys($replacements), array_values($replacements), $template);
+
+        print $template;
     }
 }

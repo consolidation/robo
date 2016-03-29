@@ -461,7 +461,7 @@ class RoboFile extends \Robo\Tasks
      *
      * @param $className The name of the existing utility class to wrap.
      * @param $wrapperClassName The name of the wrapper class to create. Optional.
-     * @example generate:task 'Symfony\Component\Filesystem\Filesystem' FilesystemStack
+     * @usage generate:task 'Symfony\Component\Filesystem\Filesystem' FilesystemStack
      */
     public function generateTask($className, $wrapperClassName = "")
     {

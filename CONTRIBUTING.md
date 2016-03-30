@@ -8,7 +8,7 @@ Robo adheres to the [PSR-2 Coding Style Guide](http://www.php-fig.org/psr/psr-2/
 
 You can run the PHP Codesniffer on your work using a convenient command built into this project's own `RoboFile.php`:
 ```
-robo sniff src/Foo.php true
+robo sniff src/Foo.php --autofix
 ```
 The above will run the PHP Codesniffer on the `src/Foo.php` file and automatically correct variances from the PSR-2 standard. Please ensure all contributions are compliant _before_ submitting a pull request.
 

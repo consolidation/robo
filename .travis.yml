@@ -1,5 +1,11 @@
 language: php
 
+branches:
+  # Only test the master branch and SemVer tags.
+  only:
+    - master
+    - /^[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+.*$/
+
 php:
   - 5.5
   - 5.6

@@ -8,7 +8,7 @@ use League\Container\ContainerAwareTrait;
 class Tasks implements ContainerAwareInterface
 {
     use ContainerAwareTrait;
-    use Tasklib;
+    use LoadAllTasks;
     use IO;
 
     protected function stopOnFail($stopOnFail = true)

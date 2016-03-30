@@ -1,7 +1,7 @@
 <?php
 namespace Robo;
 
-trait Tasklib
+trait LoadAllTasks
 {
     use TaskAccessor;
 

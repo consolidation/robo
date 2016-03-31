@@ -5,8 +5,9 @@ use Robo\Config;
 use Robo\TaskInfo;
 use Robo\Contract\TaskInterface;
 use Robo\Contract\LogResultInterface;
+use Consolidation\AnnotationCommand\ExitCodeInterface;
 
-class Result implements \ArrayAccess, \IteratorAggregate
+class Result implements \ArrayAccess, \IteratorAggregate, ExitCodeInterface
 {
     protected static $stopOnFail = false;
 

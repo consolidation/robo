@@ -38,9 +38,10 @@ class RoboFile extends \Robo\Tasks
                 $options['autofix'] = $this->confirm('Would you like to run phpcbf to fix the reported errors?');
             }
             if ($options['autofix']) {
-                $this->taskExec("./vendor/bin/phpcbf --standard=PSR2 {$file}")->run();
+                $result = $this->taskExec("./vendor/bin/phpcbf --standard=PSR2 {$file}")->run();
             }
         }
+        return $result;
     }
 
     /**
@@ -80,7 +81,7 @@ class RoboFile extends \Robo\Tasks
      */
     public function changed($addition)
     {
-        $this->taskChangelog()
+        return $this->taskChangelog()
             ->version(\Robo\Runner::VERSION)
             ->change($addition)
             ->run();
@@ -99,7 +100,7 @@ class RoboFile extends \Robo\Tasks
             $versionParts[count($versionParts)-1]++;
             $version = implode('.', $versionParts);
         }
-        $this->taskReplaceInFile(__DIR__.'/src/Runner.php')
+        return $this->taskReplaceInFile(__DIR__.'/src/Runner.php')
             ->from("VERSION = '".\Robo\Runner::VERSION."'")
             ->to("VERSION = '".$version."'")
             ->run();
@@ -168,7 +169,7 @@ class RoboFile extends \Robo\Tasks
                 }
             )->addToCollection($collection);
         }
-        $collection->run();
+        return $collection->run();
     }
 
     /**
@@ -196,7 +197,7 @@ class RoboFile extends \Robo\Tasks
             ->addAsCompletion($collection);
         $this->taskExec('mkdocs gh-deploy')
             ->addToCollection($collection);
-        $collection->run();
+        return $collection->run();
     }
 
     /**
@@ -236,7 +237,7 @@ class RoboFile extends \Robo\Tasks
             ->printed(false)
             ->addToCollection($collection);
 
-        $collection->run();
+        return $collection->run();
     }
 
     /**
@@ -246,7 +247,7 @@ class RoboFile extends \Robo\Tasks
      */
     public function pharInstall()
     {
-        $this->taskExec('sudo cp')
+        return $this->taskExec('sudo cp')
             ->arg('robo.phar')
             ->arg('/usr/bin/robo')
             ->run();
@@ -324,7 +325,7 @@ class RoboFile extends \Robo\Tasks
         if ($options['error']) {
             $para->process("ls $dir/tests/_data/filenotfound");
         }
-        $para->run();
+        return $para->run();
     }
 
     /**
@@ -365,7 +366,7 @@ class RoboFile extends \Robo\Tasks
      */
     public function tryServer()
     {
-        $this->taskServer(8000)
+        return $this->taskServer(8000)
             ->dir('site')
             ->arg('site/index.php')
             ->run();
@@ -376,7 +377,7 @@ class RoboFile extends \Robo\Tasks
      */
     public function tryOpenBrowser()
     {
-        $this->taskOpenBrowser([
+        return $this->taskOpenBrowser([
             'http://robo.li',
             'https://github.com/Codegyre/Robo'
             ])
@@ -388,7 +389,7 @@ class RoboFile extends \Robo\Tasks
      */
     public function tryError()
     {
-        $this->taskExec('ls xyzzy' . date('U'))->dir('/tmp')->run();
+        return $this->taskExec('ls xyzzy' . date('U'))->dir('/tmp')->run();
     }
 
     /**
@@ -396,7 +397,7 @@ class RoboFile extends \Robo\Tasks
      */
     public function trySuccess()
     {
-        $this->taskExec('pwd')->run();
+        return $this->taskExec('pwd')->run();
     }
 
     /**
@@ -411,7 +412,7 @@ class RoboFile extends \Robo\Tasks
         // Calling 'new' directly without manually setting
         // up dependencies will result in a deprecation warning.
         // @see RoboFile::trySuccess()
-        (new \Robo\Task\Base\Exec('pwd'))->run();
+        return (new \Robo\Task\Base\Exec('pwd'))->run();
     }
 
     /**
@@ -447,13 +448,15 @@ class RoboFile extends \Robo\Tasks
         }
 
         // Run the task collection
-        $collection->run();
+        $result = $collection->run();
 
         if (is_dir($tmpPath)) {
             $this->say("The temporary directory at $tmpPath was not cleaned up after the collection completed.");
         } else {
             $this->say("The temporary directory at $tmpPath was automatically deleted.");
         }
+
+        return $result;
     }
 
     /**

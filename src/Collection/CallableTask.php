@@ -16,7 +16,7 @@ class CallableTask implements TaskInterface
 {
     private $fn;
 
-    public function __construct($fn)
+    public function __construct(callable $fn)
     {
         $this->fn = $fn;
     }

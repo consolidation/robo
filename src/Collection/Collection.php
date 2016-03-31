@@ -77,30 +77,22 @@ class Collection implements TaskInterface, ContainerAwareInterface
      * method ONLY if its 'run()' method completes successfully, and some
      * task added after it fails.
      *
-     * @param string|TaskInterface|TaskInterface[]
-     *   An optional name for the task -- missing or NULL for unnamed tasks.
-     *   Names are used for positioning before and after tasks.  If
-     *   a name is not provided, then the first parameter may contain
-     *   a task to add, or an array of tasks to add.
      * @param TaskInterface
-     *   If the first parameter is a string, then the second parameter
-     *   holds a single task to add to our collection.
+     *   The task to add to our collection.
+     * @param string
+     *   An optional name for the task -- missing or UNNAMEDTASK for unnamed tasks.
+     *   Names are used for positioning before and after tasks.
      */
-    public function add($name, $task = null)
+    public function add(TaskInterface $task, $name = self::UNNAMEDTASK)
     {
-        // If '$name' was unspecified, then the single parameter provided
-        // is the task or Callable object.  Make $name 'UNNAMEDTASK'.
-        if (!is_string($name) && ($task == null)) {
-            $task = $name;
-            $name = self::UNNAMEDTASK;
-        }
-        // If $task is an array (and isn't a Callable), then add every item
-        // in the array individually.
-        if (!is_callable($task) && is_array($task)) {
-            return $this->addTaskList($task);
-        }
-        // Otherwise, add the named (or unnamed) task.
-        return $this->addTask($name, $task);
+        $task = $this->getContainer()->get('completionWrapper', [$this, $task]);
+        $this->addToTaskStack($name, $task);
+        return $this;
+    }
+
+    public function addCode(callable $task, $name = self::UNNAMEDTASK)
+    {
+        return $this->add(new CallableTask($task, $this), $name);
     }
 
     /**
@@ -113,14 +105,29 @@ class Collection implements TaskInterface, ContainerAwareInterface
      *   task executes, not its 'rollback()' method.  To use the 'rollback()'
      *   method, add the task via 'Collection::add()' instead.
      */
-    public function rollback($rollbackTask)
+    public function rollback(TaskInterface $rollbackTask)
     {
         // Rollback tasks always try as hard as they can, and never report failures.
         $rollbackTask = $this->ignoreErrorsTaskWrapper($rollbackTask);
+        return $this->wrapAndRegisterRollback($rollbackTask);
+    }
+
+    public function rollbackCode(callable $rollbackTask)
+    {
+        // Rollback tasks always try as hard as they can, and never report failures.
+        $rollbackTask = $this->ignoreErrorsCodeWrapper($rollbackTask);
+        return $this->wrapAndRegisterRollback($rollbackTask);
+    }
+
+    protected function wrapAndRegisterRollback(TaskInterface $rollbackTask)
+    {
         $collection = $this;
-        $rollbackRegistrationTask = $this->wrapTask(function () use ($collection, $rollbackTask) {
-            $collection->registerRollback($rollbackTask);
-        });
+        $rollbackRegistrationTask = new CallableTask(
+            function () use ($collection, $rollbackTask) {
+                $collection->registerRollback($rollbackTask);
+            },
+            $this
+        );
         $this->addToTaskStack(self::UNNAMEDTASK, $rollbackRegistrationTask);
         return $this;
     }
@@ -135,16 +142,24 @@ class Collection implements TaskInterface, ContainerAwareInterface
      *   The completion task to add.  Note that the 'run()' method of the
      *   task executes, just as if the task was added normally.
      */
-    public function completion($completionTask)
+    public function completion(TaskInterface $completionTask)
     {
-        // Wrap the task as necessary.
-        $completionTask = $this->wrapTask($completionTask);
         $collection = $this;
-        $completionRegistrationTask = $this->wrapTask(function () use ($collection, $completionTask) {
-            $collection->registerCompletion($completionTask);
-        });
+        $completionRegistrationTask = new CallableTask(
+            function () use ($collection, $completionTask) {
+            
+                $collection->registerCompletion($completionTask);
+            },
+            $this
+        );
         $this->addToTaskStack(self::UNNAMEDTASK, $completionRegistrationTask);
         return $this;
+    }
+
+    public function completionCode(callable $completionTask)
+    {
+        $completionTask = new CallableTask($completionTask, $this);
+        return $this->completion($completionTask);
     }
 
     /**
@@ -158,13 +173,17 @@ class Collection implements TaskInterface, ContainerAwareInterface
      *   The name of the task to add. If not provided, will be associated
      *   with the named task it was added before.
      */
-    public function before($name, $task, $nameOfTaskToAdd = self::UNNAMEDTASK)
+    public function before($name, TaskInterface $task, $nameOfTaskToAdd = self::UNNAMEDTASK)
     {
-        // Wrap the task as necessary.
-        $task = $this->wrapTask($task);
         $existingTask = $this->namedTask($name);
         $existingTask->before($task, $nameOfTaskToAdd);
         return $this;
+    }
+
+    public function beforeCode($name, callable $task, $nameOfTaskToAdd = self::UNNAMEDTASK)
+    {
+        $task = new CallableTask($task, $this);
+        return $this->before($name, $task, $nameOfTaskToAdd);
     }
 
     /**
@@ -178,13 +197,17 @@ class Collection implements TaskInterface, ContainerAwareInterface
      *   The name of the task to add. If not provided, will be associated
      *   with the named task it was added after.
      */
-    public function after($name, $task, $nameOfTaskToAdd = self::UNNAMEDTASK)
+    public function after($name, TaskInterface $task, $nameOfTaskToAdd = self::UNNAMEDTASK)
     {
-        // Wrap the task as necessary.
-        $task = $this->wrapTask($task);
         $existingTask = $this->namedTask($name);
         $existingTask->after($task, $nameOfTaskToAdd);
         return $this;
+    }
+
+    public function afterCode($name, callable $task, $nameOfTaskToAdd = self::UNNAMEDTASK)
+    {
+        $task = new CallableTask($task, $this);
+        return $this->after($name, $task, $nameOfTaskToAdd);
     }
 
     /**
@@ -198,7 +221,7 @@ class Collection implements TaskInterface, ContainerAwareInterface
      * are ignored, so that 'file not found' may be ignored,
      * but 'permission denied' reported?
      */
-    public function ignoreErrorsTaskWrapper($task)
+    public function ignoreErrorsTaskWrapper(TaskInterface $task)
     {
         // If the task is a stack-based task, then tell it
         // to try to run all of its operations, even if some
@@ -206,9 +229,6 @@ class Collection implements TaskInterface, ContainerAwareInterface
         if ($task instanceof StackBasedTask) {
             $task->stopOnFail(false);
         }
-        // If the task that was provided to us is a
-        // callable, then wrap it in a task.
-        $task = $this->wrapTask($task);
         $ignoreErrorsInTask = function () use ($task) {
             $data = [];
             try {
@@ -223,7 +243,12 @@ class Collection implements TaskInterface, ContainerAwareInterface
             return Result::success($task, $message, $data);
         };
         // Wrap our ignore errors callable in a task.
-        return $this->wrapTask($ignoreErrorsInTask);
+        return new CallableTask($ignoreErrorsInTask, $this);
+    }
+
+    public function ignoreErrorsCodeWrapper(callable $task)
+    {
+        return $this->ignoreErrorsTaskWrapper(new CallableTask($task, $this));
     }
 
     /**
@@ -273,59 +298,23 @@ class Collection implements TaskInterface, ContainerAwareInterface
     }
 
     /**
-     * Add a list of tasks to our task collection. This is
-     * protected because clients should just call 'add()'.
+     * Add a list of tasks to our task collection.
      *
      * @param TaskInterface[]
      *   An array of tasks to run with rollback protection
      */
-    protected function addTaskList($tasks)
+    public function addTaskList(array $tasks)
     {
         foreach ($tasks as $name => $task) {
-            $this->addTask($name, $task);
+            $this->add($task, $name);
         }
         return $this;
-    }
-
-    /**
-     * Add a task to our task collection.  If there is a later failure,
-     * then run the provided rollback operation.  The rollback() method of
-     * the task will also be executed, if the task implements
-     * RollbackInterface.  addTask is protected because clients should
-     * just call 'add()'.
-     *
-     * @param string
-     *   A name for the task, used for positioning before and after tasks.
-     * @param TaskInterface
-     *   The task to run
-     */
-    protected function addTask($name, $task)
-    {
-        // Wrap the task as necessary.
-        $task = $this->wrapTask($task);
-        $task = $this->getContainer()->get('completionWrapper', [$this, $task]);
-        $this->addToTaskStack($name, $task);
-        return $this;
-    }
-
-    /**
-     * If the task needs to be wrapped, create whatever wrapper objects are
-     * needed for it.
-     */
-    protected function wrapTask($task)
-    {
-        // If the caller provided a function pointer instead of a TaskInstance,
-        // then wrap it in a CallableTask.
-        if (is_callable($task)) {
-            $task = new CallableTask($task, $this);
-        }
-        return $task;
     }
 
     /**
      * Add the provided task to our task list.
      */
-    protected function addToTaskStack($name, $task)
+    protected function addToTaskStack($name, TaskInterface $task)
     {
         // All tasks are stored in a task group so that we have a place
         // to hang 'before' and 'after' tasks.
@@ -360,10 +349,8 @@ class Collection implements TaskInterface, ContainerAwareInterface
      * @param TaskInterface
      *   The rollback task to run on failure.
      */
-    public function registerRollback($rollbackTask)
+    public function registerRollback(TaskInterface $rollbackTask)
     {
-        // Wrap the task as necessary.
-        $rollbackTask = $this->wrapTask($rollbackTask);
         if ($rollbackTask) {
             $this->rollbackStack[] = $rollbackTask;
         }
@@ -388,11 +375,21 @@ class Collection implements TaskInterface, ContainerAwareInterface
      * @param TaskInterface
      *   The completion task to run at the end of all other operations.
      */
-    public function registerCompletion($completionTask)
+    public function registerCompletion(TaskInterface $completionTask)
     {
         if ($completionTask) {
             // Completion tasks always try as hard as they can, and never report failures.
             $completionTask = $this->ignoreErrorsTaskWrapper($completionTask);
+            $this->completionStack[] = $completionTask;
+        }
+        return $this;
+    }
+
+    public function registerCompletionCode(callable $completionTask)
+    {
+        if ($completionTask) {
+            // Completion tasks always try as hard as they can, and never report failures.
+            $completionTask = $this->ignoreErrorsCodeWrapper($completionTask);
             $this->completionStack[] = $completionTask;
         }
         return $this;
@@ -488,7 +485,7 @@ class Collection implements TaskInterface, ContainerAwareInterface
      * Run every task in a list, but only up to the first failure.
      * Return the failing result, or success if all tasks run.
      */
-    protected function runTaskList($name, $taskList, $result)
+    protected function runTaskList($name, array $taskList, $result)
     {
         try {
             foreach ($taskList as $taskName => $task) {
@@ -544,7 +541,7 @@ class Collection implements TaskInterface, ContainerAwareInterface
      * Run all of the tasks in a provided list, ignoring failures.
      * This is used to roll back or complete.
      */
-    protected function runTaskListIgnoringFailures($taskList)
+    protected function runTaskListIgnoringFailures(array $taskList)
     {
         foreach ($taskList as $task) {
             try {

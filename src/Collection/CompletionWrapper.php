@@ -61,10 +61,10 @@ class CompletionWrapper extends BaseTask implements WrappedTaskInterface
             $this->collection->registerRollback($this->rollbackTask);
         }
         if ($this->task instanceof RollbackInterface) {
-            $this->collection->registerRollback([$this->task, 'rollback']);
+            $this->collection->registerRollbackCode([$this->task, 'rollback']);
         }
         if ($this->task instanceof CompletionInterface) {
-            $this->collection->registerCompletion([$this->task, 'complete']);
+            $this->collection->registerCompletionCode([$this->task, 'complete']);
         }
 
         return $this->task->run();

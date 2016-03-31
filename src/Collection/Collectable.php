@@ -2,6 +2,8 @@
 
 namespace Robo\Collection;
 
+use Robo\Contract\TaskInterface;
+
 /**
  * The 'Collectable' trait is used by Robo\Task\BaseTask, so all Robo
  * tasks are collectable.
@@ -33,9 +35,9 @@ trait Collectable
         return $this->addCollectableToCollection($collection->ignoreErrorsTaskWrapper($this), $collection, $taskName);
     }
 
-    private function addCollectableToCollection($task, Collection $collection, $taskName = Collection::UNNAMEDTASK, TaskInterface $rollbackTask = null)
+    private function addCollectableToCollection(TaskInterface $task, Collection $collection, $taskName = Collection::UNNAMEDTASK, TaskInterface $rollbackTask = null)
     {
-        $collection->add($taskName, $task);
+        $collection->add($task, $taskName);
         if ($rollbackTask) {
             $collection->rollback($rollbackTask);
         }

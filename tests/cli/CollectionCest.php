@@ -183,7 +183,7 @@ class CollectionCest
         // Now, rather than creating a series of tasks and adding them
         // all with addToCollection(), we will add them directly to the collection
         // via the add() method.
-        $result = $collection->add(
+        $result = $collection->addTaskList(
             [
                 $I->taskFileSystemStack()->mkdir("$tmpPath/log")->touch("$tmpPath/log/error.txt"),
                 $I->taskCopyDir([$tmpPath => 'copied3']),

@@ -30,18 +30,18 @@ class CollectionTest extends \Codeception\TestCase\Test
         $taskB = new CollectionTestTask('b', 'value-b');
 
         $collection
-            ->add('a-name', $taskA)
-            ->add('b-name', $taskB);
+            ->add($taskA, 'a-name')
+            ->add($taskB, 'b-name');
 
         // We add methods of our task instances as before and
         // after tasks. These methods have access to the task
         // class' fields, and may modify them as needed.
         $collection
-            ->after('a-name', [$taskA, 'parenthesizer'])
-            ->after('a-name', [$taskA, 'emphasizer'])
-            ->after('b-name', [$taskB, 'emphasizer'])
-            ->after('b-name', [$taskB, 'parenthesizer'])
-            ->after('b-name', [$taskB, 'parenthesizer'], 'special-name');
+            ->afterCode('a-name', [$taskA, 'parenthesizer'])
+            ->afterCode('a-name', [$taskA, 'emphasizer'])
+            ->afterCode('b-name', [$taskB, 'emphasizer'])
+            ->afterCode('b-name', [$taskB, 'parenthesizer'])
+            ->afterCode('b-name', [$taskB, 'parenthesizer'], 'special-name');
 
         $result = $collection->run();
 

@@ -63,11 +63,11 @@ HERE
            ->line('****')
            ->line('hello world')
            ->line('****')
-           ->textIfMatch('/hello/', 'Should not add this', false)
-           ->textIfMatch('/goodbye/', 'Should add this', false)
-           ->textIfMatch('/hello/', ' and should also add this')
-           ->textIfMatch('/goodbye/', ' but should not add this')
-           ->textIfMatch('/should/', '!')
+           ->appendUnlessMatches('/hello/', 'Should not add this')
+           ->appendUnlessMatches('/goodbye/', 'Should add this')
+           ->appendIfMatches('/hello/', ' and should also add this')
+           ->appendIfMatches('/goodbye/', ' but should not add this')
+           ->appendIfMatches('/should/', '!')
            ->run();
         $I->seeFileFound('blogpost.md');
         $I->seeFileContentsEqual(<<<HERE

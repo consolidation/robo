@@ -29,6 +29,7 @@
         "henrikbjorn/lurker": "~1.0",
         "natxet/CssMin": "~3.0",
         "pear/archive_tar": "~1.0",
+        "cpliakas/git-wrapper": "~1.0",
         "codeception/base": "~2.1.5",
         "codeception/verify": "0.2.*",
         "codeception/aspect-mock": "0.5.4",

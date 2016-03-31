@@ -16,7 +16,7 @@ class GitTest extends \Codeception\TestCase\Test
     protected function _before()
     {
         $this->git = test::double('Robo\Task\Vcs\GitStack', [
-            'executeCommand' => new \AspectMock\Proxy\Anything(),
+            'run' => new \AspectMock\Proxy\Anything(),
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
         $this->container = Config::getContainer();
@@ -26,42 +26,87 @@ class GitTest extends \Codeception\TestCase\Test
     // tests
     public function testGitStackRun()
     {
-        $this->container->get('taskGitStack', ['git'])->stopOnFail()->add('-A')->pull()->run();
-        $this->git->verifyInvoked('executeCommand', ['git add -A']);
-        $this->git->verifyInvoked('executeCommand', ['git pull']);
-
         $this->container->get('taskGitStack', ['git'])->add('-A')->pull()->run();
-        $this->git->verifyInvoked('executeCommand', ['git add -A && git pull']);
+        $this->git->verifyInvoked('run', []);
     }
 
     public function testGitStackCommands()
     {
         verify(
-            $this->container->get('taskGitStack')
-                ->cloneRepo('http://github.com/Codegyre/Robo')
-                ->pull()
-                ->add('-A')
-                ->commit('changed')
-                ->push()
-                ->tag('0.6.0')
-                ->push('origin', '0.6.0')
-                ->getCommand()
-        )->equals("git clone http://github.com/Codegyre/Robo && git pull && git add -A && git commit -m 'changed' && git push && git tag 0.6.0 && git push origin 0.6.0");
+            $this->renderCommand(
+                $this->container->get('taskGitStack')
+                    ->cloneRepo('http://github.com/Codegyre/Robo')
+                    ->pull()
+                    ->add('-A')
+                    ->commit('changed')
+                    ->push()
+                    ->tag('0.6.0')
+                    ->push('origin', '0.6.0')
+                    ->getCommandStack()
+            )
+        )->equals("cloneRepository http://github.com/Codegyre/Robo []
+pull
+_add -A
+_commit changed
+push
+_tag 0.6.0
+push origin 0.6.0");
     }
 
     public function testGitStackCommandsWithTagMessage()
     {
         verify(
-            $this->container->get('taskGitStack')
-                ->cloneRepo('http://github.com/Codegyre/Robo')
-                ->pull()
-                ->add('-A')
-                ->commit('changed')
-                ->push()
-                ->tag('0.6.0', 'message')
-                ->push('origin', '0.6.0')
-                ->getCommand()
-        )->equals("git clone http://github.com/Codegyre/Robo && git pull && git add -A && git commit -m 'changed' && git push && git tag -m 'message' 0.6.0 && git push origin 0.6.0");
+            $this->renderCommand(
+                $this->container->get('taskGitStack')
+                    ->cloneRepo('http://github.com/Codegyre/Robo')
+                    ->pull()
+                    ->add('-A')
+                    ->commit('changed')
+                    ->push()
+                    ->tag('0.6.0', 'message')
+                    ->push('origin', '0.6.0')
+                    ->getCommandStack()
+            )
+        )->equals("cloneRepository http://github.com/Codegyre/Robo []
+pull
+_add -A
+_commit changed
+push
+_tag 0.6.0 message
+push origin 0.6.0");
     }
 
+    /**
+     * Get accumulated command stack for reporting / debugging purposes.
+     */
+    protected function renderCommand($commandStack)
+    {
+        return implode("\n",
+            array_map(
+                function ($item) {
+                    // The first item is a callable array (object, method);
+                    // ignore the object, and assign the method name to the
+                    // first element.
+                    $item[0] = array_pop($item[0]);
+                    // The last item might be an array of options.
+                    $last = array_pop($item);
+                    $item[] = $this->renderOptions($last);
+                    return implode(" ", $item);
+                },
+                $commandStack
+            )
+        );
+    }
+
+    protected function renderOptions($options)
+    {
+        if (!is_array($options)) {
+            return $options;
+        }
+        $optionList = [];
+        foreach ($options as $key => $value) {
+            $optionList[] = "$key=$value";
+        }
+        return '[' . implode(', ', $optionList) . ']';
+    }
 }

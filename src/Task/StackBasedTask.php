@@ -125,6 +125,14 @@ abstract class StackBasedTask extends BaseTask
     }
 
     /**
+     * Get command stack for reporting / debugging purposes.
+     */
+    public function getCommandStack()
+    {
+        return $this->stack;
+    }
+
+    /**
      * Any API function provided by the delegate that executes immediately
      * may be handled by __call automatically.  These operations will all
      * be deferred until this task's run() method is called.

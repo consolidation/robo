@@ -9,7 +9,7 @@ namespace Robo\Contract;
  * Interface CompletionInterface
  * @package Robo\Contract
  */
-interface CompletionInterface
+interface CompletionInterface extends TaskInterface
 {
     /**
      * Revert an operation that can be rolled back

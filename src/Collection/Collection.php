@@ -147,7 +147,7 @@ class Collection implements TaskInterface, ContainerAwareInterface
         $collection = $this;
         $completionRegistrationTask = new CallableTask(
             function () use ($collection, $completionTask) {
-            
+
                 $collection->registerCompletion($completionTask);
             },
             $this
@@ -380,16 +380,6 @@ class Collection implements TaskInterface, ContainerAwareInterface
         if ($completionTask) {
             // Completion tasks always try as hard as they can, and never report failures.
             $completionTask = $this->ignoreErrorsTaskWrapper($completionTask);
-            $this->completionStack[] = $completionTask;
-        }
-        return $this;
-    }
-
-    public function registerCompletionCode(callable $completionTask)
-    {
-        if ($completionTask) {
-            // Completion tasks always try as hard as they can, and never report failures.
-            $completionTask = $this->ignoreErrorsCodeWrapper($completionTask);
             $this->completionStack[] = $completionTask;
         }
         return $this;

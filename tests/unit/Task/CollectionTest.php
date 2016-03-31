@@ -37,11 +37,11 @@ class CollectionTest extends \Codeception\TestCase\Test
         // after tasks. These methods have access to the task
         // class' fields, and may modify them as needed.
         $collection
-            ->afterCode('a-name', [$taskA, 'parenthesizer'])
-            ->afterCode('a-name', [$taskA, 'emphasizer'])
-            ->afterCode('b-name', [$taskB, 'emphasizer'])
-            ->afterCode('b-name', [$taskB, 'parenthesizer'])
-            ->afterCode('b-name', [$taskB, 'parenthesizer'], 'special-name');
+            ->after('a-name', [$taskA, 'parenthesizer'])
+            ->after('a-name', [$taskA, 'emphasizer'])
+            ->after('b-name', [$taskB, 'emphasizer'])
+            ->after('b-name', [$taskB, 'parenthesizer'])
+            ->after('b-name', [$taskB, 'parenthesizer'], 'special-name');
 
         $result = $collection->run();
 

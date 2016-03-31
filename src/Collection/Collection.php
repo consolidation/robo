@@ -167,23 +167,15 @@ class Collection implements TaskInterface, ContainerAwareInterface
      *
      * @param string
      *   The name of the task to insert before.  The named task MUST exist.
-     * @param TaskInterface
+     * @param callable|TaskInterface
      *   The task to add.
      * @param string
      *   The name of the task to add. If not provided, will be associated
      *   with the named task it was added before.
      */
-    public function before($name, TaskInterface $task, $nameOfTaskToAdd = self::UNNAMEDTASK)
+    public function before($name, $task, $nameOfTaskToAdd = self::UNNAMEDTASK)
     {
-        $existingTask = $this->namedTask($name);
-        $existingTask->before($task, $nameOfTaskToAdd);
-        return $this;
-    }
-
-    public function beforeCode($name, callable $task, $nameOfTaskToAdd = self::UNNAMEDTASK)
-    {
-        $task = new CallableTask($task, $this);
-        return $this->before($name, $task, $nameOfTaskToAdd);
+        return $this->addBeforeOrAfter(__FUNCTION__, $name, $task, $nameOfTaskToAdd);
     }
 
     /**
@@ -191,23 +183,29 @@ class Collection implements TaskInterface, ContainerAwareInterface
      *
      * @param string
      *   The name of the task to insert before.  The named task MUST exist.
-     * @param TaskInterface
+     * @param callable|TaskInterface
      *   The task to add.
      * @param string
      *   The name of the task to add. If not provided, will be associated
      *   with the named task it was added after.
      */
-    public function after($name, TaskInterface $task, $nameOfTaskToAdd = self::UNNAMEDTASK)
+    public function after($name, $task, $nameOfTaskToAdd = self::UNNAMEDTASK)
     {
-        $existingTask = $this->namedTask($name);
-        $existingTask->after($task, $nameOfTaskToAdd);
-        return $this;
+        return $this->addBeforeOrAfter(__FUNCTION__, $name, $task, $nameOfTaskToAdd);
     }
 
-    public function afterCode($name, callable $task, $nameOfTaskToAdd = self::UNNAMEDTASK)
+    /**
+     * Add either a 'before' or 'after' function or task.
+     */
+    protected function addBeforeOrAfter($method, $name, $task, $nameOfTaskToAdd)
     {
-        $task = new CallableTask($task, $this);
-        return $this->after($name, $task, $nameOfTaskToAdd);
+        if (is_callable($task)) {
+            $task = new CallableTask($task, $this);
+        }
+        $existingTask = $this->namedTask($name);
+        $fn = [$existingTask, $method];
+        call_user_func($fn, $task, $nameOfTaskToAdd);
+        return $this;
     }
 
     /**

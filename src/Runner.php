@@ -4,6 +4,7 @@ namespace Robo;
 use Robo\Config;
 use Robo\Common\IO;
 use Robo\Container\RoboContainer;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -260,7 +261,7 @@ class Runner
 
     /**
      * @param $argv
-     * @return ArgvInput
+     * @return InputInterface
      */
     protected function prepareInput($argv)
     {
@@ -292,7 +293,7 @@ class Runner
             }
         }
         $input = new ArgvInput($argv);
-        if ($passThroughArgs) {
+        if (!empty($passThroughArgs)) {
             $input = new PassThroughArgsInput($passThroughArgs, $input);
         }
         return $input;

@@ -56,6 +56,29 @@ HERE
         );
     }
 
+    public function appendIfMatch(CliGuy $I)
+    {
+        $I->wantTo('append lines with WriteToFile task, but only if pattern does not match');
+        $I->taskWriteToFile('blogpost.md')
+           ->line('****')
+           ->line('hello world')
+           ->line('****')
+           ->appendUnlessMatches('/hello/', 'Should not add this')
+           ->appendUnlessMatches('/goodbye/', 'Should add this')
+           ->appendIfMatches('/hello/', ' and should also add this')
+           ->appendIfMatches('/goodbye/', ' but should not add this')
+           ->appendIfMatches('/should/', '!')
+           ->run();
+        $I->seeFileFound('blogpost.md');
+        $I->seeFileContentsEqual(<<<HERE
+****
+hello world
+****
+Should add this and should also add this!
+HERE
+        );
+    }
+
     public function replaceInFile(CliGuy $I)
     {
         $I->taskReplaceInFile('a.txt')

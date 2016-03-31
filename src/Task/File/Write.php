@@ -143,6 +143,32 @@ class Write extends BaseTask
         return $this;
     }
 
+    /**
+     * Append the provided text to the end of the buffer if the provided
+     * regex pattern matches any text already in the buffer.
+     *
+     * @param string $pattern
+     * @param string
+     */
+    public function appendIfMatches($pattern, $text)
+    {
+        $this->stack[] = array_merge(['appendIfMatchesCollect'], [$pattern, $text, true]);
+        return $this;
+    }
+
+    /**
+     * Append the provided text to the end of the buffer unless the provided
+     * regex pattern matches any text already in the buffer.
+     *
+     * @param string $pattern
+     * @param string
+     */
+    public function appendUnlessMatches($pattern, $text)
+    {
+        $this->stack[] = array_merge(['appendIfMatchesCollect'], [$pattern, $text, false]);
+        return $this;
+    }
+
     protected function textFromFileCollect($contents, $filename)
     {
         return $contents . file_get_contents($filename);
@@ -161,6 +187,14 @@ class Write extends BaseTask
     protected function textCollect($contents, $text)
     {
         return $contents . $text;
+    }
+
+    protected function appendIfMatchesCollect($contents, $pattern, $text, $shouldMatch)
+    {
+        if (preg_match($pattern, $contents) == $shouldMatch) {
+            $contents .= $text;
+        }
+        return $contents;
     }
 
     protected function getContents()

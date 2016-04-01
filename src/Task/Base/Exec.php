@@ -124,10 +124,8 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
 
     public function run()
     {
-        $command = $this->getCommand();
-        $dir = $this->workingDirectory ? " in {dir}" : "";
         $this->printAction();
-        $this->process = new Process($command);
+        $this->process = new Process($this->getCommand());
         $this->process->setTimeout($this->timeout);
         $this->process->setIdleTimeout($this->idleTimeout);
         $this->process->setWorkingDirectory($this->workingDirectory);

@@ -156,6 +156,11 @@ class Runner
         $container->share('eventDispatcher', \Symfony\Component\EventDispatcher\EventDispatcher::class)
             ->withMethodCall('addSubscriber', ['globalOptionsEventListener']);
 
+        static::addInflectors($container);
+    }
+
+    public static function addInflectors($container)
+    {
         // Register our various inflectors.
         $container->inflector(\Psr\Log\LoggerAwareInterface::class)
             ->invokeMethod('setLogger', ['logger']);

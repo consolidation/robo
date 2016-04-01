@@ -111,6 +111,7 @@ class RoboFile extends \Robo\Tasks
     public function docs()
     {
         $collection = $this->collection();
+        $collection->progressMessage('Generate documentation from source code.');
         $files = Finder::create()->files()->name('*.php')->in('src/Task');
         $docs = [];
         foreach ($files as $file) {
@@ -168,6 +169,7 @@ class RoboFile extends \Robo\Tasks
                 }
             )->addToCollection($collection);
         }
+        $collection->progressMessage('Documentation generation complete.');
         $collection->run();
     }
 

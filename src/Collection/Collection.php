@@ -2,8 +2,12 @@
 namespace Robo\Collection;
 
 use Robo\Result;
+use Psr\Log\LogLevel;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 use Robo\Contract\TaskInterface;
 use Robo\Container\SimpleServiceProvider;
+use Robo\TaskInfo;
 
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
@@ -34,8 +38,9 @@ use League\Container\ContainerAwareTrait;
  * ?>
  * ```
  */
-class Collection implements TaskInterface, ContainerAwareInterface
+class Collection implements TaskInterface, LoggerAwareInterface, ContainerAwareInterface
 {
+    use LoggerAwareTrait;
     use ContainerAwareTrait;
 
     // Unnamed tasks are assigned an arbitrary numeric index
@@ -93,6 +98,29 @@ class Collection implements TaskInterface, ContainerAwareInterface
     public function addCode(callable $task, $name = self::UNNAMEDTASK)
     {
         return $this->add(new CallableTask($task, $this), $name);
+    }
+
+    /**
+     * Print a progress message after Collection::run() has executed
+     * all of the tasks that were added prior to the point when this
+     * method was called. If one of the previous tasks fail, then this
+     * message will not be printed.
+     *
+     * @param string $text Message to print.
+     * @param array $context Extra context data for use by the logger.
+     * @param LogLevel $level The log level to print the information at. Default is NOTICE.
+     */
+    public function progressMessage($text, $context = [], $level = LogLevel::NOTICE)
+    {
+        $logger = $this->logger;
+        $context += ['name' => 'Progress'];
+        $context += TaskInfo::getTaskContext($this);
+        return $this->addCode(
+            function () use ($level, $text, $context, $logger)
+            {
+                $logger->log($level, $text, $context);
+            }
+        );
     }
 
     /**

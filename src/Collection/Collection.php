@@ -116,8 +116,7 @@ class Collection implements TaskInterface, LoggerAwareInterface, ContainerAwareI
         $context += ['name' => 'Progress'];
         $context += TaskInfo::getTaskContext($this);
         return $this->addCode(
-            function () use ($level, $text, $context, $logger)
-            {
+            function () use ($level, $text, $context, $logger) {
                 $logger->log($level, $text, $context);
             }
         );

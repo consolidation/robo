@@ -23,7 +23,8 @@ class Simulator extends BaseTask
     public function __call($function, $args)
     {
         $this->stack[] = array_merge([$function], $args);
-        return $this;
+        $result = call_user_func_array([$this->task, $function], $args);
+        return $result == $this->task ? $this : $result;
     }
 
     public function run()

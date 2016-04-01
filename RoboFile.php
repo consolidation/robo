@@ -431,6 +431,10 @@ class RoboFile extends \Robo\Tasks
             ->addToCollection($collection)
             ->getPath();
 
+        $this->taskWriteToFile("$tmpPath/file.txt")
+            ->line('Example file')
+            ->addToCollection($collection);
+
         // We can create the temporary directory early by running
         // 'runWithoutCompletion()'.  n.b. if we called 'run()' at
         // this point, the collection's 'complete()' method would be

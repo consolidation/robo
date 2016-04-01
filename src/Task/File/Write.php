@@ -25,7 +25,7 @@ class Write extends BaseTask
     protected $stack = [];
     protected $filename;
     protected $append = false;
-    protected $originalContents = false;
+    protected $originalContents = null;
 
     public function __construct($filename)
     {
@@ -201,7 +201,7 @@ class Write extends BaseTask
 
     public function originalContents()
     {
-        if ($this->originalContents === false) {
+        if (!isset($this->originalContents)) {
             $this->originalContents = file_get_contents($this->filename);
         }
         return $this->originalContents;

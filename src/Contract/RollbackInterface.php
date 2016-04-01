@@ -9,7 +9,7 @@ namespace Robo\Contract;
  * Interface RollbackInterface
  * @package Robo\Contract
  */
-interface RollbackInterface
+interface RollbackInterface extends TaskInterface
 {
     /**
      * Revert an operation that can be rolled back

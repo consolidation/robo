@@ -30,8 +30,8 @@ class CollectionTest extends \Codeception\TestCase\Test
         $taskB = new CollectionTestTask('b', 'value-b');
 
         $collection
-            ->add('a-name', $taskA)
-            ->add('b-name', $taskB);
+            ->add($taskA, 'a-name')
+            ->add($taskB, 'b-name');
 
         // We add methods of our task instances as before and
         // after tasks. These methods have access to the task

@@ -14,11 +14,13 @@ use Robo\Collection\Collection;
  */
 class CallableTask implements TaskInterface
 {
-    private $fn;
+    protected $fn;
+    protected $reference;
 
-    public function __construct($fn)
+    public function __construct(callable $fn, TaskInterface $reference)
     {
         $this->fn = $fn;
+        $this->reference = $reference;
     }
 
     public function run()
@@ -33,7 +35,7 @@ class CallableTask implements TaskInterface
         // a \Robo\Result or an exit code.  In the later case, we
         // convert it to a \Robo\Result.
         if (!$result instanceof Result) {
-            $result = new Result($this, $result);
+            $result = new Result($this->reference, $result);
         }
 
         return $result;

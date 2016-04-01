@@ -1,7 +1,7 @@
 <?php
 namespace Robo\Contract;
 
-interface WrappedTaskInterface
+interface WrappedTaskInterface extends TaskInterface
 {
     /**
      * @return \Robo\Contract\TaskInterface

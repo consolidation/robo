@@ -104,7 +104,7 @@ trait TaskIO
         $this->printTaskOutput(LogLevel::DEBUG, $text, $this->getTaskContext($context));
     }
 
-    private function printTaskOutput($level, $text, $context)
+    protected function printTaskOutput($level, $text, $context)
     {
         $inProgress = false;
         if ($this instanceof ProgressIndicatorAwareInterface) {

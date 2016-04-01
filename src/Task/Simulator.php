@@ -54,25 +54,40 @@ class Simulator extends BaseTask
 
     protected function formatParameters($action)
     {
-        $parameterList = array_map(
-            function ($item) {
-                if (is_callable($item)) {
-                    return 'inline_function(...)';
-                }
-                if (is_array($item)) {
-                    return var_export($item, true);
-                }
-                if (is_object($item)) {
-                    return '[object]';
-            //                    return var_export($item, true);
-                }
-                if (is_string($item)) {
-                    return "'$item'";
-                }
-                return $item;
-            },
-            $action
-        );
+        $parameterList = array_map([$this, 'convertParameter'], $action);
         return implode(', ', $parameterList);
+    }
+
+    protected function convertParameter($item)
+    {
+        if (is_callable($item)) {
+            return 'inline_function(...)';
+        }
+        if (is_array($item)) {
+            return $this->shortenParameter(var_export($item, true));
+        }
+        if (is_object($item)) {
+            return $this->shortenParameter(var_export($item, true), '[' . get_class($item). 'object]');
+        }
+        if (is_string($item)) {
+            return $this->shortenParameter("'$item'");
+        }
+        return $item;
+    }
+
+    protected function shortenParameter($item, $shortForm = '')
+    {
+        $maxLength = 80;
+        $tailLength = 20;
+        if (strlen($item) < $maxLength) {
+            return $item;
+        }
+        if (!empty($shortForm)) {
+            return $shortForm;
+        }
+        $item = trim($item);
+        $tail = preg_replace("#.*\n#ms", '', substr($item, -$tailLength));
+        $head = preg_replace("#\n.*#ms", '', substr($item, 0, $maxLength - (strlen($tail) + 5)));
+        return "$head ... $tail";
     }
 }

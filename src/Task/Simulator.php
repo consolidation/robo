@@ -5,6 +5,7 @@ use Robo\TaskInfo;
 use Robo\Result;
 use Robo\Contract\TaskInterface;
 use Robo\Log\RoboLogLevel;
+use Psr\Log\LogLevel;
 
 class Simulator extends BaseTask
 {
@@ -37,10 +38,11 @@ class Simulator extends BaseTask
         }
         // RoboLogLevel::SIMULATED_ACTION
         $this->logger()->log(
-            RoboLogLevel::SIMULATED_ACTION,
+            LogLevel::NOTICE,
             "Simulating {simulated}({parameters})$callchain",
             $this->getTaskContext(
                 [
+                    '_level' => RoboLogLevel::SIMULATED_ACTION,
                     'simulated' => TaskInfo::formatTaskName($this->task),
                     'parameters' => $this->formatParameters($this->constructorParameters),
                     '_style' => ['simulated' => 'fg=blue;options=bold'],

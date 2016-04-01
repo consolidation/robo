@@ -22,8 +22,10 @@ use Robo\Task\BaseTask;
  */
 class Write extends BaseTask
 {
+    protected $stack = [];
     protected $filename;
     protected $append = false;
+    protected $originalContents = false;
 
     public function __construct($filename)
     {
@@ -197,11 +199,24 @@ class Write extends BaseTask
         return $contents;
     }
 
-    protected function getContents()
+    public function originalContents()
+    {
+        if ($this->originalContents === false) {
+            $this->originalContents = file_get_contents($this->filename);
+        }
+        return $this->originalContents;
+    }
+
+    public function wouldChange()
+    {
+        return $this->originalContents() != $this->getContentsToWrite();
+    }
+
+    protected function getContentsToWrite()
     {
         $contents = "";
         if ($this->append) {
-            $contents = file_get_contents($this->filename);
+            $contents = $this->originalContents();
         }
         foreach ($this->stack as $action) {
             $command = array_shift($action);
@@ -216,7 +231,7 @@ class Write extends BaseTask
     public function run()
     {
         $this->printTaskInfo("Writing to {filename}.", ['filename' => $this->filename]);
-        $contents = $this->getContents();
+        $contents = $this->getContentsToWrite();
         if (!file_exists(dirname($this->filename))) {
             mkdir(dirname($this->filename), 0777, true);
         }

@@ -40,6 +40,15 @@ HERE
         );
     }
 
+    public function testWouldChange(CliGuy $I)
+    {
+        $writeTask = $I->taskWriteToFile('a.txt')
+           ->append();
+        $I->assertEquals(false, $writeTask->wouldChange(), "No changes to test file.");
+        $writeTask->line('hello world');
+        $I->assertEquals(true, $writeTask->wouldChange(), "Test file would change.");
+    }
+
     public function insertFile(CliGuy $I)
     {
         $I->taskWriteToFile('a.txt')

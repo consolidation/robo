@@ -173,7 +173,10 @@ class Write extends BaseTask
 
     protected function textFromFileCollect($contents, $filename)
     {
-        return $contents . file_get_contents($filename);
+        if (file_exists($filename)) {
+            $contents .= file_get_contents($filename);
+        }
+        return $contents;
     }
 
     protected function replaceCollect($contents, $string, $replacement)
@@ -202,7 +205,10 @@ class Write extends BaseTask
     public function originalContents()
     {
         if (!isset($this->originalContents)) {
-            $this->originalContents = file_get_contents($this->filename);
+            $this->originalContents = '';
+            if (file_exists($this->filename)) {
+                $this->originalContents = file_get_contents($this->filename);
+            }
         }
         return $this->originalContents;
     }

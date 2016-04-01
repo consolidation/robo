@@ -7,6 +7,7 @@ use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Robo\Contract\TaskInterface;
 use Robo\Container\SimpleServiceProvider;
+use Robo\Task\StackBasedTask;
 use Robo\TaskInfo;
 
 use League\Container\ContainerAwareInterface;

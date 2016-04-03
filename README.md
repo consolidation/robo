@@ -32,8 +32,7 @@ Now you can use it just like `robo`.
 
 ### Composer
 
-* Add `"codegyre/robo": "*"` to `composer.json`.
-* Run `composer install`
+* Run `composer require codegyre/robo`
 * Use `vendor/bin/robo` to execute Robo tasks.
 
 ## Usage

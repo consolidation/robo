@@ -9,7 +9,7 @@ use Consolidation\AnnotationCommand\ExitCodeInterface;
 
 class Result implements \ArrayAccess, \IteratorAggregate, ExitCodeInterface
 {
-    protected static $stopOnFail = false;
+    public static $stopOnFail = false;
 
     protected $exitCode;
     protected $message;

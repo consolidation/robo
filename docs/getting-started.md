@@ -207,7 +207,7 @@ Added with [PR by @jonsa](https://github.com/Codegyre/Robo/pull/71); now provide
 
 ## Tasks
 
-Robo commands typically divide the work they need to accomplish into **tasks**. The command first determines what needs to be done, instpecting current state if necessary, and then sets up and executes one or more tasks that make the actual changes needed by the command.  (See also the documentation on [Collections](collections.md).)
+Robo commands typically divide the work they need to accomplish into **tasks**. The command first determines what needs to be done, inspecting current state if necessary, and then sets up and executes one or more tasks that make the actual changes needed by the command.  (See also the documentation on [Collections](collections.md).)
 
 The convention used to add new tasks for use in your RoboFiles is to create a wrapper trait that instantiates the implementation class for each task. Each task method in the trait should start with the prefix `task`, and should use **chained method calls** for configuration. Task execution should be triggered by the method `run`. 
 

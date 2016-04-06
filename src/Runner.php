@@ -11,6 +11,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Consolidation\AnnotationCommand\AnnotationCommandFactory;
 use Consolidation\AnnotationCommand\PassThroughArgsInput;
+use Consolidation\AnnotationCommand\HookManager;
 
 class Runner
 {
@@ -117,7 +118,7 @@ class Runner
         $roboCommandFileInstance = $container->get($commandFileName);
 
         // Register commands for all of the public methods in the RoboFile.
-        $commandFactory = new AnnotationCommandFactory();
+        $commandFactory = $container->get('commandFactory');
         $commandList = $commandFactory->createCommandsFromClass($roboCommandFileInstance);
         foreach ($commandList as $command) {
             $app->add($command);
@@ -155,6 +156,13 @@ class Runner
         $container->share('globalOptionsEventListener', \Robo\GlobalOptionsEventListener::class);
         $container->share('eventDispatcher', \Symfony\Component\EventDispatcher\EventDispatcher::class)
             ->withMethodCall('addSubscriber', ['globalOptionsEventListener']);
+        $container->share('collectionProcessHook', \Robo\Collection\CollectionProcessHook::class);
+        $container->share('hookManager', \Consolidation\AnnotationCommand\HookManager::class)
+            ->withMethodCall('add', ['*', HookManager::PROCESS_RESULT, 'collectionProcessHook']);
+        $container->share('commandProcessor', \Consolidation\AnnotationCommand\CommandProcessor::class)
+            ->withArgument('hookManager');
+        $container->share('commandFactory', \Consolidation\AnnotationCommand\AnnotationCommandFactory::class)
+            ->withMethodCall('setCommandProcessor', ['commandProcessor']);
 
         static::addInflectors($container);
     }

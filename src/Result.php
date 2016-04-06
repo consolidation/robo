@@ -6,8 +6,9 @@ use Robo\TaskInfo;
 use Robo\Contract\TaskInterface;
 use Robo\Contract\LogResultInterface;
 use Consolidation\AnnotationCommand\ExitCodeInterface;
+use Consolidation\AnnotationCommand\OutputDataInterface;
 
-class Result implements \ArrayAccess, \IteratorAggregate, ExitCodeInterface
+class Result implements \ArrayAccess, \IteratorAggregate, ExitCodeInterface, OutputDataInterface
 {
     public static $stopOnFail = false;
 
@@ -94,6 +95,13 @@ class Result implements \ArrayAccess, \IteratorAggregate, ExitCodeInterface
     public function getExitCode()
     {
         return $this->exitCode;
+    }
+
+    public function getOutputData()
+    {
+        if (isset($this->data['output'])) {
+            return $this->data['output'];
+        }
     }
 
     /**

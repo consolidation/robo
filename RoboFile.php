@@ -9,8 +9,7 @@ class RoboFile extends \Robo\Tasks
     public function test($args = "")
     {
         return $this->taskCodecept()
-            ->args($args)
-            ->run();
+            ->args($args);
     }
 
     /**
@@ -83,8 +82,7 @@ class RoboFile extends \Robo\Tasks
     {
         return $this->taskChangelog()
             ->version(\Robo\Runner::VERSION)
-            ->change($addition)
-            ->run();
+            ->change($addition);
     }
 
     /**
@@ -102,8 +100,7 @@ class RoboFile extends \Robo\Tasks
         }
         return $this->taskReplaceInFile(__DIR__.'/src/Runner.php')
             ->from("VERSION = '".\Robo\Runner::VERSION."'")
-            ->to("VERSION = '".$version."'")
-            ->run();
+            ->to("VERSION = '".$version."'");
     }
 
     /**
@@ -171,7 +168,7 @@ class RoboFile extends \Robo\Tasks
             )->addToCollection($collection);
         }
         $collection->progressMessage('Documentation generation complete.');
-        return $collection->run();
+        return $collection;
     }
 
     /**
@@ -199,7 +196,7 @@ class RoboFile extends \Robo\Tasks
             ->addAsCompletion($collection);
         $this->taskExec('mkdocs gh-deploy')
             ->addToCollection($collection);
-        return $collection->run();
+        return $collection;
     }
 
     /**
@@ -239,7 +236,7 @@ class RoboFile extends \Robo\Tasks
             ->printed(false)
             ->addToCollection($collection);
 
-        return $collection->run();
+        return $collection;
     }
 
     /**
@@ -251,8 +248,7 @@ class RoboFile extends \Robo\Tasks
     {
         return $this->taskExec('sudo cp')
             ->arg('robo.phar')
-            ->arg('/usr/bin/robo')
-            ->run();
+            ->arg('/usr/bin/robo');
     }
 
     /**
@@ -327,7 +323,7 @@ class RoboFile extends \Robo\Tasks
         if ($options['error']) {
             $para->process("ls $dir/tests/_data/filenotfound");
         }
-        return $para->run();
+        return $para;
     }
 
     /**
@@ -370,8 +366,7 @@ class RoboFile extends \Robo\Tasks
     {
         return $this->taskServer(8000)
             ->dir('site')
-            ->arg('site/index.php')
-            ->run();
+            ->arg('site/index.php');
     }
 
     /**
@@ -382,8 +377,7 @@ class RoboFile extends \Robo\Tasks
         return $this->taskOpenBrowser([
             'http://robo.li',
             'https://github.com/Codegyre/Robo'
-            ])
-            ->run();
+            ]);
     }
 
     /**
@@ -391,7 +385,7 @@ class RoboFile extends \Robo\Tasks
      */
     public function tryError()
     {
-        return $this->taskExec('ls xyzzy' . date('U'))->dir('/tmp')->run();
+        return $this->taskExec('ls xyzzy' . date('U'))->dir('/tmp');
     }
 
     /**
@@ -399,7 +393,7 @@ class RoboFile extends \Robo\Tasks
      */
     public function trySuccess()
     {
-        return $this->taskExec('pwd')->run();
+        return $this->taskExec('pwd');
     }
 
     /**
@@ -414,7 +408,7 @@ class RoboFile extends \Robo\Tasks
         // Calling 'new' directly without manually setting
         // up dependencies will result in a deprecation warning.
         // @see RoboFile::trySuccess()
-        return (new \Robo\Task\Base\Exec('pwd'))->run();
+        return new \Robo\Task\Base\Exec('pwd');
     }
 
     /**
@@ -535,6 +529,6 @@ class RoboFile extends \Robo\Tasks
         $template = file_get_contents(__DIR__ . "/GeneratedWrapper.tmpl");
         $template = str_replace(array_keys($replacements), array_values($replacements), $template);
 
-        print $template;
+        return $template;
     }
 }

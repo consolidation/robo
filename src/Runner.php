@@ -159,8 +159,10 @@ class Runner
         $container->share('collectionProcessHook', \Robo\Collection\CollectionProcessHook::class);
         $container->share('hookManager', \Consolidation\AnnotationCommand\HookManager::class)
             ->withMethodCall('add', ['*', HookManager::PROCESS_RESULT, 'collectionProcessHook']);
+        $container->share('formatterManager', \Consolidation\OutputFormatters\FormatterManager::class);
         $container->share('commandProcessor', \Consolidation\AnnotationCommand\CommandProcessor::class)
-            ->withArgument('hookManager');
+            ->withArgument('hookManager')
+            ->withMethodCall('setFormatterManager', ['formatterManager']);
         $container->share('commandFactory', \Consolidation\AnnotationCommand\AnnotationCommandFactory::class)
             ->withMethodCall('setCommandProcessor', ['commandProcessor']);
 

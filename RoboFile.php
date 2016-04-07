@@ -1,6 +1,7 @@
 <?php
 use Symfony\Component\Finder\Finder;
 use Robo\Result;
+use Robo\ResultData;
 
 class RoboFile extends \Robo\Tasks
 {
@@ -395,6 +396,21 @@ class RoboFile extends \Robo\Tasks
     public function trySuccess()
     {
         return $this->taskExec('pwd');
+    }
+
+    /**
+     * Demonstrate Robo formatters.  Default format is
+     * 'table'; also try adding --format=csv or --format=yaml.
+     */
+    public function tryFormatters($options = ['format' => 'table'])
+    {
+        $outputData = [
+            [ 'first' => 'One',  'second' => 'Two',  'third' => 'Three' ],
+            [ 'first' => 'Eins', 'second' => 'Zwei', 'third' => 'Drei'  ],
+            [ 'first' => 'Ichi', 'second' => 'Ni',   'third' => 'San'   ],
+            [ 'first' => 'Uno',  'second' => 'Dos',  'third' => 'Tres'  ],
+        ];
+        return ResultData::outputData($outputData);
     }
 
     /**

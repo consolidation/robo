@@ -24,6 +24,13 @@ class ResultData implements \ArrayAccess, \IteratorAggregate, ExitCodeInterface,
         $this->data = $data;
     }
 
+    public static function outputData($outputData, $data = [])
+    {
+        $result = new self(0, '', $data);
+        $result->setOutputData($outputData);
+        return $result;
+    }
+
     /**
      * @return array
      */
@@ -45,6 +52,15 @@ class ResultData implements \ArrayAccess, \IteratorAggregate, ExitCodeInterface,
         if (isset($this->data['output'])) {
             return $this->data['output'];
         }
+        $message = $this->getMessage();
+        if (!empty($message)) {
+            return $message;
+        }
+    }
+
+    public function setOutputData($outputData)
+    {
+        $this->data['output'] = $outputData;
     }
 
     /**

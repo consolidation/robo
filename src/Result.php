@@ -10,7 +10,7 @@ use Consolidation\AnnotationCommand\OutputDataInterface;
 
 class Result extends ResultData
 {
-    protected static $stopOnFail = false;
+    public static $stopOnFail = false;
     protected $task;
 
     public function __construct(TaskInterface $task, $exitCode, $message = '', $data = [])

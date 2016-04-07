@@ -11,13 +11,20 @@ class ResultData implements \ArrayAccess, \IteratorAggregate, ExitCodeInterface,
     protected $message;
     protected $data = [];
 
+    const EXITCODE_OK = 0;
+    const EXITCODE_ERROR = 1;
+    /** Symfony Console handles these conditions; Robo returns the status
+    code selected by Symfony. These are here for documentation purposes. */
+    const EXITCODE_MISSING_OPTIONS = 2;
+    const EXITCODE_COMMAND_NOT_FOUND = 127;
+
     /** The command was aborted because the user chose to cancel it at some prompt.
     This exit code is arbitrarily the same as EX_TEMPFAIL in sysexits.h, although
     note that shell error codes are distinct from C exit codes, so this alignment
     not particularly meaningful. */
-    const EXITCODE_USER_ABORT = 75;
+    const EXITCODE_USER_CANCEL = 75;
 
-    public function __construct($exitCode, $message = '', $data = [])
+    public function __construct($exitCode = self::EXITCODE_OK, $message = '', $data = [])
     {
         $this->exitCode = $exitCode;
         $this->message = $message;
@@ -26,9 +33,14 @@ class ResultData implements \ArrayAccess, \IteratorAggregate, ExitCodeInterface,
 
     public static function outputData($outputData, $data = [])
     {
-        $result = new self(0, '', $data);
+        $result = new self(self::EXITCODE_OK, '', $data);
         $result->setOutputData($outputData);
         return $result;
+    }
+
+    public static function cancelled($message = '', $data = [])
+    {
+        return new ResultData(self::EXITCODE_USER_CANCEL, $message, $data);
     }
 
     /**
@@ -53,7 +65,7 @@ class ResultData implements \ArrayAccess, \IteratorAggregate, ExitCodeInterface,
             return $this->data['output'];
         }
         $message = $this->getMessage();
-        if (!empty($message)) {
+        if (!empty($message) && !array_key_exists('already-printed', $this->data)) {
             return $message;
         }
     }
@@ -85,12 +97,12 @@ class ResultData implements \ArrayAccess, \IteratorAggregate, ExitCodeInterface,
 
     public function wasSuccessful()
     {
-        return $this->exitCode === 0;
+        return $this->exitCode === self::EXITCODE_OK;
     }
 
     public function wasCancelled()
     {
-        return $this->exitCode == EXITCODE_USER_ABORT;
+        return $this->exitCode == EXITCODE_USER_CANCEL;
     }
 
     /**

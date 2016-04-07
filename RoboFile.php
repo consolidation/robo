@@ -422,6 +422,19 @@ class RoboFile extends \Robo\Tasks
     }
 
     /**
+     * Demonstrate what happens when a command or a task
+     * throws an exception.  Note that typically, Robo commands
+     * should return Result objects rather than throw exceptions.
+     */
+    public function tryException($options = ['task' => false])
+    {
+        if (!$options['task']) {
+            throw new RuntimeException('Command failed with an exception.');
+        }
+        return new ExceptionTask('Task failed with an exception.');
+    }
+
+    /**
      * Demonstrate deprecated task behavior.
      *
      * Demonstrate what happens when using a task that is created via
@@ -557,5 +570,20 @@ class RoboFile extends \Robo\Tasks
         // Returning a string will cause Robo to print it and then
         // exit with a "no error" (status code 0) result.
         return $template;
+    }
+}
+
+class ExceptionTask extends \Robo\Task\BaseTask
+{
+    protected $message;
+
+    public function __construct($message)
+    {
+        $this->message = $message;
+    }
+
+    public function run()
+    {
+        throw new RuntimeException($this->message);
     }
 }

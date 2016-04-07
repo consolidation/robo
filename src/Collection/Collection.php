@@ -2,6 +2,7 @@
 namespace Robo\Collection;
 
 use Robo\Result;
+use Robo\ResultData;
 use Psr\Log\LogLevel;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -72,7 +73,7 @@ class Collection implements TaskInterface, LoggerAwareInterface, ContainerAwareI
      */
     public function __construct()
     {
-        $this->previousResult = Result::success($this);
+        $this->previousResult = new ResultData();
     }
 
     /**
@@ -520,8 +521,7 @@ class Collection implements TaskInterface, LoggerAwareInterface, ContainerAwareI
         } catch (\Exception $e) {
             // Tasks typically should not throw, but if one does, we will
             // convert it into an error and roll back.
-            // TODO: should we re-throw it again instead?
-            return new Result($this, -1, $e->getMessage(), $result->getData());
+            return Result::fromException($task, $e, $result->getData());
         }
         return $result;
     }
@@ -531,10 +531,10 @@ class Collection implements TaskInterface, LoggerAwareInterface, ContainerAwareI
      * results from all tasks that have run so far, merging data
      * as necessary.
      */
-    public function accumulateResults($key, Result $result, Result $taskResult)
+    public function accumulateResults($key, ResultData $result, ResultData $taskResult)
     {
         // If the result is not set or is not a Result, then ignore it
-        if (isset($result) && ($result instanceof Result)) {
+        if (isset($result) && ($result instanceof ResultData)) {
             // If the task is unnamed, then all of its data elements
             // just get merged in at the top-level of the final Result object.
             if (static::isUnnamedTask($key)) {

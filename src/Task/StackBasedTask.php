@@ -179,7 +179,7 @@ abstract class StackBasedTask extends BaseTask
             return $this->processResult($function_result);
         } catch (\Exception $e) {
             $this->printTaskError($e->getMessage());
-            return Result::error($this, $e->getMessage());
+            return Result::fromException($this, $e);
         }
     }
 }

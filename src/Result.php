@@ -27,6 +27,7 @@ class Result extends ResultData
         $resultPrinter = Config::resultPrinter();
         if ($resultPrinter) {
             $resultPrinter->printResult($this);
+            $this->data['already-printed'] = true;
         }
 
         if (self::$stopOnFail) {
@@ -52,17 +53,21 @@ class Result extends ResultData
 
     public static function error(TaskInterface $task, $message, $data = [])
     {
-        return new self($task, 1, $message, $data);
+        return new self($task, self::EXITCODE_ERROR, $message, $data);
+    }
+
+    public static function fromException(TaskInterface $task, \Exception $e, $data = [])
+    {
+        $exitCode = $e->getCode();
+        if (!$exitCode) {
+            $exitCode = self::EXITCODE_ERROR;
+        }
+        return new self($task, $exitCode, $e->getMessage(), $data);
     }
 
     public static function success(TaskInterface $task, $message = '', $data = [])
     {
-        return new self($task, 0, $message, $data);
-    }
-
-    public static function cancelled($message = '', $data = [])
-    {
-        return new ResultData(self::EXITCODE_USER_ABORT, $message, $data);
+        return new self($task, self::EXITCODE_OK, $message, $data);
     }
 
     /**

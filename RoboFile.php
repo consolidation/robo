@@ -399,10 +399,18 @@ class RoboFile extends \Robo\Tasks
     }
 
     /**
-     * Demonstrate Robo formatters.  Default format is
-     * 'table'; also try adding --format=csv or --format=yaml.
+     * Demonstrate Robo formatters.  Default format is 'table'.
+     *
+     * @field-labels
+     *   first: I
+     *   second: II
+     *   third: III
+     * @usage try:formatters --format=yaml
+     * @usage try:formatters --format=csv
+     * @usage try:formatters --fields=first,third
+     * @usage try:formatters --fields=III,II
      */
-    public function tryFormatters($options = ['format' => 'table'])
+    public function tryFormatters($options = ['format' => 'table', 'fields' => ''])
     {
         $outputData = [
             [ 'first' => 'One',  'second' => 'Two',  'third' => 'Three' ],
@@ -546,6 +554,8 @@ class RoboFile extends \Robo\Tasks
         $template = file_get_contents(__DIR__ . "/GeneratedWrapper.tmpl");
         $template = str_replace(array_keys($replacements), array_values($replacements), $template);
 
+        // Returning a string will cause Robo to print it and then
+        // exit with a "no error" (status code 0) result.
         return $template;
     }
 }

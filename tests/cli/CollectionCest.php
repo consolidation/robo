@@ -216,8 +216,7 @@ class CollectionCest
         $collection = $I->getContainer()->get('collection');
 
         $collection->addCode(
-            function ()
-            {
+            function () {
                 throw new \RuntimeException('Error');
             }
         );

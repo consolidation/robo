@@ -44,7 +44,8 @@ class ResultPrinter implements LoggerAwareInterface
     protected function printError(Result $result)
     {
         $task = $result->getTask();
-        $context = $result->getContext() + ['timer-label' => 'Time'];
+        $context = $result->getContext() + ['timer-label' => 'Time', '_style' => []];
+        $context['_style']['message'] = '';
 
         $printOutput = true;
         if ($task instanceof PrintedInterface) {

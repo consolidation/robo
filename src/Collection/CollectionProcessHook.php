@@ -3,6 +3,7 @@ namespace Robo\Collection;
 
 use Consolidation\AnnotationCommand\ProcessResultInterface;
 use Robo\Contract\TaskInterface;
+use Robo\Result;
 
 /**
  * The collection process hook is added to the annotation command
@@ -17,7 +18,11 @@ class CollectionProcessHook implements ProcessResultInterface
     public function process($result, array $args)
     {
         if ($result instanceof TaskInterface) {
-            return $result->run();
+            try {
+                return $result->run();
+            } catch (\Exception $e) {
+                return Result::fromException($result, $e);
+            }
         }
     }
 }

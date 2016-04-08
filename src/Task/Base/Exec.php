@@ -149,7 +149,7 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface
         try {
             $this->process->start();
         } catch (\Exception $e) {
-            return Result::error($this, $e->getMessage());
+            return Result::fromException($this, $e);
         }
         return Result::success($this);
     }

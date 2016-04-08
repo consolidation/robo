@@ -8,21 +8,15 @@ use Robo\Contract\LogResultInterface;
 use Consolidation\AnnotationCommand\ExitCodeInterface;
 use Consolidation\AnnotationCommand\OutputDataInterface;
 
-class Result implements \ArrayAccess, \IteratorAggregate, ExitCodeInterface, OutputDataInterface
+class Result extends ResultData
 {
     public static $stopOnFail = false;
-
-    protected $exitCode;
-    protected $message;
-    protected $data = [];
     protected $task;
 
     public function __construct(TaskInterface $task, $exitCode, $message = '', $data = [])
     {
+        parent::__construct($exitCode, $message, $data);
         $this->task = $task;
-        $this->exitCode = $exitCode;
-        $this->message = $message;
-        $this->data = $data;
 
         // For historic reasons, the Result constructor is responsible
         // for printing task results.
@@ -33,6 +27,7 @@ class Result implements \ArrayAccess, \IteratorAggregate, ExitCodeInterface, Out
         $resultPrinter = Config::resultPrinter();
         if ($resultPrinter) {
             $resultPrinter->printResult($this);
+            $this->data['already-printed'] = true;
         }
 
         if (self::$stopOnFail) {
@@ -58,12 +53,21 @@ class Result implements \ArrayAccess, \IteratorAggregate, ExitCodeInterface, Out
 
     public static function error(TaskInterface $task, $message, $data = [])
     {
-        return new self($task, 1, $message, $data);
+        return new self($task, self::EXITCODE_ERROR, $message, $data);
+    }
+
+    public static function fromException(TaskInterface $task, \Exception $e, $data = [])
+    {
+        $exitCode = $e->getCode();
+        if (!$exitCode) {
+            $exitCode = self::EXITCODE_ERROR;
+        }
+        return new self($task, $exitCode, $e->getMessage(), $data);
     }
 
     public static function success(TaskInterface $task, $message = '', $data = [])
     {
-        return new self($task, 0, $message, $data);
+        return new self($task, self::EXITCODE_OK, $message, $data);
     }
 
     /**
@@ -82,49 +86,6 @@ class Result implements \ArrayAccess, \IteratorAggregate, ExitCodeInterface, Out
     }
 
     /**
-     * @return array
-     */
-    public function getData()
-    {
-        return $this->data;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getExitCode()
-    {
-        return $this->exitCode;
-    }
-
-    public function getOutputData()
-    {
-        if (isset($this->data['output'])) {
-            return $this->data['output'];
-        }
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getMessage()
-    {
-        return $this->message;
-    }
-
-    public function getExecutionTime()
-    {
-        if (!is_array($this->data)) {
-            return null;
-        }
-        if (!isset($this->data['time'])) {
-            return null;
-        }
-        $rawTime = $this->data['time'];
-        return round($rawTime, 3).'s';
-    }
-
-    /**
      * @return TaskInterface
      */
     public function getTask()
@@ -136,11 +97,6 @@ class Result implements \ArrayAccess, \IteratorAggregate, ExitCodeInterface, Out
     {
         $reflect  = new \ReflectionClass(get_class($this->task));
         return $reflect->newInstanceArgs(func_get_args());
-    }
-
-    public function wasSuccessful()
-    {
-        return $this->exitCode === 0;
     }
 
     /**
@@ -162,60 +118,5 @@ class Result implements \ArrayAccess, \IteratorAggregate, ExitCodeInterface, Out
             exit($this->exitCode);
         }
         return $this;
-    }
-
-    /**
-     * Merge another result into this result.  Data already
-     * existing in this result takes precedence over the
-     * data in the Result being merged.
-     */
-    public function merge(Result $result)
-    {
-        $this->data += $result->getData();
-        return $this;
-    }
-
-    /**
-     * \ArrayAccess accessor for `isset()`
-     */
-    public function offsetExists($offset)
-    {
-        return isset($this->data[$offset]);
-    }
-
-    /**
-     * \ArrayAccess accessor for array data access.
-     */
-    public function offsetGet($offset)
-    {
-        if (isset($this->data[$offset])) {
-            return $this->data[$offset];
-        }
-    }
-
-    /**
-     * \ArrayAccess method for array assignment.
-     */
-    public function offsetSet($offset, $value)
-    {
-        $this->data[$offset] = $value;
-    }
-
-    /**
-     * \ArrayAccess method for `unset`
-     */
-    public function offsetUnset($offset)
-    {
-        unset($this->data[$offset]);
-    }
-
-    /**
-     * \IteratorAggregate accessor for `foreach`.
-     *
-     * @return \Iterator
-     */
-    public function getIterator()
-    {
-        return new \ArrayIterator($this->data);
     }
 }

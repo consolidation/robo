@@ -45,7 +45,7 @@ class RoboLogStyle extends LogOutputStyler
     {
         $message = parent::formatMessage($label, $message, $context, $taskNameStyle, $messageStyle);
 
-        if (array_key_exists('time', $context) && array_key_exists('timer-label', $context)) {
+        if (array_key_exists('time', $context) && !empty($context['time']) && array_key_exists('timer-label', $context)) {
             $message .= ' ' . $context['timer-label'] . ' ' . $this->wrapFormatString($context['time'], 'fg=yellow');
         }
 

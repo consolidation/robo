@@ -210,4 +210,18 @@ class CollectionCest
         Temporary::complete();
         $I->dontSeeFileFound($tmpPath);
     }
+
+    public function toThrowAnExceptionAndConfirmItIsCaught(CliGuy $I)
+    {
+        $collection = $I->getContainer()->get('collection');
+
+        $collection->addCode(
+            function () {
+                throw new \RuntimeException('Error');
+            }
+        );
+        $result = $collection->run();
+        $I->assertEquals('Error', $result->getMessage());
+        $I->assertEquals(1, $result->getExitCode());
+    }
 }

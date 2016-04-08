@@ -21,7 +21,8 @@ class ResultTest extends \Codeception\TestCase\Test {
         $this->assertSame($task, $result->getTask());
         $this->assertEquals(1, $result->getExitCode());
         $this->assertEquals('The foo barred', $result->getMessage());
-        $this->assertEquals(['time' => 10], $result->getData());
+        $data = $result->getData();
+        $this->assertEquals(10, $data['time']);
 
         $taskClone = $result->cloneTask();
         $this->assertNotSame($task, $taskClone);

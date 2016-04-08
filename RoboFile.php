@@ -1,5 +1,7 @@
 <?php
 use Symfony\Component\Finder\Finder;
+use Robo\Result;
+use Robo\ResultData;
 
 class RoboFile extends \Robo\Tasks
 {
@@ -296,7 +298,7 @@ class RoboFile extends \Robo\Tasks
         $this->say('You are '.$answer);
         $yes = $this->confirm('Do you want one more question?');
         if (!$yes) {
-            return;
+            return Result::cancelled();
         }
         $lang = $this->askDefault('what is your favorite scripting language?', 'PHP');
         $this->say($lang);
@@ -394,6 +396,42 @@ class RoboFile extends \Robo\Tasks
     public function trySuccess()
     {
         return $this->taskExec('pwd');
+    }
+
+    /**
+     * Demonstrate Robo formatters.  Default format is 'table'.
+     *
+     * @field-labels
+     *   first: I
+     *   second: II
+     *   third: III
+     * @usage try:formatters --format=yaml
+     * @usage try:formatters --format=csv
+     * @usage try:formatters --fields=first,third
+     * @usage try:formatters --fields=III,II
+     */
+    public function tryFormatters($options = ['format' => 'table', 'fields' => ''])
+    {
+        $outputData = [
+            [ 'first' => 'One',  'second' => 'Two',  'third' => 'Three' ],
+            [ 'first' => 'Eins', 'second' => 'Zwei', 'third' => 'Drei'  ],
+            [ 'first' => 'Ichi', 'second' => 'Ni',   'third' => 'San'   ],
+            [ 'first' => 'Uno',  'second' => 'Dos',  'third' => 'Tres'  ],
+        ];
+        return ResultData::outputData($outputData);
+    }
+
+    /**
+     * Demonstrate what happens when a command or a task
+     * throws an exception.  Note that typically, Robo commands
+     * should return Result objects rather than throw exceptions.
+     */
+    public function tryException($options = ['task' => false])
+    {
+        if (!$options['task']) {
+            throw new RuntimeException('Command failed with an exception.');
+        }
+        return new ExceptionTask('Task failed with an exception.');
     }
 
     /**
@@ -529,6 +567,23 @@ class RoboFile extends \Robo\Tasks
         $template = file_get_contents(__DIR__ . "/GeneratedWrapper.tmpl");
         $template = str_replace(array_keys($replacements), array_values($replacements), $template);
 
+        // Returning a string will cause Robo to print it and then
+        // exit with a "no error" (status code 0) result.
         return $template;
+    }
+}
+
+class ExceptionTask extends \Robo\Task\BaseTask
+{
+    protected $message;
+
+    public function __construct($message)
+    {
+        $this->message = $message;
+    }
+
+    public function run()
+    {
+        throw new RuntimeException($this->message);
     }
 }

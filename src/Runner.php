@@ -96,6 +96,7 @@ class Runner
             $container->share('application', \Robo\Application::class)
                 ->withArgument('Robo')
                 ->withArgument(self::VERSION)
+                ->withMethodCall('setAutoExit', [false])
                 ->withMethodCall('setDispatcher', ['eventDispatcher']);
             Config::setContainer($container);
         }
@@ -123,7 +124,8 @@ class Runner
         foreach ($commandList as $command) {
             $app->add($command);
         }
-        $app->run($input, $output);
+        $statusCode = $app->run($input, $output);
+        return $statusCode;
     }
 
     /**

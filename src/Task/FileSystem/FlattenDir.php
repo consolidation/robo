@@ -211,7 +211,7 @@ class FlattenDir extends BaseDir
                 try {
                     $finder->files()->in($new_dir)->name(array_pop($parts));
                 } catch (\InvalidArgumentException $e) {
-                    return Result::error($this, $e->getMessage());
+                    return Result::fromException($this, $e);
                 }
             }
 

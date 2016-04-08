@@ -17,4 +17,6 @@ if (strpos(basename(__FILE__), 'phar')) {
     }
 }
 $runner = new \Robo\Runner();
-$runner->execute();
+$statusCode = $runner->execute();
+exit($statusCode);
+

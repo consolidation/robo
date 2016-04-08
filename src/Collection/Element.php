@@ -2,7 +2,6 @@
 
 namespace Robo\Collection;
 
-use Robo\Result;
 use Robo\Contract\TaskInterface;
 
 /**

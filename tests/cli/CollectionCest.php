@@ -201,7 +201,7 @@ class CollectionCest
         // Create a temporary directory, using our function name as
         // the prefix for the directory name.
         $tmpPath = $I->shortcutTmpDir(__FUNCTION__);
-        $I->seeFileFound($tmpPath);
+        $I->seeDirFound($tmpPath);
         // Creating a temporary directory without a task collection will
         // cause the temporary directory to be deleted when the program
         // terminates.  We can force it to clean up sooner by calling

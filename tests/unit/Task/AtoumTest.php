@@ -22,11 +22,8 @@ class AtoumTest extends \Codeception\TestCase\Test
 
     public function testAtoumRun()
     {
-        $isWindows = defined('PHP_WINDOWS_VERSION_MAJOR');
-        $command = $isWindows ? 'vendor/bin/atoum.bat' : 'vendor/bin/atoum';
-
         $this->container->get('taskAtoum', ['vendor/bin/atoum'])->run();
-        $this->atoum->verifyInvoked('executeCommand', [$command]);
+        $this->atoum->verifyInvoked('executeCommand');
     }
 
     public function testAtoumCommand()

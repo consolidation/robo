@@ -339,17 +339,18 @@ class RoboFile
 
         // print message when tests passed
         if ($res1->wasSuccessful() and $res2->wasSuccessful()) $this->say("All tests passed");
-
-        // alternatively
-        if ($res1() and $res2()) $this->say("All tests passed");
-
-        return $res() and $res(); // will exit with 1 if tests failed
     }
 }
 ?>
 ```
 
 Some tasks may also attach data to the Result object.  If this is done, the data may be accessed as an array; for example, `$result['path'];`. This is not common.
+
+Commands should return a Result object obtained from a task; this will ensure that the command exit code is set correctly.  If a command does not have a Result object available, then it may use a ResultData object.  ResultData objects are just like Result objects, except the do not contain a reference to a task.
+
+return new Robo\ResultData($exitcode, 'Error message.');
+
+If the command returns a TaskInterface instead of a result, then the task will be executed, and the result from that task will be used as the final result of the command. See also `Formatters`, below.
 
 ### Stack
 
@@ -388,6 +389,10 @@ To allow tasks access IO, use the `Robo\Common\TaskIO` trait, or inherit your ta
 $this->printTaskInfo('Processing...');
 ```
 The Task IO methods send all output through a PSR-3 logger. Tasks should use task IO exclusively; methods such as 'say' and 'ask' should reside in the command method. This allows tasks to be usable in any context that has a PSR-3 logger, including background or server processes where it is not possible to directly query the user.
+
+### Formatters
+
+It is preferable for commands that look up and display information should avoid doing IO directly, and should instead return the data they wish to display as an array. This data can then be converted into different data formats, such as "table" and "json". The user may select which formatter to use via the --format option.
 
 ### Progress
 Long-running tasks that wish to display a progress indicator may do so by way of the ProgressIndicatorAwareTrait.

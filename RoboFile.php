@@ -418,7 +418,8 @@ class RoboFile extends \Robo\Tasks
             [ 'first' => 'Ichi', 'second' => 'Ni',   'third' => 'San'   ],
             [ 'first' => 'Uno',  'second' => 'Dos',  'third' => 'Tres'  ],
         ];
-        return ResultData::outputData($outputData);
+        // Note that we can also simply return the output data array here.
+        return ResultData::message($outputData);
     }
 
     /**

@@ -1,8 +1,8 @@
 <?php
 require_once codecept_data_dir() . 'TestedRoboFile.php';
 
-use Consolidation\AnnotationCommand\AnnotationCommandFactory;
-use Consolidation\AnnotationCommand\CommandInfo;
+use Consolidation\AnnotatedCommand\AnnotatedCommandFactory;
+use Consolidation\AnnotatedCommand\CommandInfo;
 
 class ApplicationTest extends \Codeception\TestCase\Test
 {
@@ -17,7 +17,7 @@ class ApplicationTest extends \Codeception\TestCase\Test
     private $app;
 
     /**
-     * @var Consolidation\AnnotationCommand\AnnotationCommandFactory
+     * @var Consolidation\AnnotatedCommand\AnnotatedCommandFactory
      */
     private $commandFactory;
 
@@ -29,7 +29,7 @@ class ApplicationTest extends \Codeception\TestCase\Test
     protected function _before()
     {
         $this->app = new \Robo\Application('Robo', \Robo\Runner::VERSION);
-        $this->commandFactory = new AnnotationCommandFactory();
+        $this->commandFactory = new AnnotatedCommandFactory();
         $this->roboCommandFileInstance = new TestedRoboFile;
         $commandList = $this->commandFactory->createCommandsFromClass($this->roboCommandFileInstance);
         foreach ($commandList as $command) {

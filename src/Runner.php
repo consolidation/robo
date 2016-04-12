@@ -9,9 +9,9 @@ use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Consolidation\AnnotationCommand\AnnotationCommandFactory;
-use Consolidation\AnnotationCommand\PassThroughArgsInput;
-use Consolidation\AnnotationCommand\HookManager;
+use Consolidation\AnnotatedCommand\AnnotatedCommandFactory;
+use Consolidation\AnnotatedCommand\PassThroughArgsInput;
+use Consolidation\AnnotatedCommand\HookManager;
 
 class Runner
 {
@@ -159,13 +159,13 @@ class Runner
         $container->share('eventDispatcher', \Symfony\Component\EventDispatcher\EventDispatcher::class)
             ->withMethodCall('addSubscriber', ['globalOptionsEventListener']);
         $container->share('collectionProcessHook', \Robo\Collection\CollectionProcessHook::class);
-        $container->share('hookManager', \Consolidation\AnnotationCommand\HookManager::class)
+        $container->share('hookManager', \Consolidation\AnnotatedCommand\HookManager::class)
             ->withMethodCall('add', ['*', HookManager::PROCESS_RESULT, 'collectionProcessHook']);
         $container->share('formatterManager', \Consolidation\OutputFormatters\FormatterManager::class);
-        $container->share('commandProcessor', \Consolidation\AnnotationCommand\CommandProcessor::class)
+        $container->share('commandProcessor', \Consolidation\AnnotatedCommand\CommandProcessor::class)
             ->withArgument('hookManager')
             ->withMethodCall('setFormatterManager', ['formatterManager']);
-        $container->share('commandFactory', \Consolidation\AnnotationCommand\AnnotationCommandFactory::class)
+        $container->share('commandFactory', \Consolidation\AnnotatedCommand\AnnotatedCommandFactory::class)
             ->withMethodCall('setCommandProcessor', ['commandProcessor']);
 
         static::addInflectors($container);

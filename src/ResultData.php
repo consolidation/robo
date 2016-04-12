@@ -2,8 +2,8 @@
 namespace Robo;
 
 use Robo\Contract\LogResultInterface;
-use Consolidation\AnnotationCommand\ExitCodeInterface;
-use Consolidation\AnnotationCommand\OutputDataInterface;
+use Consolidation\AnnotatedCommand\ExitCodeInterface;
+use Consolidation\AnnotatedCommand\OutputDataInterface;
 
 class ResultData implements \ArrayAccess, \IteratorAggregate, ExitCodeInterface, OutputDataInterface
 {

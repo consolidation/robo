@@ -1,7 +1,7 @@
 <?php
 namespace Robo\Collection;
 
-use Consolidation\AnnotationCommand\ProcessResultInterface;
+use Consolidation\AnnotatedCommand\ProcessResultInterface;
 use Robo\Contract\TaskInterface;
 use Robo\Result;
 

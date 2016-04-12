@@ -5,8 +5,6 @@ use Robo\Config;
 use Robo\TaskInfo;
 use Robo\Contract\TaskInterface;
 use Robo\Contract\LogResultInterface;
-use Consolidation\AnnotationCommand\ExitCodeInterface;
-use Consolidation\AnnotationCommand\OutputDataInterface;
 
 class Result extends ResultData
 {

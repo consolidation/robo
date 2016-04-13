@@ -35,6 +35,11 @@
         "codeception/aspect-mock": "0.5.4",
         "squizlabs/php_codesniffer": "2.*"
     },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.7.x-dev"
+        }
+    },
     "suggest": {
         "pear/archive_tar": "Allows tar archives to be created and extracted in taskPack and taskExtract, respectively.",
         "henrikbjorn/lurker": "For monitoring filesystem changes in taskWatch",

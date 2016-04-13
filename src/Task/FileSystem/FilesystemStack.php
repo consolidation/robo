@@ -77,23 +77,7 @@ class FilesystemStack extends StackBasedTask
         // Due to a bug (limitation) in PHP, cross-volume renames do not work.
         // See: https://bugs.php.net/bug.php?id=54097
         if (true !== @rename($origin, $target)) {
-            // First step is to try to get rid of the target. If there
-            // is a single, deletable file, then we will just unlink it.
-            @unlink($target);
-            // If the target still exists, we will try to delete it.
-            // TODO: Note that if this fails partway through, then we cannot
-            // adequately rollback.  Perhaps we need to preflight the operation
-            // and determine if everything inside of $target is writable.
-            if (file_exists($target)) {
-                $deleteResult = (new DeleteDir($target))->run();
-                if (!$deleteResult->wasSuccessful()) {
-                    return $deleteResult;
-                }
-            }
-            $result = (new CopyDir([$origin => $target]))->run();
-            if (!$result->wasSuccessful()) {
-                return $result;
-            }
+            return $this->crossVolumeRename($origin, $target);
         }
         return true;
     }
@@ -112,4 +96,27 @@ class FilesystemStack extends StackBasedTask
         }
     }
 
+    protected function crossVolumeRename($origin, $target)
+    {
+        // First step is to try to get rid of the target. If there
+        // is a single, deletable file, then we will just unlink it.
+        if (is_file($target)) {
+            unlink($target);
+        }
+        // If the target still exists, we will try to delete it.
+        // TODO: Note that if this fails partway through, then we cannot
+        // adequately rollback.  Perhaps we need to preflight the operation
+        // and determine if everything inside of $target is writable.
+        if (file_exists($target)) {
+            $deleteResult = (new DeleteDir($target))->run();
+            if (!$deleteResult->wasSuccessful()) {
+                return $deleteResult;
+            }
+        }
+        $result = (new CopyDir([$origin => $target]))->run();
+        if (!$result->wasSuccessful()) {
+            return $result;
+        }
+        return (new DeleteDir($origin))->run();
+    }
 }

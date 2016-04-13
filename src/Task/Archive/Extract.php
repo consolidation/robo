@@ -99,14 +99,8 @@ class Extract extends BaseTask
             $filesInExtractLocation = glob("$extractLocation/*");
             $hasEncapsulatingFolder = ((count($filesInExtractLocation) == 1) && is_dir($filesInExtractLocation[0]));
             if ($hasEncapsulatingFolder && !$this->preserveTopDirectory) {
-                rename($filesInExtractLocation[0], $this->to);
-                rmdir($extractLocation);
-            } else {
-                rename($extractLocation, $this->to);
-            }
-            if ($hasEncapsulatingFolder && !$this->preserveTopDirectory) {
                 $result = $this->task('FilesystemStack')->rename($filesInExtractLocation[0], $this->to)->run();
-                @rmdir($extractLocation);
+                $this->task('DeleteDir', $extractLocation)->run();
             } else {
                 $result = $this->task('FilesystemStack')->rename($extractLocation, $this->to)->run();
             }

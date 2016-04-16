@@ -31,11 +31,9 @@ class ResultData implements \ArrayAccess, \IteratorAggregate, ExitCodeInterface,
         $this->data = $data;
     }
 
-    public static function outputData($outputData, $data = [])
+    public static function message($message, $data = [])
     {
-        $result = new self(self::EXITCODE_OK, '', $data);
-        $result->setOutputData($outputData);
-        return $result;
+        return new self(self::EXITCODE_OK, $message, $data);
     }
 
     public static function cancelled($message = '', $data = [])
@@ -61,18 +59,9 @@ class ResultData implements \ArrayAccess, \IteratorAggregate, ExitCodeInterface,
 
     public function getOutputData()
     {
-        if (isset($this->data['output'])) {
-            return $this->data['output'];
+        if (!empty($this->message) && !array_key_exists('already-printed', $this->data)) {
+            return $this->message;
         }
-        $message = $this->getMessage();
-        if (!empty($message) && !array_key_exists('already-printed', $this->data)) {
-            return $message;
-        }
-    }
-
-    public function setOutputData($outputData)
-    {
-        $this->data['output'] = $outputData;
     }
 
     /**

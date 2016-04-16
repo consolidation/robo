@@ -332,7 +332,7 @@ class RoboFile extends \Robo\Tasks
      * Demonstrates Robo argument passing.
      *
      * @param $a The first parameter. Required.
-     * @param $d The second parameter. Optional.
+     * @param $b The second parameter. Optional.
      */
     public function tryArgs($a, $b = 'default')
     {

@@ -18,13 +18,17 @@ class ResultPrinter implements LoggerAwareInterface
 
     /**
      * Log the result of a Robo task.
+     *
+     * Returns 'true' if the message is printed, or false if it isn't.
+     *
+     * @return boolean
      */
     public function printResult(Result $result)
     {
         if (!$result->wasSuccessful()) {
-            $this->printError($result);
+            return $this->printError($result);
         } else {
-            $this->printSuccess($result);
+            return $this->printSuccess($result);
         }
     }
 
@@ -55,6 +59,7 @@ class ResultPrinter implements LoggerAwareInterface
             $this->logger->error("{message}", $context);
         }
         $this->logger->error('Exit code {code}', $context);
+        return true;
     }
 
     /**
@@ -68,5 +73,6 @@ class ResultPrinter implements LoggerAwareInterface
         if ($time) {
             $this->logger->success('Done', $context);
         }
+        return false;
     }
 }

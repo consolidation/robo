@@ -14,6 +14,7 @@ trait loadTasks
             [
                 'taskChangelog' => Changelog::class,
                 'taskGenDoc' => GenerateMarkdownDoc::class,
+                'taskGenTask' => GenerateTask::class,
                 'taskSemVer' => SemVer::class,
                 'taskServer' => PhpServer::class,
                 'taskPackPhar' => PackPhar::class,
@@ -39,6 +40,15 @@ trait loadTasks
     protected function taskGenDoc($filename)
     {
         return $this->task(__FUNCTION__, $filename);
+    }
+
+    /**
+     * @param $filename
+     * @return GenerateMarkdownDoc
+     */
+    protected function taskGenTask($className, $wrapperClassName = '')
+    {
+        return $this->task(__FUNCTION__, $className, $wrapperClassName);
     }
 
     /**

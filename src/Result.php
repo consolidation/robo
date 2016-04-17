@@ -24,8 +24,9 @@ class Result extends ResultData
         // in task collections et. al.
         $resultPrinter = Config::resultPrinter();
         if ($resultPrinter) {
-            $resultPrinter->printResult($this);
-            $this->data['already-printed'] = true;
+            if ($resultPrinter->printResult($this)) {
+                $this->data['already-printed'] = true;
+            }
         }
 
         if (self::$stopOnFail) {

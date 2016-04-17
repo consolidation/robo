@@ -2,6 +2,7 @@
 namespace Robo\Common;
 
 use Robo\Result;
+use Symfony\Component\Process\ExecutableFinder;
 use Symfony\Component\Process\Process;
 
 /**
@@ -73,16 +74,11 @@ trait ExecCommand
      */
     protected function findExecutable($cmd)
     {
-        if (is_executable("vendor/bin/{$cmd}")) {
-            return $this->useCallOnWindows("vendor/bin/{$cmd}");
-        }
-        $home = array_key_exists('HOME', $_SERVER) ? $_SERVER['HOME'] : getenv('HOME');
-        if ($home && is_executable("$home/vendor/bin/{$cmd}")) {
-            return $this->useCallOnWindows("$home/vendor/bin/{$cmd}");
-        }
-        $pathToCmd = exec("which $cmd");
+        $finder = new ExecutableFinder();
+        $pathToCmd = $finder->find($cmd, null, ['vendor/bin']);
+
         if ($pathToCmd) {
-            return $pathToCmd;
+            return $this->useCallOnWindows($pathToCmd);
         }
         return false;
     }

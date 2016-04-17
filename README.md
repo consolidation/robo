@@ -32,7 +32,7 @@ Now you can use it just like `robo`.
 
 ### Composer
 
-* Run `composer require codegyre/robo`
+* Run `composer require codegyre/robo:~1`
 * Use `vendor/bin/robo` to execute Robo tasks.
 
 ## Usage

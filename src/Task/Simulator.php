@@ -4,6 +4,7 @@ namespace Robo\Task;
 use Robo\TaskInfo;
 use Robo\Result;
 use Robo\Contract\TaskInterface;
+use Robo\Contract\SimulatedInterface;
 use Robo\Log\RoboLogLevel;
 use Psr\Log\LogLevel;
 
@@ -36,20 +37,30 @@ class Simulator extends BaseTask
             $parameters = $this->formatParameters($action);
             $callchain .= "\n    ->$command(<fg=green>$parameters</>)";
         }
-        // RoboLogLevel::SIMULATED_ACTION
-        $this->logger()->log(
-            LogLevel::NOTICE,
-            "Simulating {simulated}({parameters})$callchain",
-            $this->getTaskContext(
-                [
-                    '_level' => RoboLogLevel::SIMULATED_ACTION,
-                    'simulated' => TaskInfo::formatTaskName($this->task),
-                    'parameters' => $this->formatParameters($this->constructorParameters),
-                    '_style' => ['simulated' => 'fg=blue;options=bold'],
-                ]
-            )
+        $context = $this->getTaskContext(
+            [
+                '_level' => RoboLogLevel::SIMULATED_ACTION,
+                'simulated' => TaskInfo::formatTaskName($this->task),
+                'parameters' => $this->formatParameters($this->constructorParameters),
+                '_style' => ['simulated' => 'fg=blue;options=bold'],
+            ]
         );
-        return Result::success($this);
+
+        // RoboLogLevel::SIMULATED_ACTION
+        $this->printTaskInfo(
+            "Simulating {simulated}({parameters})$callchain",
+            $context
+        );
+
+        $result = null;
+        if ($this->task instanceof SimulatedInterface) {
+            $result = $this->task->simulate($context);
+        }
+        if (!isset($result)) {
+            $result = Result::success($this);
+        }
+
+        return $result;
     }
 
     protected function formatParameters($action)

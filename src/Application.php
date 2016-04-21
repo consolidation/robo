@@ -28,7 +28,7 @@ class Application extends SymfonyApplication implements ContainerAwareInterface
         $createRoboFile = new Command('init');
         $createRoboFile->setDescription("Intitalizes basic RoboFile in current dir");
         $createRoboFile->setCode(function () use ($roboClass, $roboFile) {
-            $output = Config::get('output');
+            $output = Config::output();
             $output->writeln("<comment>  ~~~ Welcome to Robo! ~~~~ </comment>");
             $output->writeln("<comment>  ". $roboFile ." will be created in current dir </comment>");
             file_put_contents(

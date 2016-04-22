@@ -10,7 +10,7 @@ use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 
 /**
- * Robo's default logger
+ * Log the creation of Result objects.
  */
 class ResultPrinter implements LoggerAwareInterface
 {

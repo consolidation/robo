@@ -9,16 +9,16 @@
     "packages": [
         {
             "name": "consolidation/annotated-command",
-            "version": "0.8.1",
+            "version": "0.8.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation-org/annotated-command.git",
-                "reference": "64c4bbdb7b6cc586bc4f3b488b2128efaa1f9ee6"
+                "reference": "1c5efda1f51106f42bf23ba7db2e358665e105e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation-org/annotated-command/zipball/64c4bbdb7b6cc586bc4f3b488b2128efaa1f9ee6",
-                "reference": "64c4bbdb7b6cc586bc4f3b488b2128efaa1f9ee6",
+                "url": "https://api.github.com/repos/consolidation-org/annotated-command/zipball/1c5efda1f51106f42bf23ba7db2e358665e105e8",
+                "reference": "1c5efda1f51106f42bf23ba7db2e358665e105e8",
                 "shasum": ""
             },
             "require": {
@@ -54,7 +54,7 @@
                 }
             ],
             "description": "Initialize Symfony Console commands from annotated command class methods.",
-            "time": "2016-04-16 01:03:11"
+            "time": "2016-04-21 22:46:00"
         },
         {
             "name": "consolidation/log",

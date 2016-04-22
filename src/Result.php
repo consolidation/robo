@@ -69,6 +69,18 @@ class Result extends ResultData
         return new self($task, self::EXITCODE_OK, $message, $data);
     }
 
+    public function getExecutionTime()
+    {
+        if (!is_array($this->data)) {
+            return null;
+        }
+        if (!isset($this->data['time'])) {
+            return null;
+        }
+        $rawTime = $this->data['time'];
+        return round($rawTime, 3).'s';
+    }
+
     /**
      * Return a context useful for logging messages.
      */

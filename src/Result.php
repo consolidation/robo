@@ -71,13 +71,10 @@ class Result extends ResultData
 
     public function getExecutionTime()
     {
-        if (!is_array($this->data)) {
+        if (!isset($this['time'])) {
             return null;
         }
-        if (!isset($this->data['time'])) {
-            return null;
-        }
-        $rawTime = $this->data['time'];
+        $rawTime = $this['time'];
         return round($rawTime, 3).'s';
     }
 
@@ -90,7 +87,7 @@ class Result extends ResultData
 
         return TaskInfo::getTaskContext($task) + [
             'code' => $this->getExitCode(),
-            'data' => $this->getData(),
+            'data' => $this->getArrayCopy(),
             'time' => $this->getExecutionTime(),
             'message' => $this->getMessage(),
         ];

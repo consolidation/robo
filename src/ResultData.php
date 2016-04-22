@@ -5,11 +5,10 @@ use Robo\Contract\LogResultInterface;
 use Consolidation\AnnotatedCommand\ExitCodeInterface;
 use Consolidation\AnnotatedCommand\OutputDataInterface;
 
-class ResultData implements \ArrayAccess, \IteratorAggregate, ExitCodeInterface, OutputDataInterface
+class ResultData extends \ArrayObject implements ExitCodeInterface, OutputDataInterface
 {
     protected $exitCode;
     protected $message;
-    protected $data = [];
 
     const EXITCODE_OK = 0;
     const EXITCODE_ERROR = 1;
@@ -28,7 +27,8 @@ class ResultData implements \ArrayAccess, \IteratorAggregate, ExitCodeInterface,
     {
         $this->exitCode = $exitCode;
         $this->message = $message;
-        $this->data = $data;
+
+        parent::__construct($data);
     }
 
     public static function message($message, $data = [])
@@ -46,7 +46,7 @@ class ResultData implements \ArrayAccess, \IteratorAggregate, ExitCodeInterface,
      */
     public function getData()
     {
-        return $this->data;
+        return $this->getArrayCopy();
     }
 
     /**
@@ -59,7 +59,7 @@ class ResultData implements \ArrayAccess, \IteratorAggregate, ExitCodeInterface,
 
     public function getOutputData()
     {
-        if (!empty($this->message) && !array_key_exists('already-printed', $this->data)) {
+        if (!empty($this->message) && !isset($this['already-printed'])) {
             return $this->message;
         }
     }
@@ -89,51 +89,8 @@ class ResultData implements \ArrayAccess, \IteratorAggregate, ExitCodeInterface,
      */
     public function merge(ResultData $result)
     {
-        $this->data += $result->getData();
+        $mergedData = $this->getArrayCopy() + $result->getArrayCopy();
+        $this->exchangeArray($mergedData);
         return $this;
-    }
-
-    /**
-     * \ArrayAccess accessor for `isset()`
-     */
-    public function offsetExists($offset)
-    {
-        return isset($this->data[$offset]);
-    }
-
-    /**
-     * \ArrayAccess accessor for array data access.
-     */
-    public function offsetGet($offset)
-    {
-        if (isset($this->data[$offset])) {
-            return $this->data[$offset];
-        }
-    }
-
-    /**
-     * \ArrayAccess method for array assignment.
-     */
-    public function offsetSet($offset, $value)
-    {
-        $this->data[$offset] = $value;
-    }
-
-    /**
-     * \ArrayAccess method for `unset`
-     */
-    public function offsetUnset($offset)
-    {
-        unset($this->data[$offset]);
-    }
-
-    /**
-     * \IteratorAggregate accessor for `foreach`.
-     *
-     * @return \Iterator
-     */
-    public function getIterator()
-    {
-        return new \ArrayIterator($this->data);
     }
 }

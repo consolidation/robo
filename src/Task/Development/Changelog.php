@@ -131,7 +131,7 @@ class Changelog extends BaseTask
             ->to($text)
             ->run();
 
-        if (!$result->getData()['replaced']) {
+        if (!isset($result['replaced']) || !$result['replaced']) {
             $result = $this->task('ReplaceInFile', $this->filename)
                 ->from($this->anchor)
                 ->to($this->anchor . "\n\n" . $text)

@@ -15,7 +15,15 @@ class Result extends ResultData
     {
         parent::__construct($exitCode, $message, $data);
         $this->task = $task;
+        $this->printResult();
 
+        if (self::$stopOnFail) {
+            $this->stopOnFail();
+        }
+    }
+
+    protected function printResult()
+    {
         // For historic reasons, the Result constructor is responsible
         // for printing task results.
         // TODO: Make IO the responsibility of some other class. Maintaining
@@ -27,10 +35,6 @@ class Result extends ResultData
             if ($resultPrinter->printResult($this)) {
                 $this->data['already-printed'] = true;
             }
-        }
-
-        if (self::$stopOnFail) {
-            $this->stopOnFail();
         }
     }
 

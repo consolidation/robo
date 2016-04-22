@@ -69,8 +69,7 @@ trait loadShortcuts
     protected function _tmpDir($prefix = 'tmp', $base = '', $includeRandomPart = true)
     {
         $result = $this->getContainer()->get('taskTmpDir', [$prefix, $base, $includeRandomPart])->run();
-        $data = $result->getData() + ['path' => ''];
-        return $data['path'];
+        return isset($result['path']) ? $result['path'] : '';
     }
 
     /**

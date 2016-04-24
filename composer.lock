@@ -9,16 +9,16 @@
     "packages": [
         {
             "name": "consolidation/annotated-command",
-            "version": "0.8.3",
+            "version": "0.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation-org/annotated-command.git",
-                "reference": "1c5efda1f51106f42bf23ba7db2e358665e105e8"
+                "reference": "09f5ce7b67bc2d11ec149df28cdc42d8b45f3b7c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation-org/annotated-command/zipball/1c5efda1f51106f42bf23ba7db2e358665e105e8",
-                "reference": "1c5efda1f51106f42bf23ba7db2e358665e105e8",
+                "url": "https://api.github.com/repos/consolidation-org/annotated-command/zipball/09f5ce7b67bc2d11ec149df28cdc42d8b45f3b7c",
+                "reference": "09f5ce7b67bc2d11ec149df28cdc42d8b45f3b7c",
                 "shasum": ""
             },
             "require": {
@@ -54,7 +54,7 @@
                 }
             ],
             "description": "Initialize Symfony Console commands from annotated command class methods.",
-            "time": "2016-04-21 22:46:00"
+            "time": "2016-04-23 05:32:42"
         },
         {
             "name": "consolidation/log",
@@ -105,20 +105,20 @@
         },
         {
             "name": "consolidation/output-formatters",
-            "version": "0.1.2",
+            "version": "0.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation-org/output-formatters.git",
-                "reference": "d4b81604971d343e4b4b36f889161731f9db6e0c"
+                "reference": "b1672aaf51b103f0673809eab80fb48fd96168c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation-org/output-formatters/zipball/d4b81604971d343e4b4b36f889161731f9db6e0c",
-                "reference": "d4b81604971d343e4b4b36f889161731f9db6e0c",
+                "url": "https://api.github.com/repos/consolidation-org/output-formatters/zipball/b1672aaf51b103f0673809eab80fb48fd96168c7",
+                "reference": "b1672aaf51b103f0673809eab80fb48fd96168c7",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.5.0",
+                "php": ">=5.4.0",
                 "symfony/console": "~2.5|~3.0"
             },
             "require-dev": {
@@ -147,7 +147,7 @@
                 }
             ],
             "description": "Format text by applying transformations provided by plug-in formatters.",
-            "time": "2016-04-07 05:10:03"
+            "time": "2016-04-24 15:26:00"
         },
         {
             "name": "container-interop/container-interop",

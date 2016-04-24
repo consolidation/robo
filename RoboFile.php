@@ -3,6 +3,8 @@ use Symfony\Component\Finder\Finder;
 use Robo\Result;
 use Robo\ResultData;
 
+use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
+
 class RoboFile extends \Robo\Tasks
 {
     /**
@@ -431,7 +433,7 @@ class RoboFile extends \Robo\Tasks
             [ 'first' => 'Uno',  'second' => 'Dos',  'third' => 'Tres'  ],
         ];
         // Note that we can also simply return the output data array here.
-        return ResultData::message($outputData);
+        return ResultData::message(new RowsOfFields($outputData));
     }
 
     /**

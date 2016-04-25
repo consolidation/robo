@@ -13,5 +13,5 @@ interface TaskInterface
     /**
      * @return \Robo\Result
      */
-    function run();
+    public function run();
 }

@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace Robo\Task\Docker;
 
 class Result extends \Robo\Result
@@ -13,15 +13,17 @@ class Result extends \Robo\Result
 
     public function getCid()
     {
-        $data = $this->getData();
-        if (isset($data['cid'])) return $data['cid'];
+        if (isset($this['cid'])) {
+            return $this['cid'];
+        }
         return null;
     }
 
     public function getContainerName()
     {
-        $data = $this->getData();
-        if (isset($data['name'])) return $data['name'];
+        if (isset($this['name'])) {
+            return $this['name'];
+        }
         return null;
     }
-} 
+}

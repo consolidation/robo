@@ -11,17 +11,12 @@ use Robo\Result;
  * <?php
  * $this->taskGitHubRelease('0.1.0')
  *   ->uri('Codegyre/Robo')
- *   ->askDescription()
+ *   ->description('Add stuff people need.')
+ *   ->change('Fix #123')
+ *   ->change('Add frobulation method to all widgets')
  *   ->run();
  * ?>
  * ```
- *
- * @method \Robo\Task\Development\GitHubRelease tag(string $tag)
- * @method \Robo\Task\Development\GitHubRelease name(string $name)
- * @method \Robo\Task\Development\GitHubRelease body(string $body)
- * @method \Robo\Task\Development\GitHubRelease draft(boolean $isDraft)
- * @method \Robo\Task\Development\GitHubRelease prerelease(boolean $isPrerelease)
- * @method \Robo\Task\Development\GitHubRelease comittish(string $branch)
  */
 class GitHubRelease extends GitHub
 {
@@ -29,7 +24,8 @@ class GitHubRelease extends GitHub
 
     protected $tag;
     protected $name;
-    protected $body;
+    protected $description = '';
+    protected $changes = [];
     protected $draft = false;
     protected $prerelease = false;
     protected $comittish = 'master';
@@ -39,46 +35,90 @@ class GitHubRelease extends GitHub
         $this->tag = $tag;
     }
 
-    public function askName()
+    public function tag($tag)
     {
-        $this->name = $this->ask("Release Title");
+        $this->tag = $tag;
         return $this;
     }
 
-    public function askDescription()
+    public function draft($draft)
     {
-        $this->body .= $this->ask("Description of Release\n") . "\n\n";
+        $this->draft = $draft;
         return $this;
     }
 
-    public function askForChanges()
+    public function name($name)
     {
-        $this->body .= "### Changelog \n\n";
-        while ($resp = $this->ask("Added in this release:")) {
-            $this->body .= "* $resp\n";
-        };
+        $this->name = $name;
+        return $this;
+    }
+
+    public function description($description)
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    public function prerelease($prerelease)
+    {
+        $this->prerelease = $prerelease;
+        return $this;
+    }
+
+    public function comittish($comittish)
+    {
+        $this->comittish = $comittish;
+        return $this;
+    }
+
+    public function appendDescription($description)
+    {
+        if (!empty($this->description)) {
+            $$this->description .= "\n\n";
+        }
+        $this->description .= $description;
         return $this;
     }
 
     public function changes(array $changes)
     {
-        $this->body .= "### Changelog \n\n";
-        foreach ($changes as $change) {
-            $this->body .= "* $change\n";
-        }
+        $this->changes = array_merge($this->changes, $changes);
         return $this;
+    }
+
+    public function change(string $change)
+    {
+        $this->changes[] = $change;
+        return $this;
+    }
+
+    protected function getBody()
+    {
+        $body = $this->description;
+        if (!empty($this->changes)) {
+            $changes = array_map(
+                function ($line) {
+                    return "* $line";
+                },
+                $this->changes
+            );
+            $changesText = implode("\n", $changes);
+            $body .= "### Changelog \n\n$changesText";
+        }
+        return $body;
     }
 
     public function run()
     {
-        $this->printTaskInfo("Releasing " . $this->tag);
+        $this->printTaskInfo('Releasing {tag}', ['tag' => $this->tag]);
         $this->startTimer();
         list($code, $data) = $this->sendRequest(
-            'releases', [
+            'releases',
+            [
                 "tag_name" => $this->tag,
                 "target_commitish" => $this->comittish,
                 "name" => $this->tag,
-                "body" => $this->body,
+                "body" => $this->getBody(),
                 "draft" => $this->draft,
                 "prerelease" => $this->prerelease
             ]

@@ -53,7 +53,8 @@ use Robo\Exception\TaskException;
 class Rsync extends BaseTask implements CommandInterface
 {
     use \Robo\Common\ExecOneCommand;
-    use \Robo\Common\DynamicParams;
+
+    protected $command;
 
     protected $fromUser;
 
@@ -102,6 +103,30 @@ class Rsync extends BaseTask implements CommandInterface
     {
         $this->toPath = $path;
 
+        return $this;
+    }
+
+    public function fromUser($fromUser)
+    {
+        $this->fromUser = $fromUser;
+        return $this;
+    }
+
+    public function fromHost($fromHost)
+    {
+        $this->fromHost = $fromHost;
+        return $this;
+    }
+
+    public function toUser($toUser)
+    {
+        $this->toUser = $toUser;
+        return $this;
+    }
+
+    public function toHost($toHost)
+    {
+        $this->toHost = $toHost;
         return $this;
     }
 
@@ -218,22 +243,22 @@ class Rsync extends BaseTask implements CommandInterface
     }
 
     /**
-     * Excludes .git/, .svn/ and .hg/ folders.
+     * Excludes .git, .svn and .hg items at any depth.
      *
      * @return $this
      */
     public function excludeVcs()
     {
-        $this->exclude('.git/')
-            ->exclude('.svn/')
-            ->exclude('.hg/');
-
-        return $this;
+        return $this->exclude([
+            '.git',
+            '.svn',
+            '.hg',
+        ]);
     }
 
     public function exclude($pattern)
     {
-        return $this->option('exclude', escapeshellarg($pattern));
+        return $this->optionList(__FUNCTION__, $pattern);
     }
 
     public function excludeFrom($file)
@@ -243,6 +268,16 @@ class Rsync extends BaseTask implements CommandInterface
         }
 
         return $this->option('exclude-from', $file);
+    }
+
+    public function includeFilter($pattern)
+    {
+        return $this->optionList('include', $pattern);
+    }
+
+    public function filter($pattern)
+    {
+        return $this->optionList(__FUNCTION__, $pattern);
     }
 
     public function filesFrom($file)
@@ -267,7 +302,7 @@ class Rsync extends BaseTask implements CommandInterface
     public function run()
     {
         $command = $this->getCommand();
-        $this->printTaskInfo("Running <info>{$command}</info>");
+        $this->printTaskInfo("Running {command}", ['command' => $command]);
 
         return $this->executeCommand($command);
     }
@@ -280,21 +315,24 @@ class Rsync extends BaseTask implements CommandInterface
      */
     public function getCommand()
     {
-        $this->option(null, $this->getPathSpec('from'))
-            ->option(null, $this->getPathSpec('to'));
+        $this->option(null, escapeshellarg($this->getFromPathSpec()))
+            ->option(null, escapeshellarg($this->getToPathSpec()));
 
         return $this->command . $this->arguments;
     }
 
-    protected function getPathSpec($type)
+    protected function getFromPathSpec()
     {
-        if ($type !== 'from' && $type !== 'to') {
-            throw new TaskException($this, 'Type must be "from" or "to".');
-        }
-        foreach (['host', 'user', 'path'] as $part) {
-            $varName = $type . ucfirst($part);
-            $$part = $this->$varName;
-        }
+        return $this->getPathSpec($this->fromHost, $this->fromUser, $this->fromPath);
+    }
+
+    protected function getToPathSpec()
+    {
+        return $this->getPathSpec($this->toHost, $this->toUser, $this->toPath);
+    }
+
+    protected function getPathSpec($host, $user, $path)
+    {
         $spec = isset($path) ? $path : '';
         if (!empty($host)) {
             $spec = "{$host}:{$spec}";

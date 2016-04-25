@@ -55,7 +55,7 @@ class Run extends Base
     protected $cidFile;
     protected $name;
 
-    function __construct($image)
+    public function __construct($image)
     {
         $this->image = $image;
     }

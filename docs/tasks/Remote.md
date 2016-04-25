@@ -47,6 +47,10 @@ if ('y' === $this->ask('Do you want to run (y/n)')) {
 
 * `fromPath($path)`  This can either be a full rsync path spec (user@host:path) or just a path.
 * `toPath($path)`  This can either be a full rsync path spec (user@host:path) or just a path.
+* `fromUser($fromUser)` 
+* `fromHost($fromHost)` 
+* `toUser($toUser)` 
+* `toHost($toHost)` 
 * `progress()` 
 * `stats()` 
 * `recursive()` 
@@ -63,16 +67,27 @@ if ('y' === $this->ask('Do you want to run (y/n)')) {
 * `wholeFile()` 
 * `dryRun()` 
 * `itemizeChanges()` 
-* `excludeVcs()`  Excludes .git/, .svn/ and .hg/ folders.
+* `excludeVcs()`  Excludes .git, .svn and .hg items at any depth.
 * `exclude($pattern)` 
 * `excludeFrom($file)` 
+* `includeFilter($pattern)` 
+* `filter($pattern)` 
 * `filesFrom($file)` 
 * `remoteShell($command)` 
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
+* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
+* `addAsRollback($collection)` 
+* `addAsCompletion($collection)` 
+* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
-* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
+* `optionList($option, $value = null)`  Pass multiple options to executable. Value can be a string or array.
 
 ## Ssh
 
@@ -114,15 +129,28 @@ You can configure the remote directory for all future calls:
                                            and stop the chain if one command fails
 * `$this remoteDir(string $remoteWorkingDirectory)`  Changes to the given directory before running commands
 
+* `hostname($hostname)` 
+* `user($user)` 
+* `stopOnFail($stopOnFail = null)` 
+* `remoteDir($remoteDir)` 
 * `identityFile($filename)` 
 * `port($port)` 
 * `forcePseudoTty()` 
 * `quiet()` 
 * `verbose()` 
 * `exec($command)`   * `param string|CommandInterface` $command
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
+* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
+* `addAsRollback($collection)` 
+* `addAsCompletion($collection)` 
+* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
-* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
+* `optionList($option, $value = null)`  Pass multiple options to executable. Value can be a string or array.
 

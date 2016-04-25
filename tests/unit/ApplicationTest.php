@@ -1,6 +1,9 @@
 <?php
 require_once codecept_data_dir() . 'TestedRoboFile.php';
 
+use Consolidation\AnnotatedCommand\AnnotatedCommandFactory;
+use Consolidation\AnnotatedCommand\Parser\CommandInfo;
+
 class ApplicationTest extends \Codeception\TestCase\Test
 {
     /**
@@ -13,12 +16,25 @@ class ApplicationTest extends \Codeception\TestCase\Test
      */
     private $app;
 
-    const ROBOFILE = 'TestedRoboFile';
+    /**
+     * @var Consolidation\AnnotatedCommand\AnnotatedCommandFactory
+     */
+    private $commandFactory;
+
+    /**
+     * @var TestRoboFile
+     */
+    private $roboCommandFileInstance;
 
     protected function _before()
     {
         $this->app = new \Robo\Application('Robo', \Robo\Runner::VERSION);
-        $this->app->addCommandsFromClass(self::ROBOFILE);
+        $this->commandFactory = new AnnotatedCommandFactory();
+        $this->roboCommandFileInstance = new TestedRoboFile;
+        $commandList = $this->commandFactory->createCommandsFromClass($this->roboCommandFileInstance);
+        foreach ($commandList as $command) {
+            $this->app->add($command);
+        }
     }
 
     public function testAllowEmptyValuesAsDefaultsToOptionalOptions()
@@ -96,6 +112,7 @@ class ApplicationTest extends \Codeception\TestCase\Test
 
     protected function createCommand($name)
     {
-        return $this->app->createCommand(new \Robo\TaskInfo(self::ROBOFILE, $name));
+        $commandInfo = new CommandInfo($this->roboCommandFileInstance, $name);
+        return $this->commandFactory->createCommand($commandInfo, $this->roboCommandFileInstance);
     }
 }

@@ -3,6 +3,7 @@ namespace Robo\Task\Base;
 
 use Robo\Contract\CommandInterface;
 use Robo\Contract\PrintedInterface;
+use Robo\Contract\SimulatedInterface;
 use Robo\Task\BaseTask;
 use Symfony\Component\Process\Process;
 use Robo\Result;
@@ -25,12 +26,12 @@ use Robo\Result;
  * ?>
  * ```
  */
-class Exec extends BaseTask implements CommandInterface, PrintedInterface
+class Exec extends BaseTask implements CommandInterface, PrintedInterface, SimulatedInterface
 {
     use \Robo\Common\CommandReceiver;
     use \Robo\Common\ExecOneCommand;
 
-    static $instances = [];
+    protected static $instances = [];
 
     protected $command;
     protected $background = false;
@@ -110,16 +111,21 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface
     {
         if ($this->background && $this->process->isRunning()) {
             $this->process->stop();
-            $this->printTaskInfo("Stopped <info>".$this->getCommand()."</info>");
+            $this->printTaskInfo("Stopped {command}", ['command' => $this->getCommand()]);
         }
+    }
+
+    protected function printAction($context = [])
+    {
+        $command = $this->getCommand();
+        $dir = $this->workingDirectory ? " in {dir}" : "";
+        $this->printTaskInfo("Running {command}$dir", ['command' => $command, 'dir' => $this->workingDirectory] + $context);
     }
 
     public function run()
     {
-        $command = $this->getCommand();
-        $dir = $this->workingDirectory ? " in " . $this->workingDirectory : "";
-        $this->printTaskInfo("Running <info>{$command}</info>$dir");
-        $this->process = new Process($command);
+        $this->printAction();
+        $this->process = new Process($this->getCommand());
         $this->process->setTimeout($this->timeout);
         $this->process->setIdleTimeout($this->idleTimeout);
         $this->process->setWorkingDirectory($this->workingDirectory);
@@ -149,15 +155,22 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface
         try {
             $this->process->start();
         } catch (\Exception $e) {
-            return Result::error($this, $e->getMessage());
+            return Result::fromException($this, $e);
         }
         return Result::success($this);
     }
 
-    static function stopRunningJobs()
+    public function simulate($context)
+    {
+        $this->printAction($context);
+    }
+
+    public static function stopRunningJobs()
     {
         foreach (self::$instances as $instance) {
-            if ($instance) unset($instance);
+            if ($instance) {
+                unset($instance);
+            }
         }
     }
 }

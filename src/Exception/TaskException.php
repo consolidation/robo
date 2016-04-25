@@ -10,6 +10,4 @@ class TaskException extends \Exception
         }
         parent::__construct("  in task $class \n\n  $message");
     }
-
 }
- 

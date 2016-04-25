@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 /**
  * if we're running from phar load the phar autoload,
  * else let the script 'robo' search for the autoloader
@@ -16,4 +17,6 @@ if (strpos(basename(__FILE__), 'phar')) {
     }
 }
 $runner = new \Robo\Runner();
-$runner->execute();
+$statusCode = $runner->execute();
+exit($statusCode);
+

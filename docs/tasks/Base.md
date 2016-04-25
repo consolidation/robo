@@ -19,15 +19,25 @@ if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
 ?>
 ```
 
-#### *public static* instances* `background()`  Executes command in background mode (asynchronously)
+* `background()`  Executes command in background mode (asynchronously)
 * `timeout($timeout)`  Stop command if it runs longer then $timeout in seconds
 * `idleTimeout($timeout)`  Stops command if it does not output something for a while
 * `env(array $env)`  Sets the environment variables for the command
+* `simulate($context)`  Called in place of `run()` for simulated tasks.
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
+* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
+* `addAsRollback($collection)` 
+* `addAsCompletion($collection)` 
+* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
-* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
+* `optionList($option, $value = null)`  Pass multiple options to executable. Value can be a string or array.
 
 ## ExecStack
 
@@ -48,7 +58,18 @@ $this->taskExecStack()
 
 * `$this stopOnFail()` 
 
+* `executable($executable)` 
 * `exec($command)` 
+* `stopOnFail($stopOnFail = null)` 
+* `result($result)` 
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
+* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
+* `addAsRollback($collection)` 
+* `addAsCompletion($collection)` 
+* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 
@@ -73,6 +94,23 @@ $this->taskParallelExec()
 
 * `printed($isPrinted = null)` 
 * `process($command)` 
+* `timeout($timeout)` 
+* `idleTimeout($idleTimeout)` 
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
+* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
+* `addAsRollback($collection)` 
+* `addAsCompletion($collection)` 
+* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
+* `setProgressIndicator($progressIndicator)` 
+* `inProgress()` 
+* `startProgressIndicator($totalSteps = null)` 
+* `stopProgressIndicator()` 
+* `hideProgressIndicator()` 
+* `showProgressIndicator()` 
+* `advanceProgressIndicator($steps = null)` 
 
 ## SymfonyCommand
 
@@ -96,6 +134,14 @@ $this->taskSymfonyCommand(new ModelGeneratorCommand())
 
 * `arg($arg, $value)` 
 * `opt($option, $value = null)` 
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
+* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
+* `addAsRollback($collection)` 
+* `addAsCompletion($collection)` 
+* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## Watch
 
@@ -115,5 +161,12 @@ $this->taskWatch()
 ```
 
 * `monitor($paths, $callable)` 
-
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
+* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
+* `addAsRollback($collection)` 
+* `addAsCompletion($collection)` 
+* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 

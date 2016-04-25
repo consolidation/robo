@@ -1,43 +1,49 @@
 <?php
 namespace Robo;
 
-use Robo\Common\TaskIO;
-use Robo\Contract\PrintedInterface;
+use Robo\Config;
+use Robo\TaskInfo;
 use Robo\Contract\TaskInterface;
+use Robo\Contract\LogResultInterface;
 
-class Result
+class Result extends ResultData
 {
-    use TaskIO;
-
-    static $stopOnFail = false;
-
-    protected $exitCode;
-    protected $message;
-    protected $data = [];
+    public static $stopOnFail = false;
     protected $task;
-    protected $previousTask;
 
     public function __construct(TaskInterface $task, $exitCode, $message = '', $data = [])
     {
+        parent::__construct($exitCode, $message, $data);
         $this->task = $task;
-        $this->exitCode = $exitCode;
-        $this->message = $message;
-        $this->data = $data;
-        
         $this->printResult();
-        
+
         if (self::$stopOnFail) {
             $this->stopOnFail();
         }
     }
-    
+
     protected function printResult()
     {
-        if (!$this->wasSuccessful()) {
-            $this->printError($this->task);
-        } else {
-            $this->printSuccess($this->task);
+        // For historic reasons, the Result constructor is responsible
+        // for printing task results.
+        // TODO: Make IO the responsibility of some other class. Maintaining
+        // existing behavior for backwards compatibility. This is undesirable
+        // in the long run, though, as it can result in unwanted repeated input
+        // in task collections et. al.
+        $resultPrinter = Config::resultPrinter();
+        if ($resultPrinter) {
+            if ($resultPrinter->printResult($this)) {
+                $this->data['already-printed'] = true;
+            }
         }
+    }
+
+    public static function errorMissingExtension(TaskInterface $task, $extension, $service)
+    {
+        $messageTpl = 'PHP extension required for %s. Please enable %s';
+        $message = sprintf($messageTpl, $service, $extension);
+
+        return self::error($task, $message);
     }
 
     public static function errorMissingPackage(TaskInterface $task, $class, $package)
@@ -48,46 +54,47 @@ class Result
         return self::error($task, $message);
     }
 
-    static function error(TaskInterface $task, $message, $data = [])
+    public static function error(TaskInterface $task, $message, $data = [])
     {
-        return new self($task, 1, $message, $data);
+        return new self($task, self::EXITCODE_ERROR, $message, $data);
     }
 
-    static function success(TaskInterface $task, $message = '', $data = [])
+    public static function fromException(TaskInterface $task, \Exception $e, $data = [])
     {
-        return new self($task, 0, $message, $data);
+        $exitCode = $e->getCode();
+        if (!$exitCode) {
+            $exitCode = self::EXITCODE_ERROR;
+        }
+        return new self($task, $exitCode, $e->getMessage(), $data);
     }
 
-    /**
-     * @return array
-     */
-    public function getData()
+    public static function success(TaskInterface $task, $message = '', $data = [])
     {
-        return $this->data;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getExitCode()
-    {
-        return $this->exitCode;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getMessage()
-    {
-        return $this->message;
+        return new self($task, self::EXITCODE_OK, $message, $data);
     }
 
     public function getExecutionTime()
     {
-        if (!is_array($this->data)) return null;
-        if (!isset($this->data['time'])) return null;
-        $rawTime = $this->data['time'];
+        if (!isset($this['time'])) {
+            return null;
+        }
+        $rawTime = $this['time'];
         return round($rawTime, 3).'s';
+    }
+
+    /**
+     * Return a context useful for logging messages.
+     */
+    public function getContext()
+    {
+        $task = $this->getTask();
+
+        return TaskInfo::getTaskContext($task) + [
+            'code' => $this->getExitCode(),
+            'data' => $this->getArrayCopy(),
+            'time' => $this->getExecutionTime(),
+            'message' => $this->getMessage(),
+        ];
     }
 
     /**
@@ -104,53 +111,24 @@ class Result
         return $reflect->newInstanceArgs(func_get_args());
     }
 
-    public function wasSuccessful()
-    {
-        return $this->exitCode === 0;
-    }
-
+    /**
+     * @deprecated since 1.0.  @see wasSuccessful()
+     */
     public function __invoke()
     {
+        trigger_error(__METHOD__ . ' is deprecated: use wasSuccessful() instead.', E_USER_DEPRECATED);
         return $this->wasSuccessful();
     }
 
     public function stopOnFail()
     {
         if (!$this->wasSuccessful()) {
-            $this->printTaskError("Stopping on fail. Exiting....");
-            $this->printTaskError("<error>Exit Code: {$this->exitCode}</error>");
+            $resultPrinter = Config::resultPrinter();
+            if ($resultPrinter) {
+                $resultPrinter->printStopOnFail($this);
+            }
             exit($this->exitCode);
         }
         return $this;
     }
-
-    protected function printError()
-    {
-        $lines = explode("\n", $this->message);
-
-        $printOutput = true;
-
-        $time = $this->getExecutionTime();
-        if ($time) $time = "Time <fg=yellow>$time</fg=yellow>";
-
-        if ($this->task instanceof PrintedInterface) {
-            $printOutput = !$this->task->getPrinted();
-        }
-        if ($printOutput) {
-            foreach ($lines as $msg) {
-                if (!$msg) continue;
-                $this->printTaskError($msg, $this->task);
-            }
-        }
-        $this->printTaskError("<error> Exit code " . $this->exitCode. " </error> $time", $this->task);
-    }
-
-    protected function printSuccess()
-    {
-        $time = $this->getExecutionTime();
-        if (!$time) return;
-        $time = "in <fg=yellow>$time</fg=yellow>";
-        $this->printTaskSuccess("Done $time", $this->task);
-    }
-
-} 
+}

@@ -10,16 +10,25 @@ use Robo\Task\BaseTask;
  */
 abstract class GitHub extends BaseTask
 {
-    use \Robo\Common\DynamicParams;
-
     const GITHUB_URL = 'https://api.github.com';
 
-    protected static $user;
-    protected static $pass;
+    protected $user = '';
+    protected $password = '';
 
-    protected $needs_auth = false;
     protected $repo;
     protected $owner;
+
+    public function repo($repo)
+    {
+        $this->repo = $repo;
+        return $this;
+    }
+
+    public function owner($owner)
+    {
+        $this->owner = $owner;
+        return $this;
+    }
 
     public function uri($uri)
     {
@@ -32,10 +41,15 @@ abstract class GitHub extends BaseTask
         return $this->owner . '/' . $this->repo;
     }
 
-    public function askAuth()
+    public function user($user)
     {
-        self::$user = $this->ask('GitHub User');
-        self::$pass = $this->askHidden('Password');
+        $this->user = $user;
+        return $this;
+    }
+
+    public function password($password)
+    {
+        $this->password = $password;
         return $this;
     }
 
@@ -47,21 +61,22 @@ abstract class GitHub extends BaseTask
 
         $ch = curl_init();
         $url = sprintf('%s/repos/%s/%s', self::GITHUB_URL, $this->getUri(), $uri);
-        $this->printTaskInfo("$method $url");
+        $this->printTaskInfo($url);
+        $this->printTaskInfo('{method} {url}', ['method' => $method, 'url' => $url]);
 
-        if (!self::$user) {
-            $this->askAuth();
-            curl_setopt($ch, CURLOPT_USERPWD, self::$user . ':' . self::$pass);
+        if (!empty($this->user)) {
+            curl_setopt($ch, CURLOPT_USERPWD, $this->user . ':' . $this->password);
         }
 
         curl_setopt_array(
-            $ch, array(
+            $ch,
+            array(
                 CURLOPT_URL => $url,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_POST => $method != 'GET',
                 CURLOPT_POSTFIELDS => json_encode($params),
                 CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_USERAGENT => self::$user ?: "Robo"
+                CURLOPT_USERAGENT => "Robo"
             )
         );
 

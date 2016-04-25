@@ -1,11 +1,11 @@
 <?php
 namespace Robo\Task\Development;
 
-use Robo\Common\Timer;
+use Robo\Contract\ProgressIndicatorAwareInterface;
+use Robo\Common\ProgressIndicatorAwareTrait;
 use Robo\Contract\PrintedInterface;
 use Robo\Result;
 use Robo\Task\BaseTask;
-use Symfony\Component\Console\Helper\ProgressBar;
 
 /**
  * Creates Phar.
@@ -38,9 +38,9 @@ use Symfony\Component\Console\Helper\ProgressBar;
  * ?>
  * ```
  */
-class PackPhar extends BaseTask implements PrintedInterface
+class PackPhar extends BaseTask implements PrintedInterface, ProgressIndicatorAwareInterface
 {
-    use Timer;
+    use ProgressIndicatorAwareTrait;
 
     /**
      * @var \Phar
@@ -99,33 +99,31 @@ EOF;
 
     public function run()
     {
-        $this->printTaskInfo("Creating <info>{$this->filename}</info>");
+        $this->printTaskInfo('Creating {filename}', ['filename' => $this->filename]);
         $this->phar->setSignatureAlgorithm(\Phar::SHA1);
         $this->phar->startBuffering();
 
-        $this->printTaskInfo('Packing ' . count($this->files) . ' files into phar');
+        $this->printTaskInfo('Packing {file-count} files into phar', ['file-count' => count($this->files)]);
 
-        $progress = new ProgressBar($this->getOutput());
-        $progress->start(count($this->files));
-        $this->startTimer();
+        $this->startProgressIndicator(count($this->files)+2);
         foreach ($this->files as $path => $content) {
             $this->phar->addFromString($path, $content);
-            $progress->advance();
+            $this->advanceProgressIndicator();
         }
         $this->phar->stopBuffering();
-        $progress->finish();
-        $this->getOutput()->writeln('');
+        $this->advanceProgressIndicator();
 
         if ($this->compress and in_array('GZ', \Phar::getSupportedCompression())) {
             if (count($this->files) > 1000) {
-                $this->printTaskInfo("Too many files. Compression DISABLED");
+                $this->printTaskInfo('Too many files. Compression DISABLED');
             } else {
-                $this->printTaskInfo($this->filename . " compressed");
+                $this->printTaskInfo('{filename} compressed', ['filename' => $this->filename]);
                 $this->phar = $this->phar->compressFiles(\Phar::GZ);
             }
         }
-        $this->stopTimer();
-        $this->printTaskSuccess("<info>{$this->filename}</info> produced");
+        $this->advanceProgressIndicator();
+        $this->stopProgressIndicator();
+        $this->printTaskSuccess('{filename} produced', ['filename' => $this->filename]);
         return Result::success($this, '', ['time' => $this->getExecutionTime()]);
     }
 

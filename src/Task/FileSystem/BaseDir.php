@@ -18,5 +18,4 @@ abstract class BaseDir extends BaseTask
 
         $this->fs = new sfFileSystem();
     }
-
 }

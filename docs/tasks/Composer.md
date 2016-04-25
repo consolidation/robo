@@ -33,11 +33,20 @@ $this->taskComposerDumpAutoload('path/to/my/composer.phar')
 * `preferSource()`  adds `prefer-source` option to composer
 * `noDev()`  adds `no-dev` option to composer
 * `optimizeAutoloader()`  adds `optimize-autoloader` option to composer
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
+* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
+* `addAsRollback($collection)` 
+* `addAsCompletion($collection)` 
+* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
-* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
+* `optionList($option, $value = null)`  Pass multiple options to executable. Value can be a string or array.
 
 ## Install
 
@@ -65,11 +74,20 @@ $this->taskComposerInstall('path/to/my/composer.phar')
 * `preferSource()`  adds `prefer-source` option to composer
 * `noDev()`  adds `no-dev` option to composer
 * `optimizeAutoloader()`  adds `optimize-autoloader` option to composer
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
+* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
+* `addAsRollback($collection)` 
+* `addAsCompletion($collection)` 
+* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
-* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
+* `optionList($option, $value = null)`  Pass multiple options to executable. Value can be a string or array.
 
 ## Update
 
@@ -97,9 +115,18 @@ $this->taskComposerUpdate('path/to/my/composer.phar')
 * `preferSource()`  adds `prefer-source` option to composer
 * `noDev()`  adds `no-dev` option to composer
 * `optimizeAutoloader()`  adds `optimize-autoloader` option to composer
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
+* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
+* `addAsRollback($collection)` 
+* `addAsCompletion($collection)` 
+* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable
-* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
+* `optionList($option, $value = null)`  Pass multiple options to executable. Value can be a string or array.
 

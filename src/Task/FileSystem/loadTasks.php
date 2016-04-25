@@ -1,16 +1,36 @@
 <?php
 namespace Robo\Task\FileSystem;
 
+use Robo\Collection\Temporary;
+use Robo\Container\SimpleServiceProvider;
 
 trait loadTasks
 {
+    /**
+     * Return services.
+     */
+    public static function getFileSystemServices()
+    {
+        return new SimpleServiceProvider(
+            [
+                'taskCleanDir' => CleanDir::class,
+                'taskDeleteDir' => DeleteDir::class,
+                'taskTmpDir' => TmpDir::class,
+                'taskCopyDir' => CopyDir::class,
+                'taskMirrorDir' => MirrorDir::class,
+                'taskFlattenDir' => FlattenDir::class,
+                'taskFilesystemStack' => FilesystemStack::class,
+            ]
+        );
+    }
+
     /**
      * @param $dirs
      * @return CleanDir
      */
     protected function taskCleanDir($dirs)
     {
-        return new CleanDir($dirs);
+        return $this->task(__FUNCTION__, $dirs);
     }
 
     /**
@@ -19,7 +39,18 @@ trait loadTasks
      */
     protected function taskDeleteDir($dirs)
     {
-        return new DeleteDir($dirs);
+        return $this->task(__FUNCTION__, $dirs);
+    }
+
+    /**
+     * @param $prefix
+     * @param $base
+     * @param $includeRandomPart
+     * @return TmpDir
+     */
+    protected function taskTmpDir($prefix = 'tmp', $base = '', $includeRandomPart = true)
+    {
+        return $this->task(__FUNCTION__, $prefix, $base, $includeRandomPart);
     }
 
     /**
@@ -28,7 +59,7 @@ trait loadTasks
      */
     protected function taskCopyDir($dirs)
     {
-        return new CopyDir($dirs);
+        return $this->task(__FUNCTION__, $dirs);
     }
 
     /**
@@ -37,7 +68,7 @@ trait loadTasks
      */
     protected function taskMirrorDir($dirs)
     {
-        return new MirrorDir($dirs);
+        return $this->task(__FUNCTION__, $dirs);
     }
 
     /**
@@ -46,7 +77,7 @@ trait loadTasks
      */
     protected function taskFlattenDir($dirs)
     {
-        return new FlattenDir($dirs);
+        return $this->task(__FUNCTION__, $dirs);
     }
 
     /**
@@ -54,6 +85,6 @@ trait loadTasks
      */
     protected function taskFilesystemStack()
     {
-        return new FilesystemStack();
+        return $this->task(__FUNCTION__);
     }
-} 
+}

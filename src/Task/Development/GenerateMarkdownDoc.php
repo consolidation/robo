@@ -60,8 +60,6 @@ use Robo\Task\Development;
  */
 class GenerateMarkdownDoc extends BaseTask
 {
-    use \Robo\Common\DynamicParams;
-
     protected $docClass = [];
     protected $filterMethods;
     protected $filterClasses;
@@ -102,15 +100,141 @@ class GenerateMarkdownDoc extends BaseTask
         return new static($filename);
     }
 
-    function __construct($filename)
+    public function __construct($filename)
     {
         $this->filename = $filename;
+    }
+
+    public function docClass($item)
+    {
+        $this->docClass[] = $item;
+        return $this;
+    }
+
+    public function filterMethods($filterMethods)
+    {
+        $this->filterMethods = $filterMethods;
+        return $this;
+    }
+
+    public function filterClasses($filterClasses)
+    {
+        $this->filterClasses = $filterClasses;
+        return $this;
+    }
+
+    public function filterProperties($filterProperties)
+    {
+        $this->filterProperties = $filterProperties;
+        return $this;
+    }
+
+    public function processClass($processClass)
+    {
+        $this->processClass = $processClass;
+        return $this;
+    }
+
+    public function processClassSignature($processClassSignature)
+    {
+        $this->processClassSignature = $processClassSignature;
+        return $this;
+    }
+
+    public function processClassDocBlock($processClassDocBlock)
+    {
+        $this->processClassDocBlock = $processClassDocBlock;
+        return $this;
+    }
+
+    public function processMethod($processMethod)
+    {
+        $this->processMethod = $processMethod;
+        return $this;
+    }
+
+    public function processMethodSignature($processMethodSignature)
+    {
+        $this->processMethodSignature = $processMethodSignature;
+        return $this;
+    }
+
+    public function processMethodDocBlock($processMethodDocBlock)
+    {
+        $this->processMethodDocBlock = $processMethodDocBlock;
+        return $this;
+    }
+
+    public function processProperty($processProperty)
+    {
+        $this->processProperty = $processProperty;
+        return $this;
+    }
+
+    public function processPropertySignature($processPropertySignature)
+    {
+        $this->processPropertySignature = $processPropertySignature;
+        return $this;
+    }
+
+    public function processPropertyDocBlock($processPropertyDocBlock)
+    {
+        $this->processPropertyDocBlock = $processPropertyDocBlock;
+        return $this;
+    }
+
+    public function reorder($reorder)
+    {
+        $this->reorder = $reorder;
+        return $this;
+    }
+
+    public function reorderMethods($reorderMethods)
+    {
+        $this->reorderMethods = $reorderMethods;
+        return $this;
+    }
+
+    public function reorderProperties($reorderProperties)
+    {
+        $this->reorderProperties = $reorderProperties;
+        return $this;
+    }
+
+    public function filename($filename)
+    {
+        $this->filename = $filename;
+        return $this;
+    }
+
+    public function prepend($prepend)
+    {
+        $this->prepend = $prepend;
+        return $this;
+    }
+
+    public function append($append)
+    {
+        $this->append = $append;
+        return $this;
+    }
+
+    public function text($text)
+    {
+        $this->text = $text;
+        return $this;
+    }
+
+    public function textForClass($item)
+    {
+        $this->textForClass[] = $item;
+        return $this;
     }
 
     public function run()
     {
         foreach ($this->docClass as $class) {
-            $this->printTaskInfo("Processing $class");
+            $this->printTaskInfo("Processing {class}", ['class' => $class]);
             $this->textForClass[$class] = $this->documentClass($class);
         }
 
@@ -121,13 +245,13 @@ class GenerateMarkdownDoc extends BaseTask
 
         $this->text = implode("\n", $this->textForClass);
 
-        $result = (new Write($this->filename))
+        $result = $this->task('WriteToFile', $this->filename)
             ->line($this->prepend)
             ->text($this->text)
             ->line($this->append)
             ->run();
 
-        $this->printTaskSuccess("<info>{$this->filename}</info> created. ".count($this->docClass)." classes documented");
+        $this->printTaskSuccess('{filename} created. {class-count} classes documented', ['filename' => $this->filename, 'class-count' => count($this->docClass)]);
 
         return new Result($this, $result->getExitCode(), $result->getMessage(), $this->textForClass);
     }
@@ -309,7 +433,7 @@ class GenerateMarkdownDoc extends BaseTask
         if ($param->isCallable()) {
             $text .= 'callable ';
         }
-        $text .= '$' . $param->getName();
+        $text .= '$' . $param->name;
         if ($param->isDefaultValueAvailable()) {
             if ($param->allowsNull()) {
                 $text .= ' = null';
@@ -327,10 +451,12 @@ class GenerateMarkdownDoc extends BaseTask
             return $doc;
         }
         return implode(
-            "\n", array_map(
+            "\n",
+            array_map(
                 function ($line) use ($indent) {
                     return substr($line, $indent);
-                }, explode("\n", $doc)
+                },
+                explode("\n", $doc)
             )
         );
     }
@@ -342,10 +468,12 @@ class GenerateMarkdownDoc extends BaseTask
         }
         $modifiers = implode(' ', \Reflection::getModifierNames($reflectedMethod->getModifiers()));
         $params = implode(
-            ', ', array_map(
+            ', ',
+            array_map(
                 function ($p) {
                     return $this->documentParam($p);
-                }, $reflectedMethod->getParameters()
+                },
+                $reflectedMethod->getParameters()
             )
         );
         $signature = "#### *$modifiers* {$reflectedMethod->name}($params)";
@@ -394,5 +522,4 @@ class GenerateMarkdownDoc extends BaseTask
 
         return $methodDoc;
     }
-
 }

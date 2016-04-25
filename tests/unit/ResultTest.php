@@ -12,7 +12,7 @@ class ResultTest extends \Codeception\TestCase\Test {
     {
         $task = new ResultDummyTask();
         $result = new Result($task, 1, 'The foo barred', ['time' => 10]);
-        
+
         $this->guy->seeInOutput('The foo barred');
         $this->guy->seeInOutput('Exit code 1');
         $this->guy->seeInOutput('10s');
@@ -21,11 +21,19 @@ class ResultTest extends \Codeception\TestCase\Test {
         $this->assertSame($task, $result->getTask());
         $this->assertEquals(1, $result->getExitCode());
         $this->assertEquals('The foo barred', $result->getMessage());
-        $this->assertEquals(['time' => 10], $result->getData());
+        $data = $result->getData();
+        $this->assertEquals(10, $data['time']);
 
         $taskClone = $result->cloneTask();
         $this->assertNotSame($task, $taskClone);
         $this->assertInstanceOf('Robo\Contract\TaskInterface', $taskClone);
+    }
+
+    public function testArrayAccess()
+    {
+        $task = new ResultDummyTask();
+        $result = new Result($task, 1, 'The foo barred', ['time' => 10]);
+        $this->assertEquals($result['time'], 10);
     }
 }
 

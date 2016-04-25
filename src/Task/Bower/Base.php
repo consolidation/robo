@@ -58,14 +58,12 @@ abstract class Base extends BaseTask
 
     public function __construct($pathToBower = null)
     {
-        if ($pathToBower) {
-            $this->command = $pathToBower;
-        } elseif (is_executable('/usr/bin/bower')) {
-            $this->command = '/usr/bin/bower';
-        } elseif (is_executable('/usr/local/bin/bower')) {
-            $this->command = '/usr/local/bin/bower';
-        } else {
-            throw new TaskException(__CLASS__, "Executable not found.");
+        $this->command = $pathToBower;
+        if (!$this->command) {
+            $this->command = $this->findExecutable('bower');
+        }
+        if (!$this->command) {
+            throw new TaskException(__CLASS__, "Bower executable not found.");
         }
     }
 

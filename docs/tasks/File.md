@@ -17,6 +17,14 @@ $this->taskConcat([
 ```
 
 * `to($dst)`  set the destination file
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
+* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
+* `addAsRollback($collection)` 
+* `addAsCompletion($collection)` 
+* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## Replace
 
@@ -51,12 +59,67 @@ $this->taskReplaceInFile('box/robo.txt')
 * `from(string|array)`  string(s) to be replaced
 * `to(string|array)`  value(s) to be set as a replacement
 
+* `filename($filename)` 
+* `from($from)` 
+* `to($to)` 
+* `regex($regex)` 
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
+* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
+* `addAsRollback($collection)` 
+* `addAsCompletion($collection)` 
+* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
+## TmpFile
+
+
+Create a temporary file that is automatically cleaned up
+once the task collection is is part of completes. When created,
+it is given a random filename.
+
+This temporary file may be manipulated exacatly like taskWrite().
+
+``` php
+<?php
+$tmpFilePath = $this->taskTmpFile()
+     ->line('-----')
+     ->line(date('Y-m-d').' '.$title)
+     ->line('----')
+     ->addToCollection($collection)
+     ->getPath();
+?>
+```
+
+* `complete()`  Delete this file when our collection completes.
+* `filename($filename)` 
+* `append($append = null)` 
+* `line($line)`  add a line.
+* `lines(array $lines)`  add more lines.
+* `text($text)`  add a text.
+* `textFromFile($filename)`  add a text from a file.
+* `place($name, $val)`  substitute a placeholder with value, placeholder must be enclosed by `{}`.
+* `replace($string, $replacement)`  replace any string with value.
+* `regexReplace($pattern, $replacement)`  replace any string with value using regular expression.
+* `appendIfMatches($pattern, $text)`  Append the provided text to the end of the buffer if the provided
+* `appendUnlessMatches($pattern, $text)`  Append the provided text to the end of the buffer unless the provided
+* `originalContents()` 
+* `wouldChange()` 
+* `getPath()` 
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
+* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
+* `addAsRollback($collection)` 
+* `addAsCompletion($collection)` 
+* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## Write
 
 
-Writes to file
+Writes to file.
 
 ``` php
 <?php
@@ -67,13 +130,29 @@ $this->taskWriteToFile('blogpost.md')
      ->run();
 ?>
 ```
+
 * `append()` 
 
-* `line($line)`  add a line
-* `lines(array $lines)`  add more lines
-* `text($text)`  add a text
-* `textFromFile($filename)`  add a text from a file
-* `place($name, $val)`  substitute a placeholder with value, placeholder must be enclosed by `{}`
-* `replace($string, $replacement)`  replace any string with value
-* `regexReplace($pattern, $replacement)`  replace any string with value using regular expression
+* `filename($filename)` 
+* `append($append = null)` 
+* `line($line)`  add a line.
+* `lines(array $lines)`  add more lines.
+* `text($text)`  add a text.
+* `textFromFile($filename)`  add a text from a file.
+* `place($name, $val)`  substitute a placeholder with value, placeholder must be enclosed by `{}`.
+* `replace($string, $replacement)`  replace any string with value.
+* `regexReplace($pattern, $replacement)`  replace any string with value using regular expression.
+* `appendIfMatches($pattern, $text)`  Append the provided text to the end of the buffer if the provided
+* `appendUnlessMatches($pattern, $text)`  Append the provided text to the end of the buffer unless the provided
+* `originalContents()` 
+* `wouldChange()` 
+* `getPath()` 
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
+* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
+* `addAsRollback($collection)` 
+* `addAsCompletion($collection)` 
+* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 

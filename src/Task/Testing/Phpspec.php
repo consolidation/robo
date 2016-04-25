@@ -36,14 +36,14 @@ class Phpspec extends BaseTask implements CommandInterface, PrintedInterface
 
     public function __construct($pathToPhpspec = null)
     {
-        if ($pathToPhpspec) {
-            $this->command = "$pathToPhpspec";
-            $this->arg('run');
-        } elseif (file_exists('vendor/phpspec/phpspec/bin/phpspec')) {
-            $this->command = 'vendor/phpspec/phpspec/bin/phpspec run';
-        } else {
+        $this->command = $pathToPhpspec;
+        if (!$this->command) {
+            $this->command = $this->findExecutable('phpspec');
+        }
+        if (!$this->command) {
             throw new \Robo\Exception\TaskException(__CLASS__, "Neither composer nor phar installation of Phpspec found");
         }
+        $this->arg('run');
     }
 
     public function stopOnFail()
@@ -107,8 +107,7 @@ class Phpspec extends BaseTask implements CommandInterface, PrintedInterface
 
     public function run()
     {
-        $this->printTaskInfo('Running phpspec ' . $this->arguments);
+        $this->printTaskInfo('Running phpspec {arguments}', ['arguments' => $this->arguments]);
         return $this->executeCommand($this->getCommand());
     }
-
 }

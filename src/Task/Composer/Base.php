@@ -66,16 +66,12 @@ abstract class Base extends BaseTask
 
     public function __construct($pathToComposer = null)
     {
-        if ($pathToComposer) {
-            $this->command = $pathToComposer;
-        } elseif (file_exists('composer.phar')) {
-            $this->command = 'php composer.phar';
-        } elseif (is_executable('/usr/bin/composer')) {
-            $this->command = '/usr/bin/composer';
-        } elseif (is_executable('/usr/local/bin/composer')) {
-            $this->command = '/usr/local/bin/composer';
-        } else {
-            throw new TaskException(__CLASS__, "Neither local composer.phar nor global composer installation not found");
+        $this->command = $pathToComposer;
+        if (!$this->command) {
+            $this->command = $this->findExecutablePhar('composer');
+        }
+        if (!$this->command) {
+            throw new TaskException(__CLASS__, "Neither local composer.phar nor global composer installation could be found.");
         }
     }
 

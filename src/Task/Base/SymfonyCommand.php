@@ -27,6 +27,8 @@ use Symfony\Component\Console\Input\InputInterface;
  */
 class SymfonyCommand extends BaseTask
 {
+    use \Robo\Common\IO;
+
     /**
      * @var SymfonyCommand
      */
@@ -57,8 +59,9 @@ class SymfonyCommand extends BaseTask
 
     public function run()
     {
-        $this->printTaskInfo("Running command ".$this->command->getName());
-        return new Result($this,
+        $this->printTaskInfo('Running command {command}', ['command' => $this->command->getName()]);
+        return new Result(
+            $this,
             $this->command->run(new ArrayInput($this->input), $this->getOutput())
         );
     }

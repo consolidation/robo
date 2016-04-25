@@ -13,7 +13,14 @@ $this->_cleanDir('app/cache');
 ?>
 ```
 
-
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
+* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
+* `addAsRollback($collection)` 
+* `addAsCompletion($collection)` 
+* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## CopyDir
 
@@ -29,6 +36,14 @@ $this->_copyDir('dist/config', 'config');
 ```
 
 * `dirPermissions($value)`  Sets the default folder permissions for the destination if it doesn't exist
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
+* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
+* `addAsRollback($collection)` 
+* `addAsCompletion($collection)` 
+* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## DeleteDir
 
@@ -43,7 +58,14 @@ $this->_deleteDir(['tmp', 'log']);
 ?>
 ```
 
-
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
+* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
+* `addAsRollback($collection)` 
+* `addAsCompletion($collection)` 
+* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## FilesystemStack
 
@@ -67,7 +89,6 @@ $this->_mkdir('logs');
 ?>
 ```
 
-* `stopOnFail($stop = null)` 
 * `mkdir($dir)` 
 * `touch($file)` 
 * `copy($from, $to, $force = null)` 
@@ -78,6 +99,16 @@ $this->_mkdir('logs');
 * `mirror($from, $to)` 
 * `chgrp($file, $group)` 
 * `chown($file, $user)` 
+
+* `stopOnFail($stop = null)` 
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
+* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
+* `addAsRollback($collection)` 
+* `addAsCompletion($collection)` 
+* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## FlattenDir
 
@@ -145,6 +176,14 @@ $this->taskFlattenDir(['assets/*.min.js' => 'dist'])
 * `includeParents($parents)`  Sets the value from which direction and how much parent dirs should be included.
 * `parentDir($dir)`  Sets the parent directory from which the relative parent directories will be calculated.
 * `to($target)`  Sets the target directory where the files will be copied to.
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
+* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
+* `addAsRollback($collection)` 
+* `addAsCompletion($collection)` 
+* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## MirrorDir
 
@@ -160,6 +199,48 @@ $this->_mirrorDir('dist/config/', 'config/');
 ?>
 ```
 
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
+* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
+* `addAsRollback($collection)` 
+* `addAsCompletion($collection)` 
+* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
+
+## TmpDir
 
 
+Create a temporary directory that is automatically cleaned up
+once the task collection is is part of completes.
+
+Move the directory to another location to prevent its deletion.
+
+``` php
+<?php
+// Delete on rollback or on successful completion.
+// Note that in this example, everything is deleted at
+// the end of $collection->run().
+$tmpPath = $this->taskTmpDir()->addToCollection($collection)->getPath();
+$this->taskFileSystemStack()
+          ->mkdir("$tmpPath/log")
+          ->touch("$tmpPath/log/error.txt")
+          ->addToCollection($collection);
+$collection->run();
+// as shortcut (deleted when program exits)
+$tmpPath = $this->_tmpDir();
+?>
+```
+
+* `cwd()`  Flag that we should cwd to the temporary directory when it is
+* `complete()`  Delete this directory when our collection completes.
+* `getPath()`  Get a reference to the path to the temporary directory, so that
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
+* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
+* `addAsRollback($collection)` 
+* `addAsCompletion($collection)` 
+* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 

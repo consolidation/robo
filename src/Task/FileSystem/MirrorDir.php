@@ -21,13 +21,16 @@ class MirrorDir extends BaseDir
     {
         foreach ($this->dirs as $src => $dst) {
             $this->fs->mirror(
-                $src, $dst, null, [
+                $src,
+                $dst,
+                null,
+                [
                     'override' => true,
                     'copy_on_windows' => true,
                     'delete' => true
                 ]
             );
-            $this->printTaskInfo("Mirrored from <info>$src</info> to <info>$dst</info>");
+            $this->printTaskInfo("Mirrored from {source} to {destination}", ['source' => $src, 'destination' => $dst]);
         }
         return Result::success($this);
     }

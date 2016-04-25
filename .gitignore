@@ -2,5 +2,6 @@ vendor/
 .idea/
 site/
 tests/_log/*
+tests/_helpers/_generated/*
 composer.phar
 robo.phar

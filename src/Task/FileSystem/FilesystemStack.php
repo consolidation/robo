@@ -2,9 +2,10 @@
 namespace Robo\Task\FileSystem;
 
 use Robo\Result;
-use Robo\Task\BaseTask;
+use Robo\Task\StackBasedTask;
 use Symfony\Component\Filesystem\Filesystem as sfFileSystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Filesystem\Exception\IOException;
 
 /**
  * Wrapper for [Symfony FileSystem](http://symfony.com/doc/current/components/filesystem.html) Component.
@@ -25,100 +26,78 @@ use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
  *
  * ?>
  * ```
+ *
+ * @method mkdir($dir)
+ * @method touch($file)
+ * @method copy($from, $to, $force = null)
+ * @method chmod($file, $permissions, $umask = null, $recursive = null)
+ * @method remove($file)
+ * @method rename($from, $to)
+ * @method symlink($from, $to)
+ * @method mirror($from, $to)
+ * @method chgrp($file, $group)
+ * @method chown($file, $user)
  */
-class FilesystemStack extends BaseTask
+class FilesystemStack extends StackBasedTask
 {
-    protected $stack = [];
+    protected $fs;
 
-    protected $stopOnFail = false;
-
-    public function stopOnFail($stop = true)
+    public function __construct()
     {
-        $this->stopOnFail = $stop;
-        return $this;
+        $this->fs = new sfFileSystem();
     }
 
-    public function mkdir($dir)
+    protected function getDelegate()
     {
-        $this->stack[] = array_merge([__FUNCTION__], func_get_args());
-        return $this;
+        return $this->fs;
     }
 
-    public function touch($file)
+    protected function _copy($from, $to, $force = false)
     {
-        $this->stack[] = array_merge([__FUNCTION__], func_get_args());
-        return $this;
+        $this->fs->copy($from, $to, $force);
     }
 
-    public function copy($from, $to, $force = false)
+    protected function _chmod($file, $permissions, $umask = 0000, $recursive = false)
     {
-        $this->stack[] = array_merge([__FUNCTION__], func_get_args());
-        return $this;
+        $this->fs->chmod($file, $permissions, $umask, $recursive);
     }
 
-    public function chmod($file, $permissions, $umask = 0000, $recursive = false)
+    protected function _rename($origin, $target, $overwrite = false)
     {
-        $this->stack[] = array_merge([__FUNCTION__], func_get_args());
-        return $this;
+        // we check that target does not exist
+        if ((!$overwrite && is_readable($target)) || (file_exists($target) && !is_writable($target))) {
+            throw new IOException(sprintf('Cannot rename because the target "%s" already exists.', $target), 0, null, $target);
+        }
+
+        // Due to a bug (limitation) in PHP, cross-volume renames do not work.
+        // See: https://bugs.php.net/bug.php?id=54097
+        if (true !== @rename($origin, $target)) {
+            return $this->crossVolumeRename($origin, $target);
+        }
+        return true;
     }
 
-    public function remove($file)
+    protected function crossVolumeRename($origin, $target)
     {
-        $this->stack[] = array_merge([__FUNCTION__], func_get_args());
-        return $this;
-    }
-
-    public function rename($from, $to)
-    {
-        $this->stack[] = array_merge([__FUNCTION__], func_get_args());
-        return $this;
-    }
-
-    public function symlink($from, $to)
-    {
-        $this->stack[] = array_merge([__FUNCTION__], func_get_args());
-        return $this;
-    }
-
-    public function mirror($from, $to)
-    {
-        $this->stack[] = array_merge([__FUNCTION__], func_get_args());
-        return $this;
-    }
-
-    public function chgrp($file, $group)
-    {
-        $this->stack[] = array_merge([__FUNCTION__], func_get_args());
-        return $this;
-    }
-
-    public function chown($file, $user)
-    {
-        $this->stack[] = array_merge([__FUNCTION__], func_get_args());
-        return $this;
-    }
-
-    public function run()
-    {
-        $fs = new sfFileSystem();
-        $code = 0;
-        foreach ($this->stack as $action) {
-            $command = array_shift($action);
-            if (!method_exists($fs, $command)) {
-                continue;
-            }
-            $this->printTaskInfo("$command " . json_encode($action));
-            try {
-                call_user_func_array([$fs, $command], $action);
-            } catch (IOExceptionInterface $e) {
-                if ($this->stopOnFail) {
-                    return Result::error($this, $e->getMessage(), $e->getPath());
-                }
-                $code = 1;
-                $this->printTaskInfo("<error>" . $e->getMessage() . "</error>");
+        // First step is to try to get rid of the target. If there
+        // is a single, deletable file, then we will just unlink it.
+        if (is_file($target)) {
+            unlink($target);
+        }
+        // If the target still exists, we will try to delete it.
+        // TODO: Note that if this fails partway through, then we cannot
+        // adequately rollback.  Perhaps we need to preflight the operation
+        // and determine if everything inside of $target is writable.
+        if (file_exists($target)) {
+            $deleteResult = $this->task('taskDeleteDir', $target)->run();
+            if (!$deleteResult->wasSuccessful()) {
+                return $deleteResult;
             }
         }
-        return new Result($this, $code);
+        $result = $this->task('taskCopyDir', [$origin => $target])->run();
+        if (!$result->wasSuccessful()) {
+            return $result;
+        }
+        return $this->task('taskDeleteDir', $origin)->run();
     }
-
 }

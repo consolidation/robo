@@ -7,7 +7,8 @@ namespace Robo\Contract;
  *
  * @package Robo\Contract
  */
-interface CommandInterface {
+interface CommandInterface
+{
 
     /**
      * Returns command that can be executed.
@@ -16,5 +17,4 @@ interface CommandInterface {
      * @return string
      */
     public function getCommand();
-
 }

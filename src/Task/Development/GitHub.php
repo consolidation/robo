@@ -27,6 +27,7 @@ abstract class GitHub extends BaseTask
     public function owner($owner)
     {
         $this->owner = $owner;
+        return $this;
     }
 
     public function uri($uri)
@@ -61,7 +62,7 @@ abstract class GitHub extends BaseTask
         $ch = curl_init();
         $url = sprintf('%s/repos/%s/%s', self::GITHUB_URL, $this->getUri(), $uri);
         $this->printTaskInfo($url);
-        $this->printTaskInfo('{method} {$url}', ['method' => $method, 'url' => $url]);
+        $this->printTaskInfo('{method} {url}', ['method' => $method, 'url' => $url]);
 
         if (!empty($this->user)) {
             curl_setopt($ch, CURLOPT_USERPWD, $this->user . ':' . $this->password);

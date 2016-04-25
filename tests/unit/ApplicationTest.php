@@ -2,7 +2,7 @@
 require_once codecept_data_dir() . 'TestedRoboFile.php';
 
 use Consolidation\AnnotatedCommand\AnnotatedCommandFactory;
-use Consolidation\AnnotatedCommand\CommandInfo;
+use Consolidation\AnnotatedCommand\Parser\CommandInfo;
 
 class ApplicationTest extends \Codeception\TestCase\Test
 {

@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6fbda05aa3002fb12483edf395c1f758",
-    "content-hash": "cdde3ed02064aaa3b0aade5f153ed5c8",
+    "hash": "ff97ad18778400abbf9f0fb282bc7210",
+    "content-hash": "ec879f99aa70584a693f4fe38fb5c0a1",
     "packages": [
         {
             "name": "consolidation/annotated-command",
-            "version": "0.9.0",
+            "version": "0.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation-org/annotated-command.git",
-                "reference": "09f5ce7b67bc2d11ec149df28cdc42d8b45f3b7c"
+                "reference": "75f82a54af6a405ab25b7b0bd6b8831c0a0e0c17"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation-org/annotated-command/zipball/09f5ce7b67bc2d11ec149df28cdc42d8b45f3b7c",
-                "reference": "09f5ce7b67bc2d11ec149df28cdc42d8b45f3b7c",
+                "url": "https://api.github.com/repos/consolidation-org/annotated-command/zipball/75f82a54af6a405ab25b7b0bd6b8831c0a0e0c17",
+                "reference": "75f82a54af6a405ab25b7b0bd6b8831c0a0e0c17",
                 "shasum": ""
             },
             "require": {
@@ -54,7 +54,7 @@
                 }
             ],
             "description": "Initialize Symfony Console commands from annotated command class methods.",
-            "time": "2016-04-23 05:32:42"
+            "time": "2016-04-25 01:20:48"
         },
         {
             "name": "consolidation/log",

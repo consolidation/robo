@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Consolidation\AnnotatedCommand\AnnotatedCommandFactory;
 use Consolidation\AnnotatedCommand\PassThroughArgsInput;
-use Consolidation\AnnotatedCommand\HookManager;
+use Consolidation\AnnotatedCommand\Hooks\HookManager;
 
 class Runner
 {
@@ -159,8 +159,8 @@ class Runner
         $container->share('eventDispatcher', \Symfony\Component\EventDispatcher\EventDispatcher::class)
             ->withMethodCall('addSubscriber', ['globalOptionsEventListener']);
         $container->share('collectionProcessHook', \Robo\Collection\CollectionProcessHook::class);
-        $container->share('hookManager', \Consolidation\AnnotatedCommand\HookManager::class)
-            ->withMethodCall('add', ['*', HookManager::PROCESS_RESULT, 'collectionProcessHook']);
+        $container->share('hookManager', \Consolidation\AnnotatedCommand\Hooks\HookManager::class)
+            ->withMethodCall('addResultProcessor', ['collectionProcessHook', '*']);
         $container->share('formatterManager', \Consolidation\OutputFormatters\FormatterManager::class);
         $container->share('commandProcessor', \Consolidation\AnnotatedCommand\CommandProcessor::class)
             ->withArgument('hookManager')

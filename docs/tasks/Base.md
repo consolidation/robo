@@ -19,10 +19,11 @@ if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
 ?>
 ```
 
-#### *public static* instances* `background()`  Executes command in background mode (asynchronously)
+* `background()`  Executes command in background mode (asynchronously)
 * `timeout($timeout)`  Stop command if it runs longer then $timeout in seconds
 * `idleTimeout($timeout)`  Stops command if it does not output something for a while
 * `env(array $env)`  Sets the environment variables for the command
+* `simulate($context)`  Called in place of `run()` for simulated tasks.
 * `setLogger($logger)`  Sets a logger.
 * `setContainer($container)`  Set a container.
 * `getContainer()`  Get the container.
@@ -57,7 +58,10 @@ $this->taskExecStack()
 
 * `$this stopOnFail()` 
 
+* `executable($executable)` 
 * `exec($command)` 
+* `stopOnFail($stopOnFail = null)` 
+* `result($result)` 
 * `setLogger($logger)`  Sets a logger.
 * `setContainer($container)`  Set a container.
 * `getContainer()`  Get the container.
@@ -90,6 +94,8 @@ $this->taskParallelExec()
 
 * `printed($isPrinted = null)` 
 * `process($command)` 
+* `timeout($timeout)` 
+* `idleTimeout($idleTimeout)` 
 * `setLogger($logger)`  Sets a logger.
 * `setContainer($container)`  Set a container.
 * `getContainer()`  Get the container.
@@ -98,6 +104,13 @@ $this->taskParallelExec()
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
 * `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
+* `setProgressIndicator($progressIndicator)` 
+* `inProgress()` 
+* `startProgressIndicator($totalSteps = null)` 
+* `stopProgressIndicator()` 
+* `hideProgressIndicator()` 
+* `showProgressIndicator()` 
+* `advanceProgressIndicator($steps = null)` 
 
 ## SymfonyCommand
 

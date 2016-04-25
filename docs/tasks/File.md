@@ -59,6 +59,10 @@ $this->taskReplaceInFile('box/robo.txt')
 * `from(string|array)`  string(s) to be replaced
 * `to(string|array)`  value(s) to be set as a replacement
 
+* `filename($filename)` 
+* `from($from)` 
+* `to($to)` 
+* `regex($regex)` 
 * `setLogger($logger)`  Sets a logger.
 * `setContainer($container)`  Set a container.
 * `getContainer()`  Get the container.
@@ -89,6 +93,8 @@ $tmpFilePath = $this->taskTmpFile()
 ```
 
 * `complete()`  Delete this file when our collection completes.
+* `filename($filename)` 
+* `append($append = null)` 
 * `line($line)`  add a line.
 * `lines(array $lines)`  add more lines.
 * `text($text)`  add a text.
@@ -96,6 +102,10 @@ $tmpFilePath = $this->taskTmpFile()
 * `place($name, $val)`  substitute a placeholder with value, placeholder must be enclosed by `{}`.
 * `replace($string, $replacement)`  replace any string with value.
 * `regexReplace($pattern, $replacement)`  replace any string with value using regular expression.
+* `appendIfMatches($pattern, $text)`  Append the provided text to the end of the buffer if the provided
+* `appendUnlessMatches($pattern, $text)`  Append the provided text to the end of the buffer unless the provided
+* `originalContents()` 
+* `wouldChange()` 
 * `getPath()` 
 * `setLogger($logger)`  Sets a logger.
 * `setContainer($container)`  Set a container.
@@ -123,6 +133,8 @@ $this->taskWriteToFile('blogpost.md')
 
 * `append()` 
 
+* `filename($filename)` 
+* `append($append = null)` 
 * `line($line)`  add a line.
 * `lines(array $lines)`  add more lines.
 * `text($text)`  add a text.
@@ -130,6 +142,10 @@ $this->taskWriteToFile('blogpost.md')
 * `place($name, $val)`  substitute a placeholder with value, placeholder must be enclosed by `{}`.
 * `replace($string, $replacement)`  replace any string with value.
 * `regexReplace($pattern, $replacement)`  replace any string with value using regular expression.
+* `appendIfMatches($pattern, $text)`  Append the provided text to the end of the buffer if the provided
+* `appendUnlessMatches($pattern, $text)`  Append the provided text to the end of the buffer unless the provided
+* `originalContents()` 
+* `wouldChange()` 
 * `getPath()` 
 * `setLogger($logger)`  Sets a logger.
 * `setContainer($container)`  Set a container.

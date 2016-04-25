@@ -31,8 +31,11 @@ $this->taskGitStack()
 * `push($origin = null, $branch = null)`  Executes `git push` command
 * `merge($branch)`  Performs git merge
 * `checkout($branch)`  Executes `git checkout` command
-* `tag($tag_name)`  Executes `git tag` command
+* `tag($tag_name, $message = null)`  Executes `git tag` command
+* `executable($executable)` 
 * `exec($command)` 
+* `stopOnFail($stopOnFail = null)` 
+* `result($result)` 
 * `setLogger($logger)`  Sets a logger.
 * `setContainer($container)`  Set a container.
 * `getContainer()`  Get the container.
@@ -71,7 +74,10 @@ $this->taskSvnStack('username', 'password')
 * `add($pattern = null)`  Executes `svn add` command with files to add pattern
 * `commit($message, $options = null)`  Executes `svn commit` command with a message
 * `checkout($branch)`  Executes `svn checkout` command
+* `executable($executable)` 
 * `exec($command)` 
+* `stopOnFail($stopOnFail = null)` 
+* `result($result)` 
 * `setLogger($logger)`  Sets a logger.
 * `setContainer($container)`  Set a container.
 * `getContainer()`  Get the container.

@@ -47,6 +47,10 @@ if ('y' === $this->ask('Do you want to run (y/n)')) {
 
 * `fromPath($path)`  This can either be a full rsync path spec (user@host:path) or just a path.
 * `toPath($path)`  This can either be a full rsync path spec (user@host:path) or just a path.
+* `fromUser($fromUser)` 
+* `fromHost($fromHost)` 
+* `toUser($toUser)` 
+* `toHost($toHost)` 
 * `progress()` 
 * `stats()` 
 * `recursive()` 
@@ -125,6 +129,10 @@ You can configure the remote directory for all future calls:
                                            and stop the chain if one command fails
 * `$this remoteDir(string $remoteWorkingDirectory)`  Changes to the given directory before running commands
 
+* `hostname($hostname)` 
+* `user($user)` 
+* `stopOnFail($stopOnFail = null)` 
+* `remoteDir($remoteDir)` 
 * `identityFile($filename)` 
 * `port($port)` 
 * `forcePseudoTty()` 

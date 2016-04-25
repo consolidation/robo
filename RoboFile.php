@@ -62,9 +62,14 @@ class RoboFile extends \Robo\Tasks
     /**
      * Release Robo.
      */
-    public function release()
+    public function release($opts = ['beta' => false])
     {
         $this->yell("Releasing Robo");
+        if ($opts['beta']) {
+            $stable = false;
+            $this->say('non-stable release');
+        }
+
 
         $releaseDescription = $this->ask("Description of Release\n");
 
@@ -76,7 +81,7 @@ class RoboFile extends \Robo\Tasks
             ->push()
             ->run();
 
-        $this->pharPublish();
+        if ($stable) $this->pharPublish();
         $this->publish();
 
         $this->taskGitHubRelease(\Robo\Runner::VERSION)
@@ -84,7 +89,7 @@ class RoboFile extends \Robo\Tasks
             ->description($releaseDescription)
             ->run();
 
-        $this->versionBump();
+        if ($stable) $this->versionBump();
     }
 
     /**

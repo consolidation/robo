@@ -30,7 +30,10 @@ $this->taskChangelog()
 * `Development\Changelog anchor(string $anchor)` 
 * `Development\Changelog version(string $version)` 
 
-* `askForChanges()` 
+* `filename($filename)` 
+* `log($item)` 
+* `anchor($anchor)` 
+* `version($version)` 
 * `changes(array $data)` 
 * `change($change)` 
 * `getChanges()` 
@@ -96,6 +99,47 @@ $this->taskGenerateMarkdownDoc('models.md')
 * ` prepend($text)`  inserts text into beginning of markdown file
 * ` append($text)`  inserts text in the end of markdown file
 
+* `docClass($item)` 
+* `filterMethods($filterMethods)` 
+* `filterClasses($filterClasses)` 
+* `filterProperties($filterProperties)` 
+* `processClass($processClass)` 
+* `processClassSignature($processClassSignature)` 
+* `processClassDocBlock($processClassDocBlock)` 
+* `processMethod($processMethod)` 
+* `processMethodSignature($processMethodSignature)` 
+* `processMethodDocBlock($processMethodDocBlock)` 
+* `processProperty($processProperty)` 
+* `processPropertySignature($processPropertySignature)` 
+* `processPropertyDocBlock($processPropertyDocBlock)` 
+* `reorder($reorder)` 
+* `reorderMethods($reorderMethods)` 
+* `reorderProperties($reorderProperties)` 
+* `filename($filename)` 
+* `prepend($prepend)` 
+* `append($append)` 
+* `text($text)` 
+* `textForClass($item)` 
+* `setLogger($logger)`  Sets a logger.
+* `setContainer($container)`  Set a container.
+* `getContainer()`  Get the container.
+* `logger()` 
+* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
+* `addAsRollback($collection)` 
+* `addAsCompletion($collection)` 
+* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
+
+## Generate
+
+
+Generate a Robo Task that is a wrapper around an existing class.
+
+``` php
+<?php
+$this->taskGenerateTask('Symfony\Component\Filesystem\Filesystem', 'FilesystemStack')
+  ->run();
+```
+
 * `setLogger($logger)`  Sets a logger.
 * `setContainer($container)`  Set a container.
 * `getContainer()`  Get the container.
@@ -115,24 +159,27 @@ Publishes new GitHub release.
 <?php
 $this->taskGitHubRelease('0.1.0')
   ->uri('Codegyre/Robo')
-  ->askDescription()
+  ->description('Add stuff people need.')
+  ->change('Fix #123')
+  ->change('Add frobulation method to all widgets')
   ->run();
 ?>
 ```
 
-* ` tag(string $tag)` 
-* ` name(string $name)` 
-* ` body(string $body)` 
-* ` draft(boolean $isDraft)` 
-* ` prerelease(boolean $isPrerelease)` 
-* ` comittish(string $branch)` 
-
-* `askName()` 
-* `askDescription()` 
-* `askForChanges()` 
+* `tag($tag)` 
+* `draft($draft)` 
+* `name($name)` 
+* `description($description)` 
+* `prerelease($prerelease)` 
+* `comittish($comittish)` 
+* `appendDescription($description)` 
 * `changes(array $changes)` 
+* `change($change)` 
+* `repo($repo)` 
+* `owner($owner)` 
 * `uri($uri)` 
-* `askAuth()` 
+* `user($user)` 
+* `password($password)` 
 * `setLogger($logger)`  Sets a logger.
 * `setContainer($container)`  Set a container.
 * `getContainer()`  Get the container.
@@ -217,6 +264,13 @@ $pharTask = $this->taskPackPhar('package/codecept.phar')
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
 * `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
+* `setProgressIndicator($progressIndicator)` 
+* `inProgress()` 
+* `startProgressIndicator($totalSteps = null)` 
+* `stopProgressIndicator()` 
+* `hideProgressIndicator()` 
+* `showProgressIndicator()` 
+* `advanceProgressIndicator($steps = null)` 
 
 ## PhpServer
 
@@ -242,12 +296,13 @@ $this->taskServer(8000)
 ?>
 ```
 
-#### *public static* instances* `host($host)` 
+* `host($host)` 
 * `dir($path)`  changes working directory of command
 * `background()`  Executes command in background mode (asynchronously)
 * `timeout($timeout)`  Stop command if it runs longer then $timeout in seconds
 * `idleTimeout($timeout)`  Stops command if it does not output something for a while
 * `env(array $env)`  Sets the environment variables for the command
+* `simulate($context)`  Called in place of `run()` for simulated tasks.
 * `setLogger($logger)`  Sets a logger.
 * `setContainer($container)`  Set a container.
 * `getContainer()`  Get the container.

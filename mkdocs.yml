@@ -5,22 +5,25 @@ theme_dir: robotheme
 site_url: http://robo.li
 repo_url: https://github.com/codegyre/robo/
 pages:
-- ['index.md', 'Introduction']
-- [started.md, Getting Started]
-- [tasks/Base.md, Tasks, Base Tasks]
-- [tasks/FileSystem.md, Tasks, FileSystem Tasks]
-- [tasks/File.md, Tasks, File Tasks]
-- [tasks/Composer.md, Tasks, Composer Tasks]
-- [tasks/Vcs.md, Tasks, VCS Tasks]
-- [tasks/Development.md, Tasks, Development Tasks]
-- [tasks/Assets.md, Tasks, Assets Tasks]
-- [tasks/Remote.md, Tasks, 'SSH, Rsync Tasks']
-- [tasks/Testing.md, Tasks, Testing Tasks]
-- [tasks/Npm.md, Tasks, NPM Tasks]
-- [tasks/Bower.md, Tasks, Bower Tasks]
-- [tasks/Gulp.md, Tasks, Gulp Tasks]
-- [tasks/Docker.md, Tasks, Docker Tasks]
-- [tasks/ApiGen.md, Tasks, ApiGen Tasks]
-- [changelog.md, 'Releases']
+- Introduction: index.md
+- Guides:
+  - "Getting Started": getting-started.md
+  - Collections: collecetion.md
+- Tasks:
+  - "Base Tasks": Base.md
+  - "FileSystem Tasks": FileSystem.md
+  - "File Tasks": File.md
+  - "Composer Tasks": Composer.md
+  - "VCS Tasks": Vcs.md
+  - "Development Tasks": Development.md
+  - "Assets Tasks": Assets.md
+  - "Tasks'": Remote.md 'SSH, Rsync
+  - "Testing Tasks": Testing.md
+  - "NPM Tasks": Npm.md
+  - "Bower Tasks": Bower.md
+  - "Gulp Tasks": Gulp.md
+  - "Docker Tasks": Docker.md
+  - "ApiGen Tasks": ApiGen.md
+- Releases: changelog.md
 extra_css:
 - /css/robo.css

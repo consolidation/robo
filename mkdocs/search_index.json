@@ -3,7 +3,7 @@
         {
             "location": "/", 
             "text": "Robo Documentation\n\n\n\n\nGetting Started\n\n\nCollections\n\n\n\n\nTasks\n\n\n\n\nApiGen\n\n\nAssets\n\n\nBase\n\n\nBower\n\n\nComposer\n\n\nDevelopment\n\n\nDocker\n\n\nFile\n\n\nFileSystem\n\n\nGulp\n\n\nNpm\n\n\nRemote\n\n\nTesting\n\n\nVcs", 
-            "title": "Introduction"
+            "title": "Index"
         }, 
         {
             "location": "/#robo-documentation", 

@@ -8,7 +8,7 @@ pages:
 - Introduction: index.md
 - Guides:
   - "Getting Started": getting-started.md
-  - Collections: collecetion.md
+  - Collections: collections.md
 - Tasks:
   - "Base Tasks": Base.md
   - "FileSystem Tasks": FileSystem.md

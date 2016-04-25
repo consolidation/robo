@@ -85,6 +85,8 @@ class RoboFile extends \Robo\Tasks
         $this->publish();
 
         $this->taskGitHubRelease(\Robo\Runner::VERSION)
+            ->user($this->ask('User releasing'))
+            ->password($this->askHidden('Password'))
             ->uri('Codegyre/Robo')
             ->description($releaseDescription)
             ->run();

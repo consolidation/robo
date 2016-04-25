@@ -33,6 +33,7 @@
         "codeception/base": "~2.1.5",
         "codeception/verify": "0.2.*",
         "codeception/aspect-mock": "0.5.4",
+        "satooshi/php-coveralls": "^1.0",
         "squizlabs/php_codesniffer": "2.*"
     },
     "extra": {

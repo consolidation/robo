@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ff97ad18778400abbf9f0fb282bc7210",
-    "content-hash": "ec879f99aa70584a693f4fe38fb5c0a1",
+    "hash": "5f9fd04c781e38936e4fffb97d34ba7d",
+    "content-hash": "313ce8e6c03f465094ad45d4efc2576e",
     "packages": [
         {
             "name": "consolidation/annotated-command",
-            "version": "0.10.0",
+            "version": "1.0.0-beta1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation-org/annotated-command.git",
-                "reference": "75f82a54af6a405ab25b7b0bd6b8831c0a0e0c17"
+                "reference": "ec0e89155f8be1493c1d031e63641b2f4bfcc0ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation-org/annotated-command/zipball/75f82a54af6a405ab25b7b0bd6b8831c0a0e0c17",
-                "reference": "75f82a54af6a405ab25b7b0bd6b8831c0a0e0c17",
+                "url": "https://api.github.com/repos/consolidation-org/annotated-command/zipball/ec0e89155f8be1493c1d031e63641b2f4bfcc0ee",
+                "reference": "ec0e89155f8be1493c1d031e63641b2f4bfcc0ee",
                 "shasum": ""
             },
             "require": {
@@ -30,6 +30,7 @@
             },
             "require-dev": {
                 "phpunit/phpunit": "4.*",
+                "satooshi/php-coveralls": "^1.0",
                 "squizlabs/php_codesniffer": "2.*"
             },
             "type": "library",
@@ -54,7 +55,7 @@
                 }
             ],
             "description": "Initialize Symfony Console commands from annotated command class methods.",
-            "time": "2016-04-25 01:20:48"
+            "time": "2016-04-25 05:50:42"
         },
         {
             "name": "consolidation/log",
@@ -105,16 +106,16 @@
         },
         {
             "name": "consolidation/output-formatters",
-            "version": "0.2.3",
+            "version": "1.0.0-beta1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation-org/output-formatters.git",
-                "reference": "b1672aaf51b103f0673809eab80fb48fd96168c7"
+                "reference": "cf369a2ebba04c6c63033abdecd39de857b517be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation-org/output-formatters/zipball/b1672aaf51b103f0673809eab80fb48fd96168c7",
-                "reference": "b1672aaf51b103f0673809eab80fb48fd96168c7",
+                "url": "https://api.github.com/repos/consolidation-org/output-formatters/zipball/cf369a2ebba04c6c63033abdecd39de857b517be",
+                "reference": "cf369a2ebba04c6c63033abdecd39de857b517be",
                 "shasum": ""
             },
             "require": {
@@ -123,12 +124,13 @@
             },
             "require-dev": {
                 "phpunit/phpunit": "4.*",
+                "satooshi/php-coveralls": "^1.0",
                 "squizlabs/php_codesniffer": "2.*"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.x-dev"
+                    "dev-master": "1.x-dev"
                 }
             },
             "autoload": {
@@ -147,7 +149,7 @@
                 }
             ],
             "description": "Format text by applying transformations provided by plug-in formatters.",
-            "time": "2016-04-24 15:26:00"
+            "time": "2016-04-25 05:56:23"
         },
         {
             "name": "container-interop/container-interop",
@@ -2762,7 +2764,10 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "consolidation/annotated-command": 10,
+        "consolidation/output-formatters": 10
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

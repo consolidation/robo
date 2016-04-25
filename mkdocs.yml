@@ -5,7 +5,7 @@ theme_dir: robotheme
 site_url: http://robo.li
 repo_url: https://github.com/codegyre/robo/
 pages:
-- Introduction: index.md
+- Index: index.md
 - Guides:
   - "Getting Started": getting-started.md
   - Collections: collections.md
@@ -17,6 +17,7 @@ pages:
   - "VCS Tasks": tasks/Vcs.md
   - "Development Tasks": tasks/Development.md
   - "Assets Tasks": tasks/Assets.md
+  - "Archive Tasks": tasks/Archive.md
   - "SSH, Rsync Tasks": tasks/Remote.md
   - "Testing Tasks": tasks/Testing.md
   - "NPM Tasks": tasks/Npm.md

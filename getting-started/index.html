@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        <link rel="canonical" href="http://robo.li/getting-started/">
+        <link rel="shortcut icon" href="../../img/favicon.png">
+        
+        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+
+	<title>Getting Started - Robo</title>
+
+        <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.css">
+        <link href="..//css/robo.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="..">Robo</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="..">Introduction</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Guides <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li class="active">
+    <a href="./">Getting Started</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../collections/">Collections</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tasks <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../tasks/Base/">Base Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/FileSystem/">FileSystem Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/File/">File Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Composer/">Composer Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Vcs/">VCS Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Development/">Development Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Assets/">Assets Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Remote/">SSH, Rsync Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Testing/">Testing Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Npm/">NPM Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Bower/">Bower Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Gulp/">Gulp Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Docker/">Docker Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/ApiGen/">ApiGen Tasks</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../changelog/">Releases</a>
+                    </li>
+                
+                
+                </ul>
+            
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                </li>
+                
+                    <li >
+                        <a rel="next" href="..">
+                            <i class="fa fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../collections/">
+                            Next <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a href="https://github.com/codegyre/robo/">
+                            
+                                <i class="fa fa-github"></i>
+                            
+                            GitHub
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        
+        <div class="container">
+            
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#getting-started">Getting Started</a></li>
+        
+            <li><a href="#commands">Commands</a></li>
+        
+            <li><a href="#tasks">Tasks</a></li>
+        
+    
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<h1 id="getting-started">Getting Started</h1>
+<p>To begin you need to create a RoboFile. Just run <code>robo init</code> in empty dir:</p>
+<pre><code>robo init
+</code></pre>
+
+<p>This will create a new <code>RoboFile.php</code> for you. There will be RoboFile class which extends <code>\Robo\Tasks</code>, which includes all bundled tasks of Robo.</p>
+<pre><code class="php">&lt;?php
+class RoboFile extends \Robo\Tasks
+{
+}
+?&gt;
+</code></pre>
+
+<h2 id="commands">Commands</h2>
+<p>All public methods of the RoboFile class will be treated as <strong>commands</strong>. You can run them from the CLI and pass arguments.</p>
+<pre><code class="php">&lt;?php
+class RoboFile extends \Robo\Tasks
+{
+    function hello($world)
+    {
+        $this-&gt;say(&quot;Hello, $world&quot;);
+    }
+}
+?&gt;
+</code></pre>
+
+<p>When we run:</p>
+<pre><code>robo hello davert
+➜ Hello, davert
+</code></pre>
+
+<p>Method names should be camelCased. In CLI <code>camelCased</code> method will be available as <code>camel:cased</code> command.
+<code>longCamelCased</code> method will be transformed to <code>long:camel-cased</code> command.</p>
+<h3 id="arguments">Arguments</h3>
+<p>All method parameters without default values are treated as required arguments. In our example command <code>hello</code> requires one argument.
+If you pass a default value to parameter the argument becomes optional:</p>
+<pre><code class="php">&lt;?php
+    function hello($world = 'world')
+    {
+        $this-&gt;say(&quot;Hello, $world&quot;);
+    }
+?&gt;
+</code></pre>
+
+<pre><code>robo hello
+➜ Hello, world
+</code></pre>
+
+<p>To accept multiple, variable arguments, define a parameter as an <code>array</code>; Robo will then pass all CLI arguments in this variable:</p>
+<pre><code class="php">&lt;?php
+    function hello(array $world)
+    {
+        $this-&gt;say(&quot;Hello, &quot; . implode(', ', $world));
+    }
+?&gt;
+</code></pre>
+
+<pre><code>robo hello davert jon bill bob
+➜ Hello, davert, jon, bill, bob
+</code></pre>
+
+<h3 id="options">Options</h3>
+<p>To define command options you should define the last method parameter as an associative array where the keys define the option names and the values provide each option's default values:</p>
+<pre><code class="php">&lt;?php
+    function hello($opts = ['silent' =&gt; false])
+    {
+        if (!$opts['silent']) $this-&gt;say(&quot;Hello, world&quot;);
+    }
+?&gt;
+</code></pre>
+
+<pre><code>robo hello
+➜ Hello, world
+
+robo hello --silent
+</code></pre>
+
+<p>A one-character shortcut can be specified for option:</p>
+<pre><code class="php">&lt;?php
+    function hello($opts = ['silent|s' =&gt; false])
+    {
+        if (!$opts['silent']) $this-&gt;say(&quot;Hello, world&quot;);
+    }
+?&gt;
+</code></pre>
+
+<p>Now command can be executed with '-s' to run in silent mode: </p>
+<pre><code>robo hello -s
+</code></pre>
+
+<h3 id="load-from-other-directories">Load From Other Directories</h3>
+<p>Robo can execute commands from a RoboFile located in different directory.
+You can specify the path to another RoboFile by including the <code>--load-from</code> option:</p>
+<pre><code>robo run --load-from /path/to/my/other/project
+</code></pre>
+
+<h3 id="pass-through-arguments">Pass-Through Arguments</h3>
+<p>Sometimes you need to pass arguments from your command into a task. A command line after the <code>--</code> characters is treated as one argument.
+Any special character like <code>-</code> will be passed into without change.</p>
+<pre><code class="php">&lt;?php
+    function ls($args)
+    {
+        $this-&gt;taskExec('ls')-&gt;args($args)-&gt;run();
+    }
+?&gt;
+</code></pre>
+
+<pre><code>robo ls -- Robo -c --all
+ [Robo\Task\ExecTask] running ls Robo -c --all
+ .  ..  CHANGELOG.md  codeception.yml  composer.json  composer.lock  docs  .git  .gitignore  .idea  LICENSE  README.md  robo  RoboFile.php  robo.phar  src  tests  .travis.yml  vendor
+</code></pre>
+
+<h3 id="help">Help</h3>
+<p>The help text for a command in a RoboFile may be provided in Doc-Block comments. An example help Doc-Block comment is shown below:</p>
+<pre><code class="php">&lt;?php
+/**
+ * Calculate the fibonacci sequence between two numbers.
+ *
+ * Graphic output will look like
+ *     +----+---+-------------+
+ *     |    |   |             |
+ *     |    |-+-|             |
+ *     |----+-+-+             |
+ *     |        |             |
+ *     |        |             |
+ *     |        |             |
+ *     +--------+-------------+
+ *
+ * @param int $start Number to start from
+ * @param $steps int Number of steps to perform
+ * @param array $opts
+ * @option $graphic Display the sequence graphically using cube
+ *                  representation
+ */
+public function fibonacci($start, $steps, $opts = ['graphic' =&gt; false])
+{
+}
+?&gt;
+</code></pre>
+
+<p>The corresponding help text produced is:</p>
+<pre><code>robo fibonacci --help
+Usage:
+ fibonacci [--graphic] start steps
+
+Arguments:
+ start                 Number to start from
+ steps                 Number of steps to perform
+
+Options:
+ --graphic             Display the sequence graphically using cube representation
+
+Help:
+ Graphic output will look like
+     +----+---+-------------+
+     |    |   |             |
+     |    |-+-|             |
+     |----+-+-+             |
+     |        |             |
+     |        |             |
+     |        |             |
+     +--------+-------------+
+</code></pre>
+
+<p>Arguments and options are populated from annotations.</p>
+<p>Added with <a href="https://github.com/Codegyre/Robo/pull/71">PR by @jonsa</a>; now provided by the <a href="https://github.com/consolidation-org/annotation-command">consolidation/annotation-command</a> project, which was factored out from Robo.</p>
+<h2 id="tasks">Tasks</h2>
+<p>Robo commands typically divide the work they need to accomplish into <strong>tasks</strong>. The command first determines what needs to be done, inspecting current state if necessary, and then sets up and executes one or more tasks that make the actual changes needed by the command.  (See also the documentation on <a href="../collections/">Collections</a>.)</p>
+<p>The convention used to add new tasks for use in your RoboFiles is to create a wrapper trait that instantiates the implementation class for each task. Each task method in the trait should start with the prefix <code>task</code>, and should use <strong>chained method calls</strong> for configuration. Task execution should be triggered by the method <code>run</code>. </p>
+<p><em>It is recommended to have store your trait loading task in a <code>loadTasks</code> file in the same namespace as the task implementation.</em></p>
+<p>A very basic task is shown below:</p>
+<pre><code class="php">&lt;?php
+namespace CompileAssets;
+
+use Robo\Container\SimpleServiceProvider;
+
+trait loadTasks
+{
+    /**
+     * Return services.
+     */
+    public static function getCompileAssetsServices()
+    {
+        return new SimpleServiceProvider(
+            [
+                'taskCompileAssets' =&gt; CompileAssets::class,
+            ]
+        );
+    }
+
+    /**
+     * @param null $pathToCompileAssets
+     * @return \Robo\Task\CompileAssets\CompileAssets
+     */
+    protected function taskCompileAssets($path = null)
+    {
+        return $this-&gt;task(__FUNCTION__, $path);
+    }
+}
+
+class CompileAssets implements Robo\Contract\TaskInterface
+{
+    // configuration params
+    protected $path;
+    protected $to;
+    function __construct($path)
+    {
+        $this-&gt;path = $path;
+    }
+
+    function to($filename)
+    {
+        $this-&gt;to = $filename;
+        // must return $this
+        return $this;
+    }
+
+    // must implement Run
+    function run()
+    {
+        //....
+    }
+}
+?&gt;
+</code></pre>
+
+<p>To use it in a RoboFile, you should include this task via its trait:</p>
+<pre><code class="php">&lt;?php
+class RoboFile extends Robo\Tasks
+{
+    use CompileAssets\loadTasks;
+
+    function build()
+    {
+        $this-&gt;taskCompileAssets('web/css-src')
+            -&gt;to('web/assets.min.css')
+            -&gt;run();
+    }
+}
+?&gt;
+</code></pre>
+
+<p>Robo\Tasks includes all of the standard task traits by default, so a RoboFile may call the <code>$this-&gt;taskXXX</code> method for any of these tasks. To use an external task, ensure that its class files are available (e.g. <code>require</code> its project in your composer.json file), register the services defined in the project's loadTraits, and include corresponding trait or traits in your Robofile.</p>
+<p>Services are registered with Robo as follows:</p>
+<pre><code>$container = \Robo\Config::getContainer();
+$container-&gt;addServiceProvider(\CompileAssets\loadTasks::getCollectionServices());
+</code></pre>
+
+<h3 id="shortcuts">Shortcuts</h3>
+<p>Some tasks may have shortcuts. If a task does not require multi-step configuration, it can be executed with a single line:</p>
+<pre><code class="php">&lt;?php
+$this-&gt;_exec('ps aux');
+$this-&gt;_copy('config/env.example.yml','config/env.yml');
+?&gt;
+</code></pre>
+
+<h3 id="result">Result</h3>
+<p>Each task must return an instance of <code>Robo\Result</code>. A Robo Result contains the task instance, exit code, message, and any variable data that the task may wish to return.</p>
+<p>The <code>run</code> method of <code>CompileAssets</code> class may look like this:</p>
+<pre><code>return new Robo\Result($this, $exitCode, &quot;Assets compiled&quot;);
+</code></pre>
+
+<p>or</p>
+<pre><code>return Robo\Result::success($this, &quot;Assets compiled&quot;);
+return Robo\Result::error($this, &quot;Failed to compile assets&quot;);
+</code></pre>
+
+<p>You can use this results to check if execution was successful, either using the <code>wasSuccessful()</code> method, or via the <code>invoke</code> shortcut. We will use the <code>Exec</code> task in next example to illustrate this:</p>
+<pre><code class="php">&lt;?php
+class RoboFile
+{
+    use Robo\Task\Base\loadShortcuts;
+
+    function test()
+    {
+        $res1 = $this-&gt;_exec('phpunit tests/integration');
+        $res2 = $this-&gt;_exec('phpunit tests/unit');
+
+        // print message when tests passed
+        if ($res1-&gt;wasSuccessful() and $res2-&gt;wasSuccessful()) $this-&gt;say(&quot;All tests passed&quot;);
+    }
+}
+?&gt;
+</code></pre>
+
+<p>Some tasks may also attach data to the Result object.  If this is done, the data may be accessed as an array; for example, <code>$result['path'];</code>. This is not common.</p>
+<p>Commands should return a Result object obtained from a task; this will ensure that the command exit code is set correctly.  If a command does not have a Result object available, then it may use a ResultData object.  ResultData objects are just like Result objects, except the do not contain a reference to a task.</p>
+<p>return new Robo\ResultData($exitcode, 'Error message.');</p>
+<p>If the command returns a TaskInterface instead of a result, then the task will be executed, and the result from that task will be used as the final result of the command. See also <code>Formatters</code>, below.</p>
+<h3 id="stack">Stack</h3>
+<p>Some tasks contain <code>Stack</code> in their name. These are called "stack" tasks, and they execute similar tasks one after the other.  Each of the primary methods in a stack class executes an operation.</p>
+<p>Stack tasks also contain a <code>stopOnFail</code> method which can be used to stop task execution if one of its commands was unsuccessful.</p>
+<h3 id="global-stoponfail">Global StopOnFail</h3>
+<p>There is a global <code>stopOnFail</code> method as well, that can be used to stop a command on first failure of a task.</p>
+<pre><code>$this-&gt;stopOnFail(true);
+</code></pre>
+
+<h3 id="io">IO</h3>
+<p>As you noticed, you can print text via the <code>say</code> method, which is taken from the <code>Robo\Output</code> trait.</p>
+<pre><code>$this-&gt;say(&quot;Hello&quot;);
+</code></pre>
+
+<p>Also, you can ask for input from console:</p>
+<pre><code>$name = $this-&gt;ask(&quot;What is your name?&quot;);
+</code></pre>
+
+<p>There are also <code>askDefault</code>, <code>askHidden</code>, and <code>confirm</code> methods.</p>
+<p>Inside tasks you should print process details with <code>printTaskInfo</code>, <code>`printTaskSuccess</code>, and <code>printTaskError</code>.</p>
+<p>To allow tasks access IO, use the <code>Robo\Common\TaskIO</code> trait, or inherit your task class from <code>Robo\Task\BaseTask</code> (recommended).</p>
+<pre><code>$this-&gt;printTaskInfo('Processing...');
+</code></pre>
+
+<p>The Task IO methods send all output through a PSR-3 logger. Tasks should use task IO exclusively; methods such as 'say' and 'ask' should reside in the command method. This allows tasks to be usable in any context that has a PSR-3 logger, including background or server processes where it is not possible to directly query the user.</p>
+<h3 id="formatters">Formatters</h3>
+<p>It is preferable for commands that look up and display information should avoid doing IO directly, and should instead return the data they wish to display as an array. This data can then be converted into different data formats, such as "table" and "json". The user may select which formatter to use via the --format option.</p>
+<h3 id="progress">Progress</h3>
+<p>Long-running tasks that wish to display a progress indicator may do so by way of the ProgressIndicatorAwareTrait.</p>
+<pre><code>use Robo\Contract\ProgressIndicatorAwareInterface;
+use Robo\Common\ProgressIndicatorAwareTrait;
+
+class MyTask extends BaseTask implements ProgressIndicatorAwareInterface
+{
+    use ProgressIndicatorAwareTrait;
+
+    $exitCode = 0;
+    $steps = 10;
+    $errorMessage = &quot;&quot;;
+
+    $this-&gt;startProgressIndicator($steps);
+    for ($i = 0; $i &lt; $steps; ++i) {
+        $this-&gt;advanceProgressIndicator();        
+    }
+    $this-&gt;stopProgressIndicator();
+
+    return new Result($this, $exitCode, $errorMessage, ['time' =&gt; $this-&gt;getExecutionTime()]);
+}
+</code></pre>
+
+<p>Tasks should not attempt to use a specific progress indicator (e.g. the Symfony ProgressBar class) directly, as the ProgressIndicatorAwareTrait allows for an appropriate progress indicator to be used (or omitted) as best suits the application.</p></div>
+            
+
+        </div>
+        
+
+        <footer class="col-md-12">
+            <div >
+
+                <p>Robo is product of <a href="http://codegyre.com">Codegyre</a>. 
+
+</p>
+<p>
+    Robo is on <a href="http://twitter.com/robo_php">Twitter</a> and on <a href="https://github.com/codegyre/robo">GitHub</a>
+</p>
+                
+                <p>
+                    See also:
+                    <a href="http://codeception.com">Codeception</a> |
+                    <a href="https://github.com/Codeception/AspectMock">AspectMock</a> |
+                    <a href="http://phptest.club">PHP Test Club</a>
+                </p>
+            </div>
+        </footer>
+
+        
+
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../js/prettify-1.0.min.js"></script>
+        <script src="../js/highlight.pack.js"></script>
+        <script src="../js/base.js"></script>
+    </body>
+</html>

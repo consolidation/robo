@@ -11,7 +11,7 @@
         
         <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 
-	<title>SSH, Rsync Tasks - Robo - Robo</title>
+	<title>SSH, Rsync Tasks - Robo</title>
 
         <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome-4.0.3.css" rel="stylesheet">
@@ -57,7 +57,28 @@
                 
                 
                     <li >
-                        <a href="../../started">Getting Started</a>
+                        <a href="../..">Introduction</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Guides <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../getting-started/">Getting Started</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../collections/">Collections</a>
+</li>
+
+                        
+                        </ul>
                     </li>
                 
                 
@@ -66,61 +87,89 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tasks <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                         
-                            <li >
-                                <a href="../Base">Base Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Base/">Base Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../FileSystem">FileSystem Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../FileSystem/">FileSystem Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../File">File Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../File/">File Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Composer">Composer Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Composer/">Composer Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Vcs">VCS Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Vcs/">VCS Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Development">Development Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Development/">Development Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Assets">Assets Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Assets/">Assets Tasks</a>
+</li>
+
                         
-                            <li class="active">
-                                <a href=".">SSH, Rsync Tasks</a>
-                            </li>
+                            
+<li class="active">
+    <a href="./">SSH, Rsync Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Testing">Testing Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Testing/">Testing Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Npm">NPM Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Npm/">NPM Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Bower">Bower Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Bower/">Bower Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Gulp">Gulp Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Gulp/">Gulp Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Docker">Docker Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Docker/">Docker Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../ApiGen">ApiGen Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../ApiGen/">ApiGen Tasks</a>
+</li>
+
                         
                         </ul>
                     </li>
@@ -128,41 +177,42 @@
                 
                 
                     <li >
-                        <a href="../../changelog">Releases</a>
+                        <a href="../../changelog/">Releases</a>
                     </li>
                 
                 
                 </ul>
             
 
-            
-            <!-- Search, Navigation and Repo links -->
             <ul class="nav navbar-nav navbar-right">
-                
-                
-                <li >
-                    <a rel="next" href="../Assets">
-                        <i class="fa fa-arrow-left"></i> Previous
-                    </a>
-                </li>
-                <li >
-                    <a rel="prev" href="../Testing">
-                        Next <i class="fa fa-arrow-right"></i>
-                    </a>
-                </li>
-                
-                
                 <li>
-                    <a href="https://github.com/codegyre/robo/">
-                        
-                            <i class="fa fa-github"></i>
-                        
-                        GitHub
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
                     </a>
                 </li>
+                
+                    <li >
+                        <a rel="next" href="../Assets/">
+                            <i class="fa fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../Testing/">
+                            Next <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a href="https://github.com/codegyre/robo/">
+                            
+                                <i class="fa fa-github"></i>
+                            
+                            GitHub
+                        </a>
+                    </li>
                 
             </ul>
-            
         </div>
     </div>
 </div>
@@ -231,6 +281,10 @@ if ('y' === $this-&gt;ask('Do you want to run (y/n)')) {
 <p><code>fromPath($path)</code>  This can either be a full rsync path spec (user@host:path) or just a path.</p>
 </li>
 <li><code>toPath($path)</code>  This can either be a full rsync path spec (user@host:path) or just a path.</li>
+<li><code>fromUser($fromUser)</code> </li>
+<li><code>fromHost($fromHost)</code> </li>
+<li><code>toUser($toUser)</code> </li>
+<li><code>toHost($toHost)</code> </li>
 <li><code>progress()</code> </li>
 <li><code>stats()</code> </li>
 <li><code>recursive()</code> </li>
@@ -247,16 +301,27 @@ if ('y' === $this-&gt;ask('Do you want to run (y/n)')) {
 <li><code>wholeFile()</code> </li>
 <li><code>dryRun()</code> </li>
 <li><code>itemizeChanges()</code> </li>
-<li><code>excludeVcs()</code>  Excludes .git/, .svn/ and .hg/ folders.</li>
+<li><code>excludeVcs()</code>  Excludes .git, .svn and .hg items at any depth.</li>
 <li><code>exclude($pattern)</code> </li>
 <li><code>excludeFrom($file)</code> </li>
+<li><code>includeFilter($pattern)</code> </li>
+<li><code>filter($pattern)</code> </li>
 <li><code>filesFrom($file)</code> </li>
 <li><code>remoteShell($command)</code> </li>
+<li><code>setLogger($logger)</code>  Sets a logger.</li>
+<li><code>setContainer($container)</code>  Set a container.</li>
+<li><code>getContainer()</code>  Get the container.</li>
+<li><code>logger()</code> </li>
+<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
+<li><code>addAsRollback($collection)</code> </li>
+<li><code>addAsCompletion($collection)</code> </li>
+<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
 <li><code>dir($dir)</code>  changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable</li>
-<li><code>option($option, $value = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter</li>
+<li><code>option($option, $value = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
+<li><code>optionList($option, $value = null)</code>  Pass multiple options to executable. Value can be a string or array.</li>
 </ul>
 <h2 id="ssh">Ssh</h2>
 <p>Runs multiple commands on a remote server.
@@ -293,20 +358,32 @@ $this-&gt;taskSshExec('remote.example.com')
 <p><code>$this remoteDir(string $remoteWorkingDirectory)</code>  Changes to the given directory before running commands</p>
 </li>
 <li>
-<p><code>identityFile($filename)</code> </p>
+<p><code>hostname($hostname)</code> </p>
 </li>
+<li><code>user($user)</code> </li>
+<li><code>stopOnFail($stopOnFail = null)</code> </li>
+<li><code>remoteDir($remoteDir)</code> </li>
+<li><code>identityFile($filename)</code> </li>
 <li><code>port($port)</code> </li>
 <li><code>forcePseudoTty()</code> </li>
 <li><code>quiet()</code> </li>
 <li><code>verbose()</code> </li>
 <li><code>exec($command)</code>   * <code>param string|CommandInterface</code> $command</li>
+<li><code>setLogger($logger)</code>  Sets a logger.</li>
+<li><code>setContainer($container)</code>  Set a container.</li>
+<li><code>getContainer()</code>  Get the container.</li>
+<li><code>logger()</code> </li>
+<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
+<li><code>addAsRollback($collection)</code> </li>
+<li><code>addAsCompletion($collection)</code> </li>
+<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
 <li><code>dir($dir)</code>  changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable</li>
-<li><code>option($option, $value = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter</li>
-</ul>
-</div>
+<li><code>option($option, $value = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
+<li><code>optionList($option, $value = null)</code>  Pass multiple options to executable. Value can be a string or array.</li>
+</ul></div>
             
 
         </div>

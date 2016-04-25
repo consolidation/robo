@@ -11,7 +11,7 @@
         
         <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 
-	<title>File Tasks - Robo - Robo</title>
+	<title>File Tasks - Robo</title>
 
         <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome-4.0.3.css" rel="stylesheet">
@@ -57,7 +57,28 @@
                 
                 
                     <li >
-                        <a href="../../started">Getting Started</a>
+                        <a href="../..">Introduction</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Guides <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../getting-started/">Getting Started</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../collections/">Collections</a>
+</li>
+
+                        
+                        </ul>
                     </li>
                 
                 
@@ -66,61 +87,89 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tasks <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                         
-                            <li >
-                                <a href="../Base">Base Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Base/">Base Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../FileSystem">FileSystem Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../FileSystem/">FileSystem Tasks</a>
+</li>
+
                         
-                            <li class="active">
-                                <a href=".">File Tasks</a>
-                            </li>
+                            
+<li class="active">
+    <a href="./">File Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Composer">Composer Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Composer/">Composer Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Vcs">VCS Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Vcs/">VCS Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Development">Development Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Development/">Development Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Assets">Assets Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Assets/">Assets Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Remote">SSH, Rsync Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Remote/">SSH, Rsync Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Testing">Testing Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Testing/">Testing Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Npm">NPM Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Npm/">NPM Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Bower">Bower Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Bower/">Bower Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Gulp">Gulp Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Gulp/">Gulp Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Docker">Docker Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Docker/">Docker Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../ApiGen">ApiGen Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../ApiGen/">ApiGen Tasks</a>
+</li>
+
                         
                         </ul>
                     </li>
@@ -128,41 +177,42 @@
                 
                 
                     <li >
-                        <a href="../../changelog">Releases</a>
+                        <a href="../../changelog/">Releases</a>
                     </li>
                 
                 
                 </ul>
             
 
-            
-            <!-- Search, Navigation and Repo links -->
             <ul class="nav navbar-nav navbar-right">
-                
-                
-                <li >
-                    <a rel="next" href="../FileSystem">
-                        <i class="fa fa-arrow-left"></i> Previous
-                    </a>
-                </li>
-                <li >
-                    <a rel="prev" href="../Composer">
-                        Next <i class="fa fa-arrow-right"></i>
-                    </a>
-                </li>
-                
-                
                 <li>
-                    <a href="https://github.com/codegyre/robo/">
-                        
-                            <i class="fa fa-github"></i>
-                        
-                        GitHub
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
                     </a>
                 </li>
+                
+                    <li >
+                        <a rel="next" href="../FileSystem/">
+                            <i class="fa fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../Composer/">
+                            Next <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a href="https://github.com/codegyre/robo/">
+                            
+                                <i class="fa fa-github"></i>
+                            
+                            GitHub
+                        </a>
+                    </li>
                 
             </ul>
-            
         </div>
     </div>
 </div>
@@ -178,6 +228,8 @@
             <li><a href="#concat">Concat</a></li>
         
             <li><a href="#replace">Replace</a></li>
+        
+            <li><a href="#tmpfile">TmpFile</a></li>
         
             <li><a href="#write">Write</a></li>
         
@@ -202,6 +254,14 @@ $this-&gt;taskConcat([
 
 <ul>
 <li><code>to($dst)</code>  set the destination file</li>
+<li><code>setLogger($logger)</code>  Sets a logger.</li>
+<li><code>setContainer($container)</code>  Set a container.</li>
+<li><code>getContainer()</code>  Get the container.</li>
+<li><code>logger()</code> </li>
+<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
+<li><code>addAsRollback($collection)</code> </li>
+<li><code>addAsCompletion($collection)</code> </li>
+<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
 </ul>
 <h2 id="replace">Replace</h2>
 <p>Performs search and replace inside a files.</p>
@@ -231,10 +291,66 @@ $this-&gt;taskReplaceInFile('box/robo.txt')
 <ul>
 <li><code>regex(string)</code>  regex to match string to be replaced</li>
 <li><code>from(string|array)</code>  string(s) to be replaced</li>
-<li><code>to(string|array)</code>  value(s) to be set as a replacement</li>
+<li>
+<p><code>to(string|array)</code>  value(s) to be set as a replacement</p>
+</li>
+<li>
+<p><code>filename($filename)</code> </p>
+</li>
+<li><code>from($from)</code> </li>
+<li><code>to($to)</code> </li>
+<li><code>regex($regex)</code> </li>
+<li><code>setLogger($logger)</code>  Sets a logger.</li>
+<li><code>setContainer($container)</code>  Set a container.</li>
+<li><code>getContainer()</code>  Get the container.</li>
+<li><code>logger()</code> </li>
+<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
+<li><code>addAsRollback($collection)</code> </li>
+<li><code>addAsCompletion($collection)</code> </li>
+<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
+</ul>
+<h2 id="tmpfile">TmpFile</h2>
+<p>Create a temporary file that is automatically cleaned up
+once the task collection is is part of completes. When created,
+it is given a random filename.</p>
+<p>This temporary file may be manipulated exacatly like taskWrite().</p>
+<pre><code class="php">&lt;?php
+$tmpFilePath = $this-&gt;taskTmpFile()
+     -&gt;line('-----')
+     -&gt;line(date('Y-m-d').' '.$title)
+     -&gt;line('----')
+     -&gt;addToCollection($collection)
+     -&gt;getPath();
+?&gt;
+</code></pre>
+
+<ul>
+<li><code>complete()</code>  Delete this file when our collection completes.</li>
+<li><code>filename($filename)</code> </li>
+<li><code>append($append = null)</code> </li>
+<li><code>line($line)</code>  add a line.</li>
+<li><code>lines(array $lines)</code>  add more lines.</li>
+<li><code>text($text)</code>  add a text.</li>
+<li><code>textFromFile($filename)</code>  add a text from a file.</li>
+<li><code>place($name, $val)</code>  substitute a placeholder with value, placeholder must be enclosed by <code>{}</code>.</li>
+<li><code>replace($string, $replacement)</code>  replace any string with value.</li>
+<li><code>regexReplace($pattern, $replacement)</code>  replace any string with value using regular expression.</li>
+<li><code>appendIfMatches($pattern, $text)</code>  Append the provided text to the end of the buffer if the provided</li>
+<li><code>appendUnlessMatches($pattern, $text)</code>  Append the provided text to the end of the buffer unless the provided</li>
+<li><code>originalContents()</code> </li>
+<li><code>wouldChange()</code> </li>
+<li><code>getPath()</code> </li>
+<li><code>setLogger($logger)</code>  Sets a logger.</li>
+<li><code>setContainer($container)</code>  Set a container.</li>
+<li><code>getContainer()</code>  Get the container.</li>
+<li><code>logger()</code> </li>
+<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
+<li><code>addAsRollback($collection)</code> </li>
+<li><code>addAsCompletion($collection)</code> </li>
+<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
 </ul>
 <h2 id="write">Write</h2>
-<p>Writes to file</p>
+<p>Writes to file.</p>
 <pre><code class="php">&lt;?php
 $this-&gt;taskWriteToFile('blogpost.md')
      -&gt;line('-----')
@@ -249,16 +365,30 @@ $this-&gt;taskWriteToFile('blogpost.md')
 <p><code>append()</code> </p>
 </li>
 <li>
-<p><code>line($line)</code>  add a line</p>
+<p><code>filename($filename)</code> </p>
 </li>
-<li><code>lines(array $lines)</code>  add more lines</li>
-<li><code>text($text)</code>  add a text</li>
-<li><code>textFromFile($filename)</code>  add a text from a file</li>
-<li><code>place($name, $val)</code>  substitute a placeholder with value, placeholder must be enclosed by <code>{}</code></li>
-<li><code>replace($string, $replacement)</code>  replace any string with value</li>
-<li><code>regexReplace($pattern, $replacement)</code>  replace any string with value using regular expression</li>
-</ul>
-</div>
+<li><code>append($append = null)</code> </li>
+<li><code>line($line)</code>  add a line.</li>
+<li><code>lines(array $lines)</code>  add more lines.</li>
+<li><code>text($text)</code>  add a text.</li>
+<li><code>textFromFile($filename)</code>  add a text from a file.</li>
+<li><code>place($name, $val)</code>  substitute a placeholder with value, placeholder must be enclosed by <code>{}</code>.</li>
+<li><code>replace($string, $replacement)</code>  replace any string with value.</li>
+<li><code>regexReplace($pattern, $replacement)</code>  replace any string with value using regular expression.</li>
+<li><code>appendIfMatches($pattern, $text)</code>  Append the provided text to the end of the buffer if the provided</li>
+<li><code>appendUnlessMatches($pattern, $text)</code>  Append the provided text to the end of the buffer unless the provided</li>
+<li><code>originalContents()</code> </li>
+<li><code>wouldChange()</code> </li>
+<li><code>getPath()</code> </li>
+<li><code>setLogger($logger)</code>  Sets a logger.</li>
+<li><code>setContainer($container)</code>  Set a container.</li>
+<li><code>getContainer()</code>  Get the container.</li>
+<li><code>logger()</code> </li>
+<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
+<li><code>addAsRollback($collection)</code> </li>
+<li><code>addAsCompletion($collection)</code> </li>
+<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
+</ul></div>
             
 
         </div>

@@ -11,7 +11,7 @@
         
         <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 
-	<title>FileSystem Tasks - Robo - Robo</title>
+	<title>FileSystem Tasks - Robo</title>
 
         <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome-4.0.3.css" rel="stylesheet">
@@ -57,7 +57,28 @@
                 
                 
                     <li >
-                        <a href="../../started">Getting Started</a>
+                        <a href="../..">Introduction</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Guides <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../getting-started/">Getting Started</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../collections/">Collections</a>
+</li>
+
+                        
+                        </ul>
                     </li>
                 
                 
@@ -66,61 +87,89 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tasks <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                         
-                            <li >
-                                <a href="../Base">Base Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Base/">Base Tasks</a>
+</li>
+
                         
-                            <li class="active">
-                                <a href=".">FileSystem Tasks</a>
-                            </li>
+                            
+<li class="active">
+    <a href="./">FileSystem Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../File">File Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../File/">File Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Composer">Composer Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Composer/">Composer Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Vcs">VCS Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Vcs/">VCS Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Development">Development Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Development/">Development Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Assets">Assets Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Assets/">Assets Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Remote">SSH, Rsync Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Remote/">SSH, Rsync Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Testing">Testing Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Testing/">Testing Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Npm">NPM Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Npm/">NPM Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Bower">Bower Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Bower/">Bower Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Gulp">Gulp Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Gulp/">Gulp Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Docker">Docker Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Docker/">Docker Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../ApiGen">ApiGen Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../ApiGen/">ApiGen Tasks</a>
+</li>
+
                         
                         </ul>
                     </li>
@@ -128,41 +177,42 @@
                 
                 
                     <li >
-                        <a href="../../changelog">Releases</a>
+                        <a href="../../changelog/">Releases</a>
                     </li>
                 
                 
                 </ul>
             
 
-            
-            <!-- Search, Navigation and Repo links -->
             <ul class="nav navbar-nav navbar-right">
-                
-                
-                <li >
-                    <a rel="next" href="../Base">
-                        <i class="fa fa-arrow-left"></i> Previous
-                    </a>
-                </li>
-                <li >
-                    <a rel="prev" href="../File">
-                        Next <i class="fa fa-arrow-right"></i>
-                    </a>
-                </li>
-                
-                
                 <li>
-                    <a href="https://github.com/codegyre/robo/">
-                        
-                            <i class="fa fa-github"></i>
-                        
-                        GitHub
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
                     </a>
                 </li>
+                
+                    <li >
+                        <a rel="next" href="../Base/">
+                            <i class="fa fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../File/">
+                            Next <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a href="https://github.com/codegyre/robo/">
+                            
+                                <i class="fa fa-github"></i>
+                            
+                            GitHub
+                        </a>
+                    </li>
                 
             </ul>
-            
         </div>
     </div>
 </div>
@@ -187,6 +237,8 @@
         
             <li><a href="#mirrordir">MirrorDir</a></li>
         
+            <li><a href="#tmpdir">TmpDir</a></li>
+        
     
     </ul>
 </div></div>
@@ -202,6 +254,16 @@ $this-&gt;_cleanDir('app/cache');
 ?&gt;
 </code></pre>
 
+<ul>
+<li><code>setLogger($logger)</code>  Sets a logger.</li>
+<li><code>setContainer($container)</code>  Set a container.</li>
+<li><code>getContainer()</code>  Get the container.</li>
+<li><code>logger()</code> </li>
+<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
+<li><code>addAsRollback($collection)</code> </li>
+<li><code>addAsCompletion($collection)</code> </li>
+<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
+</ul>
 <h2 id="copydir">CopyDir</h2>
 <p>Copies one dir into another</p>
 <pre><code class="php">&lt;?php
@@ -213,6 +275,14 @@ $this-&gt;_copyDir('dist/config', 'config');
 
 <ul>
 <li><code>dirPermissions($value)</code>  Sets the default folder permissions for the destination if it doesn't exist</li>
+<li><code>setLogger($logger)</code>  Sets a logger.</li>
+<li><code>setContainer($container)</code>  Set a container.</li>
+<li><code>getContainer()</code>  Get the container.</li>
+<li><code>logger()</code> </li>
+<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
+<li><code>addAsRollback($collection)</code> </li>
+<li><code>addAsCompletion($collection)</code> </li>
+<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
 </ul>
 <h2 id="deletedir">DeleteDir</h2>
 <p>Deletes dir</p>
@@ -223,6 +293,16 @@ $this-&gt;_deleteDir(['tmp', 'log']);
 ?&gt;
 </code></pre>
 
+<ul>
+<li><code>setLogger($logger)</code>  Sets a logger.</li>
+<li><code>setContainer($container)</code>  Set a container.</li>
+<li><code>getContainer()</code>  Get the container.</li>
+<li><code>logger()</code> </li>
+<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
+<li><code>addAsRollback($collection)</code> </li>
+<li><code>addAsCompletion($collection)</code> </li>
+<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
+</ul>
 <h2 id="filesystemstack">FilesystemStack</h2>
 <p>Wrapper for <a href="http://symfony.com/doc/current/components/filesystem.html">Symfony FileSystem</a> Component.
 Comands are executed in stack and can be stopped on first fail with <code>stopOnFail</code> option.</p>
@@ -242,7 +322,6 @@ $this-&gt;_mkdir('logs');
 </code></pre>
 
 <ul>
-<li><code>stopOnFail($stop = null)</code> </li>
 <li><code>mkdir($dir)</code> </li>
 <li><code>touch($file)</code> </li>
 <li><code>copy($from, $to, $force = null)</code> </li>
@@ -252,7 +331,20 @@ $this-&gt;_mkdir('logs');
 <li><code>symlink($from, $to)</code> </li>
 <li><code>mirror($from, $to)</code> </li>
 <li><code>chgrp($file, $group)</code> </li>
-<li><code>chown($file, $user)</code> </li>
+<li>
+<p><code>chown($file, $user)</code> </p>
+</li>
+<li>
+<p><code>stopOnFail($stop = null)</code> </p>
+</li>
+<li><code>setLogger($logger)</code>  Sets a logger.</li>
+<li><code>setContainer($container)</code>  Set a container.</li>
+<li><code>getContainer()</code>  Get the container.</li>
+<li><code>logger()</code> </li>
+<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
+<li><code>addAsRollback($collection)</code> </li>
+<li><code>addAsCompletion($collection)</code> </li>
+<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
 </ul>
 <h2 id="flattendir">FlattenDir</h2>
 <p>Searches for files in a nested directory structure and copies them to
@@ -308,6 +400,14 @@ $this-&gt;taskFlattenDir(['assets/*.min.js' =&gt; 'dist'])
 <li><code>includeParents($parents)</code>  Sets the value from which direction and how much parent dirs should be included.</li>
 <li><code>parentDir($dir)</code>  Sets the parent directory from which the relative parent directories will be calculated.</li>
 <li><code>to($target)</code>  Sets the target directory where the files will be copied to.</li>
+<li><code>setLogger($logger)</code>  Sets a logger.</li>
+<li><code>setContainer($container)</code>  Set a container.</li>
+<li><code>getContainer()</code>  Get the container.</li>
+<li><code>logger()</code> </li>
+<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
+<li><code>addAsRollback($collection)</code> </li>
+<li><code>addAsCompletion($collection)</code> </li>
+<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
 </ul>
 <h2 id="mirrordir">MirrorDir</h2>
 <p>Mirrors a directory to another</p>
@@ -319,7 +419,48 @@ $this-&gt;_mirrorDir('dist/config/', 'config/');
 ?&gt;
 </code></pre>
 
-</div>
+<ul>
+<li><code>setLogger($logger)</code>  Sets a logger.</li>
+<li><code>setContainer($container)</code>  Set a container.</li>
+<li><code>getContainer()</code>  Get the container.</li>
+<li><code>logger()</code> </li>
+<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
+<li><code>addAsRollback($collection)</code> </li>
+<li><code>addAsCompletion($collection)</code> </li>
+<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
+</ul>
+<h2 id="tmpdir">TmpDir</h2>
+<p>Create a temporary directory that is automatically cleaned up
+once the task collection is is part of completes.</p>
+<p>Move the directory to another location to prevent its deletion.</p>
+<pre><code class="php">&lt;?php
+// Delete on rollback or on successful completion.
+// Note that in this example, everything is deleted at
+// the end of $collection-&gt;run().
+$tmpPath = $this-&gt;taskTmpDir()-&gt;addToCollection($collection)-&gt;getPath();
+$this-&gt;taskFileSystemStack()
+          -&gt;mkdir(&quot;$tmpPath/log&quot;)
+          -&gt;touch(&quot;$tmpPath/log/error.txt&quot;)
+          -&gt;addToCollection($collection);
+$collection-&gt;run();
+// as shortcut (deleted when program exits)
+$tmpPath = $this-&gt;_tmpDir();
+?&gt;
+</code></pre>
+
+<ul>
+<li><code>cwd()</code>  Flag that we should cwd to the temporary directory when it is</li>
+<li><code>complete()</code>  Delete this directory when our collection completes.</li>
+<li><code>getPath()</code>  Get a reference to the path to the temporary directory, so that</li>
+<li><code>setLogger($logger)</code>  Sets a logger.</li>
+<li><code>setContainer($container)</code>  Set a container.</li>
+<li><code>getContainer()</code>  Get the container.</li>
+<li><code>logger()</code> </li>
+<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
+<li><code>addAsRollback($collection)</code> </li>
+<li><code>addAsCompletion($collection)</code> </li>
+<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
+</ul></div>
             
 
         </div>

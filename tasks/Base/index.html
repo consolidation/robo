@@ -11,7 +11,7 @@
         
         <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 
-	<title>Base Tasks - Robo - Robo</title>
+	<title>Base Tasks - Robo</title>
 
         <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome-4.0.3.css" rel="stylesheet">
@@ -57,7 +57,28 @@
                 
                 
                     <li >
-                        <a href="../../started">Getting Started</a>
+                        <a href="../..">Introduction</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Guides <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../getting-started/">Getting Started</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../collections/">Collections</a>
+</li>
+
+                        
+                        </ul>
                     </li>
                 
                 
@@ -66,61 +87,89 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tasks <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                         
-                            <li class="active">
-                                <a href=".">Base Tasks</a>
-                            </li>
+                            
+<li class="active">
+    <a href="./">Base Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../FileSystem">FileSystem Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../FileSystem/">FileSystem Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../File">File Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../File/">File Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Composer">Composer Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Composer/">Composer Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Vcs">VCS Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Vcs/">VCS Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Development">Development Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Development/">Development Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Assets">Assets Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Assets/">Assets Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Remote">SSH, Rsync Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Remote/">SSH, Rsync Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Testing">Testing Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Testing/">Testing Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Npm">NPM Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Npm/">NPM Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Bower">Bower Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Bower/">Bower Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Gulp">Gulp Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Gulp/">Gulp Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../Docker">Docker Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../Docker/">Docker Tasks</a>
+</li>
+
                         
-                            <li >
-                                <a href="../ApiGen">ApiGen Tasks</a>
-                            </li>
+                            
+<li >
+    <a href="../ApiGen/">ApiGen Tasks</a>
+</li>
+
                         
                         </ul>
                     </li>
@@ -128,41 +177,42 @@
                 
                 
                     <li >
-                        <a href="../../changelog">Releases</a>
+                        <a href="../../changelog/">Releases</a>
                     </li>
                 
                 
                 </ul>
             
 
-            
-            <!-- Search, Navigation and Repo links -->
             <ul class="nav navbar-nav navbar-right">
-                
-                
-                <li >
-                    <a rel="next" href="../../started">
-                        <i class="fa fa-arrow-left"></i> Previous
-                    </a>
-                </li>
-                <li >
-                    <a rel="prev" href="../FileSystem">
-                        Next <i class="fa fa-arrow-right"></i>
-                    </a>
-                </li>
-                
-                
                 <li>
-                    <a href="https://github.com/codegyre/robo/">
-                        
-                            <i class="fa fa-github"></i>
-                        
-                        GitHub
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
                     </a>
                 </li>
+                
+                    <li >
+                        <a rel="next" href="../../collections/">
+                            <i class="fa fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../FileSystem/">
+                            Next <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a href="https://github.com/codegyre/robo/">
+                            
+                                <i class="fa fa-github"></i>
+                            
+                            GitHub
+                        </a>
+                    </li>
                 
             </ul>
-            
         </div>
     </div>
 </div>
@@ -207,16 +257,26 @@ if ($this-&gt;taskExec('phpunit .')-&gt;run()-&gt;wasSuccessful()) {
 ?&gt;
 </code></pre>
 
-<h4 id="public-static-instances-background-executes-command-in-background-mode-asynchronously"><em>public static</em> instances* <code>background()</code>  Executes command in background mode (asynchronously)</h4>
 <ul>
+<li><code>background()</code>  Executes command in background mode (asynchronously)</li>
 <li><code>timeout($timeout)</code>  Stop command if it runs longer then $timeout in seconds</li>
 <li><code>idleTimeout($timeout)</code>  Stops command if it does not output something for a while</li>
 <li><code>env(array $env)</code>  Sets the environment variables for the command</li>
+<li><code>simulate($context)</code>  Called in place of <code>run()</code> for simulated tasks.</li>
+<li><code>setLogger($logger)</code>  Sets a logger.</li>
+<li><code>setContainer($container)</code>  Set a container.</li>
+<li><code>getContainer()</code>  Get the container.</li>
+<li><code>logger()</code> </li>
+<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
+<li><code>addAsRollback($collection)</code> </li>
+<li><code>addAsCompletion($collection)</code> </li>
+<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
 <li><code>dir($dir)</code>  changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable</li>
-<li><code>option($option, $value = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter</li>
+<li><code>option($option, $value = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
+<li><code>optionList($option, $value = null)</code>  Pass multiple options to executable. Value can be a string or array.</li>
 </ul>
 <h2 id="execstack">ExecStack</h2>
 <p>Execute commands one by one in stack.
@@ -236,8 +296,19 @@ $this-&gt;taskExecStack()
 <p><code>$this stopOnFail()</code> </p>
 </li>
 <li>
-<p><code>exec($command)</code> </p>
+<p><code>executable($executable)</code> </p>
 </li>
+<li><code>exec($command)</code> </li>
+<li><code>stopOnFail($stopOnFail = null)</code> </li>
+<li><code>result($result)</code> </li>
+<li><code>setLogger($logger)</code>  Sets a logger.</li>
+<li><code>setContainer($container)</code>  Set a container.</li>
+<li><code>getContainer()</code>  Get the container.</li>
+<li><code>logger()</code> </li>
+<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
+<li><code>addAsRollback($collection)</code> </li>
+<li><code>addAsCompletion($collection)</code> </li>
+<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
 <li><code>dir($dir)</code>  changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 </ul>
@@ -261,6 +332,23 @@ $this-&gt;taskParallelExec()
 <p><code>printed($isPrinted = null)</code> </p>
 </li>
 <li><code>process($command)</code> </li>
+<li><code>timeout($timeout)</code> </li>
+<li><code>idleTimeout($idleTimeout)</code> </li>
+<li><code>setLogger($logger)</code>  Sets a logger.</li>
+<li><code>setContainer($container)</code>  Set a container.</li>
+<li><code>getContainer()</code>  Get the container.</li>
+<li><code>logger()</code> </li>
+<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
+<li><code>addAsRollback($collection)</code> </li>
+<li><code>addAsCompletion($collection)</code> </li>
+<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
+<li><code>setProgressIndicator($progressIndicator)</code> </li>
+<li><code>inProgress()</code> </li>
+<li><code>startProgressIndicator($totalSteps = null)</code> </li>
+<li><code>stopProgressIndicator()</code> </li>
+<li><code>hideProgressIndicator()</code> </li>
+<li><code>showProgressIndicator()</code> </li>
+<li><code>advanceProgressIndicator($steps = null)</code> </li>
 </ul>
 <h2 id="symfonycommand">SymfonyCommand</h2>
 <p>Executes Symfony Command</p>
@@ -281,6 +369,14 @@ $this-&gt;taskSymfonyCommand(new ModelGeneratorCommand())
 <ul>
 <li><code>arg($arg, $value)</code> </li>
 <li><code>opt($option, $value = null)</code> </li>
+<li><code>setLogger($logger)</code>  Sets a logger.</li>
+<li><code>setContainer($container)</code>  Set a container.</li>
+<li><code>getContainer()</code>  Get the container.</li>
+<li><code>logger()</code> </li>
+<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
+<li><code>addAsRollback($collection)</code> </li>
+<li><code>addAsCompletion($collection)</code> </li>
+<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
 </ul>
 <h2 id="watch">Watch</h2>
 <p>Runs task when specified file or dir was changed.
@@ -297,8 +393,15 @@ $this-&gt;taskWatch()
 
 <ul>
 <li><code>monitor($paths, $callable)</code> </li>
-</ul>
-</div>
+<li><code>setLogger($logger)</code>  Sets a logger.</li>
+<li><code>setContainer($container)</code>  Set a container.</li>
+<li><code>getContainer()</code>  Get the container.</li>
+<li><code>logger()</code> </li>
+<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
+<li><code>addAsRollback($collection)</code> </li>
+<li><code>addAsCompletion($collection)</code> </li>
+<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
+</ul></div>
             
 
         </div>

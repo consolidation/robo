@@ -16,6 +16,7 @@ modules:
             password: ''
             dump: tests/_data/dump.sql
 coverage:
+    enable: true
     whitelist:
         include:
             - src/*

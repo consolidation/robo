@@ -16,7 +16,7 @@ class RoboFile extends \Robo\Tasks
             ->args($args);
 
         if ($options['coverage']) {
-            $taskCodecept->coverageXml('build/logs/clover.xml');
+            $taskCodecept->coverageXml('../../build/logs/clover.xml');
         }
 
         return $taskCodecept;

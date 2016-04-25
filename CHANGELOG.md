@@ -1,5 +1,41 @@
 # Changelog
 
+#### 1.0.0
+
+* [Collection] Add tasks to a collection, and implement them as a group with rollback
+   * Use `$task->addToCollection($collection);` instead of `$task->run();` during chained configuration to ad a task to a collection.
+   * Tasks may also be added to a collection via `$collection->add($task);`
+   * `$collection->run();` runs all tasks in the collection
+   * `$collection->addCode(function () { ... } );` to add arbitrary code to a collection
+   * `$collection->progressMessage(...);` will log a message
+   * `$collection->rollback($task);` and `$collection->rollbackCode($callable);` add a rollback function to clean up after a failed task
+   * `$collection->completion($task);` and `$collection->completionCode($callable);` add a function that is called once the collection completes or rolls back.
+   * `$collection->before();` and `$collection->after();` can be used to add a task or function that runs before or after (respectively) the specified named task. To use this feature, tasks must be given names via an optional `$taskName` parameter when they are added.
+   * Collections may be added to collections, if desired. 
+* Add output formatters
+   * If a Robo command returns a string, or a `Result` object with a `$message`, then it will be printed
+   * Commands may be annotated to describe output formats that may be used
+   * Structured arrays returned from function results may be converted into different formats, such as a table, yml, json, etc.
+* Use league/container to do Dependency Injection
+   * *Breaking* Tasks' loadTasks traits must now include a getServices method that returns a SimpleServiceProvider listing the task classes provided.
+   * *Breaking* Tasks' loadTasks traits must use `$this->task('taskName');` instead of `new TaskClass();`
+   * *Breaking* Tasks that use other tasks must also use `$this->task('taskName');` instead of `new TaskClass();` when creating task objects to call.
+* [Extract] task added
+* [Pack] task added
+* [TmpFile] task added
+* Support standalone Robo scripts that allows scripts starting with `#!/usr/bin/env robo` to define multiple robo commands.  Use `#!/usr/bin/env robo run` to define a single robo command implemented by the `run()` method.
+* Provide ProgresIndicatorAwareInterface and ProgressIndicatorAwareTrait that make it easy to add progress indicators to tasks
+* Add --simulate mode that causes tasks to print what they would have done, but make no changed
+* Add `robo generate:task` code-generator to make new stack-based task wrappers around existing classes
+* Add `robo sniff` by @dustinleblanc. Runs the PHP code sniffer followed by the code beautifier, if needed.
+* Implement ArrayInterface for Result class, so result data may be accessed like an array 
+* Defer execution of operations in taskWriteToFile until the run() method
+* Add Write::textIfMatch() for taskWriteToFile
+* ResourceExistenceChecker used for error checking in DeleteDir, CopyDir, CleanDir and Concat tasks by @burzum
+* Provide ResultData base class for Result; ResultData may be used in instances where a specific `$task` instance is not available (e.g. in a Robo command)
+* ArgvInput now available via $this->getInput() in RoboFile by Thomas Spigel
+* Add optional message to git tag task by Tim Tegeler
+
 #### 0.6.0
 
 * Added `--load-from` option to make Robo start RoboFiles from other directories. Use it like `robo --load-from /path/to/where/RobFile/located`.

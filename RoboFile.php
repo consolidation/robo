@@ -345,8 +345,8 @@ class RoboFile extends \Robo\Tasks
     /**
      * Demonstrates Robo argument passing.
      *
-     * @param $a The first parameter. Required.
-     * @param $b The second parameter. Optional.
+     * @param string $a The first parameter. Required.
+     * @param string $b The second parameter. Optional.
      */
     public function tryArgs($a, $b = 'default')
     {
@@ -366,7 +366,7 @@ class RoboFile extends \Robo\Tasks
     /**
      * Demonstrate Robo boolean options.
      *
-     * @option $silent Supress output.
+     * @option boolean $silent Supress output.
      */
     public function tryOptbool($opts = ['silent|s' => false])
     {

@@ -10,20 +10,20 @@ pages:
   - "Getting Started": getting-started.md
   - Collections: collections.md
 - Tasks:
-  - "Base Tasks": Base.md
-  - "FileSystem Tasks": FileSystem.md
-  - "File Tasks": File.md
-  - "Composer Tasks": Composer.md
-  - "VCS Tasks": Vcs.md
-  - "Development Tasks": Development.md
-  - "Assets Tasks": Assets.md
-  - "Tasks'": Remote.md 'SSH, Rsync
-  - "Testing Tasks": Testing.md
-  - "NPM Tasks": Npm.md
-  - "Bower Tasks": Bower.md
-  - "Gulp Tasks": Gulp.md
-  - "Docker Tasks": Docker.md
-  - "ApiGen Tasks": ApiGen.md
+  - "Base Tasks": tasks/Base.md
+  - "FileSystem Tasks": tasks/FileSystem.md
+  - "File Tasks": tasks/File.md
+  - "Composer Tasks": tasks/Composer.md
+  - "VCS Tasks": tasks/Vcs.md
+  - "Development Tasks": tasks/Development.md
+  - "Assets Tasks": tasks/Assets.md
+  - "SSH, Rsync Tasks": tasks/Remote.md
+  - "Testing Tasks": tasks/Testing.md
+  - "NPM Tasks": tasks/Npm.md
+  - "Bower Tasks": tasks/Bower.md
+  - "Gulp Tasks": tasks/Gulp.md
+  - "Docker Tasks": tasks/Docker.md
+  - "ApiGen Tasks": tasks/ApiGen.md
 - Releases: changelog.md
 extra_css:
 - /css/robo.css

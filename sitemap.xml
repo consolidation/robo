@@ -70,6 +70,12 @@
     </url>
         
     <url>
+     <loc>http://robo.li/tasks/Archive/</loc>
+     <lastmod>2016-04-25</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
      <loc>http://robo.li/tasks/Remote/</loc>
      <lastmod>2016-04-25</lastmod>
      <changefreq>daily</changefreq>

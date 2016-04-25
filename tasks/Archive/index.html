@@ -6,12 +6,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         
-        <link rel="canonical" href="http://robo.li/tasks/Base/">
+        <link rel="canonical" href="http://robo.li/tasks/Archive/">
         <link rel="shortcut icon" href="../../../../img/favicon.png">
         
         <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 
-	<title>Base Tasks - Robo</title>
+	<title>Archive Tasks - Robo</title>
 
         <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome-4.0.3.css" rel="stylesheet">
@@ -88,8 +88,8 @@
                         <ul class="dropdown-menu">
                         
                             
-<li class="active">
-    <a href="./">Base Tasks</a>
+<li >
+    <a href="../Base/">Base Tasks</a>
 </li>
 
                         
@@ -130,8 +130,8 @@
 
                         
                             
-<li >
-    <a href="../Archive/">Archive Tasks</a>
+<li class="active">
+    <a href="./">Archive Tasks</a>
 </li>
 
                         
@@ -198,12 +198,12 @@
                 </li>
                 
                     <li >
-                        <a rel="next" href="../../collections/">
+                        <a rel="next" href="../Assets/">
                             <i class="fa fa-arrow-left"></i> Previous
                         </a>
                     </li>
                     <li >
-                        <a rel="prev" href="../FileSystem/">
+                        <a rel="prev" href="../Remote/">
                             Next <i class="fa fa-arrow-right"></i>
                         </a>
                     </li>
@@ -229,152 +229,45 @@
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
     
-        <li class="main active"><a href="#base-tasks">Base Tasks</a></li>
+        <li class="main active"><a href="#archive-tasks">Archive Tasks</a></li>
         
-            <li><a href="#exec">Exec</a></li>
+            <li><a href="#extract">Extract</a></li>
         
-            <li><a href="#execstack">ExecStack</a></li>
-        
-            <li><a href="#parallelexec">ParallelExec</a></li>
-        
-            <li><a href="#symfonycommand">SymfonyCommand</a></li>
-        
-            <li><a href="#watch">Watch</a></li>
+            <li><a href="#pack">Pack</a></li>
         
     
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
-<h1 id="base-tasks">Base Tasks</h1>
-<h2 id="exec">Exec</h2>
-<p>Executes shell script. Closes it when running in background mode.</p>
+<h1 id="archive-tasks">Archive Tasks</h1>
+<h2 id="extract">Extract</h2>
+<p>Extracts an archive.</p>
+<p>Note that often, distributions are packaged in tar or zip archives
+where the topmost folder may contain variable information, such as
+the release date, or the version of the package.  This information
+is very useful when unpacking by hand, but arbitrarily-named directories
+are much less useful to scripts.  Therefore, by default, Extract will
+remove the top-level directory, and instead store all extracted files
+into the directory specified by $archivePath.</p>
+<p>To keep the top-level directory when extracting, use
+<code>preserveTopDirectory(true)</code>.</p>
 <pre><code class="php">&lt;?php
-$this-&gt;taskExec('compass')-&gt;arg('watch')-&gt;run();
-// or use shortcut
-$this-&gt;_exec('compass watch');
-
-$this-&gt;taskExec('compass watch')-&gt;background()-&gt;run();
-
-if ($this-&gt;taskExec('phpunit .')-&gt;run()-&gt;wasSuccessful()) {
- $this-&gt;say('tests passed');
-}
-
-?&gt;
-</code></pre>
-
-<ul>
-<li><code>background()</code>  Executes command in background mode (asynchronously)</li>
-<li><code>timeout($timeout)</code>  Stop command if it runs longer then $timeout in seconds</li>
-<li><code>idleTimeout($timeout)</code>  Stops command if it does not output something for a while</li>
-<li><code>env(array $env)</code>  Sets the environment variables for the command</li>
-<li><code>simulate($context)</code>  Called in place of <code>run()</code> for simulated tasks.</li>
-<li><code>setLogger($logger)</code>  Sets a logger.</li>
-<li><code>setContainer($container)</code>  Set a container.</li>
-<li><code>getContainer()</code>  Get the container.</li>
-<li><code>logger()</code> </li>
-<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
-<li><code>addAsRollback($collection)</code> </li>
-<li><code>addAsCompletion($collection)</code> </li>
-<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
-<li><code>printed($arg)</code>  Should command output be printed</li>
-<li><code>arg($arg)</code>  Pass argument to executable</li>
-<li><code>args($args)</code>  Pass methods parameters as arguments to executable</li>
-<li><code>option($option, $value = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>optionList($option, $value = null)</code>  Pass multiple options to executable. Value can be a string or array.</li>
-</ul>
-<h2 id="execstack">ExecStack</h2>
-<p>Execute commands one by one in stack.
-Stack can be stopped on first fail if you call <code>stopOnFail()</code>.</p>
-<pre><code class="php">&lt;?php
-$this-&gt;taskExecStack()
- -&gt;stopOnFail()
- -&gt;exec('mkdir site')
- -&gt;exec('cd site')
+$this-&gt;taskExtract($archivePath)
+ -&gt;to($destination)
+ -&gt;preserveTopDirectory(false) // the default
  -&gt;run();
-
 ?&gt;
 </code></pre>
 
 <ul>
 <li>
-<p><code>$this stopOnFail()</code> </p>
+<p><code>to(string)</code>  location to store extracted files</p>
 </li>
 <li>
-<p><code>executable($executable)</code> </p>
+<p><code>to($to)</code> </p>
 </li>
-<li><code>exec($command)</code> </li>
-<li><code>stopOnFail($stopOnFail = null)</code> </li>
-<li><code>result($result)</code> </li>
-<li><code>setLogger($logger)</code>  Sets a logger.</li>
-<li><code>setContainer($container)</code>  Set a container.</li>
-<li><code>getContainer()</code>  Get the container.</li>
-<li><code>logger()</code> </li>
-<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
-<li><code>addAsRollback($collection)</code> </li>
-<li><code>addAsCompletion($collection)</code> </li>
-<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
-<li><code>printed($arg)</code>  Should command output be printed</li>
-</ul>
-<h2 id="parallelexec">ParallelExec</h2>
-<p>Class ParallelExecTask</p>
-<pre><code class="php">&lt;?php
-$this-&gt;taskParallelExec()
-  -&gt;process('php ~/demos/script.php hey')
-  -&gt;process('php ~/demos/script.php hoy')
-  -&gt;process('php ~/demos/script.php gou')
-  -&gt;run();
-?&gt;
-</code></pre>
-
-<ul>
-<li><code>timeout(int $timeout)</code>  stops process if it runs longer then <code>$timeout</code> (seconds)</li>
-<li>
-<p><code>idleTimeout(int $timeout)</code>  stops process if it does not output for time longer then <code>$timeout</code> (seconds)</p>
-</li>
-<li>
-<p><code>printed($isPrinted = null)</code> </p>
-</li>
-<li><code>process($command)</code> </li>
-<li><code>timeout($timeout)</code> </li>
-<li><code>idleTimeout($idleTimeout)</code> </li>
-<li><code>setLogger($logger)</code>  Sets a logger.</li>
-<li><code>setContainer($container)</code>  Set a container.</li>
-<li><code>getContainer()</code>  Get the container.</li>
-<li><code>logger()</code> </li>
-<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
-<li><code>addAsRollback($collection)</code> </li>
-<li><code>addAsCompletion($collection)</code> </li>
-<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
-<li><code>setProgressIndicator($progressIndicator)</code> </li>
-<li><code>inProgress()</code> </li>
-<li><code>startProgressIndicator($totalSteps = null)</code> </li>
-<li><code>stopProgressIndicator()</code> </li>
-<li><code>hideProgressIndicator()</code> </li>
-<li><code>showProgressIndicator()</code> </li>
-<li><code>advanceProgressIndicator($steps = null)</code> </li>
-</ul>
-<h2 id="symfonycommand">SymfonyCommand</h2>
-<p>Executes Symfony Command</p>
-<pre><code class="php">&lt;?php
-// Symfony Command
-$this-&gt;taskSymfonyCommand(new \Codeception\Command\Run('run'))
-     -&gt;arg('suite','acceptance')
-     -&gt;opt('debug')
-     -&gt;run();
-
-// Artisan Command
-$this-&gt;taskSymfonyCommand(new ModelGeneratorCommand())
-     -&gt;arg('name', 'User')
-     -&gt;run();
-?&gt;
-</code></pre>
-
-<ul>
-<li><code>arg($arg, $value)</code> </li>
-<li><code>opt($option, $value = null)</code> </li>
+<li><code>preserveTopDirectory($preserve = null)</code> </li>
 <li><code>setLogger($logger)</code>  Sets a logger.</li>
 <li><code>setContainer($container)</code>  Set a container.</li>
 <li><code>getContainer()</code>  Get the container.</li>
@@ -384,21 +277,23 @@ $this-&gt;taskSymfonyCommand(new ModelGeneratorCommand())
 <li><code>addAsCompletion($collection)</code> </li>
 <li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
 </ul>
-<h2 id="watch">Watch</h2>
-<p>Runs task when specified file or dir was changed.
-Uses Lurker library.</p>
+<h2 id="pack">Pack</h2>
+<p>Creates a zip or tar archive.</p>
 <pre><code class="php">&lt;?php
-$this-&gt;taskWatch()
- -&gt;monitor('composer.json', function() {
-     $this-&gt;taskComposerUpdate()-&gt;run();
-})-&gt;monitor('src', function() {
-     $this-&gt;taskExec('phpunit')-&gt;run();
-})-&gt;run();
+$this-&gt;taskPack(
+&lt;archiveFile&gt;)
+-&gt;add('README')                         // Puts file 'README' in archive at the root
+-&gt;add('project')                        // Puts entire contents of directory 'project' in archinve inside 'project'
+-&gt;addFile('dir/file.txt', 'file.txt')   // Takes 'file.txt' from cwd and puts it in archive inside 'dir'.
+-&gt;run();
 ?&gt;
 </code></pre>
 
 <ul>
-<li><code>monitor($paths, $callable)</code> </li>
+<li><code>archiveFile($archiveFile)</code> </li>
+<li><code>addFile($placementLocation, $filesystemLocation)</code>  Add an item to the archive. Like file_exists(), the parameter</li>
+<li><code>addDir($placementLocation, $filesystemLocation)</code>  Alias for addFile, in case anyone has angst about using</li>
+<li><code>add($item)</code>  Add a file or directory, or list of same to the archive.</li>
 <li><code>setLogger($logger)</code>  Sets a logger.</li>
 <li><code>setContainer($container)</code>  Set a container.</li>
 <li><code>getContainer()</code>  Get the container.</li>

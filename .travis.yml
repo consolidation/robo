@@ -22,4 +22,7 @@ before_script:
   - 'if [ "$TRAVIS_PHP_VERSION" = "5.4" ]; then rm composer.lock; fi'
   - composer install -n --prefer-source
 
-script: "./robo test"
+script: "./robo test --coverage"
+
+after_success:
+  - travis_retry php vendor/bin/coveralls -v

@@ -74,7 +74,7 @@ abstract class GitHub extends BaseTask
                 CURLOPT_POST => $method != 'GET',
                 CURLOPT_POSTFIELDS => json_encode($params),
                 CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_USERAGENT => self::$user ?: "Robo"
+                CURLOPT_USERAGENT => "Robo"
             )
         );
 

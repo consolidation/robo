@@ -9,16 +9,16 @@
     "packages": [
         {
             "name": "consolidation/annotated-command",
-            "version": "1.0.0-beta1",
+            "version": "1.0.0-beta3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation-org/annotated-command.git",
-                "reference": "ec0e89155f8be1493c1d031e63641b2f4bfcc0ee"
+                "reference": "81ecc090601d3fb994805fb65c2b830b00533480"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation-org/annotated-command/zipball/ec0e89155f8be1493c1d031e63641b2f4bfcc0ee",
-                "reference": "ec0e89155f8be1493c1d031e63641b2f4bfcc0ee",
+                "url": "https://api.github.com/repos/consolidation-org/annotated-command/zipball/81ecc090601d3fb994805fb65c2b830b00533480",
+                "reference": "81ecc090601d3fb994805fb65c2b830b00533480",
                 "shasum": ""
             },
             "require": {
@@ -29,6 +29,7 @@
                 "symfony/finder": "~2.5|~3.0"
             },
             "require-dev": {
+                "consolidation/output-formatters": "~1.0.0-beta3",
                 "phpunit/phpunit": "4.*",
                 "satooshi/php-coveralls": "^1.0",
                 "squizlabs/php_codesniffer": "2.*"
@@ -55,7 +56,7 @@
                 }
             ],
             "description": "Initialize Symfony Console commands from annotated command class methods.",
-            "time": "2016-04-25 05:50:42"
+            "time": "2016-04-27 02:50:33"
         },
         {
             "name": "consolidation/log",
@@ -106,16 +107,16 @@
         },
         {
             "name": "consolidation/output-formatters",
-            "version": "1.0.0-beta1",
+            "version": "1.0.0-beta3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation-org/output-formatters.git",
-                "reference": "cf369a2ebba04c6c63033abdecd39de857b517be"
+                "reference": "3394021a5d82a95a58ae219f985272bc2ea02c4a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation-org/output-formatters/zipball/cf369a2ebba04c6c63033abdecd39de857b517be",
-                "reference": "cf369a2ebba04c6c63033abdecd39de857b517be",
+                "url": "https://api.github.com/repos/consolidation-org/output-formatters/zipball/3394021a5d82a95a58ae219f985272bc2ea02c4a",
+                "reference": "3394021a5d82a95a58ae219f985272bc2ea02c4a",
                 "shasum": ""
             },
             "require": {
@@ -149,7 +150,7 @@
                 }
             ],
             "description": "Format text by applying transformations provided by plug-in formatters.",
-            "time": "2016-04-25 05:56:23"
+            "time": "2016-04-27 00:04:18"
         },
         {
             "name": "container-interop/container-interop",

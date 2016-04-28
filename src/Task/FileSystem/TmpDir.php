@@ -99,7 +99,7 @@ class TmpDir extends BaseDir implements CompletionInterface
         if ($this->cwd) {
             chdir($this->savedWorkingDirectory);
         }
-        $this->task('taskDeleteDir', $this->dirs)->run();
+        (new DeleteDir($this->dirs))->inflect($this)->run();
     }
 
     /**

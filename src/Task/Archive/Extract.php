@@ -4,6 +4,8 @@ namespace Robo\Task\Archive;
 
 use Robo\Result;
 use Robo\Task\BaseTask;
+use Robo\Task\FileSystem\FilesystemStack;
+use Robo\Task\FileSystem\DeleteDir;
 
 /**
  * Extracts an archive.
@@ -99,10 +101,18 @@ class Extract extends BaseTask
             $filesInExtractLocation = glob("$extractLocation/*");
             $hasEncapsulatingFolder = ((count($filesInExtractLocation) == 1) && is_dir($filesInExtractLocation[0]));
             if ($hasEncapsulatingFolder && !$this->preserveTopDirectory) {
-                $result = $this->task('FilesystemStack')->rename($filesInExtractLocation[0], $this->to)->run();
-                $this->task('DeleteDir', $extractLocation)->run();
+                $result = (new FilesystemStack())
+                    ->inflect($this)
+                    ->rename($filesInExtractLocation[0], $this->to)
+                    ->run();
+                (new DeleteDir($extractLocation))
+                    ->inflect($this)
+                    ->run();
             } else {
-                $result = $this->task('FilesystemStack')->rename($extractLocation, $this->to)->run();
+                $result = (new FilesystemStack())
+                    ->inflect($this)
+                    ->rename($extractLocation, $this->to)
+                    ->run();
             }
         }
         $this->stopTimer();

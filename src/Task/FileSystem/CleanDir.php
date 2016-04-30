@@ -47,7 +47,8 @@ class CleanDir extends BaseDir
                 $this->fs->remove($dir);
             } else {
                 $file = (string)$path;
-                if (basename($file) === '.gitignore' || basename($file) === '.gitkeep') {
+                $basename = basename($file);
+                if (strpos($basename, '.git') === 0) {
                     continue;
                 }
                 $this->fs->remove($file);

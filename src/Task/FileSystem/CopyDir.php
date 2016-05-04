@@ -55,10 +55,11 @@ class CopyDir extends BaseDir
      *
      * @param string $src Source directory
      * @param string $dst Destination directory
+     * @param array $exclude Optional array of files / folders to exclude
      * @throws \Robo\Exception\TaskException
      * @return void
      */
-    protected function copyDir($src, $dst)
+    protected function copyDir($src, $dst, $exclude = [])
     {
         $dir = @opendir($src);
         if (false === $dir) {
@@ -68,6 +69,9 @@ class CopyDir extends BaseDir
             mkdir($dst, $this->chmod, true);
         }
         while (false !== ($file = readdir($dir))) {
+            if (in_array($file, $exclude)) {
+                continue;
+            }
             if (($file !== '.') && ($file !== '..')) {
                 $srcFile = $src . '/' . $file;
                 $destFile = $dst . '/' . $file;

@@ -1,145 +1,211 @@
 <?php
+
 namespace Robo\Task\Development;
 
+use ChangeLog\ChangeLog as ChangeLogContainer;
+use ChangeLog\Release;
+use ChangeLog\IO\File;
+use ChangeLog\Log;
+use ChangeLog\Parser\KeepAChangeLog as KeepAChangeLogParser;
+use ChangeLog\Renderer\KeepAChangeLog as KeepAChangeLogRenderer;
+use Robo\Config;
 use Robo\Task\BaseTask;
-use Robo\Task\File\Replace;
-use Robo\Task\FileSystem;
 use Robo\Result;
 use Robo\Task\Development;
 
 /**
  * Helps to manage changelog file.
- * Creates or updates `changelog.md` file with recent changes in current version.
- *
- * ``` php
- * <?php
- * $version = "0.1.0";
- * $this->taskChangelog()
- *  ->version($version)
- *  ->change("released to github")
- *  ->run();
- * ?>
- * ```
- *
- * Changes can be asked from Console
- *
- * ``` php
- * <?php
- * $this->taskChangelog()
- *  ->version($version)
- *  ->askForChanges()
- *  ->run();
- * ?>
- * ```
- *
- * @method Development\Changelog filename(string $filename)
- * @method Development\Changelog anchor(string $anchor)
- * @method Development\Changelog version(string $version)
+ * Creates or updates `changelog.md` file.
  */
 class Changelog extends BaseTask
 {
-    protected $filename;
-    protected $log = [];
-    protected $anchor = "# Changelog";
-    protected $version = "";
+    /**
+     * Location of the changelog file
+     * @var string
+     */
+    protected $fileName;
+
+    /**
+     * @var ChangeLogContainer
+     */
+    protected $changeLog;
+
+    /**
+     * @var Log
+     */
+    protected $log;
 
     /**
      * @param string $filename
      * @return \Robo\Task\Development\Changelog
-     * @deprecated
-     *   Use $this->taskChangelog($filename) instead.
+     * @deprecated Use $this->taskChangelog($filename) instead.
      */
     public static function init($filename = 'CHANGELOG.md')
     {
-        return \Robo\Config::getContainer()->get('taskChangelog', [$filename]);
-    }
-
-    public function filename($filename)
-    {
-        $this->filename = $filename;
-        return $this;
-    }
-
-    public function log($item)
-    {
-        $this->log[] = $item;
-        return $this;
-    }
-
-    public function anchor($anchor)
-    {
-        $this->anchor = $anchor;
-        return $this;
-    }
-
-    public function version($version)
-    {
-        $this->version = $version;
-        return $this;
+        return Config::getContainer()->get('taskChangelog', [$filename]);
     }
 
     public function __construct($filename)
     {
-        $this->filename = $filename;
+        // Make sure we always have a log to work with.
+        $this->log = new Log();
+        $this->setFileName($filename);
     }
 
-    public function changes(array $data)
+    /**
+     * Sets the change log file location.
+     *
+     * @param string $fileName
+     *
+     * @return $this
+     */
+    public function setFileName($fileName)
     {
-        $this->log = array_merge($this->log, $data);
+        $this->fileName = $fileName;
+        $this->load();
+
         return $this;
     }
 
-    public function change($change)
+    /**
+     * Adds a new release.
+     *
+     * @param string $name
+     *
+     * @return $this
+     */
+    public function addRelease($name)
     {
-        $this->log[] = $change;
+        $this->log->addRelease(new Release($name));
+
         return $this;
     }
 
-    public function getChanges()
+    /**
+     * Converts the "unreleased" release to a numbered version
+     *
+     * @param string $name Can be the semver of the new release or one of Log::VERSION_MAJOR, Log::VERSION_MINOR or
+     *                     Log::VERSION PATCH for automatic numbering.
+     * @param string $newLink
+     * @param string $newLinkName
+     *
+     * @return $this
+     */
+    public function releaseVersion($name, $newLink = null, $newLinkName = null)
+    {
+        $newReleaseName = $this->log->getNextVersion($name);
+
+        $release = $this->log->getRelease('unreleased');
+        $release->setName($newReleaseName);
+
+        if ($newLink === null) {
+            $release->setLink(null);
+            $release->setLinkName(null);
+        } else {
+            $newLinkName = $newLinkName === null ? $newReleaseName : $newLinkName;
+
+            $release->setLink($newLink);
+            $release->setLinkName($newLinkName);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Adds a change.
+     *
+     * @param string $type
+     * @param string $change
+     * @param string $release
+     *
+     * @return $this
+     */
+    public function addChange($type, $change, $release = null)
+    {
+        $this->getWorkingRelease($release)
+            ->addChange($type, $change);
+
+        return $this;
+    }
+
+    /**
+     * Gets all changes.
+     *
+     * @param string|null $release
+     *
+     * @return array
+     */
+    public function getChanges($release = null)
+    {
+        return $this->getWorkingRelease($release)
+            ->getAllChanges();
+    }
+
+    /**
+     * Gets changes of a given type.
+     *
+     * @param string      $type
+     * @param string|null $release
+     *
+     * @return null|string[]
+     */
+    public function getChangesByType($type, $release = null)
+    {
+        return $this->getWorkingRelease($release)
+            ->getChanges($type);
+    }
+
+    /**
+     * Loads or re-loads the changelog.
+     */
+    public function load()
+    {
+        $this->changeLog = new ChangeLogContainer();
+
+        $fileIO = new File(['file' => $this->fileName]);
+        $this->changeLog->setInput($fileIO);
+        $this->changeLog->setParser(new KeepAChangeLogParser());
+        $this->changeLog->setRenderer(new KeepAChangeLogRenderer());
+        $this->changeLog->setOutput($fileIO);
+
+        if (file_exists($this->fileName)) {
+            $this->log = $this->changeLog->parse();
+        }
+    }
+
+    /**
+     * @param string $release
+     *
+     * @return \ChangeLog\Release
+     */
+    protected function getWorkingRelease($release)
+    {
+        if ($release === null) {
+            return $this->log->getLatestRelease();
+        }
+
+        return $this->log->getRelease($release);
+    }
+
+    /**
+     * Gets the active change log.
+     *
+     * @return \ChangeLog\Log
+     */
+    public function getLog()
     {
         return $this->log;
     }
 
+    /**
+     * Writes the changes to the log file.
+     *
+     * @return \Robo\Result
+     */
     public function run()
     {
-        if (empty($this->log)) {
-            return Result::error($this, "Changelog is empty");
-        }
-        $text = implode(
-            "\n",
-            array_map(
-                function ($i) {
-                        return "* $i *" . date('Y-m-d') . "*";
-                },
-                $this->log
-            )
-        ) . "\n";
-        $ver = "#### {$this->version}\n\n";
-        $text = $ver . $text;
+        $this->changeLog->write($this->log);
 
-        if (!file_exists($this->filename)) {
-            $this->printTaskInfo('Creating {filename}', ['filename' => $this->filename]);
-            $res = file_put_contents($this->filename, $this->anchor);
-            if ($res === false) {
-                return Result::error($this, "File {filename} cant be created", ['filename' => $this->filename]);
-            }
-        }
-
-        // trying to append to changelog for today
-        $result = (new Replace($this->filename))
-            ->inflect($this)
-            ->from($ver)
-            ->to($text)
-            ->run();
-
-        if (!isset($result['replaced']) || !$result['replaced']) {
-            $result = (new Replace($this->filename))
-                ->inflect($this)
-                ->from($this->anchor)
-                ->to($this->anchor . "\n\n" . $text)
-                ->run();
-        }
-
-        return new Result($this, $result->getExitCode(), $result->getMessage(), $this->log);
+        return new Result($this, 0);
     }
 }

@@ -50,7 +50,7 @@ trait loadShortcuts
      */
     protected function _rename($from, $to)
     {
-        return $this->getContainer()->get('taskFileSystemStack')->rename($from, $to)->run();
+        return $this->getContainer()->get('taskFilesystemStack')->rename($from, $to)->run();
     }
 
     /**
@@ -59,7 +59,7 @@ trait loadShortcuts
      */
     protected function _mkdir($dir)
     {
-        return $this->getContainer()->get('taskFileSystemStack')->mkdir($dir)->run();
+        return $this->getContainer()->get('taskFilesystemStack')->mkdir($dir)->run();
     }
 
     /**
@@ -78,7 +78,7 @@ trait loadShortcuts
      */
     protected function _touch($file)
     {
-        return $this->getContainer()->get('taskFileSystemStack')->touch($file)->run();
+        return $this->getContainer()->get('taskFilesystemStack')->touch($file)->run();
     }
 
     /**
@@ -87,7 +87,7 @@ trait loadShortcuts
      */
     protected function _remove($file)
     {
-        return $this->getContainer()->get('taskFileSystemStack')->remove($file)->run();
+        return $this->getContainer()->get('taskFilesystemStack')->remove($file)->run();
     }
 
     /**
@@ -97,7 +97,7 @@ trait loadShortcuts
      */
     protected function _chgrp($file, $group)
     {
-        return $this->getContainer()->get('taskFileSystemStack')->chgrp($file, $group)->run();
+        return $this->getContainer()->get('taskFilesystemStack')->chgrp($file, $group)->run();
     }
 
     /**
@@ -109,7 +109,7 @@ trait loadShortcuts
      */
     protected function _chmod($file, $permissions, $umask = 0000, $recursive = false)
     {
-        return $this->getContainer()->get('taskFileSystemStack')->chmod($file, $permissions, $umask, $recursive)->run();
+        return $this->getContainer()->get('taskFilesystemStack')->chmod($file, $permissions, $umask, $recursive)->run();
     }
 
     /**
@@ -119,7 +119,7 @@ trait loadShortcuts
      */
     protected function _symlink($from, $to)
     {
-        return $this->getContainer()->get('taskFileSystemStack')->symlink($from, $to)->run();
+        return $this->getContainer()->get('taskFilesystemStack')->symlink($from, $to)->run();
     }
 
     /**
@@ -129,7 +129,7 @@ trait loadShortcuts
      */
     protected function _copy($from, $to)
     {
-        return $this->getContainer()->get('taskFileSystemStack')->copy($from, $to)->run();
+        return $this->getContainer()->get('taskFilesystemStack')->copy($from, $to)->run();
     }
 
     /**

@@ -194,6 +194,7 @@ class Runner
         $container->addServiceProvider(\Robo\Task\Archive\loadTasks::getArchiveServices());
         $container->addServiceProvider(\Robo\Task\Assets\loadTasks::getAssetsServices());
         $container->addServiceProvider(\Robo\Task\Base\loadTasks::getBaseServices());
+        $container->addServiceProvider(\Robo\Task\Npm\loadTasks::getNpmServices());
         $container->addServiceProvider(\Robo\Task\Bower\loadTasks::getBowerServices());
         $container->addServiceProvider(\Robo\Task\Composer\loadTasks::getComposerServices());
         $container->addServiceProvider(\Robo\Task\Development\loadTasks::getDevelopmentServices());

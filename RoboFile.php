@@ -10,13 +10,20 @@ class RoboFile extends \Robo\Tasks
     /**
      * Run the Robo unit tests.
      */
-    public function test($args = "", $options = ['coverage' => false])
+    public function test($args = "", $options =
+        [
+            'coverage-html' => false,
+            'coverage' => false
+        ])
     {
         $taskCodecept = $this->taskCodecept()
             ->args($args);
 
         if ($options['coverage']) {
             $taskCodecept->coverageXml('../../build/logs/clover.xml');
+        }
+        if ($options['coverage-html']) {
+            $taskCodecept->coverageHtml('../../build/logs/coverage');
         }
 
         return $taskCodecept;

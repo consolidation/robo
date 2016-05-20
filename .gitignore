@@ -1,5 +1,6 @@
 vendor/
 .idea/
+build
 site/
 robotheme/
 tests/_log/*

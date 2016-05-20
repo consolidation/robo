@@ -13,7 +13,7 @@ trait loadTasks
         return new SimpleServiceProvider(
             [
                 'taskCodecept' => Codecept::class,
-                'taskPHPUnit' => PHPUnit::class,
+                'taskPhpUnit' => PHPUnit::class,
                 'taskPhpspec' => Phpspec::class,
                 'taskAtoum' => Atoum::class,
             ]

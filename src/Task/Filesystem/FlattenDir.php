@@ -1,6 +1,6 @@
 <?php
 
-namespace Robo\Task\FileSystem;
+namespace Robo\Task\Filesystem;
 
 use Robo\Result;
 use Robo\Exception\TaskException;

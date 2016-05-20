@@ -17,7 +17,7 @@ use Robo\Contract\WrappedTaskInterface;
  * creates temporary objects.  This is usually best done via
  * Temporary::wrap().
  *
- * @see Robo\Task\FileSystem\loadTasks::taskTmpDir
+ * @see Robo\Task\Filesystem\loadTasks::taskTmpDir
  */
 class CompletionWrapper extends BaseTask implements WrappedTaskInterface
 {

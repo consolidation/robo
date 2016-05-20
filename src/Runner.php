@@ -199,7 +199,7 @@ class Runner
         $container->addServiceProvider(\Robo\Task\Development\loadTasks::getDevelopmentServices());
         $container->addServiceProvider(\Robo\Task\Docker\loadTasks::getDockerServices());
         $container->addServiceProvider(\Robo\Task\File\loadTasks::getFileServices());
-        $container->addServiceProvider(\Robo\Task\FileSystem\loadTasks::getFileSystemServices());
+        $container->addServiceProvider(\Robo\Task\Filesystem\loadTasks::getFilesystemServices());
         $container->addServiceProvider(\Robo\Task\Remote\loadTasks::getRemoteServices());
         $container->addServiceProvider(\Robo\Task\Testing\loadTasks::getTestingServices());
         $container->addServiceProvider(\Robo\Task\Vcs\loadTasks::getVcsServices());

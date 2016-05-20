@@ -20,7 +20,7 @@ use League\Container\ContainerAwareTrait;
  *
  * Below, the example FilesystemStack task is added to a collection,
  * and associated with a rollback task.  If any of the operations in
- * the FileSystemStack, or if any of the other tasks also added to
+ * the FilesystemStack, or if any of the other tasks also added to
  * the task collection should fail, then the rollback function is
  * called. Often, taskDeleteDir is used to remove partial results
  * of an unfinished task.
@@ -28,7 +28,7 @@ use League\Container\ContainerAwareTrait;
  * ``` php
  * <?php
  * $collection = $this->collection();
- * $this->taskFileSystemStack()
+ * $this->taskFilesystemStack()
  *      ->mkdir('logs')
  *      ->touch('logs/.gitignore')
  *      ->chgrp('logs', 'www-data')

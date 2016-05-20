@@ -168,19 +168,19 @@ class Pack extends BaseTask implements PrintedInterface
         }
 
         $tar_object = new \Archive_Tar($archiveFile);
-        foreach ($items as $placementLocation => $fileSystemLocation) {
-            $p_remove_dir = $fileSystemLocation;
+        foreach ($items as $placementLocation => $filesystemLocation) {
+            $p_remove_dir = $filesystemLocation;
             $p_add_dir = $placementLocation;
-            if (is_file($fileSystemLocation)) {
-                $p_remove_dir = dirname($fileSystemLocation);
+            if (is_file($filesystemLocation)) {
+                $p_remove_dir = dirname($filesystemLocation);
                 $p_add_dir = dirname($placementLocation);
-                if (basename($fileSystemLocation) != basename($placementLocation)) {
-                    return Result::error($this, "Tar archiver does not support renaming files during extraction; could not add $fileSystemLocation as $placementLocation.");
+                if (basename($filesystemLocation) != basename($placementLocation)) {
+                    return Result::error($this, "Tar archiver does not support renaming files during extraction; could not add $filesystemLocation as $placementLocation.");
                 }
             }
 
-            if (!$tar_object->addModify([$fileSystemLocation], $p_add_dir, $p_remove_dir)) {
-                return Result::error($this, "Could not add $fileSystemLocation to the archive.");
+            if (!$tar_object->addModify([$filesystemLocation], $p_add_dir, $p_remove_dir)) {
+                return Result::error($this, "Could not add $filesystemLocation to the archive.");
             }
         }
 
@@ -205,22 +205,22 @@ class Pack extends BaseTask implements PrintedInterface
 
     protected function addItemsToZip($zip, $items)
     {
-        foreach ($items as $placementLocation => $fileSystemLocation) {
-            if (is_dir($fileSystemLocation)) {
+        foreach ($items as $placementLocation => $filesystemLocation) {
+            if (is_dir($filesystemLocation)) {
                 $finder = new Finder();
-                $finder->files()->in($fileSystemLocation);
+                $finder->files()->in($filesystemLocation);
 
                 foreach ($finder as $file) {
                     if (!$zip->addFile($file->getRealpath(), "{$placementLocation}/{$file->getRelativePathname()}")) {
-                        return Result::error($this, "Could not add directory $fileSystemLocation to the archive; error adding {$file->getRealpath()}.");
+                        return Result::error($this, "Could not add directory $filesystemLocation to the archive; error adding {$file->getRealpath()}.");
                     }
                 }
-            } elseif (is_file($fileSystemLocation)) {
-                if (!$zip->addFile($fileSystemLocation, $placementLocation)) {
-                    return Result::error($this, "Could not add file $fileSystemLocation to the archive.");
+            } elseif (is_file($filesystemLocation)) {
+                if (!$zip->addFile($filesystemLocation, $placementLocation)) {
+                    return Result::error($this, "Could not add file $filesystemLocation to the archive.");
                 }
             } else {
-                return Result::error($this, "Could not find $fileSystemLocation for the archive.");
+                return Result::error($this, "Could not find $filesystemLocation for the archive.");
             }
         }
 

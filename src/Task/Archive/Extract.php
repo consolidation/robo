@@ -4,8 +4,8 @@ namespace Robo\Task\Archive;
 
 use Robo\Result;
 use Robo\Task\BaseTask;
-use Robo\Task\FileSystem\FilesystemStack;
-use Robo\Task\FileSystem\DeleteDir;
+use Robo\Task\Filesystem\FilesystemStack;
+use Robo\Task\Filesystem\DeleteDir;
 
 /**
  * Extracts an archive.

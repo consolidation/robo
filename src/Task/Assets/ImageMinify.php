@@ -7,7 +7,7 @@ use Robo\Exception\TaskException;
 use Robo\Task\BaseTask;
 use Robo\Task\Base\Exec;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Filesystem\Filesystem as sfFileSystem;
+use Symfony\Component\Filesystem\Filesystem as sfFilesystem;
 
 /**
  * Minifies images. When the required minifier is not installed on the system
@@ -177,7 +177,7 @@ class ImageMinify extends BaseTask
             ? $this->dirs = $dirs
             : $this->dirs[] = $dirs;
 
-        $this->fs = new sfFileSystem();
+        $this->fs = new sfFilesystem();
 
         // guess the best path for the executables based on __DIR__
         if (($pos = strpos(__DIR__, 'codegyre/robo')) !== false) {

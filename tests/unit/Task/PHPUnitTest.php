@@ -24,13 +24,13 @@ class PHPUnitTest extends \Codeception\TestCase\Test
     // tests
     public function testPhpUnitRun()
     {
-        $this->container->get('taskPHPUnit')->run();
+        $this->container->get('taskPhpUnit')->run();
         $this->phpunit->verifyInvoked('executeCommand');
     }
 
     public function testPHPUnitCommand()
     {
-        $task = $this->container->get('taskPHPUnit', ['phpunit'])
+        $task = $this->container->get('taskPhpUnit', ['phpunit'])
             ->bootstrap('bootstrap.php')
             ->filter('Model')
             ->group('important')

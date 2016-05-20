@@ -396,25 +396,29 @@ It is preferable for commands that look up and display information should avoid 
 
 ### Progress
 Long-running tasks that wish to display a progress indicator may do so by way of the ProgressIndicatorAwareTrait.
-```
+``` php
+<?php
 use Robo\Contract\ProgressIndicatorAwareInterface;
 use Robo\Common\ProgressIndicatorAwareTrait;
 
 class MyTask extends BaseTask implements ProgressIndicatorAwareInterface
 {
     use ProgressIndicatorAwareTrait;
-    
-    $exitCode = 0;
-    $steps = 10;
-    $errorMessage = "";
-    
-    $this->startProgressIndicator($steps);
-    for ($i = 0; $i < $steps; ++i) {
-        $this->advanceProgressIndicator();        
-    }
-    $this->stopProgressIndicator();
 
-    return new Result($this, $exitCode, $errorMessage, ['time' => $this->getExecutionTime()]);
+    function run(){
+        $exitCode = 0;
+        $steps = 10;
+        $errorMessage = "";
+    
+        $this->startProgressIndicator($steps);
+        for ($i = 0; $i < $steps; ++$i) {
+            $this->advanceProgressIndicator();
+        }
+        $this->stopProgressIndicator();
+
+        return new Result($this, $exitCode, $errorMessage, ['time' => $this->getExecutionTime()]);
+    }
 }
+?>
 ```
 Tasks should not attempt to use a specific progress indicator (e.g. the Symfony ProgressBar class) directly, as the ProgressIndicatorAwareTrait allows for an appropriate progress indicator to be used (or omitted) as best suits the application.

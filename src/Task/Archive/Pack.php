@@ -208,10 +208,13 @@ class Pack extends BaseTask implements PrintedInterface
         foreach ($items as $placementLocation => $fileSystemLocation) {
             if (is_dir($fileSystemLocation)) {
                 $finder = new Finder();
-                $finder->files()->in($fileSystemLocation);
+                $finder->files()->in($fileSystemLocation)->ignoreDotFiles(false);
 
                 foreach ($finder as $file) {
-                    if (!$zip->addFile($file->getRealpath(), "{$placementLocation}/{$file->getRelativePathname()}")) {
+                    // Replace Windows slashes or resulting zip will have issues on *nixes.
+                    $relativePathname = str_replace('\\', '/', $file->getRelativePathname());
+                    
+                    if (!$zip->addFile($file->getRealpath(), "{$placementLocation}/{$relativePathname}")) {
                         return Result::error($this, "Could not add directory $fileSystemLocation to the archive; error adding {$file->getRealpath()}.");
                     }
                 }

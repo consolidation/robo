@@ -419,5 +419,6 @@ class MyTask extends BaseTask implements ProgressIndicatorAwareInterface
         return new Result($this, $exitCode, $errorMessage, ['time' => $this->getExecutionTime()]);
     }
 }
+?>
 ```
 Tasks should not attempt to use a specific progress indicator (e.g. the Symfony ProgressBar class) directly, as the ProgressIndicatorAwareTrait allows for an appropriate progress indicator to be used (or omitted) as best suits the application.

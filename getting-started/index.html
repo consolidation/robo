@@ -557,25 +557,29 @@ class RoboFile
 <p>It is preferable for commands that look up and display information should avoid doing IO directly, and should instead return the data they wish to display as an array. This data can then be converted into different data formats, such as "table" and "json". The user may select which formatter to use via the --format option.</p>
 <h3 id="progress">Progress</h3>
 <p>Long-running tasks that wish to display a progress indicator may do so by way of the ProgressIndicatorAwareTrait.</p>
-<pre><code>use Robo\Contract\ProgressIndicatorAwareInterface;
+<pre><code class="php">&lt;?php
+use Robo\Contract\ProgressIndicatorAwareInterface;
 use Robo\Common\ProgressIndicatorAwareTrait;
 
 class MyTask extends BaseTask implements ProgressIndicatorAwareInterface
 {
     use ProgressIndicatorAwareTrait;
 
-    $exitCode = 0;
-    $steps = 10;
-    $errorMessage = &quot;&quot;;
+    function run(){
+        $exitCode = 0;
+        $steps = 10;
+        $errorMessage = &quot;&quot;;
 
-    $this-&gt;startProgressIndicator($steps);
-    for ($i = 0; $i &lt; $steps; ++i) {
-        $this-&gt;advanceProgressIndicator();        
+        $this-&gt;startProgressIndicator($steps);
+        for ($i = 0; $i &lt; $steps; ++$i) {
+            $this-&gt;advanceProgressIndicator();
+        }
+        $this-&gt;stopProgressIndicator();
+
+        return new Result($this, $exitCode, $errorMessage, ['time' =&gt; $this-&gt;getExecutionTime()]);
     }
-    $this-&gt;stopProgressIndicator();
-
-    return new Result($this, $exitCode, $errorMessage, ['time' =&gt; $this-&gt;getExecutionTime()]);
 }
+?&gt;
 </code></pre>
 
 <p>Tasks should not attempt to use a specific progress indicator (e.g. the Symfony ProgressBar class) directly, as the ProgressIndicatorAwareTrait allows for an appropriate progress indicator to be used (or omitted) as best suits the application.</p></div>

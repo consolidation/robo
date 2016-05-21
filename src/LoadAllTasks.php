@@ -1,6 +1,8 @@
 <?php
 namespace Robo;
 
+use Robo\Collection\Collection;
+
 trait LoadAllTasks
 {
     use TaskAccessor;
@@ -43,6 +45,8 @@ trait LoadAllTasks
      * instead of:
      *
      * $this->getContainer()->get('collection');
+     *
+     * @return Collection
      */
     protected function collection()
     {

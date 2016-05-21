@@ -10,23 +10,10 @@ class RoboFile extends \Robo\Tasks
     /**
      * Run the Robo unit tests.
      */
-    public function test($args = "", $options =
-        [
-            'coverage-html' => false,
-            'coverage' => false
-        ])
+    public function test($args = "")
     {
-        $taskCodecept = $this->taskCodecept()
+        return $this->taskCodecept()
             ->args($args);
-
-        if ($options['coverage']) {
-            $taskCodecept->coverageXml('../../build/logs/clover.xml');
-        }
-        if ($options['coverage-html']) {
-            $taskCodecept->coverageHtml('../../build/logs/coverage');
-        }
-
-        return $taskCodecept;
     }
 
     /**
@@ -294,18 +281,20 @@ class RoboFile extends \Robo\Tasks
      */
     public function pharPublish()
     {
-        $current_branch = exec('git rev-parse --abbrev-ref HEAD');
-        $this->taskGitStack()
-            ->checkout('site')
-            ->merge('master')->run();
-        $this->pharBuild();
-        $this->_copy('CHANGELOG.md', 'docs/changelog.md');
-        $this->taskGitStack()
-            ->add('robo.phar -f')
-            ->commit('robo.phar published')
+        $this->pharBuild()->run();
+
+        $this->_rename('robo.phar', 'robo-release.phar');
+        $this->taskGitStack()->checkout('gh-pages')->run();
+        $this->taskFilesystemStack()
+            ->remove('robo.phar')
+            ->rename('robo-release.phar', 'robo.phar')
             ->run();
-        $this->_exec('mkdocs gh-deploy');
-        $this->taskGitStack()->checkout($current_branch)->run();
+        $this->taskGitStack()
+            ->add('robo.phar')
+            ->commit('robo.phar published')
+            ->push('origin', 'gh-pages')
+            ->checkout('master')
+            ->run();
     }
 
     /**

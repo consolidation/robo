@@ -295,10 +295,13 @@ class RoboFile extends \Robo\Tasks
     public function pharPublish()
     {
         $current_branch = exec('git rev-parse --abbrev-ref HEAD');
-        $this->taskGitStack()->checkout('site')->run();
-        $this->pharBuild();
         $this->taskGitStack()
-            ->add('robo.phar')
+            ->checkout('site')
+            ->merge('master')->run();
+        $this->pharBuild();
+        $this->_copy('CHANGELOG.md', 'docs/changelog.md');
+        $this->taskGitStack()
+            ->add('robo.phar -f')
             ->commit('robo.phar published')
             ->run();
         $this->_exec('mkdocs gh-deploy');

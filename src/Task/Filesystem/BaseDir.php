@@ -1,8 +1,8 @@
 <?php
-namespace Robo\Task\FileSystem;
+namespace Robo\Task\Filesystem;
 
 use Robo\Task\BaseTask;
-use Symfony\Component\Filesystem\Filesystem as sfFileSystem;
+use Symfony\Component\Filesystem\Filesystem as sfFilesystem;
 
 abstract class BaseDir extends BaseTask
 {
@@ -16,6 +16,6 @@ abstract class BaseDir extends BaseTask
             ? $this->dirs = $dirs
             : $this->dirs[] = $dirs;
 
-        $this->fs = new sfFileSystem();
+        $this->fs = new sfFilesystem();
     }
 }

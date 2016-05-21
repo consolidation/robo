@@ -1,5 +1,5 @@
 <?php
-namespace Robo\Task\FileSystem;
+namespace Robo\Task\Filesystem;
 
 use Robo\Collection\Temporary;
 use Robo\Container\SimpleServiceProvider;
@@ -9,7 +9,7 @@ trait loadTasks
     /**
      * Return services.
      */
-    public static function getFileSystemServices()
+    public static function getFilesystemServices()
     {
         return new SimpleServiceProvider(
             [

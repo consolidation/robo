@@ -8,7 +8,7 @@ trait LoadAllTasks
     // standard tasks
     use Task\Base\loadTasks;
     use Task\Development\loadTasks;
-    use Task\FileSystem\loadTasks;
+    use Task\Filesystem\loadTasks;
     use Task\File\loadTasks;
     use Task\Archive\loadTasks;
     use Task\Vcs\loadTasks;
@@ -32,7 +32,7 @@ trait LoadAllTasks
 
     // shortcuts
     use Task\Base\loadShortcuts;
-    use Task\FileSystem\loadShortcuts;
+    use Task\Filesystem\loadShortcuts;
     use Task\Vcs\loadShortcuts;
 
     /**

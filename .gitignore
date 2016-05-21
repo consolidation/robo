@@ -1,5 +1,6 @@
 vendor/
 .idea/
+build
 site/
 tests/_log/*
 tests/_helpers/_generated/*

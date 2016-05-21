@@ -35,6 +35,7 @@
 * Provide ResultData base class for Result; ResultData may be used in instances where a specific `$task` instance is not available (e.g. in a Robo command)
 * ArgvInput now available via $this->getInput() in RoboFile by Thomas Spigel
 * Add optional message to git tag task by Tim Tegeler
+* Rename 'FileSystem' to 'Filesystem' wherever it occurs.
 
 #### 0.6.0
 

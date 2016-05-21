@@ -1,6 +1,6 @@
 <?php
 
-namespace Robo\Task\FileSystem;
+namespace Robo\Task\Filesystem;
 
 use Robo\Result;
 use Robo\Collection\Collection;
@@ -18,7 +18,7 @@ use Robo\Contract\CompletionInterface;
  * // Note that in this example, everything is deleted at
  * // the end of $collection->run().
  * $tmpPath = $this->taskTmpDir()->addToCollection($collection)->getPath();
- * $this->taskFileSystemStack()
+ * $this->taskFilesystemStack()
  *           ->mkdir("$tmpPath/log")
  *           ->touch("$tmpPath/log/error.txt")
  *           ->addToCollection($collection);
@@ -99,7 +99,7 @@ class TmpDir extends BaseDir implements CompletionInterface
         if ($this->cwd) {
             chdir($this->savedWorkingDirectory);
         }
-        $this->task('taskDeleteDir', $this->dirs)->run();
+        (new DeleteDir($this->dirs))->inflect($this)->run();
     }
 
     /**

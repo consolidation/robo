@@ -29,6 +29,7 @@ Class Build
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
 * `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
+* `env(array $env)`  Sets the environment variables for the command
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
@@ -66,6 +67,7 @@ $task->dockerCommit($result)
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
 * `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
+* `env(array $env)`  Sets the environment variables for the command
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
@@ -110,6 +112,7 @@ $this->taskDockerExec($test)
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
 * `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
+* `env(array $env)`  Sets the environment variables for the command
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
@@ -139,6 +142,7 @@ $this->taskDockerPull('wordpress')
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
 * `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
+* `env(array $env)`  Sets the environment variables for the command
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
@@ -167,6 +171,7 @@ $this->taskDockerRemove($container)
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
 * `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
+* `env(array $env)`  Sets the environment variables for the command
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
@@ -224,7 +229,7 @@ $this->taskDockerRun('wordpress')
 * `interactive()` 
 * `exec($run)` 
 * `volume($from, $to = null)` 
-* `env($variable, $value = null)` 
+* `injectEnv($variable, $value = null)` 
 * `publish($port = null, $portTo = null)` 
 * `containerWorkdir($dir)` 
 * `user($user)` 
@@ -239,6 +244,7 @@ $this->taskDockerRun('wordpress')
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
 * `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
+* `env(array $env)`  Sets the environment variables for the command
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
@@ -266,6 +272,7 @@ $this->taskDockerStart($cidOrResult)
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
 * `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
+* `env(array $env)`  Sets the environment variables for the command
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
@@ -293,6 +300,7 @@ $this->taskDockerStop($cidOrResult)
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
 * `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
+* `env(array $env)`  Sets the environment variables for the command
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable

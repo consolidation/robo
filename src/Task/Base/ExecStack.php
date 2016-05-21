@@ -14,6 +14,8 @@ use Robo\Task\Base;
  *  ->stopOnFail()
  *  ->exec('mkdir site')
  *  ->exec('cd site')
+ *  ->env(['APP_ENV' => 'dev'])
+ *  ->exec('gulp build')
  *  ->run();
  *
  * ?>

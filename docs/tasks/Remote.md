@@ -82,6 +82,7 @@ if ('y' === $this->ask('Do you want to run (y/n)')) {
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
 * `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
+* `env(array $env)`  Sets the environment variables for the command
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
@@ -147,6 +148,7 @@ You can configure the remote directory for all future calls:
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
 * `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
+* `env(array $env)`  Sets the environment variables for the command
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable

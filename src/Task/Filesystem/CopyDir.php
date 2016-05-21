@@ -23,6 +23,11 @@ class CopyDir extends BaseDir
     /** @var int $chmod */
     protected $chmod = 0755;
 
+    /**
+     * @var array files to exclude on copying
+     */
+    protected $exclude = [];
+
     public function run()
     {
         if (!$this->checkResources($this->dirs, 'dir')) {
@@ -51,6 +56,18 @@ class CopyDir extends BaseDir
     }
 
     /**
+     * List files to exclude.
+     *
+     * @param array $exclude
+     * @return $this
+     */
+    public function exclude($exclude = [])
+    {
+        $this->exclude = $exclude;
+        return $this;
+    }
+
+    /**
      * Copies a directory to another location.
      *
      * @param string $src Source directory
@@ -68,6 +85,9 @@ class CopyDir extends BaseDir
             mkdir($dst, $this->chmod, true);
         }
         while (false !== ($file = readdir($dir))) {
+            if (in_array($file, $this->exclude)) {
+                 continue;
+             }            
             if (($file !== '.') && ($file !== '..')) {
                 $srcFile = $src . '/' . $file;
                 $destFile = $dst . '/' . $file;

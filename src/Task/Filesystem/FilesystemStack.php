@@ -1,19 +1,19 @@
 <?php
-namespace Robo\Task\FileSystem;
+namespace Robo\Task\Filesystem;
 
 use Robo\Result;
 use Robo\Task\StackBasedTask;
-use Symfony\Component\Filesystem\Filesystem as sfFileSystem;
+use Symfony\Component\Filesystem\Filesystem as sfFilesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Exception\IOException;
 
 /**
- * Wrapper for [Symfony FileSystem](http://symfony.com/doc/current/components/filesystem.html) Component.
+ * Wrapper for [Symfony Filesystem](http://symfony.com/doc/current/components/filesystem.html) Component.
  * Comands are executed in stack and can be stopped on first fail with `stopOnFail` option.
  *
  * ``` php
  * <?php
- * $this->taskFileSystemStack()
+ * $this->taskFilesystemStack()
  *      ->mkdir('logs')
  *      ->touch('logs/.gitignore')
  *      ->chgrp('www', 'www-data')
@@ -44,7 +44,7 @@ class FilesystemStack extends StackBasedTask
 
     public function __construct()
     {
-        $this->fs = new sfFileSystem();
+        $this->fs = new sfFilesystem();
     }
 
     protected function getDelegate()

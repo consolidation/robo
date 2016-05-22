@@ -81,24 +81,27 @@ class Runner
         return true;
     }
 
-    public function execute($input = null)
+    public function execute($argv, $output = null)
     {
-        register_shutdown_function(array($this, 'shutdown'));
-        set_error_handler(array($this, 'handleError'));
-        $input = $this->prepareInput($input ? $input : $this->shebang($_SERVER['argv']));
+        $argv = $this->shebang($argv);
+        $input = $this->prepareInput($argv);
+        return $this->run($input, $output);
+    }
 
+    public function run($input = null, $output = null)
+    {
         // If we were not provided a container, then create one
         if (!Config::hasContainer()) {
             // Set up our dependency injection container.
             $container = new RoboContainer();
-            static::configureContainer($container, $input);
+            static::configureContainer($container, $input, $output);
             static::addServiceProviders($container);
-            $container->share('application', \Robo\Application::class)
-                ->withArgument('Robo')
-                ->withArgument(self::VERSION)
-                ->withMethodCall('setAutoExit', [false])
-                ->withMethodCall('setDispatcher', ['eventDispatcher']);
             Config::setContainer($container);
+
+            // Only register a shutdown function when we
+            // provide the container.
+            register_shutdown_function(array($this, 'shutdown'));
+            set_error_handler(array($this, 'handleError'));
         }
 
         $container = Config::getContainer();
@@ -167,6 +170,11 @@ class Runner
             ->withMethodCall('setFormatterManager', ['formatterManager']);
         $container->share('commandFactory', \Consolidation\AnnotatedCommand\AnnotatedCommandFactory::class)
             ->withMethodCall('setCommandProcessor', ['commandProcessor']);
+        $container->share('application', \Robo\Application::class)
+            ->withArgument('Robo')
+            ->withArgument(self::VERSION)
+            ->withMethodCall('setAutoExit', [false])
+            ->withMethodCall('setDispatcher', ['eventDispatcher']);
 
         static::addInflectors($container);
     }

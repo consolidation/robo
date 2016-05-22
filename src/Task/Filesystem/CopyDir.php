@@ -87,7 +87,7 @@ class CopyDir extends BaseDir
         while (false !== ($file = readdir($dir))) {
             if (in_array($file, $this->exclude)) {
                  continue;
-             }            
+            }
             if (($file !== '.') && ($file !== '..')) {
                 $srcFile = $src . '/' . $file;
                 $destFile = $dst . '/' . $file;

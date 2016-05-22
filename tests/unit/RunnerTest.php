@@ -1,4 +1,7 @@
 <?php
+use Robo\Config;
+use Symfony\Component\Console\Output\BufferedOutput;
+
 class RunnerTest extends \Codeception\TestCase\Test
 {
     /**
@@ -6,12 +9,15 @@ class RunnerTest extends \Codeception\TestCase\Test
      */
     private $runner;
 
+    /**
+     * @var \CodeGuy
+     */
+    protected $guy;
+
     public function _before()
     {
         $this->runner = new \Robo\Runner();
     }
-
-
 
     public function testHandleError()
     {
@@ -59,4 +65,34 @@ class RunnerTest extends \Codeception\TestCase\Test
         error_reporting($tmpLevel);
     }
 
+    public function testRunnerNoSuchCommand()
+    {
+        $argv = ['placeholder', 'no-such-command'];
+        $this->runner->execute($argv);
+        $this->guy->seeInOutput('Command "no-such-command" is not defined.');
+    }
+
+    public function testRunnerList()
+    {
+        $argv = ['placeholder', 'list'];
+        $this->runner->execute($argv);
+        $this->guy->seeInOutput('try:array-args');
+    }
+
+    public function testRunnerTryArgs()
+    {
+        $argv = ['placeholder', 'try:array-args', 'a', 'b', 'c'];
+        $this->runner->execute($argv);
+
+        $expected = <<<EOT
+➜  The parameters passed are:
+array (
+  0 => 'a',
+  1 => 'b',
+  2 => 'c',
+)
+
+EOT;
+        $this->guy->seeOutputEquals($expected);
+    }
 }

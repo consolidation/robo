@@ -77,16 +77,19 @@ class CollectionTest extends \Codeception\TestCase\Test
         // class' fields, and may modify them as needed.
         $collection
             ->before('b-name', [$taskA, 'parenthesizer'])
-            ->before('b-name', [$taskA, 'emphasizer']);
+            ->before('b-name', [$taskA, 'emphasizer'], 'special-before-name');
 
         $result = $collection->run();
 
         // Ensure that the results have the correct key values
-        verify(implode(',', array_keys($result->getData())))->equals('a-name,b-name');
+        verify(implode(',', array_keys($result->getData())))->equals('a-name,b-name,special-before-name');
 
         // The result from the 'before' task is attached
         // to 'b-name', since it was called as before('b-name', ...)
-        verify($result['b-name']['a'])->equals('*(value-a)*');
+        verify($result['b-name']['a'])->equals('(value-a)');
+        // When a 'before' task is given its own name, then
+        // its results are attached under that name.
+        verify($result['special-before-name']['a'])->equals('*(value-a)*');
     }
 }
 

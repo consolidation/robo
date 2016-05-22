@@ -91,6 +91,20 @@ class CollectionTest extends \Codeception\TestCase\Test
         // its results are attached under that name.
         verify($result['special-before-name']['a'])->equals('*(value-a)*');
     }
+
+    public function testAddCode()
+    {
+        $collection = $this->container->get('collection');
+
+        $collection
+            ->addCode(function () { return 42; })
+            ->addCode(function () { return 13; });
+
+        $result = $collection->run();
+        // Execution stops on the first error.
+        // Confirm that status code is converted to a Result object.
+        verify($result->getExitCode() == 42);
+    }
 }
 
 class CollectionTestTask extends BaseTask

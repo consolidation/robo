@@ -56,6 +56,6 @@ class Element
 
     public function getTaskList()
     {
-        return array_merge($this->before, [$this->task], $this->after);
+        return array_merge($this->getBefore(), [$this->getTask()], $this->getAfter());
     }
 }

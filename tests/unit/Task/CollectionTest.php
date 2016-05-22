@@ -22,7 +22,7 @@ class CollectionTest extends \Codeception\TestCase\Test
         $this->container->addServiceProvider(\Robo\Collection\Collection::getCollectionServices());
     }
 
-    public function testBeforeAndAfterFilters()
+    public function testAfterFilters()
     {
         $collection = $this->container->get('collection');
 
@@ -59,6 +59,34 @@ class CollectionTest extends \Codeception\TestCase\Test
         // its results therefore show up under the name given, rather
         // than being stored under the name of the task it was added after.
         verify($result['special-name']['b'])->equals('((*value-b*))');
+    }
+
+    public function testBeforeFilters()
+    {
+        $collection = $this->container->get('collection');
+
+        $taskA = new CollectionTestTask('a', 'value-a');
+        $taskB = new CollectionTestTask('b', 'value-b');
+
+        $collection
+            ->add($taskA, 'a-name')
+            ->add($taskB, 'b-name');
+
+        // We add methods of our task instances as before and
+        // after tasks. These methods have access to the task
+        // class' fields, and may modify them as needed.
+        $collection
+            ->before('b-name', [$taskA, 'parenthesizer'])
+            ->before('b-name', [$taskA, 'emphasizer']);
+
+        $result = $collection->run();
+
+        // Ensure that the results have the correct key values
+        verify(implode(',', array_keys($result->getData())))->equals('a-name,b-name');
+
+        // The result from the 'before' task is attached
+        // to 'b-name', since it was called as before('b-name', ...)
+        verify($result['b-name']['a'])->equals('*(value-a)*');
     }
 }
 

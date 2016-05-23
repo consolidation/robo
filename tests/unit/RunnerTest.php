@@ -110,6 +110,20 @@ EOT;
         $this->assertEquals(1, $result);
     }
 
+    public function testRunnerTryException()
+    {
+        $container = \Robo\Config::getContainer();
+        $container->addServiceProvider(\Robo\Task\Base\loadTasks::getBaseServices());
+
+        $argv = ['placeholder', 'try:exception', '--task'];
+        $result = $this->runner->execute($argv);
+
+        $expected = <<<EOT
+EOT;
+        $this->guy->seeInOutput('Task failed with an exception');
+        $this->assertEquals(1, $result);
+    }
+
     public function testInitCommand()
     {
         $container = \Robo\Config::getContainer();

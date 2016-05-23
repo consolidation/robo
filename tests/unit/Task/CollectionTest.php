@@ -97,22 +97,52 @@ class CollectionTest extends \Codeception\TestCase\Test
         verify($result['special-before-name']['a'])->equals('*(value-a)*');
     }
 
-    public function testAddCode()
+    public function testAddCodeRollbackAndCompletion()
     {
         $collection = $this->container->get('collection');
+        $rollback1 = new CountingTask();
+        $rollback2 = new CountingTask();
+        $completion1 = new CountingTask();
+        $completion2 = new CountingTask();
 
         $collection
             ->progressMessage("start collection tasks")
+            ->rollback($rollback1)
+            ->completion($completion1)
+            ->rollbackCode(function() use($rollback1) { $rollback1->run(); } )
+            ->completionCode(function() use($completion1) { $completion1->run(); } )
             ->addCode(function () { return 42; })
             ->progressMessage("not reached")
+            ->rollback($rollback2)
+            ->completion($completion2)
             ->addCode(function () { return 13; });
 
         $result = $collection->run();
         // Execution stops on the first error.
         // Confirm that status code is converted to a Result object.
-        verify($result->getExitCode() == 42);
+        verify($result->getExitCode())->equals(42);
+        verify($rollback1->getCount())->equals(2);
+        verify($rollback2->getCount())->equals(0);
+        verify($completion1->getCount())->equals(2);
+        verify($completion2->getCount())->equals(0);
         $this->guy->seeInOutput('start collection tasks');
         $this->guy->doNotSeeInOutput('not reached');
+    }
+}
+
+class CountingTask extends BaseTask
+{
+    protected $count = 0;
+
+    public function run()
+    {
+        $this->count++;
+        return Result::success($this);
+    }
+
+    public function getCount()
+    {
+        return $this->count;
     }
 }
 

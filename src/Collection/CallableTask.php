@@ -29,7 +29,7 @@ class CallableTask implements TaskInterface
         // If the function returns no result, then count it
         // as a success.
         if (!isset($result)) {
-            $result = Result::success($this);
+            $result = Result::success($this->reference);
         }
         // If the function returns a result, it must either return
         // a \Robo\Result or an exit code.  In the later case, we

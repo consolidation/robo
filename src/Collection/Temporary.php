@@ -45,18 +45,6 @@ class Temporary
     }
 
     /**
-     * Call the rollback method of all of the registered objects.
-     */
-    public static function fail()
-    {
-        // Force the rollback and completion functions to run.
-        $collection = static::getCollection();
-        $collection->fail();
-        // Make sure that our completion functions do not run twice.
-        $collection->reset();
-    }
-
-    /**
      * Call the complete method of all of the registered objects.
      */
     public static function complete()

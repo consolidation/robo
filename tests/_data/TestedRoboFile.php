@@ -1,5 +1,5 @@
 <?php
-class TestedRoboFile
+class TestedRoboFile extends \Robo\Tasks
 {
     public function generateUserAvatar()
     {

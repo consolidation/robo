@@ -65,6 +65,16 @@ class RunnerTest extends \Codeception\TestCase\Test
         error_reporting($tmpLevel);
     }
 
+    public function testThrowsExceptionWhenNoContainerAvailable()
+    {
+        \PHPUnit_Framework_TestCase::setExpectedExceptionRegExp(
+            '\RuntimeException',
+            '/container is not initialized yet.*/'
+        );
+        Config::unsetContainer();
+        Config::getContainer();
+    }
+
     public function testRunnerNoSuchCommand()
     {
         $argv = ['placeholder', 'no-such-command'];

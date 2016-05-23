@@ -83,14 +83,6 @@ class Config
     }
 
     /**
-     * Add a service to the container.
-     */
-    public static function setService($id, $service)
-    {
-        static::getContainer()->add($id, $service);
-    }
-
-    /**
      * Indicates if a service is defined in the container.
      *
      * @param string $id
@@ -103,16 +95,6 @@ class Config
     {
         // Check hasContainer() first in order to always return a Boolean.
         return static::hasContainer() && static::getContainer()->has($id);
-    }
-
-    /**
-     * Return the logger object.
-     *
-     * @return LoggerInterface
-     */
-    public static function logger()
-    {
-        return static::service('logger');
     }
 
     /**
@@ -143,16 +125,6 @@ class Config
     public static function input()
     {
         return static::service('input');
-    }
-
-    public static function setOutput(OutputInterface $output)
-    {
-        static::setService('output', $output);
-    }
-
-    public static function setInput(InputInterface $input)
-    {
-        static::setService('input', $input);
     }
 
     public static function get($key, $default = null)

@@ -96,9 +96,23 @@ EOT;
         $this->guy->seeOutputEquals($expected);
     }
 
+    public function testRunnerTryError()
+    {
+        $container = \Robo\Config::getContainer();
+        $container->addServiceProvider(\Robo\Task\Base\loadTasks::getBaseServices());
+
+        $argv = ['placeholder', 'try:error'];
+        $result = $this->runner->execute($argv);
+
+        $expected = <<<EOT
+EOT;
+        $this->guy->seeInOutput('[Exec] Running ls xyzzy');
+        $this->assertEquals(1, $result);
+    }
+
     public function testInitCommand()
     {
-        $container = \Robo\Config::getContainer($container);
+        $container = \Robo\Config::getContainer();
         $app = $container->get('application');
         $app->addInitRoboFileCommand('testRoboFile', 'RoboTestClass');
 

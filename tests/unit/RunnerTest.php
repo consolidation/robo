@@ -95,4 +95,19 @@ array (
 EOT;
         $this->guy->seeOutputEquals($expected);
     }
+
+    public function testInitCommand()
+    {
+        $container = \Robo\Config::getContainer($container);
+        $app = $container->get('application');
+        $app->addInitRoboFileCommand('testRoboFile', 'RoboTestClass');
+
+        $argv = ['placeholder', 'init'];
+        $this->runner->execute($argv);
+
+        $this->assertTrue(file_exists('testRoboFile'));
+        $commandContents = file_get_contents('testRoboFile');
+        unlink('testRoboFile');
+        $this->assertContains('class RoboTestClass', $commandContents);
+    }
 }

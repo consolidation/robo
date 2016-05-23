@@ -16,6 +16,11 @@ class CollectionTest extends \Codeception\TestCase\Test
 {
     protected $container;
 
+    /**
+     * @var \CodeGuy
+     */
+    protected $guy;
+
     protected function _before()
     {
         $this->container = Config::getContainer();
@@ -97,13 +102,17 @@ class CollectionTest extends \Codeception\TestCase\Test
         $collection = $this->container->get('collection');
 
         $collection
+            ->progressMessage("start collection tasks")
             ->addCode(function () { return 42; })
+            ->progressMessage("not reached")
             ->addCode(function () { return 13; });
 
         $result = $collection->run();
         // Execution stops on the first error.
         // Confirm that status code is converted to a Result object.
         verify($result->getExitCode() == 42);
+        $this->guy->seeInOutput('start collection tasks');
+        $this->guy->doNotSeeInOutput('not reached');
     }
 }
 

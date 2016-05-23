@@ -46,6 +46,12 @@ class CodeHelper extends \Codeception\Module
         $this->assertContains($value, $output);
     }
 
+    public function doNotSeeInOutput($value)
+    {
+        $output = $this->accumulate();
+        $this->assertNotContains($value, $output);
+    }
+
     public function seeOutputEquals($value)
     {
         $output = $this->accumulate();

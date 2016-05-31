@@ -65,6 +65,16 @@ class RunnerTest extends \Codeception\TestCase\Test
         error_reporting($tmpLevel);
     }
 
+    public function testThrowsExceptionWhenNoContainerAvailable()
+    {
+        \PHPUnit_Framework_TestCase::setExpectedExceptionRegExp(
+            '\RuntimeException',
+            '/container is not initialized yet.*/'
+        );
+        Config::unsetContainer();
+        Config::getContainer();
+    }
+
     public function testRunnerNoSuchCommand()
     {
         $argv = ['placeholder', 'no-such-command'];
@@ -96,9 +106,37 @@ EOT;
         $this->guy->seeOutputEquals($expected);
     }
 
+    public function testRunnerTryError()
+    {
+        $container = \Robo\Config::getContainer();
+        $container->addServiceProvider(\Robo\Task\Base\loadTasks::getBaseServices());
+
+        $argv = ['placeholder', 'try:error'];
+        $result = $this->runner->execute($argv);
+
+        $expected = <<<EOT
+EOT;
+        $this->guy->seeInOutput('[Exec] Running ls xyzzy');
+        $this->assertEquals(1, $result);
+    }
+
+    public function testRunnerTryException()
+    {
+        $container = \Robo\Config::getContainer();
+        $container->addServiceProvider(\Robo\Task\Base\loadTasks::getBaseServices());
+
+        $argv = ['placeholder', 'try:exception', '--task'];
+        $result = $this->runner->execute($argv);
+
+        $expected = <<<EOT
+EOT;
+        $this->guy->seeInOutput('Task failed with an exception');
+        $this->assertEquals(1, $result);
+    }
+
     public function testInitCommand()
     {
-        $container = \Robo\Config::getContainer($container);
+        $container = \Robo\Config::getContainer();
         $app = $container->get('application');
         $app->addInitRoboFileCommand('testRoboFile', 'RoboTestClass');
 

@@ -41,13 +41,13 @@ class CliHelper extends \Codeception\Module implements ContainerAwareInterface
 
     public function _before(\Codeception\TestCase $test) {
         $this->getModule('Filesystem')->copyDir(codecept_data_dir().'claypit', codecept_data_dir().'sandbox');
-        Config::setOutput(new NullOutput());
         $this->setContainer(Config::getContainer());
+        $this->getContainer()->add('output', new NullOutput());
     }
 
     public function _after(\Codeception\TestCase $test) {
         $this->getModule('Filesystem')->deleteDir(codecept_data_dir().'sandbox');
-        Config::setOutput(new ConsoleOutput());
+        $this->getContainer()->add('output', new ConsoleOutput());
         chdir(codecept_root_dir());
     }
 }

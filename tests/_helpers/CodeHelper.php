@@ -19,19 +19,19 @@ class CodeHelper extends \Codeception\Module
     {
         static::$capturedOutput = '';
         static::$testPrinter = new BufferedOutput(OutputInterface::VERBOSITY_DEBUG);
-        Config::setOutput(static::$testPrinter);
 
         static::$container = new \Robo\Container\RoboContainer();
         \Robo\Runner::configureContainer(static::$container, null, static::$testPrinter);
         Config::setContainer(static::$container);
+        static::$container->add('output', static::$testPrinter);
     }
 
     public function _after(\Codeception\TestCase $test)
     {
         \AspectMock\Test::clean();
         $consoleOutput = new ConsoleOutput();
-        Config::setOutput($consoleOutput);
-        Config::setService('logger', new \Consolidation\Log\Logger($consoleOutput));
+        static::$container->add('output', $consoleOutput);
+        static::$container->add('logger', new \Consolidation\Log\Logger($consoleOutput));
     }
 
     public function accumulate()

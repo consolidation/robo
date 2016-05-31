@@ -114,10 +114,8 @@ EOT;
         $argv = ['placeholder', 'try:error'];
         $result = $this->runner->execute($argv);
 
-        $expected = <<<EOT
-EOT;
         $this->guy->seeInOutput('[Exec] Running ls xyzzy');
-        $this->assertEquals(1, $result);
+        $this->assertTrue($result > 0);
     }
 
     public function testRunnerTryException()
@@ -128,8 +126,6 @@ EOT;
         $argv = ['placeholder', 'try:exception', '--task'];
         $result = $this->runner->execute($argv);
 
-        $expected = <<<EOT
-EOT;
         $this->guy->seeInOutput('Task failed with an exception');
         $this->assertEquals(1, $result);
     }

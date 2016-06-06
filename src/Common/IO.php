@@ -42,8 +42,8 @@ trait IO
 
     protected function yell($text, $length = 40, $color = 'green')
     {
-        $char = strncasecmp(PHP_OS, 'WIN', 3) == 0 ? ' ' : '➜';
-        $format = "$char  <fg=white;bg=$color;options=bold>%s</fg=white;bg=$color;options=bold>";
+        $prefix = Config::getYellPrefix();
+        $format = "$prefix<fg=white;bg=$color;options=bold>%s</fg=white;bg=$color;options=bold>";
         $text = str_pad($text, $length, ' ', STR_PAD_BOTH);
         $len = strlen($text) + 2;
         $space = str_repeat(' ', $len);

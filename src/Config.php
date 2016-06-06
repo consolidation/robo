@@ -42,9 +42,9 @@ class Config
     /**
      * Returns the currently active global container.
      *
-     * @return \Symfony\Component\DependencyInjection\ContainerInterface|null
+     * @return \League\Container\ContainerInterface|null
      *
-     * @throws \Drupal\Core\DependencyInjection\ContainerNotInitializedException
+     * @throws \RuntimeException
      */
     public static function getContainer()
     {

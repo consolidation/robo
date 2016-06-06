@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\StringInput;
 class Config
 {
     protected static $simulated;
+    protected static $yellPrefix;
     protected static $config = [];
 
     /**
@@ -146,4 +147,19 @@ class Config
     {
         return static::$simulated;
     }
+
+    public static function getYellPrefix()
+    {
+        if (empty(static::$yellPrefix)) {
+            $char =  ((strncasecmp(PHP_OS, 'WIN', 3) == 0) || getenv('CI')) ? '>' : '➜';
+            static::$yellPrefix = "$char  ";
+        }
+        return static::$yellPrefix;
+    }
+
+    public static function setYellPrefix($prefix)
+    {
+        static::$yellPrefix = $prefix;
+    }
+
 }

@@ -7,7 +7,7 @@ use Symfony\Component\Process\Process;
 
 /**
  * This task is supposed to be executed as shell command.
- * You can specify working directory and if output is printed.
+ * You can specify working directory, environment variables, and if output is printed.
  */
 trait ExecCommand
 {
@@ -15,6 +15,19 @@ trait ExecCommand
 
     protected $isPrinted = true;
     protected $workingDirectory;
+    protected $env;
+
+    /**
+     * Sets the environment variables for the command
+     *
+     * @param $env
+     * @return $this
+     */
+    public function env(array $env)
+    {
+        $this->env = $env;
+        return $this;
+    }
 
     /**
      * Is command printing its output to screen
@@ -107,6 +120,9 @@ trait ExecCommand
         $process->setTimeout(null);
         if ($this->workingDirectory) {
             $process->setWorkingDirectory($this->workingDirectory);
+        }
+        if (isset($this->env)) {
+            $process->setEnv($this->env);
         }
         $this->startTimer();
         if ($this->isPrinted) {

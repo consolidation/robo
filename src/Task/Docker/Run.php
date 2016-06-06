@@ -101,7 +101,7 @@ class Run extends Base
         return $this;
     }
 
-    public function env($variable, $value = null)
+    public function injectEnv($variable, $value = null)
     {
         $env = $value ? "$variable=$value" : $variable;
         return $this->option("-e", $env);

@@ -44,6 +44,7 @@ $this->taskGitStack()
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
 * `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
+* `env(array $env)`  Sets the environment variables for the command
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 
@@ -86,6 +87,7 @@ $this->taskSvnStack('username', 'password')
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
 * `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
+* `env(array $env)`  Sets the environment variables for the command
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 

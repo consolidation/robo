@@ -15,6 +15,7 @@ trait loadTasks
                 'taskComposerInstall' => Install::class,
                 'taskComposerUpdate' => Update::class,
                 'taskComposerDumpAutoload' => DumpAutoload::class,
+                'taskComposerValidate' => Validate::class,
             ]
         );
     }
@@ -42,6 +43,15 @@ trait loadTasks
      * @return DumpAutoload
      */
     protected function taskComposerDumpAutoload($pathToComposer = null)
+    {
+        return $this->task(__FUNCTION__, $pathToComposer);
+    }
+
+    /**
+     * @param null $pathToComposer
+     * @return Validate
+     */
+    protected function taskComposerValidate($pathToComposer = null)
     {
         return $this->task(__FUNCTION__, $pathToComposer);
     }

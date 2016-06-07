@@ -1,5 +1,5 @@
 {
-    "name": "codegyre/robo",
+    "name": "consolidation/robo",
     "description": "Modern task runner",
     "license": "MIT",
     "authors": [
@@ -35,7 +35,7 @@
         "codeception/verify": "0.2.*",
         "codeception/aspect-mock": "0.5.4",
         "satooshi/php-coveralls": "^1.0",
-        "squizlabs/php_codesniffer": "2.*"
+        "squizlabs/php_coedsniffer": "2.*"
     },
     "extra": {
         "branch-alias": {
@@ -48,5 +48,8 @@
         "patchwork/jsqueeze": "For minifying JS files in taskMinify",
         "natxet/CssMin": "For minifying JS files in taskMinify"
 
+    },
+    "replace": {
+        "codegyre/robo": "< 1.0"
     }
 }

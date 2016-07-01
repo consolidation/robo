@@ -2,8 +2,8 @@
 
 **Modern and simple PHP task runner** inspired by Gulp and Rake aimed to automate common tasks:
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Codegyre/Robo?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Build Status](https://travis-ci.org/Codegyre/Robo.svg?branch=master)](https://travis-ci.org/Codegyre/Robo) [![Latest Stable Version](https://poser.pugx.org/codegyre/robo/v/stable.png)](https://packagist.org/packages/codegyre/robo) [![Total Downloads](https://poser.pugx.org/codegyre/robo/downloads.png)](https://packagist.org/packages/codegyre/robo) [![Latest Unstable Version](https://poser.pugx.org/codegyre/robo/v/unstable.png)](https://packagist.org/packages/codegyre/robo) [![License](https://poser.pugx.org/codegyre/robo/license.png)](https://packagist.org/packages/codegyre/robo)
-[![PHP 7 ready](http://php7ready.timesplinter.ch/Codegyre/Robo/badge.svg)](https://travis-ci.org/Codegyre/Robo)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Codegyre/Robo?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Build Status](https://travis-ci.org/consolidation-org/Robo.svg?branch=master)](https://travis-ci.org/consolidation-org/Robo) [![Latest Stable Version](https://poser.pugx.org/codegyre/robo/v/stable.png)](https://packagist.org/packages/codegyre/robo) [![Total Downloads](https://poser.pugx.org/codegyre/robo/downloads.png)](https://packagist.org/packages/codegyre/robo) [![Latest Unstable Version](https://poser.pugx.org/codegyre/robo/v/unstable.png)](https://packagist.org/packages/codegyre/robo) [![License](https://poser.pugx.org/codegyre/robo/license.png)](https://packagist.org/packages/codegyre/robo)
+[![PHP 7 ready](http://php7ready.timesplinter.ch/consolidation-org/Robo/badge.svg)](https://travis-ci.org/consolidation-org/Robo)
 
 * writing cross-platform scripts
 * processing assets (less, sass, minification)

@@ -2,7 +2,7 @@
 
 **Modern and simple PHP task runner** inspired by Gulp and Rake aimed to automate common tasks:
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Codegyre/Robo?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Build Status](https://travis-ci.org/consolidation-org/Robo.svg?branch=master)](https://travis-ci.org/consolidation-org/Robo) [![Latest Stable Version](https://poser.pugx.org/codegyre/robo/v/stable.png)](https://packagist.org/packages/codegyre/robo) [![Total Downloads](https://poser.pugx.org/codegyre/robo/downloads.png)](https://packagist.org/packages/codegyre/robo) [![Latest Unstable Version](https://poser.pugx.org/codegyre/robo/v/unstable.png)](https://packagist.org/packages/codegyre/robo) [![License](https://poser.pugx.org/codegyre/robo/license.png)](https://packagist.org/packages/codegyre/robo)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Codegyre/Robo?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Build Status](https://travis-ci.org/consolidation-org/Robo.svg?branch=master)](https://travis-ci.org/consolidation-org/Robo) [![Latest Stable Version](https://poser.pugx.org/consolidation/robo/v/stable.png)](https://packagist.org/packages/consolidation/robo) [![Total Downloads](https://poser.pugx.org/codegyre/robo/downloads.png)](https://packagist.org/packages/codegyre/robo) [![Latest Unstable Version](https://poser.pugx.org/consolidation/robo/v/unstable.png)](https://packagist.org/packages/consolidation/robo) [![License](https://poser.pugx.org/consolidation/robo/license.png)](https://packagist.org/packages/consolidation/robo)
 [![PHP 7 ready](http://php7ready.timesplinter.ch/consolidation-org/Robo/badge.svg)](https://travis-ci.org/consolidation-org/Robo)
 
 * writing cross-platform scripts
@@ -32,7 +32,7 @@ Now you can use it just like `robo`.
 
 ### Composer
 
-* Run `composer require codegyre/robo:~1`
+* Run `composer require consolidation/robo:~1`
 * Use `vendor/bin/robo` to execute Robo tasks.
 
 ## Usage
@@ -42,7 +42,7 @@ All protected methods in traits that start with `task` prefix are tasks and can 
 
 ## Examples
 
-The best way to learn Robo by example is to take a look into [its own RoboFile](https://github.com/Codegyre/Robo/blob/master/RoboFile.php)
+The best way to learn Robo by example is to take a look into [its own RoboFile](https://github.com/consolidation-org/Robo/blob/master/RoboFile.php)
  or [RoboFile of Codeception project](https://github.com/Codeception/Codeception/blob/master/RoboFile.php)
 
 Here are some snippets from them:

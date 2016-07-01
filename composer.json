@@ -35,7 +35,7 @@
         "codeception/verify": "0.2.*",
         "codeception/aspect-mock": "0.5.4",
         "satooshi/php-coveralls": "^1.0",
-        "squizlabs/php_coedsniffer": "2.*"
+        "squizlabs/php_codesniffer": "2.*"
     },
     "extra": {
         "branch-alias": {

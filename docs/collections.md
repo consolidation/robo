@@ -93,7 +93,7 @@ class RoboFile extends \Robo\Tasks
 
         // If all of the tasks succeed, then rename the temporary directory
         // to its final name.
-        $this->taskFileSystemStack()
+        $this->taskFilesystemStack()
           ->rename($work, 'destination')
           ->addToCollection($collection);
         

@@ -13,7 +13,7 @@ class CollectionCest
     {
         $I->getContainer()->addServiceProvider(\Robo\Collection\Collection::getCollectionServices());
         $I->getContainer()->addServiceProvider(\Robo\Task\File\loadTasks::getFileServices());
-        $I->getContainer()->addServiceProvider(\Robo\Task\FileSystem\loadTasks::getFileSystemServices());
+        $I->getContainer()->addServiceProvider(\Robo\Task\Filesystem\loadTasks::getFilesystemServices());
 
         $I->amInPath(codecept_data_dir().'sandbox');
     }
@@ -24,12 +24,12 @@ class CollectionCest
         $collection = $I->getContainer()->get('collection');
 
         // Set up a filesystem stack, but use addToCollection() to defer execution
-        $I->taskFileSystemStack()
+        $I->taskFilesystemStack()
             ->mkdir('log')
             ->touch('log/error.txt')
             ->addToCollection($collection);
 
-        // FileSystemStack has not run yet, so file should not be found.
+        // FilesystemStack has not run yet, so file should not be found.
         $I->dontSeeFileFound('log/error.txt');
 
         // Run the task collection; now the files should be present
@@ -60,7 +60,7 @@ class CollectionCest
         $I->seeDirFound($tmpPath);
 
         // Set up a filesystem stack, but use addToCollection() to defer execution
-        $I->taskFileSystemStack()
+        $I->taskFilesystemStack()
             ->mkdir("$tmpPath/tmp")
             ->touch("$tmpPath/tmp/error.txt")
             ->rename("$tmpPath/tmp", "$tmpPath/log")
@@ -70,7 +70,7 @@ class CollectionCest
         $I->taskCopyDir([$tmpPath => 'copied'])
             ->addToCollection($collection);
 
-        // FileSystemStack has not run yet, so no files should be found.
+        // FilesystemStack has not run yet, so no files should be found.
         $I->dontSeeFileFound("$tmpPath/tmp/error.txt");
         $I->dontSeeFileFound("$tmpPath/log/error.txt");
         $I->dontSeeFileFound('copied/log/error.txt');
@@ -105,7 +105,7 @@ class CollectionCest
         // Set up a filesystem stack, but use addToCollection() to defer execution.
         // Note that since we used 'cwd()' above, the relative file paths
         // used below will be inside the temporary directory.
-        $I->taskFileSystemStack()
+        $I->taskFilesystemStack()
             ->mkdir("log")
             ->touch("log/error.txt")
             ->addToCollection($collection);
@@ -114,7 +114,7 @@ class CollectionCest
         $I->taskCopyDir(['log' => "$cwd/copied2"])
             ->addToCollection($collection);
 
-        // FileSystemStack has not run yet, so no files should be found.
+        // FilesystemStack has not run yet, so no files should be found.
         $I->dontSeeFileFound("$tmpPath/log/error.txt");
         $I->dontSeeFileFound('$cwd/copied2/log/error.txt');
 
@@ -149,11 +149,11 @@ class CollectionCest
             ->getPath();
 
         // Copy our tmp directory to a location that is not transient
-        $I->taskFileSystemStack()
+        $I->taskFilesystemStack()
             ->copy($tmpPath, 'copied.txt')
             ->addToCollection($collection);
 
-        // FileSystemStack has not run yet, so no files should be found.
+        // FilesystemStack has not run yet, so no files should be found.
         $I->dontSeeFileFound("$tmpPath");
         $I->dontSeeFileFound('copied.txt');
 
@@ -185,7 +185,7 @@ class CollectionCest
         // via the add() method.
         $result = $collection->addTaskList(
             [
-                $I->taskFileSystemStack()->mkdir("$tmpPath/log")->touch("$tmpPath/log/error.txt"),
+                $I->taskFilesystemStack()->mkdir("$tmpPath/log")->touch("$tmpPath/log/error.txt"),
                 $I->taskCopyDir([$tmpPath => 'copied3']),
             ]
         )->run();

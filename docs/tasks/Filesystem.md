@@ -1,4 +1,4 @@
-# FileSystem Tasks
+# Filesystem Tasks
 
 ## CleanDir
 
@@ -70,12 +70,12 @@ $this->_deleteDir(['tmp', 'log']);
 ## FilesystemStack
 
 
-Wrapper for [Symfony FileSystem](http://symfony.com/doc/current/components/filesystem.html) Component.
+Wrapper for [Symfony Filesystem](http://symfony.com/doc/current/components/filesystem.html) Component.
 Comands are executed in stack and can be stopped on first fail with `stopOnFail` option.
 
 ``` php
 <?php
-$this->taskFileSystemStack()
+$this->taskFilesystemStack()
      ->mkdir('logs')
      ->touch('logs/.gitignore')
      ->chgrp('www', 'www-data')
@@ -222,7 +222,7 @@ Move the directory to another location to prevent its deletion.
 // Note that in this example, everything is deleted at
 // the end of $collection->run().
 $tmpPath = $this->taskTmpDir()->addToCollection($collection)->getPath();
-$this->taskFileSystemStack()
+$this->taskFilesystemStack()
           ->mkdir("$tmpPath/log")
           ->touch("$tmpPath/log/error.txt")
           ->addToCollection($collection);

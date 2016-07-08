@@ -8,6 +8,7 @@ use Robo\Collection\Temporary;
 use Robo\Contract\TaskInterface;
 use Robo\Collection\Collection;
 use Robo\Collection\CompletionWrapper;
+use Robo\Collection\NestedCollectionInterface;
 use Robo\Task\Simulator;
 
 class RoboContainer extends Container
@@ -51,7 +52,7 @@ class RoboContainer extends Container
         // Remember whether or not this is a task before
         // it gets wrapped in any service decorator.
         $isTask = $service instanceof TaskInterface;
-        $isCollection = $service instanceof Collection;
+        $isCollection = $service instanceof NestedCollectionInterface;
 
         // If the task implements CompletionInterface, ensure
         // that its 'complete' method is called when the application

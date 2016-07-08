@@ -503,7 +503,7 @@ class RoboFile extends \Robo\Tasks
 
     public function tryBuilderRollback()
     {
-        return $this->builder()
+        $builder = $this->builder()
             ->taskFilesystemStack()
                 ->mkdir('g')
                 ->touch('g/g.txt')
@@ -515,7 +515,12 @@ class RoboFile extends \Robo\Tasks
                 ->touch('g/h/h.txt')
             ->taskFilesystemStack()
                 ->mkdir('g/h/i/c')
-                ->touch('g/h/i/i.txt')
+                ->touch('g/h/i/i.txt');
+
+        return $this->builder()
+            ->progressMessage('Start recursive collection')
+            ->addTask($builder)
+            ->progressMessage('Done with recursive collection')
             ->taskExec('ls xyzzy' . date('U'))
                 ->dir('/tmp');
     }

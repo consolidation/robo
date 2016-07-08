@@ -3,6 +3,7 @@ namespace Robo;
 
 use Robo\Contract\TaskInterface;
 use Robo\Common\IO;
+use Psr\Log\LogLevel;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 use Robo\Contract\WrappedTaskInterface;
@@ -51,6 +52,11 @@ class TaskBuilder implements NestedCollectionInterface, ContainerAwareInterface,
         return $this->taskWorkDir($finalDestination)->getPath();
     }
 
+    public function addTask(TaskInterface $task)
+    {
+        $this->getCollection()->add($task);
+        return $this;
+    }
     public function rollback(TaskInterface $task)
     {
         // Ensure that we have a collection if we are going to add

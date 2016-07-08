@@ -116,6 +116,43 @@ class CollectionCest
         $I->dontSeeFileFound('j/k/m/m.txt');
     }
 
+    public function toRollbackANestedCollection(CliGuy $I)
+    {
+        // This is like the previous test, toRunMultipleTasksViaATaskBuilder,
+        // except we force an error at the end, and confirm that the
+        // rollback function is called.
+        $builder = $I->builder();
+        $builder->taskFilesystemStack()
+                ->mkdir('j')
+                ->touch('j/j.txt')
+            ->rollback(
+                $I->taskDeleteDir('j')
+            )
+            ->taskFilesystemStack()
+                ->mkdir('j/k')
+                ->touch('j/k/k.txt')
+            ->taskFilesystemStack()
+                ->mkdir('j/k/m')
+                ->touch('j/k/m/m.txt');
+
+        $result = $I->builder()
+            ->taskFilesystemStack()
+                ->mkdir('q')
+                ->touch('q/q.txt')
+            ->addTask($builder)
+            ->taskCopyDir(['doesNotExist' => 'copied'])
+            ->run();
+
+        $I->assertEquals(1, $result->getExitCode(), $result->getMessage());
+
+        // All of the tasks created by the builder should be added
+        // to a collection, and `run()` should run them all.
+        $I->seeFileFound('q/q.txt');
+        $I->dontSeeFileFound('j/j.txt');
+        $I->dontSeeFileFound('j/k/k.txt');
+        $I->dontSeeFileFound('j/k/m/m.txt');
+    }
+
     public function toCreateDirViaCollection(CliGuy $I)
     {
         // Set up a collection to add tasks to

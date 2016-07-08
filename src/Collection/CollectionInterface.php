@@ -11,8 +11,6 @@ interface CollectionInterface extends NestedCollectionInterface
     // UNNAMEDTASK constant is recommended for clarity.
     const UNNAMEDTASK = 0;
 
-    // Public API
-
     /**
      * Add a task or a list of tasks to our task collection.  Each task
      * will run via its 'run()' method once (and if) all of the tasks

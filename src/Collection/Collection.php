@@ -10,6 +10,7 @@ use Robo\Contract\TaskInterface;
 use Robo\Container\SimpleServiceProvider;
 use Robo\Task\StackBasedTask;
 use Robo\TaskInfo;
+use Robo\Contract\WrappedTaskInterface;
 
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
@@ -482,14 +483,15 @@ class Collection implements CollectionInterface, TaskInterface, LoggerAwareInter
 
     protected function runSubtask($task)
     {
-        $this->setParentCollectionForTask($task, $this->getParentCollection());
+        $original = ($task instanceof WrappedTaskInterface) ? $task->original() : $task;
+        $this->setParentCollectionForTask($original, $this->getParentCollection());
         $taskResult = $task->run();
         return $taskResult;
     }
 
     protected function setParentCollectionForTask($task, $parentCollection)
     {
-        if ($task instanceof CollectionInterface) {
+        if ($task instanceof NestedCollectionInterface) {
             $task->setParentCollection($parentCollection);
         }
     }

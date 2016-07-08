@@ -3,7 +3,7 @@ namespace Robo;
 
 use Robo\Config;
 use Robo\Common\IO;
-use Robo\Container\RoboContainer;
+use League\Container\Container;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\StringInput;
@@ -93,7 +93,7 @@ class Runner
         // If we were not provided a container, then create one
         if (!Config::hasContainer()) {
             // Set up our dependency injection container.
-            $container = new RoboContainer();
+            $container = new Container();
             static::configureContainer($container, $input, $output);
             static::addServiceProviders($container);
             Config::setContainer($container);

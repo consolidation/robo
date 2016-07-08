@@ -167,18 +167,13 @@ The `complete()` method of the task will be called once the Collection the tempo
 
 ## Adding Tasks to Collections
 
-In the previous example, tasks were added to collections using the `addToCollection($collection)` method available in BaseTask; this, however, is little more than a convenience wrapper to `$collection->add()`. The `add()` method accepts a variety of different parameter types, making it convenient to add operations to collections in a number of different ways.
+In the previous example, tasks were added to collections using the `addToCollection($collection)` method available in BaseTask; this, however, is little more than a convenience wrapper to `$collection->add()`, which adds a TaskInterface to the collection.  Also available is `$collection->addCode()`, which can add a `callable` to the collection, such as:
 
-The following types can be added to a collection:
-
-- A TaskInterface
-- An array of TaskInterfaces
-- A Callable object
   - A function name (string)
   - A closure (inline function)
   - A method reference (array with object and method name)
-  
-Examples of all of these appear below.
+
+Examples of adding different kinds of tasks to a collection are provided below.
 
 ### TaskInterface Objects
 
@@ -190,24 +185,11 @@ Examples of all of these appear below.
 ?>
 ```
 
-### TaskInterface Lists
-
-```php
-<?php
-  $collection->add(
-    [
-      $this->taskOther($work),
-      $this->taskYetAnother(),
-    ]
-  );
-?>
-```
-
 ### Functions
 
 ```php
 <?php
-  $collection->add('mytaskfunction');
+  $collection->addCode('mytaskfunction');
 ?>
 ```
 
@@ -215,7 +197,7 @@ Examples of all of these appear below.
 
 ```php
 <?php
-  $collection->add(
+  $collection->addCode(
     function() use ($work)
     {
       // do something with $work      
@@ -227,7 +209,7 @@ Examples of all of these appear below.
 
 ```php
 <?php
-  $collection->add([$myobject, 'mymethod']);
+  $collection->addCode([$myobject, 'mymethod']);
 ?>
 ```
 
@@ -242,11 +224,12 @@ This feature is useful if you have functions that create task collections, and r
 
 ```php
 <?php
-  $collection->add("taskname",
+  $collection->addCode(
     function() use ($work)
     {
       // do something with $work      
-    });
+    },
+    "taskname");
 ?>
 ```
 

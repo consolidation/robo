@@ -74,18 +74,7 @@ class Collection implements CollectionInterface, TaskInterface, LoggerAwareInter
     }
 
     /**
-     * Add a task or a list of tasks to our task collection.  Each task
-     * will run via its 'run()' method once (and if) all of the tasks
-     * added before it complete successfully.  If the task also implements
-     * RollbackInterface, then it will be rolled back via its 'rollback()'
-     * method ONLY if its 'run()' method completes successfully, and some
-     * task added after it fails.
-     *
-     * @param TaskInterface
-     *   The task to add to our collection.
-     * @param string
-     *   An optional name for the task -- missing or UNNAMEDTASK for unnamed tasks.
-     *   Names are used for positioning before and after tasks.
+     * @inheritdoc
      */
     public function add(TaskInterface $task, $name = self::UNNAMEDTASK)
     {
@@ -94,20 +83,16 @@ class Collection implements CollectionInterface, TaskInterface, LoggerAwareInter
         return $this;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function addCode(callable $code, $name = self::UNNAMEDTASK)
     {
         return $this->add(new CallableTask($code, $this), $name);
     }
 
     /**
-     * Add a rollback task to our task collection.  A rollback task
-     * will execute ONLY if all of the tasks added before it complete
-     * successfully, AND some task added after it fails.
-     *
-     * @param TaskInterface
-     *   The rollback task to add.  Note that the 'run()' method of the
-     *   task executes, not its 'rollback()' method.  To use the 'rollback()'
-     *   method, add the task via 'Collection::add()' instead.
+     * @inheritdoc
      */
     public function rollback(TaskInterface $rollbackTask)
     {
@@ -116,6 +101,9 @@ class Collection implements CollectionInterface, TaskInterface, LoggerAwareInter
         return $this->wrapAndRegisterRollback($rollbackTask);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function rollbackCode(callable $rollbackCode)
     {
         // Rollback tasks always try as hard as they can, and never report failures.
@@ -124,14 +112,7 @@ class Collection implements CollectionInterface, TaskInterface, LoggerAwareInter
     }
 
     /**
-     * Add a completion task to our task collection.  A completion task
-     * will execute EITHER after all tasks succeed, OR immediatley after
-     * any task fails.  Completion tasks never cause errors to be returned
-     * from Collection::run(), even if they fail.
-     *
-     * @param TaskInterface
-     *   The completion task to add.  Note that the 'run()' method of the
-     *   task executes, just as if the task was added normally.
+     * @inheritdoc
      */
     public function completion(TaskInterface $completionTask)
     {
@@ -147,6 +128,9 @@ class Collection implements CollectionInterface, TaskInterface, LoggerAwareInter
         return $this;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function completionCode(callable $completionTask)
     {
         $completionTask = new CallableTask($completionTask, $this);
@@ -154,15 +138,7 @@ class Collection implements CollectionInterface, TaskInterface, LoggerAwareInter
     }
 
     /**
-     * Add a task before an existing named task.
-     *
-     * @param string
-     *   The name of the task to insert before.  The named task MUST exist.
-     * @param callable|TaskInterface
-     *   The task to add.
-     * @param string
-     *   The name of the task to add. If not provided, will be associated
-     *   with the named task it was added before.
+     * @inheritdoc
      */
     public function before($name, $task, $nameOfTaskToAdd = self::UNNAMEDTASK)
     {
@@ -170,15 +146,7 @@ class Collection implements CollectionInterface, TaskInterface, LoggerAwareInter
     }
 
     /**
-     * Add a task after an existing named task.
-     *
-     * @param string
-     *   The name of the task to insert before.  The named task MUST exist.
-     * @param callable|TaskInterface
-     *   The task to add.
-     * @param string
-     *   The name of the task to add. If not provided, will be associated
-     *   with the named task it was added after.
+     * @inheritdoc
      */
     public function after($name, $task, $nameOfTaskToAdd = self::UNNAMEDTASK)
     {
@@ -186,14 +154,7 @@ class Collection implements CollectionInterface, TaskInterface, LoggerAwareInter
     }
 
     /**
-     * Print a progress message after Collection::run() has executed
-     * all of the tasks that were added prior to the point when this
-     * method was called. If one of the previous tasks fail, then this
-     * message will not be printed.
-     *
-     * @param string $text Message to print.
-     * @param array $context Extra context data for use by the logger.
-     * @param LogLevel $level The log level to print the information at. Default is NOTICE.
+     * @inheritdoc
      */
     public function progressMessage($text, $context = [], $level = LogLevel::NOTICE)
     {
@@ -309,7 +270,7 @@ class Collection implements CollectionInterface, TaskInterface, LoggerAwareInter
      *
      * @param string
      *   The name of the task to insert before.  The named task MUST exist.
-     * @returns Element
+     * @return Element
      *   The task group for the named task. Generally this is only
      *   used to call 'before()' and 'after()'.
      */

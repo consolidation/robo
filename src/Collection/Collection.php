@@ -97,9 +97,9 @@ class Collection implements TaskInterface, LoggerAwareInterface, ContainerAwareI
         return $this;
     }
 
-    public function addCode(callable $task, $name = self::UNNAMEDTASK)
+    public function addCode(callable $code, $name = self::UNNAMEDTASK)
     {
-        return $this->add(new CallableTask($task, $this), $name);
+        return $this->add(new CallableTask($code, $this), $name);
     }
 
     /**
@@ -141,10 +141,10 @@ class Collection implements TaskInterface, LoggerAwareInterface, ContainerAwareI
         return $this->wrapAndRegisterRollback($rollbackTask);
     }
 
-    public function rollbackCode(callable $rollbackTask)
+    public function rollbackCode(callable $rollbackCode)
     {
         // Rollback tasks always try as hard as they can, and never report failures.
-        $rollbackTask = $this->ignoreErrorsCodeWrapper($rollbackTask);
+        $rollbackTask = $this->ignoreErrorsCodeWrapper($rollbackCode);
         return $this->wrapAndRegisterRollback($rollbackTask);
     }
 

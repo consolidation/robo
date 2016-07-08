@@ -18,6 +18,104 @@ class CollectionCest
         $I->amInPath(codecept_data_dir().'sandbox');
     }
 
+    public function toRunMultipleTasksViaATaskBuilder(CliGuy $I)
+    {
+        // This tests creating multiple tasks in a single builder,
+        // which implicitly adds them to a collection.  To keep things
+        // simple, we are only going to use taskFilesystemStack.  It
+        // would be possible, of course, to do these operations with
+        // a single FilesystemStack, but our goal is to test creating
+        // multiple tasks with a builder, and ensure that a propper
+        // collection is built.
+        $builder = $I->builder();
+        $result = $builder->taskFilesystemStack()
+                ->mkdir('a')
+                ->touch('a/a.txt')
+            ->rollback(
+                $I->taskDeleteDir('a')
+            )
+            ->taskFilesystemStack()
+                ->mkdir('a/b')
+                ->touch('a/b/b.txt')
+            ->taskFilesystemStack()
+                ->mkdir('a/c')
+                ->touch('a/c/c.txt')
+            ->run();
+
+        $I->assertEquals(0, $result->getExitCode(), $result->getMessage());
+
+        // All of the tasks created by the builder should be added
+        // to a collection, and `run()` should run them all.
+        $I->seeDirFound('a');
+        $I->seeFileFound('a/a.txt');
+        $I->seeDirFound('a/b');
+        $I->seeFileFound('a/b/b.txt');
+        $I->seeDirFound('a/c');
+        $I->seeFileFound('a/c/c.txt');
+    }
+
+    public function toUseAWorkingDirWithATaskBuilder(CliGuy $I)
+    {
+        // Run the same test with a working directory.  The working
+        // directory path will point to a temporary directory which
+        // will be moved into place once the tasks complete.
+        $builder = $I->builder();
+        $workDirPath = $builder->workDir("build");
+        $I->assertNotEquals("build", basename($workDirPath));
+        $result = $builder->taskFilesystemStack()
+                ->mkdir("{$workDirPath}/a")
+                ->touch("{$workDirPath}/a/a.txt")
+            ->taskFilesystemStack()
+                ->mkdir("{$workDirPath}/a/b")
+                ->touch("{$workDirPath}/a/b/b.txt")
+            ->taskFilesystemStack()
+                ->mkdir("{$workDirPath}/a/c")
+                ->touch("{$workDirPath}/a/c/c.txt")
+            ->run();
+
+        $I->assertEquals(0, $result->getExitCode(), $result->getMessage());
+
+        // All of the tasks created by the builder should be added
+        // to a collection, and `run()` should run them all.
+        $I->seeDirFound('build/a');
+        $I->seeFileFound('build/a/a.txt');
+        $I->seeDirFound('build/a/b');
+        $I->seeFileFound('build/a/b/b.txt');
+        $I->seeDirFound('build/a/c');
+        $I->seeFileFound('build/a/c/c.txt');
+    }
+
+    public function toRollbackAfterFailureViaATaskBuilder(CliGuy $I)
+    {
+        // This is like the previous test, toRunMultipleTasksViaATaskBuilder,
+        // except we force an error at the end, and confirm that the
+        // rollback function is called.
+        $builder = $I->builder();
+        $result = $builder->taskFilesystemStack()
+                ->mkdir('j')
+                ->touch('j/j.txt')
+            ->rollback(
+                $I->taskDeleteDir('j')
+            )
+            ->taskFilesystemStack()
+                ->mkdir('j/k')
+                ->touch('j/k/k.txt')
+            ->taskFilesystemStack()
+                ->mkdir('j/k/m')
+                ->touch('j/k/m/m.txt')
+            ->taskCopyDir(['doesNotExist' => 'copied'])
+            ->run();
+
+        $I->assertEquals(1, $result->getExitCode(), $result->getMessage());
+
+        // All of the tasks created by the builder should be added
+        // to a collection, and `run()` should run them all.
+        $I->dontSeeFileFound('q/q.txt');
+        $I->dontSeeFileFound('j/j.txt');
+        $I->dontSeeFileFound('j/k/k.txt');
+        $I->dontSeeFileFound('j/k/m/m.txt');
+    }
+
     public function toCreateDirViaCollection(CliGuy $I)
     {
         // Set up a collection to add tasks to

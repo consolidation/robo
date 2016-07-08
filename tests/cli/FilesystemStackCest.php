@@ -42,7 +42,8 @@ class FilesystemStackCest
         $class = new ReflectionClass('\Robo\Task\Filesystem\FilesystemStack');
         $method = $class->getMethod('crossVolumeRename');
         $method->setAccessible(true);
-        $method->invokeArgs($fsStack, ['log', 'logfiles']);
+        $actualFsStackTask = $fsStack->getTaskBuilderCurrentTask();
+        $method->invokeArgs($actualFsStackTask, ['log', 'logfiles']);
 
         $I->dontSeeFileFound('log/error.txt');
         $I->seeFileFound('logfiles/error.txt');

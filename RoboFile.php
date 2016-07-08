@@ -297,17 +297,18 @@ class RoboFile extends \Robo\Tasks
         $this->pharBuild()->run();
 
         $this->_rename('robo.phar', 'robo-release.phar');
-        $this->taskGitStack()->checkout('gh-pages')->run();
-        $this->taskFilesystemStack()
-            ->remove('robo.phar')
-            ->rename('robo-release.phar', 'robo.phar')
-            ->run();
-        $this->taskGitStack()
-            ->add('robo.phar')
-            ->commit('robo.phar published')
-            ->push('origin', 'gh-pages')
-            ->checkout('master')
-            ->run();
+        $this->builder()
+            ->taskGitStack()
+                ->checkout('gh-pages')
+            ->taskFilesystemStack()
+                ->remove('robo.phar')
+                ->rename('robo-release.phar', 'robo.phar')
+            ->taskGitStack()
+                ->add('robo.phar')
+                ->commit('robo.phar published')
+                ->push('origin', 'gh-pages')
+                ->checkout('master')
+                ->run();
     }
 
     /**
@@ -482,6 +483,47 @@ class RoboFile extends \Robo\Tasks
         // up dependencies will result in a deprecation warning.
         // @see RoboFile::trySuccess()
         return new \Robo\Task\Base\Exec('pwd');
+    }
+
+    /**
+     * Demonstrate the use of a builder to chain multiple tasks
+     * together into a collection, which is executed once constructed.
+     *
+     * For demonstration purposes only; this could, of course, be done
+     * with a single FilesystemStack.
+     */
+    public function tryBuilder()
+    {
+        $this->builder()
+            ->taskFilesystemStack()
+                ->mkdir('a')
+                ->touch('a/a.txt')
+            ->taskFilesystemStack()
+                ->mkdir('a/b')
+                ->touch('a/b/b.txt')
+            ->taskFilesystemStack()
+                ->mkdir('a/b/c')
+                ->touch('a/b/c/c.txt')
+            ->run();
+    }
+
+    public function tryBuilderRollback()
+    {
+        return $this->builder()
+            ->taskFilesystemStack()
+                ->mkdir('g')
+                ->touch('g/g.txt')
+            ->rollback(
+                $this->taskDeleteDir('g')
+            )
+            ->taskFilesystemStack()
+                ->mkdir('g/h')
+                ->touch('g/h/h.txt')
+            ->taskFilesystemStack()
+                ->mkdir('g/h/i/c')
+                ->touch('g/h/i/i.txt')
+            ->taskExec('ls xyzzy' . date('U'))
+                ->dir('/tmp');
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php
 require_once codecept_data_dir() . 'TestedRoboFile.php';
 
+use Robo\Runner;
 use Robo\Container\RoboContainer;
 use Consolidation\AnnotatedCommand\AnnotatedCommandFactory;
 use Consolidation\AnnotatedCommand\Parser\CommandInfo;
@@ -50,11 +51,15 @@ class ApplicationTest extends \Codeception\TestCase\Test
         // commandfile instance.
         $method = new ReflectionMethod($this->roboCommandFileInstance, 'task');
         $method->setAccessible(true);
-        $task = $method->invoke($this->roboCommandFileInstance, 'taskExec', ['ls']);
+        $builder = $method->invoke($this->roboCommandFileInstance, 'taskExec', ['ls']);
+        verify(get_class($builder))->equals('Robo\TaskBuilder');
+        $task = $builder->getTaskBuilderCurrentTask();
         verify(get_class($task))->equals('Robo\Task\Base\Exec');
         // If 'task' is not provided, then it will be supplied (that is,
         // the task's classname may also be used with the 'task()' method).
-        $task = $method->invoke($this->roboCommandFileInstance, 'Exec', ['ls']);
+        $builder = $method->invoke($this->roboCommandFileInstance, 'Exec', ['ls']);
+        verify(get_class($builder))->equals('Robo\TaskBuilder');
+        $task = $builder->getTaskBuilderCurrentTask();
         verify(get_class($task))->equals('Robo\Task\Base\Exec');
     }
 

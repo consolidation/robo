@@ -6,7 +6,6 @@ use Robo\Contract\InflectionInterface;
 
 use Robo\Common\Configuration;
 use Robo\Common\TaskIO;
-use Robo\TaskAccessor;
 use Robo\Collection\Collectable;
 use Robo\Contract\TaskInterface;
 use Psr\Log\LoggerAwareInterface;

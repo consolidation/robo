@@ -170,6 +170,7 @@ class Runner
             ->withMethodCall('setFormatterManager', ['formatterManager']);
         $container->share('commandFactory', \Consolidation\AnnotatedCommand\AnnotatedCommandFactory::class)
             ->withMethodCall('setCommandProcessor', ['commandProcessor']);
+        $container->add('taskBuilder', \Robo\TaskBuilder::class);
         $container->share('application', \Robo\Application::class)
             ->withArgument('Robo')
             ->withArgument(self::VERSION)

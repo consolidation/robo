@@ -101,6 +101,18 @@ class TaskBuilder implements ContainerAwareInterface, TaskInterface
         return $this;
     }
 
+    public function completion($task)
+    {
+        $this->getCollection()->completion($task);
+        return $this;
+    }
+
+    public function completionCode($completionCode)
+    {
+        $this->getCollection()->completionCode($completionCode);
+        return $this;
+    }
+
     /**
      * Called by the factory method of each task; adds the current
      * task to the task builder.

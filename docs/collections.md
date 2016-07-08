@@ -1,6 +1,10 @@
-# Collections
+# Collections and Builders
 
-Robo provides task collections as a means of making error detection and recovery easier. When Robo tasks are added to a collection, their execution is deferred until the `$collection->run()` method is called.  When using collections, a Robo script will go through three phases:
+Robo provides task collections as a means of making error detection and recovery easier. When Robo tasks are added to a collection, their execution is deferred until the `$collection->run()` method is called.  
+
+Collections can also be created by task builders. Builders allow tasks to be created via chained methods.  All of the tasks created by the same builder are added to a collection that the builder manages. When `$builder->run()` is called, then all of the tasks on the collection are executed.
+
+When using collections, a Robo script will go through three phases:
 
 1. Determine which tasks will need to be run, and create a collection.
   - Assign values to variables.
@@ -11,6 +15,34 @@ Robo provides task collections as a means of making error detection and recovery
   - Check and report errors once after `run()` returns.
 
 Following this pattern will keep your code linear and easy to understand.
+
+## Using a Builder
+
+The easiest way to use Robo collections is to use a builder.  Builders provide all of the capabilities of collections with a cleaner API.  The 'publish' command from Robo's own RoboFile is shown below.  It uses a builder to run some git and filesystem operations. The "completion" tasks are run after all other tasks complete, or during rollback processing when an operation fails.
+
+``` php
+<?php
+class RoboFile extends \Robo\Tasks
+{
+    public function publish()
+    {
+        $current_branch = exec('git rev-parse --abbrev-ref HEAD');
+
+        $builder = $this->builder();
+        $builder->taskGitStack()
+            ->checkout('site')
+            ->merge('master')
+        ->completion($this->taskGitStack()->checkout($current_branch))
+        ->taskFilesystemStack()
+            ->copy('CHANGELOG.md', 'docs/changelog.md')
+        ->completion($this->taskFilesystemStack()->remove('docs/changelog.md'))
+        ->taskExec('mkdocs gh-deploy');
+
+        return $builder;
+    }
+}
+?>
+```
 
 ## Basic Collection Example
 

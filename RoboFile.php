@@ -216,23 +216,17 @@ class RoboFile extends \Robo\Tasks
     {
         $current_branch = exec('git rev-parse --abbrev-ref HEAD');
 
-        $collection = $this->collection();
-        $this->taskGitStack()
+        $builder = $this->builder();
+        $builder->taskGitStack()
             ->checkout('site')
             ->merge('master')
-            ->addToCollection($collection);
-        $this->taskGitStack()
-            ->checkout($current_branch)
-            ->addAsCompletion($collection);
-        $this->taskFilesystemStack()
+        ->completion($this->taskGitStack()->checkout($current_branch))
+        ->taskFilesystemStack()
             ->copy('CHANGELOG.md', 'docs/changelog.md')
-            ->addToCollection($collection);
-        $this->taskFilesystemStack()
-            ->remove('docs/changelog.md')
-            ->addAsCompletion($collection);
-        $this->taskExec('mkdocs gh-deploy')
-            ->addToCollection($collection);
-        return $collection;
+        ->completion($this->taskFilesystemStack()->remove('docs/changelog.md'))
+        ->taskExec('mkdocs gh-deploy');
+
+        return $builder;
     }
 
     /**

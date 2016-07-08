@@ -323,7 +323,7 @@ class Collection implements CollectionInterface, TaskInterface, LoggerAwareInter
      * top-level collection, ensuring that the rollbacks for a collection
      * will run if any later task fails.
      */
-    public function setParentCollection(CollectionInterface $parentCollection)
+    public function setParentCollection(NestedCollectionInterface $parentCollection)
     {
         $this->parentCollection = $parentCollection;
     }
@@ -484,7 +484,6 @@ class Collection implements CollectionInterface, TaskInterface, LoggerAwareInter
     {
         $this->setParentCollectionForTask($task, $this->getParentCollection());
         $taskResult = $task->run();
-        $this->setParentCollectionForTask($task, null);
         return $taskResult;
     }
 

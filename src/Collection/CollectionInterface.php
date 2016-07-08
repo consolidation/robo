@@ -4,7 +4,7 @@ namespace Robo\Collection;
 use Psr\Log\LogLevel;
 use Robo\Contract\TaskInterface;
 
-interface CollectionInterface
+interface CollectionInterface extends NestedCollectionInterface
 {
     // Unnamed tasks are assigned an arbitrary numeric index
     // in the task list. Any numeric value may be used, but the
@@ -123,11 +123,4 @@ interface CollectionInterface
      * @return CollectionInterface
      */
     public function progressMessage($text, $context = [], $level = LogLevel::NOTICE);
-
-    // Internal methods
-
-    public function setParentCollection(CollectionInterface $parentCollection);
-    public function getParentCollection();
-    public function registerRollback(TaskInterface $rollbackTask);
-    public function registerCompletion(TaskInterface $completionTask);
 }

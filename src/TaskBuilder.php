@@ -6,8 +6,9 @@ use Robo\Common\IO;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 use Robo\Contract\WrappedTaskInterface;
+use Robo\Collection\NestedCollectionInterface;
 
-class TaskBuilder implements ContainerAwareInterface, TaskInterface
+class TaskBuilder implements NestedCollectionInterface, ContainerAwareInterface, TaskInterface
 {
     use ContainerAwareTrait;
     use LoadAllTasks;
@@ -51,15 +52,6 @@ class TaskBuilder implements ContainerAwareInterface, TaskInterface
     }
 
     /**
-     * Print a progress message.
-     */
-    public function progressMessage($text, $context = [], $level = LogLevel::NOTICE)
-    {
-        $this->getCollection()->progressMessage($text, $context, $level);
-        return $this;
-    }
-
-    /**
      * Override TaskAccessor::builder(). By default, a new builder
      * is returned, so RoboFile::taskFoo() will create a 'foo' task
      * with its own builder.  If TaskBuilder::taskBar() is called, though,
@@ -71,12 +63,7 @@ class TaskBuilder implements ContainerAwareInterface, TaskInterface
         return $this;
     }
 
-    /**
-     * Add a rollback task to the builder.
-     * Example: `$this->builder()->rollback($this->taskDeleteDir(...));`
-     * @return type
-     */
-    public function rollback($task)
+    public function rollback(TaskInterface $task)
     {
         // Ensure that we have a collection if we are going to add
         // a rollback function.
@@ -84,33 +71,48 @@ class TaskBuilder implements ContainerAwareInterface, TaskInterface
         return $this;
     }
 
-    /**
-     * Add a function callback as a rollback task.
-     * @param callable $rollbackCode
-     * @return type
-     */
     public function rollbackCode(callable $rollbackCode)
     {
         $this->getCollection()->rollbackCode($rollbackCode);
         return $this;
     }
 
-    public function addCode(callable $code)
-    {
-        $this->getCollection()->addCode($code);
-        return $this;
-    }
-
-    public function completion($task)
+    public function completion(TaskInterface $task)
     {
         $this->getCollection()->completion($task);
         return $this;
     }
 
-    public function completionCode($completionCode)
+    public function completionCode(callable $completionCode)
     {
         $this->getCollection()->completionCode($completionCode);
         return $this;
+    }
+
+    public function progressMessage($text, $context = [], $level = LogLevel::NOTICE)
+    {
+        $this->getCollection()->progressMessage($text, $context, $level);
+        return $this;
+    }
+
+    public function setParentCollection(NestedCollectionInterface $parentCollection)
+    {
+        $this->getCollection()->setParentCollection($parentCollection);
+    }
+
+    public function getParentCollection()
+    {
+        $this->getCollection()->getParentCollection();
+    }
+
+    public function registerRollback(TaskInterface $rollbackTask)
+    {
+        $this->getCollection()->registerRollback($rollbackTask);
+    }
+
+    public function registerCompletion(TaskInterface $completionTask)
+    {
+        $this->getCollection()->registerCompletion($completionTask);
     }
 
     /**

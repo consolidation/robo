@@ -51,18 +51,6 @@ class TaskBuilder implements NestedCollectionInterface, ContainerAwareInterface,
         return $this->taskWorkDir($finalDestination)->getPath();
     }
 
-    /**
-     * Override TaskAccessor::builder(). By default, a new builder
-     * is returned, so RoboFile::taskFoo() will create a 'foo' task
-     * with its own builder.  If TaskBuilder::taskBar() is called, though,
-     * then the task accessor will fetch the builder to use from this
-     * method, and the new task will go into the existing builder instance.
-     */
-    protected function builder()
-    {
-        return $this;
-    }
-
     public function rollback(TaskInterface $task)
     {
         // Ensure that we have a collection if we are going to add
@@ -100,21 +88,6 @@ class TaskBuilder implements NestedCollectionInterface, ContainerAwareInterface,
         $this->getCollection()->setParentCollection($parentCollection);
     }
 
-    public function getParentCollection()
-    {
-        $this->getCollection()->getParentCollection();
-    }
-
-    public function registerRollback(TaskInterface $rollbackTask)
-    {
-        $this->getCollection()->registerRollback($rollbackTask);
-    }
-
-    public function registerCompletion(TaskInterface $completionTask)
-    {
-        $this->getCollection()->registerCompletion($completionTask);
-    }
-
     /**
      * Called by the factory method of each task; adds the current
      * task to the task builder.
@@ -133,27 +106,6 @@ class TaskBuilder implements NestedCollectionInterface, ContainerAwareInterface,
             $this->addToCollection($currentTask);
         }
         return $this;
-    }
-
-    /**
-     * Return the collection of tasks associated with this builder.
-     *
-     * @return Collection
-     */
-    protected function getCollection()
-    {
-        return $this->addToCollection($this->currentTask);
-    }
-
-    protected function addToCollection($task)
-    {
-        if (!$this->collection) {
-            $this->collection = $this->collection();
-        }
-        if ($task) {
-            $this->collection->add($task);
-        }
-        return $this->collection;
     }
 
     /**
@@ -212,5 +164,38 @@ class TaskBuilder implements NestedCollectionInterface, ContainerAwareInterface,
             return $this->collection->run();
         }
         return $this->currentTask->run();
+    }
+
+    /**
+     * Return the collection of tasks associated with this builder.
+     *
+     * @return Collection
+     */
+    protected function getCollection()
+    {
+        return $this->addToCollection($this->currentTask);
+    }
+
+    protected function addToCollection($task)
+    {
+        if (!$this->collection) {
+            $this->collection = $this->collection();
+        }
+        if ($task) {
+            $this->collection->add($task);
+        }
+        return $this->collection;
+    }
+
+    /**
+     * Override TaskAccessor::builder(). By default, a new builder
+     * is returned, so RoboFile::taskFoo() will create a 'foo' task
+     * with its own builder.  If TaskBuilder::taskBar() is called, though,
+     * then the task accessor will fetch the builder to use from this
+     * method, and the new task will go into the existing builder instance.
+     */
+    protected function builder()
+    {
+        return $this;
     }
 }

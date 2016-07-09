@@ -164,7 +164,7 @@ The help text for a command in a RoboFile may be provided in Doc-Block comments.
  *     +--------+-------------+
  *
  * @param int $start Number to start from
- * @param $steps int Number of steps to perform
+ * @param int $steps Number of steps to perform
  * @param array $opts
  * @option $graphic Display the sequence graphically using cube
  *                  representation
@@ -203,30 +203,48 @@ Help:
 
 Arguments and options are populated from annotations.
 
-Added with [PR by @jonsa](https://github.com/Codegyre/Robo/pull/71); now provided by the [consolidation/annotation-command](https://github.com/consolidation-org/annotation-command) project, which was factored out from Robo.
+Initially added with [PR by @jonsa](https://github.com/Codegyre/Robo/pull/71); now provided by the [consolidation/annotated-command](https://github.com/consolidation-org/annotated-command) project, which was factored out from Robo.
+
+### Ignored methods
+
+Robo ignores any method of your RoboFile that begins with `get` or `set`. These methods are presumed to be data accessors, not commands.  To implement a command whose name contains `get` or `set`, use the `@command` annotation.
+
+``` php
+<?php
+    /**
+     * @command set-alignment
+     */
+    function setAlignment($value)
+    {
+        ...
+    }
+?>
+```
 
 ## Tasks
 
-Robo commands typically divide the work they need to accomplish into **tasks**. The command first determines what needs to be done, inspecting current state if necessary, and then sets up and executes one or more tasks that make the actual changes needed by the command.  (See also the documentation on [Collections](collections.md).)
+Robo commands typically divide the work they need to accomplish into **tasks**. The command first determines what needs to be done, inspecting current state if necessary, and then sets up and executes one or more tasks that make the actual changes needed by the command.  (See also the documentation on [Collections](collections.md), which allow you to combine groups of tasks which can provide rollback functions to recover from failure situations.)
 
 The convention used to add new tasks for use in your RoboFiles is to create a wrapper trait that instantiates the implementation class for each task. Each task method in the trait should start with the prefix `task`, and should use **chained method calls** for configuration. Task execution should be triggered by the method `run`. 
 
 *It is recommended to have store your trait loading task in a `loadTasks` file in the same namespace as the task implementation.*
 
-A very basic task is shown below:
+A very basic task is shown below.  The namespace is `MyAssetTasks`, and the example task is `CompileAssets`. To customize to your purposes, choose an appropriate namespace, and then define as many tasks as you need.
 
 ``` php
 <?php
-namespace CompileAssets;
+namespace MyAssetTasks;
 
 use Robo\Container\SimpleServiceProvider;
 
 trait loadTasks
 {
     /**
-     * Return services.
+     * Return services.  Your tasks should always be
+     * named 'taskCLASSNAME', where CLASSNAME is the
+     * name of the implementing class.
      */
-    public static function getCompileAssetsServices()
+    public static function getMyAssetTasksServices()
     {
         return new SimpleServiceProvider(
             [
@@ -236,16 +254,20 @@ trait loadTasks
     }
 
     /**
-     * @param null $pathToCompileAssets
-     * @return \Robo\Task\CompileAssets\CompileAssets
+     * The task function must always be given the same name as the key
+     * used with the SimpleServiceProvider (above)
+     *
+     * @param string $pathToCompileAssets
+     * @return \MyAssetTasks\CompileAssets
      */
     protected function taskCompileAssets($path = null)
     {
+        // Always construct your tasks with the `task()` task builder.
         return $this->task(__FUNCTION__, $path);
     }
 }
 
-class CompileAssets implements Robo\Contract\TaskInterface
+class CompileAssets implements \Robo\Contract\TaskInterface
 {
     // configuration params
     protected $path;
@@ -274,11 +296,19 @@ To use it in a RoboFile, you should include this task via its trait:
 
 ``` php
 <?php
-class RoboFile extends Robo\Tasks
+class RoboFile extends \Robo\Tasks
 {
-    use CompileAssets\loadTasks;
+    use \MyAssetTasks\loadTasks;
 
-    function build()
+    public function getServiceProviders()
+    {
+        $serviceProviders = parent::getServiceProviders();
+        $serviceProviders[] = \MyAssetTasks\loadTasks::getMyAssetTasksServices();
+
+        return $serviceProviders;
+    }
+
+    public function build()
     {
         $this->taskCompileAssets('web/css-src')
             ->to('web/assets.min.css')
@@ -289,12 +319,6 @@ class RoboFile extends Robo\Tasks
 ```
 
 Robo\Tasks includes all of the standard task traits by default, so a RoboFile may call the `$this->taskXXX` method for any of these tasks. To use an external task, ensure that its class files are available (e.g. `require` its project in your composer.json file), register the services defined in the project's loadTraits, and include corresponding trait or traits in your Robofile.
-
-Services are registered with Robo as follows:
-```
-$container = \Robo\Config::getContainer();
-$container->addServiceProvider(\CompileAssets\loadTasks::getCollectionServices());
-```
 
 ### Shortcuts
 
@@ -395,6 +419,7 @@ The Task IO methods send all output through a PSR-3 logger. Tasks should use tas
 It is preferable for commands that look up and display information should avoid doing IO directly, and should instead return the data they wish to display as an array. This data can then be converted into different data formats, such as "table" and "json". The user may select which formatter to use via the --format option.
 
 ### Progress
+
 Long-running tasks that wish to display a progress indicator may do so by way of the ProgressIndicatorAwareTrait.
 ``` php
 <?php

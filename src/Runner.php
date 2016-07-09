@@ -95,7 +95,6 @@ class Runner
             // Set up our dependency injection container.
             $container = new Container();
             static::configureContainer($container, $input, $output);
-            static::addServiceProviders($container);
             Config::setContainer($container);
 
             // Only register a shutdown function when we
@@ -120,6 +119,9 @@ class Runner
         $commandFileName = "{$this->roboClass}Commands";
         $container->share($commandFileName, $this->roboClass);
         $roboCommandFileInstance = $container->get($commandFileName);
+
+        // RoboFiles must always extend `Tasks`.
+        $this->addServiceProviders($container, $roboCommandFileInstance->getServiceProviders());
 
         // Register commands for all of the public methods in the RoboFile.
         $commandFactory = $container->get('commandFactory');
@@ -196,24 +198,11 @@ class Runner
     /**
      * Register our service providers
      */
-    public static function addServiceProviders($container)
+    public static function addServiceProviders($container, $providerList)
     {
-        $container->addServiceProvider(\Robo\Collection\Collection::getCollectionServices());
-        $container->addServiceProvider(\Robo\Task\ApiGen\loadTasks::getApiGenServices());
-        $container->addServiceProvider(\Robo\Task\Archive\loadTasks::getArchiveServices());
-        $container->addServiceProvider(\Robo\Task\Assets\loadTasks::getAssetsServices());
-        $container->addServiceProvider(\Robo\Task\Base\loadTasks::getBaseServices());
-        $container->addServiceProvider(\Robo\Task\Npm\loadTasks::getNpmServices());
-        $container->addServiceProvider(\Robo\Task\Bower\loadTasks::getBowerServices());
-        $container->addServiceProvider(\Robo\Task\Gulp\loadTasks::getGulpServices());
-        $container->addServiceProvider(\Robo\Task\Composer\loadTasks::getComposerServices());
-        $container->addServiceProvider(\Robo\Task\Development\loadTasks::getDevelopmentServices());
-        $container->addServiceProvider(\Robo\Task\Docker\loadTasks::getDockerServices());
-        $container->addServiceProvider(\Robo\Task\File\loadTasks::getFileServices());
-        $container->addServiceProvider(\Robo\Task\Filesystem\loadTasks::getFilesystemServices());
-        $container->addServiceProvider(\Robo\Task\Remote\loadTasks::getRemoteServices());
-        $container->addServiceProvider(\Robo\Task\Testing\loadTasks::getTestingServices());
-        $container->addServiceProvider(\Robo\Task\Vcs\loadTasks::getVcsServices());
+        foreach ($providerList as $provider) {
+            $container->addServiceProvider($provider);
+        }
     }
 
     /**

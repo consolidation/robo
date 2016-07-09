@@ -35,4 +35,11 @@ class TestedRoboFile extends \Robo\Tasks
     public function compact()
     {
     }
+
+    public function getServiceProviders()
+    {
+        $customServices = [];
+
+        return array_merge(parent::getServiceProviders(), $customServices);
+    }
 }

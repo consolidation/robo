@@ -1,13 +1,17 @@
 <?php
 namespace Robo;
 
-use Robo\Contract\TaskInterface;
 use Robo\Common\IO;
 use Psr\Log\LogLevel;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
+use Robo\Contract\TaskInterface;
+use Robo\Contract\CompletionInterface;
 use Robo\Contract\WrappedTaskInterface;
 use Robo\Collection\NestedCollectionInterface;
+use Robo\Task\Simulator;
+use Robo\Collection\CompletionWrapper;
+use Robo\Collection\Temporary;
 
 class TaskBuilder implements NestedCollectionInterface, ContainerAwareInterface, TaskInterface
 {

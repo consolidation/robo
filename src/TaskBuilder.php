@@ -208,7 +208,7 @@ class TaskBuilder implements NestedCollectionInterface, ContainerAwareInterface,
         // it will be re-wrapped with a new completion wrapper for
         // its new collection.
         if ($service instanceof CompletionInterface) {
-            $service = $this->getContainer()->get('completionWrapper', [Temporary::getCollection(), $service]);
+            $service = new CompletionWrapper(Temporary::getCollection(), $service);
         }
 
         // If we are in simulated mode, then wrap any task in

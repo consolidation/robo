@@ -61,7 +61,6 @@ class Collection implements CollectionInterface, TaskInterface, LoggerAwareInter
         return new SimpleServiceProvider(
             [
                 'collection' => Collection::class,
-                'completionWrapper' => CompletionWrapper::class,
             ]
         );
     }
@@ -79,7 +78,7 @@ class Collection implements CollectionInterface, TaskInterface, LoggerAwareInter
      */
     public function add(TaskInterface $task, $name = self::UNNAMEDTASK)
     {
-        $task = $this->getContainer()->get('completionWrapper', [$this, $task]);
+        $task = new CompletionWrapper($this, $task);
         $this->addToTaskStack($name, $task);
         return $this;
     }

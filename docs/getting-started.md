@@ -63,7 +63,6 @@ robo hello
 
 To accept multiple, variable arguments, define a parameter as an `array`; Robo will then pass all CLI arguments in this variable:
 
-
 ``` php
 <?php
     function hello(array $world)

@@ -20,4 +20,13 @@ trait loadShortcuts
     {
         return $this->getContainer()->get('taskGitStack')->cloneRepo($url)->run();
     }
+
+    /**
+     * @param $url
+     * @return \Robo\Result
+     */
+    protected function _hgClone($url)
+    {
+        return $this->getContainer()->get('taskHgStack')->cloneRepo($url)->run();
+    }
 }

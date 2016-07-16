@@ -49,11 +49,11 @@ class HgStack extends CommandStack
      */
     public function add($include = '', $exclude = '')
     {
-        if(strlen($include) > 0){
+        if (strlen($include) > 0) {
             $include = "-I {$include}";
         }
 
-        if(strlen($exclude) > 0){
+        if (strlen($exclude) > 0) {
             $exclude = "-X {$exclude}";
         }
 
@@ -80,9 +80,10 @@ class HgStack extends CommandStack
      */
     public function pull($branch = '')
     {
-        if(strlen($branch) > 0){
+        if (strlen($branch) > 0) {
             $branch = "-b '{$branch}''";
         }
+
         return $this->exec([__FUNCTION__, $branch]);
     }
 
@@ -94,9 +95,10 @@ class HgStack extends CommandStack
      */
     public function push($branch = '')
     {
-        if(strlen($branch) > 0){
+        if (strlen($branch) > 0) {
             $branch = "-b '{$branch}'";
         }
+
         return $this->exec([__FUNCTION__, $branch]);
     }
 
@@ -108,7 +110,7 @@ class HgStack extends CommandStack
      */
     public function merge($revision = '')
     {
-        if(strlen($revision) > 0){
+        if (strlen($revision) > 0) {
             $revision = "-r {$revision}";
         }
 

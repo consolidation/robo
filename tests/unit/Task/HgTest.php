@@ -90,5 +90,4 @@ class HgTest extends \Codeception\TestCase\Test
                 ->getCommand()
         )->equals("hg clone https://bitbucket.org/durin42/hgsubversion && hg pull && hg add && hg commit -m 'changed' && hg push && hg tag -m 'message' 0.6.0 && hg push -b '0.6.0'");
     }
-
 }

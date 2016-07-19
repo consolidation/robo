@@ -97,8 +97,8 @@ $this->_mkdir('logs');
 * `rename($from, $to)` 
 * `symlink($from, $to)` 
 * `mirror($from, $to)` 
-* `chgrp($file, $group)` 
-* `chown($file, $user)` 
+* `chgrp($file, $group, $recursive = null)` 
+* `chown($file, $user, $recursive = null)` 
 
 * `stopOnFail($stop = null)` 
 * `setLogger($logger)`  Sets a logger.

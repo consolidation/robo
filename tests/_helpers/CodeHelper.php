@@ -19,11 +19,14 @@ class CodeHelper extends \Codeception\Module
     {
         static::$capturedOutput = '';
         static::$testPrinter = new BufferedOutput(OutputInterface::VERBOSITY_DEBUG);
+        $progressBar = new \Symfony\Component\Console\Helper\ProgressBar(static::$testPrinter);
 
-        static::$container = new \Robo\Container\RoboContainer();
+        static::$container = new \League\Container\Container();
         \Robo\Runner::configureContainer(static::$container, null, static::$testPrinter);
         Config::setContainer(static::$container);
         static::$container->add('output', static::$testPrinter);
+        static::$container->add('progressBar', $progressBar);
+        static::$container->add('progressIndicator', new \Robo\Common\ProgressIndicator($progressBar));
     }
 
     public function _after(\Codeception\TestCase $test)

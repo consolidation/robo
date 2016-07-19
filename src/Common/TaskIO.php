@@ -106,6 +106,15 @@ trait TaskIO
 
     protected function printTaskOutput($level, $text, $context)
     {
+        // Hide the progress indicator, if it is visible.
+        $inProgress = $this->hideTaskProgress();
+        $this->logger()->log($level, $text, $this->getTaskContext($context));
+        // After we have printed our log message, redraw the progress indicator.
+        $this->showTaskProgress($inProgress);
+    }
+
+    protected function hideTaskProgress()
+    {
         $inProgress = false;
         if ($this instanceof ProgressIndicatorAwareInterface) {
             $inProgress = $this->inProgress();
@@ -114,12 +123,15 @@ trait TaskIO
         // If a progress indicator is running on this task, then we mush
         // hide it before we print anything, or its display will be overwritten.
         if ($inProgress) {
-            $this->hideProgressIndicator();
+            $inProgress = $this->hideProgressIndicator();
         }
-        $this->logger()->log($level, $text, $this->getTaskContext($context));
-        // After we have printed our log message, redraw the progress indicator.
+        return $inProgress;
+    }
+
+    protected function showTaskProgress($inProgress)
+    {
         if ($inProgress) {
-            $this->showProgressIndicator();
+            $this->restoreProgressIndicator($inProgress);
         }
     }
 

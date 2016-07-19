@@ -16,6 +16,7 @@ trait loadTasks
                 'taskCleanDir' => CleanDir::class,
                 'taskDeleteDir' => DeleteDir::class,
                 'taskTmpDir' => TmpDir::class,
+                'taskWorkDir' => WorkDir::class,
                 'taskCopyDir' => CopyDir::class,
                 'taskMirrorDir' => MirrorDir::class,
                 'taskFlattenDir' => FlattenDir::class,
@@ -46,11 +47,20 @@ trait loadTasks
      * @param $prefix
      * @param $base
      * @param $includeRandomPart
-     * @return TmpDir
+     * @return WorkDir
      */
     protected function taskTmpDir($prefix = 'tmp', $base = '', $includeRandomPart = true)
     {
         return $this->task(__FUNCTION__, $prefix, $base, $includeRandomPart);
+    }
+
+    /**
+     * @param $finalDestination
+     * @return TmpDir
+     */
+    protected function taskWorkDir($finalDestination)
+    {
+        return $this->task(__FUNCTION__, $finalDestination);
     }
 
     /**

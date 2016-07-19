@@ -4,61 +4,99 @@ namespace Robo\Common;
 trait ProgressIndicatorAwareTrait
 {
     use Timer;
-
     protected $progressIndicator;
-    protected $progressIndicatorRunning = false;
+
+    public function progressIndicatorSteps()
+    {
+        return 0;
+    }
 
     public function setProgressIndicator($progressIndicator)
     {
         $this->progressIndicator = $progressIndicator;
     }
 
-    public function hideProgressIndicator()
+    public function setProgressBarAutoDisplayInterval($interval)
     {
-        if ($this->progressIndicatorRunning) {
-            $this->progressIndicator->clear();
-            // Hack: progress indicator does not reset cursor to beginning of line on 'clear'
-            \Robo\Config::output()->write("\x0D");
+        if (!$this->progressIndicator) {
+            return;
         }
+        return $this->progressIndicator->setProgressBarAutoDisplayInterval($interval);
     }
 
-    public function showProgressIndicator()
+    protected function hideProgressIndicator()
     {
-        if ($this->progressIndicatorRunning) {
-            $this->progressIndicator->display();
+        if (!$this->progressIndicator) {
+            return;
         }
+        return $this->progressIndicator->hideProgressIndicator();
     }
 
-    public function startProgressIndicator($totalSteps = 0)
+    protected function showProgressIndicator()
+    {
+        if (!$this->progressIndicator) {
+            return;
+        }
+        $this->progressIndicator->showProgressIndicator();
+    }
+
+    protected function restoreProgressIndicator($visible)
+    {
+        if (!$this->progressIndicator) {
+            return;
+        }
+        $this->progressIndicator->restoreProgressIndicator($visible);
+    }
+
+    public function getTotalExecutionTime()
+    {
+        if (!$this->progressIndicator) {
+            return 0;
+        }
+        $this->progressIndicator->getExecutionTime();
+    }
+
+    protected function startProgressIndicator()
     {
         $this->startTimer();
-        if (isset($this->progressIndicator)) {
-            $this->progressIndicator->start($totalSteps);
-            $this->progressIndicator->display();
-            $this->progressIndicatorRunning = true;
+        if (!$this->progressIndicator) {
+            return;
         }
+        $totalSteps = $this->progressIndicatorSteps();
+        $this->progressIndicator->startProgressIndicator($totalSteps, $this);
     }
 
     public function inProgress()
     {
-        return $this->progressIndicatorRunning;
+        if (!$this->progressIndicator) {
+            return false;
+        }
+        return $this->progressIndicator->inProgress();
     }
 
-    public function stopProgressIndicator()
+    protected function stopProgressIndicator()
     {
         $this->stopTimer();
-        if ($this->progressIndicatorRunning) {
-            $this->progressIndicatorRunning = false;
-            $this->progressIndicator->finish();
-            // Hack: progress indicator does not always finish cleanly
-            \Robo\Config::output()->writeln('');
+        if (!$this->progressIndicator) {
+            return;
         }
+        $this->progressIndicator->stopProgressIndicator($this);
     }
 
-    public function advanceProgressIndicator($steps = 1)
+    public function disableProgressIndicator()
     {
-        if ($this->progressIndicatorRunning) {
-            $this->progressIndicator->advance($steps);
+        $this->stopTimer();
+        if (!$this->progressIndicator) {
+            return;
         }
+        $this->progressIndicator->disableProgressIndicator();
+    }
+
+    protected function advanceProgressIndicator($steps = 1)
+    {
+        if (!$this->progressIndicator) {
+            return;
+        }
+        $this->progressIndicator->advanceProgressIndicator($steps);
     }
 }

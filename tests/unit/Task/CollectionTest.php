@@ -24,7 +24,7 @@ class CollectionTest extends \Codeception\TestCase\Test
     protected function _before()
     {
         $this->container = Config::getContainer();
-        $this->container->addServiceProvider(\Robo\Collection\Collection::getCollectionServices());
+        $this->container->addServiceProvider(\Robo\Collection\loadTasks::getCollectionServices());
     }
 
     public function testAfterFilters()
@@ -53,7 +53,7 @@ class CollectionTest extends \Codeception\TestCase\Test
         // verify(var_export($result->getData(), true))->equals('');
 
         // Ensure that the results have the correct key values
-        verify(implode(',', array_keys($result->getData())))->equals('a-name,b-name,special-name');
+        verify(implode(',', array_keys($result->getData())))->equals('a-name,b-name,special-name,time');
 
         // Verify that all of the after tasks ran in
         // the correct order.
@@ -87,7 +87,7 @@ class CollectionTest extends \Codeception\TestCase\Test
         $result = $collection->run();
 
         // Ensure that the results have the correct key values
-        verify(implode(',', array_keys($result->getData())))->equals('a-name,b-name,special-before-name');
+        verify(implode(',', array_keys($result->getData())))->equals('a-name,b-name,special-before-name,time');
 
         // The result from the 'before' task is attached
         // to 'b-name', since it was called as before('b-name', ...)

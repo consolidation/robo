@@ -13,6 +13,8 @@ class CliHelper extends \Codeception\Module implements ContainerAwareInterface
     use ContainerAwareTrait;
 
     use \Robo\LoadAllTasks {
+        collection as public;
+        collectionBuilder as public;
         task as public;
         taskExec as public;
         taskExecStack as public;

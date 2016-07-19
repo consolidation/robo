@@ -3,7 +3,7 @@ namespace Robo;
 
 use Robo\Config;
 use Robo\Common\IO;
-use Robo\Container\RoboContainer;
+use League\Container\Container;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\StringInput;
@@ -93,9 +93,8 @@ class Runner
         // If we were not provided a container, then create one
         if (!Config::hasContainer()) {
             // Set up our dependency injection container.
-            $container = new RoboContainer();
+            $container = new Container();
             static::configureContainer($container, $input, $output);
-            static::addServiceProviders($container);
             Config::setContainer($container);
 
             // Only register a shutdown function when we
@@ -120,6 +119,9 @@ class Runner
         $commandFileName = "{$this->roboClass}Commands";
         $container->share($commandFileName, $this->roboClass);
         $roboCommandFileInstance = $container->get($commandFileName);
+
+        // RoboFiles must always extend `Tasks`.
+        $this->addServiceProviders($container, $roboCommandFileInstance->getServiceProviders());
 
         // Register commands for all of the public methods in the RoboFile.
         $commandFactory = $container->get('commandFactory');
@@ -154,8 +156,10 @@ class Runner
         $container->share('logger', \Robo\Log\RoboLogger::class)
             ->withArgument('output')
             ->withMethodCall('setLogOutputStyler', ['logStyler']);
-        $container->add('progressIndicator', \Symfony\Component\Console\Helper\ProgressBar::class)
+        $container->add('progressBar', \Symfony\Component\Console\Helper\ProgressBar::class)
             ->withArgument('output');
+        $container->share('progressIndicator', \Robo\Common\ProgressIndicator::class)
+            ->withArgument('progressBar');
         $container->share('resultPrinter', \Robo\Log\ResultPrinter::class);
         $container->add('simulator', \Robo\Task\Simulator::class);
         $container->share('globalOptionsEventListener', \Robo\GlobalOptionsEventListener::class);
@@ -170,6 +174,7 @@ class Runner
             ->withMethodCall('setFormatterManager', ['formatterManager']);
         $container->share('commandFactory', \Consolidation\AnnotatedCommand\AnnotatedCommandFactory::class)
             ->withMethodCall('setCommandProcessor', ['commandProcessor']);
+        $container->add('collectionBuilder', \Robo\Collection\CollectionBuilder::class);
         $container->share('application', \Robo\Application::class)
             ->withArgument('Robo')
             ->withArgument(self::VERSION)
@@ -195,24 +200,11 @@ class Runner
     /**
      * Register our service providers
      */
-    public static function addServiceProviders($container)
+    public static function addServiceProviders($container, $providerList)
     {
-        $container->addServiceProvider(\Robo\Collection\Collection::getCollectionServices());
-        $container->addServiceProvider(\Robo\Task\ApiGen\loadTasks::getApiGenServices());
-        $container->addServiceProvider(\Robo\Task\Archive\loadTasks::getArchiveServices());
-        $container->addServiceProvider(\Robo\Task\Assets\loadTasks::getAssetsServices());
-        $container->addServiceProvider(\Robo\Task\Base\loadTasks::getBaseServices());
-        $container->addServiceProvider(\Robo\Task\Npm\loadTasks::getNpmServices());
-        $container->addServiceProvider(\Robo\Task\Bower\loadTasks::getBowerServices());
-        $container->addServiceProvider(\Robo\Task\Gulp\loadTasks::getGulpServices());
-        $container->addServiceProvider(\Robo\Task\Composer\loadTasks::getComposerServices());
-        $container->addServiceProvider(\Robo\Task\Development\loadTasks::getDevelopmentServices());
-        $container->addServiceProvider(\Robo\Task\Docker\loadTasks::getDockerServices());
-        $container->addServiceProvider(\Robo\Task\File\loadTasks::getFileServices());
-        $container->addServiceProvider(\Robo\Task\Filesystem\loadTasks::getFilesystemServices());
-        $container->addServiceProvider(\Robo\Task\Remote\loadTasks::getRemoteServices());
-        $container->addServiceProvider(\Robo\Task\Testing\loadTasks::getTestingServices());
-        $container->addServiceProvider(\Robo\Task\Vcs\loadTasks::getVcsServices());
+        foreach ($providerList as $provider) {
+            $container->addServiceProvider($provider);
+        }
     }
 
     /**

@@ -11,10 +11,17 @@ use Symfony\Component\Process\Process;
  */
 trait ExecCommand
 {
-    use Timer;
-
     protected $isPrinted = true;
     protected $workingDirectory;
+    protected $execTimer;
+
+    protected function getExecTimer()
+    {
+        if (!isset($this->execTimer)) {
+            $this->execTimer = new TimeKeeper();
+        }
+        return $this->execTimer;
+    }
 
     /**
      * Is command printing its output to screen
@@ -108,7 +115,7 @@ trait ExecCommand
         if ($this->workingDirectory) {
             $process->setWorkingDirectory($this->workingDirectory);
         }
-        $this->startTimer();
+        $this->getExecTimer()->start();
         if ($this->isPrinted) {
             $process->run(function ($type, $buffer) {
                 print $buffer;
@@ -116,8 +123,8 @@ trait ExecCommand
         } else {
             $process->run();
         }
-        $this->stopTimer();
+        $this->getExecTimer()->stop();
 
-        return new Result($this, $process->getExitCode(), $process->getOutput(), ['time' => $this->getExecutionTime()]);
+        return new Result($this, $process->getExitCode(), $process->getOutput(), ['time' => $this->getExecTimer()->elapsed()]);
     }
 }

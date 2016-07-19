@@ -4,6 +4,8 @@ namespace Robo\Log;
 use Robo\Result;
 use Robo\TaskInfo;
 use Robo\Contract\PrintedInterface;
+use Robo\Contract\ProgressIndicatorAwareInterface;
+use Robo\Common\ProgressIndicatorAwareTrait;
 
 use Psr\Log\LoggerInterface;
 use Psr\Log\LoggerAwareInterface;
@@ -12,9 +14,10 @@ use Psr\Log\LoggerAwareTrait;
 /**
  * Log the creation of Result objects.
  */
-class ResultPrinter implements LoggerAwareInterface
+class ResultPrinter implements LoggerAwareInterface, ProgressIndicatorAwareInterface
 {
     use LoggerAwareTrait;
+    use ProgressIndicatorAwareTrait;
 
     /**
      * Log the result of a Robo task.
@@ -38,6 +41,7 @@ class ResultPrinter implements LoggerAwareInterface
      */
     public function printStopOnFail($result)
     {
+        $this->hideProgressIndicator();
         $this->logger->notice('Stopping on fail. Exiting....');
         $this->logger->error('Exit Code: {code}', ['code' => $result->getExitCode()]);
     }
@@ -47,6 +51,7 @@ class ResultPrinter implements LoggerAwareInterface
      */
     protected function printError(Result $result)
     {
+        $this->hideProgressIndicator();
         $task = $result->getTask();
         $context = $result->getContext() + ['timer-label' => 'Time', '_style' => []];
         $context['_style']['message'] = '';

@@ -5,6 +5,7 @@ use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Robo\Collection\CollectionBuilder;
 
 class GlobalOptionsEventListener implements EventSubscriberInterface
 {
@@ -31,6 +32,6 @@ class GlobalOptionsEventListener implements EventSubscriberInterface
         // Need a better way to handle global options.
         // This is slightly improved from before.
         Config::setGlobalOptions($input);
-        Config::getContainer()->setSimulated(Config::isSimulated());
+        CollectionBuilder::setDefaultSimulated(Config::isSimulated());
     }
 }

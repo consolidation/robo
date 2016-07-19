@@ -38,10 +38,8 @@ use Robo\Task\BaseTask;
  * ?>
  * ```
  */
-class PackPhar extends BaseTask implements PrintedInterface, ProgressIndicatorAwareInterface
+class PackPhar extends BaseTask implements PrintedInterface
 {
-    use ProgressIndicatorAwareTrait;
-
     /**
      * @var \Phar
      */
@@ -97,6 +95,13 @@ EOF;
         return $this;
     }
 
+    public function progressIndicatorSteps()
+    {
+        // run() will call advanceProgressIndicator() once for each
+        // file, one after calling stopBuffering, and again after compression.
+        return count($this->files)+2;
+    }
+
     public function run()
     {
         $this->printTaskInfo('Creating {filename}', ['filename' => $this->filename]);
@@ -105,7 +110,7 @@ EOF;
 
         $this->printTaskInfo('Packing {file-count} files into phar', ['file-count' => count($this->files)]);
 
-        $this->startProgressIndicator(count($this->files)+2);
+        $this->startProgressIndicator();
         foreach ($this->files as $path => $content) {
             $this->phar->addFromString($path, $content);
             $this->advanceProgressIndicator();

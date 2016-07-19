@@ -12,11 +12,9 @@ namespace Robo\Contract;
  */
 interface ProgressIndicatorAwareInterface
 {
+    public function progressIndicatorSteps();
     public function setProgressIndicator($progressIndicator);
+    public function setProgressBarAutoDisplayInterval($interval);
     public function inProgress();
-    public function startProgressIndicator($totalSteps = 0);
-    public function stopProgressIndicator();
-    public function hideProgressIndicator();
-    public function showProgressIndicator();
-    public function advanceProgressIndicator($steps = 1);
+    public function getTotalExecutionTime();
 }

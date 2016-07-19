@@ -17,10 +17,13 @@ class SvnTest extends \Codeception\TestCase\Test
         $this->container = Config::getContainer();
         $this->container->addServiceProvider(\Robo\Task\Vcs\loadTasks::getVcsServices());
 
+        $progressIndicator = new \Robo\Common\ProgressIndicator(null);
+
         $this->svn = test::double('Robo\Task\Vcs\SvnStack', [
             'executeCommand' => new \AspectMock\Proxy\Anything(),
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput(),
             'logger' => $this->container->get('logger'),
+            'progressIndicator' => $progressIndicator,
         ]);
     }
 

@@ -1,20 +1,73 @@
-# Collections
+# Collections and Builders
 
-Robo provides task collections as a means of making error detection and recovery easier. When Robo tasks are added to a collection, their execution is deferred until the `$collection->run()` method is called.  When using collections, a Robo script will go through three phases:
+Robo provides task collections as a means of making error detection and recovery easier. When Robo tasks are added to a collection, their execution is deferred until the `$collection->run()` method is called.  If one of the tasks fail, then the operation will be aborted; rollback tasks may also be defined to restore the system to its original condition.
 
-1. Determine which tasks will need to be run, and create a collection.
+When using collections, a Robo script will go through three phases:
+
+1. Determine which tasks will need to be run, and create a task builder.
   - Assign values to variables.
   - Do not alter the state of the system.
-2. Create the necessary tasks and add them to the collection.
-  - Pass variables calculated in the first phase to task parameters.
-3. Run the tasks via `$collection->run()`.
+2. Create the necessary tasks via the task builder.
+  - Use variables calculated in the first phase in task parameters.
+3. Run the tasks via the `run()` method.
   - Check and report errors once after `run()` returns.
 
 Following this pattern will keep your code linear and easy to understand.
 
-## Basic Collection Example
+## Collections API
 
-The 'publish' command from Robo's own RoboFile is shown below:
+Collections are made up of a combination of tasks and/or `callable` functions / method pointers, such as:
+
+  - A task (implements TaskInterface)
+  - A function name (string)
+  - A closure (inline function)
+  - A method reference (array with object and method name)
+
+Examples of adding different kinds of tasks to a collection are provided below.
+
+### TaskInterface Objects
+
+```php
+<?php
+  $collection->add(
+    $this->taskOther($work)
+  );
+?>
+```
+
+### Functions
+
+```php
+<?php
+  $collection->addCode('mytaskfunction');
+?>
+```
+
+### Closures
+
+```php
+<?php
+  $collection->addCode(
+    function() use ($work)
+    {
+      // do something with $work      
+    });
+?>
+```
+
+### Methods
+
+```php
+<?php
+  $collection->addCode([$myobject, 'mymethod']);
+?>
+```
+
+## Using a Collection Builder
+
+The easiest way to manage a collection of tasks is to use a collection builder. Collection builders allow tasks to be created via chained methods.  All of the tasks created by the same builder are added to a collection; when the `run()` method is called, all of the tasks in the collection run. 
+
+Collection builders provide all of the capabilities of collections with a cleaner API.  The 'publish' command from Robo's own RoboFile is shown below.  It uses a collection builder to run some git and filesystem operations. The "completion" tasks are run after all other tasks complete, or during rollback processing when an operation fails.
 
 ``` php
 <?php
@@ -24,28 +77,21 @@ class RoboFile extends \Robo\Tasks
     {
         $current_branch = exec('git rev-parse --abbrev-ref HEAD');
 
-        $collection = $this->collection();
-        $this->taskGitStack()
+        $builder = $this->builder();
+        $builder->taskGitStack()
             ->checkout('site')
             ->merge('master')
-            ->addToCollection($collection);
-        $this->taskGitStack()
-            ->checkout($current_branch)
-            ->addAsCompletion($collection);
-        $this->taskFilesystemStack()
+        ->completion($this->taskGitStack()->checkout($current_branch))
+        ->taskFilesystemStack()
             ->copy('CHANGELOG.md', 'docs/changelog.md')
-            ->addToCollection($collection);
-        $this->taskFilesystemStack()
-            ->remove('docs/changelog.md')
-            ->addAsCompletion($collection);
-        $this->taskExec('mkdocs gh-deploy')
-            ->addToCollection($collection);
-        $collection->run();
+        ->completion($this->taskFilesystemStack()->remove('docs/changelog.md'))
+        ->taskExec('mkdocs gh-deploy');
+
+        return $builder;
     }
 }
 ?>
 ```
-Note that code that uses collections looks very similar to similar code that does not use collections; the main difference is that `addToCollection($collection)` is used in place of the `run()` method. This deferrs execution of the task until it is run as part of the collection. When `$collection->run()` is executed, all of the tasks in the collection will run, and the final result (a Robo\Result object) will be returned. If any of the tasks fail, then the tasks that follow are skipped.
 
 The example above also adds a couple of tasks as "completions"; these are run when the collection completes execution, as explained below.
 
@@ -132,54 +178,6 @@ For example, the implementation of taskTmpFile() looks like this:
 ```
 
 The `complete()` method of the task will be called once the Collection the temporary object is attached to finishes running. If the temporary is not added to a collection, then its `complete()` method will be called when the script terminates.
-
-## Adding Tasks to Collections
-
-In the previous example, tasks were added to collections using the `addToCollection($collection)` method available in BaseTask; this, however, is little more than a convenience wrapper to `$collection->add()`, which adds a TaskInterface to the collection.  Also available is `$collection->addCode()`, which can add a `callable` to the collection, such as:
-
-  - A function name (string)
-  - A closure (inline function)
-  - A method reference (array with object and method name)
-
-Examples of adding different kinds of tasks to a collection are provided below.
-
-### TaskInterface Objects
-
-```php
-<?php
-  $collection->add(
-    $this->taskOther($work)
-  );
-?>
-```
-
-### Functions
-
-```php
-<?php
-  $collection->addCode('mytaskfunction');
-?>
-```
-
-### Closures
-
-```php
-<?php
-  $collection->addCode(
-    function() use ($work)
-    {
-      // do something with $work      
-    });
-?>
-```
-
-### Methods
-
-```php
-<?php
-  $collection->addCode([$myobject, 'mymethod']);
-?>
-```
 
 ## Named Tasks
 

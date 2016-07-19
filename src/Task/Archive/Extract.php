@@ -78,13 +78,8 @@ class Extract extends BaseTask
         $this->startTimer();
 
         $this->printTaskInfo("Extracting {filename}", ['filename' => $this->filename]);
-        // Perform the extraction of a zip file.
-        if (($mimetype == 'application/zip') || ($mimetype == 'application/x-zip')) {
-            $result = $this->extractZip($extractLocation);
-        } else {
-            // Otherwise we have a possibly-compressed Tar file.
-            $result = $this->extractTar($extractLocation);
-        }
+
+        $result = $this->extractAppropriateType($mimetype, $extractLocation);
         if ($result->wasSuccessful()) {
             $this->printTaskInfo("{filename} extracted", ['filename' => $this->filename]);
             // Now, we want to move the extracted files to $this->to. There
@@ -119,6 +114,15 @@ class Extract extends BaseTask
         $result['time'] = $this->getExecutionTime();
 
         return $result;
+    }
+
+    protected function extractAppropriateType($mimetype, $extractLocation)
+    {
+        // Perform the extraction of a zip file.
+        if (($mimetype == 'application/zip') || ($mimetype == 'application/x-zip')) {
+            return $this->extractZip($extractLocation);
+        }
+        return $this->extractTar($extractLocation);
     }
 
     protected function extractZip($extractLocation)

@@ -1,7 +1,8 @@
 <?php
 require_once codecept_data_dir() . 'TestedRoboFile.php';
 
-use Robo\Container\RoboContainer;
+use Robo\Runner;
+use League\Container\Container;
 use Consolidation\AnnotatedCommand\AnnotatedCommandFactory;
 use Consolidation\AnnotatedCommand\Parser\CommandInfo;
 
@@ -29,14 +30,14 @@ class ApplicationTest extends \Codeception\TestCase\Test
 
     protected function _before()
     {
-        $container = new RoboContainer();
+        $container = new Container();
         \Robo\Runner::configureContainer($container);
-        \Robo\Runner::addServiceProviders($container);
         \Robo\Config::setContainer($container);
         $this->app = $container->get('application');
         $this->commandFactory = $container->get('commandFactory');
         $this->roboCommandFileInstance = new TestedRoboFile;
         $this->roboCommandFileInstance->setContainer(\Robo\Config::getContainer());
+        \Robo\Runner::addServiceProviders($container, $this->roboCommandFileInstance->getServiceProviders());
         $commandList = $this->commandFactory->createCommandsFromClass($this->roboCommandFileInstance);
         foreach ($commandList as $command) {
             $this->app->add($command);
@@ -50,11 +51,15 @@ class ApplicationTest extends \Codeception\TestCase\Test
         // commandfile instance.
         $method = new ReflectionMethod($this->roboCommandFileInstance, 'task');
         $method->setAccessible(true);
-        $task = $method->invoke($this->roboCommandFileInstance, 'taskExec', ['ls']);
+        $collectionBuilder = $method->invoke($this->roboCommandFileInstance, 'taskExec', ['ls']);
+        verify(get_class($collectionBuilder))->equals('Robo\Collection\CollectionBuilder');
+        $task = $collectionBuilder->getCollectionBuilderCurrentTask();
         verify(get_class($task))->equals('Robo\Task\Base\Exec');
         // If 'task' is not provided, then it will be supplied (that is,
         // the task's classname may also be used with the 'task()' method).
-        $task = $method->invoke($this->roboCommandFileInstance, 'Exec', ['ls']);
+        $collectionBuilder = $method->invoke($this->roboCommandFileInstance, 'Exec', ['ls']);
+        verify(get_class($collectionBuilder))->equals('Robo\Collection\CollectionBuilder');
+        $task = $collectionBuilder->getCollectionBuilderCurrentTask();
         verify(get_class($task))->equals('Robo\Task\Base\Exec');
     }
 

@@ -14,5 +14,4 @@ interface ProgressIndicatorAwareInterface
 {
     public function progressIndicatorSteps();
     public function setProgressIndicator($progressIndicator);
-    public function setProgressBarAutoDisplayInterval($interval);
 }

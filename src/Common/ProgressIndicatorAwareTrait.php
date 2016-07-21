@@ -16,14 +16,6 @@ trait ProgressIndicatorAwareTrait
         $this->progressIndicator = $progressIndicator;
     }
 
-    public function setProgressBarAutoDisplayInterval($interval)
-    {
-        if (!$this->progressIndicator) {
-            return;
-        }
-        return $this->progressIndicator->setProgressBarAutoDisplayInterval($interval);
-    }
-
     protected function hideProgressIndicator()
     {
         if (!$this->progressIndicator) {

@@ -66,6 +66,14 @@ class Collection extends BaseTask implements CollectionInterface, ContainerAware
     {
     }
 
+    public function setProgressBarAutoDisplayInterval($interval)
+    {
+        if (!$this->progressIndicator) {
+            return;
+        }
+        return $this->progressIndicator->setProgressBarAutoDisplayInterval($interval);
+    }
+
     /**
      * @inheritdoc
      */

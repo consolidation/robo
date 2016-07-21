@@ -46,10 +46,12 @@ $this->taskApiGen('./apigen.neon')
 * `colors($colors)`   * `param boolean|string` $colors 'yes' or true colorize the output, 'no' or false otherwise
 * `updateCheck($check)`   * `param boolean|string` $check 'yes' or true to check for updates, 'no' or false otherwise
 * `debug($debug)`   * `param boolean|string` $debug 'yes' or true to enable debug mode, 'no' or false otherwise
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
+* `injectDependencies($child)`  {inheritdoc}
 * `logger()` 
+* `setLogger($logger)`  Sets a logger.
+* `progressIndicatorSteps()` 
+* `setProgressIndicator($progressIndicator)` 
+* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 

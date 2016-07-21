@@ -13,10 +13,12 @@ $this->_cleanDir('app/cache');
 ?>
 ```
 
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
+* `injectDependencies($child)`  {inheritdoc}
 * `logger()` 
+* `setLogger($logger)`  Sets a logger.
+* `progressIndicatorSteps()` 
+* `setProgressIndicator($progressIndicator)` 
+* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
@@ -36,10 +38,13 @@ $this->_copyDir('dist/config', 'config');
 ```
 
 * `dirPermissions($value)`  Sets the default folder permissions for the destination if it doesn't exist
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
+* `exclude($exclude = null)`  List files to exclude.
+* `injectDependencies($child)`  {inheritdoc}
 * `logger()` 
+* `setLogger($logger)`  Sets a logger.
+* `progressIndicatorSteps()` 
+* `setProgressIndicator($progressIndicator)` 
+* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
@@ -58,10 +63,12 @@ $this->_deleteDir(['tmp', 'log']);
 ?>
 ```
 
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
+* `injectDependencies($child)`  {inheritdoc}
 * `logger()` 
+* `setLogger($logger)`  Sets a logger.
+* `progressIndicatorSteps()` 
+* `setProgressIndicator($progressIndicator)` 
+* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
@@ -101,10 +108,12 @@ $this->_mkdir('logs');
 * `chown($file, $user)` 
 
 * `stopOnFail($stop = null)` 
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
+* `progressIndicatorSteps()` 
+* `injectDependencies($child)`  {inheritdoc}
 * `logger()` 
+* `setLogger($logger)`  Sets a logger.
+* `setProgressIndicator($progressIndicator)` 
+* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
@@ -176,10 +185,12 @@ $this->taskFlattenDir(['assets/*.min.js' => 'dist'])
 * `includeParents($parents)`  Sets the value from which direction and how much parent dirs should be included.
 * `parentDir($dir)`  Sets the parent directory from which the relative parent directories will be calculated.
 * `to($target)`  Sets the target directory where the files will be copied to.
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
+* `injectDependencies($child)`  {inheritdoc}
 * `logger()` 
+* `setLogger($logger)`  Sets a logger.
+* `progressIndicatorSteps()` 
+* `setProgressIndicator($progressIndicator)` 
+* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
@@ -199,10 +210,12 @@ $this->_mirrorDir('dist/config/', 'config/');
 ?>
 ```
 
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
+* `injectDependencies($child)`  {inheritdoc}
 * `logger()` 
+* `setLogger($logger)`  Sets a logger.
+* `progressIndicatorSteps()` 
+* `setProgressIndicator($progressIndicator)` 
+* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
@@ -214,7 +227,7 @@ $this->_mirrorDir('dist/config/', 'config/');
 Create a temporary directory that is automatically cleaned up
 once the task collection is is part of completes.
 
-Move the directory to another location to prevent its deletion.
+Use WorkDir if you do not want the directory to be deleted.
 
 ``` php
 <?php
@@ -232,13 +245,48 @@ $tmpPath = $this->_tmpDir();
 ?>
 ```
 
-* `cwd()`  Flag that we should cwd to the temporary directory when it is
+* `cwd($shouldChangeWorkingDirectory = null)`  Flag that we should cwd to the temporary directory when it is
 * `complete()`  Delete this directory when our collection completes.
 * `getPath()`  Get a reference to the path to the temporary directory, so that
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
+* `injectDependencies($child)`  {inheritdoc}
 * `logger()` 
+* `setLogger($logger)`  Sets a logger.
+* `progressIndicatorSteps()` 
+* `setProgressIndicator($progressIndicator)` 
+* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
+* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
+* `addAsRollback($collection)` 
+* `addAsCompletion($collection)` 
+* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
+
+## WorkDir
+
+
+Create a temporary working directory that is automatically renamed to its
+final desired location if all of the tasks in the collection succeed.  If
+there is a rollback, then the working directory is deleted.
+
+``` php
+<?php
+$workingPath = $this->taskWorkDir("build")->addToCollection($collection)->getPath();
+$this->taskFilesystemStack()
+          ->mkdir("$workingPath/log")
+          ->touch("$workingPath/log/error.txt")
+          ->addToCollection($collection);
+$collection->run();
+?>
+```
+
+* `complete()`  Move our working directory into its final destination once the
+* `rollback()`  Delete our working directory
+* `getPath()`  Get a reference to the path to the temporary directory, so that
+* `cwd($shouldChangeWorkingDirectory = null)`  Flag that we should cwd to the temporary directory when it is
+* `injectDependencies($child)`  {inheritdoc}
+* `logger()` 
+* `setLogger($logger)`  Sets a logger.
+* `progressIndicatorSteps()` 
+* `setProgressIndicator($progressIndicator)` 
+* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 

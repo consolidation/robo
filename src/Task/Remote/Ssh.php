@@ -174,12 +174,7 @@ class Ssh extends BaseTask implements CommandInterface
     {
         $this->validateParameters();
         $command = $this->getCommand();
-        $result = $this->executeCommand($command);
-        if (!$result->wasSuccessful()) {
-            return $result;
-        }
-
-        return Result::success($this);
+        return $this->executeCommand($command);
     }
 
     protected function validateParameters()

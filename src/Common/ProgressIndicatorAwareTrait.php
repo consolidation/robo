@@ -48,7 +48,7 @@ trait ProgressIndicatorAwareTrait
         $this->progressIndicator->restoreProgressIndicator($visible);
     }
 
-    public function getTotalExecutionTime()
+    protected function getTotalExecutionTime()
     {
         if (!$this->progressIndicator) {
             return 0;
@@ -66,7 +66,7 @@ trait ProgressIndicatorAwareTrait
         $this->progressIndicator->startProgressIndicator($totalSteps, $this);
     }
 
-    public function inProgress()
+    protected function inProgress()
     {
         if (!$this->progressIndicator) {
             return false;

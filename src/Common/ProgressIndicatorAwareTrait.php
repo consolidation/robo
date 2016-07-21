@@ -75,7 +75,7 @@ trait ProgressIndicatorAwareTrait
         $this->progressIndicator->stopProgressIndicator($this);
     }
 
-    public function disableProgressIndicator()
+    protected function disableProgressIndicator()
     {
         $this->stopTimer();
         if (!$this->progressIndicator) {

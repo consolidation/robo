@@ -100,12 +100,12 @@ $this->_mkdir('logs');
 * `touch($file)` 
 * `copy($from, $to, $force = null)` 
 * `chmod($file, $permissions, $umask = null, $recursive = null)` 
+* `chgrp($file, $group, $recursive = null)` 
+* `chown($file, $user, $recursive = null)` 
 * `remove($file)` 
 * `rename($from, $to)` 
 * `symlink($from, $to)` 
 * `mirror($from, $to)` 
-* `chgrp($file, $group)` 
-* `chown($file, $user)` 
 
 * `stopOnFail($stop = null)` 
 * `progressIndicatorSteps()` 

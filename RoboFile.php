@@ -384,6 +384,7 @@ class RoboFile extends \Robo\Tasks
     /**
      * Demonstrate Robo boolean options.
      *
+     * @param $opts The options.
      * @option boolean $silent Supress output.
      */
     public function tryOptbool($opts = ['silent|s' => false])

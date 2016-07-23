@@ -26,11 +26,11 @@ class GitTest extends \Codeception\TestCase\Test
     // tests
     public function testGitStackRun()
     {
-        $this->container->get('taskGitStack', ['git'])->stopOnFail()->add('-A')->pull()->run();
+        $this->container->get('taskGitStack', ['git'])->stopOnFail(true)->add('-A')->pull()->run();
         $this->git->verifyInvoked('executeCommand', ['git add -A']);
         $this->git->verifyInvoked('executeCommand', ['git pull']);
 
-        $this->container->get('taskGitStack', ['git'])->add('-A')->pull()->run();
+        $this->container->get('taskGitStack', ['git'])->stopOnFail(false)->add('-A')->pull()->run();
         $this->git->verifyInvoked('executeCommand', ['git add -A && git pull']);
     }
 
@@ -38,6 +38,7 @@ class GitTest extends \Codeception\TestCase\Test
     {
         verify(
             $this->container->get('taskGitStack')
+                ->stopOnFail(false)
                 ->cloneRepo('http://github.com/Codegyre/Robo')
                 ->pull()
                 ->add('-A')
@@ -53,6 +54,7 @@ class GitTest extends \Codeception\TestCase\Test
     {
         verify(
             $this->container->get('taskGitStack')
+                ->stopOnFail(false)
                 ->cloneRepo('http://github.com/Codegyre/Robo')
                 ->pull()
                 ->add('-A')

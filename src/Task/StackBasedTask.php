@@ -148,8 +148,6 @@ abstract class StackBasedTask extends BaseTask
 
     public function progressIndicatorSteps()
     {
-        // run() will call advanceProgressIndicator() once for each
-        // file, one after calling stopBuffering, and again after compression.
         return count($this->stack);
     }
 
@@ -176,7 +174,7 @@ abstract class StackBasedTask extends BaseTask
 
         $this->stopProgressIndicator();
 
-        // todo: add timing information to the result
+        $result['time'] = $this->getExecutionTime();
         return $result;
     }
 

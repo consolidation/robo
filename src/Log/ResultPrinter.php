@@ -43,8 +43,8 @@ class ResultPrinter implements LoggerAwareInterface, ProgressIndicatorAwareInter
      */
     public function printStopOnFail($result)
     {
-        $this->print(LogLevel::NOTICE, 'Stopping on fail. Exiting....');
-        $this->print(LogLevel::ERROR, 'Exit Code: {code}', ['code' => $result->getExitCode()]);
+        $this->printMessage(LogLevel::NOTICE, 'Stopping on fail. Exiting....');
+        $this->printMessage(LogLevel::ERROR, 'Exit Code: {code}', ['code' => $result->getExitCode()]);
     }
 
     /**
@@ -61,9 +61,9 @@ class ResultPrinter implements LoggerAwareInterface, ProgressIndicatorAwareInter
             $printOutput = !$task->getPrinted();
         }
         if ($printOutput) {
-            $this->print(LogLevel::ERROR, "{message}", $context);
+            $this->printMessage(LogLevel::ERROR, "{message}", $context);
         }
-        $this->print(LogLevel::ERROR, 'Exit code {code}', $context);
+        $this->printMessage(LogLevel::ERROR, 'Exit code {code}', $context);
         return true;
     }
 
@@ -76,12 +76,12 @@ class ResultPrinter implements LoggerAwareInterface, ProgressIndicatorAwareInter
         $context = $result->getContext() + ['timer-label' => 'in'];
         $time = $result->getExecutionTime();
         if ($time) {
-            $this->print(ConsoleLogLevel::SUCCESS, 'Done', $context);
+            $this->printMessage(ConsoleLogLevel::SUCCESS, 'Done', $context);
         }
         return false;
     }
 
-    protected function print($level, $message, $context = [])
+    protected function printMessage($level, $message, $context = [])
     {
         $inProgress = $this->hideProgressIndicator();
         $this->logger->log($level, $message, $context);

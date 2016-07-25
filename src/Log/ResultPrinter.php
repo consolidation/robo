@@ -7,9 +7,11 @@ use Robo\Contract\PrintedInterface;
 use Robo\Contract\ProgressIndicatorAwareInterface;
 use Robo\Common\ProgressIndicatorAwareTrait;
 
+use Psr\Log\LogLevel;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
+use Consolidation\Log\ConsoleLogLevel;
 
 /**
  * Log the creation of Result objects.
@@ -41,9 +43,8 @@ class ResultPrinter implements LoggerAwareInterface, ProgressIndicatorAwareInter
      */
     public function printStopOnFail($result)
     {
-        $this->hideProgressIndicator();
-        $this->logger->notice('Stopping on fail. Exiting....');
-        $this->logger->error('Exit Code: {code}', ['code' => $result->getExitCode()]);
+        $this->print(LogLevel::NOTICE, 'Stopping on fail. Exiting....');
+        $this->print(LogLevel::ERROR, 'Exit Code: {code}', ['code' => $result->getExitCode()]);
     }
 
     /**
@@ -51,7 +52,6 @@ class ResultPrinter implements LoggerAwareInterface, ProgressIndicatorAwareInter
      */
     protected function printError(Result $result)
     {
-        $this->hideProgressIndicator();
         $task = $result->getTask();
         $context = $result->getContext() + ['timer-label' => 'Time', '_style' => []];
         $context['_style']['message'] = '';
@@ -61,9 +61,9 @@ class ResultPrinter implements LoggerAwareInterface, ProgressIndicatorAwareInter
             $printOutput = !$task->getPrinted();
         }
         if ($printOutput) {
-            $this->logger->error("{message}", $context);
+            $this->print(LogLevel::ERROR, "{message}", $context);
         }
-        $this->logger->error('Exit code {code}', $context);
+        $this->print(LogLevel::ERROR, 'Exit code {code}', $context);
         return true;
     }
 
@@ -76,8 +76,17 @@ class ResultPrinter implements LoggerAwareInterface, ProgressIndicatorAwareInter
         $context = $result->getContext() + ['timer-label' => 'in'];
         $time = $result->getExecutionTime();
         if ($time) {
-            $this->logger->success('Done', $context);
+            $this->print(ConsoleLogLevel::SUCCESS, 'Done', $context);
         }
         return false;
+    }
+
+    protected function print($level, $message, $context = [])
+    {
+        $inProgress = $this->hideProgressIndicator();
+        $this->logger->log($level, $message, $context);
+        if ($inProgress) {
+            $this->restoreProgressIndicator($inProgress);
+        }
     }
 }

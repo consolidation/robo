@@ -44,7 +44,7 @@ class Watch extends BaseTask
 
     public function run()
     {
-        if (!class_exists('Lurker\\ResourceWatcher\\ResourceWatcher')) {
+        if (!class_exists('Lurker\\ResourceWatcher')) {
             return Result::errorMissingPackage($this, 'ResourceWatcher', 'henrikbjorn/lurker');
         }
 

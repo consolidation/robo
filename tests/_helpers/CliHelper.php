@@ -1,7 +1,7 @@
 <?php
 namespace Codeception\Module;
 
-use Robo\Config;
+use Robo\Robo;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\NullOutput;
 
@@ -43,7 +43,7 @@ class CliHelper extends \Codeception\Module implements ContainerAwareInterface
 
     public function _before(\Codeception\TestCase $test) {
         $this->getModule('Filesystem')->copyDir(codecept_data_dir().'claypit', codecept_data_dir().'sandbox');
-        $this->setContainer(Config::getContainer());
+        $this->setContainer(Robo::getContainer());
         $this->getContainer()->add('output', new NullOutput());
     }
 

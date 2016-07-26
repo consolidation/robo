@@ -1,5 +1,5 @@
 <?php
-use Robo\Config;
+use Robo\Robo;
 use Symfony\Component\Console\Output\BufferedOutput;
 
 class RunnerTest extends \Codeception\TestCase\Test
@@ -71,8 +71,8 @@ class RunnerTest extends \Codeception\TestCase\Test
             '\RuntimeException',
             '/container is not initialized yet.*/'
         );
-        Config::unsetContainer();
-        Config::getContainer();
+        Robo::unsetContainer();
+        Robo::getContainer();
     }
 
     public function testRunnerNoSuchCommand()
@@ -108,7 +108,7 @@ EOT;
 
     public function testRunnerTryError()
     {
-        $container = \Robo\Config::getContainer();
+        $container = \Robo\Robo::getContainer();
         $container->addServiceProvider(\Robo\Task\Base\loadTasks::getBaseServices());
 
         $argv = ['placeholder', 'try:error'];
@@ -120,7 +120,7 @@ EOT;
 
     public function testRunnerTryException()
     {
-        $container = \Robo\Config::getContainer();
+        $container = \Robo\Robo::getContainer();
         $container->addServiceProvider(\Robo\Task\Base\loadTasks::getBaseServices());
 
         $argv = ['placeholder', 'try:exception', '--task'];
@@ -132,7 +132,7 @@ EOT;
 
     public function testInitCommand()
     {
-        $container = \Robo\Config::getContainer();
+        $container = \Robo\Robo::getContainer();
         $app = $container->get('application');
         $app->addInitRoboFileCommand('testRoboFile', 'RoboTestClass');
 

@@ -10,7 +10,7 @@ use Robo\Result;
 use Robo\Task\BaseTask;
 use Robo\Contract\TaskInterface;
 use Robo\Collection\Collection;
-use Robo\Config;
+use Robo\Robo;
 
 class CollectionTest extends \Codeception\TestCase\Test
 {
@@ -23,7 +23,7 @@ class CollectionTest extends \Codeception\TestCase\Test
 
     protected function _before()
     {
-        $this->container = Config::getContainer();
+        $this->container = Robo::getContainer();
         $this->container->addServiceProvider(\Robo\Collection\loadTasks::getCollectionServices());
     }
 

@@ -10,6 +10,7 @@ class ProgressIndicator
 
     /** var \Symfony\Component\Console\Helper\ProgressBar */
     protected $progressBar;
+    protected $output;
     protected $progressIndicatorRunning = false;
     protected $autoDisplayInterval = 0;
     protected $cachedSteps = 0;
@@ -17,9 +18,10 @@ class ProgressIndicator
     protected $progressBarDisplayed = false;
     protected $owner;
 
-    public function __construct($progressBar)
+    public function __construct($progressBar, \Symfony\Component\Console\Output\OutputInterface $output)
     {
         $this->progressBar = $progressBar;
+        $this->output = $output;
     }
 
     public function setProgressBarAutoDisplayInterval($interval)
@@ -36,7 +38,7 @@ class ProgressIndicator
         if ($this->progressIndicatorRunning && $this->progressBarDisplayed) {
             $this->progressBar->clear();
             // Hack: progress indicator does not reset cursor to beginning of line on 'clear'
-            \Robo\Config::output()->write("\x0D");
+            $this->output->write("\x0D");
             $this->progressBarDisplayed = false;
         }
         return $result;
@@ -44,7 +46,7 @@ class ProgressIndicator
 
     public function showProgressIndicator()
     {
-        if ($this->progressIndicatorRunning && !$this->progressBarDisplayed) {
+        if ($this->progressIndicatorRunning && !$this->progressBarDisplayed && isset($this->progressBar)) {
             $this->progressBar->display();
             $this->progressBarDisplayed = true;
             $this->advanceProgressIndicatorCachedSteps();
@@ -75,7 +77,7 @@ class ProgressIndicator
 
     public function autoShowProgressIndicator()
     {
-        if ($this->autoDisplayInterval < 0) {
+        if (($this->autoDisplayInterval < 0) || !isset($this->progressBar)) {
             return;
         }
         if ($this->autoDisplayInterval <= $this->getExecutionTime()) {
@@ -104,7 +106,8 @@ class ProgressIndicator
         if ($this->progressBarDisplayed) {
             $this->progressBar->finish();
             // Hack: progress indicator does not always finish cleanly
-            \Robo\Config::output()->writeln('');
+            $this->output->writeln('');
+            $this->progressBarDisplayed = false;
         }
         $this->stopTimer();
     }

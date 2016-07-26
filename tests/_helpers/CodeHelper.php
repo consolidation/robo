@@ -4,7 +4,7 @@ namespace Codeception\Module;
 // here you can define custom actions
 // all public methods declared in helper class will be available in $I
 
-use Robo\Config;
+use Robo\Robo;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -23,10 +23,10 @@ class CodeHelper extends \Codeception\Module
 
         static::$container = new \League\Container\Container();
         \Robo\Runner::configureContainer(static::$container, null, static::$testPrinter);
-        Config::setContainer(static::$container);
+        Robo::setContainer(static::$container);
         static::$container->add('output', static::$testPrinter);
         static::$container->add('progressBar', $progressBar);
-        static::$container->add('progressIndicator', new \Robo\Common\ProgressIndicator($progressBar));
+        static::$container->add('progressIndicator', new \Robo\Common\ProgressIndicator($progressBar, static::$testPrinter));
     }
 
     public function _after(\Codeception\TestCase $test)

@@ -18,9 +18,14 @@ class Application extends SymfonyApplication implements ContainerAwareInterface
     {
         parent::__construct($name, $version);
 
-        $this->getDefinition()->addOption(
-            new InputOption('--simulate', null, InputOption::VALUE_NONE, 'Run in simulated mode (show what would have happened).')
-        );
+        $this->getDefinition()
+            ->addOption(
+                new InputOption('--simulate', null, InputOption::VALUE_NONE, 'Run in simulated mode (show what would have happened).')
+            );
+        $this->getDefinition()
+            ->addOption(
+                new InputOption('--progress-delay', null, InputOption::VALUE_REQUIRED, 'Number of seconds before progress bar is displayed in long-running task collections. Default: 2s.')
+            );
     }
 
     public function addInitRoboFileCommand($roboFile, $roboClass)
@@ -28,7 +33,7 @@ class Application extends SymfonyApplication implements ContainerAwareInterface
         $createRoboFile = new Command('init');
         $createRoboFile->setDescription("Intitalizes basic RoboFile in current dir");
         $createRoboFile->setCode(function () use ($roboClass, $roboFile) {
-            $output = Config::output();
+            $output = Robo::output();
             $output->writeln("<comment>  ~~~ Welcome to Robo! ~~~~ </comment>");
             $output->writeln("<comment>  ". $roboFile ." will be created in current dir </comment>");
             file_put_contents(

@@ -113,6 +113,11 @@ class Robo
         return static::service('config');
     }
 
+    public static function logger()
+    {
+        return static::service('logger');
+    }
+
     /**
      * Return the output object.
      *

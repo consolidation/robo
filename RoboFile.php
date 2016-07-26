@@ -581,8 +581,7 @@ class RoboFile extends \Robo\Tasks
 
     public function tryProgress()
     {
-        $delayUntilProgressStart = 2;
-        CollectionBuilder::setDefaultProgressBarAutoDisplayInterval($delayUntilProgressStart);
+        $delayUntilProgressStart = \Robo\Robo::config()->get(\Robo\Config::PROGRESS_BAR_AUTO_DISPLAY_INTERVAL);
         $this->say("Progress bar will display after $delayUntilProgressStart seconds of activity.");
 
         $processList = range(1, 10);

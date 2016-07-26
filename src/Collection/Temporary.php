@@ -35,7 +35,7 @@ class Temporary
     public static function getCollection()
     {
         if (!static::$collection) {
-            static::$collection = \Robo\Config::getContainer()->get('collection');
+            static::$collection = \Robo\Robo::getContainer()->get('collection');
             register_shutdown_function(function () {
                 static::complete();
             });

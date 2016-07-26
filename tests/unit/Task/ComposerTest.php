@@ -1,6 +1,6 @@
 <?php
 use AspectMock\Test as test;
-use Robo\Config;
+use Robo\Robo;
 
 class ComposerTest extends \Codeception\TestCase\Test
 {
@@ -16,7 +16,7 @@ class ComposerTest extends \Codeception\TestCase\Test
         $this->baseComposer = test::double('Robo\Task\Composer\Base', [
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
-        $this->container = Config::getContainer();
+        $this->container = Robo::getContainer();
         $this->container->addServiceProvider(\Robo\Task\Composer\loadTasks::getComposerServices());
     }
     // tests

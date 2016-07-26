@@ -32,11 +32,11 @@ class ApplicationTest extends \Codeception\TestCase\Test
     {
         $container = new Container();
         \Robo\Runner::configureContainer($container);
-        \Robo\Config::setContainer($container);
+        \Robo\Robo::setContainer($container);
         $this->app = $container->get('application');
         $this->commandFactory = $container->get('commandFactory');
         $this->roboCommandFileInstance = new TestedRoboFile;
-        $this->roboCommandFileInstance->setContainer(\Robo\Config::getContainer());
+        $this->roboCommandFileInstance->setContainer(\Robo\Robo::getContainer());
         \Robo\Runner::addServiceProviders($container, $this->roboCommandFileInstance->getServiceProviders());
         $commandList = $this->commandFactory->createCommandsFromClass($this->roboCommandFileInstance);
         foreach ($commandList as $command) {

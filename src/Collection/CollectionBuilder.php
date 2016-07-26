@@ -1,6 +1,7 @@
 <?php
 namespace Robo\Collection;
 
+use Robo\Config;
 use Robo\Common\IO;
 use Psr\Log\LogLevel;
 use League\Container\ContainerAwareInterface;
@@ -13,31 +14,21 @@ use Robo\LoadAllTasks;
 use Robo\Task\Simulator;
 use Robo\Collection\CompletionWrapper;
 use Robo\Collection\Temporary;
+use Robo\Contract\ConfigAwareInterface;
+use Robo\Common\ConfigAwareTrait;
 
-class CollectionBuilder implements NestedCollectionInterface, ContainerAwareInterface, TaskInterface
+class CollectionBuilder implements NestedCollectionInterface, ConfigAwareInterface, ContainerAwareInterface, TaskInterface
 {
+    use ConfigAwareTrait;
     use ContainerAwareTrait;
     use LoadAllTasks;
 
     protected $collection;
     protected $currentTask;
     protected $simulated;
-    protected static $defaultSimulated = false;
-    protected static $defaultProgressBarAutoDisplayInterval = 2;
 
     public function __construct()
     {
-        $this->simulated = static::$defaultSimulated;
-    }
-
-    public static function setDefaultSimulated($simulated)
-    {
-        static::$defaultSimulated = $simulated;
-    }
-
-    public static function setDefaultProgressBarAutoDisplayInterval($defaultProgressBarAutoDisplayInterval)
-    {
-        static::$defaultProgressBarAutoDisplayInterval = $defaultProgressBarAutoDisplayInterval;
     }
 
     public function simulated($simulated = true)
@@ -47,6 +38,9 @@ class CollectionBuilder implements NestedCollectionInterface, ContainerAwareInte
 
     public function isSimulated()
     {
+        if (!isset($this->simulated)) {
+            $this->simulated = $this->getConfig()->get(Config::SIMULATE);
+        }
         return $this->simulated;
     }
 
@@ -262,7 +256,7 @@ class CollectionBuilder implements NestedCollectionInterface, ContainerAwareInte
     {
         if (!isset($this->collection)) {
             $this->collection = $this->collection();
-            $this->collection->setProgressBarAutoDisplayInterval(static::$defaultProgressBarAutoDisplayInterval);
+            $this->collection->setProgressBarAutoDisplayInterval($this->getConfig()->get(Config::PROGRESS_BAR_AUTO_DISPLAY_INTERVAL));
 
             if (isset($this->currentTask)) {
                 $this->collection->add($this->currentTask);

@@ -1,5 +1,4 @@
 <?php
-use Robo\Config;
 
 // This is global bootstrap for autoloading
 $kernel = \AspectMock\Kernel::getInstance();

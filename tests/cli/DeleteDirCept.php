@@ -1,6 +1,6 @@
 <?php
 $I = new CliGuy($scenario);
-$container = Robo\Config::getContainer();
+$container = Robo\Robo::getContainer();
 $I->getContainer()->addServiceProvider(\Robo\Task\FileSystem\loadTasks::getFileSystemServices());
 
 $I->wantTo('delete dir with DeleteDirTask');

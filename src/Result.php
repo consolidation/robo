@@ -1,8 +1,6 @@
 <?php
 namespace Robo;
 
-use Robo\Config;
-use Robo\TaskInfo;
 use Robo\Contract\TaskInterface;
 use Robo\Contract\LogResultInterface;
 
@@ -30,7 +28,7 @@ class Result extends ResultData
         // existing behavior for backwards compatibility. This is undesirable
         // in the long run, though, as it can result in unwanted repeated input
         // in task collections et. al.
-        $resultPrinter = Config::resultPrinter();
+        $resultPrinter = Robo::resultPrinter();
         if ($resultPrinter) {
             if ($resultPrinter->printResult($this)) {
                 $this->data['already-printed'] = true;
@@ -123,7 +121,7 @@ class Result extends ResultData
     public function stopOnFail()
     {
         if (!$this->wasSuccessful()) {
-            $resultPrinter = Config::resultPrinter();
+            $resultPrinter = Robo::resultPrinter();
             if ($resultPrinter) {
                 $resultPrinter->printStopOnFail($this);
             }

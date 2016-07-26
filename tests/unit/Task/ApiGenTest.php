@@ -1,6 +1,6 @@
 <?php
 use AspectMock\Test as test;
-use Robo\Config;
+use Robo\Robo;
 
 class ApiGenTest extends \Codeception\TestCase\Test
 {
@@ -18,7 +18,7 @@ class ApiGenTest extends \Codeception\TestCase\Test
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
 
-        $this->container = Config::getContainer();
+        $this->container = Robo::getContainer();
         $this->container->addServiceProvider(\Robo\Task\ApiGen\loadTasks::getApiGenServices());
     }
 

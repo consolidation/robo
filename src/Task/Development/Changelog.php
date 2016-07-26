@@ -51,7 +51,7 @@ class Changelog extends BaseTask
      */
     public static function init($filename = 'CHANGELOG.md')
     {
-        return \Robo\Config::getContainer()->get('taskChangelog', [$filename]);
+        return \Robo\Robo::getContainer()->get('taskChangelog', [$filename]);
     }
 
     public function filename($filename)

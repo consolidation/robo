@@ -1,7 +1,7 @@
 <?php
 
 use AspectMock\Test as test;
-use Robo\Config;
+use Robo\Robo;
 
 class SvnTest extends \Codeception\TestCase\Test
 {
@@ -14,14 +14,17 @@ class SvnTest extends \Codeception\TestCase\Test
 
     protected function _before()
     {
-        $this->container = Config::getContainer();
+        $this->container = Robo::getContainer();
         $this->container->addServiceProvider(\Robo\Task\Vcs\loadTasks::getVcsServices());
 
-        $progressIndicator = new \Robo\Common\ProgressIndicator(null);
+        $progressBar = test::double('Symfony\Component\Console\Helper\ProgressBar');
+        $nullOutput = new \Symfony\Component\Console\Output\NullOutput();
+
+        $progressIndicator = new \Robo\Common\ProgressIndicator($progressBar, $nullOutput);
 
         $this->svn = test::double('Robo\Task\Vcs\SvnStack', [
             'executeCommand' => new \AspectMock\Proxy\Anything(),
-            'getOutput' => new \Symfony\Component\Console\Output\NullOutput(),
+            'getOutput' => $nullOutput,
             'logger' => $this->container->get('logger'),
             'progressIndicator' => $progressIndicator,
         ]);

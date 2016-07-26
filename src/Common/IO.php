@@ -1,7 +1,7 @@
 <?php
 namespace Robo\Common;
 
-use Robo\Config;
+use Robo\Robo;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -17,10 +17,10 @@ trait IO
      */
     protected function getOutput()
     {
-        if (!Config::hasService('output')) {
+        if (!Robo::hasService('output')) {
             return new NullOutput();
         }
-        return Config::output();
+        return Robo::output();
     }
 
     /**
@@ -28,10 +28,10 @@ trait IO
      */
     protected function getInput()
     {
-        if (!Config::hasService('input')) {
+        if (!Robo::hasService('input')) {
             return new ArgvInput();
         }
-        return Config::input();
+        return Robo::input();
     }
 
     protected function say($text)

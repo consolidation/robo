@@ -2,7 +2,6 @@
 namespace Robo\Collection;
 
 use Robo\Result;
-use Robo\ResultData;
 use Robo\TaskInfo;
 use Robo\Task\BaseTask;
 use Robo\Contract\TaskInterface;

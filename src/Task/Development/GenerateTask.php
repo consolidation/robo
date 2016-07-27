@@ -4,7 +4,6 @@ namespace Robo\Task\Development;
 use Robo\Task\BaseTask;
 use Symfony\Component\Process\ProcessUtils;
 use Robo\Result;
-use Robo\ResultData;
 
 /**
  * Generate a Robo Task that is a wrapper around an existing class.

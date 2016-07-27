@@ -2,7 +2,6 @@
 namespace Robo\Collection;
 
 use Robo\Result;
-use Robo\ResultData;
 use Psr\Log\LogLevel;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -567,10 +566,10 @@ class Collection extends BaseTask implements CollectionInterface, ContainerAware
      * results from all tasks that have run so far, merging data
      * as necessary.
      */
-    public function accumulateResults($key, ResultData $result, ResultData $taskResult)
+    public function accumulateResults($key, Result $result, Result $taskResult)
     {
         // If the result is not set or is not a Result, then ignore it
-        if (isset($result) && ($result instanceof ResultData)) {
+        if (isset($result) && ($result instanceof Result)) {
             // If the task is unnamed, then all of its data elements
             // just get merged in at the top-level of the final Result object.
             if (static::isUnnamedTask($key)) {

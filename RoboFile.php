@@ -535,6 +535,34 @@ class RoboFile extends \Robo\Tasks
             ->run();
     }
 
+    public function tryWorkdir()
+    {
+        // This example works like tryBuilderRollback,
+        // but does equivalent operations using a working
+        // directory. The working directory is deleted on rollback
+        $collection = $this->collectionBuilder();
+
+        $workdir = $collection->workDir('w');
+
+        $collection
+            ->taskFilesystemStack()
+                ->touch("$workdir/g.txt")
+            ->taskFilesystemStack()
+                ->mkdir("$workdir/h")
+                ->touch("$workdir/h/h.txt")
+            ->taskFilesystemStack()
+                ->mkdir("$workdir/h/i/c")
+                ->touch("$workdir/h/i/i.txt");
+
+        return $this->collectionBuilder()
+            ->progressMessage('Start recursive collection')
+            ->addTask($collection)
+            ->progressMessage('Done with recursive collection')
+            ->taskExec('ls xyzzy' . date('U'))
+                ->dir('/tmp')
+            ->run();
+    }
+
     /**
      * Demonstrates Robo temporary directory usage.
      */

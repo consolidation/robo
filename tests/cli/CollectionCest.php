@@ -116,6 +116,34 @@ class CollectionCest
         $I->dontSeeFileFound('j/k/m/m.txt');
     }
 
+    public function toRollbackAWorkingDir(CliGuy $I)
+    {
+        // Run the same test with a working directory.  The working
+        // directory path will point to a temporary directory which
+        // will be moved into place once the tasks complete.
+        $collection = $I->collectionBuilder();
+        $workDirPath = $collection->workDir("build");
+        $I->assertNotEquals("build", basename($workDirPath));
+        $result = $collection->taskFilesystemStack()
+                ->mkdir("{$workDirPath}/a")
+                ->touch("{$workDirPath}/a/a.txt")
+            ->taskFilesystemStack()
+                ->mkdir("{$workDirPath}/a/b")
+                ->touch("{$workDirPath}/a/b/b.txt")
+            ->taskFilesystemStack()
+                ->mkdir("{$workDirPath}/a/c")
+                ->touch("{$workDirPath}/a/c/c.txt")
+            ->taskCopyDir(['doesNotExist' => 'copied'])
+            ->run();
+
+        $I->assertEquals(1, $result->getExitCode(), $result->getMessage());
+
+        // All of the tasks created by the builder should be added
+        // to a collection, and `run()` should run them all.
+        $I->dontSeeFileFound('build/a');
+        $I->dontSeeFileFound($workDirPath);
+    }
+
     public function toBuildFilesViaAddIterable(CliGuy $I)
     {
         $processList = ['cats', 'dogs', 'sheep', 'fish', 'horses', 'cows'];

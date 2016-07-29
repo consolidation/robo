@@ -5,6 +5,8 @@ namespace Robo\Task\Filesystem;
 use Robo\Result;
 use Robo\Collection\Collection;
 use Robo\Contract\CompletionInterface;
+use Robo\Contract\RollbackInterface;
+
 
 /**
  * Create a temporary working directory that is automatically renamed to its
@@ -22,7 +24,7 @@ use Robo\Contract\CompletionInterface;
  * ?>
  * ```
  */
-class WorkDir extends TmpDir
+class WorkDir extends TmpDir implements RollbackInterface
 {
     protected $finalDestination;
     protected $workingDir;
@@ -87,7 +89,10 @@ class WorkDir extends TmpDir
         // Move our working directory over the final destination.
         // This should never be a cross-volume rename, so this should
         // always succeed.
-        rename(reset($this->dirs), $this->finalDestination);
+        $workDir = reset($this->dirs);
+        if (file_exists($workDir)) {
+            rename($workDir, $this->finalDestination);
+        }
     }
 
     /**

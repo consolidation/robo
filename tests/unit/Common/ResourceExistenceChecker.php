@@ -5,7 +5,7 @@ use Robo\Task\BaseTask;
 
 class ResourceExistenceCheckerTest extends \Codeception\TestCase\Test
 {
-    use ResourceExistenceChecker
+    use ResourceExistenceChecker;
 
     protected $testDir = null;
 

@@ -7,7 +7,6 @@ use Robo\Collection\Collection;
 use Robo\Contract\CompletionInterface;
 use Robo\Contract\RollbackInterface;
 
-
 /**
  * Create a temporary working directory that is automatically renamed to its
  * final desired location if all of the tasks in the collection succeed.  If

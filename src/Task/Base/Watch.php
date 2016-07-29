@@ -39,7 +39,6 @@ class Watch extends BaseTask
         }
         $this->monitor[] = [$paths, $callable];
         return $this;
-
     }
 
     public function run()

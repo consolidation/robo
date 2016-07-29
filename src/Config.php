@@ -41,4 +41,3 @@ class Config
         return $this->get(self::SIMULATE);
     }
 }
-

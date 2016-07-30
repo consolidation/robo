@@ -17,6 +17,33 @@ use Robo\Collection\Temporary;
 use Robo\Contract\ConfigAwareInterface;
 use Robo\Common\ConfigAwareTrait;
 
+/**
+ * Creates a collection, and adds tasks to it.  The collection builder
+ * offers a streamlined chained-initialization mechanism for easily
+ * creating task groups.  Facilities for creating working and temporary
+ * directories are also provided.
+ *
+ * ``` php
+ * <?php
+ * $result = $this->collectionBuilder()
+ *   ->taskFilesystemStack()
+ *     ->mkdir('g')
+ *     ->touch('g/g.txt')
+ *   ->rollback(
+ *     $this->taskDeleteDir('g')
+ *   )
+ *   ->taskFilesystemStack()
+ *     ->mkdir('g/h')
+ *     ->touch('g/h/h.txt')
+ *   ->taskFilesystemStack()
+ *     ->mkdir('g/h/i/c')
+ *     ->touch('g/h/i/i.txt')
+ *   ->run()
+ * ?>
+ *
+ * In the example above, the `taskDeleteDir` will be called if
+ * ```
+ */
 class CollectionBuilder implements NestedCollectionInterface, ConfigAwareInterface, ContainerAwareInterface, TaskInterface, WrappedTaskInterface
 {
     use ConfigAwareTrait;
@@ -88,6 +115,18 @@ class CollectionBuilder implements NestedCollectionInterface, ConfigAwareInterfa
     public function addCode(callable $code)
     {
         $this->getCollection()->addCode($code);
+        return $this;
+    }
+
+    /**
+     * Add a list of tasks to our task collection.
+     *
+     * @param TaskInterface[]
+     *   An array of tasks to run with rollback protection
+     */
+    public function addTaskList(array $tasks)
+    {
+        $this->getCollection()->addTaskList($tasks);
         return $this;
     }
 

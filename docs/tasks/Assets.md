@@ -65,11 +65,9 @@ This will execute as:
 * `setLogger($logger)`  Sets a logger.
 * `progressIndicatorSteps()` 
 * `setProgressIndicator($progressIndicator)` 
+* `setConfig($config)`  Set the config management object.
+* `getConfig()`  Get the config management object.
 * `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## Less
 
@@ -119,11 +117,9 @@ inject the name there.
 * `setLogger($logger)`  Sets a logger.
 * `progressIndicatorSteps()` 
 * `setProgressIndicator($progressIndicator)` 
+* `setConfig($config)`  Set the config management object.
+* `getConfig()`  Get the config management object.
 * `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## Minify
 
@@ -154,11 +150,9 @@ Please install additional dependencies to use:
 * `setLogger($logger)`  Sets a logger.
 * `progressIndicatorSteps()` 
 * `setProgressIndicator($progressIndicator)` 
+* `setConfig($config)`  Set the config management object.
+* `getConfig()`  Get the config management object.
 * `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## Scss
 
@@ -195,9 +189,7 @@ inject the name there.
 * `setLogger($logger)`  Sets a logger.
 * `progressIndicatorSteps()` 
 * `setProgressIndicator($progressIndicator)` 
+* `setConfig($config)`  Set the config management object.
+* `getConfig()`  Get the config management object.
 * `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 

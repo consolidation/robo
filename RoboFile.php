@@ -147,7 +147,7 @@ class RoboFile extends \Robo\Tasks
      */
     public function docs()
     {
-        $collection = $this->collection();
+        $collection = $this->collectionBuilder();
         $collection->progressMessage('Generate documentation from source code.');
         $files = Finder::create()->files()->name('*.php')->in('src/Task');
         $docs = [];
@@ -169,7 +169,7 @@ class RoboFile extends \Robo\Tasks
         ksort($docs);
 
         foreach ($docs as $ns => $tasks) {
-            $taskGenerator = $this->taskGenDoc("docs/tasks/$ns.md");
+            $taskGenerator = $collection->taskGenDoc("docs/tasks/$ns.md");
             $taskGenerator->filterClasses(function (\ReflectionClass $r) {
                 return !($r->isAbstract() || $r->isTrait()) && $r->implementsInterface('Robo\Contract\TaskInterface');
             })->prepend("# $ns Tasks");
@@ -220,7 +220,7 @@ class RoboFile extends \Robo\Tasks
 
                     return $text ? ' ' . trim(strtok($text, "\n"), "\n") : '';
                 }
-            )->addToCollection($collection);
+            );
         }
         $collection->progressMessage('Documentation generation complete.');
         return $collection->run();
@@ -268,7 +268,7 @@ class RoboFile extends \Robo\Tasks
             ->printed(false)
         );
 
-        $packer = $this->taskPackPhar('robo.phar');
+        $packer = $collection->taskPackPhar('robo.phar');
         $files = Finder::create()->ignoreVCS(true)
             ->files()
             ->name('*.php')

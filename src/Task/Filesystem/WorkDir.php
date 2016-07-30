@@ -14,11 +14,11 @@ use Robo\Contract\RollbackInterface;
  *
  * ``` php
  * <?php
- * $workingPath = $this->taskWorkDir("build")->addToCollection($collection)->getPath();
- * $this->taskFilesystemStack()
+ * $collection = $this->collectionBuilder();
+ * $workingPath = $collection->workDir("build")->getPath();
+ * $collection->taskFilesystemStack()
  *           ->mkdir("$workingPath/log")
- *           ->touch("$workingPath/log/error.txt")
- *           ->addToCollection($collection);
+ *           ->touch("$workingPath/log/error.txt");
  * $collection->run();
  * ?>
  * ```

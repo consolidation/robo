@@ -33,11 +33,9 @@ $this->taskExtract($archivePath)
 * `setLogger($logger)`  Sets a logger.
 * `progressIndicatorSteps()` 
 * `setProgressIndicator($progressIndicator)` 
+* `setConfig($config)`  Set the config management object.
+* `getConfig()`  Get the config management object.
 * `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## Pack
 
@@ -64,9 +62,7 @@ $this->taskPack(
 * `setLogger($logger)`  Sets a logger.
 * `progressIndicatorSteps()` 
 * `setProgressIndicator($progressIndicator)` 
+* `setConfig($config)`  Set the config management object.
+* `getConfig()`  Get the config management object.
 * `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 

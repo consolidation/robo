@@ -40,11 +40,9 @@ $this->taskComposerDumpAutoload('path/to/my/composer.phar')
 * `setLogger($logger)`  Sets a logger.
 * `progressIndicatorSteps()` 
 * `setProgressIndicator($progressIndicator)` 
+* `setConfig($config)`  Set the config management object.
+* `getConfig()`  Get the config management object.
 * `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
@@ -85,11 +83,9 @@ $this->taskComposerInstall('path/to/my/composer.phar')
 * `setLogger($logger)`  Sets a logger.
 * `progressIndicatorSteps()` 
 * `setProgressIndicator($progressIndicator)` 
+* `setConfig($config)`  Set the config management object.
+* `getConfig()`  Get the config management object.
 * `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
@@ -130,11 +126,9 @@ $this->taskComposerUpdate('path/to/my/composer.phar')
 * `setLogger($logger)`  Sets a logger.
 * `progressIndicatorSteps()` 
 * `setProgressIndicator($progressIndicator)` 
+* `setConfig($config)`  Set the config management object.
+* `getConfig()`  Get the config management object.
 * `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
@@ -170,11 +164,9 @@ $this->taskComposerValidate()->run();
 * `setLogger($logger)`  Sets a logger.
 * `progressIndicatorSteps()` 
 * `setProgressIndicator($progressIndicator)` 
+* `setConfig($config)`  Set the config management object.
+* `getConfig()`  Get the config management object.
 * `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable

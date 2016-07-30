@@ -5,7 +5,6 @@ use Robo\Common\InflectionTrait;
 use Robo\Contract\InflectionInterface;
 
 use Robo\Common\TaskIO;
-use Robo\Collection\Collectable;
 use Robo\Contract\TaskInterface;
 use Robo\Contract\ProgressIndicatorAwareInterface;
 use Robo\Common\ProgressIndicatorAwareTrait;
@@ -20,8 +19,6 @@ abstract class BaseTask implements TaskInterface, LoggerAwareInterface, ConfigAw
     use ProgressIndicatorAwareTrait;
     use ConfigAwareTrait;
     use InflectionTrait;
-
-    use Collectable;
 
     /**
      * {inheritdoc}

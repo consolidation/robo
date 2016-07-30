@@ -30,7 +30,7 @@ Examples of adding different kinds of tasks to a collection are provided below.
 ```php
 <?php
   $collection->add(
-    $this->taskOther($work)
+    $this->taskExec('ls')
   );
 ?>
 ```
@@ -77,8 +77,8 @@ class RoboFile extends \Robo\Tasks
     {
         $current_branch = exec('git rev-parse --abbrev-ref HEAD');
 
-        $builder = $this->builder();
-        $builder->taskGitStack()
+        $collection = $this->collectionBuilder();
+        $collection->taskGitStack()
             ->checkout('site')
             ->merge('master')
         ->completion($this->taskGitStack()->checkout($current_branch))
@@ -87,7 +87,7 @@ class RoboFile extends \Robo\Tasks
         ->completion($this->taskFilesystemStack()->remove('docs/changelog.md'))
         ->taskExec('mkdocs gh-deploy');
 
-        return $builder;
+        return $collection;
     }
 }
 ?>
@@ -119,7 +119,7 @@ Since the concept of temporary objects that are cleaned up  on failure is a comm
 
 ### Temporary Directories
 
-It is recommended that operations that perform multiple filesystem operations should, whenever possible, do most of their work in a temporary directory. Temporary directories are created by `$this->taskTmpDir()`, and are automatically be removed when the collection completes or rolls back. Move the temporary directory to another location to prevent its deletion.
+It is recommended that operations that perform multiple filesystem operations should, whenever possible, do most of their work in a temporary directory. Temporary directories are created by `$this->taskTmpDir()`, and are automatically be removed when the collection completes or rolls back. As an added convenience, the CollectionBuilder class has a `tmpDir()` method that creates a temporary directory via `taskTmpDir()`, and then returns the path to the temporary directory.
 
 ``` php
 <?php
@@ -127,29 +127,54 @@ class RoboFile extends \Robo\Tasks
 {
     function myOperation()
     {
-        $collection = $this->collection();
+        $collection = $this->collectionBuilder();
         
         // Create a temporary directory, and fetch its path.
-        $work = $this->taskTmpDir()
-          ->addToCollection($collection)
-          ->getPath();
+        $work = $collection->tmpDir();
 
-        $this->taskOther($work)
-          ->addToCollection($collection);
-
-        // If all of the tasks succeed, then rename the temporary directory
-        // to its final name.
-        $this->taskFilesystemStack()
-          ->rename($work, 'destination')
-          ->addToCollection($collection);
+        $collection
+          ->taskWriteToFile("$work/README.md")
+            ->line('-----')
+            ->line(date('Y-m-d').' Generated file: do not edit.')
+            ->line('----');
         
-        $result = $collection->run();
+        // If all of the preceding tasks succeed, then rename the temporary 
+        // directory to its final name.
+        $collection->taskFilesystemStack()
+          ->rename($work, 'destination');
+        
+        return $collection->run();
     }
 }
 ?>
 ```
 
-In the previous example, the path to the temporary directory is stored in the variable `$work`, and is passed as needed to the parameters of the other tasks as they are added to the collection. After the task collection is run, the temporary directory will be automatically deleted. In the example above, the temporary directory is renamed by the last task in the collection. This allows the working directory to persist; the collection will still attempt to remove the working directory, but no errors will be thrown if it no longer exists in its original location. Following this pattern allows Robo scripts to easily and safely do work that cleans up after itself on failure, without introducing a lot of branching or additional error recovery code.
+In the previous example, the path to the temporary directory is stored in the variable `$work`, and is passed as needed to the parameters of the other tasks as they are added to the collection. After the task collection is run, the temporary directory will be automatically deleted. In the example above, the temporary directory is renamed by the last task in the collection. This allows the working directory to persist; the collection will still attempt to remove the working directory, but no errors will be thrown if it no longer exists in its original location. Following this pattern allows Robo scripts to easily and safely do work that cleans up after itself on failure, without introducing a lot of branching or additional error recovery code.  This paradigm is common enough to warrant a shortcut method of accomplishing the same thing.  The example below is identical to the one above, save for the fact that it uses the `workDir()` method instead of `tmpDir()`.  `workDir()` renames the temporary directory to its final name if the collection completes; any directory that exists in the same location will be overwritten at that time, but will persist if the collection roles back.
+
+``` php
+<?php
+class RoboFile extends \Robo\Tasks
+{
+    function myOperation()
+    {
+        $collection = $this->collectionBuilder();
+        
+        // Create a temporary directory, and fetch its path.
+        // If all of the tasks succeed, then rename the temporary directory
+        // to its final name.
+        $work = $collection->workDir('destination');
+
+        $collection
+          ->taskWriteToFile("$work/README.md")
+            ->line('-----')
+            ->line(date('Y-m-d').' Generated file: do not edit.')
+            ->line('----');
+        
+        return $collection->run();
+    }
+}
+?>
+```
 
 Temporary directories may also be created via the shortcut `$this->_tmpDir();`. Temporary directories created in this way are deleted when the script terminates.
 

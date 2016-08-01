@@ -95,7 +95,7 @@ class RunnerTest extends \Codeception\TestCase\Test
         $this->runner->execute($argv);
 
         $expected = <<<EOT
-➜  The parameters passed are:
+>  The parameters passed are:
 array (
   0 => 'a',
   1 => 'b',

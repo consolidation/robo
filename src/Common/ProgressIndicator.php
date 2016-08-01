@@ -77,7 +77,7 @@ class ProgressIndicator
 
     public function autoShowProgressIndicator()
     {
-        if (($this->autoDisplayInterval < 0) || !isset($this->progressBar)) {
+        if (($this->autoDisplayInterval < 0) || !isset($this->progressBar) || !$this->output->isDecorated()) {
             return;
         }
         if ($this->autoDisplayInterval <= $this->getExecutionTime()) {

@@ -4,6 +4,7 @@ namespace Robo\Common;
 use Robo\Robo;
 use Robo\TaskInfo;
 use Consolidation\Log\ConsoleLogLevel;
+use Robo\Common\ConfigAwareTrait;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
@@ -106,6 +107,9 @@ trait TaskIO
 
     protected function printTaskOutput($level, $text, $context)
     {
+        if ($this->getConfig()->isSupressed()) {
+            return;
+        }
         // Hide the progress indicator, if it is visible.
         $inProgress = $this->hideTaskProgress();
         $this->logger()->log($level, $text, $this->getTaskContext($context));

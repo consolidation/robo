@@ -3,8 +3,9 @@ namespace Robo;
 
 class Config
 {
-    const SIMULATE = 'simulate';
     const PROGRESS_BAR_AUTO_DISPLAY_INTERVAL = 'progress-delay';
+    const SIMULATE = 'simulate';
+    const SUPRESS_MESSAGES = 'supress-messages';
 
     protected $config = [];
 
@@ -16,14 +17,16 @@ class Config
     public function set($key, $value)
     {
         $this->config[$key] = $value;
+        return $this;
     }
 
     public function setGlobalOptions($input)
     {
         $globalOptions =
         [
-            self::SIMULATE => false,
             self::PROGRESS_BAR_AUTO_DISPLAY_INTERVAL => 2,
+            self::SIMULATE => false,
+            self::SUPRESS_MESSAGES => false,
         ];
 
         foreach ($globalOptions as $option => $default) {
@@ -39,5 +42,25 @@ class Config
     public function isSimulated()
     {
         return $this->get(self::SIMULATE);
+    }
+
+    public function setSimulated($simulated = true)
+    {
+        return $this->set(self::SIMULATE, $simulated);
+    }
+
+    public function isSupressed()
+    {
+        return $this->get(self::SUPRESS_MESSAGES);
+    }
+
+    public function setSupressed($supressed = true)
+    {
+        return $this->set(self::SUPRESS_MESSAGES, $supressed);
+    }
+
+    public function setProgressBarAutoDisplayInterval($interval)
+    {
+        return $this->set(self::PROGRESS_BAR_AUTO_DISPLAY_INTERVAL, $interval);
     }
 }

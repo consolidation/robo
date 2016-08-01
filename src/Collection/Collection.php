@@ -3,8 +3,6 @@ namespace Robo\Collection;
 
 use Robo\Result;
 use Psr\Log\LogLevel;
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerAwareTrait;
 use Robo\Contract\TaskInterface;
 use Robo\Container\SimpleServiceProvider;
 use Robo\Task\StackBasedTask;

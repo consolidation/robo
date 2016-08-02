@@ -128,7 +128,7 @@ class ApplicationTest extends \Codeception\TestCase\Test
         $command = $this->createCommand('fibonacci');
 
         verify($command->getHelp())
-            ->contains('    +----+---+');
+            ->contains('+----+---+');
     }
 
     public function testCommandNaming()

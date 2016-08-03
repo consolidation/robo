@@ -1,6 +1,6 @@
 <?php
 use AspectMock\Test as test;
-use Robo\Config;
+use Robo\Robo;
 
 class ParallelExecTest extends \Codeception\TestCase\Test
 {
@@ -25,7 +25,7 @@ class ParallelExecTest extends \Codeception\TestCase\Test
             'getOutput' => 'Hello world',
             'getExitCode' => 0
         ]);
-        $this->container = Config::getContainer();
+        $this->container = Robo::getContainer();
         $this->container->addServiceProvider(\Robo\Task\Base\loadTasks::getBaseServices());
     }
 

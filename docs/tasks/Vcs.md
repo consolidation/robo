@@ -36,10 +36,12 @@ $this->taskGitStack()
 * `exec($command)` 
 * `stopOnFail($stopOnFail = null)` 
 * `result($result)` 
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
+* `injectDependencies($child)`  {inheritdoc}
 * `logger()` 
+* `setLogger($logger)`  Sets a logger.
+* `progressIndicatorSteps()` 
+* `setProgressIndicator($progressIndicator)` 
+* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
@@ -78,6 +80,55 @@ $this->taskSvnStack('username', 'password')
 * `exec($command)` 
 * `stopOnFail($stopOnFail = null)` 
 * `result($result)` 
+* `injectDependencies($child)`  {inheritdoc}
+* `logger()` 
+* `setLogger($logger)`  Sets a logger.
+* `progressIndicatorSteps()` 
+* `setProgressIndicator($progressIndicator)` 
+* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
+* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
+* `addAsRollback($collection)` 
+* `addAsCompletion($collection)` 
+* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
+
+## HgStack
+
+
+Runs Mercurial commands in stack. You can use `stopOnFail()` to point that stack should be terminated on first fail.
+
+``` php
+<?php
+$this->taskHgStack()
+ ->stopOnFail()
+ ->add()
+ ->commit('adding everything')
+ ->push('default')
+ ->tag('0.6.0')
+ ->push('0.6.0')
+ ->run()
+
+$this->taskHgStack()
+ ->stopOnFail()
+ ->add('doc/*')
+ ->commit('doc updated')
+ ->push()
+ ->run();
+?>
+```
+
+* `cloneRepo($repo, $to = null)`  Executes `hg clone`
+* `add($include, $exclude)`  Executes `hg add` command with patterns for included and excluded files
+* `commit($message, $options = null)`  Executes `hg commit` command with a message
+* `pull($branch = null)`  Executes `hg pull` command.
+* `push($branch = null)`  Executes `hg push` command
+* `merge($revision)`  Performs hg merge
+* `tag($tag_name, $message = null)`  Executes `hg tag` command
+* `executable($executable)` 
+* `exec($command)` 
+* `stopOnFail($stopOnFail = null)` 
+* `result($result)` 
 * `setLogger($logger)`  Sets a logger.
 * `setContainer($container)`  Set a container.
 * `getContainer()`  Get the container.
@@ -88,4 +139,3 @@ $this->taskSvnStack('username', 'password')
 * `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
-

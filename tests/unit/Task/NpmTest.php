@@ -1,6 +1,6 @@
 <?php
 use AspectMock\Test as test;
-use Robo\Config;
+use Robo\Robo;
 
 class NpmTest extends \Codeception\TestCase\Test
 {
@@ -16,7 +16,7 @@ class NpmTest extends \Codeception\TestCase\Test
         $this->baseNpm = test::double('Robo\Task\Npm\Base', [
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
-        $this->container = Config::getContainer();
+        $this->container = Robo::getContainer();
         $this->container->addServiceProvider(\Robo\Task\Npm\loadTasks::getNpmServices());
     }
 

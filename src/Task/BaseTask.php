@@ -4,22 +4,23 @@ namespace Robo\Task;
 use Robo\Common\InflectionTrait;
 use Robo\Contract\InflectionInterface;
 
-use Robo\Common\Configuration;
 use Robo\Common\TaskIO;
-use Robo\TaskAccessor;
 use Robo\Collection\Collectable;
 use Robo\Contract\TaskInterface;
+use Robo\Contract\ProgressIndicatorAwareInterface;
+use Robo\Common\ProgressIndicatorAwareTrait;
+use Robo\Contract\ConfigAwareInterface;
+use Robo\Common\ConfigAwareTrait;
 use Psr\Log\LoggerAwareInterface;
 
-use League\Container\ContainerAwareInterface;
-use League\Container\ContainerAwareTrait;
-
-abstract class BaseTask implements TaskInterface, LoggerAwareInterface, InflectionInterface
+// TODO: Ensure that ConfigAwareInterface is only used for global options; then, add it only to tasks that need it.
+abstract class BaseTask implements TaskInterface, LoggerAwareInterface, ConfigAwareInterface, ProgressIndicatorAwareInterface, InflectionInterface
 {
-    use TaskIO; // uses LoggerAwareTrait
+    use TaskIO; // uses LoggerAwareTrait and ConfigAwareTrait
+    use ProgressIndicatorAwareTrait;
+    use ConfigAwareTrait;
     use InflectionTrait;
 
-    use Configuration;
     use Collectable;
 
     /**
@@ -29,6 +30,12 @@ abstract class BaseTask implements TaskInterface, LoggerAwareInterface, Inflecti
     {
         if ($child instanceof LoggerAwareInterface) {
             $child->setLogger($this->logger);
+        }
+        if ($child instanceof ProgressIndicatorAwareInterface) {
+            $child->setProgressIndicator($this->progressIndicator);
+        }
+        if ($child instanceof ConfigAwareInterface) {
+            $child->setConfig($this->getConfig());
         }
     }
 }

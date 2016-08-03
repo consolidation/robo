@@ -24,10 +24,12 @@ if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
 * `idleTimeout($timeout)`  Stops command if it does not output something for a while
 * `env(array $env)`  Sets the environment variables for the command
 * `simulate($context)`  Called in place of `run()` for simulated tasks.
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
+* `injectDependencies($child)`  {inheritdoc}
 * `logger()` 
+* `setLogger($logger)`  Sets a logger.
+* `progressIndicatorSteps()` 
+* `setProgressIndicator($progressIndicator)` 
+* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
@@ -62,10 +64,12 @@ $this->taskExecStack()
 * `exec($command)` 
 * `stopOnFail($stopOnFail = null)` 
 * `result($result)` 
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
+* `injectDependencies($child)`  {inheritdoc}
 * `logger()` 
+* `setLogger($logger)`  Sets a logger.
+* `progressIndicatorSteps()` 
+* `setProgressIndicator($progressIndicator)` 
+* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
@@ -96,21 +100,16 @@ $this->taskParallelExec()
 * `process($command)` 
 * `timeout($timeout)` 
 * `idleTimeout($idleTimeout)` 
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
+* `progressIndicatorSteps()` 
+* `injectDependencies($child)`  {inheritdoc}
 * `logger()` 
+* `setLogger($logger)`  Sets a logger.
+* `setProgressIndicator($progressIndicator)` 
+* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
 * `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
-* `setProgressIndicator($progressIndicator)` 
-* `inProgress()` 
-* `startProgressIndicator($totalSteps = null)` 
-* `stopProgressIndicator()` 
-* `hideProgressIndicator()` 
-* `showProgressIndicator()` 
-* `advanceProgressIndicator($steps = null)` 
 
 ## SymfonyCommand
 
@@ -134,10 +133,12 @@ $this->taskSymfonyCommand(new ModelGeneratorCommand())
 
 * `arg($arg, $value)` 
 * `opt($option, $value = null)` 
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
+* `injectDependencies($child)`  {inheritdoc}
 * `logger()` 
+* `setLogger($logger)`  Sets a logger.
+* `progressIndicatorSteps()` 
+* `setProgressIndicator($progressIndicator)` 
+* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
@@ -161,10 +162,12 @@ $this->taskWatch()
 ```
 
 * `monitor($paths, $callable)` 
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
+* `injectDependencies($child)`  {inheritdoc}
 * `logger()` 
+* `setLogger($logger)`  Sets a logger.
+* `progressIndicatorSteps()` 
+* `setProgressIndicator($progressIndicator)` 
+* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 

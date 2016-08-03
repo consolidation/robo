@@ -12,7 +12,7 @@ trait loadShortcuts
      */
     protected function _copyDir($src, $dst)
     {
-        return $this->getContainer()->get('taskCopyDir', [[$src => $dst]])->run();
+        return $this->task('taskCopyDir', [$src => $dst])->run();
     }
 
     /**
@@ -22,7 +22,7 @@ trait loadShortcuts
      */
     protected function _mirrorDir($src, $dst)
     {
-        return $this->getContainer()->get('taskMirrorDir', [[$src => $dst]])->run();
+        return $this->task('taskMirrorDir', [$src => $dst])->run();
     }
 
     /**
@@ -31,7 +31,7 @@ trait loadShortcuts
      */
     protected function _deleteDir($dir)
     {
-        return $this->getContainer()->get('taskDeleteDir', [$dir])->run();
+        return $this->task('taskDeleteDir', $dir)->run();
     }
 
     /**
@@ -40,7 +40,7 @@ trait loadShortcuts
      */
     protected function _cleanDir($dir)
     {
-        return $this->getContainer()->get('taskCleanDir', [$dir])->run();
+        return $this->task('taskCleanDir', $dir)->run();
     }
 
     /**
@@ -50,7 +50,7 @@ trait loadShortcuts
      */
     protected function _rename($from, $to)
     {
-        return $this->getContainer()->get('taskFilesystemStack')->rename($from, $to)->run();
+        return $this->task('taskFilesystemStack')->rename($from, $to)->run();
     }
 
     /**
@@ -59,7 +59,7 @@ trait loadShortcuts
      */
     protected function _mkdir($dir)
     {
-        return $this->getContainer()->get('taskFilesystemStack')->mkdir($dir)->run();
+        return $this->task('taskFilesystemStack')->mkdir($dir)->run();
     }
 
     /**
@@ -68,7 +68,7 @@ trait loadShortcuts
      */
     protected function _tmpDir($prefix = 'tmp', $base = '', $includeRandomPart = true)
     {
-        $result = $this->getContainer()->get('taskTmpDir', [$prefix, $base, $includeRandomPart])->run();
+        $result = $this->task('taskTmpDir', $prefix, $base, $includeRandomPart)->run();
         return isset($result['path']) ? $result['path'] : '';
     }
 
@@ -78,7 +78,7 @@ trait loadShortcuts
      */
     protected function _touch($file)
     {
-        return $this->getContainer()->get('taskFilesystemStack')->touch($file)->run();
+        return $this->task('taskFilesystemStack')->touch($file)->run();
     }
 
     /**
@@ -87,7 +87,7 @@ trait loadShortcuts
      */
     protected function _remove($file)
     {
-        return $this->getContainer()->get('taskFilesystemStack')->remove($file)->run();
+        return $this->task('taskFilesystemStack')->remove($file)->run();
     }
 
     /**
@@ -97,7 +97,7 @@ trait loadShortcuts
      */
     protected function _chgrp($file, $group)
     {
-        return $this->getContainer()->get('taskFilesystemStack')->chgrp($file, $group)->run();
+        return $this->task('taskFilesystemStack')->chgrp($file, $group)->run();
     }
 
     /**
@@ -109,7 +109,7 @@ trait loadShortcuts
      */
     protected function _chmod($file, $permissions, $umask = 0000, $recursive = false)
     {
-        return $this->getContainer()->get('taskFilesystemStack')->chmod($file, $permissions, $umask, $recursive)->run();
+        return $this->task('taskFilesystemStack')->chmod($file, $permissions, $umask, $recursive)->run();
     }
 
     /**
@@ -119,7 +119,7 @@ trait loadShortcuts
      */
     protected function _symlink($from, $to)
     {
-        return $this->getContainer()->get('taskFilesystemStack')->symlink($from, $to)->run();
+        return $this->task('taskFilesystemStack')->symlink($from, $to)->run();
     }
 
     /**
@@ -129,7 +129,7 @@ trait loadShortcuts
      */
     protected function _copy($from, $to)
     {
-        return $this->getContainer()->get('taskFilesystemStack')->copy($from, $to)->run();
+        return $this->task('taskFilesystemStack')->copy($from, $to)->run();
     }
 
     /**
@@ -139,6 +139,6 @@ trait loadShortcuts
      */
     protected function _flattenDir($from, $to)
     {
-        return $this->getContainer()->get('taskFlattenDir', [[$from => $to]])->run();
+        return $this->task('taskFlattenDir', [$from => $to])->run();
     }
 }

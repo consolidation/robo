@@ -1,6 +1,8 @@
 <?php
 require_once codecept_data_dir() . 'TestedRoboFile.php';
 
+use Robo\Runner;
+use League\Container\Container;
 use Consolidation\AnnotatedCommand\AnnotatedCommandFactory;
 use Consolidation\AnnotatedCommand\Parser\CommandInfo;
 
@@ -28,13 +30,37 @@ class ApplicationTest extends \Codeception\TestCase\Test
 
     protected function _before()
     {
-        $this->app = new \Robo\Application('Robo', \Robo\Runner::VERSION);
-        $this->commandFactory = new AnnotatedCommandFactory();
+        $container = new Container();
+        \Robo\Runner::configureContainer($container);
+        \Robo\Robo::setContainer($container);
+        $this->app = $container->get('application');
+        $this->commandFactory = $container->get('commandFactory');
         $this->roboCommandFileInstance = new TestedRoboFile;
+        $this->roboCommandFileInstance->setContainer(\Robo\Robo::getContainer());
+        \Robo\Runner::addServiceProviders($container, $this->roboCommandFileInstance->getServiceProviders());
         $commandList = $this->commandFactory->createCommandsFromClass($this->roboCommandFileInstance);
         foreach ($commandList as $command) {
             $this->app->add($command);
         }
+    }
+
+    public function testTaskAccessor()
+    {
+        // Get a reference to the protected 'task' method, as
+        // this is normally only callable by methods of the
+        // commandfile instance.
+        $method = new ReflectionMethod($this->roboCommandFileInstance, 'task');
+        $method->setAccessible(true);
+        $collectionBuilder = $method->invoke($this->roboCommandFileInstance, 'taskExec', ['ls']);
+        verify(get_class($collectionBuilder))->equals('Robo\Collection\CollectionBuilder');
+        $task = $collectionBuilder->getCollectionBuilderCurrentTask();
+        verify(get_class($task))->equals('Robo\Task\Base\Exec');
+        // If 'task' is not provided, then it will be supplied (that is,
+        // the task's classname may also be used with the 'task()' method).
+        $collectionBuilder = $method->invoke($this->roboCommandFileInstance, 'Exec', ['ls']);
+        verify(get_class($collectionBuilder))->equals('Robo\Collection\CollectionBuilder');
+        $task = $collectionBuilder->getCollectionBuilderCurrentTask();
+        verify(get_class($task))->equals('Robo\Task\Base\Exec');
     }
 
     public function testAllowEmptyValuesAsDefaultsToOptionalOptions()
@@ -102,7 +128,7 @@ class ApplicationTest extends \Codeception\TestCase\Test
         $command = $this->createCommand('fibonacci');
 
         verify($command->getHelp())
-            ->contains('    +----+---+');
+            ->contains('+----+---+');
     }
 
     public function testCommandNaming()

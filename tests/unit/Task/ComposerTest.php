@@ -1,6 +1,6 @@
 <?php
 use AspectMock\Test as test;
-use Robo\Config;
+use Robo\Robo;
 
 class ComposerTest extends \Codeception\TestCase\Test
 {
@@ -16,7 +16,7 @@ class ComposerTest extends \Codeception\TestCase\Test
         $this->baseComposer = test::double('Robo\Task\Composer\Base', [
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
-        $this->container = Config::getContainer();
+        $this->container = Robo::getContainer();
         $this->container->addServiceProvider(\Robo\Task\Composer\loadTasks::getComposerServices());
     }
     // tests
@@ -73,6 +73,39 @@ class ComposerTest extends \Codeception\TestCase\Test
             ->noDev()
             ->run();
         $composer->verifyInvoked('executeCommand', ['composer dump-autoload --optimize --no-dev']);
+    }
+
+    public function testComposerValidate()
+    {
+        $composer = test::double('Robo\Task\Composer\Validate', ['executeCommand' => null]);
+
+        $this->container->get('taskComposerValidate', ['composer'])->run();
+        $composer->verifyInvoked('executeCommand', ['composer validate']);
+
+        $this->container->get('taskComposerValidate', ['composer'])
+            ->noCheckAll()
+            ->run();
+        $composer->verifyInvoked('executeCommand', ['composer validate --no-check-all']);
+
+        $this->container->get('taskComposerValidate', ['composer'])
+            ->noCheckLock()
+            ->run();
+        $composer->verifyInvoked('executeCommand', ['composer validate --no-check-lock']);
+
+        $this->container->get('taskComposerValidate', ['composer'])
+            ->noCheckPublish()
+            ->run();
+        $composer->verifyInvoked('executeCommand', ['composer validate --no-check-publish']);
+
+        $this->container->get('taskComposerValidate', ['composer'])
+            ->withDependencies()
+            ->run();
+        $composer->verifyInvoked('executeCommand', ['composer validate --with-dependencies']);
+
+        $this->container->get('taskComposerValidate', ['composer'])
+            ->strict()
+            ->run();
+        $composer->verifyInvoked('executeCommand', ['composer validate --strict']);
     }
 
     public function testComposerInstallCommand()
@@ -136,6 +169,53 @@ class ComposerTest extends \Codeception\TestCase\Test
                 ->noDev()
                 ->getCommand()
         )->equals('composer dump-autoload --optimize --no-dev');
+    }
+
+    public function testComposerValidateCommand()
+    {
+        verify(
+            $this->container->get('taskComposerValidate', ['composer'])->getCommand()
+        )->equals('composer validate');
+
+        verify(
+            $this->container->get('taskComposerValidate', ['composer'])
+                ->noCheckAll()
+                ->getCommand()
+        )->equals('composer validate --no-check-all');
+
+        verify(
+            $this->container->get('taskComposerValidate', ['composer'])
+                ->noCheckLock()
+                ->getCommand()
+        )->equals('composer validate --no-check-lock');
+
+        verify(
+            $this->container->get('taskComposerValidate', ['composer'])
+                ->noCheckPublish()
+                ->getCommand()
+        )->equals('composer validate --no-check-publish');
+
+        verify(
+            $this->container->get('taskComposerValidate', ['composer'])
+                ->withDependencies()
+                ->getCommand()
+        )->equals('composer validate --with-dependencies');
+
+        verify(
+            $this->container->get('taskComposerValidate', ['composer'])
+                ->strict()
+                ->getCommand()
+        )->equals('composer validate --strict');
+
+        verify(
+            $this->container->get('taskComposerValidate', ['composer'])
+                ->noCheckAll()
+                ->noCheckLock()
+                ->noCheckPublish()
+                ->withDependencies()
+                ->strict()
+                ->getCommand()
+        )->equals('composer validate --no-check-all --no-check-lock --no-check-publish --with-dependencies --strict');
     }
 
 }

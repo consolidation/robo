@@ -39,12 +39,11 @@ class Watch extends BaseTask
         }
         $this->monitor[] = [$paths, $callable];
         return $this;
-
     }
 
     public function run()
     {
-        if (!class_exists('Lurker\\ResourceWatcher\\ResourceWatcher')) {
+        if (!class_exists('Lurker\\ResourceWatcher')) {
             return Result::errorMissingPackage($this, 'ResourceWatcher', 'henrikbjorn/lurker');
         }
 

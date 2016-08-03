@@ -1,9 +1,10 @@
 <?php
 namespace Robo\Common;
 
-use Robo\Config;
+use Robo\Robo;
 use Robo\TaskInfo;
 use Consolidation\Log\ConsoleLogLevel;
+use Robo\Common\ConfigAwareTrait;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
@@ -23,7 +24,7 @@ trait TaskIO
     public function logger()
     {
         // $this->logger will always be set in Robo core tasks.
-        // TODO: Remove call to Config::logger() once maintaining backwards
+        // TODO: Remove call to Robo::logger() once maintaining backwards
         // compatibility with legacy external Robo tasks is no longer desired.
         if (!$this->logger) {
             static $gaveDeprecationWarning = false;
@@ -31,7 +32,7 @@ trait TaskIO
                 trigger_error('No logger set for ' . get_class($this) . '. Use $this->task("Foo") rather than new Foo() in loadTasks to ensure the DI container can initialize tasks, or use $task->inflect($this) if creating one task from within another.', E_USER_DEPRECATED);
                 $gaveDeprecationWarning = true;
             }
-            return Config::logger();
+            return Robo::logger();
         }
         return $this->logger;
     }
@@ -106,6 +107,18 @@ trait TaskIO
 
     protected function printTaskOutput($level, $text, $context)
     {
+        if ($this->getConfig()->isSupressed()) {
+            return;
+        }
+        // Hide the progress indicator, if it is visible.
+        $inProgress = $this->hideTaskProgress();
+        $this->logger()->log($level, $text, $this->getTaskContext($context));
+        // After we have printed our log message, redraw the progress indicator.
+        $this->showTaskProgress($inProgress);
+    }
+
+    protected function hideTaskProgress()
+    {
         $inProgress = false;
         if ($this instanceof ProgressIndicatorAwareInterface) {
             $inProgress = $this->inProgress();
@@ -114,12 +127,15 @@ trait TaskIO
         // If a progress indicator is running on this task, then we mush
         // hide it before we print anything, or its display will be overwritten.
         if ($inProgress) {
-            $this->hideProgressIndicator();
+            $inProgress = $this->hideProgressIndicator();
         }
-        $this->logger()->log($level, $text, $this->getTaskContext($context));
-        // After we have printed our log message, redraw the progress indicator.
+        return $inProgress;
+    }
+
+    protected function showTaskProgress($inProgress)
+    {
         if ($inProgress) {
-            $this->showProgressIndicator();
+            $this->restoreProgressIndicator($inProgress);
         }
     }
 

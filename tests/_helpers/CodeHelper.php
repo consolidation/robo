@@ -4,7 +4,7 @@ namespace Codeception\Module;
 // here you can define custom actions
 // all public methods declared in helper class will be available in $I
 
-use Robo\Config;
+use Robo\Robo;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -19,19 +19,22 @@ class CodeHelper extends \Codeception\Module
     {
         static::$capturedOutput = '';
         static::$testPrinter = new BufferedOutput(OutputInterface::VERBOSITY_DEBUG);
-        Config::setOutput(static::$testPrinter);
+        $progressBar = new \Symfony\Component\Console\Helper\ProgressBar(static::$testPrinter);
 
-        static::$container = new \Robo\Container\RoboContainer();
+        static::$container = new \League\Container\Container();
         \Robo\Runner::configureContainer(static::$container, null, static::$testPrinter);
-        Config::setContainer(static::$container);
+        Robo::setContainer(static::$container);
+        static::$container->add('output', static::$testPrinter);
+        static::$container->add('progressBar', $progressBar);
+        static::$container->add('progressIndicator', new \Robo\Common\ProgressIndicator($progressBar, static::$testPrinter));
     }
 
     public function _after(\Codeception\TestCase $test)
     {
         \AspectMock\Test::clean();
         $consoleOutput = new ConsoleOutput();
-        Config::setOutput($consoleOutput);
-        Config::setService('logger', new \Consolidation\Log\Logger($consoleOutput));
+        static::$container->add('output', $consoleOutput);
+        static::$container->add('logger', new \Consolidation\Log\Logger($consoleOutput));
     }
 
     public function accumulate()
@@ -44,6 +47,12 @@ class CodeHelper extends \Codeception\Module
     {
         $output = $this->accumulate();
         $this->assertContains($value, $output);
+    }
+
+    public function doNotSeeInOutput($value)
+    {
+        $output = $this->accumulate();
+        $this->assertNotContains($value, $output);
     }
 
     public function seeOutputEquals($value)

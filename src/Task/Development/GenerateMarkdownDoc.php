@@ -422,7 +422,6 @@ class GenerateMarkdownDoc extends BaseTask
             $propertyDoc = call_user_func($this->processPropertyDocBlock, $reflectedProperty, $propertyDoc);
         }
         return trim($propertyDoc);
-
     }
 
     protected function documentParam(\ReflectionParameter $param)

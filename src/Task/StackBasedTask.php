@@ -146,16 +146,25 @@ abstract class StackBasedTask extends BaseTask
         throw new \BadMethodCallException($message);
     }
 
+    public function progressIndicatorSteps()
+    {
+        // run() will call advanceProgressIndicator() once for each
+        // file, one after calling stopBuffering, and again after compression.
+        return count($this->stack);
+    }
+
     /**
      * Run all of the queued objects on the stack
      */
     public function run()
     {
+        $this->startProgressIndicator();
         $result = Result::success($this);
 
         foreach ($this->stack as $action) {
             $command = array_shift($action);
             $this->printTaskProgress($command, $action);
+            $this->advanceProgressIndicator();
             // TODO: merge data from the result on this call
             // with data from the result on the previous call?
             // For now, the result always comes from the last function.
@@ -164,6 +173,8 @@ abstract class StackBasedTask extends BaseTask
                 break;
             }
         }
+
+        $this->stopProgressIndicator();
 
         // todo: add timing information to the result
         return $result;

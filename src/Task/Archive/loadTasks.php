@@ -21,7 +21,7 @@ trait loadTasks
     /**
      * @param $filename
      *
-     * @return Archive
+     * @return Pack
      */
     protected function taskPack($filename)
     {

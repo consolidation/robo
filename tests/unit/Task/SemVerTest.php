@@ -1,7 +1,7 @@
 <?php
 
 use AspectMock\Test as test;
-use Robo\Config;
+use Robo\Robo;
 
 class SemVerTest extends \Codeception\TestCase\Test
 {
@@ -9,7 +9,7 @@ class SemVerTest extends \Codeception\TestCase\Test
 
     protected function _before()
     {
-        $this->container = Config::getContainer();
+        $this->container = Robo::getContainer();
         $this->container->addServiceProvider(\Robo\Task\Development\loadTasks::getDevelopmentServices());
     }
 

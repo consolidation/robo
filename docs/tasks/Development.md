@@ -37,10 +37,12 @@ $this->taskChangelog()
 * `changes(array $data)` 
 * `change($change)` 
 * `getChanges()` 
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
+* `injectDependencies($child)`  {inheritdoc}
 * `logger()` 
+* `setLogger($logger)`  Sets a logger.
+* `progressIndicatorSteps()` 
+* `setProgressIndicator($progressIndicator)` 
+* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
@@ -120,10 +122,12 @@ $this->taskGenerateMarkdownDoc('models.md')
 * `append($append)` 
 * `text($text)` 
 * `textForClass($item)` 
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
+* `injectDependencies($child)`  {inheritdoc}
 * `logger()` 
+* `setLogger($logger)`  Sets a logger.
+* `progressIndicatorSteps()` 
+* `setProgressIndicator($progressIndicator)` 
+* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
@@ -140,10 +144,12 @@ $this->taskGenerateTask('Symfony\Component\Filesystem\Filesystem', 'FilesystemSt
   ->run();
 ```
 
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
+* `injectDependencies($child)`  {inheritdoc}
 * `logger()` 
+* `setLogger($logger)`  Sets a logger.
+* `progressIndicatorSteps()` 
+* `setProgressIndicator($progressIndicator)` 
+* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
@@ -180,10 +186,12 @@ $this->taskGitHubRelease('0.1.0')
 * `uri($uri)` 
 * `user($user)` 
 * `password($password)` 
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
+* `injectDependencies($child)`  {inheritdoc}
 * `logger()` 
+* `setLogger($logger)`  Sets a logger.
+* `progressIndicatorSteps()` 
+* `setProgressIndicator($progressIndicator)` 
+* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
@@ -209,10 +217,12 @@ $this->taskOpenBrowser([
   ->run();
 ```
 
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
+* `injectDependencies($child)`  {inheritdoc}
 * `logger()` 
+* `setLogger($logger)`  Sets a logger.
+* `progressIndicatorSteps()` 
+* `setProgressIndicator($progressIndicator)` 
+* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
@@ -253,24 +263,19 @@ $pharTask = $this->taskPackPhar('package/codecept.phar')
 
 * `compress($compress = null)`   * `param boolean` $compress
 * `stub($stub)`   * `param` $stub
+* `progressIndicatorSteps()` 
 * `addStripped($path, $file)` 
 * `addFile($path, $file)` 
 * `executable($file)` 
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
+* `injectDependencies($child)`  {inheritdoc}
 * `logger()` 
+* `setLogger($logger)`  Sets a logger.
+* `setProgressIndicator($progressIndicator)` 
+* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
 * `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
-* `setProgressIndicator($progressIndicator)` 
-* `inProgress()` 
-* `startProgressIndicator($totalSteps = null)` 
-* `stopProgressIndicator()` 
-* `hideProgressIndicator()` 
-* `showProgressIndicator()` 
-* `advanceProgressIndicator($steps = null)` 
 
 ## PhpServer
 
@@ -303,10 +308,12 @@ $this->taskServer(8000)
 * `idleTimeout($timeout)`  Stops command if it does not output something for a while
 * `env(array $env)`  Sets the environment variables for the command
 * `simulate($context)`  Called in place of `run()` for simulated tasks.
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
+* `injectDependencies($child)`  {inheritdoc}
 * `logger()` 
+* `setLogger($logger)`  Sets a logger.
+* `progressIndicatorSteps()` 
+* `setProgressIndicator($progressIndicator)` 
+* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 

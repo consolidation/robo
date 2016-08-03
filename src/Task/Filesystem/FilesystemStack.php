@@ -31,12 +31,12 @@ use Symfony\Component\Filesystem\Exception\IOException;
  * @method touch($file)
  * @method copy($from, $to, $force = null)
  * @method chmod($file, $permissions, $umask = null, $recursive = null)
+ * @method chgrp($file, $group, $recursive = null)
+ * @method chown($file, $user, $recursive = null)
  * @method remove($file)
  * @method rename($from, $to)
  * @method symlink($from, $to)
  * @method mirror($from, $to)
- * @method chgrp($file, $group)
- * @method chown($file, $user)
  */
 class FilesystemStack extends StackBasedTask
 {
@@ -60,6 +60,16 @@ class FilesystemStack extends StackBasedTask
     protected function _chmod($file, $permissions, $umask = 0000, $recursive = false)
     {
         $this->fs->chmod($file, $permissions, $umask, $recursive);
+    }
+
+    protected function _chgrp($file, $group, $recursive = null)
+    {
+        $this->fs->chgrp($file, $group, $recursive);
+    }
+
+    protected function _chown($file, $user, $recursive = null)
+    {
+        $this->fs->chown($file, $user, $recursive);
     }
 
     protected function _rename($origin, $target, $overwrite = false)

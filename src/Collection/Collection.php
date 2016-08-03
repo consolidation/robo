@@ -2,14 +2,17 @@
 namespace Robo\Collection;
 
 use Robo\Result;
-use Robo\ResultData;
 use Psr\Log\LogLevel;
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerAwareTrait;
 use Robo\Contract\TaskInterface;
 use Robo\Container\SimpleServiceProvider;
 use Robo\Task\StackBasedTask;
+use Robo\Task\BaseTask;
 use Robo\TaskInfo;
+use Robo\Contract\WrappedTaskInterface;
+
+use Robo\Contract\ProgressIndicatorAwareInterface;
+use Robo\Common\ProgressIndicatorAwareTrait;
+use Robo\Contract\InflectionInterface;
 
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
@@ -17,6 +20,9 @@ use League\Container\ContainerAwareTrait;
 /**
  * Group tasks into a collection that run together. Supports
  * rollback operations for handling error conditions.
+ *
+ * Clients should favor using a CollectionBuilder over direct use of
+ * the Collection class.
  *
  * Below, the example FilesystemStack task is added to a collection,
  * and associated with a rollback task.  If any of the operations in
@@ -40,99 +46,60 @@ use League\Container\ContainerAwareTrait;
  * ?>
  * ```
  */
-class Collection implements TaskInterface, LoggerAwareInterface, ContainerAwareInterface
+class Collection extends BaseTask implements CollectionInterface, ContainerAwareInterface
 {
-    use LoggerAwareTrait;
     use ContainerAwareTrait;
 
-    // Unnamed tasks are assigned an arbitrary numeric index
-    // in the task list. Any numeric value may be used, but the
-    // UNNAMEDTASK constant is recommended for clarity.
-    const UNNAMEDTASK = 0;
-
-    protected $taskStack = [];
+    protected $taskList = [];
     protected $rollbackStack = [];
     protected $completionStack = [];
-    protected $previousResult;
-
-    /**
-     * Return services.
-     */
-    public static function getCollectionServices()
-    {
-        return new SimpleServiceProvider(
-            [
-                'collection' => Collection::class,
-                'completionWrapper' => CompletionWrapper::class,
-            ]
-        );
-    }
+    /** var CollectionInterface */
+    protected $parentCollection;
 
     /**
      * Constructor.
      */
     public function __construct()
     {
-        $this->previousResult = new ResultData();
+    }
+
+    public function setProgressBarAutoDisplayInterval($interval)
+    {
+        if (!$this->progressIndicator) {
+            return;
+        }
+        return $this->progressIndicator->setProgressBarAutoDisplayInterval($interval);
     }
 
     /**
-     * Add a task or a list of tasks to our task collection.  Each task
-     * will run via its 'run()' method once (and if) all of the tasks
-     * added before it complete successfully.  If the task also implements
-     * RollbackInterface, then it will be rolled back via its 'rollback()'
-     * method ONLY if its 'run()' method completes successfully, and some
-     * task added after it fails.
-     *
-     * @param TaskInterface
-     *   The task to add to our collection.
-     * @param string
-     *   An optional name for the task -- missing or UNNAMEDTASK for unnamed tasks.
-     *   Names are used for positioning before and after tasks.
+     * @inheritdoc
      */
     public function add(TaskInterface $task, $name = self::UNNAMEDTASK)
     {
-        $task = $this->getContainer()->get('completionWrapper', [$this, $task]);
-        $this->addToTaskStack($name, $task);
+        $task = new CompletionWrapper($this, $task);
+        $this->addToTaskList($name, $task);
         return $this;
     }
 
-    public function addCode(callable $task, $name = self::UNNAMEDTASK)
-    {
-        return $this->add(new CallableTask($task, $this), $name);
-    }
-
     /**
-     * Print a progress message after Collection::run() has executed
-     * all of the tasks that were added prior to the point when this
-     * method was called. If one of the previous tasks fail, then this
-     * message will not be printed.
-     *
-     * @param string $text Message to print.
-     * @param array $context Extra context data for use by the logger.
-     * @param LogLevel $level The log level to print the information at. Default is NOTICE.
+     * @inheritdoc
      */
-    public function progressMessage($text, $context = [], $level = LogLevel::NOTICE)
+    public function addCode(callable $code, $name = self::UNNAMEDTASK)
     {
-        $logger = $this->logger;
-        $context += ['name' => 'Progress'];
-        $context += TaskInfo::getTaskContext($this);
-        return $this->addCode(
-            function () use ($level, $text, $context, $logger) {
-                $logger->log($level, $text, $context);
-            }
-        );
+        return $this->add(new CallableTask($code, $this), $name);
     }
 
     /**
-     * Add a rollback task to our task collection.  A rollback task
-     * will execute ONLY if all of the tasks added before it complete
-     * successfully, AND some task added after it fails.
-     *
-     * @param TaskInterface
-     *   The rollback task to add.  Note that the 'run()' method of the
-     *   task executes, not its 'rollback()' method.  To use the 'rollback()'
-     *   method, add the task via 'Collection::add()' instead.
+     * @inheritdoc
+     */
+    public function addIterable($iterable, callable $code)
+    {
+        $callbackTask = (new IterationTask($iterable, $code, $this))->inflect($this);
+        return $this->add($callbackTask);
+    }
+
+    /**
+     * @inheritdoc
      */
     public function rollback(TaskInterface $rollbackTask)
     {
@@ -141,35 +108,18 @@ class Collection implements TaskInterface, LoggerAwareInterface, ContainerAwareI
         return $this->wrapAndRegisterRollback($rollbackTask);
     }
 
-    public function rollbackCode(callable $rollbackTask)
+    /**
+     * @inheritdoc
+     */
+    public function rollbackCode(callable $rollbackCode)
     {
         // Rollback tasks always try as hard as they can, and never report failures.
-        $rollbackTask = $this->ignoreErrorsCodeWrapper($rollbackTask);
+        $rollbackTask = $this->ignoreErrorsCodeWrapper($rollbackCode);
         return $this->wrapAndRegisterRollback($rollbackTask);
     }
 
-    protected function wrapAndRegisterRollback(TaskInterface $rollbackTask)
-    {
-        $collection = $this;
-        $rollbackRegistrationTask = new CallableTask(
-            function () use ($collection, $rollbackTask) {
-                $collection->registerRollback($rollbackTask);
-            },
-            $this
-        );
-        $this->addToTaskStack(self::UNNAMEDTASK, $rollbackRegistrationTask);
-        return $this;
-    }
-
     /**
-     * Add a completion task to our task collection.  A completion task
-     * will execute EITHER after all tasks succeed, OR immediatley after
-     * any task fails.  Completion tasks never cause errors to be returned
-     * from Collection::run(), even if they fail.
-     *
-     * @param TaskInterface
-     *   The completion task to add.  Note that the 'run()' method of the
-     *   task executes, just as if the task was added normally.
+     * @inheritdoc
      */
     public function completion(TaskInterface $completionTask)
     {
@@ -181,10 +131,13 @@ class Collection implements TaskInterface, LoggerAwareInterface, ContainerAwareI
             },
             $this
         );
-        $this->addToTaskStack(self::UNNAMEDTASK, $completionRegistrationTask);
+        $this->addToTaskList(self::UNNAMEDTASK, $completionRegistrationTask);
         return $this;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function completionCode(callable $completionTask)
     {
         $completionTask = new CallableTask($completionTask, $this);
@@ -192,15 +145,7 @@ class Collection implements TaskInterface, LoggerAwareInterface, ContainerAwareI
     }
 
     /**
-     * Add a task before an existing named task.
-     *
-     * @param string
-     *   The name of the task to insert before.  The named task MUST exist.
-     * @param callable|TaskInterface
-     *   The task to add.
-     * @param string
-     *   The name of the task to add. If not provided, will be associated
-     *   with the named task it was added before.
+     * @inheritdoc
      */
     public function before($name, $task, $nameOfTaskToAdd = self::UNNAMEDTASK)
     {
@@ -208,19 +153,39 @@ class Collection implements TaskInterface, LoggerAwareInterface, ContainerAwareI
     }
 
     /**
-     * Add a task after an existing named task.
-     *
-     * @param string
-     *   The name of the task to insert before.  The named task MUST exist.
-     * @param callable|TaskInterface
-     *   The task to add.
-     * @param string
-     *   The name of the task to add. If not provided, will be associated
-     *   with the named task it was added after.
+     * @inheritdoc
      */
     public function after($name, $task, $nameOfTaskToAdd = self::UNNAMEDTASK)
     {
         return $this->addBeforeOrAfter(__FUNCTION__, $name, $task, $nameOfTaskToAdd);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function progressMessage($text, $context = [], $filter = false, $level = LogLevel::NOTICE)
+    {
+        $context += ['name' => 'Progress'];
+        $context += TaskInfo::getTaskContext($this);
+        return $this->addCode(
+            function () use ($level, $text, $context, $filter) {
+                $filteredContext = $filter ? $filter($context, $this) : $context;
+                $this->printTaskOutput($level, $text, $filteredContext);
+            }
+        );
+    }
+
+    protected function wrapAndRegisterRollback(TaskInterface $rollbackTask)
+    {
+        $collection = $this;
+        $rollbackRegistrationTask = new CallableTask(
+            function () use ($collection, $rollbackTask) {
+                $collection->registerRollback($rollbackTask);
+            },
+            $this
+        );
+        $this->addToTaskList(self::UNNAMEDTASK, $rollbackRegistrationTask);
+        return $this;
     }
 
     /**
@@ -259,7 +224,7 @@ class Collection implements TaskInterface, LoggerAwareInterface, ContainerAwareI
         $ignoreErrorsInTask = function () use ($task) {
             $data = [];
             try {
-                $result = $task->run();
+                $result = $this->runSubtask($task);
                 $message = $result->getMessage();
                 $data = $result->getData();
                 $data['exitcode'] = $result->getExitCode();
@@ -283,7 +248,7 @@ class Collection implements TaskInterface, LoggerAwareInterface, ContainerAwareI
      */
     public function taskNames()
     {
-        return array_keys($this->taskStack);
+        return array_keys($this->taskList);
     }
 
     /**
@@ -294,7 +259,7 @@ class Collection implements TaskInterface, LoggerAwareInterface, ContainerAwareI
      */
     public function hasTask($name)
     {
-        return array_key_exists($name, $this->taskStack);
+        return array_key_exists($name, $this->taskList);
     }
 
     /**
@@ -312,7 +277,7 @@ class Collection implements TaskInterface, LoggerAwareInterface, ContainerAwareI
      *
      * @param string
      *   The name of the task to insert before.  The named task MUST exist.
-     * @returns Element
+     * @return Element
      *   The task group for the named task. Generally this is only
      *   used to call 'before()' and 'after()'.
      */
@@ -321,7 +286,7 @@ class Collection implements TaskInterface, LoggerAwareInterface, ContainerAwareI
         if (!$this->hasTask($name)) {
             throw new \RuntimeException("Could not find task named $name");
         }
-        return $this->taskStack[$name];
+        return $this->taskList[$name];
     }
 
     /**
@@ -341,7 +306,7 @@ class Collection implements TaskInterface, LoggerAwareInterface, ContainerAwareI
     /**
      * Add the provided task to our task list.
      */
-    protected function addToTaskStack($name, TaskInterface $task)
+    protected function addToTaskList($name, TaskInterface $task)
     {
         // All tasks are stored in a task group so that we have a place
         // to hang 'before' and 'after' tasks.
@@ -349,14 +314,35 @@ class Collection implements TaskInterface, LoggerAwareInterface, ContainerAwareI
         // If a task name is not provided, then we'll let php pick
         // the array index.
         if (static::isUnnamedTask($name)) {
-            $this->taskStack[] = $taskGroup;
+            $this->taskList[] = $taskGroup;
             return $this;
         }
         // If we are replacing an existing task with the
         // same name, ensure that our new task is added to
         // the end.
-        $this->taskStack[$name] = $taskGroup;
+        $this->taskList[$name] = $taskGroup;
         return $this;
+    }
+
+    /**
+     * Set the parent collection. This is necessary so that nested
+     * collections' rollback and completion tasks can be added to the
+     * top-level collection, ensuring that the rollbacks for a collection
+     * will run if any later task fails.
+     */
+    public function setParentCollection(NestedCollectionInterface $parentCollection)
+    {
+        $this->parentCollection = $parentCollection;
+        return $this;
+    }
+
+    /**
+     * Get the appropriate parent collection to use
+     * @return CollectionInterface
+     */
+    public function getParentCollection()
+    {
+        return $this->parentCollection ? $this->parentCollection : $this;
     }
 
     /**
@@ -378,10 +364,12 @@ class Collection implements TaskInterface, LoggerAwareInterface, ContainerAwareI
      */
     public function registerRollback(TaskInterface $rollbackTask)
     {
+        if ($this->parentCollection) {
+            return $this->parentCollection->registerRollback($rollbackTask);
+        }
         if ($rollbackTask) {
             $this->rollbackStack[] = $rollbackTask;
         }
-        return $this;
     }
 
     /**
@@ -404,12 +392,39 @@ class Collection implements TaskInterface, LoggerAwareInterface, ContainerAwareI
      */
     public function registerCompletion(TaskInterface $completionTask)
     {
+        if ($this->parentCollection) {
+            return $this->parentCollection->registerCompletion($completionTask);
+        }
         if ($completionTask) {
             // Completion tasks always try as hard as they can, and never report failures.
             $completionTask = $this->ignoreErrorsTaskWrapper($completionTask);
             $this->completionStack[] = $completionTask;
         }
-        return $this;
+    }
+
+    /**
+     * Return the count of steps in this collection
+     * @return int
+     */
+    public function progressIndicatorSteps()
+    {
+        $steps = 0;
+        foreach ($this->taskList as $name => $taskGroup) {
+            foreach ($taskGroup->getTaskList() as $task) {
+                if ($task instanceof WrappedTaskInterface) {
+                    $task = $task->original();
+                }
+                // If the task is a ProgressIndicatorAwareInterface, then it
+                // will advance the progress indicator a number of times.
+                if ($task instanceof ProgressIndicatorAwareInterface) {
+                    $steps += $task->progressIndicatorSteps();
+                }
+                // We also advance the progress indicator once regardless
+                // of whether it is progress-indicator aware or not.
+                $steps++;
+            }
+        }
+        return $steps;
     }
 
     /**
@@ -422,21 +437,17 @@ class Collection implements TaskInterface, LoggerAwareInterface, ContainerAwareI
         return $result;
     }
 
-    /**
-     * Like 'run()', but does not call complete().
-     * Allows caller to continue adding tasks to the
-     * same collection, e.g. perhaps to re-use a temporary
-     * directory or other temporary which will persist
-     * until 'run()' or 'complete()' is called.
-     */
-    public function runWithoutCompletion()
+    private function runWithoutCompletion()
     {
-        // If there were some tasks that were run before, and they
-        // failed, subsequent calls to run() will do nothing further,
-        // and will continue to return the same error result.
-        $result = $this->previousResult;
+        $result = Result::success($this);
+
+        if (empty($this->taskList)) {
+            return $result;
+        }
+
+        $this->startProgressIndicator();
         if ($result->wasSuccessful()) {
-            foreach ($this->taskStack as $name => $taskGroup) {
+            foreach ($this->taskList as $name => $taskGroup) {
                 $taskList = $taskGroup->getTaskList();
                 $result = $this->runTaskList($name, $taskList, $result);
                 if (!$result->wasSuccessful()) {
@@ -444,9 +455,40 @@ class Collection implements TaskInterface, LoggerAwareInterface, ContainerAwareI
                     return $result;
                 }
             }
-            $this->taskStack = [];
+            $this->taskList = [];
         }
-        $this->previousResult = $result;
+        $this->stopProgressIndicator();
+        $result['time'] = $this->getExecutionTime();
+
+        return $result;
+    }
+
+    /**
+     * Run every task in a list, but only up to the first failure.
+     * Return the failing result, or success if all tasks run.
+     */
+    private function runTaskList($name, array $taskList, $result)
+    {
+        try {
+            foreach ($taskList as $taskName => $task) {
+                $taskResult = $this->runSubtask($task);
+                $this->advanceProgressIndicator();
+                // If the current task returns an error code, then stop
+                // execution and signal a rollback.
+                if (!$taskResult->wasSuccessful()) {
+                    return $taskResult;
+                }
+                // We accumulate our results into a field so that tasks that
+                // have a reference to the collection may examine and modify
+                // the incremental results, if they wish.
+                $key = static::isUnnamedTask($taskName) ? $name : $taskName;
+                $result = $this->accumulateResults($key, $result, $taskResult);
+            }
+        } catch (\Exception $e) {
+            // Tasks typically should not throw, but if one does, we will
+            // convert it into an error and roll back.
+            return Result::fromException($task, $e, $result->getData());
+        }
         return $result;
     }
 
@@ -455,6 +497,7 @@ class Collection implements TaskInterface, LoggerAwareInterface, ContainerAwareI
      */
     public function fail()
     {
+        $this->disableProgressIndicator();
         $this->runRollbackTasks();
         $this->complete();
         return $this;
@@ -475,7 +518,7 @@ class Collection implements TaskInterface, LoggerAwareInterface, ContainerAwareI
      */
     public function reset()
     {
-        $this->taskStack = [];
+        $this->taskList = [];
         $this->completionStack = [];
         $this->rollbackStack = [];
         return $this;
@@ -498,32 +541,22 @@ class Collection implements TaskInterface, LoggerAwareInterface, ContainerAwareI
         $this->rollbackStack = [];
     }
 
-    /**
-     * Run every task in a list, but only up to the first failure.
-     * Return the failing result, or success if all tasks run.
-     */
-    protected function runTaskList($name, array $taskList, $result)
+    protected function runSubtask($task)
     {
-        try {
-            foreach ($taskList as $taskName => $task) {
-                $taskResult = $task->run();
-                // If the current task returns an error code, then stop
-                // execution and signal a rollback.
-                if (!$taskResult->wasSuccessful()) {
-                    return $taskResult;
-                }
-                // We accumulate our results into a field so that tasks that
-                // have a reference to the collection may examine and modify
-                // the incremental results, if they wish.
-                $key = static::isUnnamedTask($taskName) ? $name : $taskName;
-                $result = $this->accumulateResults($key, $result, $taskResult);
-            }
-        } catch (\Exception $e) {
-            // Tasks typically should not throw, but if one does, we will
-            // convert it into an error and roll back.
-            return Result::fromException($task, $e, $result->getData());
+        $original = ($task instanceof WrappedTaskInterface) ? $task->original() : $task;
+        $this->setParentCollectionForTask($original, $this->getParentCollection());
+        if ($original instanceof InflectionInterface) {
+            $original->inflect($this);
         }
-        return $result;
+        $taskResult = $task->run();
+        return $taskResult;
+    }
+
+    protected function setParentCollectionForTask($task, $parentCollection)
+    {
+        if ($task instanceof NestedCollectionInterface) {
+            $task->setParentCollection($parentCollection);
+        }
     }
 
     /**
@@ -531,10 +564,10 @@ class Collection implements TaskInterface, LoggerAwareInterface, ContainerAwareI
      * results from all tasks that have run so far, merging data
      * as necessary.
      */
-    public function accumulateResults($key, ResultData $result, ResultData $taskResult)
+    public function accumulateResults($key, Result $result, Result $taskResult)
     {
         // If the result is not set or is not a Result, then ignore it
-        if (isset($result) && ($result instanceof ResultData)) {
+        if (isset($result) && ($result instanceof Result)) {
             // If the task is unnamed, then all of its data elements
             // just get merged in at the top-level of the final Result object.
             if (static::isUnnamedTask($key)) {
@@ -561,7 +594,7 @@ class Collection implements TaskInterface, LoggerAwareInterface, ContainerAwareI
     {
         foreach ($taskList as $task) {
             try {
-                $task->run();
+                $this->runSubtask($task);
             } catch (\Exception $e) {
                 // Ignore rollback failures.
             }

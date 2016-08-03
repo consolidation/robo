@@ -35,25 +35,13 @@ class Temporary
     public static function getCollection()
     {
         if (!static::$collection) {
-            static::$collection = \Robo\Config::getContainer()->get('collection');
+            static::$collection = \Robo\Robo::getContainer()->get('collection');
             register_shutdown_function(function () {
                 static::complete();
             });
         }
 
         return static::$collection;
-    }
-
-    /**
-     * Call the rollback method of all of the registered objects.
-     */
-    public static function fail()
-    {
-        // Force the rollback and completion functions to run.
-        $collection = static::getCollection();
-        $collection->fail();
-        // Make sure that our completion functions do not run twice.
-        $collection->reset();
     }
 
     /**

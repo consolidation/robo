@@ -24,6 +24,5 @@ trait CommandReceiver
         } else {
             throw new TaskException($this, get_class($command) . " does not implement CommandInterface, so can't be passed into this task");
         }
-
     }
 }

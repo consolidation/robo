@@ -21,10 +21,12 @@ $this->taskBowerInstall('path/to/my/bower')
 * `forceLatest()`  adds `force-latest` option to bower
 * `noDev()`  adds `production` option to bower
 * `offline()`  adds `offline` option to bower
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
+* `injectDependencies($child)`  {inheritdoc}
 * `logger()` 
+* `setLogger($logger)`  Sets a logger.
+* `progressIndicatorSteps()` 
+* `setProgressIndicator($progressIndicator)` 
+* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
@@ -57,10 +59,12 @@ $this->taskBowerUpdate('path/to/my/bower')
 * `forceLatest()`  adds `force-latest` option to bower
 * `noDev()`  adds `production` option to bower
 * `offline()`  adds `offline` option to bower
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
+* `injectDependencies($child)`  {inheritdoc}
 * `logger()` 
+* `setLogger($logger)`  Sets a logger.
+* `progressIndicatorSteps()` 
+* `setProgressIndicator($progressIndicator)` 
+* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 

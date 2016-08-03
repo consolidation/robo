@@ -1,4 +1,7 @@
 <?php
+use Robo\Robo;
+use Symfony\Component\Console\Output\BufferedOutput;
+
 class RunnerTest extends \Codeception\TestCase\Test
 {
     /**
@@ -6,12 +9,15 @@ class RunnerTest extends \Codeception\TestCase\Test
      */
     private $runner;
 
+    /**
+     * @var \CodeGuy
+     */
+    protected $guy;
+
     public function _before()
     {
         $this->runner = new \Robo\Runner();
     }
-
-
 
     public function testHandleError()
     {
@@ -59,4 +65,83 @@ class RunnerTest extends \Codeception\TestCase\Test
         error_reporting($tmpLevel);
     }
 
+    public function testThrowsExceptionWhenNoContainerAvailable()
+    {
+        \PHPUnit_Framework_TestCase::setExpectedExceptionRegExp(
+            '\RuntimeException',
+            '/container is not initialized yet.*/'
+        );
+        Robo::unsetContainer();
+        Robo::getContainer();
+    }
+
+    public function testRunnerNoSuchCommand()
+    {
+        $argv = ['placeholder', 'no-such-command'];
+        $this->runner->execute($argv);
+        $this->guy->seeInOutput('Command "no-such-command" is not defined.');
+    }
+
+    public function testRunnerList()
+    {
+        $argv = ['placeholder', 'list'];
+        $this->runner->execute($argv);
+        $this->guy->seeInOutput('try:array-args');
+    }
+
+    public function testRunnerTryArgs()
+    {
+        $argv = ['placeholder', 'try:array-args', 'a', 'b', 'c'];
+        $this->runner->execute($argv);
+
+        $expected = <<<EOT
+>  The parameters passed are:
+array (
+  0 => 'a',
+  1 => 'b',
+  2 => 'c',
+)
+
+EOT;
+        $this->guy->seeOutputEquals($expected);
+    }
+
+    public function testRunnerTryError()
+    {
+        $container = \Robo\Robo::getContainer();
+        $container->addServiceProvider(\Robo\Task\Base\loadTasks::getBaseServices());
+
+        $argv = ['placeholder', 'try:error'];
+        $result = $this->runner->execute($argv);
+
+        $this->guy->seeInOutput('[Exec] Running ls xyzzy');
+        $this->assertTrue($result > 0);
+    }
+
+    public function testRunnerTryException()
+    {
+        $container = \Robo\Robo::getContainer();
+        $container->addServiceProvider(\Robo\Task\Base\loadTasks::getBaseServices());
+
+        $argv = ['placeholder', 'try:exception', '--task'];
+        $result = $this->runner->execute($argv);
+
+        $this->guy->seeInOutput('Task failed with an exception');
+        $this->assertEquals(1, $result);
+    }
+
+    public function testInitCommand()
+    {
+        $container = \Robo\Robo::getContainer();
+        $app = $container->get('application');
+        $app->addInitRoboFileCommand('testRoboFile', 'RoboTestClass');
+
+        $argv = ['placeholder', 'init'];
+        $this->runner->execute($argv);
+
+        $this->assertTrue(file_exists('testRoboFile'));
+        $commandContents = file_get_contents('testRoboFile');
+        unlink('testRoboFile');
+        $this->assertContains('class RoboTestClass', $commandContents);
+    }
 }

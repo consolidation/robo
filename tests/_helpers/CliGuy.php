@@ -19,7 +19,6 @@
 
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
-use Robo\Config;
 
 class CliGuy extends \Codeception\Actor
 {

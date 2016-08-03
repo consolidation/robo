@@ -21,10 +21,12 @@ Class Build
 @package Robo\Task\Docker
 
 * `tag($tag)` 
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
+* `injectDependencies($child)`  {inheritdoc}
 * `logger()` 
+* `setLogger($logger)`  Sets a logger.
+* `progressIndicatorSteps()` 
+* `setProgressIndicator($progressIndicator)` 
+* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
@@ -58,10 +60,12 @@ $task->dockerCommit($result)
 ```
 
 * `name($name)` 
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
+* `injectDependencies($child)`  {inheritdoc}
 * `logger()` 
+* `setLogger($logger)`  Sets a logger.
+* `progressIndicatorSteps()` 
+* `setProgressIndicator($progressIndicator)` 
+* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
@@ -102,10 +106,12 @@ $this->taskDockerExec($test)
 * `detached()` 
 * `interactive()` 
 * `exec($command)` 
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
+* `injectDependencies($child)`  {inheritdoc}
 * `logger()` 
+* `setLogger($logger)`  Sets a logger.
+* `progressIndicatorSteps()` 
+* `setProgressIndicator($progressIndicator)` 
+* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
@@ -131,10 +137,12 @@ $this->taskDockerPull('wordpress')
 ```
 
 
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
+* `injectDependencies($child)`  {inheritdoc}
 * `logger()` 
+* `setLogger($logger)`  Sets a logger.
+* `progressIndicatorSteps()` 
+* `setProgressIndicator($progressIndicator)` 
+* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
@@ -159,10 +167,12 @@ $this->taskDockerRemove($container)
 ```
 
 
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
+* `injectDependencies($child)`  {inheritdoc}
 * `logger()` 
+* `setLogger($logger)`  Sets a logger.
+* `progressIndicatorSteps()` 
+* `setProgressIndicator($progressIndicator)` 
+* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
@@ -231,10 +241,12 @@ $this->taskDockerRun('wordpress')
 * `privileged()` 
 * `name($name)` 
 * `link($name, $alias)` 
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
+* `injectDependencies($child)`  {inheritdoc}
 * `logger()` 
+* `setLogger($logger)`  Sets a logger.
+* `progressIndicatorSteps()` 
+* `setProgressIndicator($progressIndicator)` 
+* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
@@ -258,10 +270,12 @@ $this->taskDockerStart($cidOrResult)
 ?>
 ```
 
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
+* `injectDependencies($child)`  {inheritdoc}
 * `logger()` 
+* `setLogger($logger)`  Sets a logger.
+* `progressIndicatorSteps()` 
+* `setProgressIndicator($progressIndicator)` 
+* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 
@@ -285,10 +299,12 @@ $this->taskDockerStop($cidOrResult)
 ?>
 ```
 
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
+* `injectDependencies($child)`  {inheritdoc}
 * `logger()` 
+* `setLogger($logger)`  Sets a logger.
+* `progressIndicatorSteps()` 
+* `setProgressIndicator($progressIndicator)` 
+* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
 * `addAsRollback($collection)` 
 * `addAsCompletion($collection)` 

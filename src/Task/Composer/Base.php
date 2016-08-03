@@ -7,10 +7,12 @@ use Robo\Exception\TaskException;
 abstract class Base extends BaseTask
 {
     use \Robo\Common\ExecOneCommand;
+    use \Robo\Common\IO;
 
     protected $prefer;
     protected $dev;
     protected $optimizeAutoloader;
+    protected $ansi;
     protected $dir;
 
     /**
@@ -54,6 +56,28 @@ abstract class Base extends BaseTask
     }
 
     /**
+     * adds `no-ansi` option to composer
+     *
+     * @return $this
+     */
+    public function noAnsi()
+    {
+        $this->ansi = '--no-ansi';
+        return $this;
+    }
+
+    /**
+     * adds `ansi` option to composer
+     *
+     * @return $this
+     */
+    public function ansi()
+    {
+        $this->ansi = '--ansi';
+        return $this;
+    }
+
+    /**
      * adds `optimize-autoloader` option to composer
      *
      * @return $this
@@ -73,13 +97,18 @@ abstract class Base extends BaseTask
         if (!$this->command) {
             throw new TaskException(__CLASS__, "Neither local composer.phar nor global composer installation could be found.");
         }
+
+        if ($this->getOutput()->isDecorated()) {
+            $this->ansi();
+        }
     }
 
     public function getCommand()
     {
         $this->option($this->prefer)
             ->option($this->dev)
-            ->option($this->optimizeAutoloader);
+            ->option($this->optimizeAutoloader)
+            ->option($this->ansi);
         return "{$this->command} {$this->action}{$this->arguments}";
     }
 }

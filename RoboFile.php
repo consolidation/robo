@@ -183,7 +183,23 @@ class RoboFile extends \Robo\Tasks
                     if ($m->isConstructor() || $m->isDestructor() || $m->isStatic()) {
                         return false;
                     }
-                    return !in_array($m->name, ['run', '', '__call', 'getCommand', 'getPrinted']) && $m->isPublic(); // methods are not documented
+                    $undocumentedMethods =
+                    [
+                        '',
+                        'run',
+                        '__call',
+                        'inflect',
+                        'injectDependencies',
+                        'getCommand',
+                        'getPrinted',
+                        'getConfig',
+                        'setConfig',
+                        'logger',
+                        'setLogger',
+                        'setProgressIndicator',
+                        'progressIndicatorSteps',
+                    ];
+                    return !in_array($m->name, $undocumentedMethods) && $m->isPublic(); // methods are not documented
                 }
             )->processClassSignature(
                 function ($c) {

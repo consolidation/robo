@@ -254,10 +254,12 @@ class RoboFile extends \Robo\Tasks
     {
         $collection = $this->collection();
 
+        // Make sure to remove dev files before finding the files to pack into
+        // the phar.
         $this->taskComposerInstall()
             ->noDev()
             ->printed(false)
-            ->addToCollection($collection);
+            ->run();
 
         $packer = $this->taskPackPhar('robo.phar');
         $files = Finder::create()->ignoreVCS(true)
@@ -279,10 +281,6 @@ class RoboFile extends \Robo\Tasks
         }
         $packer->addFile('robo', 'robo')
             ->executable('robo')
-            ->addToCollection($collection);
-
-        $this->taskComposerInstall()
-            ->printed(false)
             ->addToCollection($collection);
 
         return $collection->run();

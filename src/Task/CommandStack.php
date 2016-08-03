@@ -16,7 +16,7 @@ abstract class CommandStack extends BaseTask implements CommandInterface, Printe
     protected $executable;
     protected $result;
     protected $exec = [];
-    protected $stopOnFail = false;
+    protected $stopOnFail = true;
 
     public function getCommand()
     {
@@ -72,6 +72,8 @@ abstract class CommandStack extends BaseTask implements CommandInterface, Printe
             return $this->executeCommand($this->getCommand());
         }
 
+        $result = Result::success($this);
+
         foreach ($this->exec as $command) {
             $this->printTaskInfo("Executing {command}", ['command' => $command]);
             $result = $this->executeCommand($command);
@@ -80,6 +82,7 @@ abstract class CommandStack extends BaseTask implements CommandInterface, Printe
             }
         }
 
-        return Result::success($this);
+        $result['time'] = $this->getExecutionTime();
+        return $result;
     }
 }

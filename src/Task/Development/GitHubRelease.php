@@ -112,8 +112,9 @@ class GitHubRelease extends GitHub
     {
         $this->printTaskInfo('Releasing {tag}', ['tag' => $this->tag]);
         $this->startTimer();
-        list($code, $data) = $this->sendRequest(
-            'releases',
+        // https://developer.github.com/v3/repos/releases/#create-a-release
+        $result = $this->sendRequest(
+            'POST /repos/:owner/:repo/releases',
             [
                 "tag_name" => $this->tag,
                 "target_commitish" => $this->comittish,
@@ -124,12 +125,7 @@ class GitHubRelease extends GitHub
             ]
         );
         $this->stopTimer();
-
-        return new Result(
-            $this,
-            in_array($code, [200, 201]) ? 0 : 1,
-            isset($data->message) ? $data->message : '',
-            ['response' => $data, 'time' => $this->getExecutionTime()]
-        );
+        $result['time'] = $this->getExecutionTime();
+        return $result;
     }
 }

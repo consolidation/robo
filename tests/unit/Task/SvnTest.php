@@ -26,6 +26,7 @@ class SvnTest extends \Codeception\TestCase\Test
             'executeCommand' => new \AspectMock\Proxy\Anything(),
             'getOutput' => $nullOutput,
             'logger' => $this->container->get('logger'),
+            'getConfig' => $this->container->get('config'),
             'progressIndicator' => $progressIndicator,
         ]);
     }

@@ -5,7 +5,6 @@ use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Robo\Collection\CollectionBuilder;
 use Robo\Contract\ConfigAwareInterface;
 use Robo\Common\ConfigAwareTrait;
 

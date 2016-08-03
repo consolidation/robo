@@ -38,7 +38,7 @@ use Robo\Task\BaseTask;
  * ?>
  * ```
  */
-class PackPhar extends BaseTask implements PrintedInterface
+class PackPhar extends BaseTask implements PrintedInterface, ProgressIndicatorAwareInterface
 {
     /**
      * @var \Phar

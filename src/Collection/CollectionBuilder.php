@@ -17,7 +17,7 @@ use Robo\Collection\Temporary;
 use Robo\Contract\ConfigAwareInterface;
 use Robo\Common\ConfigAwareTrait;
 
-class CollectionBuilder implements NestedCollectionInterface, ConfigAwareInterface, ContainerAwareInterface, TaskInterface
+class CollectionBuilder implements NestedCollectionInterface, ConfigAwareInterface, ContainerAwareInterface, TaskInterface, WrappedTaskInterface
 {
     use ConfigAwareTrait;
     use ContainerAwareTrait;
@@ -245,6 +245,11 @@ class CollectionBuilder implements NestedCollectionInterface, ConfigAwareInterfa
             return $this->currentTask->run();
         }
         return $this->getCollection()->run();
+    }
+
+    public function original()
+    {
+        return $this->getCollection();
     }
 
     /**

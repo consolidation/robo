@@ -252,14 +252,21 @@ class RoboFile extends \Robo\Tasks
      */
     public function pharBuild()
     {
-        $collection = $this->collection();
-
         // Make sure to remove dev files before finding the files to pack into
-        // the phar.
+        // the phar.  This must therefore be done outside the collection,
+        // as the files to pack are found when the collection is built.
         $this->taskComposerInstall()
             ->noDev()
             ->printed(false)
             ->run();
+
+        $collection = $this->collectionBuilder();
+
+        // revert back phar dependencies on completion
+        $collection->completion($this
+            ->taskComposerInstall()
+            ->printed(false)
+        );
 
         $packer = $this->taskPackPhar('robo.phar');
         $files = Finder::create()->ignoreVCS(true)
@@ -280,8 +287,9 @@ class RoboFile extends \Robo\Tasks
             $packer->addFile($file->getRelativePathname(), $file->getRealPath());
         }
         $packer->addFile('robo', 'robo')
-            ->executable('robo')
-            ->addToCollection($collection);
+            ->executable('robo');
+
+        $collection->addTask($packer);
 
         return $collection->run();
     }

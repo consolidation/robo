@@ -42,11 +42,9 @@ $this->taskChangelog()
 * `setLogger($logger)`  Sets a logger.
 * `progressIndicatorSteps()` 
 * `setProgressIndicator($progressIndicator)` 
+* `setConfig($config)`  Set the config management object.
+* `getConfig()`  Get the config management object.
 * `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## GenerateMarkdownDoc
 
@@ -127,11 +125,9 @@ $this->taskGenerateMarkdownDoc('models.md')
 * `setLogger($logger)`  Sets a logger.
 * `progressIndicatorSteps()` 
 * `setProgressIndicator($progressIndicator)` 
+* `setConfig($config)`  Set the config management object.
+* `getConfig()`  Get the config management object.
 * `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## Generate
 
@@ -149,11 +145,9 @@ $this->taskGenerateTask('Symfony\Component\Filesystem\Filesystem', 'FilesystemSt
 * `setLogger($logger)`  Sets a logger.
 * `progressIndicatorSteps()` 
 * `setProgressIndicator($progressIndicator)` 
+* `setConfig($config)`  Set the config management object.
+* `getConfig()`  Get the config management object.
 * `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 
 ## GitHubRelease
@@ -191,11 +185,9 @@ $this->taskGitHubRelease('0.1.0')
 * `setLogger($logger)`  Sets a logger.
 * `progressIndicatorSteps()` 
 * `setProgressIndicator($progressIndicator)` 
+* `setConfig($config)`  Set the config management object.
+* `getConfig()`  Get the config management object.
 * `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## OpenBrowser
 
@@ -222,11 +214,9 @@ $this->taskOpenBrowser([
 * `setLogger($logger)`  Sets a logger.
 * `progressIndicatorSteps()` 
 * `setProgressIndicator($progressIndicator)` 
+* `setConfig($config)`  Set the config management object.
+* `getConfig()`  Get the config management object.
 * `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## PackPhar
 
@@ -271,11 +261,9 @@ $pharTask = $this->taskPackPhar('package/codecept.phar')
 * `logger()` 
 * `setLogger($logger)`  Sets a logger.
 * `setProgressIndicator($progressIndicator)` 
+* `setConfig($config)`  Set the config management object.
+* `getConfig()`  Get the config management object.
 * `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## PhpServer
 
@@ -313,11 +301,9 @@ $this->taskServer(8000)
 * `setLogger($logger)`  Sets a logger.
 * `progressIndicatorSteps()` 
 * `setProgressIndicator($progressIndicator)` 
+* `setConfig($config)`  Set the config management object.
+* `getConfig()`  Get the config management object.
 * `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
 * `args($args)`  Pass methods parameters as arguments to executable

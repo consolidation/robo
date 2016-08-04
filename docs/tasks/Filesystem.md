@@ -18,11 +18,9 @@ $this->_cleanDir('app/cache');
 * `setLogger($logger)`  Sets a logger.
 * `progressIndicatorSteps()` 
 * `setProgressIndicator($progressIndicator)` 
+* `setConfig($config)`  Set the config management object.
+* `getConfig()`  Get the config management object.
 * `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## CopyDir
 
@@ -44,11 +42,9 @@ $this->_copyDir('dist/config', 'config');
 * `setLogger($logger)`  Sets a logger.
 * `progressIndicatorSteps()` 
 * `setProgressIndicator($progressIndicator)` 
+* `setConfig($config)`  Set the config management object.
+* `getConfig()`  Get the config management object.
 * `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## DeleteDir
 
@@ -68,11 +64,9 @@ $this->_deleteDir(['tmp', 'log']);
 * `setLogger($logger)`  Sets a logger.
 * `progressIndicatorSteps()` 
 * `setProgressIndicator($progressIndicator)` 
+* `setConfig($config)`  Set the config management object.
+* `getConfig()`  Get the config management object.
 * `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## FilesystemStack
 
@@ -113,11 +107,9 @@ $this->_mkdir('logs');
 * `logger()` 
 * `setLogger($logger)`  Sets a logger.
 * `setProgressIndicator($progressIndicator)` 
+* `setConfig($config)`  Set the config management object.
+* `getConfig()`  Get the config management object.
 * `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## FlattenDir
 
@@ -190,11 +182,9 @@ $this->taskFlattenDir(['assets/*.min.js' => 'dist'])
 * `setLogger($logger)`  Sets a logger.
 * `progressIndicatorSteps()` 
 * `setProgressIndicator($progressIndicator)` 
+* `setConfig($config)`  Set the config management object.
+* `getConfig()`  Get the config management object.
 * `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## MirrorDir
 
@@ -215,11 +205,9 @@ $this->_mirrorDir('dist/config/', 'config/');
 * `setLogger($logger)`  Sets a logger.
 * `progressIndicatorSteps()` 
 * `setProgressIndicator($progressIndicator)` 
+* `setConfig($config)`  Set the config management object.
+* `getConfig()`  Get the config management object.
 * `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## TmpDir
 
@@ -234,11 +222,11 @@ Use WorkDir if you do not want the directory to be deleted.
 // Delete on rollback or on successful completion.
 // Note that in this example, everything is deleted at
 // the end of $collection->run().
-$tmpPath = $this->taskTmpDir()->addToCollection($collection)->getPath();
-$this->taskFilesystemStack()
+$collection = $this->collectionBuilder();
+$tmpPath = $collection->tmpDir()->getPath();
+$collection->taskFilesystemStack()
           ->mkdir("$tmpPath/log")
-          ->touch("$tmpPath/log/error.txt")
-          ->addToCollection($collection);
+          ->touch("$tmpPath/log/error.txt");
 $collection->run();
 // as shortcut (deleted when program exits)
 $tmpPath = $this->_tmpDir();
@@ -253,11 +241,9 @@ $tmpPath = $this->_tmpDir();
 * `setLogger($logger)`  Sets a logger.
 * `progressIndicatorSteps()` 
 * `setProgressIndicator($progressIndicator)` 
+* `setConfig($config)`  Set the config management object.
+* `getConfig()`  Get the config management object.
 * `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## WorkDir
 
@@ -268,11 +254,11 @@ there is a rollback, then the working directory is deleted.
 
 ``` php
 <?php
-$workingPath = $this->taskWorkDir("build")->addToCollection($collection)->getPath();
-$this->taskFilesystemStack()
+$collection = $this->collectionBuilder();
+$workingPath = $collection->workDir("build")->getPath();
+$collection->taskFilesystemStack()
           ->mkdir("$workingPath/log")
-          ->touch("$workingPath/log/error.txt")
-          ->addToCollection($collection);
+          ->touch("$workingPath/log/error.txt");
 $collection->run();
 ?>
 ```
@@ -286,9 +272,7 @@ $collection->run();
 * `setLogger($logger)`  Sets a logger.
 * `progressIndicatorSteps()` 
 * `setProgressIndicator($progressIndicator)` 
+* `setConfig($config)`  Set the config management object.
+* `getConfig()`  Get the config management object.
 * `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 

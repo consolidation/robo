@@ -22,11 +22,9 @@ $this->taskConcat([
 * `setLogger($logger)`  Sets a logger.
 * `progressIndicatorSteps()` 
 * `setProgressIndicator($progressIndicator)` 
+* `setConfig($config)`  Set the config management object.
+* `getConfig()`  Get the config management object.
 * `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## Replace
 
@@ -70,11 +68,9 @@ $this->taskReplaceInFile('box/robo.txt')
 * `setLogger($logger)`  Sets a logger.
 * `progressIndicatorSteps()` 
 * `setProgressIndicator($progressIndicator)` 
+* `setConfig($config)`  Set the config management object.
+* `getConfig()`  Get the config management object.
 * `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## TmpFile
 
@@ -84,15 +80,18 @@ once the task collection is is part of completes. When created,
 it is given a random filename.
 
 This temporary file may be manipulated exacatly like taskWrite().
+It is deleted as soon as the collection it is a part of completes
+or rolls back.
 
 ``` php
 <?php
-$tmpFilePath = $this->taskTmpFile()
+$collection = $this->collectionBuilder();
+$tmpFilePath = $collection->taskTmpFile()
      ->line('-----')
      ->line(date('Y-m-d').' '.$title)
      ->line('----')
-     ->addToCollection($collection)
      ->getPath();
+$collection->run();
 ?>
 ```
 
@@ -116,11 +115,9 @@ $tmpFilePath = $this->taskTmpFile()
 * `setLogger($logger)`  Sets a logger.
 * `progressIndicatorSteps()` 
 * `setProgressIndicator($progressIndicator)` 
+* `setConfig($config)`  Set the config management object.
+* `getConfig()`  Get the config management object.
 * `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## Write
 
@@ -158,9 +155,7 @@ $this->taskWriteToFile('blogpost.md')
 * `setLogger($logger)`  Sets a logger.
 * `progressIndicatorSteps()` 
 * `setProgressIndicator($progressIndicator)` 
+* `setConfig($config)`  Set the config management object.
+* `getConfig()`  Get the config management object.
 * `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 

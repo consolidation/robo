@@ -36,14 +36,6 @@ $this->taskGitStack()
 * `exec($command)` 
 * `stopOnFail($stopOnFail = null)` 
 * `result($result)` 
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 
@@ -77,14 +69,6 @@ $this->hgStack
 * `exec($command)` 
 * `stopOnFail($stopOnFail = null)` 
 * `result($result)` 
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 
@@ -119,14 +103,6 @@ $this->taskSvnStack('username', 'password')
 * `exec($command)` 
 * `stopOnFail($stopOnFail = null)` 
 * `result($result)` 
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 

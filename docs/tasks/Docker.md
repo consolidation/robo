@@ -21,14 +21,6 @@ Class Build
 @package Robo\Task\Docker
 
 * `tag($tag)` 
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
@@ -58,14 +50,6 @@ $task->dockerCommit($result)
 ```
 
 * `name($name)` 
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
@@ -102,14 +86,6 @@ $this->taskDockerExec($test)
 * `detached()` 
 * `interactive()` 
 * `exec($command)` 
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
@@ -131,14 +107,6 @@ $this->taskDockerPull('wordpress')
 ```
 
 
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
@@ -159,14 +127,6 @@ $this->taskDockerRemove($container)
 ```
 
 
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
@@ -231,14 +191,6 @@ $this->taskDockerRun('wordpress')
 * `privileged()` 
 * `name($name)` 
 * `link($name, $alias)` 
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
@@ -258,14 +210,6 @@ $this->taskDockerStart($cidOrResult)
 ?>
 ```
 
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
@@ -285,14 +229,6 @@ $this->taskDockerStop($cidOrResult)
 ?>
 ```
 
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable

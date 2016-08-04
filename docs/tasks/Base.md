@@ -24,14 +24,6 @@ if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
 * `idleTimeout($timeout)`  Stops command if it does not output something for a while
 * `env(array $env)`  Sets the environment variables for the command
 * `simulate($context)`  Called in place of `run()` for simulated tasks.
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
@@ -62,14 +54,6 @@ $this->taskExecStack()
 * `exec($command)` 
 * `stopOnFail($stopOnFail = null)` 
 * `result($result)` 
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 
@@ -96,14 +80,6 @@ $this->taskParallelExec()
 * `process($command)` 
 * `timeout($timeout)` 
 * `idleTimeout($idleTimeout)` 
-* `progressIndicatorSteps()` 
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 
 ## SymfonyCommand
 
@@ -127,14 +103,6 @@ $this->taskSymfonyCommand(new ModelGeneratorCommand())
 
 * `arg($arg, $value)` 
 * `opt($option, $value = null)` 
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 
 ## Watch
 
@@ -154,12 +122,4 @@ $this->taskWatch()
 ```
 
 * `monitor($paths, $callable)` 
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 

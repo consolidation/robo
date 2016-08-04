@@ -17,14 +17,6 @@ $this->taskConcat([
 ```
 
 * `to($dst)`  set the destination file
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 
 ## Replace
 
@@ -63,14 +55,6 @@ $this->taskReplaceInFile('box/robo.txt')
 * `from($from)` 
 * `to($to)` 
 * `regex($regex)` 
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 
 ## TmpFile
 
@@ -110,14 +94,6 @@ $collection->run();
 * `originalContents()` 
 * `wouldChange()` 
 * `getPath()` 
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 
 ## Write
 
@@ -150,12 +126,4 @@ $this->taskWriteToFile('blogpost.md')
 * `originalContents()` 
 * `wouldChange()` 
 * `getPath()` 
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 

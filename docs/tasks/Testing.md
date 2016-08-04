@@ -22,14 +22,6 @@ $this->taskAtoum()
 * `debug()`  Use atoum's debug mode.
 * `files($files)`  Test file ou test files to run.
 * `directories($directories)`  Test directory or directories to run.
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
@@ -72,14 +64,6 @@ $this->taskCodecept()
 * `coverageHtml($html = null)`  collect code coverage and generate html report. You may pass
 * `env($env)` 
 * `debug()` 
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
@@ -112,14 +96,6 @@ $this->taskPHPUnit()
 * `configFile($file)` 
 * `debug()` 
 * `files($files)`  Test files to run.
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
@@ -150,14 +126,6 @@ $this->taskPhpspec()
 * `noInteraction()` 
 * `config($config_file)` 
 * `format($formater)` 
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable

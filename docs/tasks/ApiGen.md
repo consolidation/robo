@@ -46,14 +46,6 @@ $this->taskApiGen('./apigen.neon')
 * `colors($colors)`   * `param boolean|string` $colors 'yes' or true colorize the output, 'no' or false otherwise
 * `updateCheck($check)`   * `param boolean|string` $check 'yes' or true to check for updates, 'no' or false otherwise
 * `debug($debug)`   * `param boolean|string` $debug 'yes' or true to enable debug mode, 'no' or false otherwise
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable

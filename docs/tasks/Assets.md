@@ -60,14 +60,6 @@ This will execute as:
 
 * `to($target)`  Sets the target directory where the files will be copied to.
 * `minifier($minifier, array $options = Array ( ) )`  Sets the minifier.
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 
 ## Less
 
@@ -112,14 +104,6 @@ inject the name there.
 * `setImportPaths($dirs)`  Sets import directories
 * `setFormatter($formatterName)`   * `param string` $formatterName
 * `compiler($compiler, array $options = Array ( ) )`  Sets the compiler.
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 
 ## Minify
 
@@ -145,14 +129,6 @@ Please install additional dependencies to use:
 * `keepImportantComments($keepImportantComments)`  keepImportantComments option for the JS minimisation.
 * `specialVarRx($specialVarRx)`  specialVarRx option for the JS minimisation.
 * `__toString()`  @return string
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 
 ## Scss
 
@@ -184,12 +160,4 @@ inject the name there.
 * `addImportPath($dir)`  Adds import directory
 * `setImportPaths($dirs)`  Sets import directories
 * `compiler($compiler, array $options = Array ( ) )`  Sets the compiler.
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 

@@ -13,14 +13,7 @@ $this->_cleanDir('app/cache');
 ?>
 ```
 
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
+
 
 ## CopyDir
 
@@ -37,14 +30,6 @@ $this->_copyDir('dist/config', 'config');
 
 * `dirPermissions($value)`  Sets the default folder permissions for the destination if it doesn't exist
 * `exclude($exclude = null)`  List files to exclude.
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 
 ## DeleteDir
 
@@ -59,14 +44,7 @@ $this->_deleteDir(['tmp', 'log']);
 ?>
 ```
 
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
+
 
 ## FilesystemStack
 
@@ -102,14 +80,6 @@ $this->_mkdir('logs');
 * `mirror($from, $to)` 
 
 * `stopOnFail($stop = null)` 
-* `progressIndicatorSteps()` 
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 
 ## FlattenDir
 
@@ -177,14 +147,6 @@ $this->taskFlattenDir(['assets/*.min.js' => 'dist'])
 * `includeParents($parents)`  Sets the value from which direction and how much parent dirs should be included.
 * `parentDir($dir)`  Sets the parent directory from which the relative parent directories will be calculated.
 * `to($target)`  Sets the target directory where the files will be copied to.
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 
 ## MirrorDir
 
@@ -200,14 +162,7 @@ $this->_mirrorDir('dist/config/', 'config/');
 ?>
 ```
 
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
+
 
 ## TmpDir
 
@@ -236,14 +191,6 @@ $tmpPath = $this->_tmpDir();
 * `cwd($shouldChangeWorkingDirectory = null)`  Flag that we should cwd to the temporary directory when it is
 * `complete()`  Delete this directory when our collection completes.
 * `getPath()`  Get a reference to the path to the temporary directory, so that
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 
 ## WorkDir
 
@@ -267,12 +214,4 @@ $collection->run();
 * `rollback()`  Delete our working directory
 * `getPath()`  Get a reference to the path to the temporary directory, so that
 * `cwd($shouldChangeWorkingDirectory = null)`  Flag that we should cwd to the temporary directory when it is
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 

@@ -28,14 +28,6 @@ $this->taskExtract($archivePath)
 
 * `to($to)` 
 * `preserveTopDirectory($preserve = null)` 
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 
 ## Pack
 
@@ -57,12 +49,4 @@ $this->taskPack(
 * `addFile($placementLocation, $filesystemLocation)`  Add an item to the archive. Like file_exists(), the parameter
 * `addDir($placementLocation, $filesystemLocation)`  Alias for addFile, in case anyone has angst about using
 * `add($item)`  Add a file or directory, or list of same to the archive.
-* `injectDependencies($child)`  {inheritdoc}
-* `logger()` 
-* `setLogger($logger)`  Sets a logger.
-* `progressIndicatorSteps()` 
-* `setProgressIndicator($progressIndicator)` 
-* `setConfig($config)`  Set the config management object.
-* `getConfig()`  Get the config management object.
-* `inflect($parent)`  Ask the provided parent class to inject all of the dependencies
 

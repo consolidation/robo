@@ -3,6 +3,7 @@ namespace Robo\Collection;
 
 use Robo\Config;
 use Robo\Common\IO;
+use Robo\Common\Timer;
 use Psr\Log\LogLevel;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
@@ -17,11 +18,39 @@ use Robo\Collection\Temporary;
 use Robo\Contract\ConfigAwareInterface;
 use Robo\Common\ConfigAwareTrait;
 
-class CollectionBuilder implements NestedCollectionInterface, ConfigAwareInterface, ContainerAwareInterface, TaskInterface
+/**
+ * Creates a collection, and adds tasks to it.  The collection builder
+ * offers a streamlined chained-initialization mechanism for easily
+ * creating task groups.  Facilities for creating working and temporary
+ * directories are also provided.
+ *
+ * ``` php
+ * <?php
+ * $result = $this->collectionBuilder()
+ *   ->taskFilesystemStack()
+ *     ->mkdir('g')
+ *     ->touch('g/g.txt')
+ *   ->rollback(
+ *     $this->taskDeleteDir('g')
+ *   )
+ *   ->taskFilesystemStack()
+ *     ->mkdir('g/h')
+ *     ->touch('g/h/h.txt')
+ *   ->taskFilesystemStack()
+ *     ->mkdir('g/h/i/c')
+ *     ->touch('g/h/i/i.txt')
+ *   ->run()
+ * ?>
+ *
+ * In the example above, the `taskDeleteDir` will be called if
+ * ```
+ */
+class CollectionBuilder implements NestedCollectionInterface, ConfigAwareInterface, ContainerAwareInterface, TaskInterface, WrappedTaskInterface
 {
     use ConfigAwareTrait;
     use ContainerAwareTrait;
     use LoadAllTasks;
+    use Timer;
 
     protected $collection;
     protected $currentTask;
@@ -88,6 +117,18 @@ class CollectionBuilder implements NestedCollectionInterface, ConfigAwareInterfa
     public function addCode(callable $code)
     {
         $this->getCollection()->addCode($code);
+        return $this;
+    }
+
+    /**
+     * Add a list of tasks to our task collection.
+     *
+     * @param TaskInterface[]
+     *   An array of tasks to run with rollback protection
+     */
+    public function addTaskList(array $tasks)
+    {
+        $this->getCollection()->addTaskList($tasks);
         return $this;
     }
 
@@ -241,10 +282,28 @@ class CollectionBuilder implements NestedCollectionInterface, ConfigAwareInterfa
      */
     public function run()
     {
+        $this->startTimer();
+        $result = $this->runTasks();
+        $this->stopTimer();
+        $result['time'] = $this->getExecutionTime();
+        return $result;
+    }
+
+    /**
+     * If there is a single task, run it; if there is a collection, run
+     * all of its tasks.
+     */
+    protected function runTasks()
+    {
         if (!$this->collection && $this->currentTask) {
             return $this->currentTask->run();
         }
         return $this->getCollection()->run();
+    }
+
+    public function original()
+    {
+        return $this->getCollection();
     }
 
     /**

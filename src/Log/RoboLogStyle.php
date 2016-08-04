@@ -1,6 +1,7 @@
 <?php
 namespace Robo\Log;
 
+use Robo\Common\TimeKeeper;
 use Consolidation\Log\LogOutputStyler;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\OutputStyle;
@@ -46,7 +47,8 @@ class RoboLogStyle extends LogOutputStyler
         $message = parent::formatMessage($label, $message, $context, $taskNameStyle, $messageStyle);
 
         if (array_key_exists('time', $context) && !empty($context['time']) && array_key_exists('timer-label', $context)) {
-            $message .= ' ' . $context['timer-label'] . ' ' . $this->wrapFormatString($context['time'], 'fg=yellow');
+            $duration = TimeKeeper::formatDuration($context['time']);
+            $message .= ' ' . $context['timer-label'] . ' ' . $this->wrapFormatString($duration, 'fg=yellow');
         }
 
         return $message;

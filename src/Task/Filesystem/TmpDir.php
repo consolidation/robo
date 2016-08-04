@@ -17,11 +17,11 @@ use Robo\Contract\CompletionInterface;
  * // Delete on rollback or on successful completion.
  * // Note that in this example, everything is deleted at
  * // the end of $collection->run().
- * $tmpPath = $this->taskTmpDir()->addToCollection($collection)->getPath();
- * $this->taskFilesystemStack()
+ * $collection = $this->collectionBuilder();
+ * $tmpPath = $collection->tmpDir()->getPath();
+ * $collection->taskFilesystemStack()
  *           ->mkdir("$tmpPath/log")
- *           ->touch("$tmpPath/log/error.txt")
- *           ->addToCollection($collection);
+ *           ->touch("$tmpPath/log/error.txt");
  * $collection->run();
  * // as shortcut (deleted when program exits)
  * $tmpPath = $this->_tmpDir();

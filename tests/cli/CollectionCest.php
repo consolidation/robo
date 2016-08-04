@@ -212,13 +212,12 @@ class CollectionCest
     public function toCreateDirViaCollection(CliGuy $I)
     {
         // Set up a collection to add tasks to
-        $collection = $I->getContainer()->get('collection');
+        $collection = $I->getContainer()->get('collectionBuilder');
 
-        // Set up a filesystem stack, but use addToCollection() to defer execution
-        $I->taskFilesystemStack()
+        // Set up a filesystem stack
+        $collection->taskFilesystemStack()
             ->mkdir('log')
-            ->touch('log/error.txt')
-            ->addToCollection($collection);
+            ->touch('log/error.txt');
 
         // FilesystemStack has not run yet, so file should not be found.
         $I->dontSeeFileFound('log/error.txt');
@@ -232,26 +231,22 @@ class CollectionCest
     public function toUseATmpDirAndConfirmItIsDeleted(CliGuy $I)
     {
         // Set up a collection to add tasks to
-        $collection = $I->getContainer()->get('collection');
+        $collection = $I->getContainer()->get('collectionBuilder');
 
         // Get a temporary directory to work in. Note that we get a
         // name back, but the directory is not created until the task
         // runs.  This technically is not thread-safe, but we create
         // a random name, so it is unlikely to conflict.
-        $tmpPath = $I->taskTmpDir()
-            ->addToCollection($collection)
-            ->getPath();
+        $tmpPath = $collection->tmpDir();
 
-        // Set up a filesystem stack, but use addToCollection() to defer execution
-        $I->taskFilesystemStack()
+        // Set up a filesystem stack, but use a collection to defer execution
+        $collection->taskFilesystemStack()
             ->mkdir("$tmpPath/tmp")
             ->touch("$tmpPath/tmp/error.txt")
-            ->rename("$tmpPath/tmp", "$tmpPath/log")
-            ->addToCollection($collection);
+            ->rename("$tmpPath/tmp", "$tmpPath/log");
 
         // Copy our tmp directory to a location that is not transient
-        $I->taskCopyDir([$tmpPath => 'copied'])
-            ->addToCollection($collection);
+        $collection->taskCopyDir([$tmpPath => 'copied']);
 
         // FilesystemStack has not run yet, so no files should be found.
         $I->dontSeeFileFound("$tmpPath/tmp/error.txt");
@@ -275,30 +270,23 @@ class CollectionCest
     public function toUseATmpDirAndChangeWorkingDirectory(CliGuy $I)
     {
         // Set up a collection to add tasks to
-        $collection = $I->getContainer()->get('collection');
+        $collection = $I->getContainer()->get('collectionBuilder');
 
         $cwd = getcwd();
 
-        // Get a temporary directory to work in. Note that we get a
-        // name back, but the directory is not created until the task
-        // runs.  This technically is not thread-safe, but we create
-        // a random name, so it is unlikely to conflict.
-        $tmpPath = $I->taskTmpDir()
+        $tmpPath = $collection->taskTmpDir()
             ->cwd()
-            ->addToCollection($collection)
             ->getPath();
 
-        // Set up a filesystem stack, but use addToCollection() to defer execution.
+        // Set up a filesystem stack, but use a collection to defer execution.
         // Note that since we used 'cwd()' above, the relative file paths
         // used below will be inside the temporary directory.
-        $I->taskFilesystemStack()
+        $collection->taskFilesystemStack()
             ->mkdir("log")
-            ->touch("log/error.txt")
-            ->addToCollection($collection);
+            ->touch("log/error.txt");
 
         // Copy our tmp directory to a location that is not transient
-        $I->taskCopyDir(['log' => "$cwd/copied2"])
-            ->addToCollection($collection);
+        $collection->taskCopyDir(['log' => "$cwd/copied2"]);
 
         // FilesystemStack has not run yet, so no files should be found.
         $I->dontSeeFileFound("$tmpPath/log/error.txt");
@@ -324,20 +312,18 @@ class CollectionCest
     public function toCreateATmpFileAndConfirmItIsDeleted(CliGuy $I)
     {
         // Set up a collection to add tasks to
-        $collection = $I->getContainer()->get('collection');
+        $collection = $I->getContainer()->get('collectionBuilder');
 
         // Write to a temporary file. Note that we can get the path
         // to the tempoary file that will be created, even though the
         // the file is not created until the task collecction runs.
-        $tmpPath = $I->taskTmpFile('tmp', '.txt')
+        $tmpPath = $collection->taskTmpFile('tmp', '.txt')
             ->line("This is a test file")
-            ->addToCollection($collection)
             ->getPath();
 
         // Copy our tmp directory to a location that is not transient
-        $I->taskFilesystemStack()
-            ->copy($tmpPath, 'copied.txt')
-            ->addToCollection($collection);
+        $collection->taskFilesystemStack()
+            ->copy($tmpPath, 'copied.txt');
 
         // FilesystemStack has not run yet, so no files should be found.
         $I->dontSeeFileFound("$tmpPath");
@@ -355,20 +341,16 @@ class CollectionCest
 
     public function toUseATmpDirWithAlternateSyntax(CliGuy $I)
     {
-        $collection = $I->getContainer()->get('collection');
+        $collection = $I->getContainer()->get('collectionBuilder');
 
         // This test is equivalent to toUseATmpDirAndConfirmItIsDeleted,
         // but uses a different technique to create a collection of tasks.
-        // We start off the same way, using addToCollection() to add our temporary
-        // directory task to the collection, so that we have easy access to the
-        // temporary directory's path via the getPath() method.
-        $tmpPath = $I->taskTmpDir()
-            ->addToCollection($collection)
-            ->getPath();
+        $tmpPath = $collection->tmpDir();
 
-        // Now, rather than creating a series of tasks and adding them
-        // all with addToCollection(), we will add them directly to the collection
-        // via the add() method.
+        // Now, rather than creating the tasks with a collection builder,
+        // which automatically adds the tasks to the collection as they are
+        // created, we will instead create them individually and then add
+        // them to the collection via the addTaskList() method.
         $result = $collection->addTaskList(
             [
                 $I->taskFilesystemStack()->mkdir("$tmpPath/log")->touch("$tmpPath/log/error.txt"),

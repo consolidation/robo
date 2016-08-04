@@ -147,7 +147,7 @@ class RoboFile extends \Robo\Tasks
      */
     public function docs()
     {
-        $collection = $this->collection();
+        $collection = $this->collectionBuilder();
         $collection->progressMessage('Generate documentation from source code.');
         $files = Finder::create()->files()->name('*.php')->in('src/Task');
         $docs = [];
@@ -169,7 +169,7 @@ class RoboFile extends \Robo\Tasks
         ksort($docs);
 
         foreach ($docs as $ns => $tasks) {
-            $taskGenerator = $this->taskGenDoc("docs/tasks/$ns.md");
+            $taskGenerator = $collection->taskGenDoc("docs/tasks/$ns.md");
             $taskGenerator->filterClasses(function (\ReflectionClass $r) {
                 return !($r->isAbstract() || $r->isTrait()) && $r->implementsInterface('Robo\Contract\TaskInterface');
             })->prepend("# $ns Tasks");
@@ -220,7 +220,7 @@ class RoboFile extends \Robo\Tasks
 
                     return $text ? ' ' . trim(strtok($text, "\n"), "\n") : '';
                 }
-            )->addToCollection($collection);
+            );
         }
         $collection->progressMessage('Documentation generation complete.');
         return $collection->run();
@@ -252,16 +252,23 @@ class RoboFile extends \Robo\Tasks
      */
     public function pharBuild()
     {
-        $collection = $this->collection();
-
         // Make sure to remove dev files before finding the files to pack into
-        // the phar.
+        // the phar.  This must therefore be done outside the collection,
+        // as the files to pack are found when the collection is built.
         $this->taskComposerInstall()
             ->noDev()
             ->printed(false)
             ->run();
 
-        $packer = $this->taskPackPhar('robo.phar');
+        $collection = $this->collectionBuilder();
+
+        // revert back phar dependencies on completion
+        $collection->completion($this
+            ->taskComposerInstall()
+            ->printed(false)
+        );
+
+        $packer = $collection->taskPackPhar('robo.phar');
         $files = Finder::create()->ignoreVCS(true)
             ->files()
             ->name('*.php')
@@ -280,8 +287,9 @@ class RoboFile extends \Robo\Tasks
             $packer->addFile($file->getRelativePathname(), $file->getRealPath());
         }
         $packer->addFile('robo', 'robo')
-            ->executable('robo')
-            ->addToCollection($collection);
+            ->executable('robo');
+
+        $collection->addTask($packer);
 
         return $collection->run();
     }
@@ -306,7 +314,7 @@ class RoboFile extends \Robo\Tasks
      */
     public function pharPublish()
     {
-        $this->pharBuild()->run();
+        $this->pharBuild();
 
         $this->_rename('robo.phar', 'robo-release.phar');
         return $this->collectionBuilder()

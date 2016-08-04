@@ -22,25 +22,28 @@ use League\Container\ContainerAwareTrait;
  * rollback operations for handling error conditions.
  *
  * Clients should favor using a CollectionBuilder over direct use of
- * the Collection class.
+ * the Collection class.  @see CollectionBuilder
  *
  * Below, the example FilesystemStack task is added to a collection,
  * and associated with a rollback task.  If any of the operations in
  * the FilesystemStack, or if any of the other tasks also added to
  * the task collection should fail, then the rollback function is
- * called. Often, taskDeleteDir is used to remove partial results
+ * called. Here, taskDeleteDir is used to remove partial results
  * of an unfinished task.
  *
  * ``` php
  * <?php
  * $collection = $this->collection();
- * $this->taskFilesystemStack()
- *      ->mkdir('logs')
- *      ->touch('logs/.gitignore')
- *      ->chgrp('logs', 'www-data')
- *      ->symlink('/var/log/nginx/error.log', 'logs/error.log')
- *      ->addToCollection($collection, $this->taskDeleteDir('logs'));
- * /// ... add other tasks to collection via addToCollection()
+ * $collection->rollback(
+ *     $this->taskDeleteDir('logs')
+ * )
+ * $collection->add(
+ *     $this->taskFilesystemStack()
+ *        ->mkdir('logs')
+ *        ->touch('logs/.gitignore')
+ *        ->chgrp('logs', 'www-data')
+ *        ->symlink('/var/log/nginx/error.log', 'logs/error.log')
+ * );
  * $collection->run();
  *
  * ?>
@@ -508,6 +511,7 @@ class Collection extends BaseTask implements CollectionInterface, ContainerAware
      */
     public function complete()
     {
+        $this->detatchProgressIndicator();
         $this->runTaskListIgnoringFailures($this->completionStack);
         $this->reset();
         return $this;

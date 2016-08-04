@@ -1,16 +1,16 @@
 <?php
 
-class FileSystemStackCest
+class FilesystemStackCest
 {
     public function _before(CliGuy $I)
     {
-        $I->getContainer()->addServiceProvider(\Robo\Task\FileSystem\loadTasks::getFileSystemServices());
+        $I->getContainer()->addServiceProvider(\Robo\Task\Filesystem\loadTasks::getFilesystemServices());
         $I->amInPath(codecept_data_dir().'sandbox');
     }
 
     public function toCreateDir(CliGuy $I)
     {
-        $I->taskFileSystemStack()
+        $I->taskFilesystemStack()
             ->mkdir('log')
             ->touch('log/error.txt')
             ->run();
@@ -19,7 +19,7 @@ class FileSystemStackCest
 
     public function toDeleteFile(CliGuy $I)
     {
-        $I->taskFileSystemStack()
+        $I->taskFilesystemStack()
             ->stopOnFail()
             ->remove('a.txt')
             ->run();
@@ -28,7 +28,7 @@ class FileSystemStackCest
 
     public function toTestCrossVolumeRename(CliGuy $I)
     {
-        $fsStack = $I->taskFileSystemStack()
+        $fsStack = $I->taskFilesystemStack()
             ->mkdir('log')
             ->touch('log/error.txt');
         $fsStack->run();
@@ -39,10 +39,11 @@ class FileSystemStackCest
         // We will get a reference to it via reflection, set
         // the reflected method object to public, and then
         // call it via reflection.
-        $class = new ReflectionClass('\Robo\Task\FileSystem\FileSystemStack');
+        $class = new ReflectionClass('\Robo\Task\Filesystem\FilesystemStack');
         $method = $class->getMethod('crossVolumeRename');
         $method->setAccessible(true);
-        $method->invokeArgs($fsStack, ['log', 'logfiles']);
+        $actualFsStackTask = $fsStack->getCollectionBuilderCurrentTask();
+        $method->invokeArgs($actualFsStackTask, ['log', 'logfiles']);
 
         $I->dontSeeFileFound('log/error.txt');
         $I->seeFileFound('logfiles/error.txt');

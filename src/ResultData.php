@@ -93,4 +93,17 @@ class ResultData extends \ArrayObject implements ExitCodeInterface, OutputDataIn
         $this->exchangeArray($mergedData);
         return $this;
     }
+
+    public function hasExecutionTime()
+    {
+        return isset($this['time']);
+    }
+
+    public function getExecutionTime()
+    {
+        if (!$this->hasExecutionTime()) {
+            return null;
+        }
+        return $this['time'];
+    }
 }

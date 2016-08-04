@@ -11,15 +11,18 @@ use Robo\Contract\CompletionInterface;
  * it is given a random filename.
  *
  * This temporary file may be manipulated exacatly like taskWrite().
+ * It is deleted as soon as the collection it is a part of completes
+ * or rolls back.
  *
  * ``` php
  * <?php
- * $tmpFilePath = $this->taskTmpFile()
+ * $collection = $this->collectionBuilder();
+ * $tmpFilePath = $collection->taskTmpFile()
  *      ->line('-----')
  *      ->line(date('Y-m-d').' '.$title)
  *      ->line('----')
- *      ->addToCollection($collection)
  *      ->getPath();
+ * $collection->run();
  * ?>
  * ```
  */

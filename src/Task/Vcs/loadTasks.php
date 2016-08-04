@@ -14,6 +14,7 @@ trait loadTasks
             [
                 'taskSvnStack' => SvnStack::class,
                 'taskGitStack' => GitStack::class,
+                'taskHgStack' => HgStack::class
             ]
         );
     }
@@ -36,5 +37,14 @@ trait loadTasks
     protected function taskGitStack($pathToGit = 'git')
     {
         return $this->task(__FUNCTION__, $pathToGit);
+    }
+
+    /**
+     * @param string $pathToHg
+     * @return HgStack
+     */
+    protected function taskHgStack($pathToHg = 'hg')
+    {
+        return $this->task(__FUNCTION__, $pathToHg);
     }
 }

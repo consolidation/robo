@@ -32,15 +32,9 @@ $this->taskComposerDumpAutoload('path/to/my/composer.phar')
 * `preferDist()`  adds `prefer-dist` option to composer
 * `preferSource()`  adds `prefer-source` option to composer
 * `noDev()`  adds `no-dev` option to composer
+* `noAnsi()`  adds `no-ansi` option to composer
+* `ansi()`  adds `ansi` option to composer
 * `optimizeAutoloader()`  adds `optimize-autoloader` option to composer
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
-* `logger()` 
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
@@ -73,15 +67,9 @@ $this->taskComposerInstall('path/to/my/composer.phar')
 * `preferDist()`  adds `prefer-dist` option to composer
 * `preferSource()`  adds `prefer-source` option to composer
 * `noDev()`  adds `no-dev` option to composer
+* `noAnsi()`  adds `no-ansi` option to composer
+* `ansi()`  adds `ansi` option to composer
 * `optimizeAutoloader()`  adds `optimize-autoloader` option to composer
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
-* `logger()` 
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable
@@ -114,15 +102,39 @@ $this->taskComposerUpdate('path/to/my/composer.phar')
 * `preferDist()`  adds `prefer-dist` option to composer
 * `preferSource()`  adds `prefer-source` option to composer
 * `noDev()`  adds `no-dev` option to composer
+* `noAnsi()`  adds `no-ansi` option to composer
+* `ansi()`  adds `ansi` option to composer
 * `optimizeAutoloader()`  adds `optimize-autoloader` option to composer
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
-* `logger()` 
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
+* `arg($arg)`  Pass argument to executable
+* `args($args)`  Pass methods parameters as arguments to executable
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
+* `optionList($option, $value = null)`  Pass multiple options to executable. Value can be a string or array.
+
+## Validate
+
+
+Composer Validate
+
+``` php
+<?php
+// simple execution
+$this->taskComposerValidate()->run();
+?>
+```
+
+* `noCheckAll()` 
+* `noCheckLock()` 
+* `noCheckPublish()` 
+* `withDependencies()` 
+* `strict()` 
+* `preferDist()`  adds `prefer-dist` option to composer
+* `preferSource()`  adds `prefer-source` option to composer
+* `noDev()`  adds `no-dev` option to composer
+* `noAnsi()`  adds `no-ansi` option to composer
+* `ansi()`  adds `ansi` option to composer
+* `optimizeAutoloader()`  adds `optimize-autoloader` option to composer
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable

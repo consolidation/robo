@@ -444,7 +444,7 @@ class ImageMinify extends BaseTask
         // execute the command
         $exec = new Exec($command);
 
-        return $exec->printed(false)->run();
+        return $exec->inflect($this)->printed(false)->run();
     }
 
     protected function installFromImagemin($executable)

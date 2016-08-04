@@ -10,18 +10,18 @@ use Robo\Contract\CompletionInterface;
  * Create a temporary directory that is automatically cleaned up
  * once the task collection is is part of completes.
  *
- * Move the directory to another location to prevent its deletion.
+ * Use WorkDir if you do not want the directory to be deleted.
  *
  * ``` php
  * <?php
  * // Delete on rollback or on successful completion.
  * // Note that in this example, everything is deleted at
  * // the end of $collection->run().
- * $tmpPath = $this->taskTmpDir()->addToCollection($collection)->getPath();
- * $this->taskFilesystemStack()
+ * $collection = $this->collectionBuilder();
+ * $tmpPath = $collection->tmpDir()->getPath();
+ * $collection->taskFilesystemStack()
  *           ->mkdir("$tmpPath/log")
- *           ->touch("$tmpPath/log/error.txt")
- *           ->addToCollection($collection);
+ *           ->touch("$tmpPath/log/error.txt");
  * $collection->run();
  * // as shortcut (deleted when program exits)
  * $tmpPath = $this->_tmpDir();
@@ -40,29 +40,45 @@ class TmpDir extends BaseDir implements CompletionInterface
         if (empty($base)) {
             $base = sys_get_temp_dir();
         }
+        $path = "{$base}/{$prefix}";
         if ($includeRandomPart) {
-            $random = static::randomString();
-            $prefix = "{$prefix}_{$random}";
+            $path = static::randomLocation($path);
         }
-        parent::__construct(["{$base}/{$prefix}"]);
+        parent::__construct(["$path"]);
+    }
+
+    /**
+     * Add a random part to a path, ensuring that the directory does
+     * not (currently) exist.
+     * @param string $path The base/prefix path to add a random component to
+     * @param int $length Number of digits in the random part
+     * @return string
+     */
+    protected static function randomLocation($path, $length = 12)
+    {
+        $random = static::randomString($length);
+        while (is_dir("{$path}_{$random}")) {
+            $random = static::randomString($length);
+        }
+        return "{$path}_{$random}";
     }
 
     /**
      * Generate a suitably random string to use as the suffix for our
      * temporary directory.
      */
-    private static function randomString($length = 12)
+    protected static function randomString($length = 12)
     {
-        return substr(str_shuffle('23456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ'), 0, $length);
+        return substr(str_shuffle('23456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ'), 0, max($length, 3));
     }
 
     /**
      * Flag that we should cwd to the temporary directory when it is
      * created, and restore the old working directory when it is deleted.
      */
-    public function cwd()
+    public function cwd($shouldChangeWorkingDirectory = true)
     {
-        $this->cwd = true;
+        $this->cwd = $shouldChangeWorkingDirectory;
 
         return $this;
     }
@@ -87,6 +103,19 @@ class TmpDir extends BaseDir implements CompletionInterface
         return Result::success($this, '', ['path' => $this->getPath()]);
     }
 
+    protected function restoreWorkingDirectory()
+    {
+        // Restore the current working directory, if we redirected it.
+        if ($this->cwd) {
+            chdir($this->savedWorkingDirectory);
+        }
+    }
+
+    protected function deleteTmpDir()
+    {
+        (new DeleteDir($this->dirs))->inflect($this)->run();
+    }
+
     /**
      * Delete this directory when our collection completes.
      * If this temporary directory is not part of a collection,
@@ -95,11 +124,8 @@ class TmpDir extends BaseDir implements CompletionInterface
      */
     public function complete()
     {
-        // Restore the current working directory, if we redirected it.
-        if ($this->cwd) {
-            chdir($this->savedWorkingDirectory);
-        }
-        (new DeleteDir($this->dirs))->inflect($this)->run();
+        $this->restoreWorkingDirectory();
+        $this->deleteTmpDir();
     }
 
     /**

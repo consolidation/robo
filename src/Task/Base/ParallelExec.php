@@ -27,9 +27,8 @@ use Symfony\Component\Process\Process;
  * @method \Robo\Task\Base\ParallelExec timeout(int $timeout) stops process if it runs longer then `$timeout` (seconds)
  * @method \Robo\Task\Base\ParallelExec idleTimeout(int $timeout) stops process if it does not output for time longer then `$timeout` (seconds)
  */
-class ParallelExec extends BaseTask implements CommandInterface, PrintedInterface, ProgressIndicatorAwareInterface
+class ParallelExec extends BaseTask implements CommandInterface, PrintedInterface
 {
-    use ProgressIndicatorAwareTrait;
     use \Robo\Common\CommandReceiver;
 
     protected $processes = [];
@@ -71,6 +70,11 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
         return implode(' && ', $this->processes);
     }
 
+    public function progressIndicatorSteps()
+    {
+        return count($this->processes);
+    }
+
     public function run()
     {
         foreach ($this->processes as $process) {
@@ -81,7 +85,7 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
             $this->printTaskInfo($process->getCommandLine());
         }
 
-        $this->startProgressIndicator(count($this->processes));
+        $this->startProgressIndicator();
         $running = $this->processes;
         while (true) {
             foreach ($running as $k => $process) {

@@ -1,4 +1,4 @@
-# FileSystem Tasks
+# Filesystem Tasks
 
 ## CleanDir
 
@@ -13,14 +13,7 @@ $this->_cleanDir('app/cache');
 ?>
 ```
 
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
-* `logger()` 
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
+
 
 ## CopyDir
 
@@ -36,14 +29,7 @@ $this->_copyDir('dist/config', 'config');
 ```
 
 * `dirPermissions($value)`  Sets the default folder permissions for the destination if it doesn't exist
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
-* `logger()` 
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
+* `exclude($exclude = null)`  List files to exclude.
 
 ## DeleteDir
 
@@ -58,24 +44,17 @@ $this->_deleteDir(['tmp', 'log']);
 ?>
 ```
 
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
-* `logger()` 
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
+
 
 ## FilesystemStack
 
 
-Wrapper for [Symfony FileSystem](http://symfony.com/doc/current/components/filesystem.html) Component.
+Wrapper for [Symfony Filesystem](http://symfony.com/doc/current/components/filesystem.html) Component.
 Comands are executed in stack and can be stopped on first fail with `stopOnFail` option.
 
 ``` php
 <?php
-$this->taskFileSystemStack()
+$this->taskFilesystemStack()
      ->mkdir('logs')
      ->touch('logs/.gitignore')
      ->chgrp('www', 'www-data')
@@ -93,22 +72,14 @@ $this->_mkdir('logs');
 * `touch($file)` 
 * `copy($from, $to, $force = null)` 
 * `chmod($file, $permissions, $umask = null, $recursive = null)` 
+* `chgrp($file, $group, $recursive = null)` 
+* `chown($file, $user, $recursive = null)` 
 * `remove($file)` 
 * `rename($from, $to)` 
 * `symlink($from, $to)` 
 * `mirror($from, $to)` 
-* `chgrp($file, $group)` 
-* `chown($file, $user)` 
 
 * `stopOnFail($stop = null)` 
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
-* `logger()` 
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## FlattenDir
 
@@ -176,14 +147,6 @@ $this->taskFlattenDir(['assets/*.min.js' => 'dist'])
 * `includeParents($parents)`  Sets the value from which direction and how much parent dirs should be included.
 * `parentDir($dir)`  Sets the parent directory from which the relative parent directories will be calculated.
 * `to($target)`  Sets the target directory where the files will be copied to.
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
-* `logger()` 
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## MirrorDir
 
@@ -199,14 +162,7 @@ $this->_mirrorDir('dist/config/', 'config/');
 ?>
 ```
 
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
-* `logger()` 
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
+
 
 ## TmpDir
 
@@ -214,33 +170,48 @@ $this->_mirrorDir('dist/config/', 'config/');
 Create a temporary directory that is automatically cleaned up
 once the task collection is is part of completes.
 
-Move the directory to another location to prevent its deletion.
+Use WorkDir if you do not want the directory to be deleted.
 
 ``` php
 <?php
 // Delete on rollback or on successful completion.
 // Note that in this example, everything is deleted at
 // the end of $collection->run().
-$tmpPath = $this->taskTmpDir()->addToCollection($collection)->getPath();
-$this->taskFileSystemStack()
+$collection = $this->collectionBuilder();
+$tmpPath = $collection->tmpDir()->getPath();
+$collection->taskFilesystemStack()
           ->mkdir("$tmpPath/log")
-          ->touch("$tmpPath/log/error.txt")
-          ->addToCollection($collection);
+          ->touch("$tmpPath/log/error.txt");
 $collection->run();
 // as shortcut (deleted when program exits)
 $tmpPath = $this->_tmpDir();
 ?>
 ```
 
-* `cwd()`  Flag that we should cwd to the temporary directory when it is
+* `cwd($shouldChangeWorkingDirectory = null)`  Flag that we should cwd to the temporary directory when it is
 * `complete()`  Delete this directory when our collection completes.
 * `getPath()`  Get a reference to the path to the temporary directory, so that
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
-* `logger()` 
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
+
+## WorkDir
+
+
+Create a temporary working directory that is automatically renamed to its
+final desired location if all of the tasks in the collection succeed.  If
+there is a rollback, then the working directory is deleted.
+
+``` php
+<?php
+$collection = $this->collectionBuilder();
+$workingPath = $collection->workDir("build")->getPath();
+$collection->taskFilesystemStack()
+          ->mkdir("$workingPath/log")
+          ->touch("$workingPath/log/error.txt");
+$collection->run();
+?>
+```
+
+* `complete()`  Move our working directory into its final destination once the
+* `rollback()`  Delete our working directory
+* `getPath()`  Get a reference to the path to the temporary directory, so that
+* `cwd($shouldChangeWorkingDirectory = null)`  Flag that we should cwd to the temporary directory when it is
 

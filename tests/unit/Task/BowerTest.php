@@ -1,6 +1,6 @@
 <?php
 use AspectMock\Test as test;
-use Robo\Config;
+use Robo\Robo;
 
 class BowerTest extends \Codeception\TestCase\Test
 {
@@ -16,8 +16,8 @@ class BowerTest extends \Codeception\TestCase\Test
         $this->baseBower = test::double('Robo\Task\Bower\Base', [
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
-        $this->container = Config::getContainer();
-        $this->container->addServiceProvider(Robo\Task\Bower\loadTasks::getBowerServices());
+        $this->container = Robo::getContainer();
+        $this->container->addServiceProvider(\Robo\Task\Bower\loadTasks::getBowerServices());
     }
     // tests
     public function testBowerInstall()

@@ -2,6 +2,7 @@
 use Symfony\Component\Finder\Finder;
 use Robo\Result;
 use Robo\ResultData;
+use Robo\Collection\CollectionBuilder;
 
 use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
 
@@ -26,8 +27,8 @@ class RoboFile extends \Robo\Tasks
             $taskCodecept->coverageHtml('../../build/logs/coverage');
         }
 
-        return $taskCodecept;
-    }
+        return $taskCodecept->run();
+     }
 
     /**
      * Code sniffer.
@@ -69,7 +70,7 @@ class RoboFile extends \Robo\Tasks
      */
     public function generateTask($className, $wrapperClassName = "")
     {
-        return $this->taskGenTask($className, $wrapperClassName);
+        return $this->taskGenTask($className, $wrapperClassName)->run();
     }
 
     /**
@@ -78,6 +79,7 @@ class RoboFile extends \Robo\Tasks
     public function release($opts = ['beta' => false])
     {
         $this->yell("Releasing Robo");
+        $stable = true;
         if ($opts['beta']) {
             $stable = false;
             $this->say('non-stable release');
@@ -118,7 +120,8 @@ class RoboFile extends \Robo\Tasks
     {
         return $this->taskChangelog()
             ->version(\Robo\Runner::VERSION)
-            ->change($addition);
+            ->change($addition)
+            ->run();
     }
 
     /**
@@ -136,7 +139,8 @@ class RoboFile extends \Robo\Tasks
         }
         return $this->taskReplaceInFile(__DIR__.'/src/Runner.php')
             ->from("VERSION = '".\Robo\Runner::VERSION."'")
-            ->to("VERSION = '".$version."'");
+            ->to("VERSION = '".$version."'")
+            ->run();
     }
 
     /**
@@ -144,7 +148,7 @@ class RoboFile extends \Robo\Tasks
      */
     public function docs()
     {
-        $collection = $this->collection();
+        $collection = $this->collectionBuilder();
         $collection->progressMessage('Generate documentation from source code.');
         $files = Finder::create()->files()->name('*.php')->in('src/Task');
         $docs = [];
@@ -166,7 +170,7 @@ class RoboFile extends \Robo\Tasks
         ksort($docs);
 
         foreach ($docs as $ns => $tasks) {
-            $taskGenerator = $this->taskGenDoc("docs/tasks/$ns.md");
+            $taskGenerator = $collection->taskGenDoc("docs/tasks/$ns.md");
             $taskGenerator->filterClasses(function (\ReflectionClass $r) {
                 return !($r->isAbstract() || $r->isTrait()) && $r->implementsInterface('Robo\Contract\TaskInterface');
             })->prepend("# $ns Tasks");
@@ -180,7 +184,23 @@ class RoboFile extends \Robo\Tasks
                     if ($m->isConstructor() || $m->isDestructor() || $m->isStatic()) {
                         return false;
                     }
-                    return !in_array($m->name, ['run', '', '__call', 'getCommand', 'getPrinted']) && $m->isPublic(); // methods are not documented
+                    $undocumentedMethods =
+                    [
+                        '',
+                        'run',
+                        '__call',
+                        'inflect',
+                        'injectDependencies',
+                        'getCommand',
+                        'getPrinted',
+                        'getConfig',
+                        'setConfig',
+                        'logger',
+                        'setLogger',
+                        'setProgressIndicator',
+                        'progressIndicatorSteps',
+                    ];
+                    return !in_array($m->name, $undocumentedMethods) && $m->isPublic(); // methods are not documented
                 }
             )->processClassSignature(
                 function ($c) {
@@ -201,10 +221,10 @@ class RoboFile extends \Robo\Tasks
 
                     return $text ? ' ' . trim(strtok($text, "\n"), "\n") : '';
                 }
-            )->addToCollection($collection);
+            );
         }
         $collection->progressMessage('Documentation generation complete.');
-        return $collection;
+        return $collection->run();
     }
 
     /**
@@ -216,23 +236,16 @@ class RoboFile extends \Robo\Tasks
     {
         $current_branch = exec('git rev-parse --abbrev-ref HEAD');
 
-        $collection = $this->collection();
-        $this->taskGitStack()
-            ->checkout('site')
-            ->merge('master')
-            ->addToCollection($collection);
-        $this->taskGitStack()
-            ->checkout($current_branch)
-            ->addAsCompletion($collection);
-        $this->taskFilesystemStack()
-            ->copy('CHANGELOG.md', 'docs/changelog.md')
-            ->addToCollection($collection);
-        $this->taskFilesystemStack()
-            ->remove('docs/changelog.md')
-            ->addAsCompletion($collection);
-        $this->taskExec('mkdocs gh-deploy')
-            ->addToCollection($collection);
-        return $collection;
+        return $this->collectionBuilder()
+            ->taskGitStack()
+                ->checkout('site')
+                ->merge('master')
+            ->completion($this->taskGitStack()->checkout($current_branch))
+            ->taskFilesystemStack()
+                ->copy('CHANGELOG.md', 'docs/changelog.md')
+            ->completion($this->taskFilesystemStack()->remove('docs/changelog.md'))
+            ->taskExec('mkdocs gh-deploy')
+            ->run();
     }
 
     /**
@@ -240,17 +253,27 @@ class RoboFile extends \Robo\Tasks
      */
     public function pharBuild()
     {
-        $collection = $this->collection();
-
+        // Make sure to remove dev files before finding the files to pack into
+        // the phar.  This must therefore be done outside the collection,
+        // as the files to pack are found when the collection is built.
         $this->taskComposerInstall()
             ->noDev()
             ->printed(false)
-            ->addToCollection($collection);
+            ->run();
 
-        $packer = $this->taskPackPhar('robo.phar');
+        $collection = $this->collectionBuilder();
+
+        // revert back phar dependencies on completion
+        $collection->completion($this
+            ->taskComposerInstall()
+            ->printed(false)
+        );
+
+        $packer = $collection->taskPackPhar('robo.phar');
         $files = Finder::create()->ignoreVCS(true)
             ->files()
             ->name('*.php')
+            ->name('*.exe') // for 1symfony/console/Resources/bin/hiddeninput.exe
             ->path('src')
             ->path('vendor')
             ->exclude('symfony/config/Tests')
@@ -265,14 +288,11 @@ class RoboFile extends \Robo\Tasks
             $packer->addFile($file->getRelativePathname(), $file->getRealPath());
         }
         $packer->addFile('robo', 'robo')
-            ->executable('robo')
-            ->addToCollection($collection);
+            ->executable('robo');
 
-        $this->taskComposerInstall()
-            ->printed(false)
-            ->addToCollection($collection);
+        $collection->addTask($packer);
 
-        return $collection;
+        return $collection->run();
     }
 
     /**
@@ -284,7 +304,8 @@ class RoboFile extends \Robo\Tasks
     {
         return $this->taskExec('sudo cp')
             ->arg('robo.phar')
-            ->arg('/usr/bin/robo');
+            ->arg('/usr/bin/robo')
+            ->run();
     }
 
     /**
@@ -294,18 +315,21 @@ class RoboFile extends \Robo\Tasks
      */
     public function pharPublish()
     {
-        $current_branch = exec('git rev-parse --abbrev-ref HEAD');
-        $this->taskGitStack()
-            ->checkout('site')
-            ->merge('master')->run();
         $this->pharBuild();
-        $this->_copy('CHANGELOG.md', 'docs/changelog.md');
-        $this->taskGitStack()
-            ->add('robo.phar -f')
-            ->commit('robo.phar published')
-            ->run();
-        $this->_exec('mkdocs gh-deploy');
-        $this->taskGitStack()->checkout($current_branch)->run();
+
+        $this->_rename('robo.phar', 'robo-release.phar');
+        return $this->collectionBuilder()
+            ->taskGitStack()
+                ->checkout('gh-pages')
+            ->taskFilesystemStack()
+                ->remove('robo.phar')
+                ->rename('robo-release.phar', 'robo.phar')
+            ->taskGitStack()
+                ->add('robo.phar')
+                ->commit('robo.phar published')
+                ->push('origin', 'gh-pages')
+                ->checkout('master')
+                ->run();
     }
 
     /**
@@ -357,7 +381,7 @@ class RoboFile extends \Robo\Tasks
         if ($options['error']) {
             $para->process("ls $dir/tests/_data/filenotfound");
         }
-        return $para;
+        return $para->run();
     }
 
     /**
@@ -384,6 +408,7 @@ class RoboFile extends \Robo\Tasks
     /**
      * Demonstrate Robo boolean options.
      *
+     * @param $opts The options.
      * @option boolean $silent Supress output.
      */
     public function tryOptbool($opts = ['silent|s' => false])
@@ -400,7 +425,8 @@ class RoboFile extends \Robo\Tasks
     {
         return $this->taskServer(8000)
             ->dir('site')
-            ->arg('site/index.php');
+            ->arg('site/index.php')
+            ->run();
     }
 
     /**
@@ -411,7 +437,7 @@ class RoboFile extends \Robo\Tasks
         return $this->taskOpenBrowser([
             'http://robo.li',
             'https://github.com/Codegyre/Robo'
-            ]);
+            ])->run();
     }
 
     /**
@@ -419,7 +445,7 @@ class RoboFile extends \Robo\Tasks
      */
     public function tryError()
     {
-        return $this->taskExec('ls xyzzy' . date('U'))->dir('/tmp');
+        return $this->taskExec('ls xyzzy' . date('U'))->dir('/tmp')->run();
     }
 
     /**
@@ -427,7 +453,7 @@ class RoboFile extends \Robo\Tasks
      */
     public function trySuccess()
     {
-        return $this->taskExec('pwd');
+        return $this->taskExec('pwd')->run();
     }
 
     /**
@@ -479,7 +505,85 @@ class RoboFile extends \Robo\Tasks
         // Calling 'new' directly without manually setting
         // up dependencies will result in a deprecation warning.
         // @see RoboFile::trySuccess()
-        return new \Robo\Task\Base\Exec('pwd');
+        return (new \Robo\Task\Base\Exec('pwd'))->run();
+    }
+
+    /**
+     * Demonstrate the use of a collection builder to chain multiple tasks
+     * together into a collection, which is executed once constructed.
+     *
+     * For demonstration purposes only; this could, of course, be done
+     * with a single FilesystemStack.
+     */
+    public function tryBuilder()
+    {
+        return $this->collectionBuilder()
+            ->taskFilesystemStack()
+                ->mkdir('a')
+                ->touch('a/a.txt')
+            ->taskFilesystemStack()
+                ->mkdir('a/b')
+                ->touch('a/b/b.txt')
+            ->taskFilesystemStack()
+                ->mkdir('a/b/c')
+                ->touch('a/b/c/c.txt')
+            ->run();
+    }
+
+    public function tryBuilderRollback()
+    {
+        // This example will create two builders, and add
+        // the first one as a child of the second in order
+        // to demonstrate nested rollbacks.
+        $collection = $this->collectionBuilder()
+            ->taskFilesystemStack()
+                ->mkdir('g')
+                ->touch('g/g.txt')
+            ->rollback(
+                $this->taskDeleteDir('g')
+            )
+            ->taskFilesystemStack()
+                ->mkdir('g/h')
+                ->touch('g/h/h.txt')
+            ->taskFilesystemStack()
+                ->mkdir('g/h/i/c')
+                ->touch('g/h/i/i.txt');
+
+        return $this->collectionBuilder()
+            ->progressMessage('Start recursive collection')
+            ->addTask($collection)
+            ->progressMessage('Done with recursive collection')
+            ->taskExec('ls xyzzy' . date('U'))
+                ->dir('/tmp')
+            ->run();
+    }
+
+    public function tryWorkdir()
+    {
+        // This example works like tryBuilderRollback,
+        // but does equivalent operations using a working
+        // directory. The working directory is deleted on rollback
+        $collection = $this->collectionBuilder();
+
+        $workdir = $collection->workDir('w');
+
+        $collection
+            ->taskFilesystemStack()
+                ->touch("$workdir/g.txt")
+            ->taskFilesystemStack()
+                ->mkdir("$workdir/h")
+                ->touch("$workdir/h/h.txt")
+            ->taskFilesystemStack()
+                ->mkdir("$workdir/h/i/c")
+                ->touch("$workdir/h/i/i.txt");
+
+        return $this->collectionBuilder()
+            ->progressMessage('Start recursive collection')
+            ->addTask($collection)
+            ->progressMessage('Done with recursive collection')
+            ->taskExec('ls xyzzy' . date('U'))
+                ->dir('/tmp')
+            ->run();
     }
 
     /**
@@ -488,38 +592,35 @@ class RoboFile extends \Robo\Tasks
     public function tryTmpDir()
     {
         // Set up a collection to add tasks to
-        $collection = $this->collection();
+        $collection = $this->collectionBuilder();
 
-        // Get a temporary directory to work in. Note that we get a
-        // name back, but the directory is not created until the task
-        // runs.  This technically is not thread-safe, but we create
-        // a random name, so it is unlikely to conflict.
-        $tmpPath = $this->taskTmpDir()
-            ->addToCollection($collection)
-            ->getPath();
+        // Get a temporary directory to work in. Note that we get a path
+        // back, but the directory is not created until the task runs.
+        $tmpPath = $collection->tmpDir();
 
-        $this->taskWriteToFile("$tmpPath/file.txt")
-            ->line('Example file')
-            ->addToCollection($collection);
+        $result = $collection
+            ->taskWriteToFile("$tmpPath/file.txt")
+                ->line('Example file')
 
-        // We can create the temporary directory early by running
-        // 'runWithoutCompletion()'.  n.b. if we called 'run()' at
-        // this point, the collection's 'complete()' method would be
-        // called, and the temporary directory would be deleted.
-        $mktmpResult = $collection->runWithoutCompletion();
-        if (!$mktmpResult->wasSuccessful()) {
-            $this->say("Could not create temporary directory.");
-            return 1;
-        }
+            // Print a progress message. The callback function is called immediately
+            // before the message is printed.
+            ->progressMessage(
+                'The directory at {path} {verb}.',
+                ['path' => $tmpPath, 'verb' => 'might have been created'],
+                function ($context) {
+                    // It would also be legitimate to `use ($tmpDir)` and reference that.
+                    if (is_dir($context['path'])) {
+                        $context['verb'] = 'was created';
+                    } else {
+                        // Should never get here: will roll back if creation fails.
+                        $context['verb'] = 'was NOT created';
+                    }
+                    return $context;
+                }
+            )
 
-        if (is_dir($tmpPath)) {
-            $this->say("Created a temporary directory at $tmpPath");
-        } else {
-            $this->say("Requested a temporary directory at $tmpPath, but it was not created");
-        }
-
-        // Run the task collection
-        $result = $collection->run();
+            // Run the tasks that we build
+            ->run();
 
         if (is_dir($tmpPath)) {
             $this->say("The temporary directory at $tmpPath was not cleaned up after the collection completed.");
@@ -528,6 +629,47 @@ class RoboFile extends \Robo\Tasks
         }
 
         return $result;
+    }
+
+    public function tryProgress()
+    {
+        $delayUntilProgressStart = \Robo\Robo::config()->get(\Robo\Config::PROGRESS_BAR_AUTO_DISPLAY_INTERVAL);
+        $this->say("Progress bar will display after $delayUntilProgressStart seconds of activity.");
+
+        $processList = range(1, 10);
+        return $this->collectionBuilder()
+            ->taskForEach($processList)
+                ->iterationMessage('Processing {value}')
+                ->call(
+                    function ($value) {
+                        // TaskForEach::call should only be used to do
+                        // non-Robo operations. To use Robo tasks in an
+                        // iterator, @see TaskForEach::withBuilder.
+                        usleep(500000); // sleep for half a second
+                    }
+                )
+            ->run();
+    }
+
+    public function tryIter()
+    {
+        $workdir = 'build/iter-example';
+        $this->say("Creating sample direcories in $workdir.");
+
+        $processList = ['cats', 'dogs', 'sheep', 'fish', 'horses', 'cows'];
+        return $this->collectionBuilder()
+            ->taskFilesystemStack()
+                ->mkdir($workdir)
+            ->taskCleanDir($workdir)
+            ->taskForEach($processList)
+                ->withBuilder(
+                    function ($builder, $key, $value) use ($workdir) {
+                        return $builder
+                            ->taskFilesystemStack()
+                                ->mkdir("$workdir/$value");
+                    }
+                )
+            ->run();
     }
 }
 

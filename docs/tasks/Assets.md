@@ -60,14 +60,6 @@ This will execute as:
 
 * `to($target)`  Sets the target directory where the files will be copied to.
 * `minifier($minifier, array $options = Array ( ) )`  Sets the minifier.
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
-* `logger()` 
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## Less
 
@@ -112,14 +104,6 @@ inject the name there.
 * `setImportPaths($dirs)`  Sets import directories
 * `setFormatter($formatterName)`   * `param string` $formatterName
 * `compiler($compiler, array $options = Array ( ) )`  Sets the compiler.
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
-* `logger()` 
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## Minify
 
@@ -145,14 +129,6 @@ Please install additional dependencies to use:
 * `keepImportantComments($keepImportantComments)`  keepImportantComments option for the JS minimisation.
 * `specialVarRx($specialVarRx)`  specialVarRx option for the JS minimisation.
 * `__toString()`  @return string
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
-* `logger()` 
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## Scss
 
@@ -184,12 +160,4 @@ inject the name there.
 * `addImportPath($dir)`  Adds import directory
 * `setImportPaths($dirs)`  Sets import directories
 * `compiler($compiler, array $options = Array ( ) )`  Sets the compiler.
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
-* `logger()` 
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 

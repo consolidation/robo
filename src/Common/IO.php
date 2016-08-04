@@ -1,7 +1,7 @@
 <?php
 namespace Robo\Common;
 
-use Robo\Config;
+use Robo\Robo;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -17,10 +17,10 @@ trait IO
      */
     protected function getOutput()
     {
-        if (!Config::hasService('output')) {
+        if (!Robo::hasService('output')) {
             return new NullOutput();
         }
-        return Config::output();
+        return Robo::output();
     }
 
     /**
@@ -28,21 +28,29 @@ trait IO
      */
     protected function getInput()
     {
-        if (!Config::hasService('input')) {
+        if (!Robo::hasService('input')) {
             return new ArgvInput();
         }
-        return Config::input();
+        return Robo::input();
+    }
+
+    protected function decorationCharacter($nonDecorated, $decorated)
+    {
+        if (!$this->getOutput()->isDecorated() || (strncasecmp(PHP_OS, 'WIN', 3) == 0)) {
+            return $nonDecorated;
+        }
+        return $decorated;
     }
 
     protected function say($text)
     {
-        $char = strncasecmp(PHP_OS, 'WIN', 3) == 0 ? '>' : '➜';
+        $char = $this->decorationCharacter('>', '➜');
         $this->writeln("$char  $text");
     }
 
     protected function yell($text, $length = 40, $color = 'green')
     {
-        $char = strncasecmp(PHP_OS, 'WIN', 3) == 0 ? ' ' : '➜';
+        $char = $this->decorationCharacter(' ', '➜');
         $format = "$char  <fg=white;bg=$color;options=bold>%s</fg=white;bg=$color;options=bold>";
         $text = str_pad($text, $length, ' ', STR_PAD_BOTH);
         $len = strlen($text) + 2;

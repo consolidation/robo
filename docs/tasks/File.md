@@ -17,14 +17,6 @@ $this->taskConcat([
 ```
 
 * `to($dst)`  set the destination file
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
-* `logger()` 
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## Replace
 
@@ -63,14 +55,6 @@ $this->taskReplaceInFile('box/robo.txt')
 * `from($from)` 
 * `to($to)` 
 * `regex($regex)` 
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
-* `logger()` 
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## TmpFile
 
@@ -80,15 +64,18 @@ once the task collection is is part of completes. When created,
 it is given a random filename.
 
 This temporary file may be manipulated exacatly like taskWrite().
+It is deleted as soon as the collection it is a part of completes
+or rolls back.
 
 ``` php
 <?php
-$tmpFilePath = $this->taskTmpFile()
+$collection = $this->collectionBuilder();
+$tmpFilePath = $collection->taskTmpFile()
      ->line('-----')
      ->line(date('Y-m-d').' '.$title)
      ->line('----')
-     ->addToCollection($collection)
      ->getPath();
+$collection->run();
 ?>
 ```
 
@@ -107,14 +94,6 @@ $tmpFilePath = $this->taskTmpFile()
 * `originalContents()` 
 * `wouldChange()` 
 * `getPath()` 
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
-* `logger()` 
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## Write
 
@@ -147,12 +126,4 @@ $this->taskWriteToFile('blogpost.md')
 * `originalContents()` 
 * `wouldChange()` 
 * `getPath()` 
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
-* `logger()` 
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 

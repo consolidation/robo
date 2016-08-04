@@ -5,9 +5,13 @@ use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Robo\Contract\ConfigAwareInterface;
+use Robo\Common\ConfigAwareTrait;
 
-class GlobalOptionsEventListener implements EventSubscriberInterface
+class GlobalOptionsEventListener implements EventSubscriberInterface, ConfigAwareInterface
 {
+    use ConfigAwareTrait;
+
     /**
      * @{@inheritdoc}
      */
@@ -25,12 +29,6 @@ class GlobalOptionsEventListener implements EventSubscriberInterface
      */
     public function setGlobalOptions(ConsoleCommandEvent $event)
     {
-        /* @var Input $input */
-        $input = $event->getInput();
-
-        // Need a better way to handle global options.
-        // This is slightly improved from before.
-        Config::setGlobalOptions($input);
-        Config::getContainer()->setSimulated(Config::isSimulated());
+        $this->getConfig()->setGlobalOptions($event->getInput());
     }
 }

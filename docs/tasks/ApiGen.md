@@ -46,14 +46,6 @@ $this->taskApiGen('./apigen.neon')
 * `colors($colors)`   * `param boolean|string` $colors 'yes' or true colorize the output, 'no' or false otherwise
 * `updateCheck($check)`   * `param boolean|string` $check 'yes' or true to check for updates, 'no' or false otherwise
 * `debug($debug)`   * `param boolean|string` $debug 'yes' or true to enable debug mode, 'no' or false otherwise
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
-* `logger()` 
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable

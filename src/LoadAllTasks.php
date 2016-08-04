@@ -5,6 +5,35 @@ trait LoadAllTasks
 {
     use TaskAccessor;
 
+    /**
+     * Return all of the service providers needed by the RoboFile.
+     * By default, we return all of the built-in Robo task providers.
+     */
+    public function getServiceProviders()
+    {
+        return
+        [
+            \Robo\Collection\loadTasks::getCollectionServices(),
+            \Robo\Task\ApiGen\loadTasks::getApiGenServices(),
+            \Robo\Task\Archive\loadTasks::getArchiveServices(),
+            \Robo\Task\Assets\loadTasks::getAssetsServices(),
+            \Robo\Task\Base\loadTasks::getBaseServices(),
+            \Robo\Task\Npm\loadTasks::getNpmServices(),
+            \Robo\Task\Bower\loadTasks::getBowerServices(),
+            \Robo\Task\Gulp\loadTasks::getGulpServices(),
+            \Robo\Task\Composer\loadTasks::getComposerServices(),
+            \Robo\Task\Development\loadTasks::getDevelopmentServices(),
+            \Robo\Task\Docker\loadTasks::getDockerServices(),
+            \Robo\Task\File\loadTasks::getFileServices(),
+            \Robo\Task\Filesystem\loadTasks::getFilesystemServices(),
+            \Robo\Task\Remote\loadTasks::getRemoteServices(),
+            \Robo\Task\Testing\loadTasks::getTestingServices(),
+            \Robo\Task\Vcs\loadTasks::getVcsServices(),
+        ];
+    }
+
+    use Collection\loadTasks;
+
     // standard tasks
     use Task\Base\loadTasks;
     use Task\Development\loadTasks;
@@ -34,18 +63,4 @@ trait LoadAllTasks
     use Task\Base\loadShortcuts;
     use Task\Filesystem\loadShortcuts;
     use Task\Vcs\loadShortcuts;
-
-    /**
-     * Convenience function. Use:
-     *
-     * $this->collection();
-     *
-     * instead of:
-     *
-     * $this->getContainer()->get('collection');
-     */
-    protected function collection()
-    {
-        return $this->getContainer()->get('collection');
-    }
 }

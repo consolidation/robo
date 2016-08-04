@@ -28,14 +28,6 @@ $this->taskExtract($archivePath)
 
 * `to($to)` 
 * `preserveTopDirectory($preserve = null)` 
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
-* `logger()` 
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## Pack
 
@@ -57,12 +49,4 @@ $this->taskPack(
 * `addFile($placementLocation, $filesystemLocation)`  Add an item to the archive. Like file_exists(), the parameter
 * `addDir($placementLocation, $filesystemLocation)`  Alias for addFile, in case anyone has angst about using
 * `add($item)`  Add a file or directory, or list of same to the archive.
-* `setLogger($logger)`  Sets a logger.
-* `setContainer($container)`  Set a container.
-* `getContainer()`  Get the container.
-* `logger()` 
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 

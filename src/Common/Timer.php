@@ -25,7 +25,7 @@ trait Timer
     protected function getExecutionTime()
     {
         if (!isset($this->timer)) {
-            return 0;
+            return null;
         }
         return $this->timer->elapsed();
     }

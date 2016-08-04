@@ -3,6 +3,7 @@ namespace Robo\Collection;
 
 use Robo\Config;
 use Robo\Common\IO;
+use Robo\Common\Timer;
 use Psr\Log\LogLevel;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
@@ -22,6 +23,7 @@ class CollectionBuilder implements NestedCollectionInterface, ConfigAwareInterfa
     use ConfigAwareTrait;
     use ContainerAwareTrait;
     use LoadAllTasks;
+    use Timer;
 
     protected $collection;
     protected $currentTask;
@@ -240,6 +242,19 @@ class CollectionBuilder implements NestedCollectionInterface, ConfigAwareInterfa
      * When we run the collection builder, run everything in the collection.
      */
     public function run()
+    {
+        $this->startTimer();
+        $result = $this->runTasks();
+        $this->stopTimer();
+        $result['time'] = $this->getExecutionTime();
+        return $result;
+    }
+
+    /**
+     * If there is a single task, run it; if there is a collection, run
+     * all of its tasks.
+     */
+    protected function runTasks()
     {
         if (!$this->collection && $this->currentTask) {
             return $this->currentTask->run();

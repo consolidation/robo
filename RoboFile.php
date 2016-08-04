@@ -289,8 +289,6 @@ class RoboFile extends \Robo\Tasks
         $packer->addFile('robo', 'robo')
             ->executable('robo');
 
-        $collection->addTask($packer);
-
         return $collection->run();
     }
 

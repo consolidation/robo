@@ -508,6 +508,7 @@ class Collection extends BaseTask implements CollectionInterface, ContainerAware
      */
     public function complete()
     {
+        $this->detatchProgressIndicator();
         $this->runTaskListIgnoringFailures($this->completionStack);
         $this->reset();
         return $this;

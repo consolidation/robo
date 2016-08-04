@@ -84,6 +84,11 @@ trait ProgressIndicatorAwareTrait
         $this->progressIndicator->disableProgressIndicator();
     }
 
+    protected function detatchProgressIndicator()
+    {
+        $this->setProgressIndicator(null);
+    }
+
     protected function advanceProgressIndicator($steps = 1)
     {
         if (!$this->progressIndicator) {

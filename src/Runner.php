@@ -6,17 +6,13 @@ use League\Container\Container;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\StringInput;
-use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use Consolidation\AnnotatedCommand\AnnotatedCommandFactory;
 use Consolidation\AnnotatedCommand\PassThroughArgsInput;
-use Consolidation\AnnotatedCommand\Hooks\HookManager;
 
 class Runner
 {
     use IO;
 
-    const VERSION = '1.0.0-rc';
+    const VERSION = '1.0.0-RC1';
     const ROBOCLASS = 'RoboFile';
     const ROBOFILE = 'RoboFile.php';
 

@@ -98,11 +98,9 @@ class RoboFile extends \Robo\Tasks
         if ($stable) $this->pharPublish();
         $this->publish();
 
-        $this->taskGitHubRelease(\Robo\Runner::VERSION)
-            ->user($this->ask('User releasing'))
-            ->password($this->askHidden('Password'))
-            ->uri('Codegyre/Robo')
-            ->description($releaseDescription)
+        $this->taskGitStack()
+            ->tag(\Robo\Runner::VERSION)
+            ->push('origin master --tags')
             ->run();
 
         if ($stable) $this->versionBump();

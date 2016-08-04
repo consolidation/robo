@@ -79,12 +79,12 @@ class RoboFile extends \Robo\Tasks
     public function release($opts = ['beta' => false])
     {
         $this->yell("Releasing Robo");
+        $stable = true;
         if ($opts['beta']) {
             $stable = false;
             $this->say('non-stable release');
         }
-
-
+        
         $releaseDescription = $this->ask("Description of Release\n");
 
         $this->docs();

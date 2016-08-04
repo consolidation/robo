@@ -314,7 +314,7 @@ class RoboFile extends \Robo\Tasks
      */
     public function pharPublish()
     {
-        $this->pharBuild()->run();
+        $this->pharBuild();
 
         $this->_rename('robo.phar', 'robo-release.phar');
         return $this->collectionBuilder()

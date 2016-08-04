@@ -95,7 +95,7 @@
                         
                             
 <li >
-    <a href="../FileSystem/">FileSystem Tasks</a>
+    <a href="../Filesystem/">FileSystem Tasks</a>
 </li>
 
                         
@@ -289,14 +289,6 @@ $this-&gt;taskChangelog()
 <li><code>changes(array $data)</code> </li>
 <li><code>change($change)</code> </li>
 <li><code>getChanges()</code> </li>
-<li><code>setLogger($logger)</code>  Sets a logger.</li>
-<li><code>setContainer($container)</code>  Set a container.</li>
-<li><code>getContainer()</code>  Get the container.</li>
-<li><code>logger()</code> </li>
-<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
-<li><code>addAsRollback($collection)</code> </li>
-<li><code>addAsCompletion($collection)</code> </li>
-<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
 </ul>
 <h2 id="generatemarkdowndoc">GenerateMarkdownDoc</h2>
 <p>Simple documentation generator from source files.
@@ -370,14 +362,6 @@ $this-&gt;taskGenerateMarkdownDoc('models.md')
 <li><code>append($append)</code> </li>
 <li><code>text($text)</code> </li>
 <li><code>textForClass($item)</code> </li>
-<li><code>setLogger($logger)</code>  Sets a logger.</li>
-<li><code>setContainer($container)</code>  Set a container.</li>
-<li><code>getContainer()</code>  Get the container.</li>
-<li><code>logger()</code> </li>
-<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
-<li><code>addAsRollback($collection)</code> </li>
-<li><code>addAsCompletion($collection)</code> </li>
-<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
 </ul>
 <h2 id="generate">Generate</h2>
 <p>Generate a Robo Task that is a wrapper around an existing class.</p>
@@ -386,16 +370,6 @@ $this-&gt;taskGenerateTask('Symfony\Component\Filesystem\Filesystem', 'Filesyste
   -&gt;run();
 </code></pre>
 
-<ul>
-<li><code>setLogger($logger)</code>  Sets a logger.</li>
-<li><code>setContainer($container)</code>  Set a container.</li>
-<li><code>getContainer()</code>  Get the container.</li>
-<li><code>logger()</code> </li>
-<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
-<li><code>addAsRollback($collection)</code> </li>
-<li><code>addAsCompletion($collection)</code> </li>
-<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
-</ul>
 <h2 id="githubrelease">GitHubRelease</h2>
 <p>Publishes new GitHub release.</p>
 <pre><code class="php">&lt;?php
@@ -423,14 +397,6 @@ $this-&gt;taskGitHubRelease('0.1.0')
 <li><code>uri($uri)</code> </li>
 <li><code>user($user)</code> </li>
 <li><code>password($password)</code> </li>
-<li><code>setLogger($logger)</code>  Sets a logger.</li>
-<li><code>setContainer($container)</code>  Set a container.</li>
-<li><code>getContainer()</code>  Get the container.</li>
-<li><code>logger()</code> </li>
-<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
-<li><code>addAsRollback($collection)</code> </li>
-<li><code>addAsCompletion($collection)</code> </li>
-<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
 </ul>
 <h2 id="openbrowser">OpenBrowser</h2>
 <p>Opens the default's user browser
@@ -448,16 +414,6 @@ $this-&gt;taskOpenBrowser([
   -&gt;run();
 </code></pre>
 
-<ul>
-<li><code>setLogger($logger)</code>  Sets a logger.</li>
-<li><code>setContainer($container)</code>  Set a container.</li>
-<li><code>getContainer()</code>  Get the container.</li>
-<li><code>logger()</code> </li>
-<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
-<li><code>addAsRollback($collection)</code> </li>
-<li><code>addAsCompletion($collection)</code> </li>
-<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
-</ul>
 <h2 id="packphar">PackPhar</h2>
 <p>Creates Phar.</p>
 <pre><code class="php">&lt;?php
@@ -493,21 +449,6 @@ $pharTask = $this-&gt;taskPackPhar('package/codecept.phar')
 <li><code>addStripped($path, $file)</code> </li>
 <li><code>addFile($path, $file)</code> </li>
 <li><code>executable($file)</code> </li>
-<li><code>setLogger($logger)</code>  Sets a logger.</li>
-<li><code>setContainer($container)</code>  Set a container.</li>
-<li><code>getContainer()</code>  Get the container.</li>
-<li><code>logger()</code> </li>
-<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
-<li><code>addAsRollback($collection)</code> </li>
-<li><code>addAsCompletion($collection)</code> </li>
-<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
-<li><code>setProgressIndicator($progressIndicator)</code> </li>
-<li><code>inProgress()</code> </li>
-<li><code>startProgressIndicator($totalSteps = null)</code> </li>
-<li><code>stopProgressIndicator()</code> </li>
-<li><code>hideProgressIndicator()</code> </li>
-<li><code>showProgressIndicator()</code> </li>
-<li><code>advanceProgressIndicator($steps = null)</code> </li>
 </ul>
 <h2 id="phpserver">PhpServer</h2>
 <p>Runs PHP server and stops it when task finishes.</p>
@@ -537,14 +478,6 @@ $this-&gt;taskServer(8000)
 <li><code>idleTimeout($timeout)</code>  Stops command if it does not output something for a while</li>
 <li><code>env(array $env)</code>  Sets the environment variables for the command</li>
 <li><code>simulate($context)</code>  Called in place of <code>run()</code> for simulated tasks.</li>
-<li><code>setLogger($logger)</code>  Sets a logger.</li>
-<li><code>setContainer($container)</code>  Set a container.</li>
-<li><code>getContainer()</code>  Get the container.</li>
-<li><code>logger()</code> </li>
-<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
-<li><code>addAsRollback($collection)</code> </li>
-<li><code>addAsCompletion($collection)</code> </li>
-<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable</li>

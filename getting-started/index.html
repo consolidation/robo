@@ -95,7 +95,7 @@
                         
                             
 <li >
-    <a href="../tasks/FileSystem/">FileSystem Tasks</a>
+    <a href="../tasks/Filesystem/">FileSystem Tasks</a>
 </li>
 
                         
@@ -369,7 +369,7 @@ Any special character like <code>-</code> will be passed into without change.</p
  *     +--------+-------------+
  *
  * @param int $start Number to start from
- * @param $steps int Number of steps to perform
+ * @param int $steps Number of steps to perform
  * @param array $opts
  * @option $graphic Display the sequence graphically using cube
  *                  representation
@@ -405,23 +405,38 @@ Help:
 </code></pre>
 
 <p>Arguments and options are populated from annotations.</p>
-<p>Added with <a href="https://github.com/Codegyre/Robo/pull/71">PR by @jonsa</a>; now provided by the <a href="https://github.com/consolidation-org/annotation-command">consolidation/annotation-command</a> project, which was factored out from Robo.</p>
+<p>Initially added with <a href="https://github.com/Codegyre/Robo/pull/71">PR by @jonsa</a>; now provided by the <a href="https://github.com/consolidation-org/annotated-command">consolidation/annotated-command</a> project, which was factored out from Robo.</p>
+<h3 id="ignored-methods">Ignored methods</h3>
+<p>Robo ignores any method of your RoboFile that begins with <code>get</code> or <code>set</code>. These methods are presumed to be data accessors, not commands.  To implement a command whose name contains <code>get</code> or <code>set</code>, use the <code>@command</code> annotation.</p>
+<pre><code class="php">&lt;?php
+    /**
+     * @command set-alignment
+     */
+    function setAlignment($value)
+    {
+        ...
+    }
+?&gt;
+</code></pre>
+
 <h2 id="tasks">Tasks</h2>
-<p>Robo commands typically divide the work they need to accomplish into <strong>tasks</strong>. The command first determines what needs to be done, inspecting current state if necessary, and then sets up and executes one or more tasks that make the actual changes needed by the command.  (See also the documentation on <a href="../collections/">Collections</a>.)</p>
+<p>Robo commands typically divide the work they need to accomplish into <strong>tasks</strong>. The command first determines what needs to be done, inspecting current state if necessary, and then sets up and executes one or more tasks that make the actual changes needed by the command.  (See also the documentation on <a href="../collections/">Collections</a>, which allow you to combine groups of tasks which can provide rollback functions to recover from failure situations.)</p>
 <p>The convention used to add new tasks for use in your RoboFiles is to create a wrapper trait that instantiates the implementation class for each task. Each task method in the trait should start with the prefix <code>task</code>, and should use <strong>chained method calls</strong> for configuration. Task execution should be triggered by the method <code>run</code>. </p>
 <p><em>It is recommended to have store your trait loading task in a <code>loadTasks</code> file in the same namespace as the task implementation.</em></p>
-<p>A very basic task is shown below:</p>
+<p>A very basic task is shown below.  The namespace is <code>MyAssetTasks</code>, and the example task is <code>CompileAssets</code>. To customize to your purposes, choose an appropriate namespace, and then define as many tasks as you need.</p>
 <pre><code class="php">&lt;?php
-namespace CompileAssets;
+namespace MyAssetTasks;
 
 use Robo\Container\SimpleServiceProvider;
 
 trait loadTasks
 {
     /**
-     * Return services.
+     * Return services.  Your tasks should always be
+     * named 'taskCLASSNAME', where CLASSNAME is the
+     * name of the implementing class.
      */
-    public static function getCompileAssetsServices()
+    public static function getMyAssetTasksServices()
     {
         return new SimpleServiceProvider(
             [
@@ -431,16 +446,20 @@ trait loadTasks
     }
 
     /**
-     * @param null $pathToCompileAssets
-     * @return \Robo\Task\CompileAssets\CompileAssets
+     * The task function must always be given the same name as the key
+     * used with the SimpleServiceProvider (above)
+     *
+     * @param string $pathToCompileAssets
+     * @return \MyAssetTasks\CompileAssets
      */
     protected function taskCompileAssets($path = null)
     {
+        // Always construct your tasks with the `task()` task builder.
         return $this-&gt;task(__FUNCTION__, $path);
     }
 }
 
-class CompileAssets implements Robo\Contract\TaskInterface
+class CompileAssets implements \Robo\Contract\TaskInterface
 {
     // configuration params
     protected $path;
@@ -466,13 +485,21 @@ class CompileAssets implements Robo\Contract\TaskInterface
 ?&gt;
 </code></pre>
 
-<p>To use it in a RoboFile, you should include this task via its trait:</p>
+<p>To use it in a RoboFile, you should register its service provider via the RoboFile's <code>getServiceProviders()</code> method, and also include the task via its trait:</p>
 <pre><code class="php">&lt;?php
-class RoboFile extends Robo\Tasks
+class RoboFile extends \Robo\Tasks
 {
-    use CompileAssets\loadTasks;
+    use \MyAssetTasks\loadTasks;
 
-    function build()
+    public function getServiceProviders()
+    {
+        $serviceProviders = parent::getServiceProviders();
+        $serviceProviders[] = \MyAssetTasks\loadTasks::getMyAssetTasksServices();
+
+        return $serviceProviders;
+    }
+
+    public function build()
     {
         $this-&gt;taskCompileAssets('web/css-src')
             -&gt;to('web/assets.min.css')
@@ -483,11 +510,6 @@ class RoboFile extends Robo\Tasks
 </code></pre>
 
 <p>Robo\Tasks includes all of the standard task traits by default, so a RoboFile may call the <code>$this-&gt;taskXXX</code> method for any of these tasks. To use an external task, ensure that its class files are available (e.g. <code>require</code> its project in your composer.json file), register the services defined in the project's loadTraits, and include corresponding trait or traits in your Robofile.</p>
-<p>Services are registered with Robo as follows:</p>
-<pre><code>$container = \Robo\Config::getContainer();
-$container-&gt;addServiceProvider(\CompileAssets\loadTasks::getCollectionServices());
-</code></pre>
-
 <h3 id="shortcuts">Shortcuts</h3>
 <p>Some tasks may have shortcuts. If a task does not require multi-step configuration, it can be executed with a single line:</p>
 <pre><code class="php">&lt;?php
@@ -556,22 +578,31 @@ class RoboFile
 <h3 id="formatters">Formatters</h3>
 <p>It is preferable for commands that look up and display information should avoid doing IO directly, and should instead return the data they wish to display as an array. This data can then be converted into different data formats, such as "table" and "json". The user may select which formatter to use via the --format option.</p>
 <h3 id="progress">Progress</h3>
-<p>Long-running tasks that wish to display a progress indicator may do so by way of the ProgressIndicatorAwareTrait.</p>
+<p>Robo supports progress indicators via the Symfony ProgressBar class.  Long-running tasks that wish to display the progress indicator may do so via four simple steps:</p>
+<ul>
+<li>Override the <code>progressIndicatorSteps()</code> method and return the number of "steps" in the operation.</li>
+<li>Call <code>$this-&gt;startProgressIndicator()</code> to begin the progress indicator running.</li>
+<li>Call <code>$this-&gt;advanceProgressIndicator()</code> a number of times equal to the result returned by <code>progressIndicatorSteps()</code></li>
+<li>Call <code>$this-&gt;stopProgressIndicator()</code> when the operation is completed.</li>
+</ul>
+<p>An example of this is shown below:</p>
 <pre><code class="php">&lt;?php
-use Robo\Contract\ProgressIndicatorAwareInterface;
-use Robo\Common\ProgressIndicatorAwareTrait;
-
-class MyTask extends BaseTask implements ProgressIndicatorAwareInterface
+class MyTask extends BaseTask
 {
-    use ProgressIndicatorAwareTrait;
+    protected $steps = 10;
 
-    function run(){
+    public function progressIndicatorSteps()
+    {
+        return $this-&gt;steps;
+    }
+
+    public function run()
+    {
         $exitCode = 0;
-        $steps = 10;
         $errorMessage = &quot;&quot;;
 
-        $this-&gt;startProgressIndicator($steps);
-        for ($i = 0; $i &lt; $steps; ++$i) {
+        $this-&gt;startProgressIndicator();
+        for ($i = 0; $i &lt; $this-&gt;steps; ++$i) {
             $this-&gt;advanceProgressIndicator();
         }
         $this-&gt;stopProgressIndicator();
@@ -582,7 +613,8 @@ class MyTask extends BaseTask implements ProgressIndicatorAwareInterface
 ?&gt;
 </code></pre>
 
-<p>Tasks should not attempt to use a specific progress indicator (e.g. the Symfony ProgressBar class) directly, as the ProgressIndicatorAwareTrait allows for an appropriate progress indicator to be used (or omitted) as best suits the application.</p></div>
+<p>Tasks should not attempt to use a specific progress indicator (e.g. the Symfony ProgressBar class) directly, as the ProgressIndicatorAwareTrait allows for an appropriate progress indicator to be used (or omitted) as best suits the application.</p>
+<p>Note that when using <a href="../collections/">Collections</a>, the progress bar will automatically be shown if the collection takes longer than two seconds to run.  Each task in the collection will count for one "step"; if the task supports progress indicators as shown above, then it will add an additional number of steps as indicated by its <code>progressIndicatorSteps()</code> method.</p></div>
             
 
         </div>

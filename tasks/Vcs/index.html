@@ -95,7 +95,7 @@
                         
                             
 <li >
-    <a href="../FileSystem/">FileSystem Tasks</a>
+    <a href="../Filesystem/">FileSystem Tasks</a>
 </li>
 
                         
@@ -233,6 +233,8 @@
         
             <li><a href="#gitstack">GitStack</a></li>
         
+            <li><a href="#hgstack">HgStack</a></li>
+        
             <li><a href="#svnstack">SvnStack</a></li>
         
     
@@ -275,14 +277,36 @@ $this-&gt;taskGitStack()
 <li><code>exec($command)</code> </li>
 <li><code>stopOnFail($stopOnFail = null)</code> </li>
 <li><code>result($result)</code> </li>
-<li><code>setLogger($logger)</code>  Sets a logger.</li>
-<li><code>setContainer($container)</code>  Set a container.</li>
-<li><code>getContainer()</code>  Get the container.</li>
-<li><code>logger()</code> </li>
-<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
-<li><code>addAsRollback($collection)</code> </li>
-<li><code>addAsCompletion($collection)</code> </li>
-<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
+<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>printed($arg)</code>  Should command output be printed</li>
+</ul>
+<h2 id="hgstack">HgStack</h2>
+<p>Runs hg commands in stack. You can use <code>stopOnFail()</code> to point that stack should be terminated on first fail.</p>
+<pre><code class="php">&lt;?php
+$this-&gt;hgStack
+ -&gt;cloneRepo('https://bitbucket.org/durin42/hgsubversion')
+ -&gt;pull()
+ -&gt;add()
+ -&gt;commit('changed')
+ -&gt;push()
+ -&gt;tag('0.6.0')
+ -&gt;push('0.6.0')
+ -&gt;run();
+?&gt;
+</code></pre>
+
+<ul>
+<li><code>cloneRepo($repo, $to = null)</code>  Executes <code>hg clone</code></li>
+<li><code>add($include = null, $exclude = null)</code>  Executes <code>hg add</code> command with files to add by pattern</li>
+<li><code>commit($message, $options = null)</code>  Executes <code>hg commit</code> command with a message</li>
+<li><code>pull($branch = null)</code>  Executes <code>hg pull</code> command.</li>
+<li><code>push($branch = null)</code>  Executes <code>hg push</code> command</li>
+<li><code>merge($revision = null)</code>  Performs hg merge</li>
+<li><code>tag($tag_name, $message = null)</code>  Executes <code>hg tag</code> command</li>
+<li><code>executable($executable)</code> </li>
+<li><code>exec($command)</code> </li>
+<li><code>stopOnFail($stopOnFail = null)</code> </li>
+<li><code>result($result)</code> </li>
 <li><code>dir($dir)</code>  changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 </ul>
@@ -314,14 +338,6 @@ $this-&gt;taskSvnStack('username', 'password')
 <li><code>exec($command)</code> </li>
 <li><code>stopOnFail($stopOnFail = null)</code> </li>
 <li><code>result($result)</code> </li>
-<li><code>setLogger($logger)</code>  Sets a logger.</li>
-<li><code>setContainer($container)</code>  Set a container.</li>
-<li><code>getContainer()</code>  Get the container.</li>
-<li><code>logger()</code> </li>
-<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
-<li><code>addAsRollback($collection)</code> </li>
-<li><code>addAsCompletion($collection)</code> </li>
-<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
 <li><code>dir($dir)</code>  changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 </ul></div>

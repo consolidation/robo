@@ -95,7 +95,7 @@
                         
                             
 <li >
-    <a href="../tasks/FileSystem/">FileSystem Tasks</a>
+    <a href="../tasks/Filesystem/">FileSystem Tasks</a>
 </li>
 
                         
@@ -282,8 +282,7 @@
 <h4 id="100">1.0.0</h4>
 <ul>
 <li>[Collection] Add tasks to a collection, and implement them as a group with rollback</li>
-<li>Use <code>$task-&gt;addToCollection($collection);</code> instead of <code>$task-&gt;run();</code> during chained configuration to ad a task to a collection.</li>
-<li>Tasks may also be added to a collection via <code>$collection-&gt;add($task);</code></li>
+<li>Tasks may be added to a collection via <code>$collection-&gt;add($task);</code></li>
 <li><code>$collection-&gt;run();</code> runs all tasks in the collection</li>
 <li><code>$collection-&gt;addCode(function () { ... } );</code> to add arbitrary code to a collection</li>
 <li><code>$collection-&gt;progressMessage(...);</code> will log a message</li>
@@ -291,6 +290,8 @@
 <li><code>$collection-&gt;completion($task);</code> and <code>$collection-&gt;completionCode($callable);</code> add a function that is called once the collection completes or rolls back.</li>
 <li><code>$collection-&gt;before();</code> and <code>$collection-&gt;after();</code> can be used to add a task or function that runs before or after (respectively) the specified named task. To use this feature, tasks must be given names via an optional <code>$taskName</code> parameter when they are added.</li>
 <li>Collections may be added to collections, if desired. </li>
+<li>[CollectionBuilder] Create tasks and add them to a collection in a single operation.</li>
+<li><code>$this-&gt;collectionBuilder()-&gt;taskExec('pwd')-&gt;taskExec('ls')-&gt;run()</code></li>
 <li>Add output formatters</li>
 <li>If a Robo command returns a string, or a <code>Result</code> object with a <code>$message</code>, then it will be printed</li>
 <li>Commands may be annotated to describe output formats that may be used</li>
@@ -301,10 +302,10 @@
 <li><em>Breaking</em> Tasks that use other tasks must also use <code>$this-&gt;task('taskName');</code> instead of <code>new TaskClass();</code> when creating task objects to call.</li>
 <li>[Extract] task added</li>
 <li>[Pack] task added</li>
-<li>[TmpFile] task added</li>
+<li>[TmpDir], [WorkDir] and [TmpFile] tasks added</li>
 <li>Support standalone Robo scripts that allows scripts starting with <code>#!/usr/bin/env robo</code> to define multiple robo commands.  Use <code>#!/usr/bin/env robo run</code> to define a single robo command implemented by the <code>run()</code> method.</li>
 <li>Provide ProgresIndicatorAwareInterface and ProgressIndicatorAwareTrait that make it easy to add progress indicators to tasks</li>
-<li>Add --simulate mode that causes tasks to print what they would have done, but make no changed</li>
+<li>Add --simulate mode that causes tasks to print what they would have done, but make no changes</li>
 <li>Add <code>robo generate:task</code> code-generator to make new stack-based task wrappers around existing classes</li>
 <li>Add <code>robo sniff</code> by @dustinleblanc. Runs the PHP code sniffer followed by the code beautifier, if needed.</li>
 <li>Implement ArrayInterface for Result class, so result data may be accessed like an array </li>

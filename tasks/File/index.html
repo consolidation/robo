@@ -95,7 +95,7 @@
                         
                             
 <li >
-    <a href="../FileSystem/">FileSystem Tasks</a>
+    <a href="../Filesystem/">FileSystem Tasks</a>
 </li>
 
                         
@@ -198,7 +198,7 @@
                 </li>
                 
                     <li >
-                        <a rel="next" href="../FileSystem/">
+                        <a rel="next" href="../Filesystem/">
                             <i class="fa fa-arrow-left"></i> Previous
                         </a>
                     </li>
@@ -260,14 +260,6 @@ $this-&gt;taskConcat([
 
 <ul>
 <li><code>to($dst)</code>  set the destination file</li>
-<li><code>setLogger($logger)</code>  Sets a logger.</li>
-<li><code>setContainer($container)</code>  Set a container.</li>
-<li><code>getContainer()</code>  Get the container.</li>
-<li><code>logger()</code> </li>
-<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
-<li><code>addAsRollback($collection)</code> </li>
-<li><code>addAsCompletion($collection)</code> </li>
-<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
 </ul>
 <h2 id="replace">Replace</h2>
 <p>Performs search and replace inside a files.</p>
@@ -306,27 +298,22 @@ $this-&gt;taskReplaceInFile('box/robo.txt')
 <li><code>from($from)</code> </li>
 <li><code>to($to)</code> </li>
 <li><code>regex($regex)</code> </li>
-<li><code>setLogger($logger)</code>  Sets a logger.</li>
-<li><code>setContainer($container)</code>  Set a container.</li>
-<li><code>getContainer()</code>  Get the container.</li>
-<li><code>logger()</code> </li>
-<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
-<li><code>addAsRollback($collection)</code> </li>
-<li><code>addAsCompletion($collection)</code> </li>
-<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
 </ul>
 <h2 id="tmpfile">TmpFile</h2>
 <p>Create a temporary file that is automatically cleaned up
 once the task collection is is part of completes. When created,
 it is given a random filename.</p>
-<p>This temporary file may be manipulated exacatly like taskWrite().</p>
+<p>This temporary file may be manipulated exacatly like taskWrite().
+It is deleted as soon as the collection it is a part of completes
+or rolls back.</p>
 <pre><code class="php">&lt;?php
-$tmpFilePath = $this-&gt;taskTmpFile()
+$collection = $this-&gt;collectionBuilder();
+$tmpFilePath = $collection-&gt;taskTmpFile()
      -&gt;line('-----')
      -&gt;line(date('Y-m-d').' '.$title)
      -&gt;line('----')
-     -&gt;addToCollection($collection)
      -&gt;getPath();
+$collection-&gt;run();
 ?&gt;
 </code></pre>
 
@@ -346,14 +333,6 @@ $tmpFilePath = $this-&gt;taskTmpFile()
 <li><code>originalContents()</code> </li>
 <li><code>wouldChange()</code> </li>
 <li><code>getPath()</code> </li>
-<li><code>setLogger($logger)</code>  Sets a logger.</li>
-<li><code>setContainer($container)</code>  Set a container.</li>
-<li><code>getContainer()</code>  Get the container.</li>
-<li><code>logger()</code> </li>
-<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
-<li><code>addAsRollback($collection)</code> </li>
-<li><code>addAsCompletion($collection)</code> </li>
-<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
 </ul>
 <h2 id="write">Write</h2>
 <p>Writes to file.</p>
@@ -386,14 +365,6 @@ $this-&gt;taskWriteToFile('blogpost.md')
 <li><code>originalContents()</code> </li>
 <li><code>wouldChange()</code> </li>
 <li><code>getPath()</code> </li>
-<li><code>setLogger($logger)</code>  Sets a logger.</li>
-<li><code>setContainer($container)</code>  Set a container.</li>
-<li><code>getContainer()</code>  Get the container.</li>
-<li><code>logger()</code> </li>
-<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
-<li><code>addAsRollback($collection)</code> </li>
-<li><code>addAsCompletion($collection)</code> </li>
-<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
 </ul></div>
             
 

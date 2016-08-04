@@ -95,7 +95,7 @@
                         
                             
 <li >
-    <a href="../FileSystem/">FileSystem Tasks</a>
+    <a href="../Filesystem/">FileSystem Tasks</a>
 </li>
 
                         
@@ -270,14 +270,6 @@ $this-&gt;taskDockerBuild('path/to/dir')
 @package Robo\Task\Docker</p>
 <ul>
 <li><code>tag($tag)</code> </li>
-<li><code>setLogger($logger)</code>  Sets a logger.</li>
-<li><code>setContainer($container)</code>  Set a container.</li>
-<li><code>getContainer()</code>  Get the container.</li>
-<li><code>logger()</code> </li>
-<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
-<li><code>addAsRollback($collection)</code> </li>
-<li><code>addAsCompletion($collection)</code> </li>
-<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
 <li><code>dir($dir)</code>  changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable</li>
@@ -304,14 +296,6 @@ $task-&gt;dockerCommit($result)
 
 <ul>
 <li><code>name($name)</code> </li>
-<li><code>setLogger($logger)</code>  Sets a logger.</li>
-<li><code>setContainer($container)</code>  Set a container.</li>
-<li><code>getContainer()</code>  Get the container.</li>
-<li><code>logger()</code> </li>
-<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
-<li><code>addAsRollback($collection)</code> </li>
-<li><code>addAsCompletion($collection)</code> </li>
-<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
 <li><code>dir($dir)</code>  changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable</li>
@@ -344,14 +328,6 @@ $this-&gt;taskDockerExec($test)
 <li><code>detached()</code> </li>
 <li><code>interactive()</code> </li>
 <li><code>exec($command)</code> </li>
-<li><code>setLogger($logger)</code>  Sets a logger.</li>
-<li><code>setContainer($container)</code>  Set a container.</li>
-<li><code>getContainer()</code>  Get the container.</li>
-<li><code>logger()</code> </li>
-<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
-<li><code>addAsRollback($collection)</code> </li>
-<li><code>addAsCompletion($collection)</code> </li>
-<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
 <li><code>dir($dir)</code>  changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable</li>
@@ -369,14 +345,6 @@ $this-&gt;taskDockerPull('wordpress')
 </code></pre>
 
 <ul>
-<li><code>setLogger($logger)</code>  Sets a logger.</li>
-<li><code>setContainer($container)</code>  Set a container.</li>
-<li><code>getContainer()</code>  Get the container.</li>
-<li><code>logger()</code> </li>
-<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
-<li><code>addAsRollback($collection)</code> </li>
-<li><code>addAsCompletion($collection)</code> </li>
-<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
 <li><code>dir($dir)</code>  changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable</li>
@@ -393,14 +361,6 @@ $this-&gt;taskDockerRemove($container)
 </code></pre>
 
 <ul>
-<li><code>setLogger($logger)</code>  Sets a logger.</li>
-<li><code>setContainer($container)</code>  Set a container.</li>
-<li><code>getContainer()</code>  Get the container.</li>
-<li><code>logger()</code> </li>
-<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
-<li><code>addAsRollback($collection)</code> </li>
-<li><code>addAsCompletion($collection)</code> </li>
-<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
 <li><code>dir($dir)</code>  changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable</li>
@@ -460,14 +420,6 @@ $this-&gt;taskDockerRun('wordpress')
 <li><code>privileged()</code> </li>
 <li><code>name($name)</code> </li>
 <li><code>link($name, $alias)</code> </li>
-<li><code>setLogger($logger)</code>  Sets a logger.</li>
-<li><code>setContainer($container)</code>  Set a container.</li>
-<li><code>getContainer()</code>  Get the container.</li>
-<li><code>logger()</code> </li>
-<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
-<li><code>addAsRollback($collection)</code> </li>
-<li><code>addAsCompletion($collection)</code> </li>
-<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
 <li><code>dir($dir)</code>  changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable</li>
@@ -484,14 +436,6 @@ $this-&gt;taskDockerStart($cidOrResult)
 </code></pre>
 
 <ul>
-<li><code>setLogger($logger)</code>  Sets a logger.</li>
-<li><code>setContainer($container)</code>  Set a container.</li>
-<li><code>getContainer()</code>  Get the container.</li>
-<li><code>logger()</code> </li>
-<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
-<li><code>addAsRollback($collection)</code> </li>
-<li><code>addAsCompletion($collection)</code> </li>
-<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
 <li><code>dir($dir)</code>  changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable</li>
@@ -508,14 +452,6 @@ $this-&gt;taskDockerStop($cidOrResult)
 </code></pre>
 
 <ul>
-<li><code>setLogger($logger)</code>  Sets a logger.</li>
-<li><code>setContainer($container)</code>  Set a container.</li>
-<li><code>getContainer()</code>  Get the container.</li>
-<li><code>logger()</code> </li>
-<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
-<li><code>addAsRollback($collection)</code> </li>
-<li><code>addAsCompletion($collection)</code> </li>
-<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
 <li><code>dir($dir)</code>  changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable</li>

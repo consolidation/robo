@@ -6,12 +6,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         
-        <link rel="canonical" href="http://robo.li/tasks/Composer/">
+        <link rel="canonical" href="http://robo.li/tasks/Filesystem/">
         <link rel="shortcut icon" href="../../../../img/favicon.png">
         
         <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 
-	<title>Composer Tasks - Robo</title>
+	<title>FileSystem Tasks - Robo</title>
 
         <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome-4.0.3.css" rel="stylesheet">
@@ -94,8 +94,8 @@
 
                         
                             
-<li >
-    <a href="../Filesystem/">FileSystem Tasks</a>
+<li class="active">
+    <a href="./">FileSystem Tasks</a>
 </li>
 
                         
@@ -106,8 +106,8 @@
 
                         
                             
-<li class="active">
-    <a href="./">Composer Tasks</a>
+<li >
+    <a href="../Composer/">Composer Tasks</a>
 </li>
 
                         
@@ -198,12 +198,12 @@
                 </li>
                 
                     <li >
-                        <a rel="next" href="../File/">
+                        <a rel="next" href="../Base/">
                             <i class="fa fa-arrow-left"></i> Previous
                         </a>
                     </li>
                     <li >
-                        <a rel="prev" href="../Vcs/">
+                        <a rel="prev" href="../File/">
                             Next <i class="fa fa-arrow-right"></i>
                         </a>
                     </li>
@@ -229,151 +229,204 @@
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
     
-        <li class="main active"><a href="#composer-tasks">Composer Tasks</a></li>
+        <li class="main active"><a href="#filesystem-tasks">Filesystem Tasks</a></li>
         
-            <li><a href="#dumpautoload">DumpAutoload</a></li>
+            <li><a href="#cleandir">CleanDir</a></li>
         
-            <li><a href="#install">Install</a></li>
+            <li><a href="#copydir">CopyDir</a></li>
         
-            <li><a href="#update">Update</a></li>
+            <li><a href="#deletedir">DeleteDir</a></li>
         
-            <li><a href="#validate">Validate</a></li>
+            <li><a href="#filesystemstack">FilesystemStack</a></li>
+        
+            <li><a href="#flattendir">FlattenDir</a></li>
+        
+            <li><a href="#mirrordir">MirrorDir</a></li>
+        
+            <li><a href="#tmpdir">TmpDir</a></li>
+        
+            <li><a href="#workdir">WorkDir</a></li>
         
     
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
-<h1 id="composer-tasks">Composer Tasks</h1>
-<h2 id="dumpautoload">DumpAutoload</h2>
-<p>Composer Dump Autoload</p>
+<h1 id="filesystem-tasks">Filesystem Tasks</h1>
+<h2 id="cleandir">CleanDir</h2>
+<p>Deletes all files from specified dir, ignoring git files.</p>
 <pre><code class="php">&lt;?php
-// simple execution
-$this-&gt;taskComposerDumpAutoload()-&gt;run();
+$this-&gt;taskCleanDir(['tmp','logs'])-&gt;run();
+// as shortcut
+$this-&gt;_cleanDir('app/cache');
+?&gt;
+</code></pre>
 
-// dump auto loader with custom path
-$this-&gt;taskComposerDumpAutoload('path/to/my/composer.phar')
-     -&gt;preferDist()
-     -&gt;run();
-
-// optimize autoloader dump with custom path
-$this-&gt;taskComposerDumpAutoload('path/to/my/composer.phar')
-     -&gt;optimize()
-     -&gt;run();
-
-// optimize autoloader dump with custom path and no dev
-$this-&gt;taskComposerDumpAutoload('path/to/my/composer.phar')
-     -&gt;optimize()
-     -&gt;noDev()
-     -&gt;run();
+<h2 id="copydir">CopyDir</h2>
+<p>Copies one dir into another</p>
+<pre><code class="php">&lt;?php
+$this-&gt;taskCopyDir(['dist/config' =&gt; 'config'])-&gt;run();
+// as shortcut
+$this-&gt;_copyDir('dist/config', 'config');
 ?&gt;
 </code></pre>
 
 <ul>
-<li><code>optimize()</code> </li>
-<li><code>preferDist()</code>  adds <code>prefer-dist</code> option to composer</li>
-<li><code>preferSource()</code>  adds <code>prefer-source</code> option to composer</li>
-<li><code>noDev()</code>  adds <code>no-dev</code> option to composer</li>
-<li><code>noAnsi()</code>  adds <code>no-ansi</code> option to composer</li>
-<li><code>ansi()</code>  adds <code>ansi</code> option to composer</li>
-<li><code>optimizeAutoloader()</code>  adds <code>optimize-autoloader</code> option to composer</li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
-<li><code>printed($arg)</code>  Should command output be printed</li>
-<li><code>arg($arg)</code>  Pass argument to executable</li>
-<li><code>args($args)</code>  Pass methods parameters as arguments to executable</li>
-<li><code>option($option, $value = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>optionList($option, $value = null)</code>  Pass multiple options to executable. Value can be a string or array.</li>
+<li><code>dirPermissions($value)</code>  Sets the default folder permissions for the destination if it doesn't exist</li>
+<li><code>exclude($exclude = null)</code>  List files to exclude.</li>
 </ul>
-<h2 id="install">Install</h2>
-<p>Composer Install</p>
+<h2 id="deletedir">DeleteDir</h2>
+<p>Deletes dir</p>
 <pre><code class="php">&lt;?php
-// simple execution
-$this-&gt;taskComposerInstall()-&gt;run();
+$this-&gt;taskDeleteDir('tmp')-&gt;run();
+// as shortcut
+$this-&gt;_deleteDir(['tmp', 'log']);
+?&gt;
+</code></pre>
 
-// prefer dist with custom path
-$this-&gt;taskComposerInstall('path/to/my/composer.phar')
-     -&gt;preferDist()
+<h2 id="filesystemstack">FilesystemStack</h2>
+<p>Wrapper for <a href="http://symfony.com/doc/current/components/filesystem.html">Symfony Filesystem</a> Component.
+Comands are executed in stack and can be stopped on first fail with <code>stopOnFail</code> option.</p>
+<pre><code class="php">&lt;?php
+$this-&gt;taskFilesystemStack()
+     -&gt;mkdir('logs')
+     -&gt;touch('logs/.gitignore')
+     -&gt;chgrp('www', 'www-data')
+     -&gt;symlink('/var/log/nginx/error.log', 'logs/error.log')
      -&gt;run();
 
-// optimize autoloader with custom path
-$this-&gt;taskComposerInstall('path/to/my/composer.phar')
-     -&gt;optimizeAutoloader()
-     -&gt;run();
+// one line
+$this-&gt;_touch('.gitignore');
+$this-&gt;_mkdir('logs');
+
 ?&gt;
 </code></pre>
 
 <ul>
-<li><code>preferDist()</code>  adds <code>prefer-dist</code> option to composer</li>
-<li><code>preferSource()</code>  adds <code>prefer-source</code> option to composer</li>
-<li><code>noDev()</code>  adds <code>no-dev</code> option to composer</li>
-<li><code>noAnsi()</code>  adds <code>no-ansi</code> option to composer</li>
-<li><code>ansi()</code>  adds <code>ansi</code> option to composer</li>
-<li><code>optimizeAutoloader()</code>  adds <code>optimize-autoloader</code> option to composer</li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
-<li><code>printed($arg)</code>  Should command output be printed</li>
-<li><code>arg($arg)</code>  Pass argument to executable</li>
-<li><code>args($args)</code>  Pass methods parameters as arguments to executable</li>
-<li><code>option($option, $value = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>optionList($option, $value = null)</code>  Pass multiple options to executable. Value can be a string or array.</li>
+<li><code>mkdir($dir)</code> </li>
+<li><code>touch($file)</code> </li>
+<li><code>copy($from, $to, $force = null)</code> </li>
+<li><code>chmod($file, $permissions, $umask = null, $recursive = null)</code> </li>
+<li><code>chgrp($file, $group, $recursive = null)</code> </li>
+<li><code>chown($file, $user, $recursive = null)</code> </li>
+<li><code>remove($file)</code> </li>
+<li><code>rename($from, $to)</code> </li>
+<li><code>symlink($from, $to)</code> </li>
+<li>
+<p><code>mirror($from, $to)</code> </p>
+</li>
+<li>
+<p><code>stopOnFail($stop = null)</code> </p>
+</li>
 </ul>
-<h2 id="update">Update</h2>
-<p>Composer Update</p>
+<h2 id="flattendir">FlattenDir</h2>
+<p>Searches for files in a nested directory structure and copies them to
+a target directory with or without the parent directories. The task was
+inspired by <a href="https://www.npmjs.com/package/gulp-flatten">gulp-flatten</a>.</p>
+<p>Example directory structure:</p>
+<pre><code>└── assets
+    ├── asset-library1
+    │   ├── README.md
+    │   └── asset-library1.min.js
+    └── asset-library2
+        ├── README.md
+        └── asset-library2.min.js
+</code></pre>
+
+<p>The following code will search the <code>*.min.js</code> files and copy them
+inside a new <code>dist</code> folder:</p>
 <pre><code class="php">&lt;?php
-// simple execution
-$this-&gt;taskComposerUpdate()-&gt;run();
+$this-&gt;taskFlattenDir(['assets/*.min.js' =&gt; 'dist'])-&gt;run();
+// or use shortcut
+$this-&gt;_flattenDir('assets/*.min.js', 'dist');
+?&gt;
+</code></pre>
 
-// prefer dist with custom path
-$this-&gt;taskComposerUpdate('path/to/my/composer.phar')
-     -&gt;preferDist()
-     -&gt;run();
+<p>You can also define the target directory with an additional method, instead of
+key/value pairs. More similar to the gulp-flatten syntax:</p>
+<pre><code class="php">&lt;?php
+$this-&gt;taskFlattenDir(['assets/*.min.js'])
+  -&gt;to('dist')
+  -&gt;run();
+?&gt;
+</code></pre>
 
-// optimize autoloader with custom path
-$this-&gt;taskComposerUpdate('path/to/my/composer.phar')
-     -&gt;optimizeAutoloader()
-     -&gt;run();
+<p>You can also append parts of the parent directories to the target path. If you give
+the value <code>1</code> to the <code>includeParents()</code> method, then the top parent will be appended
+to the target directory resulting in a path such as <code>dist/assets/asset-library1.min.js</code>.</p>
+<p>If you give a negative number, such as <code>-1</code> (the same as specifying <code>array(0, 1)</code> then
+the bottom parent will be appended, resulting in a path such as
+<code>dist/asset-library1/asset-library1.min.js</code>.</p>
+<p>The top parent directory will always be starting from the relative path to the current
+directory. You can override that with the <code>parentDir()</code> method. If in the above example
+you would specify <code>assets</code>, then the top parent directory would be <code>asset-library1</code>.</p>
+<pre><code class="php">&lt;?php
+$this-&gt;taskFlattenDir(['assets/*.min.js' =&gt; 'dist'])
+  -&gt;parentDir('assets')
+  -&gt;includeParents(1)
+  -&gt;run();
 ?&gt;
 </code></pre>
 
 <ul>
-<li><code>preferDist()</code>  adds <code>prefer-dist</code> option to composer</li>
-<li><code>preferSource()</code>  adds <code>prefer-source</code> option to composer</li>
-<li><code>noDev()</code>  adds <code>no-dev</code> option to composer</li>
-<li><code>noAnsi()</code>  adds <code>no-ansi</code> option to composer</li>
-<li><code>ansi()</code>  adds <code>ansi</code> option to composer</li>
-<li><code>optimizeAutoloader()</code>  adds <code>optimize-autoloader</code> option to composer</li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
-<li><code>printed($arg)</code>  Should command output be printed</li>
-<li><code>arg($arg)</code>  Pass argument to executable</li>
-<li><code>args($args)</code>  Pass methods parameters as arguments to executable</li>
-<li><code>option($option, $value = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>optionList($option, $value = null)</code>  Pass multiple options to executable. Value can be a string or array.</li>
+<li><code>dirPermissions($permission)</code>  Sets the default folder permissions for the destination if it does not exist.</li>
+<li><code>includeParents($parents)</code>  Sets the value from which direction and how much parent dirs should be included.</li>
+<li><code>parentDir($dir)</code>  Sets the parent directory from which the relative parent directories will be calculated.</li>
+<li><code>to($target)</code>  Sets the target directory where the files will be copied to.</li>
 </ul>
-<h2 id="validate">Validate</h2>
-<p>Composer Validate</p>
+<h2 id="mirrordir">MirrorDir</h2>
+<p>Mirrors a directory to another</p>
 <pre><code class="php">&lt;?php
-// simple execution
-$this-&gt;taskComposerValidate()-&gt;run();
+$this-&gt;taskMirrorDir(['dist/config/' =&gt; 'config/'])-&gt;run();
+// or use shortcut
+$this-&gt;_mirrorDir('dist/config/', 'config/');
+
+?&gt;
+</code></pre>
+
+<h2 id="tmpdir">TmpDir</h2>
+<p>Create a temporary directory that is automatically cleaned up
+once the task collection is is part of completes.</p>
+<p>Use WorkDir if you do not want the directory to be deleted.</p>
+<pre><code class="php">&lt;?php
+// Delete on rollback or on successful completion.
+// Note that in this example, everything is deleted at
+// the end of $collection-&gt;run().
+$collection = $this-&gt;collectionBuilder();
+$tmpPath = $collection-&gt;tmpDir()-&gt;getPath();
+$collection-&gt;taskFilesystemStack()
+          -&gt;mkdir(&quot;$tmpPath/log&quot;)
+          -&gt;touch(&quot;$tmpPath/log/error.txt&quot;);
+$collection-&gt;run();
+// as shortcut (deleted when program exits)
+$tmpPath = $this-&gt;_tmpDir();
 ?&gt;
 </code></pre>
 
 <ul>
-<li><code>noCheckAll()</code> </li>
-<li><code>noCheckLock()</code> </li>
-<li><code>noCheckPublish()</code> </li>
-<li><code>withDependencies()</code> </li>
-<li><code>strict()</code> </li>
-<li><code>preferDist()</code>  adds <code>prefer-dist</code> option to composer</li>
-<li><code>preferSource()</code>  adds <code>prefer-source</code> option to composer</li>
-<li><code>noDev()</code>  adds <code>no-dev</code> option to composer</li>
-<li><code>noAnsi()</code>  adds <code>no-ansi</code> option to composer</li>
-<li><code>ansi()</code>  adds <code>ansi</code> option to composer</li>
-<li><code>optimizeAutoloader()</code>  adds <code>optimize-autoloader</code> option to composer</li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
-<li><code>printed($arg)</code>  Should command output be printed</li>
-<li><code>arg($arg)</code>  Pass argument to executable</li>
-<li><code>args($args)</code>  Pass methods parameters as arguments to executable</li>
-<li><code>option($option, $value = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>optionList($option, $value = null)</code>  Pass multiple options to executable. Value can be a string or array.</li>
+<li><code>cwd($shouldChangeWorkingDirectory = null)</code>  Flag that we should cwd to the temporary directory when it is</li>
+<li><code>complete()</code>  Delete this directory when our collection completes.</li>
+<li><code>getPath()</code>  Get a reference to the path to the temporary directory, so that</li>
+</ul>
+<h2 id="workdir">WorkDir</h2>
+<p>Create a temporary working directory that is automatically renamed to its
+final desired location if all of the tasks in the collection succeed.  If
+there is a rollback, then the working directory is deleted.</p>
+<pre><code class="php">&lt;?php
+$collection = $this-&gt;collectionBuilder();
+$workingPath = $collection-&gt;workDir(&quot;build&quot;)-&gt;getPath();
+$collection-&gt;taskFilesystemStack()
+          -&gt;mkdir(&quot;$workingPath/log&quot;)
+          -&gt;touch(&quot;$workingPath/log/error.txt&quot;);
+$collection-&gt;run();
+?&gt;
+</code></pre>
+
+<ul>
+<li><code>complete()</code>  Move our working directory into its final destination once the</li>
+<li><code>rollback()</code>  Delete our working directory</li>
+<li><code>getPath()</code>  Get a reference to the path to the temporary directory, so that</li>
+<li><code>cwd($shouldChangeWorkingDirectory = null)</code>  Flag that we should cwd to the temporary directory when it is</li>
 </ul></div>
             
 

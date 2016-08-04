@@ -11,7 +11,7 @@ pages:
   - Collections: collections.md
 - Tasks:
   - "Base Tasks": tasks/Base.md
-  - "FileSystem Tasks": tasks/FileSystem.md
+  - "FileSystem Tasks": tasks/Filesystem.md
   - "File Tasks": tasks/File.md
   - "Composer Tasks": tasks/Composer.md
   - "VCS Tasks": tasks/Vcs.md

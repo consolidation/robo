@@ -180,7 +180,7 @@ class ImageMinify extends BaseTask
         $this->fs = new sfFilesystem();
 
         // guess the best path for the executables based on __DIR__
-        if (($pos = strpos(__DIR__, 'codegyre/robo')) !== false) {
+        if (($pos = strpos(__DIR__, 'consolidation/robo')) !== false) {
             // the executables should be stored in vendor/bin
             $this->executableTargetDir = substr(__DIR__, 0, $pos).'bin';
         }

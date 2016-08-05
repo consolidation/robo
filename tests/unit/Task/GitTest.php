@@ -38,7 +38,7 @@ class GitTest extends \Codeception\TestCase\Test
     {
         verify(
             $this->container->get('taskGitStack')
-                ->cloneRepo('http://github.com/Codegyre/Robo')
+                ->cloneRepo('http://github.com/consolidation-org/Robo')
                 ->pull()
                 ->add('-A')
                 ->commit('changed')
@@ -46,14 +46,14 @@ class GitTest extends \Codeception\TestCase\Test
                 ->tag('0.6.0')
                 ->push('origin', '0.6.0')
                 ->getCommand()
-        )->equals("git clone http://github.com/Codegyre/Robo && git pull && git add -A && git commit -m 'changed' && git push && git tag 0.6.0 && git push origin 0.6.0");
+        )->equals("git clone http://github.com/consolidation-org/Robo && git pull && git add -A && git commit -m 'changed' && git push && git tag 0.6.0 && git push origin 0.6.0");
     }
 
     public function testGitStackCommandsWithTagMessage()
     {
         verify(
             $this->container->get('taskGitStack')
-                ->cloneRepo('http://github.com/Codegyre/Robo')
+                ->cloneRepo('http://github.com/consolidation-org/Robo')
                 ->pull()
                 ->add('-A')
                 ->commit('changed')
@@ -61,7 +61,7 @@ class GitTest extends \Codeception\TestCase\Test
                 ->tag('0.6.0', 'message')
                 ->push('origin', '0.6.0')
                 ->getCommand()
-        )->equals("git clone http://github.com/Codegyre/Robo && git pull && git add -A && git commit -m 'changed' && git push && git tag -m 'message' 0.6.0 && git push origin 0.6.0");
+        )->equals("git clone http://github.com/consolidation-org/Robo && git pull && git add -A && git commit -m 'changed' && git push && git tag -m 'message' 0.6.0 && git push origin 0.6.0");
     }
 
 }

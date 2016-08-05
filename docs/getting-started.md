@@ -202,7 +202,7 @@ Help:
 
 Arguments and options are populated from annotations.
 
-Initially added with [PR by @jonsa](https://github.com/Codegyre/Robo/pull/71); now provided by the [consolidation/annotated-command](https://github.com/consolidation-org/annotated-command) project, which was factored out from Robo.
+Initially added with [PR by @jonsa](https://github.com/consolidation-org/Robo/pull/71); now provided by the [consolidation/annotated-command](https://github.com/consolidation-org/annotated-command) project, which was factored out from Robo.
 
 ### Ignored methods
 

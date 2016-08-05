@@ -108,7 +108,7 @@ Refactored core
 #### 0.4.7
 
 * [Minify] Task added by @Rarst. Requires additional dependencies installed *2014-12-26*
-* [Help command is populated from annotation](https://github.com/Codegyre/Robo/pull/71) by @jonsa *2014-12-26*
+* [Help command is populated from annotation](https://github.com/consolidation-org/Robo/pull/71) by @jonsa *2014-12-26*
 * Allow empty values as defaults to optional options by @jonsa *2014-12-26*
 * `PHP_WINDOWS_VERSION_BUILD` constant is used to check for Windows in tasks by @boedah *2014-12-26*
 * [Copy][EmptyDir] Fixed infinite loop by @boedah *2014-12-26*

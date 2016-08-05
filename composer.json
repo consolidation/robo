@@ -51,6 +51,6 @@
 
     },
     "replace": {
-        "codegyre/robo": "< 1.0"
+        "consolidation/robo": "< 1.0"
     }
 }

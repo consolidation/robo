@@ -10,7 +10,7 @@ use Robo\Result;
  * ``` php
  * <?php
  * $this->taskGitHubRelease('0.1.0')
- *   ->uri('Codegyre/Robo')
+ *   ->uri('consolidation-org/Robo')
  *   ->description('Add stuff people need.')
  *   ->change('Fix #123')
  *   ->change('Add frobulation method to all widgets')

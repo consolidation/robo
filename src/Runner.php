@@ -12,7 +12,6 @@ class Runner
 {
     use IO;
 
-    const VERSION = '1.0.0-RC1';
     const ROBOCLASS = 'RoboFile';
     const ROBOFILE = 'RoboFile.php';
 
@@ -87,15 +86,10 @@ class Runner
     {
         // If we were not provided a container, then create one
         if (!Robo::hasContainer()) {
-            // Set up our dependency injection container.
-            $container = new Container();
-            static::configureContainer($container, $input, $output);
-            Robo::setContainer($container);
-
-            // Only register a shutdown function when we
-            // provide the container.
-            register_shutdown_function(array($this, 'shutdown'));
-            set_error_handler(array($this, 'handleError'));
+            Robo::createDefaultContainer($input, $output);
+            // Automatically register a shutdown function and
+            // an error handler when we provide the container.
+            $this->installRoboHandlers();
         }
 
         $container = Robo::getContainer();
@@ -116,7 +110,7 @@ class Runner
         $roboCommandFileInstance = $container->get($commandFileName);
 
         // RoboFiles must always extend `Tasks`.
-        $this->addServiceProviders($container, $roboCommandFileInstance->getServiceProviders());
+        Robo::addServiceProviders($container, $roboCommandFileInstance->getServiceProviders());
 
         // Register commands for all of the public methods in the RoboFile.
         $commandFactory = $container->get('commandFactory');
@@ -128,82 +122,10 @@ class Runner
         return $statusCode;
     }
 
-    /**
-     * Create a container and initiailze it.
-     */
-    public static function configureContainer($container, $input = null, $output = null)
+    public function installRoboHandlers()
     {
-        // Self-referential container refernce for the inflector
-        $container->add('container', $container);
-
-        // Create default input and output objects if they were not provided
-        if (!$input) {
-            $input = new StringInput('');
-        }
-        if (!$output) {
-            $output = new \Symfony\Component\Console\Output\ConsoleOutput();
-        }
-        $container->add('input', $input);
-        $container->add('output', $output);
-
-        // Register logging and related services.
-        $container->share('config', \Robo\Config::class);
-        $container->share('logStyler', \Robo\Log\RoboLogStyle::class);
-        $container->share('logger', \Robo\Log\RoboLogger::class)
-            ->withArgument('output')
-            ->withMethodCall('setLogOutputStyler', ['logStyler']);
-        $container->add('progressBar', \Symfony\Component\Console\Helper\ProgressBar::class)
-            ->withArgument('output');
-        $container->share('progressIndicator', \Robo\Common\ProgressIndicator::class)
-            ->withArgument('progressBar')
-            ->withArgument('output');
-        $container->share('resultPrinter', \Robo\Log\ResultPrinter::class);
-        $container->add('simulator', \Robo\Task\Simulator::class);
-        $container->share('globalOptionsEventListener', \Robo\GlobalOptionsEventListener::class);
-        $container->share('eventDispatcher', \Symfony\Component\EventDispatcher\EventDispatcher::class)
-            ->withMethodCall('addSubscriber', ['globalOptionsEventListener']);
-        $container->share('collectionProcessHook', \Robo\Collection\CollectionProcessHook::class);
-        $container->share('hookManager', \Consolidation\AnnotatedCommand\Hooks\HookManager::class)
-            ->withMethodCall('addResultProcessor', ['collectionProcessHook', '*']);
-        $container->share('formatterManager', \Consolidation\OutputFormatters\FormatterManager::class);
-        $container->share('commandProcessor', \Consolidation\AnnotatedCommand\CommandProcessor::class)
-            ->withArgument('hookManager')
-            ->withMethodCall('setFormatterManager', ['formatterManager']);
-        $container->share('commandFactory', \Consolidation\AnnotatedCommand\AnnotatedCommandFactory::class)
-            ->withMethodCall('setCommandProcessor', ['commandProcessor']);
-        $container->add('collectionBuilder', \Robo\Collection\CollectionBuilder::class);
-        $container->share('application', \Robo\Application::class)
-            ->withArgument('Robo')
-            ->withArgument(self::VERSION)
-            ->withMethodCall('setAutoExit', [false])
-            ->withMethodCall('setDispatcher', ['eventDispatcher']);
-
-        static::addInflectors($container);
-    }
-
-    public static function addInflectors($container)
-    {
-        // Register our various inflectors.
-        $container->inflector(\Robo\Contract\ConfigAwareInterface::class)
-            ->invokeMethod('setConfig', ['config']);
-        $container->inflector(\Psr\Log\LoggerAwareInterface::class)
-            ->invokeMethod('setLogger', ['logger']);
-        $container->inflector(\League\Container\ContainerAwareInterface::class)
-            ->invokeMethod('setContainer', ['container']);
-        $container->inflector(\Symfony\Component\Console\Input\InputAwareInterface::class)
-            ->invokeMethod('setInput', ['input']);
-        $container->inflector(\Robo\Contract\ProgressIndicatorAwareInterface::class)
-            ->invokeMethod('setProgressIndicator', ['progressIndicator']);
-    }
-
-    /**
-     * Register our service providers
-     */
-    public static function addServiceProviders($container, $providerList)
-    {
-        foreach ($providerList as $provider) {
-            $container->addServiceProvider($provider);
-        }
+        register_shutdown_function(array($this, 'shutdown'));
+        set_error_handler(array($this, 'handleError'));
     }
 
     /**

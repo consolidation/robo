@@ -98,7 +98,7 @@ class RoboFile extends \Robo\Tasks
         if ($stable) $this->pharPublish();
         $this->publish();
 
-        $this->taskGitHubRelease(\Robo\Runner::VERSION)
+        $this->taskGitHubRelease(\Robo\Robo::VERSION)
             ->user($this->ask('User releasing'))
             ->password($this->askHidden('Password'))
             ->uri('consolidation-org/Robo')
@@ -118,7 +118,7 @@ class RoboFile extends \Robo\Tasks
     public function changed($addition)
     {
         return $this->taskChangelog()
-            ->version(\Robo\Runner::VERSION)
+            ->version(\Robo\Robo::VERSION)
             ->change($addition)
             ->run();
     }
@@ -132,12 +132,12 @@ class RoboFile extends \Robo\Tasks
     public function versionBump($version = '')
     {
         if (empty($version)) {
-            $versionParts = explode('.', \Robo\Runner::VERSION);
+            $versionParts = explode('.', \Robo\Robo::VERSION);
             $versionParts[count($versionParts)-1]++;
             $version = implode('.', $versionParts);
         }
-        return $this->taskReplaceInFile(__DIR__.'/src/Runner.php')
-            ->from("VERSION = '".\Robo\Runner::VERSION."'")
+        return $this->taskReplaceInFile(__DIR__.'/src/Robo.php')
+            ->from("VERSION = '".\Robo\Robo::VERSION."'")
             ->to("VERSION = '".$version."'")
             ->run();
     }

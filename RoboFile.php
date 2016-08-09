@@ -639,25 +639,6 @@ class RoboFile extends \Robo\Tasks
         $result = $collection
             ->taskWriteToFile("$tmpPath/file.txt")
                 ->line('Example file')
-
-            // Print a progress message. The callback function is called immediately
-            // before the message is printed.
-            ->progressMessage(
-                'The directory at {path} {verb}.',
-                ['path' => $tmpPath, 'verb' => 'might have been created'],
-                function ($context) {
-                    // It would also be legitimate to `use ($tmpDir)` and reference that.
-                    if (is_dir($context['path'])) {
-                        $context['verb'] = 'was created';
-                    } else {
-                        // Should never get here: will roll back if creation fails.
-                        $context['verb'] = 'was NOT created';
-                    }
-                    return $context;
-                }
-            )
-
-            // Run the tasks that we build
             ->run();
 
         if (is_dir($tmpPath)) {

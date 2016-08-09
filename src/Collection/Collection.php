@@ -166,14 +166,13 @@ class Collection extends BaseTask implements CollectionInterface, ContainerAware
     /**
      * @inheritdoc
      */
-    public function progressMessage($text, $context = [], $filter = false, $level = LogLevel::NOTICE)
+    public function progressMessage($text, $context = [], $level = LogLevel::NOTICE)
     {
         $context += ['name' => 'Progress'];
         $context += TaskInfo::getTaskContext($this);
         return $this->addCode(
-            function () use ($level, $text, $context, $filter) {
-                $filteredContext = $filter ? $filter($context, $this) : $context;
-                $this->printTaskOutput($level, $text, $filteredContext);
+            function () use ($level, $text, $context) {
+                $this->printTaskOutput($level, $text, $context);
             }
         );
     }

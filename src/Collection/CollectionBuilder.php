@@ -158,9 +158,9 @@ class CollectionBuilder implements NestedCollectionInterface, ConfigAwareInterfa
         return $this;
     }
 
-    public function progressMessage($text, $context = [], $filter = false, $level = LogLevel::NOTICE)
+    public function progressMessage($text, $context = [], $level = LogLevel::NOTICE)
     {
-        $this->getCollection()->progressMessage($text, $context, $filter, $level);
+        $this->getCollection()->progressMessage($text, $context, $level);
         return $this;
     }
 

@@ -129,11 +129,8 @@ interface CollectionInterface extends NestedCollectionInterface
      *
      * @param string $text Message to print.
      * @param array $context Extra context data for use by the logger.
-     * @param callable $filter A callable function used to filter $context.
-     *   Called just before message is printed. Is passed $context and $this;
-     *   should return the new $context.
      * @param LogLevel $level The log level to print the information at. Default is NOTICE.
      * @return CollectionInterface
      */
-    public function progressMessage($text, $context = [], $filter = false, $level = LogLevel::NOTICE);
+    public function progressMessage($text, $context = [], $level = LogLevel::NOTICE);
 }

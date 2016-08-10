@@ -650,8 +650,15 @@ class RoboFile extends \Robo\Tasks
         return $result;
     }
 
-    public function tryProgress()
+    /**
+     * Description
+     * @param $options
+     * @option delay Miliseconds delay
+     * @return type
+     */
+    public function tryProgress($options = ['delay' => 500])
     {
+        $delay = $options['delay'];
         $delayUntilProgressStart = \Robo\Robo::config()->get(\Robo\Config::PROGRESS_BAR_AUTO_DISPLAY_INTERVAL);
         $this->say("Progress bar will display after $delayUntilProgressStart seconds of activity.");
 
@@ -660,11 +667,11 @@ class RoboFile extends \Robo\Tasks
             ->taskForEach($processList)
                 ->iterationMessage('Processing {value}')
                 ->call(
-                    function ($value) {
+                    function ($value) use($delay) {
                         // TaskForEach::call should only be used to do
                         // non-Robo operations. To use Robo tasks in an
                         // iterator, @see TaskForEach::withBuilder.
-                        usleep(500000); // sleep for half a second
+                        usleep($delay * 1000); // delay units: msec, usleep units: usec
                     }
                 )
             ->run();

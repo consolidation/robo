@@ -27,16 +27,16 @@ use Symfony\Component\Filesystem\Exception\IOException;
  * ?>
  * ```
  *
- * @method mkdir($dir)
- * @method touch($file)
- * @method copy($from, $to, $force = null)
- * @method chmod($file, $permissions, $umask = null, $recursive = null)
- * @method chgrp($file, $group, $recursive = null)
- * @method chown($file, $user, $recursive = null)
- * @method remove($file)
- * @method rename($from, $to)
- * @method symlink($from, $to)
- * @method mirror($from, $to)
+ * @method $this mkdir($dir)
+ * @method $this touch($file)
+ * @method $this copy($from, $to, $force = null)
+ * @method $this chmod($file, $permissions, $umask = null, $recursive = null)
+ * @method $this chgrp($file, $group, $recursive = null)
+ * @method $this chown($file, $user, $recursive = null)
+ * @method $this remove($file)
+ * @method $this rename($from, $to)
+ * @method $this symlink($from, $to)
+ * @method $this mirror($from, $to)
  */
 class FilesystemStack extends StackBasedTask
 {

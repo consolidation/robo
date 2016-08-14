@@ -9,6 +9,7 @@ use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Robo\Contract\ProgressIndicatorAwareInterface;
+use Symfony\Component\Process\Process;
 
 /**
  * Task input/output methods.  TaskIO is 'used' in BaseTask, so any
@@ -182,6 +183,9 @@ trait TaskIO
         }
         if (!array_key_exists('task', $context)) {
             $context['task'] = $this;
+        }
+        if (array_key_exists('command', $context) && ($context['command'] instanceof Process)) {
+            $context['command'] = $context['command']->getCommandLine();
         }
 
         return $context + TaskInfo::getTaskContext($context['task']);

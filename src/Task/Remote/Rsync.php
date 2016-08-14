@@ -54,7 +54,7 @@ class Rsync extends BaseTask implements CommandInterface
 {
     use \Robo\Common\ExecOneCommand;
 
-    protected $command;
+    protected $pathspecsAdded;
 
     protected $fromUser;
 
@@ -75,7 +75,7 @@ class Rsync extends BaseTask implements CommandInterface
 
     public function __construct()
     {
-        $this->command = 'rsync';
+        $this->setExecutableCommand('rsync');
     }
 
     /**
@@ -291,7 +291,7 @@ class Rsync extends BaseTask implements CommandInterface
 
     public function remoteShell($command)
     {
-        $this->option('rsh', "'$command'");
+        $this->option('rsh', $command);
 
         return $this;
     }
@@ -303,7 +303,6 @@ class Rsync extends BaseTask implements CommandInterface
     {
         $command = $this->getCommand();
         $this->printTaskInfo("Running {command}", ['command' => $command]);
-
         return $this->executeCommand($command);
     }
 
@@ -315,10 +314,16 @@ class Rsync extends BaseTask implements CommandInterface
      */
     public function getCommand()
     {
-        $this->option(null, escapeshellarg($this->getFromPathSpec()))
-            ->option(null, escapeshellarg($this->getToPathSpec()));
+        $this->addPathSpecs();
+        return parent::getCommand();
+    }
 
-        return $this->command . $this->arguments;
+    protected function addPathSpecs()
+    {
+        if (!$this->pathspecsAdded) {
+            $this->args($this->getFromPathSpec(), $this->getToPathSpec());
+            $this->pathspecsAdded = true;
+        }
     }
 
     protected function getFromPathSpec()

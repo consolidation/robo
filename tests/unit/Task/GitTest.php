@@ -2,6 +2,7 @@
 
 use AspectMock\Test as test;
 use Robo\Robo;
+use Robo\Result;
 
 class GitTest extends \Codeception\TestCase\Test
 {
@@ -12,11 +13,23 @@ class GitTest extends \Codeception\TestCase\Test
      * @var \AspectMock\Proxy\ClassProxy
      */
     protected $git;
+    /**
+     * @var array
+     */
+    protected $commands = [];
+
+    public function recordExecuteCommand($cmd)
+    {
+        $this->commands[] = $cmd;
+        return Result::success($this->container->get('taskGitStack'));
+    }
 
     protected function _before()
     {
+        $me = $this;
+        // $user = test::double(new User, ['getName' => function() { return $this->login; }]);
         $this->git = test::double('Robo\Task\Vcs\GitStack', [
-            'executeCommand' => new \AspectMock\Proxy\Anything(),
+            'executeCommand' => function($process) use($me) { return $me->recordExecuteCommand($process->getCommandLine()); },
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
         $this->container = Robo::getContainer();
@@ -27,11 +40,11 @@ class GitTest extends \Codeception\TestCase\Test
     public function testGitStackRun()
     {
         $this->container->get('taskGitStack', ['git'])->stopOnFail()->add('-A')->pull()->run();
-        $this->git->verifyInvoked('executeCommand', ['git add -A']);
-        $this->git->verifyInvoked('executeCommand', ['git pull']);
+        $this->assertContains('git add -A', $this->commands);
+        $this->assertContains('git pull', $this->commands);
 
         $this->container->get('taskGitStack', ['git'])->add('-A')->pull()->run();
-        $this->git->verifyInvoked('executeCommand', ['git add -A && git pull']);
+        $this->assertContains('git add -A && git pull', $this->commands);
     }
 
     public function testGitStackCommands()

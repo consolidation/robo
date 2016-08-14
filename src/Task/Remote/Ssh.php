@@ -50,6 +50,8 @@ class Ssh extends BaseTask implements CommandInterface
     use \Robo\Common\CommandReceiver;
     use \Robo\Common\ExecOneCommand;
 
+    protected $builtCommand;
+
     protected $hostname;
 
     protected $user;
@@ -69,6 +71,7 @@ class Ssh extends BaseTask implements CommandInterface
     {
         $this->hostname = $hostname;
         $this->user = $user;
+        $this->setExecutableCommand('ssh');
     }
 
     public function hostname($hostname)
@@ -153,9 +156,26 @@ class Ssh extends BaseTask implements CommandInterface
      */
     public function getCommand()
     {
+        $this->buildSshCommand();
+        return parent::getCommand();
+    }
+
+    protected function buildSshCommand()
+    {
+        if ($this->builtCommand) {
+            return;
+        }
+        $this->buildHouseSpecs();
+        $this->buildRemoteCommand();
+        $this->builtCommand = true;
+    }
+
+    protected function buildRemoteCommand()
+    {
         $commands = [];
         foreach ($this->exec as $command) {
-            $commands[] = $this->receiveCommand($command);
+            $process = $this->receiveCommand($command);
+            $commands[] = $process->getCommandLine();
         }
 
         $remoteDir = $this->remoteDir ? $this->remoteDir : $this->getConfigValue('remoteDir');
@@ -164,7 +184,7 @@ class Ssh extends BaseTask implements CommandInterface
         }
         $command = implode($this->stopOnFail ? ' && ' : ' ; ', $commands);
 
-        return $this->sshCommand($command);
+        $this->arg($command);
     }
 
     /**
@@ -190,18 +210,16 @@ class Ssh extends BaseTask implements CommandInterface
     /**
      * Returns an ssh command string running $command on the remote.
      *
-     * @param string|CommandInterface $command
+     * @param string $command
      * @return string
      */
-    protected function sshCommand($command)
+    protected function buildHouseSpecs()
     {
-        $command = $this->receiveCommand($command);
-        $sshOptions = $this->arguments;
         $hostSpec = $this->hostname;
         if ($this->user) {
             $hostSpec = $this->user . '@' . $hostSpec;
         }
 
-        return sprintf("ssh{$sshOptions} {$hostSpec} '{$command}'");
+        $this->arg($hostSpec);
     }
 }

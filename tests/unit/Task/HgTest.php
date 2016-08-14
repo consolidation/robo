@@ -2,6 +2,7 @@
 
 use AspectMock\Test as test;
 use Robo\Robo;
+use Robo\Result;
 
 class HgTest extends \Codeception\TestCase\Test
 {
@@ -21,10 +22,22 @@ class HgTest extends \Codeception\TestCase\Test
      */
     protected $hgStack;
 
+    /**
+     * @var array
+     */
+    protected $commands = [];
+
+    public function recordExecuteCommand($cmd)
+    {
+        $this->commands[] = $cmd;
+        return Result::success($this->container->get('taskGitStack'));
+    }
+
     protected function _before()
     {
+        $me = $this;
         $this->hg = Test::double('Robo\Task\Vcs\HgStack', [
-            'executeCommand' => new \AspectMock\Proxy\Anything(),
+            'executeCommand' => function($process) use($me) { return $me->recordExecuteCommand($process->getCommandLine()); },
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
         $this->container = Robo::getContainer();
@@ -36,11 +49,11 @@ class HgTest extends \Codeception\TestCase\Test
     public function testHgStackRun()
     {
         $this->hgStack->stopOnFail()->add()->pull()->run();
-        $this->hg->verifyInvoked('executeCommand', ['hg add']);
-        $this->hg->verifyInvoked('executeCommand', ['hg pull']);
+        $this->assertContains('hg add', $this->commands);
+        $this->assertContains('hg pull', $this->commands);
 
         $this->container->get('taskHgStack', ['hg'])->add()->pull()->run();
-        $this->hg->verifyInvoked('executeCommand', ['hg add && hg pull']);
+        $this->assertContains('hg add && hg pull', $this->commands);
     }
 
     public function testHgStackPull()

@@ -42,7 +42,7 @@ class ExecTaskTest extends \Codeception\TestCase\Test
 
     public function testGetCommand()
     {
-        verify($this->container->get('taskExec', ['ls'])->getCommand())->equals('ls');
+        verify($this->container->get('taskExec', ['ls'])->getCommand()->getCommandLine())->equals('ls');
     }
 
     public function testExecStack()

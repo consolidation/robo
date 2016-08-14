@@ -12,7 +12,6 @@ use Symfony\Component\Process\Process;
 trait ExecCommand
 {
     protected $isPrinted = true;
-    protected $workingDirectory;
     protected $execTimer;
 
     protected function getExecTimer()
@@ -31,18 +30,6 @@ trait ExecCommand
     {
         return $this->isPrinted;
     }
-
-    /**
-     * changes working directory of command
-     * @param $dir
-     * @return $this
-     */
-    public function dir($dir)
-    {
-        $this->workingDirectory = $dir;
-        return $this;
-    }
-
 
     /**
      * Should command output be printed
@@ -110,10 +97,10 @@ trait ExecCommand
      */
     protected function executeCommand($command)
     {
-        $process = new Process($command);
-        $process->setTimeout(null);
-        if ($this->workingDirectory) {
-            $process->setWorkingDirectory($this->workingDirectory);
+        $process = $command;
+        if (!$command instanceof Process) {
+            $process = new Process($command);
+            $process->setTimeout(null);
         }
         $this->getExecTimer()->start();
         if ($this->isPrinted) {

@@ -60,8 +60,6 @@ class Runner
         }
 
         $this->dir = realpath($this->dir);
-        chdir($this->dir);
-
         if (!file_exists($this->dir . DIRECTORY_SEPARATOR . $this->roboFile)) {
             return false;
         }

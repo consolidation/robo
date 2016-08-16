@@ -217,6 +217,7 @@ $pharTask = $this->taskPackPhar('package/codecept.phar')
 * `stub($stub)`   * `param` $stub
 * `addStripped($path, $file)` 
 * `addFile($path, $file)` 
+* `addFiles($files)` 
 * `executable($file)` 
 
 ## PhpServer

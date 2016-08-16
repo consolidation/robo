@@ -6,6 +6,7 @@
 ## Tasks
 
 * [ApiGen](tasks/ApiGen.md)
+* [Archive] (tasks/Archive.md)
 * [Assets](tasks/Assets.md)
 * [Base](tasks/Base.md)
 * [Bower](tasks/Bower.md)

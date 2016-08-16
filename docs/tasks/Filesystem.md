@@ -68,16 +68,16 @@ $this->_mkdir('logs');
 ?>
 ```
 
-* `mkdir($dir)` 
-* `touch($file)` 
-* `copy($from, $to, $force = null)` 
-* `chmod($file, $permissions, $umask = null, $recursive = null)` 
-* `chgrp($file, $group, $recursive = null)` 
-* `chown($file, $user, $recursive = null)` 
-* `remove($file)` 
-* `rename($from, $to)` 
-* `symlink($from, $to)` 
-* `mirror($from, $to)` 
+* `$this mkdir($dir)` 
+* `$this touch($file)` 
+* `$this copy($from, $to, $force = null)` 
+* `$this chmod($file, $permissions, $umask = null, $recursive = null)` 
+* `$this chgrp($file, $group, $recursive = null)` 
+* `$this chown($file, $user, $recursive = null)` 
+* `$this remove($file)` 
+* `$this rename($from, $to)` 
+* `$this symlink($from, $to)` 
+* `$this mirror($from, $to)` 
 
 * `stopOnFail($stop = null)` 
 

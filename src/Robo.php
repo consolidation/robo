@@ -71,12 +71,13 @@ class Robo
     /**
      * Create a container and initiailze it.
      */
-    public static function createDefaultContainer($input = null, $output = null)
+    public static function createDefaultContainer($input = null, $output = null, $providerList = [])
     {
         // Set up our dependency injection container.
         $container = new Container();
         static::configureContainer($container, $input, $output);
         static::setContainer($container);
+        static::addServiceProviders($container, $providerList);
 
         return $container;
     }

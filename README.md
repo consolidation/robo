@@ -136,24 +136,6 @@ robo clean
 
 ----
 
-Creating Phar archive
-
-``` php
-function buildPhar()
-{
-    $files = Finder::create()->ignoreVCS(true)->files()->name('*.php')->in(__DIR__);
-    $packer = $this->taskPackPhar('robo.phar');
-    foreach ($files as $file) {
-        $packer->addFile($file->getRelativePathname(), $file->getRealPath());
-    }
-    $packer->addFile('robo','robo')
-        ->executable('robo')
-        ->run();
-}
-```
-
----
-
 ## We need more tasks!
 
 Create your own tasks and send them as Pull Requests or create packages prefixed with `robo-` on Packagist.

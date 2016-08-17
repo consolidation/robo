@@ -31,6 +31,7 @@
         "henrikbjorn/lurker": "~1",
         "natxet/CssMin": "~3",
         "pear/archive_tar": "~1",
+        "kherge/box": "~2.5",
         "codeception/base": "^2.1.5",
         "codeception/verify": "0.2.*",
         "codeception/aspect-mock": "0.5.4",
@@ -48,7 +49,6 @@
         "henrikbjorn/lurker": "For monitoring filesystem changes in taskWatch",
         "patchwork/jsqueeze": "For minifying JS files in taskMinify",
         "natxet/CssMin": "For minifying JS files in taskMinify"
-
     },
     "replace": {
         "codegyre/robo": "< 1.0"

@@ -278,7 +278,7 @@ class RoboFile extends \Robo\Tasks
             ->taskGitStack()
                 ->cloneRepo($sourceRepo, $roboBuildDir)
             ->taskFilesystemStack()
-                ->remove("$workDir/robo/composer.lock")
+                ->remove("$roboBuildDir/composer.lock")
             ->taskComposerRemove()
                 ->dir($roboBuildDir)
                 ->dev()
@@ -308,12 +308,12 @@ class RoboFile extends \Robo\Tasks
 
         // Build the phar
         return $collection
-            ->taskPackPhar('robo.phar')
-                ->addFiles($files)
-                ->addFile('robo', 'robo')
-                ->executable('robo')
+            ->taskExec('php')
+                ->arg(getcwd() . '/vendor/bin/box')
+                ->arg('build')
+                ->dir($roboBuildDir)
             ->taskFilesystemStack()
-                ->chmod('robo.phar', 0777)
+                ->copy("$roboBuildDir/robo.phar", getcwd() . '/robo.phar')
             ->run();
     }
 

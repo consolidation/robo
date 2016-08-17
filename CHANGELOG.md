@@ -31,6 +31,7 @@
 * Add `robo sniff` by @dustinleblanc. Runs the PHP code sniffer followed by the code beautifier, if needed.
 * Implement ArrayInterface for Result class, so result data may be accessed like an array 
 * Defer execution of operations in taskWriteToFile until the run() method
+* Remove taskPackPhar in favor of box.phar application
 * Add Write::textIfMatch() for taskWriteToFile
 * ResourceExistenceChecker used for error checking in DeleteDir, CopyDir, CleanDir and Concat tasks by @burzum
 * Provide ResultData base class for Result; ResultData may be used in instances where a specific `$task` instance is not available (e.g. in a Robo command)

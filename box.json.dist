@@ -1,0 +1,25 @@
+{
+  "alias": "robo.phar",
+  "chmod": "0755",
+  "compactors": ["Herrera\\Box\\Compactor\\Php"],
+  "directories": ["src"],
+  "files": ["RoboFile.php"],
+  "finder": [
+    {
+      "name": [ "*.php", "*.exe", "GeneratedWrapper.tmpl" ],
+      "exclude": [
+        "test",
+        "tests",
+        "Test",
+        "Tests",
+        "Tester"
+      ],
+      "in": "vendor"
+    }
+  ],
+  "git-commit": "git-commit",
+  "git-version": "git-version",
+  "output": "robo.phar",
+  "main": "robo",
+  "stub": true
+}

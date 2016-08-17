@@ -17,7 +17,6 @@ trait loadTasks
                 'taskGenTask' => GenerateTask::class,
                 'taskSemVer' => SemVer::class,
                 'taskServer' => PhpServer::class,
-                'taskPackPhar' => PackPhar::class,
                 'taskGitHubRelease' => GitHubRelease::class,
                 'taskOpenBrowser' => OpenBrowser::class,
             ]
@@ -67,15 +66,6 @@ trait loadTasks
     protected function taskServer($port = 8000)
     {
         return $this->task(__FUNCTION__, $port);
-    }
-
-    /**
-     * @param $filename
-     * @return PackPhar
-     */
-    protected function taskPackPhar($filename)
-    {
-        return $this->task(__FUNCTION__, $filename);
     }
 
     /**

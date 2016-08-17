@@ -49,7 +49,7 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
 
     public function process($command)
     {
-        $this->processes[] = new Process($this->receiveCommand($command));
+        $this->processes[] = $this->receiveCommand($command);
         return $this;
     }
 

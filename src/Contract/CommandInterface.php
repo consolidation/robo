@@ -14,7 +14,7 @@ interface CommandInterface
      * Returns command that can be executed.
      * This method is used to pass generated command from one task to another.
      *
-     * @return string
+     * @return string|Symfony\Component\Process\ProcessBuilder|Symfony\Component\Process\Process
      */
     public function getCommand();
 }

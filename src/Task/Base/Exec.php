@@ -33,10 +33,7 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
 
     protected static $instances = [];
 
-    protected $command;
     protected $background = false;
-    protected $timeout = null;
-    protected $idleTimeout = null;
     protected $env = null;
 
     /**
@@ -46,12 +43,9 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
 
     public function __construct($command)
     {
-        $this->command = $this->receiveCommand($command);
-    }
-
-    public function getCommand()
-    {
-        return trim($this->command . $this->arguments);
+        if ($command) {
+            $this->setPreEscapedCommand($this->receiveCommand($command)->getCommandLine());
+        }
     }
 
     /**
@@ -63,42 +57,6 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
     {
         self::$instances[] = $this;
         $this->background = true;
-        return $this;
-    }
-
-    /**
-     * Stop command if it runs longer then $timeout in seconds
-     *
-     * @param $timeout
-     * @return $this
-     */
-    public function timeout($timeout)
-    {
-        $this->timeout = $timeout;
-        return $this;
-    }
-
-    /**
-     * Stops command if it does not output something for a while
-     *
-     * @param $timeout
-     * @return $this
-     */
-    public function idleTimeout($timeout)
-    {
-        $this->idleTimeout = $timeout;
-        return $this;
-    }
-
-    /**
-     * Sets the environment variables for the command
-     *
-     * @param $env
-     * @return $this
-     */
-    public function env(array $env)
-    {
-        $this->env = $env;
         return $this;
     }
 
@@ -118,21 +76,14 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
     protected function printAction($context = [])
     {
         $command = $this->getCommand();
-        $dir = $this->workingDirectory ? " in {dir}" : "";
-        $this->printTaskInfo("Running {command}$dir", ['command' => $command, 'dir' => $this->workingDirectory] + $context);
+        $dir = $this->hasWorkingDirectory() ? " in {dir}" : "";
+        $this->printTaskInfo("Running {command}$dir", ['command' => $command, 'dir' => $this->getWorkingDirectory()] + $context);
     }
 
     public function run()
     {
         $this->printAction();
-        $this->process = new Process($this->getCommand());
-        $this->process->setTimeout($this->timeout);
-        $this->process->setIdleTimeout($this->idleTimeout);
-        $this->process->setWorkingDirectory($this->workingDirectory);
-
-        if (isset($this->env)) {
-            $this->process->setEnv($this->env);
-        }
+        $this->process = $this->receiveCommand($this->getCommand());
 
         if (!$this->background and !$this->isPrinted) {
             $this->startTimer();

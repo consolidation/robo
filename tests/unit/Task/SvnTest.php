@@ -2,6 +2,7 @@
 
 use AspectMock\Test as test;
 use Robo\Robo;
+use Robo\Result;
 
 class SvnTest extends \Codeception\TestCase\Test
 {
@@ -12,8 +13,20 @@ class SvnTest extends \Codeception\TestCase\Test
      */
     protected $svn;
 
+    /**
+     * @var array
+     */
+    protected $commands = [];
+
+    public function recordExecuteCommand($cmd)
+    {
+        $this->commands[] = $cmd;
+        return Result::success($this->container->get('taskGitStack'));
+    }
+
     protected function _before()
     {
+        $me = $this;
         $this->container = Robo::getContainer();
         $this->container->addServiceProvider(\Robo\Task\Vcs\loadTasks::getVcsServices());
 
@@ -23,7 +36,7 @@ class SvnTest extends \Codeception\TestCase\Test
         $progressIndicator = new \Robo\Common\ProgressIndicator($progressBar, $nullOutput);
 
         $this->svn = test::double('Robo\Task\Vcs\SvnStack', [
-            'executeCommand' => new \AspectMock\Proxy\Anything(),
+            'executeCommand' => function($process) use($me) { return $me->recordExecuteCommand($process->getCommandLine()); },
             'getOutput' => $nullOutput,
             'logger' => $this->container->get('logger'),
             'getConfig' => $this->container->get('config'),
@@ -35,7 +48,7 @@ class SvnTest extends \Codeception\TestCase\Test
     public function testSvnStackRun()
     {
         $this->svn->construct()->update()->add()->run();
-        $this->svn->verifyInvoked('executeCommand', ['svn update && svn add']);
+        $this->assertContains('svn update && svn add', $this->commands);
     }
 
     public function testSvnStackCommands()

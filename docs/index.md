@@ -2,11 +2,13 @@
 
 * [Getting Started](getting-started.md)
 * [Collections](collections.md)
+* [Extending](extending.md)
+* [Packaging](packaging.md)
 
 ## Tasks
 
 * [ApiGen](tasks/ApiGen.md)
-* [Archive] (tasks/Archive.md)
+* [Archive](tasks/Archive.md)
 * [Assets](tasks/Assets.md)
 * [Base](tasks/Base.md)
 * [Bower](tasks/Bower.md)

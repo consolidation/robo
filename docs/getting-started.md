@@ -224,75 +224,7 @@ Robo ignores any method of your RoboFile that begins with `get` or `set`. These 
 
 Robo commands typically divide the work they need to accomplish into **tasks**. The command first determines what needs to be done, inspecting current state if necessary, and then sets up and executes one or more tasks that make the actual changes needed by the command.  (See also the documentation on [Collections](collections.md), which allow you to combine groups of tasks which can provide rollback functions to recover from failure situations.)
 
-The convention used to add new tasks for use in your RoboFiles is to create a wrapper trait that instantiates the implementation class for each task. Each task method in the trait should start with the prefix `task`, and should use **chained method calls** for configuration. Task execution should be triggered by the method `run`. 
-
-*It is recommended to have store your trait loading task in a `loadTasks` file in the same namespace as the task implementation.*
-
-A very basic task is shown below.  The namespace is `MyAssetTasks`, and the example task is `CompileAssets`. To customize to your purposes, choose an appropriate namespace, and then define as many tasks as you need.
-
-``` php
-<?php
-namespace MyAssetTasks;
-
-trait loadTasks
-{
-    /**
-     * Example task to compile assets
-     *
-     * @param string $pathToCompileAssets
-     * @return \MyAssetTasks\CompileAssets
-     */
-    protected function taskCompileAssets($path = null)
-    {
-        // Always construct your tasks with the `task()` task builder.
-        return $this->task(CompileAssets::class, $path);
-    }
-}
-
-class CompileAssets implements \Robo\Contract\TaskInterface
-{
-    // configuration params
-    protected $path;
-    protected $to;
-    function __construct($path)
-    {
-        $this->path = $path;
-    }
-
-    function to($filename)
-    {
-        $this->to = $filename;
-        // must return $this
-        return $this;
-    }
-
-    // must implement Run
-    function run()
-    {
-        //....
-    }
-}
-?>
-```
-To use it in a RoboFile, include the task via its trait:
-
-``` php
-<?php
-class RoboFile extends \Robo\Tasks
-{
-    use \MyAssetTasks\loadTasks;
-
-    public function build()
-    {
-        $this->taskCompileAssets('web/css-src')
-            ->to('web/assets.min.css')
-            ->run();
-    }
-}
-?>
-```
-
-Robo\Tasks includes all of the standard task traits by default, so a RoboFile may call the `$this->taskXXX` method for any of these tasks. To use an external task, ensure that its class files are available (e.g. `require` its project in your composer.json file), and include corresponding trait or traits in your Robofile.
+For details on how to add custom tasks to Robo, see the [extending](extending.md) document.
 
 ### Shortcuts
 
@@ -341,6 +273,7 @@ class RoboFile
 }
 ?>
 ```
+When making multi-step commands that call one task after another, it is best to use a collection to group the tasks together. The collection will handle error detection and rollback, and will return a single Result object when done. For more information, see the [Collections](collections.md) documentation.
 
 Some tasks may also attach data to the Result object.  If this is done, the data may be accessed as an array; for example, `$result['path'];`. This is not common.
 
@@ -433,3 +366,7 @@ class MyTask extends BaseTask
 Tasks should not attempt to use a specific progress indicator (e.g. the Symfony ProgressBar class) directly, as the ProgressIndicatorAwareTrait allows for an appropriate progress indicator to be used (or omitted) as best suits the application.
 
 Note that when using [Collections](collections.md), the progress bar will automatically be shown if the collection takes longer than two seconds to run.  Each task in the collection will count for one "step"; if the task supports progress indicators as shown above, then it will add an additional number of steps as indicated by its `progressIndicatorSteps()` method.
+
+## Distributing Robo Scripts
+
+For additional options available for packaging and distributing Robo scripts, see the section [Packaging](packaging.md).

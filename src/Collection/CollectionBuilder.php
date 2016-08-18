@@ -51,7 +51,6 @@ use Robo\Contract\BuilderAwareInterface;
 class CollectionBuilder extends BaseTask implements NestedCollectionInterface, ContainerAwareInterface, WrappedTaskInterface
 {
     use ContainerAwareTrait;
-    use LoadAllTasks;
     use Timer;
 
     protected $commandFile;

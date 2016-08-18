@@ -27,7 +27,7 @@ trait loadTasks
      */
     protected function taskSvnStack($username = '', $password = '', $pathToSvn = 'svn')
     {
-        return $this->task(__FUNCTION__, $username, $password, $pathToSvn);
+        return $this->task(SvnStack::class, $username, $password, $pathToSvn);
     }
 
     /**
@@ -36,7 +36,7 @@ trait loadTasks
      */
     protected function taskGitStack($pathToGit = 'git')
     {
-        return $this->task(__FUNCTION__, $pathToGit);
+        return $this->task(GitStack::class, $pathToGit);
     }
 
     /**
@@ -45,6 +45,6 @@ trait loadTasks
      */
     protected function taskHgStack($pathToHg = 'hg')
     {
-        return $this->task(__FUNCTION__, $pathToHg);
+        return $this->task(HgStack::class, $pathToHg);
     }
 }

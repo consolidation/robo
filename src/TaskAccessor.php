@@ -9,6 +9,17 @@ trait TaskAccessor
     public abstract function getContainer();
 
     /**
+     * Provides the collection builder with access to all of the
+     * protected 'task' methods available on this object.
+     */
+    public function getBuiltClass($fn, $args)
+    {
+        if (preg_match('#^task[A-Z]#', $fn)) {
+            return call_user_func_array([$this, $fn], $args);
+        }
+    }
+
+    /**
      * Convenience function. Use:
      *
      * $this->task('Foo', $a, $b);
@@ -29,22 +40,28 @@ trait TaskAccessor
     {
         $args = func_get_args();
         $name = array_shift($args);
-        // We'll allow callers to include the literal 'task'
-        // or not, as they wish; however, the container object
-        // that we fetch must always begin with 'task'
-        if (!preg_match('#^task#', $name)) {
-            $name = "task$name";
-        }
+
         $collectionBuilder = $this->collectionBuilder();
         return $collectionBuilder->build($name, $args);
     }
 
     /**
+     * Get a collection
+     *
+     * @return \Robo\CollectionCollection
+     */
+    protected function collection()
+    {
+        return $this->getContainer()->get('collection');
+    }
+
+    /**
      * Get a builder
+     *
      * @return \Robo\Collection\CollectionBuilder
      */
     protected function collectionBuilder()
     {
-        return $this->getContainer()->get('collectionBuilder');
+        return $this->getContainer()->get('collectionBuilder', [$this]);
     }
 }

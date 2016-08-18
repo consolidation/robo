@@ -125,6 +125,7 @@ class Robo
             ->withMethodCall('setFormatterManager', ['formatterManager']);
         $container->share('commandFactory', \Consolidation\AnnotatedCommand\AnnotatedCommandFactory::class)
             ->withMethodCall('setCommandProcessor', ['commandProcessor']);
+        $container->add('collection', \Robo\Collection\Collection::class);
         $container->add('collectionBuilder', \Robo\Collection\CollectionBuilder::class);
         $container->share('application', \Robo\Application::class)
             ->withArgument('Robo')

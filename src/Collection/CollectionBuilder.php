@@ -17,6 +17,8 @@ use Robo\Collection\CompletionWrapper;
 use Robo\Collection\Temporary;
 use Robo\Contract\ConfigAwareInterface;
 use Robo\Common\ConfigAwareTrait;
+use ReflectionClass;
+use Robo\Task\BaseTask;
 
 /**
  * Creates a collection, and adds tasks to it.  The collection builder
@@ -45,19 +47,20 @@ use Robo\Common\ConfigAwareTrait;
  * In the example above, the `taskDeleteDir` will be called if
  * ```
  */
-class CollectionBuilder implements NestedCollectionInterface, ConfigAwareInterface, ContainerAwareInterface, TaskInterface, WrappedTaskInterface
+class CollectionBuilder extends BaseTask implements NestedCollectionInterface, ContainerAwareInterface, WrappedTaskInterface
 {
-    use ConfigAwareTrait;
     use ContainerAwareTrait;
     use LoadAllTasks;
     use Timer;
 
+    protected $commandFile;
     protected $collection;
     protected $currentTask;
     protected $simulated;
 
-    public function __construct()
+    public function __construct($commandFile)
     {
+        $this->commandFile = $commandFile;
     }
 
     public function simulated($simulated = true)
@@ -195,6 +198,15 @@ class CollectionBuilder implements NestedCollectionInterface, ConfigAwareInterfa
     }
 
     /**
+     * Add all of the tasks in the provided temporary builder
+     * into this collection builder.
+     */
+    public function inheritTasks($temporaryBuilder)
+    {
+        $this->currentTask = $this->getCollection()->inheritTasks($temporaryBuilder->getCollection());
+    }
+
+    /**
      * Return the current task for this collection builder.
      * TODO: Not needed?
      */
@@ -214,7 +226,9 @@ class CollectionBuilder implements NestedCollectionInterface, ConfigAwareInterfa
         // calls will therefore end up here.  If the method name begins
         // with 'task', then it is eligible to be used with the builder.
         if (preg_match('#^task[A-Z]#', $fn)) {
-            return $this->build($fn, $args);
+            $temporaryBuilder = $this->commandFile->getBuiltClass($fn, $args);
+            $this->inheritTasks($temporaryBuilder);
+            return $this;
         }
         if (!isset($this->currentTask)) {
             throw new \BadMethodCallException("No such method $fn: current task undefined in collection builder.");
@@ -237,16 +251,20 @@ class CollectionBuilder implements NestedCollectionInterface, ConfigAwareInterfa
      */
     public function build($name, $args)
     {
-        $task = $this->getContainer()->get($name, $args);
+        $reflection = new ReflectionClass($name);
+        $task = $reflection->newInstanceArgs($args);
         if (!$task) {
             throw new RuntimeException("Can not construct task $name");
         }
+        $task->inflect($this);
         $task = $this->fixTask($task, $args);
         return $this->addTaskToCollection($task);
     }
 
     protected function fixTask($service, $args)
     {
+        $service->inflect($this);
+
         // Do not wrap our wrappers.
         if ($service instanceof CompletionWrapper || $service instanceof Simulator) {
             return $service;

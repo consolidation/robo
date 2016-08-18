@@ -24,7 +24,7 @@ trait loadTasks
      */
     protected function taskBowerInstall($pathToBower = null)
     {
-        return $this->task(__FUNCTION__, $pathToBower);
+        return $this->task(Install::class, $pathToBower);
     }
 
     /**
@@ -33,6 +33,6 @@ trait loadTasks
      */
     protected function taskBowerUpdate($pathToBower = null)
     {
-        return $this->task(__FUNCTION__, $pathToBower);
+        return $this->task(Update::class, $pathToBower);
     }
 }

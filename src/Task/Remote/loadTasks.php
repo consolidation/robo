@@ -23,7 +23,7 @@ trait loadTasks
      */
     protected function taskRsync()
     {
-        return $this->task(__FUNCTION__);
+        return $this->task(Rsync::class);
     }
 
     /**
@@ -33,6 +33,6 @@ trait loadTasks
      */
     protected function taskSshExec($hostname = null, $user = null)
     {
-        return $this->task(__FUNCTION__, $hostname, $user);
+        return $this->task(Ssh::class, $hostname, $user);
     }
 }

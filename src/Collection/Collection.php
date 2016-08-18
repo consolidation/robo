@@ -313,6 +313,11 @@ class Collection extends BaseTask implements CollectionInterface, ContainerAware
         // All tasks are stored in a task group so that we have a place
         // to hang 'before' and 'after' tasks.
         $taskGroup = new Element($task);
+        return $this->addCollectionElementToTaskList($name, $taskGroup);
+    }
+
+    protected function addCollectionElementToTaskList($name, Element $taskGroup)
+    {
         // If a task name is not provided, then we'll let php pick
         // the array index.
         if (static::isUnnamedTask($name)) {
@@ -602,5 +607,32 @@ class Collection extends BaseTask implements CollectionInterface, ContainerAware
                 // Ignore rollback failures.
             }
         }
+    }
+
+    /**
+     * Allow collection builder to adopt the tasks in a collection.
+     * This method exposes collection Elements, and therefore should not be
+     * used outside of the Collection::inheritTasks method.
+     */
+    public function getTaskList()
+    {
+        return $this->taskList;
+    }
+
+    /**
+     * Add all of the tasks in the provided collection
+     * into this collection.
+     */
+    public function inheritTasks($collection)
+    {
+        $lastTask = null;
+        foreach ($collection->getTaskList() as $name => $taskGroup) {
+            $this->addCollectionElementToTaskList($name, $taskGroup);
+            $lastTask = $taskGroup->getTask();
+        }
+        if ($lastTask instanceof WrappedTaskInterface) {
+            $lastTask = $lastTask->original();
+        }
+        return $lastTask;
     }
 }

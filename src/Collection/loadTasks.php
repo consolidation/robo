@@ -12,26 +12,9 @@ trait loadTasks
     {
         return new SimpleServiceProvider(
             [
-                'collection' => Collection::class,
                 'taskForEach' => TaskForEach::class,
             ]
         );
-    }
-
-    /**
-     * Convenience function. Use:
-     *
-     * $this->collection();
-     *
-     * instead of:
-     *
-     * $this->getContainer()->get('collection');
-     *
-     * @return Collection
-     */
-    protected function collection()
-    {
-        return $this->getContainer()->get('collection');
     }
 
     /**
@@ -42,6 +25,6 @@ trait loadTasks
      */
     protected function taskForEach($collection)
     {
-        return $this->task(__FUNCTION__, $collection);
+        return $this->task(TaskForEach::class, $collection);
     }
 }

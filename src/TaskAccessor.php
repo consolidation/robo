@@ -40,16 +40,6 @@ trait TaskAccessor
     }
 
     /**
-     * Get a collection
-     *
-     * @return \Robo\CollectionCollection
-     */
-    protected function collection()
-    {
-        return $this->getContainer()->get('collection');
-    }
-
-    /**
      * Get a builder
      *
      * @return \Robo\Collection\CollectionBuilder

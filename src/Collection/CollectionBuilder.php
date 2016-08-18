@@ -357,16 +357,4 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, C
         }
         return $this->collection;
     }
-
-    /**
-     * Override TaskAccessor::collectionBuilder(). By default, a new builder
-     * is returned, so RoboFile::taskFoo() will create a 'foo' task
-     * with its own builder.  If CollectionBuilder::taskBar() is called, though,
-     * then the task accessor will fetch the builder to use from this
-     * method, and the new task will go into the existing builder instance.
-     */
-    protected function collectionBuilder()
-    {
-        return $this;
-    }
 }

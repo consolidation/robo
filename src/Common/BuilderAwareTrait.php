@@ -33,7 +33,7 @@ trait BuilderAwareTrait
     /**
      * @inheritdoc
      */
-    public function newBuilder()
+    public function collectionBuilder()
     {
         return $this->getBuilder()->newBuilder();
     }

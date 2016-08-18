@@ -70,7 +70,7 @@ class TaskForEach extends BaseTask implements NestedCollectionInterface, Builder
         $this->countingStack[] =
             function ($key, $value) use ($fn) {
                 // Create a new builder for every iteration
-                $builder = $this->newBuilder();
+                $builder = $this->collectionBuilder();
                 // The user function should build task operations using
                 // the $key / $value parameters; we will call run() on
                 // the builder thus constructed.
@@ -80,7 +80,7 @@ class TaskForEach extends BaseTask implements NestedCollectionInterface, Builder
         return $this->withEachKeyValueCall(
             function ($key, $value) use ($fn) {
                 // Create a new builder for every iteration
-                $builder = $this->newBuilder()
+                $builder = $this->collectionBuilder()
                     ->setParentCollection($this->parentCollection);
                 // The user function should build task operations using
                 // the $key / $value parameters; we will call run() on

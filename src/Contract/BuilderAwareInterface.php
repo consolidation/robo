@@ -25,5 +25,5 @@ interface BuilderAwareInterface
      *
      * @return \Robo\Collection\CollectionBuilder
      */
-    public function newBuilder();
+    public function collectionBuilder();
 }

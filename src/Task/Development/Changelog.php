@@ -119,13 +119,13 @@ class Changelog extends BaseTask implements BuilderAwareInterface
         }
 
         // trying to append to changelog for today
-        $result = $this->getBuilder()->taskReplace($this->filename)
+        $result = $this->collectionBuilder()->taskReplace($this->filename)
             ->from($ver)
             ->to($text)
             ->run();
 
         if (!isset($result['replaced']) || !$result['replaced']) {
-            $result = $this->getBuilder()->taskReplace($this->filename)
+            $result = $this->collectionBuilder()->taskReplace($this->filename)
                 ->from($this->anchor)
                 ->to($this->anchor . "\n\n" . $text)
                 ->run();

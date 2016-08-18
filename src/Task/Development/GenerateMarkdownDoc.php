@@ -249,7 +249,7 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
 
         $this->text = implode("\n", $this->textForClass);
 
-        $result = $this->getBuilder()->taskWrite($this->filename)
+        $result = $this->collectionBuilder()->taskWrite($this->filename)
             ->line($this->prepend)
             ->text($this->text)
             ->line($this->append)

@@ -19,7 +19,7 @@
    * Structured arrays returned from function results may be converted into different formats, such as a table, yml, json, etc.
 * Use league/container to do Dependency Injection
    * *Breaking* Tasks' loadTasks traits must use `$this->task(TaskClass::class);` instead of `new TaskClass();`
-   * *Breaking* Tasks that use other tasks must also use `$this->task('taskName');` instead of `new TaskClass();` when creating task objects to call.
+   * *Breaking* Tasks that use other tasks must use `$this->collectionBuilder()->taskName();` instead of `new TaskClass();` when creating task objects to call. Implement `Robo\Contract\BuilderAwareInterface` and use `Robo\Contract\BuilderAwareTrait` to add the `collectionBuilder()` method to your task class.
 * [Extract] task added
 * [Pack] task added
 * [TmpDir], [WorkDir] and [TmpFile] tasks added

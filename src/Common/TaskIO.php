@@ -29,7 +29,7 @@ trait TaskIO
         if (!$this->logger) {
             static $gaveDeprecationWarning = false;
             if (!$gaveDeprecationWarning) {
-                trigger_error('No logger set for ' . get_class($this) . '. Use $this->task("Foo") rather than new Foo() in loadTasks to ensure the DI container can initialize tasks, or use $task->inflect($this) if creating one task from within another.', E_USER_DEPRECATED);
+                trigger_error('No logger set for ' . get_class($this) . '. Use $this->task(Foo::class) rather than new Foo() in loadTasks to ensure the builder can initialize task the task, or use $this->collectionBuilder()->taskFoo() if creating one task from within another.', E_USER_DEPRECATED);
                 $gaveDeprecationWarning = true;
             }
             return Robo::logger();

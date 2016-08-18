@@ -262,7 +262,7 @@ class CollectionCest
         $I->dontSeeFileFound("$tmpPath/log/error.txt");
         $I->dontSeeFileFound("$tmpPath");
     }
-/* // TODO: figure out why these two tests are failing.
+
     public function toUseATmpDirAndChangeWorkingDirectory(CliGuy $I)
     {
         // Set up a collection to add tasks to
@@ -334,7 +334,7 @@ class CollectionCest
         // $tmpPath should be deleted after $collection->run() completes.
         $I->dontSeeFileFound("$tmpPath");
     }
-*/
+
     public function toUseATmpDirWithAlternateSyntax(CliGuy $I)
     {
         $collection = $I->collectionBuilder();
@@ -358,6 +358,24 @@ class CollectionCest
         $I->assertEquals(0, $result->getExitCode(), $result->getMessage());
         $I->seeFileFound('copied3/log/error.txt');
         $I->dontSeeFileFound("$tmpPath/log/error.txt");
+    }
+
+    public function toCreateATmpDirWithoutACollection(CliGuy $I)
+    {
+        // Create a temporary directory, using our function name as
+        // the prefix for the directory name.
+        $tmpDirTask = $I->taskTmpDir(__FUNCTION__);
+        $tmpPath = $tmpDirTask->getPath();
+        $I->dontSeeFileFound($tmpPath);
+        $tmpDirTask->run();
+        $I->seeDirFound($tmpPath);
+        // Creating a temporary directory without a task collection will
+        // cause the temporary directory to be deleted when the program
+        // terminates.  We can force it to clean up sooner by calling
+        // TransientManager::complete(); note that this deletes ALL global tmp
+        // directories, so this is not thread-safe!  Useful in tests, though.
+        Temporary::complete();
+        $I->dontSeeFileFound($tmpPath);
     }
 
     public function toCreateATmpDirUsingShortcut(CliGuy $I)

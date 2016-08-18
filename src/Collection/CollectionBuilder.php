@@ -182,8 +182,6 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, C
      */
     public function addTaskToCollection($task)
     {
-        $task = ($task instanceof WrappedTaskInterface) ? $task->original() : $task;
-
         // Postpone creation of the collection until the second time
         // we are called. At that time, $this->currentTask will already
         // be populated.  We call 'getCollection()' so that it will
@@ -254,7 +252,8 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, C
 
         // If something other than a setter method is called,
         // then return its result.
-        if (isset($result) && ($result !== $this->currentTask)) {
+        $currentTask = ($this->currentTask instanceof WrappedTaskInterface) ? $this->currentTask->original() : $this->currentTask;
+        if (isset($result) && ($result !== $currentTask)) {
             return $result;
         }
 

@@ -23,7 +23,6 @@ class GulpTest extends \Codeception\TestCase\Test
 
         if ($isWindows) {
             verify(
-                (new \Robo\Task\Gulp\Run())
                 (new \Robo\Task\Gulp\Run('default','gulp'))->getCommand()
             )->equals('gulp "default"');
 

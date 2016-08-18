@@ -105,7 +105,7 @@ class FilesystemStack extends StackBasedTask implements BuilderAwareInterface
         if (file_exists($target)) {
             $this->fs->remove($target);
         }
-        $result = ($this->collectionBuilder()->taskCopyDir([$origin => $target]))->run();
+        $result = $this->collectionBuilder()->taskCopyDir([$origin => $target])->run();
         if (!$result->wasSuccessful()) {
             return $result;
         }

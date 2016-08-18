@@ -4,11 +4,6 @@ namespace Robo;
 trait TaskAccessor
 {
     /**
-     * Commands that use TaskAccessor must provide 'getContainer()'.
-     */
-    public abstract function getContainer();
-
-    /**
      * Provides the collection builder with access to all of the
      * protected 'task' methods available on this object.
      */
@@ -37,15 +32,5 @@ trait TaskAccessor
 
         $collectionBuilder = $this->collectionBuilder();
         return $collectionBuilder->build($name, $args);
-    }
-
-    /**
-     * Get a builder
-     *
-     * @return \Robo\Collection\CollectionBuilder
-     */
-    protected function collectionBuilder()
-    {
-        return $this->getContainer()->get('collectionBuilder', [$this]);
     }
 }

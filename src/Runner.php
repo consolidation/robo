@@ -103,11 +103,14 @@ class Runner
             return;
         }
 
+
         // Register the RoboFile with the container and then immediately
         // fetch it; this ensures that all of the inflectors will run.
         $commandFileName = "{$this->roboClass}Commands";
         $container->share($commandFileName, $this->roboClass);
         $roboCommandFileInstance = $container->get($commandFileName);
+        $builder = $container->get('collectionBuilder', [$roboCommandFileInstance]);
+        $roboCommandFileInstance->setBuilder($builder);
 
         // Register commands for all of the public methods in the RoboFile.
         $commandFactory = $container->get('commandFactory');

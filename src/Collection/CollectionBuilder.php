@@ -5,8 +5,6 @@ use Robo\Config;
 use Robo\Common\IO;
 use Robo\Common\Timer;
 use Psr\Log\LogLevel;
-use League\Container\ContainerAwareInterface;
-use League\Container\ContainerAwareTrait;
 use Robo\Contract\TaskInterface;
 use Robo\Contract\CompletionInterface;
 use Robo\Contract\WrappedTaskInterface;
@@ -48,11 +46,8 @@ use Robo\Contract\BuilderAwareInterface;
  * In the example above, the `taskDeleteDir` will be called if
  * ```
  */
-class CollectionBuilder extends BaseTask implements NestedCollectionInterface, ContainerAwareInterface, WrappedTaskInterface
+class CollectionBuilder extends BaseTask implements NestedCollectionInterface, WrappedTaskInterface
 {
-    use ContainerAwareTrait;
-    use Timer;
-
     protected $commandFile;
     protected $collection;
     protected $currentTask;
@@ -223,7 +218,6 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, C
     {
         $collectionBuilder = new self($this->commandFile);
         $collectionBuilder->inflect($this);
-        $collectionBuilder->setContainer($this->getContainer());
         return $collectionBuilder;
     }
 
@@ -260,7 +254,7 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, C
     }
 
     /**
-     * Construct the desired task via the container and add it to this builder.
+     * Construct the desired task and add it to this builder.
      */
     public function build($name, $args)
     {
@@ -304,7 +298,8 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, C
         // If we are in simulated mode, then wrap any task in
         // a TaskSimulator.
         if ($isTask && !$isCollection && ($this->isSimulated())) {
-            $task = $this->getContainer()->get('simulator', [$task, $args]);
+            $task = new \Robo\Task\Simulator($task, $args);
+            $task->inflect($this);
         }
 
         return $task;

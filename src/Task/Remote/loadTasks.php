@@ -1,8 +1,6 @@
 <?php
 namespace Robo\Task\Remote;
 
-use Robo\Container\SimpleServiceProvider;
-
 trait loadTasks
 {
     /**

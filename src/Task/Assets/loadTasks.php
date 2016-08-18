@@ -1,8 +1,6 @@
 <?php
 namespace Robo\Task\Assets;
 
-use Robo\Container\SimpleServiceProvider;
-
 trait loadTasks
 {
     /**

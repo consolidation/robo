@@ -1,8 +1,6 @@
 <?php
 namespace Robo\Task\Docker;
 
-use Robo\Container\SimpleServiceProvider;
-
 trait loadTasks
 {
     protected function taskDockerRun($image)

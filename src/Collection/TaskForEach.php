@@ -6,8 +6,8 @@ use Robo\TaskInfo;
 use Robo\Task\BaseTask;
 use Robo\Contract\TaskInterface;
 use Robo\Collection\NestedCollectionInterface;
-use League\Container\ContainerAwareInterface;
-use League\Container\ContainerAwareTrait;
+use Robo\Contract\BuilderAwareInterface;
+use Robo\Common\BuilderAwareTrait;
 
 /**
  * Creates a task wrapper that converts any Callable into an
@@ -17,9 +17,9 @@ use League\Container\ContainerAwareTrait;
  * It is not necessary to use this class directly; Collection::addIterable
  * will automatically create one when it is called.
  */
-class TaskForEach extends BaseTask implements NestedCollectionInterface, ContainerAwareInterface
+class TaskForEach extends BaseTask implements NestedCollectionInterface, BuilderAwareInterface
 {
-    use ContainerAwareTrait;
+    use BuilderAwareTrait;
 
     protected $functionStack = [];
     protected $countingStack = [];
@@ -70,7 +70,7 @@ class TaskForEach extends BaseTask implements NestedCollectionInterface, Contain
         $this->countingStack[] =
             function ($key, $value) use ($fn) {
                 // Create a new builder for every iteration
-                $builder = $this->getContainer()->get('collectionBuilder');
+                $builder = $this->newBuilder();
                 // The user function should build task operations using
                 // the $key / $value parameters; we will call run() on
                 // the builder thus constructed.
@@ -80,7 +80,8 @@ class TaskForEach extends BaseTask implements NestedCollectionInterface, Contain
         return $this->withEachKeyValueCall(
             function ($key, $value) use ($fn) {
                 // Create a new builder for every iteration
-                $builder = $this->getContainer()->get('collectionBuilder')->setParentCollection($this->parentCollection);
+                $builder = $this->newBuilder()
+                    ->setParentCollection($this->parentCollection);
                 // The user function should build task operations using
                 // the $key / $value parameters; we will call run() on
                 // the builder thus constructed.

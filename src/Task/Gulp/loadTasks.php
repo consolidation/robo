@@ -1,8 +1,6 @@
 <?php
 namespace Robo\Task\Gulp;
 
-use Robo\Container\SimpleServiceProvider;
-
 trait loadTasks
 {
     /**

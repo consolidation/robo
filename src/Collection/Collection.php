@@ -4,7 +4,6 @@ namespace Robo\Collection;
 use Robo\Result;
 use Psr\Log\LogLevel;
 use Robo\Contract\TaskInterface;
-use Robo\Container\SimpleServiceProvider;
 use Robo\Task\StackBasedTask;
 use Robo\Task\BaseTask;
 use Robo\TaskInfo;
@@ -13,9 +12,6 @@ use Robo\Contract\WrappedTaskInterface;
 use Robo\Contract\ProgressIndicatorAwareInterface;
 use Robo\Common\ProgressIndicatorAwareTrait;
 use Robo\Contract\InflectionInterface;
-
-use League\Container\ContainerAwareInterface;
-use League\Container\ContainerAwareTrait;
 
 /**
  * Group tasks into a collection that run together. Supports
@@ -49,10 +45,8 @@ use League\Container\ContainerAwareTrait;
  * ?>
  * ```
  */
-class Collection extends BaseTask implements CollectionInterface, ContainerAwareInterface
+class Collection extends BaseTask implements CollectionInterface
 {
-    use ContainerAwareTrait;
-
     protected $taskList = [];
     protected $rollbackStack = [];
     protected $completionStack = [];
@@ -610,29 +604,17 @@ class Collection extends BaseTask implements CollectionInterface, ContainerAware
     }
 
     /**
-     * Allow collection builder to adopt the tasks in a collection.
-     * This method exposes collection Elements, and therefore should not be
-     * used outside of the Collection::inheritTasks method.
+     * Give all of our tasks to the provided collection builder.
      */
-    public function getTaskList()
+    public function transferTasks($builder)
     {
-        return $this->taskList;
-    }
-
-    /**
-     * Add all of the tasks in the provided collection
-     * into this collection.
-     */
-    public function inheritTasks($collection)
-    {
-        $lastTask = null;
-        foreach ($collection->getTaskList() as $name => $taskGroup) {
-            $this->addCollectionElementToTaskList($name, $taskGroup);
-            $lastTask = $taskGroup->getTask();
+        foreach ($this->taskList as $name => $taskGroup) {
+            // TODO: We are abandoning all of our before and after tasks here.
+            // At the moment, transferTasks is only called under conditions where
+            // there will be none of these, but care should be taken if that changes.
+            $task = $taskGroup->getTask();
+            $builder->addTaskToCollection($task);
         }
-        if ($lastTask instanceof WrappedTaskInterface) {
-            $lastTask = $lastTask->original();
-        }
-        return $lastTask;
+        $this->reset();
     }
 }

@@ -2,7 +2,6 @@
 namespace Robo\Task\File;
 
 use Robo\Collection\Temporary;
-use Robo\Container\SimpleServiceProvider;
 
 trait loadTasks
 {

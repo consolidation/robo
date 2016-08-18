@@ -6,6 +6,8 @@ use Robo\Task\StackBasedTask;
 use Symfony\Component\Filesystem\Filesystem as sfFilesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Exception\IOException;
+use Robo\Contract\BuilderAwareInterface;
+use Robo\Common\BuilderAwareTrait;
 
 /**
  * Wrapper for [Symfony Filesystem](http://symfony.com/doc/current/components/filesystem.html) Component.
@@ -38,8 +40,10 @@ use Symfony\Component\Filesystem\Exception\IOException;
  * @method $this symlink($from, $to)
  * @method $this mirror($from, $to)
  */
-class FilesystemStack extends StackBasedTask
+class FilesystemStack extends StackBasedTask implements BuilderAwareInterface
 {
+    use BuilderAwareTrait;
+
     protected $fs;
 
     public function __construct()
@@ -99,15 +103,12 @@ class FilesystemStack extends StackBasedTask
         // adequately rollback.  Perhaps we need to preflight the operation
         // and determine if everything inside of $target is writable.
         if (file_exists($target)) {
-            $deleteResult = (new DeleteDir($target))->inflect($this)->run();
-            if (!$deleteResult->wasSuccessful()) {
-                return $deleteResult;
-            }
+            $this->fs->remove($target);
         }
-        $result = (new CopyDir([$origin => $target]))->inflect($this)->run();
+        $result = ($this->getBuilder()->taskCopyDir([$origin => $target]))->run();
         if (!$result->wasSuccessful()) {
             return $result;
         }
-        return (new DeleteDir($origin))->inflect($this)->run();
+        $this->fs->remove($origin);
     }
 }

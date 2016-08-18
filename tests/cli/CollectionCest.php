@@ -139,7 +139,7 @@ class CollectionCest
         $I->dontSeeFileFound('build/a');
         $I->dontSeeFileFound($workDirPath);
     }
-/* // TODO: taskForEach needs a builder. Make a 'builder aware interface'
+
     public function toBuildFilesViaAddIterable(CliGuy $I)
     {
         $processList = ['cats', 'dogs', 'sheep', 'fish', 'horses', 'cows'];
@@ -167,7 +167,7 @@ class CollectionCest
         $I->seeFileFound('stuff/horses.txt');
         $I->seeFileFound('stuff/cows.txt');
     }
-*/
+
     public function toRollbackANestedCollection(CliGuy $I)
     {
         // This is like the previous test, toRunMultipleTasksViaACollectionBuilder,

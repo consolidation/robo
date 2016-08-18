@@ -6,6 +6,8 @@ use Robo\Result;
 use Robo\Collection\Collection;
 use Robo\Contract\CompletionInterface;
 use Robo\Contract\RollbackInterface;
+use Robo\Contract\BuilderAwareInterface;
+use Robo\Common\BuilderAwareTrait;
 
 /**
  * Create a temporary working directory that is automatically renamed to its
@@ -23,10 +25,10 @@ use Robo\Contract\RollbackInterface;
  * ?>
  * ```
  */
-class WorkDir extends TmpDir implements RollbackInterface
+class WorkDir extends TmpDir implements RollbackInterface, BuilderAwareInterface
 {
+    use BuilderAwareTrait;
     protected $finalDestination;
-    protected $workingDir;
 
     public function __construct($finalDestination)
     {
@@ -82,7 +84,7 @@ class WorkDir extends TmpDir implements RollbackInterface
             // This may silently fail, leaving artifacts behind, if there
             // are permissions problems with some items somewhere inside
             // the folder being deleted.
-            (new DeleteDir($temporaryLocation))->inflect($this)->run();
+            $this->fs->remove($temporaryLocation);
         }
 
         // Move our working directory over the final destination.

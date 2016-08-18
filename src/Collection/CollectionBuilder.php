@@ -19,6 +19,7 @@ use Robo\Contract\ConfigAwareInterface;
 use Robo\Common\ConfigAwareTrait;
 use ReflectionClass;
 use Robo\Task\BaseTask;
+use Robo\Contract\BuilderAwareInterface;
 
 /**
  * Creates a collection, and adds tasks to it.  The collection builder
@@ -181,6 +182,8 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, C
      */
     public function addTaskToCollection($task)
     {
+        $task = ($task instanceof WrappedTaskInterface) ? $task->original() : $task;
+
         // Postpone creation of the collection until the second time
         // we are called. At that time, $this->currentTask will already
         // be populated.  We call 'getCollection()' so that it will
@@ -216,6 +219,18 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, C
     }
 
     /**
+     * Create a new builder with its own task collection
+     * @return type
+     */
+    public function newBuilder()
+    {
+        $collectionBuilder = new self($this->commandFile);
+        $collectionBuilder->inflect($this);
+        $collectionBuilder->setContainer($this->getContainer());
+        return $collectionBuilder;
+    }
+
+    /**
      * Calling the task builder with methods of the current
      * task calls through to that method of the task.
      */
@@ -227,7 +242,7 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, C
         // with 'task', then it is eligible to be used with the builder.
         if (preg_match('#^task[A-Z]#', $fn)) {
             $temporaryBuilder = $this->commandFile->getBuiltClass($fn, $args);
-            $this->inheritTasks($temporaryBuilder);
+            $temporaryBuilder->getCollection()->transferTasks($this);
             return $this;
         }
         if (!isset($this->currentTask)) {
@@ -256,24 +271,26 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, C
         if (!$task) {
             throw new RuntimeException("Can not construct task $name");
         }
-        $task->inflect($this);
         $task = $this->fixTask($task, $args);
         return $this->addTaskToCollection($task);
     }
 
-    protected function fixTask($service, $args)
+    protected function fixTask($task, $args)
     {
-        $service->inflect($this);
+        $task->inflect($this);
+        if ($task instanceof BuilderAwareInterface) {
+            $task->setBuilder($this);
+        }
 
         // Do not wrap our wrappers.
-        if ($service instanceof CompletionWrapper || $service instanceof Simulator) {
-            return $service;
+        if ($task instanceof CompletionWrapper || $task instanceof Simulator) {
+            return $task;
         }
 
         // Remember whether or not this is a task before
-        // it gets wrapped in any service decorator.
-        $isTask = $service instanceof TaskInterface;
-        $isCollection = $service instanceof NestedCollectionInterface;
+        // it gets wrapped in any decorator.
+        $isTask = $task instanceof TaskInterface;
+        $isCollection = $task instanceof NestedCollectionInterface;
 
         // If the task implements CompletionInterface, ensure
         // that its 'complete' method is called when the application
@@ -282,17 +299,17 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, C
         // task will be unwrapped via its `original` method, and
         // it will be re-wrapped with a new completion wrapper for
         // its new collection.
-        if ($service instanceof CompletionInterface) {
-            $service = new CompletionWrapper(Temporary::getCollection(), $service);
+        if ($task instanceof CompletionInterface) {
+            $task = new CompletionWrapper(Temporary::getCollection(), $task);
         }
 
         // If we are in simulated mode, then wrap any task in
         // a TaskSimulator.
         if ($isTask && !$isCollection && ($this->isSimulated())) {
-            $service = $this->getContainer()->get('simulator', [$service, $args]);
+            $task = $this->getContainer()->get('simulator', [$task, $args]);
         }
 
-        return $service;
+        return $task;
     }
 
     /**

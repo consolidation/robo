@@ -6,6 +6,8 @@ use Robo\Task\File\Write;
 use Robo\Task\Filesystem;
 use Robo\Result;
 use Robo\Task\Development;
+use Robo\Contract\BuilderAwareInterface;
+use Robo\Common\BuilderAwareTrait;
 
 /**
  * Simple documentation generator from source files.
@@ -58,8 +60,10 @@ use Robo\Task\Development;
  * @method \Robo\Task\Development\GenerateMarkdownDoc prepend($text) inserts text into beginning of markdown file
  * @method \Robo\Task\Development\GenerateMarkdownDoc append($text) inserts text in the end of markdown file
  */
-class GenerateMarkdownDoc extends BaseTask
+class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
 {
+    use BuilderAwareTrait;
+
     protected $docClass = [];
     protected $filterMethods;
     protected $filterClasses;
@@ -245,8 +249,7 @@ class GenerateMarkdownDoc extends BaseTask
 
         $this->text = implode("\n", $this->textForClass);
 
-        $result = (new Write($this->filename))
-            ->inflect($this)
+        $result = $this->getBuilder()->taskWrite($this->filename)
             ->line($this->prepend)
             ->text($this->text)
             ->line($this->append)

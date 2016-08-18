@@ -6,19 +6,6 @@ use Robo\Container\SimpleServiceProvider;
 trait loadTasks
 {
     /**
-     * Return services.
-     */
-    public static function getArchiveServices()
-    {
-        return new SimpleServiceProvider(
-            [
-                'taskExtract' => Extract::class,
-                'taskPack' => Pack::class,
-            ]
-        );
-    }
-
-    /**
      * @param $filename
      *
      * @return Pack

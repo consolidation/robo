@@ -7,25 +7,6 @@ use Robo\Container\SimpleServiceProvider;
 trait loadTasks
 {
     /**
-     * Return services.
-     */
-    public static function getFilesystemServices()
-    {
-        return new SimpleServiceProvider(
-            [
-                'taskCleanDir' => CleanDir::class,
-                'taskDeleteDir' => DeleteDir::class,
-                'taskTmpDir' => TmpDir::class,
-                'taskWorkDir' => WorkDir::class,
-                'taskCopyDir' => CopyDir::class,
-                'taskMirrorDir' => MirrorDir::class,
-                'taskFlattenDir' => FlattenDir::class,
-                'taskFilesystemStack' => FilesystemStack::class,
-            ]
-        );
-    }
-
-    /**
      * @param $dirs
      * @return CleanDir
      */

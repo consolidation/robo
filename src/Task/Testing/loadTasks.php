@@ -6,21 +6,6 @@ use Robo\Container\SimpleServiceProvider;
 trait loadTasks
 {
     /**
-     * Return services.
-     */
-    public static function getTestingServices()
-    {
-        return new SimpleServiceProvider(
-            [
-                'taskCodecept' => Codecept::class,
-                'taskPhpUnit' => PHPUnit::class,
-                'taskPhpspec' => Phpspec::class,
-                'taskAtoum' => Atoum::class,
-            ]
-        );
-    }
-
-    /**
      * @param null $pathToCodeception
      * @return Codecept
      */

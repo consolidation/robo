@@ -6,21 +6,6 @@ use Robo\Container\SimpleServiceProvider;
 trait loadTasks
 {
     /**
-     * Return services.
-     */
-    public static function getAssetsServices()
-    {
-        return new SimpleServiceProvider(
-            [
-                'taskMinify' => Minify::class,
-                'taskImageMinify' => ImageMinify::class,
-                'taskLess' => Less::class,
-                'taskScss' => Scss::class,
-            ]
-        );
-    }
-
-    /**
     * @param $input
     * @return Minify
     */

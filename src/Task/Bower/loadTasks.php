@@ -6,19 +6,6 @@ use Robo\Container\SimpleServiceProvider;
 trait loadTasks
 {
     /**
-     * Return services.
-     */
-    public static function getBowerServices()
-    {
-        return new SimpleServiceProvider(
-            [
-                'taskBowerInstall' => Install::class,
-                'taskBowerUpdate' => Update::class,
-            ]
-        );
-    }
-
-    /**
      * @param null $pathToBower
      * @return Install
      */

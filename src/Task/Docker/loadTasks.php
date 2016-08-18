@@ -5,24 +5,6 @@ use Robo\Container\SimpleServiceProvider;
 
 trait loadTasks
 {
-    /**
-     * Return services.
-     */
-    public static function getDockerServices()
-    {
-        return new SimpleServiceProvider(
-            [
-                'taskDockerRun' => Run::class,
-                'taskDockerPull' => Pull::class,
-                'taskDockerBuild' => Build::class,
-                'taskDockerStop' => Stop::class,
-                'taskDockerCommit' => Commit::class,
-                'taskDockerStart' => Start::class,
-                'taskDockerRemove' => Remove::class,
-            ]
-        );
-    }
-
     protected function taskDockerRun($image)
     {
         return $this->task(Run::class, $image);

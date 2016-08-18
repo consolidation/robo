@@ -6,22 +6,6 @@ use Robo\Container\SimpleServiceProvider;
 trait loadTasks
 {
     /**
-     * Return services.
-     */
-    public static function getComposerServices()
-    {
-        return new SimpleServiceProvider(
-            [
-                'taskComposerInstall' => Install::class,
-                'taskComposerUpdate' => Update::class,
-                'taskComposerDumpAutoload' => DumpAutoload::class,
-                'taskComposerValidate' => Validate::class,
-                'taskComposerRemove' => Remove::class,
-            ]
-        );
-    }
-
-    /**
      * @param null $pathToComposer
      * @return Install
      */

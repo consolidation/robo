@@ -193,15 +193,6 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
     }
 
     /**
-     * Add all of the tasks in the provided temporary builder
-     * into this collection builder.
-     */
-    public function inheritTasks($temporaryBuilder)
-    {
-        $this->currentTask = $this->getCollection()->inheritTasks($temporaryBuilder->getCollection());
-    }
-
-    /**
      * Return the current task for this collection builder.
      * TODO: Not needed?
      */

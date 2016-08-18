@@ -17,8 +17,8 @@ use Robo\Contract\InflectionInterface;
  * Group tasks into a collection that run together. Supports
  * rollback operations for handling error conditions.
  *
- * Clients should favor using a CollectionBuilder over direct use of
- * the Collection class.  @see CollectionBuilder
+ * This is an internal class. Clients should use a CollectionBuilder
+ * rather than direct use of the Collection class.  @see CollectionBuilder.
  *
  * Below, the example FilesystemStack task is added to a collection,
  * and associated with a rollback task.  If any of the operations in
@@ -26,24 +26,6 @@ use Robo\Contract\InflectionInterface;
  * the task collection should fail, then the rollback function is
  * called. Here, taskDeleteDir is used to remove partial results
  * of an unfinished task.
- *
- * ``` php
- * <?php
- * $collection = $this->collection();
- * $collection->rollback(
- *     $this->taskDeleteDir('logs')
- * )
- * $collection->add(
- *     $this->taskFilesystemStack()
- *        ->mkdir('logs')
- *        ->touch('logs/.gitignore')
- *        ->chgrp('logs', 'www-data')
- *        ->symlink('/var/log/nginx/error.log', 'logs/error.log')
- * );
- * $collection->run();
- *
- * ?>
- * ```
  */
 class Collection extends BaseTask implements CollectionInterface
 {

@@ -1,4 +1,4 @@
-# Collections and Builders
+# Collection Builders
 
 Robo provides task collections as a means of making error detection and recovery easier. When Robo tasks are added to a collection, their execution is deferred until the `$collection->run()` method is called.  If one of the tasks fail, then the operation will be aborted; rollback tasks may also be defined to restore the system to its original condition.
 
@@ -65,9 +65,9 @@ Examples of adding different kinds of tasks to a collection are provided below.
 
 ## Using a Collection Builder
 
-The easiest way to manage a collection of tasks is to use a collection builder. Collection builders allow tasks to be created via chained methods.  All of the tasks created by the same builder are added to a collection; when the `run()` method is called, all of the tasks in the collection run. 
+To manage a collection of tasks, a collection builder. Collection builders allow tasks to be created via chained methods.  All of the tasks created by the same builder are added to a collection; when the `run()` method is called, all of the tasks in the collection run. 
 
-Collection builders provide all of the capabilities of collections with a cleaner API.  The 'publish' command from Robo's own RoboFile is shown below.  It uses a collection builder to run some git and filesystem operations. The "completion" tasks are run after all other tasks complete, or during rollback processing when an operation fails.
+The 'publish' command from Robo's own RoboFile is shown below.  It uses a collection builder to run some git and filesystem operations. The "completion" tasks are run after all other tasks complete, or during rollback processing when an operation fails.
 
 ``` php
 <?php

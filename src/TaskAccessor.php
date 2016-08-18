@@ -20,21 +20,15 @@ trait TaskAccessor
     }
 
     /**
-     * Convenience function. Use:
+     * Alternative access to instantiate. Use:
      *
-     * $this->task('Foo', $a, $b);
+     *   $this->task(Foo::class, $a, $b);
      *
      * instead of:
      *
-     * $this->getContainer()->get('taskFoo', [$a, $b]);
+     *   $this->taskFoo($a, $b);
      *
-     * Note that most tasks will define another convenience
-     * function, $this->taskFoo($a, $b), declared in a
-     * 'loadTasks' trait in the task's namespace.  These
-     * 'loadTasks' convenience functions typically will call
-     * $this->task() to ensure that task objects are fetched
-     * from the container, so that their dependencies may be
-     * automatically resolved.
+     * The later form is preferred.
      */
     protected function task()
     {

@@ -348,7 +348,8 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, C
     public function getCollection()
     {
         if (!isset($this->collection)) {
-            $this->collection = $this->collection();
+            $this->collection = new Collection();
+            $this->collection->inflect($this);
             $this->collection->setProgressBarAutoDisplayInterval($this->getConfig()->get(Config::PROGRESS_BAR_AUTO_DISPLAY_INTERVAL));
 
             if (isset($this->currentTask)) {

@@ -108,9 +108,6 @@ EOT;
 
     public function testRunnerTryError()
     {
-        $container = \Robo\Robo::getContainer();
-        $container->addServiceProvider(\Robo\Task\Base\loadTasks::getBaseServices());
-
         $argv = ['placeholder', 'try:error'];
         $result = $this->runner->execute($argv);
 
@@ -120,9 +117,6 @@ EOT;
 
     public function testRunnerTryException()
     {
-        $container = \Robo\Robo::getContainer();
-        $container->addServiceProvider(\Robo\Task\Base\loadTasks::getBaseServices());
-
         $argv = ['placeholder', 'try:exception', '--task'];
         $result = $this->runner->execute($argv);
 

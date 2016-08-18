@@ -109,9 +109,6 @@ class Runner
         $container->share($commandFileName, $this->roboClass);
         $roboCommandFileInstance = $container->get($commandFileName);
 
-        // RoboFiles must always extend `Tasks`.
-        Robo::addServiceProviders($container, $roboCommandFileInstance->getServiceProviders());
-
         // Register commands for all of the public methods in the RoboFile.
         $commandFactory = $container->get('commandFactory');
         $commandList = $commandFactory->createCommandsFromClass($roboCommandFileInstance);

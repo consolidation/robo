@@ -19,7 +19,6 @@ class ApiGenTest extends \Codeception\TestCase\Test
         ]);
 
         $this->container = Robo::getContainer();
-        $this->container->addServiceProvider(\Robo\Task\ApiGen\loadTasks::getApiGenServices());
     }
 
     // tests
@@ -31,7 +30,7 @@ class ApiGenTest extends \Codeception\TestCase\Test
         $skippedPaths->push('b');
 
         // going for 'bang for the buck' here re: test converage
-        $task = $this->container->get('taskApiGen', ['apigen'])
+        $task = (new \Robo\Task\ApiGen\ApiGen('apigen'))
             ->config('./apigen.neon')
             ->source('src') // single string value of Traversable
             ->extensions('php') // single string value of List

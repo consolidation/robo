@@ -4,7 +4,6 @@ class FilesystemStackCest
 {
     public function _before(CliGuy $I)
     {
-        $I->getContainer()->addServiceProvider(\Robo\Task\Filesystem\loadTasks::getFilesystemServices());
         $I->amInPath(codecept_data_dir().'sandbox');
     }
 

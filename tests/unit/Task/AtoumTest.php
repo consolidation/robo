@@ -15,20 +15,11 @@ class AtoumTest extends \Codeception\TestCase\Test
             'executeCommand' => null,
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
-
-        $this->container = Robo::getContainer();
-        $this->container->addServiceProvider(\Robo\Task\Testing\loadTasks::getTestingServices());
-    }
-
-    public function testAtoumRun()
-    {
-        $this->container->get('taskAtoum', ['vendor/bin/atoum'])->run();
-        $this->atoum->verifyInvoked('executeCommand');
     }
 
     public function testAtoumCommand()
     {
-        $task = $this->container->get('taskAtoum', ['atoum'])
+        $task = (new \Robo\Task\Testing\Atoum('atoum'))
             ->bootstrap('bootstrap.php')
             ->tags("needDb")
             ->lightReport()

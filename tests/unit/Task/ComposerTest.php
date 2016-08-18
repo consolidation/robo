@@ -16,23 +16,21 @@ class ComposerTest extends \Codeception\TestCase\Test
         $this->baseComposer = test::double('Robo\Task\Composer\Base', [
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
-        $this->container = Robo::getContainer();
-        $this->container->addServiceProvider(\Robo\Task\Composer\loadTasks::getComposerServices());
     }
     // tests
     public function testComposerInstall()
     {
         $composer = test::double('Robo\Task\Composer\Install', ['executeCommand' => null]);
 
-        $this->container->get('taskComposerInstall', ['composer'])->run();
+        (new \Robo\Task\Composer\Install('composer'))->run();
         $composer->verifyInvoked('executeCommand', ['composer install']);
 
-        $this->container->get('taskComposerInstall', ['composer'])
+        (new \Robo\Task\Composer\Install('composer'))
             ->preferSource()
             ->run();
         $composer->verifyInvoked('executeCommand', ['composer install --prefer-source']);
 
-        $this->container->get('taskComposerInstall', ['composer'])
+        (new \Robo\Task\Composer\Install('composer'))
             ->optimizeAutoloader()
             ->run();
         $composer->verifyInvoked('executeCommand', ['composer install --optimize-autoloader']);
@@ -42,10 +40,10 @@ class ComposerTest extends \Codeception\TestCase\Test
     {
         $composer = test::double('Robo\Task\Composer\Update', ['executeCommand' => null]);
 
-        $this->container->get('taskComposerUpdate', ['composer'])->run();
+        (new \Robo\Task\Composer\Update('composer'))->run();
         $composer->verifyInvoked('executeCommand', ['composer update']);
 
-        $this->container->get('taskComposerUpdate', ['composer'])
+        (new \Robo\Task\Composer\Update('composer'))
             ->optimizeAutoloader()
             ->run();
         $composer->verifyInvoked('executeCommand', ['composer update --optimize-autoloader']);
@@ -55,20 +53,20 @@ class ComposerTest extends \Codeception\TestCase\Test
     {
         $composer = test::double('Robo\Task\Composer\DumpAutoload', ['executeCommand' => null]);
 
-        $this->container->get('taskComposerDumpAutoload', ['composer'])->run();
+        (new \Robo\Task\Composer\DumpAutoload('composer'))->run();
         $composer->verifyInvoked('executeCommand', ['composer dump-autoload']);
 
-        $this->container->get('taskComposerDumpAutoload', ['composer'])
+        (new \Robo\Task\Composer\DumpAutoload('composer'))
             ->noDev()
             ->run();
         $composer->verifyInvoked('executeCommand', ['composer dump-autoload --no-dev']);
 
-        $this->container->get('taskComposerDumpAutoload', ['composer'])
+        (new \Robo\Task\Composer\DumpAutoload('composer'))
             ->optimize()
             ->run();
         $composer->verifyInvoked('executeCommand', ['composer dump-autoload --optimize']);
 
-        $this->container->get('taskComposerDumpAutoload', ['composer'])
+        (new \Robo\Task\Composer\DumpAutoload('composer'))
             ->optimize()
             ->noDev()
             ->run();
@@ -79,30 +77,30 @@ class ComposerTest extends \Codeception\TestCase\Test
     {
         $composer = test::double('Robo\Task\Composer\Validate', ['executeCommand' => null]);
 
-        $this->container->get('taskComposerValidate', ['composer'])->run();
+        (new \Robo\Task\Composer\Validate('composer'))->run();
         $composer->verifyInvoked('executeCommand', ['composer validate']);
 
-        $this->container->get('taskComposerValidate', ['composer'])
+        (new \Robo\Task\Composer\Validate('composer'))
             ->noCheckAll()
             ->run();
         $composer->verifyInvoked('executeCommand', ['composer validate --no-check-all']);
 
-        $this->container->get('taskComposerValidate', ['composer'])
+        (new \Robo\Task\Composer\Validate('composer'))
             ->noCheckLock()
             ->run();
         $composer->verifyInvoked('executeCommand', ['composer validate --no-check-lock']);
 
-        $this->container->get('taskComposerValidate', ['composer'])
+        (new \Robo\Task\Composer\Validate('composer'))
             ->noCheckPublish()
             ->run();
         $composer->verifyInvoked('executeCommand', ['composer validate --no-check-publish']);
 
-        $this->container->get('taskComposerValidate', ['composer'])
+        (new \Robo\Task\Composer\Validate('composer'))
             ->withDependencies()
             ->run();
         $composer->verifyInvoked('executeCommand', ['composer validate --with-dependencies']);
 
-        $this->container->get('taskComposerValidate', ['composer'])
+        (new \Robo\Task\Composer\Validate('composer'))
             ->strict()
             ->run();
         $composer->verifyInvoked('executeCommand', ['composer validate --strict']);
@@ -111,11 +109,11 @@ class ComposerTest extends \Codeception\TestCase\Test
     public function testComposerInstallCommand()
     {
         verify(
-            $this->container->get('taskComposerInstall', ['composer'])->getCommand()
+            (new \Robo\Task\Composer\Install('composer'))->getCommand()
         )->equals('composer install');
 
         verify(
-            $this->container->get('taskComposerInstall', ['composer'])
+            (new \Robo\Task\Composer\Install('composer'))
                 ->noDev()
                 ->preferDist()
                 ->optimizeAutoloader()
@@ -126,18 +124,18 @@ class ComposerTest extends \Codeception\TestCase\Test
     public function testComposerUpdateCommand()
     {
         verify(
-            $this->container->get('taskComposerUpdate', ['composer'])->getCommand()
+            (new \Robo\Task\Composer\Update('composer'))->getCommand()
         )->equals('composer update');
 
         verify(
-            $this->container->get('taskComposerUpdate', ['composer'])
+            (new \Robo\Task\Composer\Update('composer'))
                 ->noDev()
                 ->preferDist()
                 ->getCommand()
         )->equals('composer update --prefer-dist --no-dev');
 
         verify(
-            $this->container->get('taskComposerUpdate', ['composer'])
+            (new \Robo\Task\Composer\Update('composer'))
                 ->noDev()
                 ->preferDist()
                 ->optimizeAutoloader()
@@ -148,23 +146,23 @@ class ComposerTest extends \Codeception\TestCase\Test
     public function testComposerDumpAutoloadCommand()
     {
         verify(
-            $this->container->get('taskComposerDumpAutoload', ['composer'])->getCommand()
+            (new \Robo\Task\Composer\DumpAutoload('composer'))->getCommand()
         )->equals('composer dump-autoload');
 
         verify(
-            $this->container->get('taskComposerDumpAutoload', ['composer'])
+            (new \Robo\Task\Composer\DumpAutoload('composer'))
                 ->noDev()
                 ->getCommand()
         )->equals('composer dump-autoload --no-dev');
 
         verify(
-            $this->container->get('taskComposerDumpAutoload', ['composer'])
+            (new \Robo\Task\Composer\DumpAutoload('composer'))
                 ->optimize()
                 ->getCommand()
         )->equals('composer dump-autoload --optimize');
 
         verify(
-            $this->container->get('taskComposerDumpAutoload', ['composer'])
+            (new \Robo\Task\Composer\DumpAutoload('composer'))
                 ->optimize()
                 ->noDev()
                 ->getCommand()
@@ -174,41 +172,41 @@ class ComposerTest extends \Codeception\TestCase\Test
     public function testComposerValidateCommand()
     {
         verify(
-            $this->container->get('taskComposerValidate', ['composer'])->getCommand()
+            (new \Robo\Task\Composer\Validate('composer'))->getCommand()
         )->equals('composer validate');
 
         verify(
-            $this->container->get('taskComposerValidate', ['composer'])
+            (new \Robo\Task\Composer\Validate('composer'))
                 ->noCheckAll()
                 ->getCommand()
         )->equals('composer validate --no-check-all');
 
         verify(
-            $this->container->get('taskComposerValidate', ['composer'])
+            (new \Robo\Task\Composer\Validate('composer'))
                 ->noCheckLock()
                 ->getCommand()
         )->equals('composer validate --no-check-lock');
 
         verify(
-            $this->container->get('taskComposerValidate', ['composer'])
+            (new \Robo\Task\Composer\Validate('composer'))
                 ->noCheckPublish()
                 ->getCommand()
         )->equals('composer validate --no-check-publish');
 
         verify(
-            $this->container->get('taskComposerValidate', ['composer'])
+            (new \Robo\Task\Composer\Validate('composer'))
                 ->withDependencies()
                 ->getCommand()
         )->equals('composer validate --with-dependencies');
 
         verify(
-            $this->container->get('taskComposerValidate', ['composer'])
+            (new \Robo\Task\Composer\Validate('composer'))
                 ->strict()
                 ->getCommand()
         )->equals('composer validate --strict');
 
         verify(
-            $this->container->get('taskComposerValidate', ['composer'])
+            (new \Robo\Task\Composer\Validate('composer'))
                 ->noCheckAll()
                 ->noCheckLock()
                 ->noCheckPublish()

@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\StringInput;
 use Consolidation\AnnotatedCommand\PassThroughArgsInput;
+use Robo\Contract\BuilderAwareInterface;
 
 class Runner
 {
@@ -29,6 +30,11 @@ class Runner
      * @var string working dir of Robo
      */
     protected $dir;
+
+    /**
+     * @var boolean commands have been registered
+     */
+    protected $roboFileRegistered = false;
 
     /**
      * Class Constructor
@@ -93,8 +99,18 @@ class Runner
         }
 
         $container = Robo::getContainer();
-        $output = $container->get('output');
         $app = $container->get('application');
+
+        $this->registerRoboFileCommands();
+        $statusCode = $app->run($input, $container->get('output'));
+        return $statusCode;
+    }
+
+    protected function registerRoboFileCommands()
+    {
+        if ($this->roboFileRegistered) {
+            return;
+        }
 
         if (!$this->loadRoboFile()) {
             $this->yell("Robo is not initialized here. Please run `robo init` to create a new RoboFile", 40, 'yellow');
@@ -103,14 +119,23 @@ class Runner
             return;
         }
 
+        $this->registerCommandClass($this->roboClass);
+    }
+
+    public function registerCommandClass($commandClass)
+    {
+        $container = Robo::getContainer();
+        $app = $container->get('application');
 
         // Register the RoboFile with the container and then immediately
         // fetch it; this ensures that all of the inflectors will run.
-        $commandFileName = "{$this->roboClass}Commands";
-        $container->share($commandFileName, $this->roboClass);
+        $commandFileName = "{$commandClass}Commands";
+        $container->share($commandFileName, $commandClass);
         $roboCommandFileInstance = $container->get($commandFileName);
-        $builder = $container->get('collectionBuilder', [$roboCommandFileInstance]);
-        $roboCommandFileInstance->setBuilder($builder);
+        if ($roboCommandFileInstance instanceof BuilderAwareInterface) {
+            $builder = $container->get('collectionBuilder', [$roboCommandFileInstance]);
+            $roboCommandFileInstance->setBuilder($builder);
+        }
 
         // Register commands for all of the public methods in the RoboFile.
         $commandFactory = $container->get('commandFactory');
@@ -118,8 +143,14 @@ class Runner
         foreach ($commandList as $command) {
             $app->add($command);
         }
-        $statusCode = $app->run($input, $output);
-        return $statusCode;
+        $this->roboFileRegistered = true;
+    }
+
+    public function registerCommandClasses($commandClasses)
+    {
+        foreach ((array)$commandClasses as $commandClass) {
+            $this->registerCommandClass($commandClass);
+        }
     }
 
     public function installRoboHandlers()

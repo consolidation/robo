@@ -32,11 +32,6 @@ class Runner
     protected $dir;
 
     /**
-     * @var boolean commands have been registered
-     */
-    protected $roboFileRegistered = false;
-
-    /**
      * Class Constructor
      * @param null $roboClass
      * @param null $roboFile
@@ -56,7 +51,11 @@ class Runner
 
     protected function loadRoboFile()
     {
-        if (class_exists($this->roboClass)) {
+        // If $this->roboClass is a single class that has not already
+        // been loaded, then we will try to obtain it from $this->roboFile.
+        // If $this->roboClass is an array, we presume all classes requested
+        // are available via the autoloader.
+        if (is_array($this->roboClass) || class_exists($this->roboClass)) {
             return true;
         }
 
@@ -88,7 +87,14 @@ class Runner
         return $this->run($input, $output);
     }
 
-    public function run($input = null, $output = null)
+    public function run($input, $output = null)
+    {
+        $app = $this->init($input, $output);
+        $statusCode = $app->run($input, Robo::output());
+        return $statusCode;
+    }
+
+    public function init($input = null, $output = null)
     {
         // If we were not provided a container, then create one
         if (!Robo::hasContainer()) {
@@ -97,21 +103,15 @@ class Runner
             // an error handler when we provide the container.
             $this->installRoboHandlers();
         }
-
         $container = Robo::getContainer();
         $app = $container->get('application');
 
-        $this->registerRoboFileCommands();
-        $statusCode = $app->run($input, $container->get('output'));
-        return $statusCode;
+        $this->registerRoboFileCommands($app);
+        return $app;
     }
 
-    protected function registerRoboFileCommands()
+    protected function registerRoboFileCommands($app)
     {
-        if ($this->roboFileRegistered) {
-            return;
-        }
-
         if (!$this->loadRoboFile()) {
             $this->yell("Robo is not initialized here. Please run `robo init` to create a new RoboFile", 40, 'yellow');
             $app->addInitRoboFileCommand($this->roboFile, $this->roboClass);
@@ -119,13 +119,32 @@ class Runner
             return;
         }
 
-        $this->registerCommandClass($this->roboClass);
+        $this->registerCommandClasses($app, $this->roboClass);
     }
 
-    public function registerCommandClass($commandClass)
+    protected function registerCommandClasses($app, $commandClasses)
+    {
+        foreach ((array)$commandClasses as $commandClass) {
+            $this->registerCommandClass($app, $commandClass);
+        }
+    }
+
+    protected function registerCommandClass($app, $commandClass)
     {
         $container = Robo::getContainer();
-        $app = $container->get('application');
+        $roboCommandFileInstance = $this->instantiateCommandClass($commandClass);
+
+        // Register commands for all of the public methods in the RoboFile.
+        $commandFactory = $container->get('commandFactory');
+        $commandList = $commandFactory->createCommandsFromClass($roboCommandFileInstance);
+        foreach ($commandList as $command) {
+            $app->add($command);
+        }
+    }
+
+    protected function instantiateCommandClass($commandClass)
+    {
+        $container = Robo::getContainer();
 
         // Register the RoboFile with the container and then immediately
         // fetch it; this ensures that all of the inflectors will run.
@@ -136,21 +155,7 @@ class Runner
             $builder = $container->get('collectionBuilder', [$roboCommandFileInstance]);
             $roboCommandFileInstance->setBuilder($builder);
         }
-
-        // Register commands for all of the public methods in the RoboFile.
-        $commandFactory = $container->get('commandFactory');
-        $commandList = $commandFactory->createCommandsFromClass($roboCommandFileInstance);
-        foreach ($commandList as $command) {
-            $app->add($command);
-        }
-        $this->roboFileRegistered = true;
-    }
-
-    public function registerCommandClasses($commandClasses)
-    {
-        foreach ((array)$commandClasses as $commandClass) {
-            $this->registerCommandClass($commandClass);
-        }
+        return $roboCommandFileInstance;
     }
 
     public function installRoboHandlers()

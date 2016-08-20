@@ -149,6 +149,8 @@ class Robo
             ->invokeMethod('setContainer', ['container']);
         $container->inflector(\Symfony\Component\Console\Input\InputAwareInterface::class)
             ->invokeMethod('setInput', ['input']);
+        $container->inflector(\Robo\Contract\OutputAwareInterface::class)
+            ->invokeMethod('setOutput', ['output']);
         $container->inflector(\Robo\Contract\ProgressIndicatorAwareInterface::class)
             ->invokeMethod('setProgressIndicator', ['progressIndicator']);
     }

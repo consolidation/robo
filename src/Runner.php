@@ -87,14 +87,22 @@ class Runner
         return $this->run($input, $output);
     }
 
-    public function run($input, $output = null)
+    public function run($input = null, $output = null)
     {
+        // Create default input and output objects if they were not provided
+        if (!$input) {
+            $input = new StringInput('');
+        }
+        if (!$output) {
+            $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+        }
+
         $app = $this->init($input, $output);
-        $statusCode = $app->run($input, Robo::output());
+        $statusCode = $app->run($input, $output);
         return $statusCode;
     }
 
-    public function init($input = null, $output = null)
+    public function init($input, $output)
     {
         // If we were not provided a container, then create one
         if (!Robo::hasContainer()) {

@@ -78,21 +78,21 @@ class RunnerTest extends \Codeception\TestCase\Test
     public function testRunnerNoSuchCommand()
     {
         $argv = ['placeholder', 'no-such-command'];
-        $this->runner->execute($argv);
+        $this->runner->execute($argv, Robo::output());
         $this->guy->seeInOutput('Command "no-such-command" is not defined.');
     }
 
     public function testRunnerList()
     {
         $argv = ['placeholder', 'list'];
-        $this->runner->execute($argv);
+        $this->runner->execute($argv, Robo::output());
         $this->guy->seeInOutput('try:array-args');
     }
 
     public function testRunnerTryArgs()
     {
         $argv = ['placeholder', 'try:array-args', 'a', 'b', 'c'];
-        $this->runner->execute($argv);
+        $this->runner->execute($argv, Robo::output());
 
         $expected = <<<EOT
 >  The parameters passed are:
@@ -109,7 +109,7 @@ EOT;
     public function testRunnerTryError()
     {
         $argv = ['placeholder', 'try:error'];
-        $result = $this->runner->execute($argv);
+        $result = $this->runner->execute($argv, Robo::output());
 
         $this->guy->seeInOutput('[Exec] Running ls xyzzy');
         $this->assertTrue($result > 0);
@@ -118,7 +118,7 @@ EOT;
     public function testRunnerTryException()
     {
         $argv = ['placeholder', 'try:exception', '--task'];
-        $result = $this->runner->execute($argv);
+        $result = $this->runner->execute($argv, Robo::output());
 
         $this->guy->seeInOutput('Task failed with an exception');
         $this->assertEquals(1, $result);
@@ -131,7 +131,7 @@ EOT;
         $app->addInitRoboFileCommand('testRoboFile', 'RoboTestClass');
 
         $argv = ['placeholder', 'init'];
-        $this->runner->execute($argv);
+        $this->runner->execute($argv, Robo::output());
 
         $this->assertTrue(file_exists('testRoboFile'));
         $commandContents = file_get_contents('testRoboFile');

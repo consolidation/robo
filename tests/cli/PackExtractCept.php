@@ -1,10 +1,6 @@
 <?php
 
 $I = new CliGuy($scenario);
-$I->getContainer()->addServiceProvider(\Robo\Task\Archive\loadTasks::getArchiveServices());
-//$provider = \Robo\Task\Archive\loadTasks::getArchiveServices();
-//$provider->setContainer($I->getContainer());
-//$provider->register($I->getContainer());
 
 $I->wantTo('archive directory and then extract it again with Archive and Extract tasks');
 $I->amInPath(codecept_data_dir().'sandbox');

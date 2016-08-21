@@ -234,27 +234,10 @@ A very basic task is shown below.  The namespace is `MyAssetTasks`, and the exam
 <?php
 namespace MyAssetTasks;
 
-use Robo\Container\SimpleServiceProvider;
-
 trait loadTasks
 {
     /**
-     * Return services.  Your tasks should always be
-     * named 'taskCLASSNAME', where CLASSNAME is the
-     * name of the implementing class.
-     */
-    public static function getMyAssetTasksServices()
-    {
-        return new SimpleServiceProvider(
-            [
-                'taskCompileAssets' => CompileAssets::class,
-            ]
-        );
-    }
-
-    /**
-     * The task function must always be given the same name as the key
-     * used with the SimpleServiceProvider (above)
+     * Example task to compile assets
      *
      * @param string $pathToCompileAssets
      * @return \MyAssetTasks\CompileAssets
@@ -262,7 +245,7 @@ trait loadTasks
     protected function taskCompileAssets($path = null)
     {
         // Always construct your tasks with the `task()` task builder.
-        return $this->task(__FUNCTION__, $path);
+        return $this->task(CompileAssets::class, $path);
     }
 }
 
@@ -291,21 +274,13 @@ class CompileAssets implements \Robo\Contract\TaskInterface
 }
 ?>
 ```
-To use it in a RoboFile, you should register its service provider via the RoboFile's `getServiceProviders()` method, and also include the task via its trait:
+To use it in a RoboFile, include the task via its trait:
 
 ``` php
 <?php
 class RoboFile extends \Robo\Tasks
 {
     use \MyAssetTasks\loadTasks;
-
-    public function getServiceProviders()
-    {
-        $serviceProviders = parent::getServiceProviders();
-        $serviceProviders[] = \MyAssetTasks\loadTasks::getMyAssetTasksServices();
-
-        return $serviceProviders;
-    }
 
     public function build()
     {
@@ -317,7 +292,7 @@ class RoboFile extends \Robo\Tasks
 ?>
 ```
 
-Robo\Tasks includes all of the standard task traits by default, so a RoboFile may call the `$this->taskXXX` method for any of these tasks. To use an external task, ensure that its class files are available (e.g. `require` its project in your composer.json file), register the services defined in the project's loadTraits, and include corresponding trait or traits in your Robofile.
+Robo\Tasks includes all of the standard task traits by default, so a RoboFile may call the `$this->taskXXX` method for any of these tasks. To use an external task, ensure that its class files are available (e.g. `require` its project in your composer.json file), and include corresponding trait or traits in your Robofile.
 
 ### Shortcuts
 

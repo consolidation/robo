@@ -25,13 +25,13 @@ abstract class BaseTask implements TaskInterface, LoggerAwareInterface, ConfigAw
      */
     public function injectDependencies(InflectionInterface $child)
     {
-        if ($child instanceof LoggerAwareInterface) {
+        if ($child instanceof LoggerAwareInterface && $this->logger) {
             $child->setLogger($this->logger);
         }
-        if ($child instanceof ProgressIndicatorAwareInterface) {
+        if ($child instanceof ProgressIndicatorAwareInterface && $this->progressIndicator) {
             $child->setProgressIndicator($this->progressIndicator);
         }
-        if ($child instanceof ConfigAwareInterface) {
+        if ($child instanceof ConfigAwareInterface && $this->getConfig()) {
             $child->setConfig($this->getConfig());
         }
     }

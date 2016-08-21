@@ -11,10 +11,6 @@ class CollectionCest
 {
     public function _before(CliGuy $I)
     {
-        $I->getContainer()->addServiceProvider(\Robo\Collection\loadTasks::getCollectionServices());
-        $I->getContainer()->addServiceProvider(\Robo\Task\File\loadTasks::getFileServices());
-        $I->getContainer()->addServiceProvider(\Robo\Task\Filesystem\loadTasks::getFilesystemServices());
-
         $I->amInPath(codecept_data_dir().'sandbox');
     }
 
@@ -212,7 +208,7 @@ class CollectionCest
     public function toCreateDirViaCollection(CliGuy $I)
     {
         // Set up a collection to add tasks to
-        $collection = $I->getContainer()->get('collectionBuilder');
+        $collection = $I->collectionBuilder();
 
         // Set up a filesystem stack
         $collection->taskFilesystemStack()
@@ -231,7 +227,7 @@ class CollectionCest
     public function toUseATmpDirAndConfirmItIsDeleted(CliGuy $I)
     {
         // Set up a collection to add tasks to
-        $collection = $I->getContainer()->get('collectionBuilder');
+        $collection = $I->collectionBuilder();
 
         // Get a temporary directory to work in. Note that we get a
         // name back, but the directory is not created until the task
@@ -270,7 +266,7 @@ class CollectionCest
     public function toUseATmpDirAndChangeWorkingDirectory(CliGuy $I)
     {
         // Set up a collection to add tasks to
-        $collection = $I->getContainer()->get('collectionBuilder');
+        $collection = $I->collectionBuilder();
 
         $cwd = getcwd();
 
@@ -312,7 +308,7 @@ class CollectionCest
     public function toCreateATmpFileAndConfirmItIsDeleted(CliGuy $I)
     {
         // Set up a collection to add tasks to
-        $collection = $I->getContainer()->get('collectionBuilder');
+        $collection = $I->collectionBuilder();
 
         // Write to a temporary file. Note that we can get the path
         // to the tempoary file that will be created, even though the
@@ -341,7 +337,7 @@ class CollectionCest
 
     public function toUseATmpDirWithAlternateSyntax(CliGuy $I)
     {
-        $collection = $I->getContainer()->get('collectionBuilder');
+        $collection = $I->collectionBuilder();
 
         // This test is equivalent to toUseATmpDirAndConfirmItIsDeleted,
         // but uses a different technique to create a collection of tasks.
@@ -362,6 +358,24 @@ class CollectionCest
         $I->assertEquals(0, $result->getExitCode(), $result->getMessage());
         $I->seeFileFound('copied3/log/error.txt');
         $I->dontSeeFileFound("$tmpPath/log/error.txt");
+    }
+
+    public function toCreateATmpDirWithoutACollection(CliGuy $I)
+    {
+        // Create a temporary directory, using our function name as
+        // the prefix for the directory name.
+        $tmpDirTask = $I->taskTmpDir(__FUNCTION__);
+        $tmpPath = $tmpDirTask->getPath();
+        $I->dontSeeFileFound($tmpPath);
+        $tmpDirTask->run();
+        $I->seeDirFound($tmpPath);
+        // Creating a temporary directory without a task collection will
+        // cause the temporary directory to be deleted when the program
+        // terminates.  We can force it to clean up sooner by calling
+        // TransientManager::complete(); note that this deletes ALL global tmp
+        // directories, so this is not thread-safe!  Useful in tests, though.
+        Temporary::complete();
+        $I->dontSeeFileFound($tmpPath);
     }
 
     public function toCreateATmpDirUsingShortcut(CliGuy $I)

@@ -2,11 +2,6 @@
 
 class GenTaskCest
 {
-    public function _before(CliGuy $I)
-    {
-        $I->getContainer()->addServiceProvider(\Robo\Task\Development\loadTasks::getDevelopmentServices());
-    }
-
     // tests
     public function toExecLsCommand(CliGuy $I)
     {

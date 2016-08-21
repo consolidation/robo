@@ -1,24 +1,8 @@
 <?php
 namespace Robo\Task\Vcs;
 
-use Robo\Container\SimpleServiceProvider;
-
 trait loadTasks
 {
-    /**
-     * Return services.
-     */
-    public static function getVcsServices()
-    {
-        return new SimpleServiceProvider(
-            [
-                'taskSvnStack' => SvnStack::class,
-                'taskGitStack' => GitStack::class,
-                'taskHgStack' => HgStack::class
-            ]
-        );
-    }
-
     /**
      * @param string $username
      * @param string $password
@@ -27,7 +11,7 @@ trait loadTasks
      */
     protected function taskSvnStack($username = '', $password = '', $pathToSvn = 'svn')
     {
-        return $this->task(__FUNCTION__, $username, $password, $pathToSvn);
+        return $this->task(SvnStack::class, $username, $password, $pathToSvn);
     }
 
     /**
@@ -36,7 +20,7 @@ trait loadTasks
      */
     protected function taskGitStack($pathToGit = 'git')
     {
-        return $this->task(__FUNCTION__, $pathToGit);
+        return $this->task(GitStack::class, $pathToGit);
     }
 
     /**
@@ -45,6 +29,6 @@ trait loadTasks
      */
     protected function taskHgStack($pathToHg = 'hg')
     {
-        return $this->task(__FUNCTION__, $pathToHg);
+        return $this->task(HgStack::class, $pathToHg);
     }
 }

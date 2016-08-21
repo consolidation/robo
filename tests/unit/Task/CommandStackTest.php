@@ -4,13 +4,6 @@ use Robo\Robo;
 
 class CommandStackTest extends \Codeception\TestCase\Test
 {
-    protected $container;
-
-    protected function _before()
-    {
-        $this->container = Robo::getContainer();
-    }
-
     public function testExecStackExecutableIsTrimmedFromCommand()
     {
         $commandStack = Stub::make('Robo\Task\CommandStack');

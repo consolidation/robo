@@ -6,6 +6,8 @@ use Robo\Task\File\Replace;
 use Robo\Task\Filesystem;
 use Robo\Result;
 use Robo\Task\Development;
+use Robo\Contract\BuilderAwareInterface;
+use Robo\Common\BuilderAwareTrait;
 
 /**
  * Helps to manage changelog file.
@@ -36,23 +38,14 @@ use Robo\Task\Development;
  * @method Development\Changelog anchor(string $anchor)
  * @method Development\Changelog version(string $version)
  */
-class Changelog extends BaseTask
+class Changelog extends BaseTask implements BuilderAwareInterface
 {
+    use BuilderAwareTrait;
+
     protected $filename;
     protected $log = [];
     protected $anchor = "# Changelog";
     protected $version = "";
-
-    /**
-     * @param string $filename
-     * @return \Robo\Task\Development\Changelog
-     * @deprecated
-     *   Use $this->taskChangelog($filename) instead.
-     */
-    public static function init($filename = 'CHANGELOG.md')
-    {
-        return \Robo\Robo::getContainer()->get('taskChangelog', [$filename]);
-    }
 
     public function filename($filename)
     {
@@ -126,15 +119,13 @@ class Changelog extends BaseTask
         }
 
         // trying to append to changelog for today
-        $result = (new Replace($this->filename))
-            ->inflect($this)
+        $result = $this->collectionBuilder()->taskReplace($this->filename)
             ->from($ver)
             ->to($text)
             ->run();
 
         if (!isset($result['replaced']) || !$result['replaced']) {
-            $result = (new Replace($this->filename))
-                ->inflect($this)
+            $result = $this->collectionBuilder()->taskReplace($this->filename)
                 ->from($this->anchor)
                 ->to($this->anchor . "\n\n" . $text)
                 ->run();

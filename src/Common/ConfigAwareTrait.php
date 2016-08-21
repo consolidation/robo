@@ -50,6 +50,9 @@ trait ConfigAwareTrait
 
     protected function getConfigValue($key, $default = null)
     {
+        if (!$this->getConfig()) {
+            return $default;
+        }
         return $this->getConfig()->get(static::getClassKey($key), $default);
     }
 }

@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\StringInput;
 use Consolidation\AnnotatedCommand\PassThroughArgsInput;
+use Robo\Contract\BuilderAwareInterface;
 
 class Runner
 {
@@ -50,7 +51,11 @@ class Runner
 
     protected function loadRoboFile()
     {
-        if (class_exists($this->roboClass)) {
+        // If $this->roboClass is a single class that has not already
+        // been loaded, then we will try to obtain it from $this->roboFile.
+        // If $this->roboClass is an array, we presume all classes requested
+        // are available via the autoloader.
+        if (is_array($this->roboClass) || class_exists($this->roboClass)) {
             return true;
         }
 
@@ -84,6 +89,21 @@ class Runner
 
     public function run($input = null, $output = null)
     {
+        // Create default input and output objects if they were not provided
+        if (!$input) {
+            $input = new StringInput('');
+        }
+        if (!$output) {
+            $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+        }
+
+        $app = $this->init($input, $output);
+        $statusCode = $app->run($input, $output);
+        return $statusCode;
+    }
+
+    public function init($input, $output)
+    {
         // If we were not provided a container, then create one
         if (!Robo::hasContainer()) {
             Robo::createDefaultContainer($input, $output);
@@ -91,11 +111,15 @@ class Runner
             // an error handler when we provide the container.
             $this->installRoboHandlers();
         }
-
         $container = Robo::getContainer();
-        $output = $container->get('output');
         $app = $container->get('application');
 
+        $this->registerRoboFileCommands($app);
+        return $app;
+    }
+
+    protected function registerRoboFileCommands($app)
+    {
         if (!$this->loadRoboFile()) {
             $this->yell("Robo is not initialized here. Please run `robo init` to create a new RoboFile", 40, 'yellow');
             $app->addInitRoboFileCommand($this->roboFile, $this->roboClass);
@@ -103,14 +127,20 @@ class Runner
             return;
         }
 
-        // Register the RoboFile with the container and then immediately
-        // fetch it; this ensures that all of the inflectors will run.
-        $commandFileName = "{$this->roboClass}Commands";
-        $container->share($commandFileName, $this->roboClass);
-        $roboCommandFileInstance = $container->get($commandFileName);
+        $this->registerCommandClasses($app, $this->roboClass);
+    }
 
-        // RoboFiles must always extend `Tasks`.
-        Robo::addServiceProviders($container, $roboCommandFileInstance->getServiceProviders());
+    protected function registerCommandClasses($app, $commandClasses)
+    {
+        foreach ((array)$commandClasses as $commandClass) {
+            $this->registerCommandClass($app, $commandClass);
+        }
+    }
+
+    protected function registerCommandClass($app, $commandClass)
+    {
+        $container = Robo::getContainer();
+        $roboCommandFileInstance = $this->instantiateCommandClass($commandClass);
 
         // Register commands for all of the public methods in the RoboFile.
         $commandFactory = $container->get('commandFactory');
@@ -118,8 +148,22 @@ class Runner
         foreach ($commandList as $command) {
             $app->add($command);
         }
-        $statusCode = $app->run($input, $output);
-        return $statusCode;
+    }
+
+    protected function instantiateCommandClass($commandClass)
+    {
+        $container = Robo::getContainer();
+
+        // Register the RoboFile with the container and then immediately
+        // fetch it; this ensures that all of the inflectors will run.
+        $commandFileName = "{$commandClass}Commands";
+        $container->share($commandFileName, $commandClass);
+        $roboCommandFileInstance = $container->get($commandFileName);
+        if ($roboCommandFileInstance instanceof BuilderAwareInterface) {
+            $builder = $container->get('collectionBuilder', [$roboCommandFileInstance]);
+            $roboCommandFileInstance->setBuilder($builder);
+        }
+        return $roboCommandFileInstance;
     }
 
     public function installRoboHandlers()

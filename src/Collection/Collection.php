@@ -4,7 +4,6 @@ namespace Robo\Collection;
 use Robo\Result;
 use Psr\Log\LogLevel;
 use Robo\Contract\TaskInterface;
-use Robo\Container\SimpleServiceProvider;
 use Robo\Task\StackBasedTask;
 use Robo\Task\BaseTask;
 use Robo\TaskInfo;
@@ -14,15 +13,12 @@ use Robo\Contract\ProgressIndicatorAwareInterface;
 use Robo\Common\ProgressIndicatorAwareTrait;
 use Robo\Contract\InflectionInterface;
 
-use League\Container\ContainerAwareInterface;
-use League\Container\ContainerAwareTrait;
-
 /**
  * Group tasks into a collection that run together. Supports
  * rollback operations for handling error conditions.
  *
- * Clients should favor using a CollectionBuilder over direct use of
- * the Collection class.  @see CollectionBuilder
+ * This is an internal class. Clients should use a CollectionBuilder
+ * rather than direct use of the Collection class.  @see CollectionBuilder.
  *
  * Below, the example FilesystemStack task is added to a collection,
  * and associated with a rollback task.  If any of the operations in
@@ -30,29 +26,9 @@ use League\Container\ContainerAwareTrait;
  * the task collection should fail, then the rollback function is
  * called. Here, taskDeleteDir is used to remove partial results
  * of an unfinished task.
- *
- * ``` php
- * <?php
- * $collection = $this->collection();
- * $collection->rollback(
- *     $this->taskDeleteDir('logs')
- * )
- * $collection->add(
- *     $this->taskFilesystemStack()
- *        ->mkdir('logs')
- *        ->touch('logs/.gitignore')
- *        ->chgrp('logs', 'www-data')
- *        ->symlink('/var/log/nginx/error.log', 'logs/error.log')
- * );
- * $collection->run();
- *
- * ?>
- * ```
  */
-class Collection extends BaseTask implements CollectionInterface, ContainerAwareInterface
+class Collection extends BaseTask implements CollectionInterface
 {
-    use ContainerAwareTrait;
-
     protected $taskList = [];
     protected $rollbackStack = [];
     protected $completionStack = [];
@@ -313,6 +289,11 @@ class Collection extends BaseTask implements CollectionInterface, ContainerAware
         // All tasks are stored in a task group so that we have a place
         // to hang 'before' and 'after' tasks.
         $taskGroup = new Element($task);
+        return $this->addCollectionElementToTaskList($name, $taskGroup);
+    }
+
+    protected function addCollectionElementToTaskList($name, Element $taskGroup)
+    {
         // If a task name is not provided, then we'll let php pick
         // the array index.
         if (static::isUnnamedTask($name)) {
@@ -602,5 +583,20 @@ class Collection extends BaseTask implements CollectionInterface, ContainerAware
                 // Ignore rollback failures.
             }
         }
+    }
+
+    /**
+     * Give all of our tasks to the provided collection builder.
+     */
+    public function transferTasks($builder)
+    {
+        foreach ($this->taskList as $name => $taskGroup) {
+            // TODO: We are abandoning all of our before and after tasks here.
+            // At the moment, transferTasks is only called under conditions where
+            // there will be none of these, but care should be taken if that changes.
+            $task = $taskGroup->getTask();
+            $builder->addTaskToCollection($task);
+        }
+        $this->reset();
     }
 }

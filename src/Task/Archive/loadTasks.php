@@ -1,23 +1,8 @@
 <?php
 namespace Robo\Task\Archive;
 
-use Robo\Container\SimpleServiceProvider;
-
 trait loadTasks
 {
-    /**
-     * Return services.
-     */
-    public static function getArchiveServices()
-    {
-        return new SimpleServiceProvider(
-            [
-                'taskExtract' => Extract::class,
-                'taskPack' => Pack::class,
-            ]
-        );
-    }
-
     /**
      * @param $filename
      *
@@ -25,7 +10,7 @@ trait loadTasks
      */
     protected function taskPack($filename)
     {
-        return $this->task(__FUNCTION__, $filename);
+        return $this->task(Pack::class, $filename);
     }
 
     /**
@@ -35,6 +20,6 @@ trait loadTasks
      */
     protected function taskExtract($filename)
     {
-        return $this->task(__FUNCTION__, $filename);
+        return $this->task(Extract::class, $filename);
     }
 }

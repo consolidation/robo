@@ -23,18 +23,23 @@ trait TaskIO
 
     public function logger()
     {
-        // $this->logger will always be set in Robo core tasks.
+        // $this->logger should always be set in Robo core tasks.
+        if ($this->logger) {
+            return $this->logger;
+        }
+
         // TODO: Remove call to Robo::logger() once maintaining backwards
         // compatibility with legacy external Robo tasks is no longer desired.
-        if (!$this->logger) {
-            static $gaveDeprecationWarning = false;
-            if (!$gaveDeprecationWarning) {
-                trigger_error('No logger set for ' . get_class($this) . '. Use $this->task("Foo") rather than new Foo() in loadTasks to ensure the DI container can initialize tasks, or use $task->inflect($this) if creating one task from within another.', E_USER_DEPRECATED);
-                $gaveDeprecationWarning = true;
-            }
-            return Robo::logger();
+        if (!Robo::logger()) {
+            return null;
         }
-        return $this->logger;
+
+        static $gaveDeprecationWarning = false;
+        if (!$gaveDeprecationWarning) {
+            trigger_error('No logger set for ' . get_class($this) . '. Use $this->task(Foo::class) rather than new Foo() in loadTasks to ensure the builder can initialize task the task, or use $this->collectionBuilder()->taskFoo() if creating one task from within another.', E_USER_DEPRECATED);
+            $gaveDeprecationWarning = true;
+        }
+        return Robo::logger();
     }
 
     /**
@@ -107,12 +112,13 @@ trait TaskIO
 
     protected function printTaskOutput($level, $text, $context)
     {
-        if ($this->getConfig()->isSupressed()) {
+        $logger = $this->logger();
+        if (($this->getConfig() && $this->getConfig()->isSupressed()) || !$logger) {
             return;
         }
         // Hide the progress indicator, if it is visible.
         $inProgress = $this->hideTaskProgress();
-        $this->logger()->log($level, $text, $this->getTaskContext($context));
+        $logger->log($level, $text, $this->getTaskContext($context));
         // After we have printed our log message, redraw the progress indicator.
         $this->showTaskProgress($inProgress);
     }

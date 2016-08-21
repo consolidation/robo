@@ -71,13 +71,12 @@ class Robo
     /**
      * Create a container and initiailze it.
      */
-    public static function createDefaultContainer($input = null, $output = null, $providerList = [])
+    public static function createDefaultContainer($input = null, $output = null)
     {
         // Set up our dependency injection container.
         $container = new Container();
         static::configureContainer($container, $input, $output);
         static::setContainer($container);
-        static::addServiceProviders($container, $providerList);
 
         return $container;
     }
@@ -125,6 +124,7 @@ class Robo
             ->withMethodCall('setFormatterManager', ['formatterManager']);
         $container->share('commandFactory', \Consolidation\AnnotatedCommand\AnnotatedCommandFactory::class)
             ->withMethodCall('setCommandProcessor', ['commandProcessor']);
+        $container->add('collection', \Robo\Collection\Collection::class);
         $container->add('collectionBuilder', \Robo\Collection\CollectionBuilder::class);
         $container->share('application', \Robo\Application::class)
             ->withArgument('Robo')
@@ -133,7 +133,6 @@ class Robo
             ->withMethodCall('setDispatcher', ['eventDispatcher']);
 
         static::addInflectors($container);
-        static::addServiceProviders($container, static::standardServices());
     }
 
     /**
@@ -150,46 +149,10 @@ class Robo
             ->invokeMethod('setContainer', ['container']);
         $container->inflector(\Symfony\Component\Console\Input\InputAwareInterface::class)
             ->invokeMethod('setInput', ['input']);
+        $container->inflector(\Robo\Contract\OutputAwareInterface::class)
+            ->invokeMethod('setOutput', ['output']);
         $container->inflector(\Robo\Contract\ProgressIndicatorAwareInterface::class)
             ->invokeMethod('setProgressIndicator', ['progressIndicator']);
-    }
-
-    /**
-     * Register our service providers
-     */
-    public static function addServiceProviders($container, $providerList)
-    {
-        foreach ($providerList as $provider) {
-            $container->addServiceProvider($provider);
-        }
-    }
-
-    /**
-     * Return the Robo built-in task services
-     *
-     * @return SimpleServiceProvider[]
-     */
-    public static function standardServices()
-    {
-        return
-        [
-            \Robo\Collection\loadTasks::getCollectionServices(),
-            \Robo\Task\ApiGen\loadTasks::getApiGenServices(),
-            \Robo\Task\Archive\loadTasks::getArchiveServices(),
-            \Robo\Task\Assets\loadTasks::getAssetsServices(),
-            \Robo\Task\Base\loadTasks::getBaseServices(),
-            \Robo\Task\Npm\loadTasks::getNpmServices(),
-            \Robo\Task\Bower\loadTasks::getBowerServices(),
-            \Robo\Task\Gulp\loadTasks::getGulpServices(),
-            \Robo\Task\Composer\loadTasks::getComposerServices(),
-            \Robo\Task\Development\loadTasks::getDevelopmentServices(),
-            \Robo\Task\Docker\loadTasks::getDockerServices(),
-            \Robo\Task\File\loadTasks::getFileServices(),
-            \Robo\Task\Filesystem\loadTasks::getFilesystemServices(),
-            \Robo\Task\Remote\loadTasks::getRemoteServices(),
-            \Robo\Task\Testing\loadTasks::getTestingServices(),
-            \Robo\Task\Vcs\loadTasks::getVcsServices(),
-        ];
     }
 
     /**

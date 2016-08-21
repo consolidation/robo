@@ -1,6 +1,5 @@
 <?php
 $I = new CliGuy($scenario);
-$I->getContainer()->addServiceProvider(\Robo\Task\Filesystem\loadTasks::getFilesystemServices());
 
 $I->wantTo('flatten dir with FlattenDir task including parents');
 $I->amInPath(codecept_data_dir().'sandbox');

@@ -10,19 +10,11 @@ class RsyncTest extends \Codeception\TestCase\Test
      */
     protected $guy;
 
-    protected $container;
-
-    protected function _before()
-    {
-        $this->container = Robo::getContainer();
-        $this->container->addServiceProvider(\Robo\Task\Remote\loadTasks::getRemoteServices());
-    }
-
     // tests
     public function testRsync()
     {
         verify(
-            $this->container->get('taskRsync')
+            (new \Robo\Task\Remote\Rsync())
                 ->fromPath('src/')
                 ->toHost('localhost')
                 ->toUser('dev')
@@ -48,7 +40,7 @@ class RsyncTest extends \Codeception\TestCase\Test
         );
 
         verify(
-            $this->container->get('taskRsync')
+            (new \Robo\Task\Remote\Rsync())
                 ->fromPath('src/foo bar/baz')
                 ->toHost('localhost')
                 ->toUser('dev')

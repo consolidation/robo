@@ -23,7 +23,7 @@
 * [Extract] task added
 * [Pack] task added
 * [TmpDir], [WorkDir] and [TmpFile] tasks added
-* Support standalone Robo scripts that allows scripts starting with `#!/usr/bin/env robo` to define multiple robo commands.  Use `#!/usr/bin/env robo run` to define a single robo command implemented by the `run()` method.
+* Support Robo scripts that allows scripts starting with `#!/usr/bin/env robo` to define multiple robo commands.  Use `#!/usr/bin/env robo run` to define a single robo command implemented by the `run()` method.
 * Provide ProgresIndicatorAwareInterface and ProgressIndicatorAwareTrait that make it easy to add progress indicators to tasks
 * Add --simulate mode that causes tasks to print what they would have done, but make no changes
 * Add `robo generate:task` code-generator to make new stack-based task wrappers around existing classes

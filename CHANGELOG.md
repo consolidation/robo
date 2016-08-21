@@ -29,6 +29,7 @@
 * Add `robo generate:task` code-generator to make new stack-based task wrappers around existing classes
 * Add `robo sniff` by @dustinleblanc. Runs the PHP code sniffer followed by the code beautifier, if needed.
 * Implement ArrayInterface for Result class, so result data may be accessed like an array 
+* Using `--load-from` no longer changes the current working directory to the path where the RoboFile is located.
 * Defer execution of operations in taskWriteToFile until the run() method
 * Add Write::textIfMatch() for taskWriteToFile
 * ResourceExistenceChecker used for error checking in DeleteDir, CopyDir, CleanDir and Concat tasks by @burzum

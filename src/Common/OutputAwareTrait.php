@@ -24,7 +24,7 @@ trait OutputAwareTrait
     /**
      * @inheritdoc
      */
-    public function output()
+    protected function output()
     {
         return $this->output;
     }

@@ -24,7 +24,7 @@ trait InputAwareTrait
     /**
      * @inheritdoc
      */
-    public function input()
+    protected function input()
     {
         return $this->input;
     }

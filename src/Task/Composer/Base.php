@@ -1,13 +1,13 @@
 <?php
 namespace Robo\Task\Composer;
 
+use Robo\Robo;
 use Robo\Task\BaseTask;
 use Robo\Exception\TaskException;
 
 abstract class Base extends BaseTask
 {
     use \Robo\Common\ExecOneCommand;
-    use \Robo\Common\IO;
 
     protected $prefer;
     protected $dev;
@@ -98,7 +98,10 @@ abstract class Base extends BaseTask
             throw new TaskException(__CLASS__, "Neither local composer.phar nor global composer installation could be found.");
         }
 
-        if ($this->getOutput()->isDecorated()) {
+        // TODO: We are using the active Output object to determine if we should
+        // automatically use 'ansi' mode. Instead, we should make this task a
+        // ConfigAwareInterface, and add a configuration setting for this.
+        if (Robo::output()->isDecorated()) {
             $this->ansi();
         }
     }

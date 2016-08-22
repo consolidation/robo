@@ -112,7 +112,7 @@ class Atoum extends BaseTask implements CommandInterface, PrintedInterface
     }
 
     /**
-     * Test file ou test files to run.
+     * Test file or test files to run.
      *
      * @param string|array
      *

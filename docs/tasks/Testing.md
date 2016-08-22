@@ -20,7 +20,7 @@ $this->taskAtoum()
 * `bootstrap($file)`  Path to the bootstrap file.
 * `configFile($file)`  Path to the config file.
 * `debug()`  Use atoum's debug mode.
-* `files($files)`  Test file ou test files to run.
+* `files($files)`  Test file or test files to run.
 * `directories($directories)`  Test directory or directories to run.
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed

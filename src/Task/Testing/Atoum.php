@@ -11,7 +11,7 @@ use Robo\Task\BaseTask;
  * ``` php
  * <?php
  * $this->taskAtoum()
- *  ->file('path/to/test.php')
+ *  ->files('path/to/test.php')
  *  ->configFile('config/dev.php')
  *  ->run()
  *

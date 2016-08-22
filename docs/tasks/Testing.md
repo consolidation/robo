@@ -7,7 +7,7 @@ Runs [atoum](http://atoum.org/) tests
 ``` php
 <?php
 $this->taskAtoum()
- ->file('path/to/test.php')
+ ->files('path/to/test.php')
  ->configFile('config/dev.php')
  ->run()
 

@@ -12,7 +12,7 @@ class NpmTest extends \Codeception\TestCase\Test
     protected function _before()
     {
         $this->baseNpm = test::double('Robo\Task\Npm\Base', [
-            'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
+            'output' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
     }
 

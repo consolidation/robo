@@ -1,7 +1,6 @@
 <?php
 namespace Robo;
 
-use Robo\Common\IO;
 use League\Container\Container;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -11,8 +10,6 @@ use Robo\Contract\BuilderAwareInterface;
 
 class Runner
 {
-    use IO;
-
     const ROBOCLASS = 'RoboFile';
     const ROBOFILE = 'RoboFile.php';
 

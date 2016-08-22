@@ -2,6 +2,7 @@
 
 namespace Robo\Common;
 
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
 trait OutputAwareTrait
@@ -26,6 +27,15 @@ trait OutputAwareTrait
      */
     protected function output()
     {
+        if (!isset($this->output)) {
+            $this->setOutput(new NullOutput());
+        }
         return $this->output;
+    }
+
+    // Backwards compatibility
+    protected function getOutput()
+    {
+        return $this->output();
     }
 }

@@ -97,17 +97,13 @@ abstract class Base extends BaseTask
         if (!$this->command) {
             throw new TaskException(__CLASS__, "Neither local composer.phar nor global composer installation could be found.");
         }
-
-        // TODO: We are using the active Output object to determine if we should
-        // automatically use 'ansi' mode. Instead, we should make this task a
-        // ConfigAwareInterface, and add a configuration setting for this.
-        if (Robo::output()->isDecorated()) {
-            $this->ansi();
-        }
     }
 
     public function getCommand()
     {
+        if (!isset($this->ansi) && $this->getConfig()->isDecorated()) {
+            $this->ansi();
+        }
         $this->option($this->prefer)
             ->option($this->dev)
             ->option($this->optimizeAutoloader)

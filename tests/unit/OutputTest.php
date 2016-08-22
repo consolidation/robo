@@ -1,5 +1,6 @@
 <?php
 use AspectMock\Test as test;
+use Robo\Robo;
 use Robo\Common\IO;
 
 class OutputTest extends \Codeception\TestCase\Test
@@ -8,11 +9,10 @@ class OutputTest extends \Codeception\TestCase\Test
         say as public;
         yell as public;
         ask as public;
-        getOutput as protected;
+        output as protected;
     }
 
     protected $expectedAnswer;
-
 
     /**
      * @var \CodeGuy
@@ -27,6 +27,7 @@ class OutputTest extends \Codeception\TestCase\Test
     protected function _before()
     {
         $this->dialog = new Symfony\Component\Console\Helper\QuestionHelper;
+       $this->setOutput(Robo::service('output'));
     }
 
     public function testSay()

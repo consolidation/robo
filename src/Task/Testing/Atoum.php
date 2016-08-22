@@ -11,7 +11,7 @@ use Robo\Task\BaseTask;
  * ``` php
  * <?php
  * $this->taskAtoum()
- *  ->file('path/to/test.php')
+ *  ->files('path/to/test.php')
  *  ->configFile('config/dev.php')
  *  ->run()
  *
@@ -112,7 +112,7 @@ class Atoum extends BaseTask implements CommandInterface, PrintedInterface
     }
 
     /**
-     * Test file ou test files to run.
+     * Test file or test files to run.
      *
      * @param string|array
      *

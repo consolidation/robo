@@ -27,7 +27,7 @@ class OutputTest extends \Codeception\TestCase\Test
     protected function _before()
     {
         $this->dialog = new Symfony\Component\Console\Helper\QuestionHelper;
-       $this->setOutput(Robo::service('output'));
+        $this->setOutput(Robo::service('output'));
     }
 
     public function testSay()

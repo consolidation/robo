@@ -119,7 +119,7 @@ class PHPUnit extends BaseTask implements CommandInterface, PrintedInterface
         if (is_string($files)) {
             $files = [$files];
         }
-        $this->files = ' ' . implode(',', $files);
+        $this->files = ' ' . implode(' ', $files);
         return $this;
     }
 

@@ -20,6 +20,7 @@ use Robo\Contract\ProgressIndicatorAwareInterface;
 trait TaskIO
 {
     use LoggerAwareTrait;
+    use ConfigAwareTrait;
 
     public function logger()
     {

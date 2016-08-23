@@ -9,15 +9,12 @@ use Robo\Contract\TaskInterface;
 use Robo\Contract\ProgressIndicatorAwareInterface;
 use Robo\Common\ProgressIndicatorAwareTrait;
 use Robo\Contract\ConfigAwareInterface;
-use Robo\Common\ConfigAwareTrait;
 use Psr\Log\LoggerAwareInterface;
 
-// TODO: Ensure that ConfigAwareInterface is only used for global options; then, add it only to tasks that need it.
 abstract class BaseTask implements TaskInterface, LoggerAwareInterface, ConfigAwareInterface, ProgressIndicatorAwareInterface, InflectionInterface
 {
     use TaskIO; // uses LoggerAwareTrait and ConfigAwareTrait
     use ProgressIndicatorAwareTrait;
-    use ConfigAwareTrait;
     use InflectionTrait;
 
     /**

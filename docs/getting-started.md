@@ -313,17 +313,9 @@ $name = $this->ask("What is your name?");
 
 There are also `askDefault`, `askHidden`, and `confirm` methods.
 
-Inside tasks you should print process details with `printTaskInfo`, ``printTaskSuccess`, and `printTaskError`.
-
-To allow tasks access IO, use the `Robo\Common\TaskIO` trait, or inherit your task class from `Robo\Task\BaseTask` (recommended).
-```
-$this->printTaskInfo('Processing...');
-```
-The Task IO methods send all output through a PSR-3 logger. Tasks should use task IO exclusively; methods such as 'say' and 'ask' should reside in the command method. This allows tasks to be usable in any context that has a PSR-3 logger, including background or server processes where it is not possible to directly query the user.
-
 ### Formatters
 
-It is preferable for commands that look up and display information should avoid doing IO directly, and should instead return the data they wish to display as an array. This data can then be converted into different data formats, such as "table" and "json". The user may select which formatter to use via the --format option.
+It is preferable for commands that look up and display information should avoid doing IO directly, and should instead return the data they wish to display as an array. This data can then be converted into different data formats, such as "table" and "json". The user may select which formatter to use via the --format option. For details on formatters, see the [consolidation/output-formatters](https://github.com/consolidation-org/output-formatters) project.
 
 ### Progress
 

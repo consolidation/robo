@@ -4,7 +4,7 @@ Robo tasks can be added to your Robo application by using Composer to suppliment
 
 The convention used to add new tasks for use in your RoboFiles is to create a wrapper trait named 'loadTasks` that instantiates the implementation class for each task. Each task method in the trait should start with the prefix `task`, and should use **chained method calls** for configuration. Task execution should be triggered by the method `run`. 
 
-To include additional tasks in your RoboFile, you must `use` the appropriate `loadTasks` in your RoboFile. See the section [Including Additional Tasks](#including-additional-tasks) below. To create your own Robo extension containing tasks, then you must write your own `loadTasks` trait as described in the section [Creating a Robo Extension](#creating-a-robo-extension).
+To include additional tasks in your RoboFile, you must `use` the appropriate `loadTasks` in your RoboFile. See the section [Including Additional Tasks](#including-additional-tasks) below. To create your own Robo extension that provides tasks for use in RoboFiles, then you must write your own class that implements TaskInterface, and create a `loadTasks` trait for it as described in the section [Creating a Robo Extension](#creating-a-robo-extension).
 
 ## Including Additional Tasks
 
@@ -78,7 +78,7 @@ trait loadTasks
 ```
 Note that the name of the service for a given task must start with the word "task", and must have the same name as the function used to call the task.  `$this->task()` looks up the service by name; using the PHP built-in constant __FUNCTION__ for this parameter ensures that the names of these items remain in alignment.
 
-### Extension Task implementation
+### Task implementation
 
 The implementation of each task class should extend \Robo\Task\BaseTask, or some class that extends the same, and should used chained initializer methods and defer all operations that alter the state of the system until its `run()` method.  If you follow these patterns, then your task extensions will be usable via Robo collection builders, as explained in the [collections](collections.md) documentation.
 
@@ -128,7 +128,24 @@ class CompileAssets implements \Robo\Contract\TaskInterface
 }
 ?>
 ```
-To use it in a RoboFile, include the task via `use \MyAssetTasks\loadTasks` as previouly explained.
+
+To use the tasks you define in a RoboFile, use its `loadTasks` trait as explained in the section [Including Additional Tasks](#including-additional-tasks), above.
+
+### TaskIO
+
+To allow tasks access IO, use the `Robo\Common\TaskIO` trait, or inherit your task class from `Robo\Task\BaseTask` (recommended).
+
+Inside tasks you should print process details with `printTaskInfo`, `printTaskSuccess`, and `printTaskError`.
+```
+$this->printTaskInfo('Processing...');
+```
+The Task IO methods send all output through a PSR-3 logger. Tasks should use task IO exclusively; methods such as 'say' and 'ask' should reside in the command method. This allows tasks to be usable in any context that has a PSR-3 logger, including background or server processes where it is not possible to directly query the user.
+
+### Tasks That Use Tasks
+
+If one task implementation needs to use other tasks while it is running, it should do so via a `CollectionBuilder` object, as explained in the [Collections](collections.md) documentation.
+
+To obtain access to a `CollectionBuilder`, a task should implement `BuilderAwareInterface` and use `BuilderAwareTrait`.  It will then have access to a collection builder via the `$this->collectionBuilder()` method.
 
 ### Testing Extensions
 

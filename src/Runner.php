@@ -79,14 +79,15 @@ class Runner
         return true;
     }
 
-    public function execute($argv, $output = null)
+    public function execute($argv, $output = null, $appName = null, $appVersion = null)
     {
         $argv = $this->shebang($argv);
         $input = $this->prepareInput($argv);
-        return $this->run($input, $output);
+        $app = $this->init($input, $output, $appName, $appVersion);
+        return $this->run($input, $output, $app);
     }
 
-    public function run($input = null, $output = null)
+    public function run($input = null, $output = null, $app = null)
     {
         // Create default input and output objects if they were not provided
         if (!$input) {
@@ -95,24 +96,24 @@ class Runner
         if (!$output) {
             $output = new \Symfony\Component\Console\Output\ConsoleOutput();
         }
+        if (!$app) {
+            $app = Robo::application();
+        }
 
-        $app = $this->init($input, $output);
         $statusCode = $app->run($input, $output);
         return $statusCode;
     }
 
-    public function init($input, $output)
+    public function init($input, $output, $appName = null, $appVersion = null)
     {
         // If we were not provided a container, then create one
         if (!Robo::hasContainer()) {
-            Robo::createDefaultContainer($input, $output);
+            Robo::createDefaultContainer($input, $output, $appName, $appVersion);
             // Automatically register a shutdown function and
             // an error handler when we provide the container.
             $this->installRoboHandlers();
         }
-        $container = Robo::getContainer();
-        $app = $container->get('application');
-
+        $app = Robo::application();
         $this->registerRoboFileCommands($app);
         return $app;
     }

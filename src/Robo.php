@@ -15,7 +15,8 @@ use Symfony\Component\Console\Input\StringInput;
  */
 class Robo
 {
-    const VERSION = '1.0.0-RC1';
+    const APPLICATION_NAME = 'Robo';
+    const VERSION = '1.0.0-RC2';
 
     /**
      * The currently active container object, or NULL if not initialized yet.
@@ -71,11 +72,12 @@ class Robo
     /**
      * Create a container and initiailze it.
      */
-    public static function createDefaultContainer($input = null, $output = null)
+    public static function createDefaultContainer($input = null, $output = null, $appName = null, $appVersion = null)
     {
         // Set up our dependency injection container.
         $container = new Container();
-        static::configureContainer($container, $input, $output);
+        $app = static::createDefaultApplication($appName, $appVersion);
+        static::configureContainer($container, $input, $output, $app);
         static::setContainer($container);
 
         return $container;
@@ -84,7 +86,7 @@ class Robo
     /**
      * Initialize a container with all of the default Robo services.
      */
-    public static function configureContainer($container, $input = null, $output = null)
+    public static function configureContainer($container, $input = null, $output = null, $app = null)
     {
         // Self-referential container refernce for the inflector
         $container->add('container', $container);
@@ -126,13 +128,22 @@ class Robo
             ->withMethodCall('setCommandProcessor', ['commandProcessor']);
         $container->add('collection', \Robo\Collection\Collection::class);
         $container->add('collectionBuilder', \Robo\Collection\CollectionBuilder::class);
-        $container->share('application', \Robo\Application::class)
-            ->withArgument('Robo')
-            ->withArgument(self::VERSION)
-            ->withMethodCall('setAutoExit', [false])
-            ->withMethodCall('setDispatcher', ['eventDispatcher']);
-
         static::addInflectors($container);
+
+        if (!$app) {
+            $app = static::createDefaultApplication();
+        }
+        $app->setAutoExit(false);
+        $app->setDispatcher($container->get('eventDispatcher'));
+        $container->share('application', $app);
+    }
+
+    protected static function createDefaultApplication($appName = null, $appVersion = null)
+    {
+        $appName = $appName ?: self::APPLICATION_NAME;
+        $appVersion = $appVersion ?: self::VERSION;
+
+        return new \Robo\Application($appName, $appVersion);
     }
 
     /**
@@ -206,6 +217,11 @@ class Robo
     public static function logger()
     {
         return static::service('logger');
+    }
+
+    public static function application()
+    {
+        return static::service('application');
     }
 
     /**

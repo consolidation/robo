@@ -3,8 +3,6 @@ namespace Robo\Common;
 
 trait ResourceExistenceChecker
 {
-    use TaskIO;
-
     /**
      * Checks if the given input is a file or folder.
      *

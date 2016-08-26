@@ -7,11 +7,14 @@ use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\StringInput;
 use Consolidation\AnnotatedCommand\PassThroughArgsInput;
 use Robo\Contract\BuilderAwareInterface;
+use Robo\Common\IO;
 
 class Runner
 {
     const ROBOCLASS = 'RoboFile';
     const ROBOFILE = 'RoboFile.php';
+
+    use IO;
 
     /**
      * @var string RoboClass
@@ -96,6 +99,8 @@ class Runner
         if (!$app) {
             $app = Robo::application();
         }
+        $this->setInput($input);
+        $this->setOutput($output);
 
         $statusCode = $app->run($input, $output);
         return $statusCode;

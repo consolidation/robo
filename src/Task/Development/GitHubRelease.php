@@ -1,7 +1,6 @@
 <?php
 namespace Robo\Task\Development;
 
-use Robo\Common\Timer;
 use Robo\Result;
 
 /**
@@ -20,8 +19,6 @@ use Robo\Result;
  */
 class GitHubRelease extends GitHub
 {
-    use Timer;
-
     protected $tag;
     protected $name;
     protected $description = '';

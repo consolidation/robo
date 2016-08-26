@@ -17,6 +17,7 @@
    * If a Robo command returns a string, or a `Result` object with a `$message`, then it will be printed
    * Commands may be annotated to describe output formats that may be used
    * Structured arrays returned from function results may be converted into different formats, such as a table, yml, json, etc.
+   * Tasks must `use TaskIO` for output methods. It is no longer possible to `use IO` from a task. For direct access use `Robo::output()` (not recommended).   
 * Use league/container to do Dependency Injection
    * *Breaking* Tasks' loadTasks traits must use `$this->task(TaskClass::class);` instead of `new TaskClass();`
    * *Breaking* Tasks that use other tasks must use `$this->collectionBuilder()->taskName();` instead of `new TaskClass();` when creating task objects to call. Implement `Robo\Contract\BuilderAwareInterface` and use `Robo\Contract\BuilderAwareTrait` to add the `collectionBuilder()` method to your task class.
@@ -36,6 +37,7 @@
 * ArgvInput now available via $this->getInput() in RoboFile by Thomas Spigel
 * Add optional message to git tag task by Tim Tegeler
 * Rename 'FileSystem' to 'Filesystem' wherever it occurs.
+* Current directory is changed with `chdir` only if specified via the `--load-from` option (RC2)
 
 #### 0.6.0
 

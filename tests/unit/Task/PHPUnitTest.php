@@ -13,7 +13,8 @@ class PHPUnitTest extends \Codeception\TestCase\Test
     {
         $this->phpunit = test::double('Robo\Task\Testing\PHPUnit', [
             'executeCommand' => null,
-            'output' => new \Symfony\Component\Console\Output\NullOutput()
+            'output' => new \Symfony\Component\Console\Output\NullOutput(),
+            'logger' => new \Psr\Log\NullLogger(),
         ]);
     }
 

@@ -109,6 +109,8 @@ class CollectionTest extends \Codeception\TestCase\Test
             ->completion($completion2)
             ->addCode(function () { return 13; });
 
+        $collection->setLogger($this->guy->logger());
+
         $result = $collection->run();
         // Execution stops on the first error.
         // Confirm that status code is converted to a Result object.

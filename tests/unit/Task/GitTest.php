@@ -14,7 +14,8 @@ class GitTest extends \Codeception\TestCase\Test
     {
         $this->git = test::double('Robo\Task\Vcs\GitStack', [
             'executeCommand' => new \AspectMock\Proxy\Anything(),
-            'output' => new \Symfony\Component\Console\Output\NullOutput()
+            'output' => new \Symfony\Component\Console\Output\NullOutput(),
+            'logger' => new \Psr\Log\NullLogger(),
         ]);
     }
 

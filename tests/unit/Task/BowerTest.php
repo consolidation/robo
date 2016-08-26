@@ -14,13 +14,14 @@ class BowerTest extends \Codeception\TestCase\Test
     protected function _before()
     {
         $this->baseBower = test::double('Robo\Task\Bower\Base', [
-            'output' => new \Symfony\Component\Console\Output\NullOutput()
+            'output' => new \Symfony\Component\Console\Output\NullOutput(),
+            'logger' => new \Psr\Log\NullLogger(),
         ]);
     }
     // tests
     public function testBowerInstall()
     {
-        $bower = test::double('Robo\Task\Bower\Install', ['executeCommand' => null]);
+        $bower = test::double('Robo\Task\Bower\Install', ['executeCommand' => null, 'logger' => new \Psr\Log\NullLogger(),]);
         (new \Robo\Task\Bower\Install('bower'))->run();
         $bower->verifyInvoked('executeCommand', ['bower install']);
     }
@@ -28,7 +29,10 @@ class BowerTest extends \Codeception\TestCase\Test
     public function testBowerUpdate()
     {
         $bower = test::double('Robo\Task\Bower\Update', ['executeCommand' => null]);
-        (new \Robo\Task\Bower\Update('bower'))->run();
+        $task = new \Robo\Task\Bower\Update('bower');
+        $task->setLogger(new \Psr\Log\NullLogger());
+
+        $task->run();
         $bower->verifyInvoked('executeCommand', ['bower update']);
     }
 

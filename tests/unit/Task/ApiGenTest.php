@@ -15,7 +15,8 @@ class ApiGenTest extends \Codeception\TestCase\Test
     {
         $this->apigen = test::double('Robo\Task\ApiGen\ApiGen', [
             'executeCommand' => null,
-            'output' => new \Symfony\Component\Console\Output\NullOutput()
+            'output' => new \Symfony\Component\Console\Output\NullOutput(),
+            'logger' => new \Psr\Log\NullLogger(),
         ]);
 
         $this->container = Robo::getContainer();

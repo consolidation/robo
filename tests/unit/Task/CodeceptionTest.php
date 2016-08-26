@@ -27,7 +27,10 @@ class CodeceptionTest extends \Codeception\TestCase\Test
 
     public function testCodeceptionRun()
     {
-        (new \Robo\Task\Testing\Codecept('codecept.phar'))->run();
+        $task = new \Robo\Task\Testing\Codecept('codecept.phar');
+        $task->setLogger(new \Psr\Log\NullLogger());
+
+        $task->run();
         $this->codecept->verifyInvoked('executeCommand');
     }
 

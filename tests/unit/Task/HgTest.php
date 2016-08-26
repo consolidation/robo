@@ -19,7 +19,8 @@ class HgTest extends \Codeception\TestCase\Test
     {
         $this->hg = Test::double('Robo\Task\Vcs\HgStack', [
             'executeCommand' => new \AspectMock\Proxy\Anything(),
-            'output' => new \Symfony\Component\Console\Output\NullOutput()
+            'output' => new \Symfony\Component\Console\Output\NullOutput(),
+            'logger' => new \Psr\Log\NullLogger(),
         ]);
         $this->hgStack = (new \Robo\Task\Vcs\HgStack('hg'));
     }

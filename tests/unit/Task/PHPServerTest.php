@@ -16,20 +16,27 @@ class PHPServerTest extends \Codeception\TestCase\Test
             'run' => false,
             'start' => false,
             'getOutput' => 'Hello world',
-            'getExitCode' => 0
+            'getExitCode' => 0,
+            'logger' => new \Psr\Log\NullLogger(),
         ]);
         test::double('Robo\Task\Development\PhpServer', ['output' => new \Symfony\Component\Console\Output\NullOutput()]);
     }
 
     public function testServerBackgroundRun()
     {
-        (new \Robo\Task\Development\PhpServer('8000'))->background()->run();
+        $task = new \Robo\Task\Development\PhpServer('8000');
+        $task->setLogger(new \Psr\Log\NullLogger());
+
+        $task->background()->run();
         $this->process->verifyInvoked('start');
     }
 
     public function testServerRun()
     {
-        (new \Robo\Task\Development\PhpServer('8000'))->run();
+        $task = new \Robo\Task\Development\PhpServer('8000');
+        $task->setLogger(new \Psr\Log\NullLogger());
+
+        $task->run();
         $this->process->verifyInvoked('run');
     }
 

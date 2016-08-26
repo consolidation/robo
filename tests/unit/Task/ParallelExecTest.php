@@ -21,13 +21,17 @@ class ParallelExecTest extends \Codeception\TestCase\Test
             'start' => false,
             'isRunning' => false,
             'getOutput' => 'Hello world',
-            'getExitCode' => 0
+            'getExitCode' => 0,
+            'logger' => new \Psr\Log\NullLogger(),
         ]);
     }
 
     public function testParallelExec()
     {
-        $result = (new \Robo\Task\Base\ParallelExec())
+        $task = new \Robo\Task\Base\ParallelExec();
+        $task->setLogger($this->guy->logger());
+
+        $result = $task
             ->process('ls 1')
             ->process('ls 2')
             ->process('ls 3')

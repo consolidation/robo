@@ -12,31 +12,12 @@ use Symfony\Component\Console\Question\Question;
 
 trait IO
 {
-    /**
-     * @return OutputInterface
-     */
-    protected function getOutput()
-    {
-        if (!Robo::hasService('output')) {
-            return new NullOutput();
-        }
-        return Robo::output();
-    }
-
-    /**
-     * @return InputInterface
-     */
-    protected function getInput()
-    {
-        if (!Robo::hasService('input')) {
-            return new ArgvInput();
-        }
-        return Robo::input();
-    }
+    use InputAwareTrait;
+    use OutputAwareTrait;
 
     protected function decorationCharacter($nonDecorated, $decorated)
     {
-        if (!$this->getOutput()->isDecorated() || (strncasecmp(PHP_OS, 'WIN', 3) == 0)) {
+        if (!$this->output()->isDecorated() || (strncasecmp(PHP_OS, 'WIN', 3) == 0)) {
             return $nonDecorated;
         }
         return $decorated;
@@ -97,7 +78,7 @@ trait IO
 
     private function doAsk(Question $question)
     {
-        return $this->getDialog()->ask($this->getInput(), $this->getOutput(), $question);
+        return $this->getDialog()->ask($this->input(), $this->output(), $question);
     }
 
     private function formatQuestion($message)
@@ -112,6 +93,6 @@ trait IO
 
     private function writeln($text)
     {
-        $this->getOutput()->writeln($text);
+        $this->output()->writeln($text);
     }
 }

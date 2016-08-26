@@ -2,6 +2,7 @@
 
 namespace Robo\Common;
 
+use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputInterface;
 
 trait InputAwareTrait
@@ -24,8 +25,17 @@ trait InputAwareTrait
     /**
      * @inheritdoc
      */
-    public function input()
+    protected function input()
     {
+        if (!isset($this->input)) {
+            $this->setInput(new ArgvInput());
+        }
         return $this->input;
+    }
+
+    // Backwards compatibility.
+    protected function getInput()
+    {
+        return $this->input();
     }
 }

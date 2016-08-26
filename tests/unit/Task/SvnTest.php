@@ -19,7 +19,7 @@ class SvnTest extends \Codeception\TestCase\Test
 
         $this->svn = test::double('Robo\Task\Vcs\SvnStack', [
             'executeCommand' => new \AspectMock\Proxy\Anything(),
-            'getOutput' => $nullOutput,
+            'output' => $nullOutput,
             'logger' => Robo::logger(),
             'getConfig' => Robo::config(),
             'progressIndicator' => $progressIndicator,

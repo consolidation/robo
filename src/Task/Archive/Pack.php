@@ -23,8 +23,6 @@ use Symfony\Component\Finder\Finder;
  */
 class Pack extends BaseTask implements PrintedInterface
 {
-    use \Robo\Common\Timer;
-
     /**
      * The list of items to be packed into the archive.
      *

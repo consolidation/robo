@@ -37,7 +37,6 @@ use Robo\Common\BuilderAwareTrait;
 class Extract extends BaseTask implements BuilderAwareInterface
 {
     use BuilderAwareTrait;
-    use \Robo\Common\Timer;
 
     protected $filename;
     protected $to;

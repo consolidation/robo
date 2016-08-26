@@ -1,6 +1,7 @@
 <?php
 namespace Robo\Task\Base;
 
+use Robo\Robo;
 use Robo\Result;
 use Robo\Task\BaseTask;
 use Symfony\Component\Console\Command\Command;
@@ -27,8 +28,6 @@ use Symfony\Component\Console\Input\InputInterface;
  */
 class SymfonyCommand extends BaseTask
 {
-    use \Robo\Common\IO;
-
     /**
      * @var SymfonyCommand
      */
@@ -62,7 +61,7 @@ class SymfonyCommand extends BaseTask
         $this->printTaskInfo('Running command {command}', ['command' => $this->command->getName()]);
         return new Result(
             $this,
-            $this->command->run(new ArrayInput($this->input), $this->getOutput())
+            $this->command->run(new ArrayInput($this->input), Robo::output())
         );
     }
 }

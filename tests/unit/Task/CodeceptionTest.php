@@ -15,7 +15,7 @@ class CodeceptionTest extends \Codeception\TestCase\Test
     {
         $this->codecept = test::double('Robo\Task\Testing\Codecept', [
             'executeCommand' => null,
-            'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
+            'output' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
     }
 

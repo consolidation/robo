@@ -3,9 +3,10 @@ namespace Robo;
 
 use Robo\Common\IO;
 use Robo\Contract\BuilderAwareInterface;
+use Robo\Contract\IOAwareInterface;
 use Robo\Common\BuilderAwareTrait;
 
-class Tasks implements BuilderAwareInterface
+class Tasks implements BuilderAwareInterface, IOAwareInterface
 {
     use BuilderAwareTrait;
     use LoadAllTasks;

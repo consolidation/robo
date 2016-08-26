@@ -2,7 +2,6 @@
 namespace Robo\Collection;
 
 use Robo\Config;
-use Robo\Common\IO;
 use Robo\Common\Timer;
 use Psr\Log\LogLevel;
 use Robo\Contract\TaskInterface;

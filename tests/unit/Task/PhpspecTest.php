@@ -13,7 +13,7 @@ class PhpspecTest extends \Codeception\TestCase\Test
     {
         $this->phpspec = test::double('Robo\Task\Testing\Phpspec', [
             'executeCommand' => null,
-            'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
+            'output' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
     }
 

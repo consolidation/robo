@@ -6,6 +6,7 @@ class Config
     const PROGRESS_BAR_AUTO_DISPLAY_INTERVAL = 'progress-delay';
     const SIMULATE = 'simulate';
     const SUPRESS_MESSAGES = 'supress-messages';
+    const DECORATED = 'decorated';
 
     protected $config = [];
 
@@ -47,6 +48,16 @@ class Config
     public function setSimulated($simulated = true)
     {
         return $this->set(self::SIMULATE, $simulated);
+    }
+
+    public function isDecorated()
+    {
+        return $this->get(self::DECORATED);
+    }
+
+    public function setDecorated($decorated = true)
+    {
+        return $this->set(self::DECORATED, $decorated);
     }
 
     public function isSupressed()

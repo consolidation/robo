@@ -12,7 +12,7 @@ class GulpTest extends \Codeception\TestCase\Test
     protected function _before()
     {
         $this->baseGulp = test::double('Robo\Task\Gulp\Base', [
-            'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
+            'output' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
     }
 

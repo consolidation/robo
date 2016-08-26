@@ -102,7 +102,8 @@ class Robo
         $container->add('output', $output);
 
         // Register logging and related services.
-        $container->share('config', \Robo\Config::class);
+        $container->share('config', \Robo\Config::class)
+            ->withMethodCall('setDecorated', [$output->isDecorated()]);
         $container->share('logStyler', \Robo\Log\RoboLogStyle::class);
         $container->share('logger', \Robo\Log\RoboLogger::class)
             ->withArgument('output')

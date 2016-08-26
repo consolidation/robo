@@ -14,7 +14,7 @@ class BowerTest extends \Codeception\TestCase\Test
     protected function _before()
     {
         $this->baseBower = test::double('Robo\Task\Bower\Base', [
-            'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
+            'output' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
     }
     // tests

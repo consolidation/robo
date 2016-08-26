@@ -81,8 +81,12 @@ trait ExecCommand
      */
     protected function findExecutable($cmd)
     {
+        $localComposerInstallation = 'vendor' . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . $cmd;
+        if (file_exists($localComposerInstallation)) {
+            return $localComposerInstallation;
+        }
         $finder = new ExecutableFinder();
-        $pathToCmd = $finder->find($cmd, null, ['vendor/bin']);
+        $pathToCmd = $finder->find($cmd, null, [getcwd() . 'vendor/bin']);
 
         if ($pathToCmd) {
             return $this->useCallOnWindows($pathToCmd);

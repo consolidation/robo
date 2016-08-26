@@ -22,7 +22,7 @@ class CodeHelper extends \Codeception\Module
         $progressBar = new \Symfony\Component\Console\Helper\ProgressBar(static::$testPrinter);
 
         static::$container = new \League\Container\Container();
-        \Robo\Runner::configureContainer(static::$container, null, static::$testPrinter);
+        \Robo\Robo::configureContainer(static::$container, null, static::$testPrinter);
         Robo::setContainer(static::$container);
         static::$container->add('output', static::$testPrinter);
         static::$container->add('progressBar', $progressBar);

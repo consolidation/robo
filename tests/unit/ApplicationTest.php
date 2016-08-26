@@ -31,13 +31,13 @@ class ApplicationTest extends \Codeception\TestCase\Test
     protected function _before()
     {
         $container = new Container();
-        \Robo\Runner::configureContainer($container);
+        \Robo\Robo::configureContainer($container);
         \Robo\Robo::setContainer($container);
         $this->app = $container->get('application');
         $this->commandFactory = $container->get('commandFactory');
         $this->roboCommandFileInstance = new TestedRoboFile;
-        $this->roboCommandFileInstance->setContainer(\Robo\Robo::getContainer());
-        \Robo\Runner::addServiceProviders($container, $this->roboCommandFileInstance->getServiceProviders());
+        $builder = $container->get('collectionBuilder', [$this->roboCommandFileInstance]);
+        $this->roboCommandFileInstance->setBuilder($builder);
         $commandList = $this->commandFactory->createCommandsFromClass($this->roboCommandFileInstance);
         foreach ($commandList as $command) {
             $this->app->add($command);
@@ -51,15 +51,10 @@ class ApplicationTest extends \Codeception\TestCase\Test
         // commandfile instance.
         $method = new ReflectionMethod($this->roboCommandFileInstance, 'task');
         $method->setAccessible(true);
-        $collectionBuilder = $method->invoke($this->roboCommandFileInstance, 'taskExec', ['ls']);
+        $collectionBuilder = $method->invoke($this->roboCommandFileInstance, 'Robo\Task\Base\Exec', ['ls']);
         verify(get_class($collectionBuilder))->equals('Robo\Collection\CollectionBuilder');
         $task = $collectionBuilder->getCollectionBuilderCurrentTask();
         verify(get_class($task))->equals('Robo\Task\Base\Exec');
-        // If 'task' is not provided, then it will be supplied (that is,
-        // the task's classname may also be used with the 'task()' method).
-        $collectionBuilder = $method->invoke($this->roboCommandFileInstance, 'Exec', ['ls']);
-        verify(get_class($collectionBuilder))->equals('Robo\Collection\CollectionBuilder');
-        $task = $collectionBuilder->getCollectionBuilderCurrentTask();
         verify(get_class($task))->equals('Robo\Task\Base\Exec');
     }
 

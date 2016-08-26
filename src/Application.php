@@ -7,13 +7,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 
-use League\Container\ContainerAwareInterface;
-use League\Container\ContainerAwareTrait;
-
-class Application extends SymfonyApplication implements ContainerAwareInterface
+class Application extends SymfonyApplication
 {
-    use ContainerAwareTrait;
-
     public function __construct($name, $version)
     {
         parent::__construct($name, $version);

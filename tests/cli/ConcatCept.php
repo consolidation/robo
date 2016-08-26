@@ -1,6 +1,5 @@
 <?php
 $I = new CliGuy($scenario);
-$I->getContainer()->addServiceProvider(\Robo\Task\File\loadTasks::getFileServices());
 
 $I->wantTo('concat files using Concat Task');
 $I->amInPath(codecept_data_dir() . 'sandbox');

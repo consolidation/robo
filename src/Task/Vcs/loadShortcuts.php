@@ -9,7 +9,7 @@ trait loadShortcuts
      */
     protected function _svnCheckout($url)
     {
-        return $this->task('taskSvnStack')->checkout($url)->run();
+        return $this->taskSvnStack()->checkout($url)->run();
     }
 
     /**
@@ -18,7 +18,7 @@ trait loadShortcuts
      */
     protected function _gitClone($url)
     {
-        return $this->task('taskGitStack')->cloneRepo($url)->run();
+        return $this->taskGitStack()->cloneRepo($url)->run();
     }
 
     /**
@@ -27,6 +27,6 @@ trait loadShortcuts
      */
     protected function _hgClone($url)
     {
-        return $this->getContainer()->get('taskHgStack')->cloneRepo($url)->run();
+        return $this->taskHgStack()->cloneRepo($url)->run();
     }
 }

@@ -5,8 +5,6 @@ use Robo\Robo;
 
 class SvnTest extends \Codeception\TestCase\Test
 {
-    protected $container;
-
     /**
      * @var \AspectMock\Proxy\ClassProxy
      */
@@ -14,9 +12,6 @@ class SvnTest extends \Codeception\TestCase\Test
 
     protected function _before()
     {
-        $this->container = Robo::getContainer();
-        $this->container->addServiceProvider(\Robo\Task\Vcs\loadTasks::getVcsServices());
-
         $progressBar = test::double('Symfony\Component\Console\Helper\ProgressBar');
         $nullOutput = new \Symfony\Component\Console\Output\NullOutput();
 
@@ -25,8 +20,8 @@ class SvnTest extends \Codeception\TestCase\Test
         $this->svn = test::double('Robo\Task\Vcs\SvnStack', [
             'executeCommand' => new \AspectMock\Proxy\Anything(),
             'getOutput' => $nullOutput,
-            'logger' => $this->container->get('logger'),
-            'getConfig' => $this->container->get('config'),
+            'logger' => Robo::logger(),
+            'getConfig' => Robo::config(),
             'progressIndicator' => $progressIndicator,
         ]);
     }
@@ -41,7 +36,7 @@ class SvnTest extends \Codeception\TestCase\Test
     public function testSvnStackCommands()
     {
         verify(
-            $this->container->get('taskSvnStack', ['guest', 'foo'])
+            (new \Robo\Task\Vcs\SvnStack('guest', 'foo'))
                 ->checkout('svn://server/trunk')
                 ->update()
                 ->add()

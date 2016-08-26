@@ -13,8 +13,6 @@ class CliHelper extends \Codeception\Module implements ContainerAwareInterface
     use ContainerAwareTrait;
 
     use \Robo\LoadAllTasks {
-        collection as public;
-        collectionBuilder as public;
         task as public;
         taskExec as public;
         taskExecStack as public;
@@ -34,6 +32,14 @@ class CliHelper extends \Codeception\Module implements ContainerAwareInterface
         _tmpDir as public shortcutTmpDir;
         taskPack as public;
         taskExtract as public;
+    }
+
+    public function collectionBuilder()
+    {
+        $tasks = new \Robo\Tasks();
+        $builder = $this->getContainer()->get('collectionBuilder', [$tasks]);
+        $tasks->setBuilder($builder);
+        return $builder;
     }
 
     public function seeDirFound($dir)

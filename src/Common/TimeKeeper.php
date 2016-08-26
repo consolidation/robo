@@ -33,6 +33,12 @@ class TimeKeeper
         return $finished - $this->startedAt;
     }
 
+    /**
+     * Format a duration into a human-readable time
+     *
+     * @param float $duration Duration in seconds, with fractional component
+     * @return string
+     */
     public static function formatDuration($duration)
     {
         if ($duration >= self::DAY * 2) {

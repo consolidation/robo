@@ -8,5 +8,5 @@ use Symfony\Component\Console\Input\StringInput;
 
 $container = new Container();
 $input = new StringInput('');
-Runner::configureContainer($container, $input);
+Robo::configureContainer($container, $input);
 Robo::setContainer($container);

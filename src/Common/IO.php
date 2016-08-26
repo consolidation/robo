@@ -52,11 +52,21 @@ trait IO
     {
         $char = $this->decorationCharacter(' ', '➜');
         $format = "$char  <fg=white;bg=$color;options=bold>%s</fg=white;bg=$color;options=bold>";
-        $text = str_pad($text, $length, ' ', STR_PAD_BOTH);
-        $len = strlen($text) + 2;
+        $this->formattedOutput($text, $length, $format);
+    }
+
+    private function formattedOutput($text, $length, $format)
+    {
+        $lines = explode("\n", trim($text, "\n"));
+        $maxLineLength = array_reduce(array_map('strlen', $lines), 'max');
+        $length = max($length, $maxLineLength);
+        $len = $length + 2;
         $space = str_repeat(' ', $len);
         $this->writeln(sprintf($format, $space));
-        $this->writeln(sprintf($format, " $text "));
+        foreach ($lines as $line) {
+            $line = str_pad($line, $length, ' ', STR_PAD_BOTH);
+            $this->writeln(sprintf($format, " $line "));
+        }
         $this->writeln(sprintf($format, $space));
     }
 

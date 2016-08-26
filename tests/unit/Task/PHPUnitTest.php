@@ -4,8 +4,6 @@ use Robo\Robo;
 
 class PHPUnitTest extends \Codeception\TestCase\Test
 {
-    protected $container;
-
     /**
      * @var \AspectMock\Proxy\ClassProxy
      */
@@ -17,20 +15,18 @@ class PHPUnitTest extends \Codeception\TestCase\Test
             'executeCommand' => null,
             'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
-        $this->container = Robo::getContainer();
-        $this->container->addServiceProvider(\Robo\Task\Testing\loadTasks::getTestingServices());
     }
 
     // tests
     public function testPhpUnitRun()
     {
-        $this->container->get('taskPhpUnit')->run();
+        (new \Robo\Task\Testing\PHPUnit())->run();
         $this->phpunit->verifyInvoked('executeCommand');
     }
 
     public function testPHPUnitCommand()
     {
-        $task = $this->container->get('taskPhpUnit', ['phpunit'])
+        $task = (new \Robo\Task\Testing\PHPUnit('phpunit'))
             ->bootstrap('bootstrap.php')
             ->filter('Model')
             ->group('important')

@@ -145,6 +145,13 @@ EOF;
         return $this;
     }
 
+    public function addFiles($files)
+    {
+        foreach ($files as $file) {
+            $this->addFile($file->getRelativePathname(), $file->getRealPath());
+        }
+    }
+
     public function executable($file)
     {
         $source = file_get_contents($file);

@@ -135,7 +135,7 @@ Publishes new GitHub release.
 ``` php
 <?php
 $this->taskGitHubRelease('0.1.0')
-  ->uri('Codegyre/Robo')
+  ->uri('consolidation-org/Robo')
   ->description('Add stuff people need.')
   ->change('Fix #123')
   ->change('Add frobulation method to all widgets')
@@ -217,6 +217,7 @@ $pharTask = $this->taskPackPhar('package/codecept.phar')
 * `stub($stub)`   * `param` $stub
 * `addStripped($path, $file)` 
 * `addFile($path, $file)` 
+* `addFiles($files)` 
 * `executable($file)` 
 
 ## PhpServer

@@ -75,21 +75,45 @@ trait ExecCommand
     /**
      * Return the best path to the executable program
      * with the provided name.  Favor vendor/bin in the
-     * current project, or the global vendor/bin next.
-     * If not found in either of these locations, use
+     * current project. If not found there, use
      * whatever is on the $PATH.
      */
     protected function findExecutable($cmd)
     {
-        $localComposerInstallation = 'vendor' . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . $cmd;
+        $pathToCmd = $this->searchForExecutable($cmd);
+        if ($pathToCmd) {
+            return $this->useCallOnWindows($pathToCmd);
+        }
+        return false;
+    }
+
+    private function searchForExecutable($cmd)
+    {
+        $projectBin = $this->findProjectBin();
+
+        $localComposerInstallation = $projectBin . DIRECTORY_SEPARATOR . $cmd;
         if (file_exists($localComposerInstallation)) {
             return $localComposerInstallation;
         }
         $finder = new ExecutableFinder();
-        $pathToCmd = $finder->find($cmd, null, [getcwd() . 'vendor/bin']);
+        return $finder->find($cmd, null, []);
+    }
 
-        if ($pathToCmd) {
-            return $this->useCallOnWindows($pathToCmd);
+    protected function findProjectBin()
+    {
+        $candidates = [ __DIR__ . '/../../vendor/bin', __DIR__ . '/../../bin' ];
+
+        // If this project is inside a vendor directory, give highest priority
+        // to that directory.
+        $vendorDirContainingUs = realpath(__DIR__ . '/../../../../..');
+        if (is_dir($vendorDirContainingUs) && (basename($vendorDirContainingUs) == 'vendor')) {
+            array_unshift($candidates, $vendorDirContainingUs);
+        }
+
+        foreach ($candidates as $dir) {
+            if (is_dir("$dir")) {
+                return realpath($dir);
+            }
         }
         return false;
     }

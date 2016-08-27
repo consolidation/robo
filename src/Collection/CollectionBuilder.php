@@ -221,8 +221,11 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
         // directly because all of the task methods are protected.  These
         // calls will therefore end up here.  If the method name begins
         // with 'task', then it is eligible to be used with the builder.
-        if (preg_match('#^task[A-Z]#', $fn)) {
+        if (preg_match('#^task[A-Z]#', $fn) && (method_exists($this->commandFile, 'getBuiltClass'))) {
             $temporaryBuilder = $this->commandFile->getBuiltClass($fn, $args);
+            if (!$temporaryBuilder) {
+                throw new \BadMethodCallException("No such method $fn: task does not exist in " . get_class($this->commandFile));
+            }
             $temporaryBuilder->getCollection()->transferTasks($this);
             return $this;
         }

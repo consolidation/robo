@@ -99,7 +99,7 @@ class RoboFile extends \Robo\Tasks
         $this->publish();
 
         $this->taskGitStack()
-            ->tag(\Robo\Runner::VERSION)
+            ->tag(\Robo\Robo::VERSION)
             ->push('origin master --tags')
             ->run();
 

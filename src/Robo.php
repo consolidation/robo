@@ -16,7 +16,7 @@ use Symfony\Component\Console\Input\StringInput;
 class Robo
 {
     const APPLICATION_NAME = 'Robo';
-    const VERSION = '1.0.0-RC2';
+    const VERSION = '1.0.0-RC3';
 
     /**
      * The currently active container object, or NULL if not initialized yet.

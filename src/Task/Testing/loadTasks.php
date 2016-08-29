@@ -1,7 +1,7 @@
 <?php
 namespace Robo\Task\Testing;
 
-trait loadTasks 
+trait loadTasks
 {
     /**
      * @param null $pathToCodeception
@@ -9,7 +9,7 @@ trait loadTasks
      */
     protected function taskCodecept($pathToCodeception = null)
     {
-        return new Codecept($pathToCodeception);
+        return $this->task(Codecept::class, $pathToCodeception);
     }
 
     /**
@@ -18,7 +18,7 @@ trait loadTasks
      */
     protected function taskPhpUnit($pathToPhpUnit = null)
     {
-        return new PHPUnit($pathToPhpUnit);
+        return $this->task(PHPUnit::class, $pathToPhpUnit);
     }
 
     /**
@@ -27,6 +27,15 @@ trait loadTasks
      */
     protected function taskPhpspec($pathToPhpspec = null)
     {
-        return new Phpspec($pathToPhpspec);
+        return $this->task(Phpspec::class, $pathToPhpspec);
     }
-} 
+
+    /**
+     * @param null $pathToAtoum
+     * @return Atoum
+     */
+    protected function taskAtoum($pathToAtoum = null)
+    {
+        return $this->task(Atoum::class, $pathToAtoum);
+    }
+}

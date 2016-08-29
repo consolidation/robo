@@ -22,14 +22,26 @@ use Robo\Task\BaseTask;
  */
 class Write extends BaseTask
 {
-    use \Robo\Common\DynamicParams;
-
+    protected $stack = [];
     protected $filename;
     protected $append = false;
+    protected $originalContents = null;
 
     public function __construct($filename)
     {
         $this->filename = $filename;
+    }
+
+    public function filename($filename)
+    {
+        $this->filename = $filename;
+        return $this;
+    }
+
+    public function append($append = true)
+    {
+        $this->append = $append;
+        return $this;
     }
 
     /**
@@ -133,9 +145,38 @@ class Write extends BaseTask
         return $this;
     }
 
+    /**
+     * Append the provided text to the end of the buffer if the provided
+     * regex pattern matches any text already in the buffer.
+     *
+     * @param string $pattern
+     * @param string
+     */
+    public function appendIfMatches($pattern, $text)
+    {
+        $this->stack[] = array_merge(['appendIfMatchesCollect'], [$pattern, $text, true]);
+        return $this;
+    }
+
+    /**
+     * Append the provided text to the end of the buffer unless the provided
+     * regex pattern matches any text already in the buffer.
+     *
+     * @param string $pattern
+     * @param string
+     */
+    public function appendUnlessMatches($pattern, $text)
+    {
+        $this->stack[] = array_merge(['appendIfMatchesCollect'], [$pattern, $text, false]);
+        return $this;
+    }
+
     protected function textFromFileCollect($contents, $filename)
     {
-        return $contents . file_get_contents($filename);
+        if (file_exists($filename)) {
+            $contents .= file_get_contents($filename);
+        }
+        return $contents;
     }
 
     protected function replaceCollect($contents, $string, $replacement)
@@ -153,11 +194,35 @@ class Write extends BaseTask
         return $contents . $text;
     }
 
-    protected function getContents()
+    protected function appendIfMatchesCollect($contents, $pattern, $text, $shouldMatch)
+    {
+        if (preg_match($pattern, $contents) == $shouldMatch) {
+            $contents .= $text;
+        }
+        return $contents;
+    }
+
+    public function originalContents()
+    {
+        if (!isset($this->originalContents)) {
+            $this->originalContents = '';
+            if (file_exists($this->filename)) {
+                $this->originalContents = file_get_contents($this->filename);
+            }
+        }
+        return $this->originalContents;
+    }
+
+    public function wouldChange()
+    {
+        return $this->originalContents() != $this->getContentsToWrite();
+    }
+
+    protected function getContentsToWrite()
     {
         $contents = "";
         if ($this->append) {
-            $contents = file_get_contents($this->filename);
+            $contents = $this->originalContents();
         }
         foreach ($this->stack as $action) {
             $command = array_shift($action);
@@ -171,8 +236,8 @@ class Write extends BaseTask
 
     public function run()
     {
-        $this->printTaskInfo("Writing to <info>{$this->filename}</info>.");
-        $contents = $this->getContents();
+        $this->printTaskInfo("Writing to {filename}.", ['filename' => $this->filename]);
+        $contents = $this->getContentsToWrite();
         if (!file_exists(dirname($this->filename))) {
             mkdir(dirname($this->filename), 0777, true);
         }

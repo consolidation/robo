@@ -9,7 +9,7 @@ trait loadTasks
      */
     protected function taskChangelog($filename = 'CHANGELOG.md')
     {
-        return new Changelog($filename);
+        return $this->task(Changelog::class, $filename);
     }
 
     /**
@@ -18,17 +18,26 @@ trait loadTasks
      */
     protected function taskGenDoc($filename)
     {
-        return new GenerateMarkdownDoc($filename);
+        return $this->task(GenerateMarkdownDoc::class, $filename);
+    }
+
+    /**
+     * @param $filename
+     * @return GenerateMarkdownDoc
+     */
+    protected function taskGenTask($className, $wrapperClassName = '')
+    {
+        return $this->task(GenerateTask::class, $className, $wrapperClassName);
     }
 
     /**
      * @param string $pathToSemVer
      * @return SemVer
      */
-     protected function taskSemVer($pathToSemVer = '.semver')
-     {
-         return new SemVer($pathToSemVer);
-     }
+    protected function taskSemVer($pathToSemVer = '.semver')
+    {
+        return $this->task(SemVer::class, $pathToSemVer);
+    }
 
     /**
      * @param int $port
@@ -36,7 +45,7 @@ trait loadTasks
      */
     protected function taskServer($port = 8000)
     {
-        return new PhpServer($port);
+        return $this->task(PhpServer::class, $port);
     }
 
     /**
@@ -45,7 +54,7 @@ trait loadTasks
      */
     protected function taskPackPhar($filename)
     {
-        return new PackPhar($filename);
+        return $this->task(PackPhar::class, $filename);
     }
 
     /**
@@ -54,7 +63,7 @@ trait loadTasks
      */
     protected function taskGitHubRelease($tag)
     {
-        return new GitHubRelease($tag);
+        return $this->task(GitHubRelease::class, $tag);
     }
 
     /**
@@ -63,6 +72,6 @@ trait loadTasks
      */
     protected function taskOpenBrowser($url)
     {
-        return new OpenBrowser($url);
+        return $this->task(OpenBrowser::class, $url);
     }
-} 
+}

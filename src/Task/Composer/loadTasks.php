@@ -9,7 +9,7 @@ trait loadTasks
      */
     protected function taskComposerInstall($pathToComposer = null)
     {
-        return new Install($pathToComposer);
+        return $this->task(Install::class, $pathToComposer);
     }
 
     /**
@@ -18,7 +18,7 @@ trait loadTasks
      */
     protected function taskComposerUpdate($pathToComposer = null)
     {
-        return new Update($pathToComposer);
+        return $this->task(Update::class, $pathToComposer);
     }
 
     /**
@@ -27,7 +27,24 @@ trait loadTasks
      */
     protected function taskComposerDumpAutoload($pathToComposer = null)
     {
-        return new DumpAutoload($pathToComposer);
+        return $this->task(DumpAutoload::class, $pathToComposer);
     }
 
-} 
+    /**
+     * @param null $pathToComposer
+     * @return Validate
+     */
+    protected function taskComposerValidate($pathToComposer = null)
+    {
+        return $this->task(Validate::class, $pathToComposer);
+    }
+
+    /**
+     * @param null $pathToComposer
+     * @return Remove
+     */
+    protected function taskComposerRemove($pathToComposer = null)
+    {
+        return $this->task(Remove::class, $pathToComposer);
+    }
+}

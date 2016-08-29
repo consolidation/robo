@@ -171,7 +171,6 @@ abstract class CssPreprocessor extends BaseTask
 
                 return Result::error($this, $message);
             }
-
             if (file_exists($out) && !is_writable($out)) {
                 return Result::error($this, 'Destination already exists and cannot be overwritten.');
             }
@@ -196,20 +195,15 @@ abstract class CssPreprocessor extends BaseTask
 
             if (false === $write_result) {
                 $message = sprintf('File write failed: %s', $out);
-                @unlink($dst);
 
+                @unlink($dst);
                 return Result::error($this, $message);
             }
 
             // Cannot be cross-volume: should always succeed
             @rename($dst, $out);
 
-            $this->printTaskSuccess(
-                sprintf(
-                    'Wrote CSS to <info>%s</info>',
-                    $out
-                )
-            );
+            $this->printTaskSuccess('Wrote CSS to {filename}', ['filename' => $out]);
         }
 
         return Result::success($this, 'All ' . static::FORMAT_NAME . ' files compiled.');

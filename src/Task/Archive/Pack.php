@@ -23,10 +23,6 @@ use Symfony\Component\Finder\Finder;
  */
 class Pack extends BaseTask implements PrintedInterface
 {
-    use \Robo\Common\DynamicParams;
-    use \Robo\Common\Timer;
-    use \Robo\Common\PHPStatus;
-
     /**
      * The list of items to be packed into the archive.
      *
@@ -44,14 +40,13 @@ class Pack extends BaseTask implements PrintedInterface
     /**
      * Construct the class.
      *
-     * @param string $folder  The full path to the folder and subfolders to pack.
-     * @param string $zipname The full path and name of the zipfile to create.
+     * @param string $archiveFile The full path and name of the archive file to create.
      *
      * @since   1.0
      */
-    public function __construct($archive)
+    public function __construct($archiveFile)
     {
-        $this->archiveFile = $archive;
+        $this->archiveFile = $archiveFile;
     }
 
     /**
@@ -66,6 +61,12 @@ class Pack extends BaseTask implements PrintedInterface
         return true;
     }
 
+    public function archiveFile($archiveFile)
+    {
+        $this->archiveFile = $archiveFile;
+        return $this;
+    }
+
     /**
      * Add an item to the archive. Like file_exists(), the parameter
      * may be a file or a directory.
@@ -74,6 +75,7 @@ class Pack extends BaseTask implements PrintedInterface
      *             Relative path and name of item to store in archive
      * @var string
      *             Absolute or relative path to file or directory's location in filesystem
+     * @return $this
      */
     public function addFile($placementLocation, $filesystemLocation)
     {
@@ -90,6 +92,7 @@ class Pack extends BaseTask implements PrintedInterface
      *             Relative path and name of directory to store in archive
      * @var string
      *             Absolute or relative path to directory or directory's location in filesystem
+     * @return $this
      */
     public function addDir($placementLocation, $filesystemLocation)
     {
@@ -108,6 +111,7 @@ class Pack extends BaseTask implements PrintedInterface
      *                   If given an array, the key of each item should be the path to store
      *                   in the archive, and the value should be the filesystem path to the
      *                   item to store.
+     * @return $this
      */
     public function add($item)
     {
@@ -123,9 +127,9 @@ class Pack extends BaseTask implements PrintedInterface
     /**
      * Create a zip archive for distribution.
      *
-     * @return bool True on success | False on failure.
+     * @return Result
      *
-     * @since   1.0
+     * @since  1.0
      */
     public function run()
     {
@@ -140,16 +144,16 @@ class Pack extends BaseTask implements PrintedInterface
 
         try {
             // Inform the user which archive we are creating
-            $this->printTaskInfo("Creating archive <info>{$this->archiveFile}</info>");
+            $this->printTaskInfo("Creating archive {filename}", ['filename' => $this->archiveFile]);
             if ($extension == 'zip') {
                 $result = $this->archiveZip($this->archiveFile, $this->items);
             } else {
                 $result = $this->archiveTar($this->archiveFile, $this->items);
             }
-            $this->printTaskSuccess("<info>{$this->archiveFile}</info> created.");
-        } catch (Exception $e) {
-            $this->printTaskError("Could not create {$this->archiveFile}. ".$e->getMessage());
-            $result = Result::error($this);
+            $this->printTaskSuccess("{filename} created.", ['filename' => $this->archiveFile]);
+        } catch (\Exception $e) {
+            $this->printTaskError("Could not create {filename}. {exception}", ['filename' => $this->archiveFile, 'exception' => $e->getMessage(), '_style' => ['exception' => '']]);
+            $result = Result::error($this, sprintf('Could not create %s. %s', $this->archiveFile, $e->getMessage()));
         }
         $this->stopTimer();
         $result['time'] = $this->getExecutionTime();
@@ -159,20 +163,24 @@ class Pack extends BaseTask implements PrintedInterface
 
     protected function archiveTar($archiveFile, $items)
     {
+        if (!class_exists('Archive_Tar')) {
+            return Result::errorMissingPackage($this, 'Archive_Tar', 'pear/archive_tar');
+        }
+
         $tar_object = new \Archive_Tar($archiveFile);
-        foreach ($items as $placementLocation => $fileSystemLocation) {
-            $p_remove_dir = $fileSystemLocation;
+        foreach ($items as $placementLocation => $filesystemLocation) {
+            $p_remove_dir = $filesystemLocation;
             $p_add_dir = $placementLocation;
-            if (is_file($fileSystemLocation)) {
-                $p_remove_dir = dirname($fileSystemLocation);
+            if (is_file($filesystemLocation)) {
+                $p_remove_dir = dirname($filesystemLocation);
                 $p_add_dir = dirname($placementLocation);
-                if (basename($fileSystemLocation) != basename($placementLocation)) {
-                    return Result::error($this, "Tar archiver does not support renaming files during extraction; could not add $fileSystemLocation as $placementLocation.");
+                if (basename($filesystemLocation) != basename($placementLocation)) {
+                    return Result::error($this, "Tar archiver does not support renaming files during extraction; could not add $filesystemLocation as $placementLocation.");
                 }
             }
 
-            if (!$tar_object->addModify([$fileSystemLocation], $p_add_dir, $p_remove_dir)) {
-                return Result::error($this, "Could not add $fileSystemLocation to the archive.");
+            if (!$tar_object->addModify([$filesystemLocation], $p_add_dir, $p_remove_dir)) {
+                return Result::error($this, "Could not add $filesystemLocation to the archive.");
             }
         }
 
@@ -181,9 +189,8 @@ class Pack extends BaseTask implements PrintedInterface
 
     protected function archiveZip($archiveFile, $items)
     {
-        $result = $this->checkExtension('zip archiver', 'zlib');
-        if (!$result->wasSuccessful()) {
-            return $result;
+        if (!extension_loaded('zlib')) {
+            return Result::errorMissingExtension($this, 'zlib', 'zip packing');
         }
 
         $zip = new \ZipArchive($archiveFile, \ZipArchive::CREATE);
@@ -198,22 +205,25 @@ class Pack extends BaseTask implements PrintedInterface
 
     protected function addItemsToZip($zip, $items)
     {
-        foreach ($items as $placementLocation => $fileSystemLocation) {
-            if (is_dir($fileSystemLocation)) {
+        foreach ($items as $placementLocation => $filesystemLocation) {
+            if (is_dir($filesystemLocation)) {
                 $finder = new Finder();
-                $finder->files()->in($fileSystemLocation);
+                $finder->files()->in($filesystemLocation)->ignoreDotFiles(false);
 
                 foreach ($finder as $file) {
-                    if (!$zip->addFile($file->getRealpath(), "{$placementLocation}/{$file->getRelativePathname()}")) {
-                        return Result::error($this, "Could not add directory $fileSystemLocation to the archive; error adding {$file->getRealpath()}.");
+                    // Replace Windows slashes or resulting zip will have issues on *nixes.
+                    $relativePathname = str_replace('\\', '/', $file->getRelativePathname());
+
+                    if (!$zip->addFile($file->getRealpath(), "{$placementLocation}/{$relativePathname}")) {
+                        return Result::error($this, "Could not add directory $filesystemLocation to the archive; error adding {$file->getRealpath()}.");
                     }
                 }
-            } elseif (is_file($fileSystemLocation)) {
-                if (!$zip->addFile($fileSystemLocation, $placementLocation)) {
-                    return Result::error($this, "Could not add file $fileSystemLocation to the archive.");
+            } elseif (is_file($filesystemLocation)) {
+                if (!$zip->addFile($filesystemLocation, $placementLocation)) {
+                    return Result::error($this, "Could not add file $filesystemLocation to the archive.");
                 }
             } else {
-                return Result::error($this, "Could not find $fileSystemLocation for the archive.");
+                return Result::error($this, "Could not find $filesystemLocation for the archive.");
             }
         }
 

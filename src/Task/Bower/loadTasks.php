@@ -9,16 +9,15 @@ trait loadTasks
      */
     protected function taskBowerInstall($pathToBower = null)
     {
-   		return new Install($pathToBower);
-   	}
+        return $this->task(Install::class, $pathToBower);
+    }
 
     /**
      * @param null $pathToBower
      * @return Update
      */
-   	protected function taskBowerUpdate($pathToBower = null)
+    protected function taskBowerUpdate($pathToBower = null)
     {
-   		return new Update($pathToBower);
-   	}
-
-} 
+        return $this->task(Update::class, $pathToBower);
+    }
+}

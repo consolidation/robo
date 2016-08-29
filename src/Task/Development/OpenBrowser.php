@@ -42,7 +42,7 @@ class OpenBrowser extends BaseTask
 
         foreach ($this->urls as $url) {
             passthru(sprintf($openCommand, ProcessUtils::escapeArgument($url)));
-            $this->printTaskInfo("Opened <info>{$url}</info>");
+            $this->printTaskInfo('Opened {url}', ['url' => $url]);
         }
 
         return Result::success($this);

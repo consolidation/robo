@@ -9,7 +9,7 @@ trait loadTasks
     */
     protected function taskMinify($input)
     {
-        return new Minify($input);
+        return $this->task(Minify::class, $input);
     }
 
     /**
@@ -18,7 +18,7 @@ trait loadTasks
      */
     protected function taskImageMinify($input)
     {
-        return new ImageMinify($input);
+        return $this->task(ImageMinify::class, $input);
     }
 
    /**
@@ -27,7 +27,7 @@ trait loadTasks
     */
     protected function taskLess($input)
     {
-        return new Less($input);
+        return $this->task(Less::class, $input);
     }
 
     /**
@@ -36,6 +36,6 @@ trait loadTasks
      */
     protected function taskScss($input)
     {
-        return new Scss($input);
+        return $this->task(Scss::class, $input);
     }
 }

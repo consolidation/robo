@@ -4,11 +4,13 @@ namespace Robo\Collection;
 trait loadTasks
 {
     /**
-     * @param $dirs
-     * @return CleanDir
+     * Run a callback function on each item in a collection
+     *
+     * @param array|Iterable $collection
+     * @return ForEach
      */
-    protected function collection()
+    protected function taskForEach($collection)
     {
-        return new Collection();
+        return $this->task(TaskForEach::class, $collection);
     }
 }

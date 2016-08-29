@@ -1,6 +1,7 @@
 <?php
 namespace Robo\Task\Base;
 
+use Robo\Robo;
 use Robo\Result;
 use Robo\Task\BaseTask;
 use Symfony\Component\Console\Command\Command;
@@ -57,9 +58,10 @@ class SymfonyCommand extends BaseTask
 
     public function run()
     {
-        $this->printTaskInfo("Running command ".$this->command->getName());
-        return new Result($this,
-            $this->command->run(new ArrayInput($this->input), $this->getOutput())
+        $this->printTaskInfo('Running command {command}', ['command' => $this->command->getName()]);
+        return new Result(
+            $this,
+            $this->command->run(new ArrayInput($this->input), Robo::output())
         );
     }
 }

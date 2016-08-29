@@ -1,6 +1,7 @@
 <?php
 
 $I = new CliGuy($scenario);
+
 $I->wantTo('archive directory and then extract it again with Archive and Extract tasks');
 $I->amInPath(codecept_data_dir().'sandbox');
 $I->seeDirFound('some/deeply/nested');

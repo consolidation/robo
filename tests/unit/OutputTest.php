@@ -1,5 +1,6 @@
 <?php
 use AspectMock\Test as test;
+use Robo\Robo;
 use Robo\Common\IO;
 
 class OutputTest extends \Codeception\TestCase\Test
@@ -8,11 +9,10 @@ class OutputTest extends \Codeception\TestCase\Test
         say as public;
         yell as public;
         ask as public;
-        getOutput as protected;
+        output as protected;
     }
 
     protected $expectedAnswer;
-
 
     /**
      * @var \CodeGuy
@@ -27,20 +27,20 @@ class OutputTest extends \Codeception\TestCase\Test
     protected function _before()
     {
         $this->dialog = new Symfony\Component\Console\Helper\QuestionHelper;
+        $this->setOutput(Robo::service('output'));
     }
 
     public function testSay()
     {
         $this->say('Hello, world!');
-        $char = strncasecmp(PHP_OS, 'WIN', 3) == 0 ? '>' : '➜';
-        $this->guy->seeInOutput($char . '  Hello, world!');
+        $this->guy->seeInOutput('>  Hello, world!');
     }
 
     public function testAskReply()
     {
         $this->expectedAnswer = 'jon';
         verify($this->ask('What is your name?'))->equals('jon');
-        $this->guy->seeOutputEquals('<question>?  What is your name?</question> ');
+        $this->guy->seeOutputEquals('?  What is your name? ');
     }
     public function testAskMethod()
     {

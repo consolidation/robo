@@ -31,7 +31,7 @@ class SvnStack extends CommandStack implements CommandInterface
     protected $stopOnFail = false;
     protected $result;
 
-    public function __construct($username='', $password='', $pathToSvn = 'svn')
+    public function __construct($username = '', $password = '', $pathToSvn = 'svn')
     {
         $this->executable = $pathToSvn;
         if (!empty($username)) {
@@ -60,7 +60,7 @@ class SvnStack extends CommandStack implements CommandInterface
      * @param $pattern
      * @return $this
      */
-    public function add($pattern='')
+    public function add($pattern = '')
     {
         return $this->exec("add $pattern");
     }
@@ -87,5 +87,4 @@ class SvnStack extends CommandStack implements CommandInterface
     {
         return $this->exec("checkout $branch");
     }
-
 }

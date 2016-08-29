@@ -1,9 +1,11 @@
 <?php
 use AspectMock\Test as test;
+use Robo\Robo;
 
 class ApiGenTest extends \Codeception\TestCase\Test
 {
-    use \Robo\Task\ApiGen\loadTasks;
+    protected $container;
+
     /**
      * @var \AspectMock\Proxy\ClassProxy
      */
@@ -13,8 +15,11 @@ class ApiGenTest extends \Codeception\TestCase\Test
     {
         $this->apigen = test::double('Robo\Task\ApiGen\ApiGen', [
             'executeCommand' => null,
-            'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
+            'output' => new \Symfony\Component\Console\Output\NullOutput(),
+            'logger' => new \Psr\Log\NullLogger(),
         ]);
+
+        $this->container = Robo::getContainer();
     }
 
     // tests
@@ -26,7 +31,7 @@ class ApiGenTest extends \Codeception\TestCase\Test
         $skippedPaths->push('b');
 
         // going for 'bang for the buck' here re: test converage
-        $task = $this->taskApiGen('apigen')
+        $task = (new \Robo\Task\ApiGen\ApiGen('apigen'))
             ->config('./apigen.neon')
             ->source('src') // single string value of Traversable
             ->extensions('php') // single string value of List
@@ -44,5 +49,4 @@ class ApiGenTest extends \Codeception\TestCase\Test
         $task->run();
         $this->apigen->verifyInvoked('executeCommand', [$cmd]);
     }
-
 }

@@ -1,7 +1,6 @@
 <?php
 namespace Robo\Task\Gulp;
 
-
 trait loadTasks
 {
     /**
@@ -9,7 +8,8 @@ trait loadTasks
      * @param null $pathToGulp
      * @return Run
      */
-    protected function taskGulpRun($task='default',$pathToGulp = null) {
-        return new Run($task,$pathToGulp);
+    protected function taskGulpRun($task = 'default', $pathToGulp = null)
+    {
+        return $this->task(Run::class, $task, $pathToGulp);
     }
-} 
+}

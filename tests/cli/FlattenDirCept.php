@@ -1,5 +1,6 @@
-<?php 
+<?php
 $I = new CliGuy($scenario);
+
 $I->wantTo('flatten dir with FlattenDir task');
 $I->amInPath(codecept_data_dir().'sandbox');
 $I->taskFlattenDir([

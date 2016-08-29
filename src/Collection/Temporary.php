@@ -35,36 +35,13 @@ class Temporary
     public static function getCollection()
     {
         if (!static::$collection) {
-            static::$collection = new Collection();
+            static::$collection = \Robo\Robo::getContainer()->get('collection');
             register_shutdown_function(function () {
                 static::complete();
             });
         }
 
         return static::$collection;
-    }
-
-    /**
-     * Wrap the given task in a wrapper class that will ensure
-     * that its 'complete()' function is called when the program
-     * terminates, if not sooner (e.g. if the task is added to
-     * some other collection).
-     */
-    public static function wrap(TaskInterface $task)
-    {
-        return new TaskWrapper(static::getCollection(), $task);
-    }
-
-    /**
-     * Call the rollback method of all of the registered objects.
-     */
-    public static function fail()
-    {
-        // Force the rollback and completion functions to run.
-        $collection = static::getCollection();
-        $collection->fail();
-        // Make sure that our completion functions do not run twice.
-        $collection->reset();
     }
 
     /**

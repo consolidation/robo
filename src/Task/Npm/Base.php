@@ -24,14 +24,12 @@ abstract class Base extends BaseTask
 
     public function __construct($pathToNpm = null)
     {
-        if ($pathToNpm) {
-            $this->command = $pathToNpm;
-        } elseif (is_executable('/usr/bin/npm')) {
-            $this->command = '/usr/bin/npm';
-        } elseif (is_executable('/usr/local/bin/npm')) {
-            $this->command = '/usr/local/bin/npm';
-        } else {
-            throw new TaskException(__CLASS__, "Executable not found.");
+        $this->command = $pathToNpm;
+        if (!$this->command) {
+            $this->command = $this->findExecutable('npm');
+        }
+        if (!$this->command) {
+            throw new TaskException(__CLASS__, "Npm executable not found.");
         }
     }
 

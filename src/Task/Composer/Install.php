@@ -28,8 +28,7 @@ class Install extends Base
     public function run()
     {
         $command = $this->getCommand();
-        $this->printTaskInfo('Installing Packages: ' . $command);
+        $this->printTaskInfo('Installing Packages: {command}', ['command' => $command]);
         return $this->executeCommand($command);
     }
-
 }

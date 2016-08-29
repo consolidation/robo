@@ -1,7 +1,8 @@
-<?php 
+<?php
 namespace Robo\Common;
 
 use Robo\Result;
+use Symfony\Component\Process\ExecutableFinder;
 use Symfony\Component\Process\Process;
 
 /**
@@ -10,10 +11,17 @@ use Symfony\Component\Process\Process;
  */
 trait ExecCommand
 {
-    use Timer;
-
     protected $isPrinted = true;
     protected $workingDirectory;
+    protected $execTimer;
+
+    protected function getExecTimer()
+    {
+        if (!isset($this->execTimer)) {
+            $this->execTimer = new TimeKeeper();
+        }
+        return $this->execTimer;
+    }
 
     /**
      * Is command printing its output to screen
@@ -51,6 +59,80 @@ trait ExecCommand
     }
 
     /**
+     * Look for a "{$cmd}.phar" in the current working
+     * directory; return a string to exec it if it is
+     * found.  Otherwise, look for an executable command
+     * of the same name via findExecutable.
+     */
+    protected function findExecutablePhar($cmd)
+    {
+        if (file_exists("{$cmd}.phar")) {
+            return "php {$cmd}.phar";
+        }
+        return $this->findExecutable($cmd);
+    }
+
+    /**
+     * Return the best path to the executable program
+     * with the provided name.  Favor vendor/bin in the
+     * current project. If not found there, use
+     * whatever is on the $PATH.
+     */
+    protected function findExecutable($cmd)
+    {
+        $pathToCmd = $this->searchForExecutable($cmd);
+        if ($pathToCmd) {
+            return $this->useCallOnWindows($pathToCmd);
+        }
+        return false;
+    }
+
+    private function searchForExecutable($cmd)
+    {
+        $projectBin = $this->findProjectBin();
+
+        $localComposerInstallation = $projectBin . DIRECTORY_SEPARATOR . $cmd;
+        if (file_exists($localComposerInstallation)) {
+            return $localComposerInstallation;
+        }
+        $finder = new ExecutableFinder();
+        return $finder->find($cmd, null, []);
+    }
+
+    protected function findProjectBin()
+    {
+        $candidates = [ __DIR__ . '/../../vendor/bin', __DIR__ . '/../../bin' ];
+
+        // If this project is inside a vendor directory, give highest priority
+        // to that directory.
+        $vendorDirContainingUs = realpath(__DIR__ . '/../../../../..');
+        if (is_dir($vendorDirContainingUs) && (basename($vendorDirContainingUs) == 'vendor')) {
+            array_unshift($candidates, $vendorDirContainingUs);
+        }
+
+        foreach ($candidates as $dir) {
+            if (is_dir("$dir")) {
+                return realpath($dir);
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Wrap Windows executables in 'call' per 7a88757d
+     */
+    protected function useCallOnWindows($cmd)
+    {
+        if (defined('PHP_WINDOWS_VERSION_BUILD')) {
+            if (file_exists("{$cmd}.bat")) {
+                $cmd = "{$cmd}.bat";
+            }
+            return "call $cmd";
+        }
+        return $cmd;
+    }
+
+    /**
      * @param $command
      * @return Result
      */
@@ -61,7 +143,7 @@ trait ExecCommand
         if ($this->workingDirectory) {
             $process->setWorkingDirectory($this->workingDirectory);
         }
-        $this->startTimer();
+        $this->getExecTimer()->start();
         if ($this->isPrinted) {
             $process->run(function ($type, $buffer) {
                 print $buffer;
@@ -69,8 +151,8 @@ trait ExecCommand
         } else {
             $process->run();
         }
-        $this->stopTimer();
+        $this->getExecTimer()->stop();
 
-        return new Result($this, $process->getExitCode(), $process->getOutput(), ['time' => $this->getExecutionTime()]);
+        return new Result($this, $process->getExitCode(), $process->getOutput(), ['time' => $this->getExecTimer()->elapsed()]);
     }
-} 
+}

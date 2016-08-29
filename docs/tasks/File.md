@@ -17,10 +17,6 @@ $this->taskConcat([
 ```
 
 * `to($dst)`  set the destination file
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## Replace
 
@@ -55,10 +51,10 @@ $this->taskReplaceInFile('box/robo.txt')
 * `from(string|array)`  string(s) to be replaced
 * `to(string|array)`  value(s) to be set as a replacement
 
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
+* `filename($filename)` 
+* `from($from)` 
+* `to($to)` 
+* `regex($regex)` 
 
 ## TmpFile
 
@@ -68,19 +64,24 @@ once the task collection is is part of completes. When created,
 it is given a random filename.
 
 This temporary file may be manipulated exacatly like taskWrite().
+It is deleted as soon as the collection it is a part of completes
+or rolls back.
 
 ``` php
 <?php
-$tmpFilePath = $this->taskTmpFile()
+$collection = $this->collectionBuilder();
+$tmpFilePath = $collection->taskTmpFile()
      ->line('-----')
      ->line(date('Y-m-d').' '.$title)
      ->line('----')
-     ->addToCollection($collection)
      ->getPath();
+$collection->run();
 ?>
 ```
 
 * `complete()`  Delete this file when our collection completes.
+* `filename($filename)` 
+* `append($append = null)` 
 * `line($line)`  add a line.
 * `lines(array $lines)`  add more lines.
 * `text($text)`  add a text.
@@ -88,11 +89,11 @@ $tmpFilePath = $this->taskTmpFile()
 * `place($name, $val)`  substitute a placeholder with value, placeholder must be enclosed by `{}`.
 * `replace($string, $replacement)`  replace any string with value.
 * `regexReplace($pattern, $replacement)`  replace any string with value using regular expression.
+* `appendIfMatches($pattern, $text)`  Append the provided text to the end of the buffer if the provided
+* `appendUnlessMatches($pattern, $text)`  Append the provided text to the end of the buffer unless the provided
+* `originalContents()` 
+* `wouldChange()` 
 * `getPath()` 
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 
 ## Write
 
@@ -111,6 +112,8 @@ $this->taskWriteToFile('blogpost.md')
 
 * `append()` 
 
+* `filename($filename)` 
+* `append($append = null)` 
 * `line($line)`  add a line.
 * `lines(array $lines)`  add more lines.
 * `text($text)`  add a text.
@@ -118,9 +121,9 @@ $this->taskWriteToFile('blogpost.md')
 * `place($name, $val)`  substitute a placeholder with value, placeholder must be enclosed by `{}`.
 * `replace($string, $replacement)`  replace any string with value.
 * `regexReplace($pattern, $replacement)`  replace any string with value using regular expression.
+* `appendIfMatches($pattern, $text)`  Append the provided text to the end of the buffer if the provided
+* `appendUnlessMatches($pattern, $text)`  Append the provided text to the end of the buffer unless the provided
+* `originalContents()` 
+* `wouldChange()` 
 * `getPath()` 
-* `addToCollection($collection, $taskName = null, $rollbackTask = null)` 
-* `addAsRollback($collection)` 
-* `addAsCompletion($collection)` 
-* `addToCollectionAndIgnoreErrors($collection, $taskName = null)` 
 

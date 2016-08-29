@@ -1,7 +1,7 @@
 <?php
 namespace Robo\Common;
 
-use Robo\Config;
+use Robo\Robo;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -12,37 +12,42 @@ use Symfony\Component\Console\Question\Question;
 
 trait IO
 {
-    /**
-     * @return OutputInterface
-     */
-    protected function getOutput()
-    {
-        return Config::get('output', new NullOutput());
-    }
+    use InputAwareTrait;
+    use OutputAwareTrait;
 
-    /**
-     * @return InputInterface
-     */
-    protected function getInput()
+    protected function decorationCharacter($nonDecorated, $decorated)
     {
-        return Config::get('input', new ArgvInput());
+        if (!$this->output()->isDecorated() || (strncasecmp(PHP_OS, 'WIN', 3) == 0)) {
+            return $nonDecorated;
+        }
+        return $decorated;
     }
 
     protected function say($text)
     {
-        $char = strncasecmp(PHP_OS, 'WIN', 3) == 0 ? '>' : '➜';
+        $char = $this->decorationCharacter('>', '➜');
         $this->writeln("$char  $text");
     }
 
     protected function yell($text, $length = 40, $color = 'green')
     {
-        $char = strncasecmp(PHP_OS, 'WIN', 3) == 0 ? ' ' : '➜';
+        $char = $this->decorationCharacter(' ', '➜');
         $format = "$char  <fg=white;bg=$color;options=bold>%s</fg=white;bg=$color;options=bold>";
-        $text = str_pad($text, $length, ' ', STR_PAD_BOTH);
-        $len = strlen($text) + 2;
+        $this->formattedOutput($text, $length, $format);
+    }
+
+    private function formattedOutput($text, $length, $format)
+    {
+        $lines = explode("\n", trim($text, "\n"));
+        $maxLineLength = array_reduce(array_map('strlen', $lines), 'max');
+        $length = max($length, $maxLineLength);
+        $len = $length + 2;
         $space = str_repeat(' ', $len);
         $this->writeln(sprintf($format, $space));
-        $this->writeln(sprintf($format, " $text "));
+        foreach ($lines as $line) {
+            $line = str_pad($line, $length, ' ', STR_PAD_BOTH);
+            $this->writeln(sprintf($format, " $line "));
+        }
         $this->writeln(sprintf($format, $space));
     }
 
@@ -53,7 +58,7 @@ trait IO
         }
         return $this->doAsk(new Question($this->formatQuestion($question)));
     }
-    
+
     protected function askHidden($question)
     {
         $question = new Question($this->formatQuestion($question));
@@ -73,7 +78,7 @@ trait IO
 
     private function doAsk(Question $question)
     {
-        return $this->getDialog()->ask($this->getInput(), $this->getOutput(), $question);
+        return $this->getDialog()->ask($this->input(), $this->output(), $question);
     }
 
     private function formatQuestion($message)
@@ -88,7 +93,6 @@ trait IO
 
     private function writeln($text)
     {
-        $this->getOutput()->writeln($text);
+        $this->output()->writeln($text);
     }
-
 }

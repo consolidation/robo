@@ -5,7 +5,7 @@ use Robo\Task\BaseTask;
 
 class ResourceExistenceCheckerTest extends \Codeception\TestCase\Test
 {
-    use ResourceExistenceChecker
+    use ResourceExistenceChecker;
 
     protected $testDir = null;
 
@@ -15,7 +15,7 @@ class ResourceExistenceCheckerTest extends \Codeception\TestCase\Test
     {
         $this->apigen = test::double('Robo\Task\ApiGen\ApiGen', [
             'executeCommand' => null,
-            'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
+            'output' => new \Symfony\Component\Console\Output\NullOutput()
         ]);
         if (!defined('DS')) {
             define('DS', DIRECTORY_SEPARATOR);

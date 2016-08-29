@@ -1,14 +1,14 @@
 <?php
 namespace Robo\Task\Remote;
 
-trait loadTasks 
+trait loadTasks
 {
     /**
      * @return Rsync
      */
     protected function taskRsync()
     {
-        return new Rsync();
+        return $this->task(Rsync::class);
     }
 
     /**
@@ -18,7 +18,6 @@ trait loadTasks
      */
     protected function taskSshExec($hostname = null, $user = null)
     {
-        return new Ssh($hostname, $user);
+        return $this->task(Ssh::class, $hostname, $user);
     }
-
-} 
+}

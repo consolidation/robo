@@ -1,9 +1,10 @@
 <?php
 
+use AspectMock\Test as test;
+use Robo\Robo;
+
 class RsyncTest extends \Codeception\TestCase\Test
 {
-    use \Robo\Task\Remote\loadTasks;
-
     /**
      * @var \CodeGuy
      */
@@ -13,7 +14,7 @@ class RsyncTest extends \Codeception\TestCase\Test
     public function testRsync()
     {
         verify(
-            $this->taskRsync()
+            (new \Robo\Task\Remote\Rsync())
                 ->fromPath('src/')
                 ->toHost('localhost')
                 ->toUser('dev')
@@ -30,16 +31,16 @@ class RsyncTest extends \Codeception\TestCase\Test
         )->equals(
             sprintf(
                 'rsync --recursive --exclude %s --exclude %s --exclude %s --checksum --whole-file --verbose --progress --human-readable --stats %s %s',
-                escapeshellarg('.git/'),
-                escapeshellarg('.svn/'),
-                escapeshellarg('.hg/'),
+                escapeshellarg('.git'),
+                escapeshellarg('.svn'),
+                escapeshellarg('.hg'),
                 escapeshellarg('src/'),
                 escapeshellarg('dev@localhost:/var/www/html/app/')
             )
         );
 
         verify(
-            $this->taskRsync()
+            (new \Robo\Task\Remote\Rsync())
                 ->fromPath('src/foo bar/baz')
                 ->toHost('localhost')
                 ->toUser('dev')
@@ -53,5 +54,4 @@ class RsyncTest extends \Codeception\TestCase\Test
             )
         );
     }
-
 }

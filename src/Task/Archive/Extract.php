@@ -4,7 +4,10 @@ namespace Robo\Task\Archive;
 
 use Robo\Result;
 use Robo\Task\BaseTask;
-use Robo\Task\FileSystem\FilesystemStack;
+use Robo\Task\Filesystem\FilesystemStack;
+use Robo\Task\Filesystem\DeleteDir;
+use Robo\Contract\BuilderAwareInterface;
+use Robo\Common\BuilderAwareTrait;
 
 /**
  * Extracts an archive.
@@ -31,11 +34,9 @@ use Robo\Task\FileSystem\FilesystemStack;
  *
  * @method to(string) location to store extracted files
  */
-class Extract extends BaseTask
+class Extract extends BaseTask implements BuilderAwareInterface
 {
-    use \Robo\Common\DynamicParams;
-    use \Robo\Common\Timer;
-    use \Robo\Common\PHPStatus;
+    use BuilderAwareTrait;
 
     protected $filename;
     protected $to;
@@ -46,15 +47,27 @@ class Extract extends BaseTask
         $this->filename = $filename;
     }
 
+    public function to($to)
+    {
+        $this->to = $to;
+        return $this;
+    }
+
+    public function preserveTopDirectory($preserve = true)
+    {
+        $this->preserveTopDirectory = $preserve;
+        return $this;
+    }
+
     public function run()
     {
         if (!file_exists($this->filename)) {
-            $this->printTaskError("File {$this->filename} does not exist");
+            $this->printTaskError("File {filename} does not exist", ['filename' => $this->filename]);
 
             return false;
         }
         if (!($mimetype = static::archiveType($this->filename))) {
-            $this->printTaskError("Could not determine type of archive for {$this->filename}");
+            $this->printTaskError("Could not determine type of archive for {filename}", ['filename' => $this->filename]);
 
             return false;
         }
@@ -66,16 +79,11 @@ class Extract extends BaseTask
 
         $this->startTimer();
 
-        $this->printTaskInfo("Extracting <info>{$this->filename}</info>");
-        // Perform the extraction of a zip file.
-        if (($mimetype == 'application/zip') || ($mimetype == 'application/x-zip')) {
-            $result = $this->extractZip($extractLocation);
-        } else {
-            // Otherwise we have a possibly-compressed Tar file.
-            $result = $this->extractTar($extractLocation);
-        }
+        $this->printTaskInfo("Extracting {filename}", ['filename' => $this->filename]);
+
+        $result = $this->extractAppropriateType($mimetype, $extractLocation);
         if ($result->wasSuccessful()) {
-            $this->printTaskInfo("<info>{$this->filename}</info> extracted");
+            $this->printTaskInfo("{filename} extracted", ['filename' => $this->filename]);
             // Now, we want to move the extracted files to $this->to. There
             // are two possibilities that we must consider:
             //
@@ -90,10 +98,18 @@ class Extract extends BaseTask
             $filesInExtractLocation = glob("$extractLocation/*");
             $hasEncapsulatingFolder = ((count($filesInExtractLocation) == 1) && is_dir($filesInExtractLocation[0]));
             if ($hasEncapsulatingFolder && !$this->preserveTopDirectory) {
-                $result = (new FileSystemStack())->rename($filesInExtractLocation[0], $this->to)->run();
-                @rmdir($extractLocation);
+                $result = (new FilesystemStack())
+                    ->inflect($this)
+                    ->rename($filesInExtractLocation[0], $this->to)
+                    ->run();
+                (new DeleteDir($extractLocation))
+                    ->inflect($this)
+                    ->run();
             } else {
-                $result = (new FileSystemStack())->rename($extractLocation, $this->to)->run();
+                $result = (new FilesystemStack())
+                    ->inflect($this)
+                    ->rename($extractLocation, $this->to)
+                    ->run();
             }
         }
         $this->stopTimer();
@@ -102,11 +118,19 @@ class Extract extends BaseTask
         return $result;
     }
 
+    protected function extractAppropriateType($mimetype, $extractLocation)
+    {
+        // Perform the extraction of a zip file.
+        if (($mimetype == 'application/zip') || ($mimetype == 'application/x-zip')) {
+            return $this->extractZip($extractLocation);
+        }
+        return $this->extractTar($extractLocation);
+    }
+
     protected function extractZip($extractLocation)
     {
-        $result = $this->checkExtension('zip extracter', 'zlib');
-        if (!$result->wasSuccessful()) {
-            return $result;
+        if (!extension_loaded('zlib')) {
+            return Result::errorMissingExtension($this, 'zlib', 'zip extracting');
         }
 
         $zip = new \ZipArchive();
@@ -123,6 +147,9 @@ class Extract extends BaseTask
 
     protected function extractTar($extractLocation)
     {
+        if (!class_exists('Archive_Tar')) {
+            return Result::errorMissingPackage($this, 'Archive_Tar', 'pear/archive_tar');
+        }
         $tar_object = new \Archive_Tar($this->filename);
         if (!$tar_object->extract($extractLocation)) {
             return Result::error($this, "Could not extract tar archive {$this->filename}");

@@ -1,5 +1,5 @@
 <?php
-class TestedRoboFile
+class TestedRoboFile extends \Robo\Tasks
 {
     public function generateUserAvatar()
     {
@@ -22,10 +22,10 @@ class TestedRoboFile
      *     +--------+-------------+
      *
      * @param int $start Number to start from
-     * @param $steps int Number of steps to perform
+     * @param int $steps Number of steps to perform
      * @param array $opts
      * @option $graphic Display the sequence graphically using cube
-     *                  representation
+     *   representation
      */
     public function fibonacci($start, $steps, $opts = ['graphic' => false])
     {

@@ -33,20 +33,11 @@ class PHPUnit extends BaseTask implements CommandInterface, PrintedInterface
 
     public function __construct($pathToPhpUnit = null)
     {
-        if ($pathToPhpUnit) {
-            $this->command = $pathToPhpUnit;
-        } elseif (file_exists('vendor/bin/phpunit')) {
-            $this->command = 'vendor/bin/phpunit';
-            if (defined('PHP_WINDOWS_VERSION_BUILD')) {
-                $this->command = 'call ' . $this->command;
-            }
-        } elseif (file_exists('phpunit.phar')) {
-            $this->command = 'php phpunit.phar';
-        } elseif (is_executable('/usr/bin/phpunit')) {
-            $this->command = '/usr/bin/phpunit';
-        } elseif (is_executable('~/.composer/vendor/bin/phpunit')) {
-            $this->command = '~/.composer/vendor/bin/phpunit';
-        } else {
+        $this->command = $pathToPhpUnit;
+        if (!$this->command) {
+            $this->command = $this->findExecutablePhar('phpunit');
+        }
+        if (!$this->command) {
             throw new \Robo\Exception\TaskException(__CLASS__, "Neither local phpunit nor global composer installation not found");
         }
     }
@@ -139,7 +130,7 @@ class PHPUnit extends BaseTask implements CommandInterface, PrintedInterface
 
     public function run()
     {
-        $this->printTaskInfo('Running PHPUnit ' . $this->arguments);
+        $this->printTaskInfo('Running PHPUnit {arguments}', ['arguments' => $this->arguments]);
         return $this->executeCommand($this->getCommand());
     }
 }

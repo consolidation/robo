@@ -1,6 +1,6 @@
 # Getting Started
 
-To begin you need to create a Robofile. Just run `robo init` in empty dir:
+To begin you need to create a RoboFile. Just run `robo init` in empty dir:
 
 ```
 robo init
@@ -18,7 +18,7 @@ class RoboFile extends \Robo\Tasks
 
 ## Commands
 
-All public methods of this class will be treated as **commands**. You can run them from the CLI and pass arguments.
+All public methods of the RoboFile class will be treated as **commands**. You can run them from the CLI and pass arguments.
 
 ``` php
 <?php
@@ -62,7 +62,6 @@ robo hello
 ```
 
 To accept multiple, variable arguments, define a parameter as an `array`; Robo will then pass all CLI arguments in this variable:
-
 
 ``` php
 <?php
@@ -164,7 +163,7 @@ The help text for a command in a RoboFile may be provided in Doc-Block comments.
  *     +--------+-------------+
  *
  * @param int $start Number to start from
- * @param $steps int Number of steps to perform
+ * @param int $steps Number of steps to perform
  * @param array $opts
  * @option $graphic Display the sequence graphically using cube
  *                  representation
@@ -203,29 +202,54 @@ Help:
 
 Arguments and options are populated from annotations.
 
-Added with [PR by @jonsa](https://github.com/Codegyre/Robo/pull/71) 
+Initially added with [PR by @jonsa](https://github.com/consolidation-org/Robo/pull/71); now provided by the [consolidation/annotated-command](https://github.com/consolidation-org/annotated-command) project, which was factored out from Robo.
+
+### Ignored methods
+
+Robo ignores any method of your RoboFile that begins with `get` or `set`. These methods are presumed to be data accessors, not commands.  To implement a command whose name contains `get` or `set`, use the `@command` annotation.
+
+``` php
+<?php
+    /**
+     * @command set-alignment
+     */
+    function setAlignment($value)
+    {
+        ...
+    }
+?>
+```
 
 ## Tasks
+
+Robo commands typically divide the work they need to accomplish into **tasks**. The command first determines what needs to be done, inspecting current state if necessary, and then sets up and executes one or more tasks that make the actual changes needed by the command.  (See also the documentation on [Collections](collections.md), which allow you to combine groups of tasks which can provide rollback functions to recover from failure situations.)
 
 The convention used to add new tasks for use in your RoboFiles is to create a wrapper trait that instantiates the implementation class for each task. Each task method in the trait should start with the prefix `task`, and should use **chained method calls** for configuration. Task execution should be triggered by the method `run`. 
 
 *It is recommended to have store your trait loading task in a `loadTasks` file in the same namespace as the task implementation.*
 
-A very basic task is shown below:
+A very basic task is shown below.  The namespace is `MyAssetTasks`, and the example task is `CompileAssets`. To customize to your purposes, choose an appropriate namespace, and then define as many tasks as you need.
 
 ``` php
 <?php
-namespace CompileAssets;
+namespace MyAssetTasks;
 
 trait loadTasks
 {
-    function taskCompileAssets($path)
+    /**
+     * Example task to compile assets
+     *
+     * @param string $pathToCompileAssets
+     * @return \MyAssetTasks\CompileAssets
+     */
+    protected function taskCompileAssets($path = null)
     {
-        return new CompileAssetsTask($path);
+        // Always construct your tasks with the `task()` task builder.
+        return $this->task(CompileAssets::class, $path);
     }
 }
 
-class CompileAssetsTask implements Robo\Contract\TaskInterface
+class CompileAssets implements \Robo\Contract\TaskInterface
 {
     // configuration params
     protected $path;
@@ -250,15 +274,15 @@ class CompileAssetsTask implements Robo\Contract\TaskInterface
 }
 ?>
 ```
-To use it in a RoboFile, you should include this task via its trait:
+To use it in a RoboFile, include the task via its trait:
 
 ``` php
 <?php
-class RoboFile extends Robo\Tasks
+class RoboFile extends \Robo\Tasks
 {
-    use CompileAssets\loadTasks;
+    use \MyAssetTasks\loadTasks;
 
-    function build()
+    public function build()
     {
         $this->taskCompileAssets('web/css-src')
             ->to('web/assets.min.css')
@@ -268,9 +292,9 @@ class RoboFile extends Robo\Tasks
 ?>
 ```
 
-Robo\Tasks includes all of the standard task traits by default, so a RoboFile may call the `$this->taskXXX` method for any of these tasks. To use an external task, ensure that its class files are available (e.g. `require` its project in your composer.json file) and include corresponding trait or traits.
+Robo\Tasks includes all of the standard task traits by default, so a RoboFile may call the `$this->taskXXX` method for any of these tasks. To use an external task, ensure that its class files are available (e.g. `require` its project in your composer.json file), and include corresponding trait or traits in your Robofile.
 
-## Shortcuts
+### Shortcuts
 
 Some tasks may have shortcuts. If a task does not require multi-step configuration, it can be executed with a single line:
  
@@ -281,7 +305,7 @@ $this->_copy('config/env.example.yml','config/env.yml');
 ?>
 ```
 
-## Result
+### Result
 
 Each task must return an instance of `Robo\Result`. A Robo Result contains the task instance, exit code, message, and any variable data that the task may wish to return.
 
@@ -313,17 +337,18 @@ class RoboFile
 
         // print message when tests passed
         if ($res1->wasSuccessful() and $res2->wasSuccessful()) $this->say("All tests passed");
-
-        // alternatively
-        if ($res1() and $res2()) $this->say("All tests passed");
-
-        return $res() and $res(); // will exit with 1 if tests failed
     }
 }
 ?>
 ```
 
 Some tasks may also attach data to the Result object.  If this is done, the data may be accessed as an array; for example, `$result['path'];`. This is not common.
+
+Commands should return a Result object obtained from a task; this will ensure that the command exit code is set correctly.  If a command does not have a Result object available, then it may use a ResultData object.  ResultData objects are just like Result objects, except the do not contain a reference to a task.
+
+return new Robo\ResultData($exitcode, 'Error message.');
+
+If the command returns a TaskInterface instead of a result, then the task will be executed, and the result from that task will be used as the final result of the command. See also `Formatters`, below.
 
 ### Stack
 
@@ -339,7 +364,7 @@ There is a global `stopOnFail` method as well, that can be used to stop a comman
 $this->stopOnFail(true);
 ```
 
-## Output
+### IO
 
 As you noticed, you can print text via the `say` method, which is taken from the `Robo\Output` trait.
 
@@ -358,7 +383,53 @@ There are also `askDefault`, `askHidden`, and `confirm` methods.
 Inside tasks you should print process details with `printTaskInfo`, ``printTaskSuccess`, and `printTaskError`.
 
 To allow tasks access IO, use the `Robo\Common\TaskIO` trait, or inherit your task class from `Robo\Task\BaseTask` (recommended).
-
 ```
 $this->printTaskInfo('Processing...');
 ```
+The Task IO methods send all output through a PSR-3 logger. Tasks should use task IO exclusively; methods such as 'say' and 'ask' should reside in the command method. This allows tasks to be usable in any context that has a PSR-3 logger, including background or server processes where it is not possible to directly query the user.
+
+### Formatters
+
+It is preferable for commands that look up and display information should avoid doing IO directly, and should instead return the data they wish to display as an array. This data can then be converted into different data formats, such as "table" and "json". The user may select which formatter to use via the --format option.
+
+### Progress
+
+Robo supports progress indicators via the Symfony ProgressBar class.  Long-running tasks that wish to display the progress indicator may do so via four simple steps:
+
+- Override the `progressIndicatorSteps()` method and return the number of "steps" in the operation.
+- Call `$this->startProgressIndicator()` to begin the progress indicator running.
+- Call `$this->advanceProgressIndicator()` a number of times equal to the result returned by `progressIndicatorSteps()`
+- Call `$this->stopProgressIndicator()` when the operation is completed.
+
+An example of this is shown below:
+
+``` php
+<?php
+class MyTask extends BaseTask
+{
+    protected $steps = 10;
+    
+    public function progressIndicatorSteps()
+    {
+        return $this->steps;
+    }
+    
+    public function run()
+    {
+        $exitCode = 0;
+        $errorMessage = "";
+    
+        $this->startProgressIndicator();
+        for ($i = 0; $i < $this->steps; ++$i) {
+            $this->advanceProgressIndicator();
+        }
+        $this->stopProgressIndicator();
+
+        return new Result($this, $exitCode, $errorMessage, ['time' => $this->getExecutionTime()]);
+    }
+}
+?>
+```
+Tasks should not attempt to use a specific progress indicator (e.g. the Symfony ProgressBar class) directly, as the ProgressIndicatorAwareTrait allows for an appropriate progress indicator to be used (or omitted) as best suits the application.
+
+Note that when using [Collections](collections.md), the progress bar will automatically be shown if the collection takes longer than two seconds to run.  Each task in the collection will count for one "step"; if the task supports progress indicators as shown above, then it will add an additional number of steps as indicated by its `progressIndicatorSteps()` method.

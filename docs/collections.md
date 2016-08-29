@@ -1,20 +1,73 @@
-# Collections
+# Collection Builders
 
-Robo provides task collections as a means of making error detection and recovery easier. When Robo tasks are added to a collection, their execution is deferred until the `$collection->run()` method is called.  When using collections, a Robo script will go through three phases:
+Robo provides task collections as a means of making error detection and recovery easier. When Robo tasks are added to a collection, their execution is deferred until the `$collection->run()` method is called.  If one of the tasks fail, then the operation will be aborted; rollback tasks may also be defined to restore the system to its original condition.
 
-1. Determine which tasks will need to be run, and create a collection.
+When using collections, a Robo script will go through three phases:
+
+1. Determine which tasks will need to be run, and create a task builder.
   - Assign values to variables.
   - Do not alter the state of the system.
-2. Create the necessary tasks and add them to the collection.
-  - Pass variables calculated in the first phase to task parameters.
-3. Run the tasks via `$collection->run()`.
+2. Create the necessary tasks via the task builder.
+  - Use variables calculated in the first phase in task parameters.
+3. Run the tasks via the `run()` method.
   - Check and report errors once after `run()` returns.
 
 Following this pattern will keep your code linear and easy to understand.
 
-## Basic Collection Example
+## Collections API
 
-The 'publish' command from Robo's own RoboFile is shown below:
+Collections are made up of a combination of tasks and/or `callable` functions / method pointers, such as:
+
+  - A task (implements TaskInterface)
+  - A function name (string)
+  - A closure (inline function)
+  - A method reference (array with object and method name)
+
+Examples of adding different kinds of tasks to a collection are provided below.
+
+### TaskInterface Objects
+
+```php
+<?php
+  $collection->add(
+    $this->taskExec('ls')
+  );
+?>
+```
+
+### Functions
+
+```php
+<?php
+  $collection->addCode('mytaskfunction');
+?>
+```
+
+### Closures
+
+```php
+<?php
+  $collection->addCode(
+    function() use ($work)
+    {
+      // do something with $work      
+    });
+?>
+```
+
+### Methods
+
+```php
+<?php
+  $collection->addCode([$myobject, 'mymethod']);
+?>
+```
+
+## Using a Collection Builder
+
+To manage a collection of tasks, a collection builder. Collection builders allow tasks to be created via chained methods.  All of the tasks created by the same builder are added to a collection; when the `run()` method is called, all of the tasks in the collection run. 
+
+The 'publish' command from Robo's own RoboFile is shown below.  It uses a collection builder to run some git and filesystem operations. The "completion" tasks are run after all other tasks complete, or during rollback processing when an operation fails.
 
 ``` php
 <?php
@@ -24,28 +77,21 @@ class RoboFile extends \Robo\Tasks
     {
         $current_branch = exec('git rev-parse --abbrev-ref HEAD');
 
-        $collection = $this->collection();
-        $this->taskGitStack()
+        $collection = $this->collectionBuilder();
+        $collection->taskGitStack()
             ->checkout('site')
             ->merge('master')
-            ->addToCollection($collection);
-        $this->taskGitStack()
-            ->checkout($current_branch)
-            ->addAsCompletion($collection);
-        $this->taskFilesystemStack()
+        ->completion($this->taskGitStack()->checkout($current_branch))
+        ->taskFilesystemStack()
             ->copy('CHANGELOG.md', 'docs/changelog.md')
-            ->addToCollection($collection);
-        $this->taskFilesystemStack()
-            ->remove('docs/changelog.md')
-            ->addAsCompletion($collection);
-        $this->taskExec('mkdocs gh-deploy')
-            ->addToCollection($collection);
-        $collection->run();
+        ->completion($this->taskFilesystemStack()->remove('docs/changelog.md'))
+        ->taskExec('mkdocs gh-deploy');
+
+        return $collection;
     }
 }
 ?>
 ```
-Note that code that uses collections looks very similar to similar code that does not use collections; the main difference is that `addToCollection($collection)` is used in place of the `run()` method. This deferrs execution of the task until it is run as part of the collection. When `$collection->run()` is executed, all of the tasks in the collection will run, and the final result (a Robo\Result object) will be returned. If any of the tasks fail, then the tasks that follow are skipped.
 
 The example above also adds a couple of tasks as "completions"; these are run when the collection completes execution, as explained below.
 
@@ -73,7 +119,7 @@ Since the concept of temporary objects that are cleaned up  on failure is a comm
 
 ### Temporary Directories
 
-It is recommended that operations that perform multiple filesystem operations should, whenever possible, do most of their work in a temporary directory. Temporary directories are created by `$this->taskTmpDir()`, and are automatically be removed when the collection completes or rolls back. Move the temporary directory to another location to prevent its deletion.
+It is recommended that operations that perform multiple filesystem operations should, whenever possible, do most of their work in a temporary directory. Temporary directories are created by `$this->taskTmpDir()`, and are automatically be removed when the collection completes or rolls back. As an added convenience, the CollectionBuilder class has a `tmpDir()` method that creates a temporary directory via `taskTmpDir()`, and then returns the path to the temporary directory.
 
 ``` php
 <?php
@@ -81,29 +127,54 @@ class RoboFile extends \Robo\Tasks
 {
     function myOperation()
     {
-        $collection = $this->collection();
+        $collection = $this->collectionBuilder();
         
         // Create a temporary directory, and fetch its path.
-        $work = $this->taskTmpDir()
-          ->addToCollection($collection)
-          ->getPath();
+        $work = $collection->tmpDir();
 
-        $this->taskOther($work)
-          ->addToCollection($collection);
-
-        // If all of the tasks succeed, then rename the temporary directory
-        // to its final name.
-        $this->taskFileSystemStack()
-          ->rename($work, 'destination')
-          ->addToCollection($collection);
+        $collection
+          ->taskWriteToFile("$work/README.md")
+            ->line('-----')
+            ->line(date('Y-m-d').' Generated file: do not edit.')
+            ->line('----');
         
-        $result = $collection->run();
+        // If all of the preceding tasks succeed, then rename the temporary 
+        // directory to its final name.
+        $collection->taskFilesystemStack()
+          ->rename($work, 'destination');
+        
+        return $collection->run();
     }
 }
 ?>
 ```
 
-In the previous example, the path to the temporary directory is stored in the variable `$work`, and is passed as needed to the parameters of the other tasks as they are added to the collection. After the task collection is run, the temporary directory will be automatically deleted. In the example above, the temporary directory is renamed by the last task in the collection. This allows the working directory to persist; the collection will still attempt to remove the working directory, but no errors will be thrown if it no longer exists in its original location. Following this pattern allows Robo scripts to easily and safely do work that cleans up after itself on failure, without introducing a lot of branching or additional error recovery code.
+In the previous example, the path to the temporary directory is stored in the variable `$work`, and is passed as needed to the parameters of the other tasks as they are added to the collection. After the task collection is run, the temporary directory will be automatically deleted. In the example above, the temporary directory is renamed by the last task in the collection. This allows the working directory to persist; the collection will still attempt to remove the working directory, but no errors will be thrown if it no longer exists in its original location. Following this pattern allows Robo scripts to easily and safely do work that cleans up after itself on failure, without introducing a lot of branching or additional error recovery code.  This paradigm is common enough to warrant a shortcut method of accomplishing the same thing.  The example below is identical to the one above, save for the fact that it uses the `workDir()` method instead of `tmpDir()`.  `workDir()` renames the temporary directory to its final name if the collection completes; any directory that exists in the same location will be overwritten at that time, but will persist if the collection roles back.
+
+``` php
+<?php
+class RoboFile extends \Robo\Tasks
+{
+    function myOperation()
+    {
+        $collection = $this->collectionBuilder();
+        
+        // Create a temporary directory, and fetch its path.
+        // If all of the tasks succeed, then rename the temporary directory
+        // to its final name.
+        $work = $collection->workDir('destination');
+
+        $collection
+          ->taskWriteToFile("$work/README.md")
+            ->line('-----')
+            ->line(date('Y-m-d').' Generated file: do not edit.')
+            ->line('----');
+        
+        return $collection->run();
+    }
+}
+?>
+```
 
 Temporary directories may also be created via the shortcut `$this->_tmpDir();`. Temporary directories created in this way are deleted when the script terminates.
 
@@ -133,72 +204,6 @@ For example, the implementation of taskTmpFile() looks like this:
 
 The `complete()` method of the task will be called once the Collection the temporary object is attached to finishes running. If the temporary is not added to a collection, then its `complete()` method will be called when the script terminates.
 
-## Adding Tasks to Collections
-
-In the previous example, tasks were added to collections using the `addToCollection($collection)` method available in BaseTask; this, however, is little more than a convenience wrapper to `$collection->add()`. The `add()` method accepts a variety of different parameter types, making it convenient to add operations to collections in a number of different ways.
-
-The following types can be added to a collection:
-
-- A TaskInterface
-- An array of TaskInterfaces
-- A Callable object
-  - A function name (string)
-  - A closure (inline function)
-  - A method reference (array with object and method name)
-  
-Examples of all of these appear below.
-
-### TaskInterface Objects
-
-```php
-<?php
-  $collection->add(
-    $this->taskOther($work)
-  );
-?>
-```
-
-### TaskInterface Lists
-
-```php
-<?php
-  $collection->add(
-    [
-      $this->taskOther($work),
-      $this->taskYetAnother(),
-    ]
-  );
-?>
-```
-
-### Functions
-
-```php
-<?php
-  $collection->add('mytaskfunction');
-?>
-```
-
-### Closures
-
-```php
-<?php
-  $collection->add(
-    function() use ($work)
-    {
-      // do something with $work      
-    });
-?>
-```
-
-### Methods
-
-```php
-<?php
-  $collection->add([$myobject, 'mymethod']);
-?>
-```
-
 ## Named Tasks
 
 It is also possible to provide names for the tasks added to a collection. This has two primary benefits:
@@ -210,11 +215,12 @@ This feature is useful if you have functions that create task collections, and r
 
 ```php
 <?php
-  $collection->add("taskname",
+  $collection->addCode(
     function() use ($work)
     {
       // do something with $work      
-    });
+    },
+    "taskname");
 ?>
 ```
 

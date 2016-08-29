@@ -34,18 +34,14 @@ class Codecept extends BaseTask implements CommandInterface, PrintedInterface
 
     public function __construct($pathToCodeception = '')
     {
-        if ($pathToCodeception) {
-            $this->command = "$pathToCodeception run";
-        } elseif (file_exists('vendor/bin/codecept')) {
-            $this->command = 'vendor/bin/codecept run';
-            if (defined('PHP_WINDOWS_VERSION_BUILD')) {
-                $this->command = 'call ' . $this->command;
-            }
-        } elseif (file_exists('codecept.phar')) {
-            $this->command = 'php codecept.phar run';
-        } else {
-            throw new TaskException(__CLASS__, "Neither composer nor phar installation of Codeception found");
+        $this->command = $pathToCodeception;
+        if (!$this->command) {
+            $this->command = $this->findExecutable('codecept');
         }
+        if (!$this->command) {
+            throw new TaskException(__CLASS__, "Neither composer nor phar installation of Codeception found.");
+        }
+        $this->command .= ' run';
     }
 
     public function suite($suite)
@@ -207,8 +203,7 @@ class Codecept extends BaseTask implements CommandInterface, PrintedInterface
     public function run()
     {
         $command = $this->getCommand();
-        $this->printTaskInfo('Executing ' . $command);
+        $this->printTaskInfo('Executing {command}', ['command' => $command]);
         return $this->executeCommand($command);
     }
-
 }

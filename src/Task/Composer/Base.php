@@ -1,6 +1,7 @@
 <?php
 namespace Robo\Task\Composer;
 
+use Robo\Robo;
 use Robo\Task\BaseTask;
 use Robo\Exception\TaskException;
 
@@ -11,6 +12,7 @@ abstract class Base extends BaseTask
     protected $prefer;
     protected $dev;
     protected $optimizeAutoloader;
+    protected $ansi;
     protected $dir;
 
     /**
@@ -54,6 +56,28 @@ abstract class Base extends BaseTask
     }
 
     /**
+     * adds `no-ansi` option to composer
+     *
+     * @return $this
+     */
+    public function noAnsi()
+    {
+        $this->ansi = '--no-ansi';
+        return $this;
+    }
+
+    /**
+     * adds `ansi` option to composer
+     *
+     * @return $this
+     */
+    public function ansi()
+    {
+        $this->ansi = '--ansi';
+        return $this;
+    }
+
+    /**
      * adds `optimize-autoloader` option to composer
      *
      * @return $this
@@ -68,28 +92,22 @@ abstract class Base extends BaseTask
     {
         $this->command = $pathToComposer;
         if (!$this->command) {
-            $this->command = $this->findComposer();
+            $this->command = $this->findExecutablePhar('composer');
         }
-    }
-
-    protected function findComposer()
-    {
-        if (file_exists('composer.phar')) {
-            return 'php composer.phar';
+        if (!$this->command) {
+            throw new TaskException(__CLASS__, "Neither local composer.phar nor global composer installation could be found.");
         }
-        $composer = exec('which composer');
-        if (!$composer) {
-            throw new TaskException(__CLASS__, "Neither local composer.phar nor global composer installation not found");
-        }
-
-        return $composer;
     }
 
     public function getCommand()
     {
+        if (!isset($this->ansi) && $this->getConfig()->isDecorated()) {
+            $this->ansi();
+        }
         $this->option($this->prefer)
             ->option($this->dev)
-            ->option($this->optimizeAutoloader);
+            ->option($this->optimizeAutoloader)
+            ->option($this->ansi);
         return "{$this->command} {$this->action}{$this->arguments}";
     }
 }

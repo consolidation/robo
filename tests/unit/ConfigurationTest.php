@@ -2,6 +2,7 @@
 
 namespace unit;
 
+use Robo\Robo;
 use Robo\Task\BaseTask;
 
 class ConfigurationTest extends \Codeception\TestCase\Test
@@ -12,9 +13,11 @@ class ConfigurationTest extends \Codeception\TestCase\Test
         ConfigurationTestTaskB::configure('key', 'value-b');
 
         $taskA = new ConfigurationTestTaskA();
+        $taskA->setConfig(Robo::config());
         verify($taskA->run())->equals('value-a');
 
         $taskB = new ConfigurationTestTaskB();
+        $taskB->setConfig(Robo::config());
         verify($taskB->run())->equals('value-b');
     }
 

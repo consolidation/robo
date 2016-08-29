@@ -9,12 +9,12 @@ trait loadTasks
      */
     protected function taskExec($command)
     {
-        return new Exec($command);
+        return $this->task(Exec::class, $command);
     }
 
     protected function taskExecStack()
     {
-        return new ExecStack();
+        return $this->task(ExecStack::class);
     }
 
     /**
@@ -22,7 +22,7 @@ trait loadTasks
      */
     protected function taskParallelExec()
     {
-        return new ParallelExec();
+        return $this->task(ParallelExec::class);
     }
 
     /**
@@ -31,7 +31,7 @@ trait loadTasks
      */
     protected function taskSymfonyCommand($command)
     {
-        return new SymfonyCommand($command);
+        return $this->task(SymfonyCommand::class, $command);
     }
 
     /**
@@ -39,6 +39,6 @@ trait loadTasks
      */
     protected function taskWatch()
     {
-        return new Watch($this);
+        return $this->task(Watch::class, $this);
     }
 }

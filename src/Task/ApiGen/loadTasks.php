@@ -1,7 +1,7 @@
 <?php
 namespace Robo\Task\ApiGen;
 
-trait loadTasks 
+trait loadTasks
 {
     /**
      * @param null $pathToApiGen
@@ -9,7 +9,6 @@ trait loadTasks
      */
     protected function taskApiGen($pathToApiGen = null)
     {
-        return new ApiGen($pathToApiGen);
+        return $this->task(ApiGen::class, $pathToApiGen);
     }
-
-} 
+}

@@ -49,10 +49,11 @@ class Minify extends BaseTask
     public function __construct($input)
     {
         if (file_exists($input)) {
-            return $this->fromFile($input);
+            $this->fromFile($input);
+            return;
         }
 
-        return $this->fromText($input);
+        $this->fromText($input);
     }
 
     /**
@@ -217,7 +218,7 @@ class Minify extends BaseTask
      */
     public function __toString()
     {
-        return $this->getMinifiedText();
+        return (string) $this->getMinifiedText();
     }
 
     /**
@@ -263,20 +264,13 @@ class Minify extends BaseTask
         } else {
             $minified_percent = number_format(100 - ($size_after / $size_before * 100), 1);
         }
-        $this->printTaskSuccess(
-            sprintf(
-                'Wrote <info>%s</info>',
-                $this->dst
-            )
-        );
-        $this->printTaskSuccess(
-            sprintf(
-                'Wrote <info>%s</info> (reduced by <info>%s</info> / <info>%s%%</info>)',
-                $this->formatBytes($size_after),
-                $this->formatBytes(($size_before - $size_after)),
-                $minified_percent
-            )
-        );
+        $this->printTaskSuccess('Wrote {filepath}', ['filepath' => $this->dst]);
+        $context = [
+            'bytes' => $this->formatBytes($size_after),
+            'reduction' => $this->formatBytes(($size_before - $size_after)),
+            'percentage' => $minified_percent,
+        ];
+        $this->printTaskSuccess('Wrote {bytes} (reduced by {reduction} / {percentage})', $context);
         return Result::success($this, 'Asset minified.');
     }
 }

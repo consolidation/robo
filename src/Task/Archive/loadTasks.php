@@ -1,5 +1,4 @@
 <?php
-
 namespace Robo\Task\Archive;
 
 trait loadTasks
@@ -7,11 +6,11 @@ trait loadTasks
     /**
      * @param $filename
      *
-     * @return Archive
+     * @return Pack
      */
     protected function taskPack($filename)
     {
-        return new Pack($filename);
+        return $this->task(Pack::class, $filename);
     }
 
     /**
@@ -21,6 +20,6 @@ trait loadTasks
      */
     protected function taskExtract($filename)
     {
-        return new Extract($filename);
+        return $this->task(Extract::class, $filename);
     }
 }

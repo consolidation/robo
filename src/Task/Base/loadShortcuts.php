@@ -1,7 +1,7 @@
 <?php
 namespace Robo\Task\Base;
 
-trait loadShortcuts 
+trait loadShortcuts
 {
     /**
      * Executes shell command
@@ -11,6 +11,6 @@ trait loadShortcuts
      */
     protected function _exec($command)
     {
-        return (new Exec($command))->run();
+        return $this->task('taskExec', $command)->run();
     }
-} 
+}

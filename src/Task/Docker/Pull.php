@@ -15,7 +15,7 @@ namespace Robo\Task\Docker;
  */
 class Pull extends Base
 {
-    function __construct($image)
+    public function __construct($image)
     {
         $this->command = "docker pull $image ";
     }
@@ -24,5 +24,4 @@ class Pull extends Base
     {
         return $this->command . ' ' . $this->arguments;
     }
-
 }

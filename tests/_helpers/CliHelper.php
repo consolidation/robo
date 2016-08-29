@@ -1,45 +1,45 @@
 <?php
 namespace Codeception\Module;
 
-use Robo\Config;
+use Robo\Robo;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\NullOutput;
 
-class CliHelper extends \Codeception\Module
+use League\Container\ContainerAwareInterface;
+use League\Container\ContainerAwareTrait;
+
+class CliHelper extends \Codeception\Module implements ContainerAwareInterface
 {
-   	use \Robo\Task\Base\loadTasks {
+    use ContainerAwareTrait;
+
+    use \Robo\LoadAllTasks {
+        task as public;
         taskExec as public;
         taskExecStack as public;
-    }
-    use \Robo\Task\File\loadTasks {
         taskWriteToFile as public;
         taskReplaceInFile as public;
         taskConcat as public;
         taskTmpFile as public;
-    }
-
-   	use \Robo\Task\FileSystem\loadTasks {
         taskCleanDir as public;
         taskCopyDir as public;
+        taskGenTask as public;
         taskDeleteDir as public;
         taskFlattenDir as public;
-        taskFileSystemStack as public;
+        taskFilesystemStack as public;
         taskTmpDir as public;
-    }
-
-    use \Robo\Task\FileSystem\loadShortcuts {
         _copyDir as public shortcutCopyDir;
         _mirrorDir as public shortcutMirrorDir;
         _tmpDir as public shortcutTmpDir;
-    }
-
-    use \Robo\Collection\loadTasks {
-        collection as public;
-    }
-
-    use \Robo\Task\Archive\loadTasks {
         taskPack as public;
         taskExtract as public;
+    }
+
+    public function collectionBuilder()
+    {
+        $tasks = new \Robo\Tasks();
+        $builder = $this->getContainer()->get('collectionBuilder', [$tasks]);
+        $tasks->setBuilder($builder);
+        return $builder;
     }
 
     public function seeDirFound($dir)
@@ -49,12 +49,13 @@ class CliHelper extends \Codeception\Module
 
     public function _before(\Codeception\TestCase $test) {
         $this->getModule('Filesystem')->copyDir(codecept_data_dir().'claypit', codecept_data_dir().'sandbox');
-        Config::setOutput(new NullOutput());
+        $this->setContainer(Robo::getContainer());
+        $this->getContainer()->add('output', new NullOutput());
     }
 
     public function _after(\Codeception\TestCase $test) {
         $this->getModule('Filesystem')->deleteDir(codecept_data_dir().'sandbox');
-        Config::setOutput(new ConsoleOutput());
+        $this->getContainer()->add('output', new ConsoleOutput());
         chdir(codecept_root_dir());
     }
 }

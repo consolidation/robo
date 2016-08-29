@@ -57,28 +57,19 @@
                 
                 
                     <li >
-                        <a href="..">Index</a>
+                        <a href="..">Introduction</a>
                     </li>
                 
                 
                 
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Guides <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                        
-                            
-<li >
-    <a href="../getting-started/">Getting Started</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../collections/">Collections</a>
-</li>
-
-                        
-                        </ul>
+                    <li >
+                        <a href="../getting-started/">Getting Started</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../collections/">Collections</a>
                     </li>
                 
                 
@@ -89,37 +80,13 @@
                         
                             
 <li >
-    <a href="../tasks/Base/">Base Tasks</a>
+    <a href="../tasks/ApiGen/">ApiGen Tasks</a>
 </li>
 
                         
                             
 <li >
-    <a href="../tasks/Filesystem/">FileSystem Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../tasks/File/">File Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../tasks/Composer/">Composer Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../tasks/Vcs/">VCS Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../tasks/Development/">Development Tasks</a>
+    <a href="../tasks/Archive/">Archive Tasks</a>
 </li>
 
                         
@@ -131,7 +98,55 @@
                         
                             
 <li >
-    <a href="../tasks/Archive/">Archive Tasks</a>
+    <a href="../tasks/Base/">Base Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Bower/">Bower Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Composer/">Composer Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Development/">Development Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Docker/">Docker Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/File/">File Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Filesystem/">Filesystem Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Gulp/">Gulp Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Npm/">NPM Tasks</a>
 </li>
 
                         
@@ -149,31 +164,7 @@
                         
                             
 <li >
-    <a href="../tasks/Npm/">NPM Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../tasks/Bower/">Bower Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../tasks/Gulp/">Gulp Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../tasks/Docker/">Docker Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../tasks/ApiGen/">ApiGen Tasks</a>
+    <a href="../tasks/Vcs/">VCS Tasks</a>
 </li>
 
                         
@@ -198,7 +189,7 @@
                 </li>
                 
                     <li >
-                        <a rel="next" href="../tasks/ApiGen/">
+                        <a rel="next" href="../tasks/Vcs/">
                             <i class="fa fa-arrow-left"></i> Previous
                         </a>
                     </li>
@@ -210,7 +201,7 @@
                 
                 
                     <li>
-                        <a href="https://github.com/codegyre/robo/">
+                        <a href="https://github.com/consolidation-org/Robo/">
                             
                                 <i class="fa fa-github"></i>
                             
@@ -296,19 +287,20 @@
 <li>If a Robo command returns a string, or a <code>Result</code> object with a <code>$message</code>, then it will be printed</li>
 <li>Commands may be annotated to describe output formats that may be used</li>
 <li>Structured arrays returned from function results may be converted into different formats, such as a table, yml, json, etc.</li>
+<li>Tasks must <code>use TaskIO</code> for output methods. It is no longer possible to <code>use IO</code> from a task. For direct access use <code>Robo::output()</code> (not recommended).   </li>
 <li>Use league/container to do Dependency Injection</li>
-<li><em>Breaking</em> Tasks' loadTasks traits must now include a getServices method that returns a SimpleServiceProvider listing the task classes provided.</li>
-<li><em>Breaking</em> Tasks' loadTasks traits must use <code>$this-&gt;task('taskName');</code> instead of <code>new TaskClass();</code></li>
-<li><em>Breaking</em> Tasks that use other tasks must also use <code>$this-&gt;task('taskName');</code> instead of <code>new TaskClass();</code> when creating task objects to call.</li>
+<li><em>Breaking</em> Tasks' loadTasks traits must use <code>$this-&gt;task(TaskClass::class);</code> instead of <code>new TaskClass();</code></li>
+<li><em>Breaking</em> Tasks that use other tasks must use <code>$this-&gt;collectionBuilder()-&gt;taskName();</code> instead of <code>new TaskClass();</code> when creating task objects to call. Implement <code>Robo\Contract\BuilderAwareInterface</code> and use <code>Robo\Contract\BuilderAwareTrait</code> to add the <code>collectionBuilder()</code> method to your task class.</li>
 <li>[Extract] task added</li>
 <li>[Pack] task added</li>
 <li>[TmpDir], [WorkDir] and [TmpFile] tasks added</li>
-<li>Support standalone Robo scripts that allows scripts starting with <code>#!/usr/bin/env robo</code> to define multiple robo commands.  Use <code>#!/usr/bin/env robo run</code> to define a single robo command implemented by the <code>run()</code> method.</li>
+<li>Support Robo scripts that allows scripts starting with <code>#!/usr/bin/env robo</code> to define multiple robo commands.  Use <code>#!/usr/bin/env robo run</code> to define a single robo command implemented by the <code>run()</code> method.</li>
 <li>Provide ProgresIndicatorAwareInterface and ProgressIndicatorAwareTrait that make it easy to add progress indicators to tasks</li>
 <li>Add --simulate mode that causes tasks to print what they would have done, but make no changes</li>
 <li>Add <code>robo generate:task</code> code-generator to make new stack-based task wrappers around existing classes</li>
 <li>Add <code>robo sniff</code> by @dustinleblanc. Runs the PHP code sniffer followed by the code beautifier, if needed.</li>
 <li>Implement ArrayInterface for Result class, so result data may be accessed like an array </li>
+<li><em>Breaking</em> taskWrite is now called taskWriteToFile</li>
 <li>Defer execution of operations in taskWriteToFile until the run() method</li>
 <li>Add Write::textIfMatch() for taskWriteToFile</li>
 <li>ResourceExistenceChecker used for error checking in DeleteDir, CopyDir, CleanDir and Concat tasks by @burzum</li>
@@ -316,6 +308,7 @@
 <li>ArgvInput now available via $this-&gt;getInput() in RoboFile by Thomas Spigel</li>
 <li>Add optional message to git tag task by Tim Tegeler</li>
 <li>Rename 'FileSystem' to 'Filesystem' wherever it occurs.</li>
+<li>Current directory is changed with <code>chdir</code> only if specified via the <code>--load-from</code> option (RC2)</li>
 </ul>
 <h4 id="060">0.6.0</h4>
 <ul>
@@ -385,7 +378,7 @@
 <h4 id="047">0.4.7</h4>
 <ul>
 <li>[Minify] Task added by @Rarst. Requires additional dependencies installed <em>2014-12-26</em></li>
-<li><a href="https://github.com/Codegyre/Robo/pull/71">Help command is populated from annotation</a> by @jonsa <em>2014-12-26</em></li>
+<li><a href="https://github.com/consolidation-org/Robo/pull/71">Help command is populated from annotation</a> by @jonsa <em>2014-12-26</em></li>
 <li>Allow empty values as defaults to optional options by @jonsa <em>2014-12-26</em></li>
 <li><code>PHP_WINDOWS_VERSION_BUILD</code> constant is used to check for Windows in tasks by @boedah <em>2014-12-26</em></li>
 <li>[Copy][EmptyDir] Fixed infinite loop by @boedah <em>2014-12-26</em></li>
@@ -533,33 +526,6 @@
         <script src="../js/bootstrap-3.0.3.min.js"></script>
         <script src="../js/prettify-1.0.min.js"></script>
         <script src="../js/highlight.pack.js"></script>
-        <script>var base_url = '..';</script>
-        <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script>
         <script src="../js/base.js"></script>
-
-    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
-         <div class="modal-dialog">
-             <div class="modal-content">
-                 <div class="modal-header">
-                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                     <h4 class="modal-title" id="exampleModalLabel">Search</h4>
-                 </div>
-                 <div class="modal-body">
-                     <p>
-                         From here you can search these documents. Enter
-                         your search terms below.
-                     </p>
-                     <form role="form">
-                         <div class="form-group">
-                             <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
-                         </div>
-                     </form>
-                     <div id="mkdocs-search-results"></div>
-                 </div>
-                 <div class="modal-footer">
-                 </div>
-             </div>
-         </div>
-     </div>
     </body>
 </html>

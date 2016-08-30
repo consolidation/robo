@@ -57,28 +57,19 @@
                 
                 
                     <li >
-                        <a href="..">Index</a>
+                        <a href="..">Introduction</a>
                     </li>
                 
                 
                 
-                    <li class="dropdown active">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Guides <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                        
-                            
-<li class="active">
-    <a href="./">Getting Started</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../collections/">Collections</a>
-</li>
-
-                        
-                        </ul>
+                    <li class="active">
+                        <a href="./">Getting Started</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../collections/">Collections</a>
                     </li>
                 
                 
@@ -89,37 +80,13 @@
                         
                             
 <li >
-    <a href="../tasks/Base/">Base Tasks</a>
+    <a href="../tasks/ApiGen/">ApiGen Tasks</a>
 </li>
 
                         
                             
 <li >
-    <a href="../tasks/Filesystem/">FileSystem Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../tasks/File/">File Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../tasks/Composer/">Composer Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../tasks/Vcs/">VCS Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../tasks/Development/">Development Tasks</a>
+    <a href="../tasks/Archive/">Archive Tasks</a>
 </li>
 
                         
@@ -131,7 +98,55 @@
                         
                             
 <li >
-    <a href="../tasks/Archive/">Archive Tasks</a>
+    <a href="../tasks/Base/">Base Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Bower/">Bower Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Composer/">Composer Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Development/">Development Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Docker/">Docker Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/File/">File Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Filesystem/">Filesystem Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Gulp/">Gulp Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Npm/">NPM Tasks</a>
 </li>
 
                         
@@ -149,31 +164,7 @@
                         
                             
 <li >
-    <a href="../tasks/Npm/">NPM Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../tasks/Bower/">Bower Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../tasks/Gulp/">Gulp Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../tasks/Docker/">Docker Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../tasks/ApiGen/">ApiGen Tasks</a>
+    <a href="../tasks/Vcs/">VCS Tasks</a>
 </li>
 
                         
@@ -210,7 +201,7 @@
                 
                 
                     <li>
-                        <a href="https://github.com/codegyre/robo/">
+                        <a href="https://github.com/consolidation-org/Robo/">
                             
                                 <i class="fa fa-github"></i>
                             
@@ -405,7 +396,7 @@ Help:
 </code></pre>
 
 <p>Arguments and options are populated from annotations.</p>
-<p>Initially added with <a href="https://github.com/Codegyre/Robo/pull/71">PR by @jonsa</a>; now provided by the <a href="https://github.com/consolidation-org/annotated-command">consolidation/annotated-command</a> project, which was factored out from Robo.</p>
+<p>Initially added with <a href="https://github.com/consolidation-org/Robo/pull/71">PR by @jonsa</a>; now provided by the <a href="https://github.com/consolidation-org/annotated-command">consolidation/annotated-command</a> project, which was factored out from Robo.</p>
 <h3 id="ignored-methods">Ignored methods</h3>
 <p>Robo ignores any method of your RoboFile that begins with <code>get</code> or <code>set</code>. These methods are presumed to be data accessors, not commands.  To implement a command whose name contains <code>get</code> or <code>set</code>, use the <code>@command</code> annotation.</p>
 <pre><code class="php">&lt;?php
@@ -427,27 +418,10 @@ Help:
 <pre><code class="php">&lt;?php
 namespace MyAssetTasks;
 
-use Robo\Container\SimpleServiceProvider;
-
 trait loadTasks
 {
     /**
-     * Return services.  Your tasks should always be
-     * named 'taskCLASSNAME', where CLASSNAME is the
-     * name of the implementing class.
-     */
-    public static function getMyAssetTasksServices()
-    {
-        return new SimpleServiceProvider(
-            [
-                'taskCompileAssets' =&gt; CompileAssets::class,
-            ]
-        );
-    }
-
-    /**
-     * The task function must always be given the same name as the key
-     * used with the SimpleServiceProvider (above)
+     * Example task to compile assets
      *
      * @param string $pathToCompileAssets
      * @return \MyAssetTasks\CompileAssets
@@ -455,7 +429,7 @@ trait loadTasks
     protected function taskCompileAssets($path = null)
     {
         // Always construct your tasks with the `task()` task builder.
-        return $this-&gt;task(__FUNCTION__, $path);
+        return $this-&gt;task(CompileAssets::class, $path);
     }
 }
 
@@ -485,19 +459,11 @@ class CompileAssets implements \Robo\Contract\TaskInterface
 ?&gt;
 </code></pre>
 
-<p>To use it in a RoboFile, you should register its service provider via the RoboFile's <code>getServiceProviders()</code> method, and also include the task via its trait:</p>
+<p>To use it in a RoboFile, include the task via its trait:</p>
 <pre><code class="php">&lt;?php
 class RoboFile extends \Robo\Tasks
 {
     use \MyAssetTasks\loadTasks;
-
-    public function getServiceProviders()
-    {
-        $serviceProviders = parent::getServiceProviders();
-        $serviceProviders[] = \MyAssetTasks\loadTasks::getMyAssetTasksServices();
-
-        return $serviceProviders;
-    }
 
     public function build()
     {
@@ -509,7 +475,7 @@ class RoboFile extends \Robo\Tasks
 ?&gt;
 </code></pre>
 
-<p>Robo\Tasks includes all of the standard task traits by default, so a RoboFile may call the <code>$this-&gt;taskXXX</code> method for any of these tasks. To use an external task, ensure that its class files are available (e.g. <code>require</code> its project in your composer.json file), register the services defined in the project's loadTraits, and include corresponding trait or traits in your Robofile.</p>
+<p>Robo\Tasks includes all of the standard task traits by default, so a RoboFile may call the <code>$this-&gt;taskXXX</code> method for any of these tasks. To use an external task, ensure that its class files are available (e.g. <code>require</code> its project in your composer.json file), and include corresponding trait or traits in your Robofile.</p>
 <h3 id="shortcuts">Shortcuts</h3>
 <p>Some tasks may have shortcuts. If a task does not require multi-step configuration, it can be executed with a single line:</p>
 <pre><code class="php">&lt;?php
@@ -645,33 +611,6 @@ class MyTask extends BaseTask
         <script src="../js/bootstrap-3.0.3.min.js"></script>
         <script src="../js/prettify-1.0.min.js"></script>
         <script src="../js/highlight.pack.js"></script>
-        <script>var base_url = '..';</script>
-        <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script>
         <script src="../js/base.js"></script>
-
-    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
-         <div class="modal-dialog">
-             <div class="modal-content">
-                 <div class="modal-header">
-                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                     <h4 class="modal-title" id="exampleModalLabel">Search</h4>
-                 </div>
-                 <div class="modal-body">
-                     <p>
-                         From here you can search these documents. Enter
-                         your search terms below.
-                     </p>
-                     <form role="form">
-                         <div class="form-group">
-                             <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
-                         </div>
-                     </form>
-                     <div id="mkdocs-search-results"></div>
-                 </div>
-                 <div class="modal-footer">
-                 </div>
-             </div>
-         </div>
-     </div>
     </body>
 </html>

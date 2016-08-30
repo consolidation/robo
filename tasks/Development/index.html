@@ -57,28 +57,19 @@
                 
                 
                     <li >
-                        <a href="../..">Index</a>
+                        <a href="../..">Introduction</a>
                     </li>
                 
                 
                 
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Guides <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                        
-                            
-<li >
-    <a href="../../getting-started/">Getting Started</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../../collections/">Collections</a>
-</li>
-
-                        
-                        </ul>
+                    <li >
+                        <a href="../../getting-started/">Getting Started</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../../collections/">Collections</a>
                     </li>
                 
                 
@@ -89,37 +80,13 @@
                         
                             
 <li >
-    <a href="../Base/">Base Tasks</a>
+    <a href="../ApiGen/">ApiGen Tasks</a>
 </li>
 
                         
                             
 <li >
-    <a href="../Filesystem/">FileSystem Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../File/">File Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../Composer/">Composer Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../Vcs/">VCS Tasks</a>
-</li>
-
-                        
-                            
-<li class="active">
-    <a href="./">Development Tasks</a>
+    <a href="../Archive/">Archive Tasks</a>
 </li>
 
                         
@@ -131,7 +98,55 @@
                         
                             
 <li >
-    <a href="../Archive/">Archive Tasks</a>
+    <a href="../Base/">Base Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../Bower/">Bower Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../Composer/">Composer Tasks</a>
+</li>
+
+                        
+                            
+<li class="active">
+    <a href="./">Development Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../Docker/">Docker Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../File/">File Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../Filesystem/">Filesystem Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../Gulp/">Gulp Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../Npm/">NPM Tasks</a>
 </li>
 
                         
@@ -149,31 +164,7 @@
                         
                             
 <li >
-    <a href="../Npm/">NPM Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../Bower/">Bower Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../Gulp/">Gulp Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../Docker/">Docker Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../ApiGen/">ApiGen Tasks</a>
+    <a href="../Vcs/">VCS Tasks</a>
 </li>
 
                         
@@ -198,19 +189,19 @@
                 </li>
                 
                     <li >
-                        <a rel="next" href="../Vcs/">
+                        <a rel="next" href="../Composer/">
                             <i class="fa fa-arrow-left"></i> Previous
                         </a>
                     </li>
                     <li >
-                        <a rel="prev" href="../Assets/">
+                        <a rel="prev" href="../Docker/">
                             Next <i class="fa fa-arrow-right"></i>
                         </a>
                     </li>
                 
                 
                     <li>
-                        <a href="https://github.com/codegyre/robo/">
+                        <a href="https://github.com/consolidation-org/Robo/">
                             
                                 <i class="fa fa-github"></i>
                             
@@ -374,7 +365,7 @@ $this-&gt;taskGenerateTask('Symfony\Component\Filesystem\Filesystem', 'Filesyste
 <p>Publishes new GitHub release.</p>
 <pre><code class="php">&lt;?php
 $this-&gt;taskGitHubRelease('0.1.0')
-  -&gt;uri('Codegyre/Robo')
+  -&gt;uri('consolidation-org/Robo')
   -&gt;description('Add stuff people need.')
   -&gt;change('Fix #123')
   -&gt;change('Add frobulation method to all widgets')
@@ -448,6 +439,7 @@ $pharTask = $this-&gt;taskPackPhar('package/codecept.phar')
 <li><code>stub($stub)</code>   * <code>param</code> $stub</li>
 <li><code>addStripped($path, $file)</code> </li>
 <li><code>addFile($path, $file)</code> </li>
+<li><code>addFiles($files)</code> </li>
 <li><code>executable($file)</code> </li>
 </ul>
 <h2 id="phpserver">PhpServer</h2>
@@ -532,33 +524,6 @@ $this-&gt;taskSemVer('.semver')
         <script src="../../js/bootstrap-3.0.3.min.js"></script>
         <script src="../../js/prettify-1.0.min.js"></script>
         <script src="../../js/highlight.pack.js"></script>
-        <script>var base_url = '../..';</script>
-        <script data-main="../../mkdocs/js/search.js" src="../../mkdocs/js/require.js"></script>
         <script src="../../js/base.js"></script>
-
-    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
-         <div class="modal-dialog">
-             <div class="modal-content">
-                 <div class="modal-header">
-                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                     <h4 class="modal-title" id="exampleModalLabel">Search</h4>
-                 </div>
-                 <div class="modal-body">
-                     <p>
-                         From here you can search these documents. Enter
-                         your search terms below.
-                     </p>
-                     <form role="form">
-                         <div class="form-group">
-                             <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
-                         </div>
-                     </form>
-                     <div id="mkdocs-search-results"></div>
-                 </div>
-                 <div class="modal-footer">
-                 </div>
-             </div>
-         </div>
-     </div>
     </body>
 </html>

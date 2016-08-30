@@ -11,7 +11,7 @@
         
         <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 
-	<title>FileSystem Tasks - Robo</title>
+	<title>Filesystem Tasks - Robo</title>
 
         <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome-4.0.3.css" rel="stylesheet">
@@ -57,28 +57,19 @@
                 
                 
                     <li >
-                        <a href="../..">Index</a>
+                        <a href="../..">Introduction</a>
                     </li>
                 
                 
                 
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Guides <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                        
-                            
-<li >
-    <a href="../../getting-started/">Getting Started</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../../collections/">Collections</a>
-</li>
-
-                        
-                        </ul>
+                    <li >
+                        <a href="../../getting-started/">Getting Started</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../../collections/">Collections</a>
                     </li>
                 
                 
@@ -89,37 +80,13 @@
                         
                             
 <li >
-    <a href="../Base/">Base Tasks</a>
-</li>
-
-                        
-                            
-<li class="active">
-    <a href="./">FileSystem Tasks</a>
+    <a href="../ApiGen/">ApiGen Tasks</a>
 </li>
 
                         
                             
 <li >
-    <a href="../File/">File Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../Composer/">Composer Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../Vcs/">VCS Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../Development/">Development Tasks</a>
+    <a href="../Archive/">Archive Tasks</a>
 </li>
 
                         
@@ -131,7 +98,55 @@
                         
                             
 <li >
-    <a href="../Archive/">Archive Tasks</a>
+    <a href="../Base/">Base Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../Bower/">Bower Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../Composer/">Composer Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../Development/">Development Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../Docker/">Docker Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../File/">File Tasks</a>
+</li>
+
+                        
+                            
+<li class="active">
+    <a href="./">Filesystem Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../Gulp/">Gulp Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../Npm/">NPM Tasks</a>
 </li>
 
                         
@@ -149,31 +164,7 @@
                         
                             
 <li >
-    <a href="../Npm/">NPM Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../Bower/">Bower Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../Gulp/">Gulp Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../Docker/">Docker Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../ApiGen/">ApiGen Tasks</a>
+    <a href="../Vcs/">VCS Tasks</a>
 </li>
 
                         
@@ -198,19 +189,19 @@
                 </li>
                 
                     <li >
-                        <a rel="next" href="../Base/">
+                        <a rel="next" href="../File/">
                             <i class="fa fa-arrow-left"></i> Previous
                         </a>
                     </li>
                     <li >
-                        <a rel="prev" href="../File/">
+                        <a rel="prev" href="../Gulp/">
                             Next <i class="fa fa-arrow-right"></i>
                         </a>
                     </li>
                 
                 
                     <li>
-                        <a href="https://github.com/codegyre/robo/">
+                        <a href="https://github.com/consolidation-org/Robo/">
                             
                                 <i class="fa fa-github"></i>
                             
@@ -229,7 +220,7 @@
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
     
-        <li class="main active"><a href="#filesystem-tasks">Filesystem Tasks</a></li>
+        <li class="main active"><a href="#filesystem-tasks">FileSystem Tasks</a></li>
         
             <li><a href="#cleandir">CleanDir</a></li>
         
@@ -252,7 +243,7 @@
 </div></div>
                 <div class="col-md-9" role="main">
 
-<h1 id="filesystem-tasks">Filesystem Tasks</h1>
+<h1 id="filesystem-tasks">FileSystem Tasks</h1>
 <h2 id="cleandir">CleanDir</h2>
 <p>Deletes all files from specified dir, ignoring git files.</p>
 <pre><code class="php">&lt;?php
@@ -303,17 +294,17 @@ $this-&gt;_mkdir('logs');
 </code></pre>
 
 <ul>
-<li><code>mkdir($dir)</code> </li>
-<li><code>touch($file)</code> </li>
-<li><code>copy($from, $to, $force = null)</code> </li>
-<li><code>chmod($file, $permissions, $umask = null, $recursive = null)</code> </li>
-<li><code>chgrp($file, $group, $recursive = null)</code> </li>
-<li><code>chown($file, $user, $recursive = null)</code> </li>
-<li><code>remove($file)</code> </li>
-<li><code>rename($from, $to)</code> </li>
-<li><code>symlink($from, $to)</code> </li>
+<li><code>$this mkdir($dir)</code> </li>
+<li><code>$this touch($file)</code> </li>
+<li><code>$this copy($from, $to, $force = null)</code> </li>
+<li><code>$this chmod($file, $permissions, $umask = null, $recursive = null)</code> </li>
+<li><code>$this chgrp($file, $group, $recursive = null)</code> </li>
+<li><code>$this chown($file, $user, $recursive = null)</code> </li>
+<li><code>$this remove($file)</code> </li>
+<li><code>$this rename($from, $to)</code> </li>
+<li><code>$this symlink($from, $to)</code> </li>
 <li>
-<p><code>mirror($from, $to)</code> </p>
+<p><code>$this mirror($from, $to)</code> </p>
 </li>
 <li>
 <p><code>stopOnFail($stop = null)</code> </p>
@@ -458,33 +449,6 @@ $collection-&gt;run();
         <script src="../../js/bootstrap-3.0.3.min.js"></script>
         <script src="../../js/prettify-1.0.min.js"></script>
         <script src="../../js/highlight.pack.js"></script>
-        <script>var base_url = '../..';</script>
-        <script data-main="../../mkdocs/js/search.js" src="../../mkdocs/js/require.js"></script>
         <script src="../../js/base.js"></script>
-
-    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
-         <div class="modal-dialog">
-             <div class="modal-content">
-                 <div class="modal-header">
-                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                     <h4 class="modal-title" id="exampleModalLabel">Search</h4>
-                 </div>
-                 <div class="modal-body">
-                     <p>
-                         From here you can search these documents. Enter
-                         your search terms below.
-                     </p>
-                     <form role="form">
-                         <div class="form-group">
-                             <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
-                         </div>
-                     </form>
-                     <div id="mkdocs-search-results"></div>
-                 </div>
-                 <div class="modal-footer">
-                 </div>
-             </div>
-         </div>
-     </div>
     </body>
 </html>

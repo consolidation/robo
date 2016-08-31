@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "661e6d739096c61c301d16526b132a9a",
-    "content-hash": "02b067ed3a555229872305cd4b232abf",
+    "hash": "2bc1a13219052373893fc3a67405bd98",
+    "content-hash": "09dc7f2d3b9027a5d1b6d14f78173f63",
     "packages": [
         {
             "name": "consolidation/annotated-command",
@@ -1045,16 +1045,16 @@
         },
         {
             "name": "codeception/verify",
-            "version": "dev-master",
+            "version": "0.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/Verify.git",
-                "reference": "b06d706261d1fee0cc312bacc5c1b7c506e5213a"
+                "reference": "dc19c8722f3756341e5b0ce0590f09fda1d63719"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Verify/zipball/b06d706261d1fee0cc312bacc5c1b7c506e5213a",
-                "reference": "b06d706261d1fee0cc312bacc5c1b7c506e5213a",
+                "url": "https://api.github.com/repos/Codeception/Verify/zipball/dc19c8722f3756341e5b0ce0590f09fda1d63719",
+                "reference": "dc19c8722f3756341e5b0ce0590f09fda1d63719",
                 "shasum": ""
             },
             "require-dev": {
@@ -1067,9 +1067,6 @@
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
             "authors": [
                 {
                     "name": "Michael Bodnarchuk",
@@ -1077,7 +1074,7 @@
                 }
             ],
             "description": "BDD assertion library for PHPUnit",
-            "time": "2016-08-29 22:49:25"
+            "time": "2016-07-13 09:34:15"
         },
         {
             "name": "doctrine/annotations",
@@ -3382,9 +3379,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "codeception/verify": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

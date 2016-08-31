@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0532698e86424d3d334157db12cca307",
-    "content-hash": "da92b63649fa85237c01aa2fcbc98c50",
+    "hash": "1f775f1f7f252677407d914130b3531c",
+    "content-hash": "d564020320b8773877184f97080963df",
     "packages": [
         {
             "name": "consolidation/annotated-command",
@@ -599,25 +599,25 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v2.8.9",
+            "version": "v3.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "60804d88691e4a73bbbb3035eb1d9f075c5c2c10"
+                "reference": "8201978de88a9fa0923e18601bb17f1df9c721e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/60804d88691e4a73bbbb3035eb1d9f075c5c2c10",
-                "reference": "60804d88691e4a73bbbb3035eb1d9f075c5c2c10",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/8201978de88a9fa0923e18601bb17f1df9c721e7",
+                "reference": "8201978de88a9fa0923e18601bb17f1df9c721e7",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.9"
+                "php": ">=5.5.9"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.8-dev"
+                    "dev-master": "3.1-dev"
                 }
             },
             "autoload": {
@@ -644,7 +644,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-            "time": "2016-07-26 08:02:44"
+            "time": "2016-06-29 05:41:56"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -913,22 +913,22 @@
         },
         {
             "name": "codeception/aspect-mock",
-            "version": "0.5.4",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/AspectMock.git",
-                "reference": "5191529dd18490a47a4cbafc100069b0dbc89040"
+                "reference": "666d0a80239eeda1e2a31219d83fce4f17529b7f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/AspectMock/zipball/5191529dd18490a47a4cbafc100069b0dbc89040",
-                "reference": "5191529dd18490a47a4cbafc100069b0dbc89040",
+                "url": "https://api.github.com/repos/Codeception/AspectMock/zipball/666d0a80239eeda1e2a31219d83fce4f17529b7f",
+                "reference": "666d0a80239eeda1e2a31219d83fce4f17529b7f",
                 "shasum": ""
             },
             "require": {
-                "goaop/framework": "0.6.*",
+                "goaop/framework": "~1.0",
                 "php": ">=5.4.0",
-                "symfony/finder": "~2.4"
+                "symfony/finder": "~2.4|~3.0"
             },
             "require-dev": {
                 "codeception/base": "~2.1",
@@ -942,6 +942,9 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
             "authors": [
                 {
                     "name": "Michael Bodnarchuk",
@@ -949,7 +952,7 @@
                 }
             ],
             "description": "Experimental Mocking Framework powered by Aspects",
-            "time": "2016-01-08 12:39:13"
+            "time": "2016-03-14 20:52:23"
         },
         {
             "name": "codeception/base",
@@ -1042,20 +1045,20 @@
         },
         {
             "name": "codeception/verify",
-            "version": "0.2.7",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/Verify.git",
-                "reference": "66e5074905f4d9590ddb805d123fe632f4baa488"
+                "reference": "b06d706261d1fee0cc312bacc5c1b7c506e5213a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Verify/zipball/66e5074905f4d9590ddb805d123fe632f4baa488",
-                "reference": "66e5074905f4d9590ddb805d123fe632f4baa488",
+                "url": "https://api.github.com/repos/Codeception/Verify/zipball/b06d706261d1fee0cc312bacc5c1b7c506e5213a",
+                "reference": "b06d706261d1fee0cc312bacc5c1b7c506e5213a",
                 "shasum": ""
             },
             "require-dev": {
-                "phpunit/phpunit": "3.7.*"
+                "phpunit/phpunit": "~4.0"
             },
             "type": "library",
             "autoload": {
@@ -1064,15 +1067,17 @@
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
             "authors": [
                 {
                     "name": "Michael Bodnarchuk",
-                    "email": "davert.php@mailican.com",
-                    "homepage": "http://codeception.com"
+                    "email": "davert.php@mailican.com"
                 }
             ],
             "description": "BDD assertion library for PHPUnit",
-            "time": "2014-01-22 14:40:33"
+            "time": "2016-08-29 22:49:25"
         },
         {
             "name": "doctrine/annotations",
@@ -1252,26 +1257,26 @@
         },
         {
             "name": "goaop/framework",
-            "version": "0.6.1",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/goaop/framework.git",
-                "reference": "4411e951d06d7041e3128fefd6fe6a0a344cd1ba"
+                "reference": "05b51a6ddc58ace85a31f9d2dc885a6550898fd5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/goaop/framework/zipball/4411e951d06d7041e3128fefd6fe6a0a344cd1ba",
-                "reference": "4411e951d06d7041e3128fefd6fe6a0a344cd1ba",
+                "url": "https://api.github.com/repos/goaop/framework/zipball/05b51a6ddc58ace85a31f9d2dc885a6550898fd5",
+                "reference": "05b51a6ddc58ace85a31f9d2dc885a6550898fd5",
                 "shasum": ""
             },
             "require": {
-                "andrewsville/php-token-reflection": "~1.3",
+                "andrewsville/php-token-reflection": "~1.4",
                 "doctrine/annotations": "~1.0",
                 "jakubledl/dissect": "~1.0",
-                "php": ">=5.3.0"
+                "php": ">=5.5.0"
             },
             "require-dev": {
-                "symfony/console": "~2.1"
+                "symfony/console": "~2.1|~3.0"
             },
             "suggest": {
                 "symfony/console": "Enables the usage of the command-line tool."
@@ -1282,7 +1287,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.6-dev"
+                    "dev-master": "1.0-dev"
                 }
             },
             "autoload": {
@@ -1300,7 +1305,7 @@
                     "homepage": "https://github.com/lisachenko"
                 }
             ],
-            "description": "Library for aspect-oriented programming in PHP.",
+            "description": "Framework for aspect-oriented programming in PHP.",
             "homepage": "http://go.aopphp.com/",
             "keywords": [
                 "aop",
@@ -1308,7 +1313,7 @@
                 "library",
                 "php"
             ],
-            "time": "2015-07-05 11:37:33"
+            "time": "2016-05-23 11:19:17"
         },
         {
             "name": "guzzle/guzzle",
@@ -3184,7 +3189,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "codeception/verify": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

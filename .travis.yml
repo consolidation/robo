@@ -19,7 +19,7 @@ cache:
     - $HOME/.composer/cache
 
 before_script:
-  - 'if [ "$TRAVIS_PHP_VERSION" = "5.5" ]; then rm composer.lock; composer require --no-update 'phpunit/php-code-coverage:~2'; fi'
+  - 'if [ "$TRAVIS_PHP_VERSION" = "5.5" ]; then rm composer.lock; composer require --no-update "phpunit/php-code-coverage:~2"; fi'
   - composer install -n --prefer-source
 
 script: "./robo test --coverage"

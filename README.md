@@ -3,13 +3,15 @@
 **Modern and simple PHP task runner** inspired by Gulp and Rake aimed to automate common tasks:
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/consolidation-org/Robo?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) 
+[![Total Downloads](https://poser.pugx.org/consolidation/robo/downloads.png)](https://packagist.org/packages/consolidation/robo) 
+[![PHP 7 ready](http://php7ready.timesplinter.ch/consolidation-org/Robo/badge.svg)](https://travis-ci.org/consolidation-org/Robo)
+[![License](https://poser.pugx.org/consolidation/robo/license.png)](https://www.versioneye.com/user/projects/57c4a6fe968d64004d97620a?child=57c4a6fe968d64004d97620a#tab-licenses)
+
 [![Build Status](https://travis-ci.org/consolidation-org/Robo.svg?branch=master)](https://travis-ci.org/consolidation-org/Robo) 
 [![Latest Stable Version](https://poser.pugx.org/consolidation/robo/v/stable.png)](https://packagist.org/packages/consolidation/robo) 
-[![Total Downloads](https://poser.pugx.org/consolidation/robo/downloads.png)](https://packagist.org/packages/consolidation/robo) 
 [![Latest Unstable Version](https://poser.pugx.org/consolidation/robo/v/unstable.png)](https://packagist.org/packages/consolidation/robo) 
-[![License](https://poser.pugx.org/consolidation/robo/license.png)](https://www.versioneye.com/user/projects/57c4a6fe968d64004d97620a?child=57c4a6fe968d64004d97620a#tab-licenses)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/consolidation-org/Robo/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/consolidation-org/Robo/?branch=master)
 [![Dependency Status](https://www.versioneye.com/user/projects/57c4a6fe968d64004d97620a/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/57c4a6fe968d64004d97620a)
-[![PHP 7 ready](http://php7ready.timesplinter.ch/consolidation-org/Robo/badge.svg)](https://travis-ci.org/consolidation-org/Robo)
 
 * writing cross-platform scripts
 * processing assets (less, sass, minification)

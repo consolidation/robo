@@ -25,7 +25,8 @@ class PHPUnit extends BaseTask implements CommandInterface, PrintedInterface
     protected $command;
 
     /**
-     * Test files to run, they're appended to the command and arguments.
+     * Directory of test files or single test file to run. Appended to
+     * the command and arguments.
      *
      * @var string
      */
@@ -109,17 +110,15 @@ class PHPUnit extends BaseTask implements CommandInterface, PrintedInterface
     }
 
     /**
-     * Test files to run.
+     * Directory of test files or single test file to run.
      *
-     * @param string|array A single file or a list of files.
+     * @param string A single test file or a directory containing test files.
      * @return $this
      */
     public function files($files)
     {
-        if (is_string($files)) {
-            $files = [$files];
-        }
-        $this->files = ' ' . implode(',', $files);
+        $this->files = ' ' . $files;
+
         return $this;
     }
 

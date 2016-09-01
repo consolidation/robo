@@ -95,7 +95,7 @@ $this->taskPHPUnit()
 * `bootstrap($file)` 
 * `configFile($file)` 
 * `debug()` 
-* `files($files)`  Test files to run.
+* `files($files)`  Directory of test files or single test file to run.
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable

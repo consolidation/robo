@@ -27,7 +27,7 @@
         "symfony/event-dispatcher": "~2.5|~3.0"
     },
     "require-dev": {
-        "patchwork/jsqueeze": "~1",
+        "patchwork/jsqueeze": "~2",
         "henrikbjorn/lurker": "~1",
         "natxet/CssMin": "~3",
         "pear/archive_tar": "~1",

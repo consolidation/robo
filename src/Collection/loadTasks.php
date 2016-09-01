@@ -13,4 +13,9 @@ trait loadTasks
     {
         return $this->task(TaskForEach::class, $collection);
     }
+
+    protected function taskConditional($checkCollection)
+    {
+        return $this->task(Conditional::class, $checkCollection);
+    }
 }

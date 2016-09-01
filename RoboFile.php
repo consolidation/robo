@@ -492,7 +492,7 @@ class RoboFile extends \Robo\Tasks
      */
     public function trySuccess()
     {
-        return $this->taskExec('pwd')->run();
+        return $this->_exec('pwd');
     }
 
     /**

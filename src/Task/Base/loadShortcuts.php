@@ -11,6 +11,6 @@ trait loadShortcuts
      */
     protected function _exec($command)
     {
-        return $this->task(Exec::class, $command)->run();
+        return $this->taskExec($command)->run();
     }
 }

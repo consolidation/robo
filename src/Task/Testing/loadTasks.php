@@ -38,4 +38,13 @@ trait loadTasks
     {
         return $this->task(Atoum::class, $pathToAtoum);
     }
+
+    /**
+     * @param null $pathToBehat
+     * @return Behat
+     */
+    protected function taskBehat($pathToBehat = null)
+    {
+        return $this->task(Behat::class, $pathToBehat);
+    }
 }

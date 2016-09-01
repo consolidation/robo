@@ -29,6 +29,35 @@ $this->taskAtoum()
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
 * `optionList($option, $value = null)`  Pass multiple options to executable. Value can be a string or array.
 
+## Behat
+
+
+Runs [Behat](https://github.com/Behat/Behat) tests
+
+``` php
+<?php
+$this->taskBehat()
+     ->format('pretty')
+     ->noInteraction()
+     ->run();
+?>
+```
+
+
+* `suite($suite)`
+* `config($config_file)`
+* `stopOnFail()`
+* `noInteraction()`
+* `colors()`
+* `noColors()`
+* `format($formater)`
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
+* `arg($arg)`  Pass argument to executable
+* `args($args)`  Pass methods parameters as arguments to executable
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
+* `optionList($option, $value = null)`  Pass multiple options to executable. Value can be a string or array.
+
 ## Codecept
 
 

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "cff1405938b9ed3d8da218e1f87f7e69",
-    "content-hash": "b8473d303863d3792176a90ad72bac5a",
+    "hash": "9464fba8ac2224552035aa627a6de2e6",
+    "content-hash": "39d58b94857235a62568ac9e1c6e2273",
     "packages": [
         {
             "name": "consolidation/annotated-command",
@@ -1045,16 +1045,16 @@
         },
         {
             "name": "codeception/verify",
-            "version": "0.3.1",
+            "version": "0.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/Verify.git",
-                "reference": "dc19c8722f3756341e5b0ce0590f09fda1d63719"
+                "reference": "b06d706261d1fee0cc312bacc5c1b7c506e5213a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Verify/zipball/dc19c8722f3756341e5b0ce0590f09fda1d63719",
-                "reference": "dc19c8722f3756341e5b0ce0590f09fda1d63719",
+                "url": "https://api.github.com/repos/Codeception/Verify/zipball/b06d706261d1fee0cc312bacc5c1b7c506e5213a",
+                "reference": "b06d706261d1fee0cc312bacc5c1b7c506e5213a",
                 "shasum": ""
             },
             "require-dev": {
@@ -1067,6 +1067,9 @@
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
             "authors": [
                 {
                     "name": "Michael Bodnarchuk",
@@ -1074,7 +1077,7 @@
                 }
             ],
             "description": "BDD assertion library for PHPUnit",
-            "time": "2016-07-13 09:34:15"
+            "time": "2016-08-29 22:49:25"
         },
         {
             "name": "doctrine/annotations",

@@ -9,11 +9,11 @@ class DockerTest extends \Codeception\TestCase\Test
     /**
      * @var \AspectMock\Proxy\ClassProxy
      */
-    protected $baseComposer;
+    protected $baseDocker;
 
     protected function _before()
     {
-        $this->baseComposer = test::double('Robo\Task\Docker\Base', [
+        $this->baseDocker = test::double('Robo\Task\Docker\Base', [
             'output' => new \Symfony\Component\Console\Output\NullOutput(),
             'logger' => new \Psr\Log\NullLogger(),
         ]);

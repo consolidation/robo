@@ -16,7 +16,7 @@ class RunnerTest extends \Codeception\TestCase\Test
 
     public function _before()
     {
-        $this->runner = new \Robo\Runner();
+        $this->runner = new \Robo\Runner('\Robo\TestRoboFile');
     }
 
     public function testHandleError()
@@ -86,12 +86,12 @@ class RunnerTest extends \Codeception\TestCase\Test
     {
         $argv = ['placeholder', 'list'];
         $this->runner->execute($argv, Robo::output());
-        $this->guy->seeInOutput('try:array-args');
+        $this->guy->seeInOutput('test:array-args');
     }
 
     public function testRunnerTryArgs()
     {
-        $argv = ['placeholder', 'try:array-args', 'a', 'b', 'c'];
+        $argv = ['placeholder', 'test:array-args', 'a', 'b', 'c'];
         $this->runner->execute($argv, Robo::output());
 
         $expected = <<<EOT
@@ -108,7 +108,7 @@ EOT;
 
     public function testRunnerTryError()
     {
-        $argv = ['placeholder', 'try:error'];
+        $argv = ['placeholder', 'test:error'];
         $result = $this->runner->execute($argv, Robo::output());
 
         $this->guy->seeInOutput('[Exec] Running ls xyzzy');
@@ -117,7 +117,7 @@ EOT;
 
     public function testRunnerTryException()
     {
-        $argv = ['placeholder', 'try:exception', '--task'];
+        $argv = ['placeholder', 'test:exception', '--task'];
         $result = $this->runner->execute($argv, Robo::output());
 
         $this->guy->seeInOutput('Task failed with an exception');

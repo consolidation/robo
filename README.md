@@ -51,7 +51,7 @@ All protected methods in traits that start with `task` prefix are tasks and can 
 ## Examples
 
 The best way to learn Robo by example is to take a look into [its own RoboFile](https://github.com/consolidation-org/Robo/blob/master/RoboFile.php)
- or [RoboFile of Codeception project](https://github.com/Codeception/Codeception/blob/master/RoboFile.php)
+ or [RoboFile of Codeception project](https://github.com/Codeception/Codeception/blob/master/RoboFile.php). There are also some basic example commands in examples/RoboFile.php.
 
 Here are some snippets from them:
 

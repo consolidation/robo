@@ -13,6 +13,11 @@
             "Robo\\":"src"
         }
     },
+    "autoload-dev":{
+        "psr-4":{
+            "Robo\\":"tests/src"
+        }
+    },
     "bin":["robo"],
     "require": {
         "php": ">=5.5.0",

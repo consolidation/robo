@@ -698,6 +698,28 @@ class RoboFile extends \Robo\Tasks
                 )
             ->run();
     }
+
+    public function tryConditional($file = 'RoboFile.php', $regex = 'robo')
+    {
+        return $this->collectionBuilder()->
+            taskConditional(
+                    $this->collectionBuilder()
+                        ->progressMessage("Search for $regex in $file")
+                        ->taskExec("grep $regex $file")
+                )
+                ->test(
+                    function ($result) {
+                        return $result->wasSuccessful();
+                    }
+                )
+                ->onTrue(
+                    $this->collectionBuilder()->progressMessage("$regex was found in $file")
+                )
+                ->onFalse(
+                    $this->collectionBuilder()->progressMessage("$regex NOT FOUND in $file")
+                )
+            ->run();
+    }
 }
 
 class ExceptionTask extends \Robo\Task\BaseTask

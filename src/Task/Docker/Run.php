@@ -148,9 +148,25 @@ class Run extends Base
         return $this;
     }
 
+    public function tmpDir($dir)
+    {
+        $this->dir = $dir;
+        return $this;
+    }
+
+    public function getTmpDir()
+    {
+        return $this->dir ? $this->dir : sys_get_temp_dir();
+    }
+
+    public function getUniqId()
+    {
+        return uniqid();
+    }
+
     public function run()
     {
-        $this->cidFile = sys_get_temp_dir() . '/docker_' . uniqid() . '.cid';
+        $this->cidFile = $this->getTmpDir() . '/docker_' . $this->getUniqId() . '.cid';
         $result = parent::run();
         $result['cid'] = $this->getCid();
         return $result;

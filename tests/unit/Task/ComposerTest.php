@@ -196,6 +196,21 @@ class ComposerTest extends \Codeception\TestCase\Test
         )->equals('composer dump-autoload --optimize --no-dev');
     }
 
+    public function testComposerRemove()
+    {
+        verify(
+            (new \Robo\Task\Composer\Remove('composer'))->setConfig(new \Robo\Config())->getCommand()
+        )->equals('composer remove');
+        verify(
+            (new \Robo\Task\Composer\Remove('composer'))
+                ->setConfig(new \Robo\Config())
+                ->dev()
+                ->noProgress()
+                ->noUpdate()
+                ->getCommand()
+        )->equals('composer remove --dev --no-progress --no-update');
+    }
+
     public function testComposerValidateCommand()
     {
         verify(

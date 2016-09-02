@@ -261,12 +261,15 @@ class Runner
         }
 
         // loading from other directory
-        $pos = array_search('--load-from', $argv) ?: array_search('-f', $argv);
+        $pos = $this->array_search_begins_with('--load-from', $argv) ?: array_search('-f', $argv);
         if ($pos !== false) {
-            if (isset($argv[$pos +1])) {
+            if (substr($argv[$pos], 0, 12) == '--load-from=') {
+                $this->dir = substr($argv[$pos], 12);
+            } elseif (isset($argv[$pos +1])) {
                 $this->dir = $argv[$pos +1];
                 unset($argv[$pos +1]);
             }
+            $this->dir = realpath($this->dir);
             unset($argv[$pos]);
             // Make adjustments if '--load-from' points at a file.
             if (is_file($this->dir)) {
@@ -284,6 +287,16 @@ class Runner
             $input = new PassThroughArgsInput($passThroughArgs, $input);
         }
         return $input;
+    }
+
+    protected function array_search_begins_with($needle, $haystack)
+    {
+        for ($i = 0; $i < count($haystack); ++$i) {
+            if (substr($haystack[$i], 0, strlen($needle)) == $needle) {
+                return $i;
+            }
+        }
+        return false;
     }
 
     public function shutdown()

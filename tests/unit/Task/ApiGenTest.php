@@ -43,7 +43,7 @@ class ApiGenTest extends \Codeception\TestCase\Test
             ->tree('Y') // boolean as string
             ->debug('n');
 
-        $cmd = 'apigen --config ./apigen.neon --source src --extensions php --exclude test --exclude tmp --skip-doc-path a --skip-doc-path b --charset utf8,iso88591 --internal no --php yes --tree yes --debug no';
+        $cmd = 'apigen --config ./apigen.neon --source src --extensions php --exclude test --exclude tmp --skip-doc-path a --skip-doc-path b --charset \'utf8,iso88591\' --internal no --php yes --tree yes --debug no';
         verify($task->getCommand())->equals($cmd);
 
         $task->run();

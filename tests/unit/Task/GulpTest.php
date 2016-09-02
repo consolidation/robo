@@ -16,69 +16,70 @@ class GulpTest extends \Codeception\TestCase\Test
         ]);
     }
 
+    protected function adjustQuotes($expected)
+    {
+        $isWindows = defined('PHP_WINDOWS_VERSION_MAJOR');
+
+        if (!$isWindows) {
+            return strtr($expected, '"', "'");
+        }
+        return $expected;
+    }
+
     // tests
+    public function testGulpGetCommand()
+    {
+        verify(
+            (new \Robo\Task\Gulp\Run('default','gulp'))->getCommand()
+        )->equals($this->adjustQuotes('gulp "default"'));
+
+        verify(
+            (new \Robo\Task\Gulp\Run('another','gulp'))->getCommand()
+        )->equals($this->adjustQuotes('gulp "another"'));
+
+        verify(
+            (new \Robo\Task\Gulp\Run('default','gulp'))->silent()->getCommand()
+        )->equals($this->adjustQuotes('gulp "default" --silent'));
+
+        verify(
+            (new \Robo\Task\Gulp\Run('default','gulp'))->noColor()->getCommand()
+        )->equals($this->adjustQuotes('gulp "default" --no-color'));
+
+        verify(
+            (new \Robo\Task\Gulp\Run('default','gulp'))->color()->getCommand()
+        )->equals($this->adjustQuotes('gulp "default" --color'));
+
+        verify(
+            (new \Robo\Task\Gulp\Run('default','gulp'))->simple()->getCommand()
+        )->equals($this->adjustQuotes('gulp "default" --tasks-simple'));
+    }
+
     public function testGulpRun()
+    {
+        $gulp = test::double('Robo\Task\Gulp\Run', ['executeCommand' => null, 'getConfig' => new \Robo\Config(), 'logger' => new \Psr\Log\NullLogger()]);
+
+        $task = (new \Robo\Task\Gulp\Run('default','gulp'))->simple();
+        verify($task->getCommand())->equals($this->adjustQuotes('gulp "default" --tasks-simple'));
+        $task->run();
+        $gulp->verifyInvoked('executeCommand', [$this->adjustQuotes('gulp "default" --tasks-simple')]);
+    }
+
+    public function testGulpUnusualChars()
     {
         $isWindows = defined('PHP_WINDOWS_VERSION_MAJOR');
 
         if ($isWindows) {
-            verify(
-                (new \Robo\Task\Gulp\Run('default','gulp'))->getCommand()
-            )->equals('gulp "default"');
-
-            verify(
-                (new \Robo\Task\Gulp\Run('another','gulp'))->getCommand()
-            )->equals('gulp "another"');
 
             verify(
                 (new \Robo\Task\Gulp\Run('anotherWith weired!("\') Chars','gulp'))->getCommand()
             )->equals('gulp "anotherWith weired!(\"\') Chars"');
 
-            verify(
-                (new \Robo\Task\Gulp\Run('default','gulp'))->silent()->getCommand()
-            )->equals('gulp "default" --silent');
-
-            verify(
-                (new \Robo\Task\Gulp\Run('default','gulp'))->noColor()->getCommand()
-            )->equals('gulp "default" --no-color');
-
-            verify(
-                (new \Robo\Task\Gulp\Run('default','gulp'))->color()->getCommand()
-            )->equals('gulp "default" --color');
-
-            verify(
-                (new \Robo\Task\Gulp\Run('default','gulp'))->simple()->getCommand()
-            )->equals('gulp "default" --tasks-simple');
-
         } else {
-
-            verify(
-                (new \Robo\Task\Gulp\Run('default','gulp'))->getCommand()
-            )->equals('gulp \'default\'');
-
-            verify(
-                (new \Robo\Task\Gulp\Run('another','gulp'))->getCommand()
-            )->equals('gulp \'another\'');
 
             verify(
                 (new \Robo\Task\Gulp\Run('anotherWith weired!("\') Chars','gulp'))->getCommand()
             )->equals("gulp 'anotherWith weired!(\"'\\'') Chars'");
 
-            verify(
-                (new \Robo\Task\Gulp\Run('default','gulp'))->silent()->getCommand()
-            )->equals('gulp \'default\' --silent');
-
-            verify(
-                (new \Robo\Task\Gulp\Run('default','gulp'))->noColor()->getCommand()
-            )->equals('gulp \'default\' --no-color');
-
-            verify(
-                (new \Robo\Task\Gulp\Run('default','gulp'))->color()->getCommand()
-            )->equals('gulp \'default\' --color');
-
-            verify(
-                (new \Robo\Task\Gulp\Run('default','gulp'))->simple()->getCommand()
-            )->equals('gulp \'default\' --tasks-simple');
         }
     }
 }

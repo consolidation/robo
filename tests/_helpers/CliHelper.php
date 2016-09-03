@@ -11,6 +11,7 @@ use League\Container\ContainerAwareTrait;
 class CliHelper extends \Codeception\Module implements ContainerAwareInterface
 {
     use ContainerAwareTrait;
+    use SeeInOutputTrait;
 
     use \Robo\LoadAllTasks {
         task as public;
@@ -49,9 +50,12 @@ class CliHelper extends \Codeception\Module implements ContainerAwareInterface
     }
 
     public function _before(\Codeception\TestCase $test) {
+        $container = new \League\Container\Container();
+        $this->initSeeInOutputTrait($container);
+        Robo::setContainer($container);
+        $this->setContainer($container);
+
         $this->getModule('Filesystem')->copyDir(codecept_data_dir().'claypit', codecept_data_dir().'sandbox');
-        $this->setContainer(Robo::getContainer());
-        $this->getContainer()->add('output', new NullOutput());
     }
 
     public function _after(\Codeception\TestCase $test) {

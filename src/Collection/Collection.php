@@ -8,6 +8,7 @@ use Robo\Task\StackBasedTask;
 use Robo\Task\BaseTask;
 use Robo\TaskInfo;
 use Robo\Contract\WrappedTaskInterface;
+use Robo\Exception\TaskExitException;
 
 use Robo\Contract\ProgressIndicatorAwareInterface;
 use Robo\Common\ProgressIndicatorAwareTrait;
@@ -467,6 +468,9 @@ class Collection extends BaseTask implements CollectionInterface
                 $key = static::isUnnamedTask($taskName) ? $name : $taskName;
                 $result = $this->accumulateResults($key, $result, $taskResult);
             }
+        } catch (TaskExitException $exitException) {
+            $this->fail();
+            throw $exitException;
         } catch (\Exception $e) {
             // Tasks typically should not throw, but if one does, we will
             // convert it into an error and roll back.

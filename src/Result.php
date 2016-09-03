@@ -3,6 +3,7 @@ namespace Robo;
 
 use Robo\Contract\TaskInterface;
 use Robo\Contract\LogResultInterface;
+use Robo\Exception\TaskExitException;
 
 class Result extends ResultData
 {
@@ -116,8 +117,13 @@ class Result extends ResultData
             if ($resultPrinter) {
                 $resultPrinter->printStopOnFail($this);
             }
-            exit($this->exitCode);
+            $this->exitEarly($this->getExitCode());
         }
         return $this;
+    }
+
+    private function exitEarly($status)
+    {
+        throw new TaskExitException($this->getTask(), $this->getMessage(), $status);
     }
 }

@@ -24,6 +24,11 @@ class CodeHelper extends \Codeception\Module
 
     public function _after(\Codeception\TestCase $test)
     {
+        // Ensure that $stopOnFail global static is reset, as tests
+        // that set it to true will force an exception, and therefor
+        // will not have a chance to clean this up.
+        \Robo\Result::$stopOnFail = false;
+
         \AspectMock\Test::clean();
         $consoleOutput = new ConsoleOutput();
         static::$container->add('output', $consoleOutput);

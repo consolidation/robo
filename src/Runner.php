@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\StringInput;
 use Consolidation\AnnotatedCommand\PassThroughArgsInput;
 use Robo\Contract\BuilderAwareInterface;
 use Robo\Common\IO;
+use Robo\Exception\TaskExitException;
 
 class Runner
 {
@@ -102,7 +103,11 @@ class Runner
         $this->setInput($input);
         $this->setOutput($output);
 
-        $statusCode = $app->run($input, $output);
+        try {
+            $statusCode = $app->run($input, $output);
+        } catch (TaskExitException $e) {
+            $statusCode = $e->getCode() ?: 1;
+        }
         return $statusCode;
     }
 

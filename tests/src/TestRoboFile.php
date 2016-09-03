@@ -43,4 +43,18 @@ class TestRoboFile extends \Robo\Tasks
         }
         throw new \RuntimeException('Task failed with an exception.');
     }
+
+    public function testStopOnFail()
+    {
+        $this->stopOnFail();
+        $this->collectionBuilder()
+            ->taskExec('ls xyzzy' . date('U'))
+                ->dir('/tmp')
+            ->run();
+
+        // stopOnFail() should cause the failed task to throw an exception,
+        // so we should not get here, and instead exit the program with a
+        // non-zero status.
+        return 0;
+    }
 }

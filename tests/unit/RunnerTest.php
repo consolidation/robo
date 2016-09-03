@@ -138,4 +138,13 @@ EOT;
         unlink('testRoboFile');
         $this->assertContains('class RoboTestClass', $commandContents);
     }
+
+    public function testTasksStopOnFail()
+    {
+        $argv = ['placeholder', 'test:stop-on-fail'];
+        $result = $this->runner->execute($argv, Robo::output());
+
+        $this->guy->seeInOutput('[');
+        $this->assertTrue($result > 0);
+    }
 }

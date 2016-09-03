@@ -60,6 +60,7 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
     public function simulated($simulated = true)
     {
         $this->simulated = $simulated;
+        return $this;
     }
 
     public function isSimulated()
@@ -208,21 +209,53 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
     {
         $collectionBuilder = new self($this->commandFile);
         $collectionBuilder->inflect($this);
+        $collectionBuilder->simulated($this->isSimulated());
         return $collectionBuilder;
     }
 
     /**
      * Calling the task builder with methods of the current
      * task calls through to that method of the task.
+     *
+     * There is extra complexity in this function that could be
+     * simplified if we attached the 'LoadAllTasks' and custom tasks
+     * to the collection builder instead of the RoboFile.  While that
+     * change would be a better design overall, it would require that
+     * the user do a lot more work to set up and use custom tasks.
+     * We therefore take on some additional complexity here in order
+     * to allow users to maintain their tasks in their RoboFile, which
+     * is much more convenient.
+     *
+     * Calls to $this->collectionBuilder()->taskFoo() cannot be made
+     * directly because all of the task methods are protected.  These
+     * calls will therefore end up here.  If the method name begins
+     * with 'task', then it is eligible to be used with the builder.
+     *
+     * When we call getBuiltTask, below, it will use the builder attached
+     * to the commandfile to build the task. However, this is not what we
+     * want:  the task needs to be built from THIS collection builder, so that
+     * it will be affected by whatever state is active in this builder.
+     * To do this, we have two choices: 1) save and restore the builder
+     * in the commandfile, or 2) clone the commandfile and set this builder
+     * on the copy. 1) is vulnerable to failure in multithreaded environments
+     * (currently not supported), while 2) might cause confusion if there
+     * is shared state maintained in the commandfile, which is in the
+     * domain of the user.
+     *
+     * Note that even though we are setting up the commandFile to
+     * use this builder, getBuiltTask always creates a new builder
+     * (which is constructed using all of the settings from the
+     * commandFile's builder), and the new task is added to that.
+     * We therefore need to transfer the newly built task into this
+     * builder. The temporary builder is discarded.
      */
     public function __call($fn, $args)
     {
-        // Calls to $this->collectionBuilder()->taskFoo() cannot be made
-        // directly because all of the task methods are protected.  These
-        // calls will therefore end up here.  If the method name begins
-        // with 'task', then it is eligible to be used with the builder.
-        if (preg_match('#^task[A-Z]#', $fn) && (method_exists($this->commandFile, 'getBuiltClass'))) {
-            $temporaryBuilder = $this->commandFile->getBuiltClass($fn, $args);
+        if (preg_match('#^task[A-Z]#', $fn) && (method_exists($this->commandFile, 'getBuiltTask'))) {
+            $saveBuilder = $this->commandFile->getBuilder();
+            $this->commandFile->setBuilder($this);
+            $temporaryBuilder = $this->commandFile->getBuiltTask($fn, $args);
+            $this->commandFile->setBuilder($saveBuilder);
             if (!$temporaryBuilder) {
                 throw new \BadMethodCallException("No such method $fn: task does not exist in " . get_class($this->commandFile));
             }
@@ -236,8 +269,7 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
         // then call through to the current task's setter method.
         $result = call_user_func_array([$this->currentTask, $fn], $args);
 
-        // If something other than a setter method is called,
-        // then return its result.
+        // If something other than a setter method is called, then return its result.
         $currentTask = ($this->currentTask instanceof WrappedTaskInterface) ? $this->currentTask->original() : $this->currentTask;
         if (isset($result) && ($result !== $currentTask)) {
             return $result;

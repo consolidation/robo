@@ -23,7 +23,7 @@ trait loadTasks
 
     /**
      * @param $filename
-     * @return GenerateMarkdownDoc
+     * @return GenerateTask
      */
     protected function taskGenTask($className, $wrapperClassName = '')
     {

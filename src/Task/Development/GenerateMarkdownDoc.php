@@ -15,7 +15,7 @@ use Robo\Common\BuilderAwareTrait;
  *
  * ``` php
  * <?php
- * $this->taskGenerateMarkdownDoc('models.md')
+ * $this->taskGenDoc('models.md')
  *      ->docClass('Model\User') // take class Model\User
  *      ->docClass('Model\Post') // take class Model\Post
  *      ->filterMethods(function(\ReflectionMethod $r) {
@@ -30,7 +30,7 @@ use Robo\Common\BuilderAwareTrait;
  *
  * ``` php
  * <?php
- * $this->taskGenerateMarkdownDoc('models.md')
+ * $this->taskGenDoc('models.md')
  *      ->docClass('Model\User')
  *      ->processClassSignature(false) // false can be passed to not include class signature
  *      ->processClassDocBlock(function(\ReflectionClass $r, $text) {

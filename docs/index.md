@@ -3,7 +3,7 @@
 * [Getting Started](getting-started.md)
 * [Collections](collections.md)
 * [Extending](extending.md)
-* [Packaging](packaging.md)
+* [Robo as a Framework](framework.md)
 
 ## Tasks
 

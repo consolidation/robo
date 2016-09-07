@@ -1,57 +1,10 @@
-# Packaging
+# Robo as a Framework
 
 There are multiple ways to use and package Robo scripts; a few of the alternatives are presented below.
 
-## Adding a RoboFile to your Project
-
-In its simplest form, Robo is used by creating a RoboFile.php at the root of your project.
-
-If `robo` is in your $PATH:
-```
-$ cd myproject
-$ robo mycommand
-```
-Alternately, add `robo` to your composer.json file:
-```
-$ cd myproject
-$ composer require consolidation/Robo:~1
-$ ./vendor/bin/robo mycommand
-```
-There are more examples of this in the [Getting Started](getting-started.md) guide.
-
-## Implementing Composer Scripts with Robo
-
-When using Robo in your project, it is convenient to define Composer scripts that call your Robo commands.  Simply add the following to your composer.json file:
-```
-{
-    "name": "myorg/myproject",
-    "require": {
-        "consolidation/Robo": "~1"
-    },
-    "scripts": {
-        "test": "composer robo test",
-        "phar": "composer robo phar:build",
-        "robo": "robo --ansi --load-from $(pwd)/scripts/BuildCommands.php"
-    }
-}
-```
-*Note*: When you include Robo as a library like this, some external projects used by certain core Robo tasks are not automatically included in your project.  See the `"suggest":` section of Robo's composer.json for a list of external projects you might also want to require in your project.
-
-Once you have set up your composer.json file (and ran `composer update` if you manually changed the `require` or `require-dev` sections), Composer will ensure that your project-local copy of Robo in the `vendor/bin` dir is in your $PATH when you run the additional Composer scripts that you declared:
-```
-$ cd myproject
-$ composer test
-$ composer phar
-```
-This will call the public methods `test()` and `phar()` in your RoboFile.php when using `composer test` and `composer phar`, respectively.
-
-Advertising your build commands as Composer scripts is a useful way to provide the key commands used for testing, building or packaging your application. Also, if your application should happen to provide a commandline tool to perform the operations of the application itself, then defining your build commands in their own RoboFile provides desirable separation, keeping your build commands out of the help and list commands of your primary script.
-
-If you would like to simplify the output of your script (e.g. when running on a CI service), replace the `--ansi` option in the example above with `--no-ansi`, and  colored terminal output and progress bars will be disabled. 
-
 ## Creating a Standalone Phar with Robo
 
-It is also possible to create a standalone phar that is implemented with Robo, and does not require the RoboFile to be located in the current working directory. To achieve this, first set up your project as shown in the section "Implementing Composer Scripts with Robo". Use of the "scripts" section is optional.
+It is possible to create a standalone phar that is implemented with Robo; doing this does not require the RoboFile to be located in the current working directory, or any particular location within your project. To achieve this, first set up your project as shown in the section [Implementing Composer Scripts with Robo](getting-started.md#implementing-composer-scripts-with-robo). Use of the "scripts" section is optional.
 
 Next, add an "autoload" section to your composer.json to provide a namespace for your Robo commands:
 ```
@@ -98,11 +51,18 @@ Use [box-project/box2](https://github.com/box-project/box2) to create a phar for
 
 ## Using Multiple RoboFiles in a Standalone Application
 
-It is possible to provide as many command classes as you wish to the Robo `Runner()` constructor. If your application has a large number of command files, or if it supports command extensions, then you might wish to use the Command Discovery class to locate your applications.
+It is possible to provide as many command classes as you wish to the Robo `Runner()` constructor. You might wish to separate your Robo command implementations into separate Robo files if you have a lot of commands, or if you wish to group similar commands together in the same source file. If you do this, you can simply add more class references to the `$commandClasses` variable shown above.
+```
+$commandClasses = [ 
+    \MyProject\Commands\BuildCommands::class, 
+    \MyProject\Commands\DeployCommands::class 
+];
+```
+If your application has a large number of command files, or if it supports command extensions, then you might wish to use the Command Discovery class to locate your files. The `CommandFileDiscovery` class will use the Symfony Finder class to search for all filenames matching the provided search pattern. It will return a list of class names using the provided base namespace.
 ``` php
 $discovery = new \Consolidation\AnnotatedCommand\CommandFileDiscovery();
 $discovery->setSearchPattern('*Command.php');
-$commandClasses = $discovery->discover('php/Terminus/AnnotatedCommands', '\Terminus\AnnotatedCommands');
+$commandClasses = $discovery->discover('php/MyProject/Commands', '\MyProject\Commands');
 ```
 Pass the resulting `$commandClasses` to the `Runner()` constructor as shown above.  See the annotated-commands project for more information about the different options that the discovery command takes.
 

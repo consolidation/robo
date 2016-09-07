@@ -1,12 +1,13 @@
 # Getting Started
 
-To begin you need to create a RoboFile. Just run `robo init` in empty dir:
+To begin you need to create a RoboFile. Just run `robo init` in your project directory:
 
 ```
+cd myproject
 robo init
 ```
 
-This will create a new `RoboFile.php` for you. There will be RoboFile class which extends `\Robo\Tasks`, which includes all bundled tasks of Robo.
+Your project directory may start out empty; Robo will create a new `RoboFile.php` for you. There will be RoboFile class which extends `\Robo\Tasks`, which includes all bundled tasks of Robo.
 
 ``` php
 <?php
@@ -41,6 +42,8 @@ robo hello davert
 
 Method names should be camelCased. In CLI `camelCased` method will be available as `camel:cased` command.
 `longCamelCased` method will be transformed to `long:camel-cased` command.
+
+**Note:** This assumes you have installed Robo by downloading the [robo.phar](http://robo.li/robo.phar) file and copied it to a directory in your $PATH. For example, `cp robo.phar ~/bin/robo`.
 
 ### Arguments
 
@@ -359,6 +362,51 @@ Tasks should not attempt to use a specific progress indicator (e.g. the Symfony 
 
 Note that when using [Collections](collections.md), the progress bar will automatically be shown if the collection takes longer than two seconds to run.  Each task in the collection will count for one "step"; if the task supports progress indicators as shown above, then it will add an additional number of steps as indicated by its `progressIndicatorSteps()` method.
 
-## Distributing Robo Scripts
+## Working with Composer
 
-For additional options available for packaging and distributing Robo scripts, see the section [Packaging](packaging.md).
+### Adding a RoboFile to your Project
+
+Robo is designed to work well with Composer. To use Robo scripts in your Composer-based project, simply add `robo` to your composer.json file:
+```
+$ cd myproject
+$ composer require consolidation/Robo:~1
+$ ./vendor/bin/robo mycommand
+```
+If you do not want to type the whole path to Robo, you may add `./vendor/bin` to your $PATH (relative paths work), or use `composer exec` to find and run Robo:
+```
+$ composer exec robo mycommand
+```
+
+### Implementing Composer Scripts with Robo
+
+When using Robo in your project, it is convenient to define Composer scripts that call your Robo commands.  Simply add the following to your composer.json file:
+```
+{
+    "name": "myorg/myproject",
+    "require": {
+        "consolidation/Robo": "~1"
+    },
+    "scripts": {
+        "test": "composer robo test",
+        "phar": "composer robo phar:build",
+        "robo": "robo --ansi --load-from $(pwd)/scripts/BuildCommands.php"
+    }
+}
+```
+*Note*: When you include Robo as a library like this, some external projects used by certain core Robo tasks are not automatically included in your project.  See the `"suggest":` section of Robo's composer.json for a list of external projects you might also want to require in your project.
+
+Once you have set up your composer.json file (and ran `composer update` if you manually changed the `require` or `require-dev` sections), Composer will ensure that your project-local copy of Robo in the `vendor/bin` dir is in your $PATH when you run the additional Composer scripts that you declared:
+```
+$ cd myproject
+$ composer test
+$ composer phar
+```
+This will call the public methods `test()` and `phar()` in your RoboFile.php when using `composer test` and `composer phar`, respectively.
+
+Advertising your build commands as Composer scripts is a useful way to provide the key commands used for testing, building or packaging your application. Also, if your application should happen to provide a commandline tool to perform the operations of the application itself, then defining your build commands in their own RoboFile provides desirable separation, keeping your build commands out of the help and list commands of your primary script.
+
+If you would like to simplify the output of your script (e.g. when running on a CI service), replace the `--ansi` option in the example above with `--no-ansi`, and  colored terminal output and progress bars will be disabled. 
+
+## Robo as a Framework
+
+For an overview on how to turn your Robo scripts into standalone tools, see the section [Robo as a Framework](framework.md).

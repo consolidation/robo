@@ -1,12 +1,13 @@
 # Getting Started
 
-To begin you need to create a RoboFile. Just run `robo init` in empty dir:
+To begin you need to create a RoboFile. Just run `robo init` in your project directory:
 
 ```
+cd myproject
 robo init
 ```
 
-This will create a new `RoboFile.php` for you. There will be RoboFile class which extends `\Robo\Tasks`, which includes all bundled tasks of Robo.
+Your project directory may start out empty; Robo will create a new `RoboFile.php` for you. There will be RoboFile class which extends `\Robo\Tasks`, which includes all bundled tasks of Robo.
 
 ``` php
 <?php
@@ -41,6 +42,8 @@ robo hello davert
 
 Method names should be camelCased. In CLI `camelCased` method will be available as `camel:cased` command.
 `longCamelCased` method will be transformed to `long:camel-cased` command.
+
+**Note:** This assumes you have installed Robo by downloading the [robo.phar](http://robo.li/robo.phar) file and copied it to a directory in your $PATH. For example, `cp robo.phar ~/bin/robo`.
 
 ### Arguments
 
@@ -224,75 +227,7 @@ Robo ignores any method of your RoboFile that begins with `get` or `set`. These 
 
 Robo commands typically divide the work they need to accomplish into **tasks**. The command first determines what needs to be done, inspecting current state if necessary, and then sets up and executes one or more tasks that make the actual changes needed by the command.  (See also the documentation on [Collections](collections.md), which allow you to combine groups of tasks which can provide rollback functions to recover from failure situations.)
 
-The convention used to add new tasks for use in your RoboFiles is to create a wrapper trait that instantiates the implementation class for each task. Each task method in the trait should start with the prefix `task`, and should use **chained method calls** for configuration. Task execution should be triggered by the method `run`. 
-
-*It is recommended to have store your trait loading task in a `loadTasks` file in the same namespace as the task implementation.*
-
-A very basic task is shown below.  The namespace is `MyAssetTasks`, and the example task is `CompileAssets`. To customize to your purposes, choose an appropriate namespace, and then define as many tasks as you need.
-
-``` php
-<?php
-namespace MyAssetTasks;
-
-trait loadTasks
-{
-    /**
-     * Example task to compile assets
-     *
-     * @param string $pathToCompileAssets
-     * @return \MyAssetTasks\CompileAssets
-     */
-    protected function taskCompileAssets($path = null)
-    {
-        // Always construct your tasks with the `task()` task builder.
-        return $this->task(CompileAssets::class, $path);
-    }
-}
-
-class CompileAssets implements \Robo\Contract\TaskInterface
-{
-    // configuration params
-    protected $path;
-    protected $to;
-    function __construct($path)
-    {
-        $this->path = $path;
-    }
-
-    function to($filename)
-    {
-        $this->to = $filename;
-        // must return $this
-        return $this;
-    }
-
-    // must implement Run
-    function run()
-    {
-        //....
-    }
-}
-?>
-```
-To use it in a RoboFile, include the task via its trait:
-
-``` php
-<?php
-class RoboFile extends \Robo\Tasks
-{
-    use \MyAssetTasks\loadTasks;
-
-    public function build()
-    {
-        $this->taskCompileAssets('web/css-src')
-            ->to('web/assets.min.css')
-            ->run();
-    }
-}
-?>
-```
-
-Robo\Tasks includes all of the standard task traits by default, so a RoboFile may call the `$this->taskXXX` method for any of these tasks. To use an external task, ensure that its class files are available (e.g. `require` its project in your composer.json file), and include corresponding trait or traits in your Robofile.
+For details on how to add custom tasks to Robo, see the [extending](extending.md) document.
 
 ### Shortcuts
 
@@ -341,6 +276,7 @@ class RoboFile
 }
 ?>
 ```
+When making multi-step commands that call one task after another, it is best to use a collection to group the tasks together. The collection will handle error detection and rollback, and will return a single Result object when done. For more information, see the [Collections](collections.md) documentation.
 
 Some tasks may also attach data to the Result object.  If this is done, the data may be accessed as an array; for example, `$result['path'];`. This is not common.
 
@@ -380,17 +316,9 @@ $name = $this->ask("What is your name?");
 
 There are also `askDefault`, `askHidden`, and `confirm` methods.
 
-Inside tasks you should print process details with `printTaskInfo`, ``printTaskSuccess`, and `printTaskError`.
-
-To allow tasks access IO, use the `Robo\Common\TaskIO` trait, or inherit your task class from `Robo\Task\BaseTask` (recommended).
-```
-$this->printTaskInfo('Processing...');
-```
-The Task IO methods send all output through a PSR-3 logger. Tasks should use task IO exclusively; methods such as 'say' and 'ask' should reside in the command method. This allows tasks to be usable in any context that has a PSR-3 logger, including background or server processes where it is not possible to directly query the user.
-
 ### Formatters
 
-It is preferable for commands that look up and display information should avoid doing IO directly, and should instead return the data they wish to display as an array. This data can then be converted into different data formats, such as "table" and "json". The user may select which formatter to use via the --format option.
+It is preferable for commands that look up and display information should avoid doing IO directly, and should instead return the data they wish to display as an array. This data can then be converted into different data formats, such as "table" and "json". The user may select which formatter to use via the --format option. For details on formatters, see the [consolidation/output-formatters](https://github.com/consolidation-org/output-formatters) project.
 
 ### Progress
 
@@ -433,3 +361,52 @@ class MyTask extends BaseTask
 Tasks should not attempt to use a specific progress indicator (e.g. the Symfony ProgressBar class) directly, as the ProgressIndicatorAwareTrait allows for an appropriate progress indicator to be used (or omitted) as best suits the application.
 
 Note that when using [Collections](collections.md), the progress bar will automatically be shown if the collection takes longer than two seconds to run.  Each task in the collection will count for one "step"; if the task supports progress indicators as shown above, then it will add an additional number of steps as indicated by its `progressIndicatorSteps()` method.
+
+## Working with Composer
+
+### Adding a RoboFile to your Project
+
+Robo is designed to work well with Composer. To use Robo scripts in your Composer-based project, simply add `robo` to your composer.json file:
+```
+$ cd myproject
+$ composer require consolidation/Robo:~1
+$ ./vendor/bin/robo mycommand
+```
+If you do not want to type the whole path to Robo, you may add `./vendor/bin` to your $PATH (relative paths work), or use `composer exec` to find and run Robo:
+```
+$ composer exec robo mycommand
+```
+
+### Implementing Composer Scripts with Robo
+
+When using Robo in your project, it is convenient to define Composer scripts that call your Robo commands.  Simply add the following to your composer.json file:
+```
+{
+    "name": "myorg/myproject",
+    "require": {
+        "consolidation/Robo": "~1"
+    },
+    "scripts": {
+        "test": "composer robo test",
+        "phar": "composer robo phar:build",
+        "robo": "robo --ansi --load-from $(pwd)/scripts/BuildCommands.php"
+    }
+}
+```
+*Note*: When you include Robo as a library like this, some external projects used by certain core Robo tasks are not automatically included in your project.  See the `"suggest":` section of Robo's composer.json for a list of external projects you might also want to require in your project.
+
+Once you have set up your composer.json file (and ran `composer update` if you manually changed the `require` or `require-dev` sections), Composer will ensure that your project-local copy of Robo in the `vendor/bin` dir is in your $PATH when you run the additional Composer scripts that you declared:
+```
+$ cd myproject
+$ composer test
+$ composer phar
+```
+This will call the public methods `test()` and `phar()` in your RoboFile.php when using `composer test` and `composer phar`, respectively.
+
+Advertising your build commands as Composer scripts is a useful way to provide the key commands used for testing, building or packaging your application. Also, if your application should happen to provide a commandline tool to perform the operations of the application itself, then defining your build commands in their own RoboFile provides desirable separation, keeping your build commands out of the help and list commands of your primary script.
+
+If you would like to simplify the output of your script (e.g. when running on a CI service), replace the `--ansi` option in the example above with `--no-ansi`, and  colored terminal output and progress bars will be disabled. 
+
+## Robo as a Framework
+
+For an overview on how to turn your Robo scripts into standalone tools, see the section [Robo as a Framework](framework.md).

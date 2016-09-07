@@ -21,7 +21,7 @@
 * Use league/container to do Dependency Injection
    * *Breaking* Tasks' loadTasks traits must use `$this->task(TaskClass::class);` instead of `new TaskClass();`
    * *Breaking* Tasks that use other tasks must use `$this->collectionBuilder()->taskName();` instead of `new TaskClass();` when creating task objects to call. Implement `Robo\Contract\BuilderAwareInterface` and use `Robo\Contract\BuilderAwareTrait` to add the `collectionBuilder()` method to your task class.
-* *Breaking* The `arg()`, `args()` and `option()` methods now escape the values passed in to them.
+* *Breaking* The `arg()`, `args()` and `option()` methods in CommandArguments now escape the values passed in to them. There is now a `rawArg()` method if you need to add just one argument that has already been escaped.
 * *Breaking* taskWrite is now called taskWriteToFile
 * [Extract] task added
 * [Pack] task added

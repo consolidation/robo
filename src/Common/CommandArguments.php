@@ -1,6 +1,8 @@
 <?php
 namespace Robo\Common;
 
+use Symfony\Component\Process\ProcessUtils;
+
 /**
  * Use this to add arguments and options to the $arguments property.
  */
@@ -30,15 +32,35 @@ trait CommandArguments
         if (!is_array($args)) {
             $args = func_get_args();
         }
+        array_map('static::escape', $args);
         $this->arguments .= " ".implode(' ', $args);
         return $this;
+    }
+
+    public function rawArg($arg)
+    {
+        $this->arguments .= " $arg";
+    }
+
+    /**
+     * Escape the provided value, unless it contains only alphanumeric
+     * plus a few other basic characters.
+     *
+     * @param string $value
+     * @return string
+     */
+    public static function escape($value)
+    {
+        if (preg_match('/^[a-zA-Z0-9\/.@~_-]*$/', $value)) {
+            return $value;
+        }
+        return ProcessUtils::escapeArgument($value);
     }
 
     /**
      * Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
      *
-     * Option values must be explicitly escaped with escapeshellarg if necessary before being passed to
-     * this function.
+     * Option values are automatically escaped if necessary.
      *
      * @param $option
      * @param string $value
@@ -50,15 +72,14 @@ trait CommandArguments
             $option = "--$option";
         }
         $this->arguments .= null == $option ? '' : " " . $option;
-        $this->arguments .= null == $value ? '' : " " . $value;
+        $this->arguments .= null == $value ? '' : " " . static::escape($value);
         return $this;
     }
 
     /**
      * Pass multiple options to executable. Value can be a string or array.
      *
-     * Option values should be provided in raw, unescaped form; they are always
-     * escaped via escapeshellarg in this function.
+     * Option values should be provided in raw, unescaped form
      *
      * @param $option
      * @param string|array $value
@@ -71,7 +92,7 @@ trait CommandArguments
                 $this->optionList($option, $item);
             }
         } else {
-            $this->option($option, escapeshellarg($value));
+            $this->option($option, $value);
         }
 
         return $this;

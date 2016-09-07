@@ -29,14 +29,7 @@ class RsyncTest extends \Codeception\TestCase\Test
                 ->stats()
                 ->getCommand()
         )->equals(
-            sprintf(
-                'rsync --recursive --exclude %s --exclude %s --exclude %s --checksum --whole-file --verbose --progress --human-readable --stats %s %s',
-                escapeshellarg('.git'),
-                escapeshellarg('.svn'),
-                escapeshellarg('.hg'),
-                escapeshellarg('src/'),
-                escapeshellarg('dev@localhost:/var/www/html/app/')
-            )
+                'rsync --recursive --exclude .git --exclude .svn --exclude .hg --checksum --whole-file --verbose --progress --human-readable --stats src/ \'dev@localhost:/var/www/html/app/\''
         );
 
         verify(
@@ -47,11 +40,7 @@ class RsyncTest extends \Codeception\TestCase\Test
                 ->toPath('/var/path/with/a space')
                 ->getCommand()
         )->equals(
-            sprintf(
-                'rsync %s %s',
-                escapeshellarg('src/foo bar/baz'),
-                escapeshellarg('dev@localhost:/var/path/with/a space')
-            )
+                'rsync \'src/foo bar/baz\' \'dev@localhost:/var/path/with/a space\''
         );
     }
 }

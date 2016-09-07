@@ -315,8 +315,8 @@ class Rsync extends BaseTask implements CommandInterface
      */
     public function getCommand()
     {
-        $this->option(null, escapeshellarg($this->getFromPathSpec()))
-            ->option(null, escapeshellarg($this->getToPathSpec()));
+        $this->option(null, $this->getFromPathSpec())
+            ->option(null, $this->getToPathSpec());
 
         return $this->command . $this->arguments;
     }

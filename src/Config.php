@@ -21,7 +21,7 @@ class Config
         return $this;
     }
 
-    public function setGlobalOptions($input)
+    public function getGlobalOptionDefaultValues()
     {
         $globalOptions =
         [
@@ -29,6 +29,13 @@ class Config
             self::SIMULATE => false,
             self::SUPRESS_MESSAGES => false,
         ];
+
+        return $globalOptions;
+    }
+
+    public function setGlobalOptions($input)
+    {
+        $globalOptions = $this->getGlobalOptionDefaultValues();
 
         foreach ($globalOptions as $option => $default) {
             $value = $input->hasOption($option) ? $input->getOption($option) : null;

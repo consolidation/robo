@@ -89,8 +89,11 @@ class Runner implements ContainerAwareInterface
     {
         $argv = $this->shebang($argv);
         $argv = $this->processRoboOptions($argv);
-        $app = Robo::createDefaultApplication($appName, $appVersion);
-        $commandFiles = $this->getRoboFileCommands($app, $output);
+        $app = null;
+        if ($appName && $appVersion) {
+            $app = Robo::createDefaultApplication($appName, $appVersion);
+        }
+        $commandFiles = $this->getRoboFileCommands($output);
         return $this->run($argv, $output, $app, $commandFiles);
     }
 
@@ -140,7 +143,7 @@ class Runner implements ContainerAwareInterface
         return $statusCode;
     }
 
-    protected function getRoboFileCommands($app, $output)
+    protected function getRoboFileCommands($output)
     {
         if (!$this->loadRoboFile($output)) {
             return;

@@ -8,7 +8,10 @@ use Robo\Task\StackBasedTask;
 use Robo\Task\BaseTask;
 use Robo\TaskInfo;
 use Robo\Contract\WrappedTaskInterface;
+use Robo\Exception\TaskException;
 use Robo\Exception\TaskExitException;
+use Robo\Contract\CommandInterface;
+
 
 use Robo\Contract\ProgressIndicatorAwareInterface;
 use Robo\Common\ProgressIndicatorAwareTrait;
@@ -28,7 +31,7 @@ use Robo\Contract\InflectionInterface;
  * called. Here, taskDeleteDir is used to remove partial results
  * of an unfinished task.
  */
-class Collection extends BaseTask implements CollectionInterface
+class Collection extends BaseTask implements CollectionInterface, CommandInterface
 {
     protected $taskList = [];
     protected $rollbackStack = [];
@@ -409,6 +412,34 @@ class Collection extends BaseTask implements CollectionInterface
             }
         }
         return $steps;
+    }
+
+    /**
+     * A Collection of tasks can provide a command via `getCommand()`
+     * if it contains a single task, and that task implements CommandInterface.
+     * @return string
+     */
+    public function getCommand()
+    {
+        if (empty($this->taskList)) {
+            return '';
+        }
+
+        if (count($this->taskList) > 1) {
+            // TODO: We could potentially iterate over the items in the collection
+            // and concatenate the result of getCommand() from each one, and fail
+            // only if we encounter a command that is not a CommandInterface.
+            throw new TaskException($this, "getCommand() does not work on arbitrary collections of tasks.");
+        }
+
+        $taskElement = reset($this->taskList);
+        $task = $taskElement->getTask();
+        $task = ($task instanceof WrappedTaskInterface) ? $task->original() : $task;
+        if ($task instanceof CommandInterface) {
+            return $task->getCommand();
+        }
+
+        throw new TaskException($task, get_class($task) . " does not implement CommandInterface, so can't be used to provide a command");
     }
 
     /**

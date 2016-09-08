@@ -113,6 +113,14 @@ EOT;
         $this->guy->seeInOutput('Some text in section one.');
     }
 
+    public function testDeploy()
+    {
+        $argv = ['placeholder', 'test:deploy', '--simulate'];
+        $this->runner->execute($argv, $this->guy->capturedOutputStream());
+        $this->guy->seeInOutput('[Simulator] Simulating Remote\\Ssh(\'mysite.com\', null)');
+        $this->guy->seeInOutput('[Simulator] Running ssh mysite.com \'cd "/var/www/somesite" && git pull\'');
+    }
+
     public function testRunnerTryError()
     {
         $argv = ['placeholder', 'test:error'];
@@ -120,6 +128,15 @@ EOT;
 
         $this->guy->seeInOutput('[Exec] Running ls xyzzy');
         $this->assertTrue($result > 0);
+    }
+
+    public function testRunnerTrySimulatedError()
+    {
+        $argv = ['placeholder', 'test:error', '--simulate'];
+        $result = $this->runner->execute($argv, $this->guy->capturedOutputStream());
+
+        $this->guy->seeInOutput('Simulating Exec');
+        $this->assertEquals(0, $result);
     }
 
     public function testRunnerTryException()

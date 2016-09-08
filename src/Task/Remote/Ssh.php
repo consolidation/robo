@@ -6,6 +6,7 @@ use Robo\Result;
 use Robo\Contract\CommandInterface;
 use Robo\Exception\TaskException;
 use Robo\Task\BaseTask;
+use Robo\Contract\SimulatedInterface;
 
 /**
  * Runs multiple commands on a remote server.
@@ -45,7 +46,7 @@ use Robo\Task\BaseTask;
  *                                            and stop the chain if one command fails
  * @method $this remoteDir(string $remoteWorkingDirectory) Changes to the given directory before running commands
  */
-class Ssh extends BaseTask implements CommandInterface
+class Ssh extends BaseTask implements CommandInterface, SimulatedInterface
 {
     use \Robo\Common\CommandReceiver;
     use \Robo\Common\ExecOneCommand;
@@ -175,6 +176,12 @@ class Ssh extends BaseTask implements CommandInterface
         $this->validateParameters();
         $command = $this->getCommand();
         return $this->executeCommand($command);
+    }
+
+    public function simulate($context)
+    {
+        $command = $this->getCommand();
+        $this->printTaskInfo("Running {command}", ['command' => $command] + $context);
     }
 
     protected function validateParameters()

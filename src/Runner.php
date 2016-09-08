@@ -59,19 +59,20 @@ class Runner
         if (is_array($this->roboClass) || class_exists($this->roboClass)) {
             return true;
         }
-
         if (!file_exists($this->dir)) {
-            $this->yell("Path in `{$this->dir}` is invalid, please provide valid absolute path to load Robofile", 40, 'red');
+            $this->yell("Path `{$this->dir}` is invalid; please provide a valid absolute path to the Robofile to load.", 40, 'red');
             return false;
         }
 
-        $this->dir = realpath($this->dir);
+        $realDir = realpath($this->dir);
 
-        if (!file_exists($this->dir . DIRECTORY_SEPARATOR . $this->roboFile)) {
+        $roboFilePath = $realDir . DIRECTORY_SEPARATOR . $this->roboFile;
+        if (!file_exists($roboFilePath)) {
+            $requestedRoboFilePath = $this->dir . DIRECTORY_SEPARATOR . $this->roboFile;
+            $this->yell("Requested RoboFile `$requestedRoboFilePath` is invalid, please provide valid absolute path to load Robofile", 40, 'red');
             return false;
         }
-
-        require_once $this->dir . DIRECTORY_SEPARATOR .$this->roboFile;
+        require_once $roboFilePath;
 
         if (!class_exists($this->roboClass)) {
             $this->writeln("<error>Class ".$this->roboClass." was not loaded</error>");
@@ -84,6 +85,9 @@ class Runner
     {
         $argv = $this->shebang($argv);
         $input = $this->prepareInput($argv);
+        if (!$output) {
+            $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+        }
         $app = $this->init($input, $output, $appName, $appVersion);
         return $this->run($input, $output, $app);
     }
@@ -121,6 +125,8 @@ class Runner
             $this->installRoboHandlers();
         }
         $app = Robo::application();
+        $this->setInput($input);
+        $this->setOutput($output);
         $this->registerRoboFileCommands($app);
         return $app;
     }
@@ -133,7 +139,6 @@ class Runner
             $app->run(Robo::input(), Robo::output());
             return;
         }
-
         $this->registerCommandClasses($app, $this->roboClass);
     }
 
@@ -266,7 +271,7 @@ class Runner
         }
 
         // loading from other directory
-        $pos = $this->array_search_begins_with('--load-from', $argv) ?: array_search('-f', $argv);
+        $pos = $this->arraySearchBeginsWith('--load-from', $argv) ?: array_search('-f', $argv);
         if ($pos !== false) {
             if (substr($argv[$pos], 0, 12) == '--load-from=') {
                 $this->dir = substr($argv[$pos], 12);
@@ -274,7 +279,6 @@ class Runner
                 $this->dir = $argv[$pos +1];
                 unset($argv[$pos +1]);
             }
-            $this->dir = realpath($this->dir);
             unset($argv[$pos]);
             // Make adjustments if '--load-from' points at a file.
             if (is_file($this->dir)) {
@@ -294,7 +298,7 @@ class Runner
         return $input;
     }
 
-    protected function array_search_begins_with($needle, $haystack)
+    protected function arraySearchBeginsWith($needle, $haystack)
     {
         for ($i = 0; $i < count($haystack); ++$i) {
             if (substr($haystack[$i], 0, strlen($needle)) == $needle) {

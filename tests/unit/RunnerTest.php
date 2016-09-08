@@ -16,7 +16,7 @@ class RunnerTest extends \Codeception\TestCase\Test
 
     public function _before()
     {
-        $this->runner = new \Robo\Runner('\Robo\TestRoboFile');
+        $this->runner = new \Robo\Runner('\Robo\RoboFileFixture');
     }
 
     public function testHandleError()
@@ -153,5 +153,87 @@ EOT;
 
         $this->guy->seeInOutput('[');
         $this->assertTrue($result > 0);
+    }
+
+    public function testInvalidRoboDirectory()
+    {
+        $runnerWithNoRoboFile = new \Robo\Runner();
+
+        $argv = ['placeholder', 'list', '-f', 'no-such-directory'];
+        $result = $runnerWithNoRoboFile->execute($argv, Robo::output());
+
+        $this->guy->seeInOutput('Path `no-such-directory` is invalid; please provide a valid absolute path to the Robofile to load.');
+    }
+
+    public function testUnloadableRoboFile()
+    {
+        $runnerWithNoRoboFile = new \Robo\Runner();
+
+        $argv = ['placeholder', 'list', '-f', dirname(__DIR__) . '/src/RoboFileFixture.php'];
+        $result = $runnerWithNoRoboFile->execute($argv, Robo::output());
+
+        // We cannot load RoboFileFixture.php via -f / --load-from because
+        // it has a namespace, and --load-from does not support that.
+        $this->guy->seeInOutput('Class RoboFileFixture was not loaded');
+    }
+
+    public function testRunnerQuietOutput()
+    {
+        $argv = ['placeholder', 'test:verbosity', '--quiet'];
+        $result = $this->runner->execute($argv, Robo::output());
+
+        $this->guy->doNotSeeInOutput('This command will print more information at higher verbosity levels');
+        $this->guy->doNotSeeInOutput('This is a verbose message (-v).');
+        $this->guy->doNotSeeInOutput('This is a very verbose message (-vv).');
+        $this->guy->doNotSeeInOutput('This is a debug message (-vvv).');
+        $this->guy->doNotSeeInOutput(' [warning] This is a warning log message.');
+        $this->guy->doNotSeeInOutput(' [notice] This is a notice log message.');
+        $this->guy->doNotSeeInOutput(' [debug] This is a debug log message.');
+        $this->assertEquals(0, $result);
+    }
+
+    public function testRunnerVerboseOutput()
+    {
+        $argv = ['placeholder', 'test:verbosity', '-v'];
+        $result = $this->runner->execute($argv, Robo::output());
+
+        $this->guy->seeInOutput('This command will print more information at higher verbosity levels');
+        $this->guy->seeInOutput('This is a verbose message (-v).');
+        $this->guy->doNotSeeInOutput('This is a very verbose message (-vv).');
+        $this->guy->doNotSeeInOutput('This is a debug message (-vvv).');
+        $this->guy->seeInOutput(' [warning] This is a warning log message.');
+        $this->guy->seeInOutput(' [notice] This is a notice log message.');
+        $this->guy->doNotSeeInOutput(' [debug] This is a debug log message.');
+        $this->assertEquals(0, $result);
+    }
+
+    public function testRunnerVeryVerboseOutput()
+    {
+        $argv = ['placeholder', 'test:verbosity', '-vv'];
+        $result = $this->runner->execute($argv, Robo::output());
+
+        $this->guy->seeInOutput('This command will print more information at higher verbosity levels');
+        $this->guy->seeInOutput('This is a verbose message (-v).');
+        $this->guy->seeInOutput('This is a very verbose message (-vv).');
+        $this->guy->doNotSeeInOutput('This is a debug message (-vvv).');
+        $this->guy->seeInOutput(' [warning] This is a warning log message.');
+        $this->guy->seeInOutput(' [notice] This is a notice log message.');
+        $this->guy->doNotSeeInOutput(' [debug] This is a debug log message.');
+        $this->assertEquals(0, $result);
+    }
+
+    public function testRunnerDebugOutput()
+    {
+        $argv = ['placeholder', 'test:verbosity', '-vvv'];
+        $result = $this->runner->execute($argv, Robo::output());
+
+        $this->guy->seeInOutput('This command will print more information at higher verbosity levels');
+        $this->guy->seeInOutput('This is a verbose message (-v).');
+        $this->guy->seeInOutput('This is a very verbose message (-vv).');
+        $this->guy->seeInOutput('This is a debug message (-vvv).');
+        $this->guy->seeInOutput(' [warning] This is a warning log message.');
+        $this->guy->seeInOutput(' [notice] This is a notice log message.');
+        $this->guy->seeInOutput(' [debug] This is a debug log message.');
+        $this->assertEquals(0, $result);
     }
 }

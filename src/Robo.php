@@ -98,8 +98,8 @@ class Robo
         if (!$output) {
             $output = new \Symfony\Component\Console\Output\ConsoleOutput();
         }
-        $container->add('input', $input);
-        $container->add('output', $output);
+        $container->share('input', $input);
+        $container->share('output', $output);
 
         // Register logging and related services.
         $container->share('config', \Robo\Config::class)

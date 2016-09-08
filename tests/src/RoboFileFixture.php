@@ -5,14 +5,19 @@ namespace Robo;
 use Robo\Result;
 use Robo\ResultData;
 use Robo\Collection\CollectionBuilder;
+use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerAwareInterface;
 
 use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Test RoboFile.
+ * RoboFile under test: a fixture containing some commands to use with tests.
  */
-class TestRoboFile extends \Robo\Tasks
+class RoboFileFixture extends \Robo\Tasks implements LoggerAwareInterface
 {
+    use LoggerAwareTrait;
+
     /**
      * Demonstrate Robo variable argument passing.
      *
@@ -69,5 +74,18 @@ class TestRoboFile extends \Robo\Tasks
         // so we should not get here, and instead exit the program with a
         // non-zero status.
         return 0;
+    }
+
+    public function testVerbosity()
+    {
+        $this->output()->writeln('This command will print more information at higher verbosity levels.');
+        $this->output()->writeln('Try running with -v, -vv or -vvv');
+        $this->output()->writeln('The current verbosity level is ' . $this->output()->getVerbosity());
+        $this->output()->writeln('This is a verbose message (-v).', OutputInterface::VERBOSITY_VERBOSE);
+        $this->output()->writeln('This is a very verbose message (-vv).', OutputInterface::VERBOSITY_VERY_VERBOSE);
+        $this->output()->writeln('This is a debug message (-vvv).', OutputInterface::VERBOSITY_DEBUG);
+        $this->logger->warning('This is a warning log message.');
+        $this->logger->notice('This is a notice log message.');
+        $this->logger->debug('This is a debug log message.');
     }
 }

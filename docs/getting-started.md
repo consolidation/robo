@@ -316,6 +316,12 @@ $name = $this->ask("What is your name?");
 
 There are also `askDefault`, `askHidden`, and `confirm` methods.
 
+In addition, Robo makes all of the methods of Symfony Style available throgh the `io()` method:
+
+$this->io()->title("Build all site assets");
+
+This allows Robo scripts to follow the [Symfony Console Style Guide](http://symfony.com/blog/new-in-symfony-2-8-console-style-guide) if desired.
+
 ### Formatters
 
 It is preferable for commands that look up and display information should avoid doing IO directly, and should instead return the data they wish to display as an array. This data can then be converted into different data formats, such as "table" and "json". The user may select which formatter to use via the --format option. For details on formatters, see the [consolidation/output-formatters](https://github.com/consolidation-org/output-formatters) project.

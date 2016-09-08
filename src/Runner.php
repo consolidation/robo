@@ -168,14 +168,20 @@ class Runner
 
         // Register the RoboFile with the container and then immediately
         // fetch it; this ensures that all of the inflectors will run.
-        $commandFileName = "{$commandClass}Commands";
-        $container->share($commandFileName, $commandClass);
-        $roboCommandFileInstance = $container->get($commandFileName);
-        if ($roboCommandFileInstance instanceof BuilderAwareInterface) {
-            $builder = $container->get('collectionBuilder', [$roboCommandFileInstance]);
-            $roboCommandFileInstance->setBuilder($builder);
+        // If the command class is already an instantiated object, then
+        // just use it exactly as it was provided to us.
+        if (is_string($commandClass)) {
+            $commandFileName = "{$commandClass}Commands";
+            $container->share($commandFileName, $commandClass);
+            $commandClass = $container->get($commandFileName);
         }
-        return $roboCommandFileInstance;
+        // If the command class is a Builder Aware Interface, then
+        //
+        if ($commandClass instanceof BuilderAwareInterface) {
+            $builder = $container->get('collectionBuilder', [$commandClass]);
+            $commandClass->setBuilder($builder);
+        }
+        return $commandClass;
     }
 
     public function installRoboHandlers()
@@ -289,7 +295,14 @@ class Runner
                     $this->roboClass = $className;
                 }
             }
-            chdir($this->dir);
+            // Convert directory to a real path, but only if the
+            // path exists. We do not want to lose the original
+            // directory if the user supplied a bad value.
+            $realDir = realpath($this->dir);
+            if ($realDir) {
+                chdir($realDir);
+                $this->dir = $realDir;
+            }
         }
         $input = new ArgvInput($argv);
         if (!empty($passThroughArgs)) {

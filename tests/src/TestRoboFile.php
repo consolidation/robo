@@ -24,6 +24,19 @@ class TestRoboFile extends \Robo\Tasks
     }
 
     /**
+     * Demonstrate use of SymfonyStyle
+     */
+    public function testSymfonyStyle()
+    {
+        $this->io()->title('My Title');
+        $this->io()->section('Section 1');
+        $this->io()->text('Some text in section one.');
+        $this->io()->comment('This is just an example of different styles.');
+        $this->io()->section('Section 2');
+        $this->io()->text('Some text in section two.');
+    }
+
+    /**
      * Demonstrate Robo error output and command failure.
      */
     public function testError()

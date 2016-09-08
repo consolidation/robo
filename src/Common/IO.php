@@ -9,11 +9,28 @@ use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 trait IO
 {
     use InputAwareTrait;
     use OutputAwareTrait;
+
+    /** var: SymfonyStyle */
+    protected $io;
+
+    /**
+     * Provide access to SymfonyStyle object.
+     * See: http://symfony.com/blog/new-in-symfony-2-8-console-style-guide
+     * @return SymfonyStyle
+     */
+    protected function io()
+    {
+        if (!$this->io) {
+            $this->io = new SymfonyStyle($this->input(), $this->output());
+        }
+        return $this->io;
+    }
 
     protected function decorationCharacter($nonDecorated, $decorated)
     {

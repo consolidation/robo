@@ -106,6 +106,13 @@ EOT;
         $this->guy->seeOutputEquals($expected);
     }
 
+    public function testSymfonyStyle()
+    {
+        $argv = ['placeholder', 'test:symfony-style'];
+        $this->runner->execute($argv, Robo::output());
+        $this->guy->seeInOutput('Some text in section one.');
+    }
+
     public function testRunnerTryError()
     {
         $argv = ['placeholder', 'test:error'];

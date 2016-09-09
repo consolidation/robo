@@ -9,13 +9,17 @@ use Consolidation\AnnotatedCommand\PassThroughArgsInput;
 use Robo\Contract\BuilderAwareInterface;
 use Robo\Common\IO;
 use Robo\Exception\TaskExitException;
+use League\Container\ContainerInterface;
+use League\Container\ContainerAwareInterface;
+use League\Container\ContainerAwareTrait;
 
-class Runner
+class Runner implements ContainerAwareInterface
 {
     const ROBOCLASS = 'RoboFile';
     const ROBOFILE = 'RoboFile.php';
 
     use IO;
+    use ContainerAwareTrait;
 
     /**
      * @var string RoboClass
@@ -37,17 +41,12 @@ class Runner
      * @param null $roboClass
      * @param null $roboFile
      */
-    public function __construct($roboClass = null, $roboFile = null, $container = null)
+    public function __construct($roboClass = null, $roboFile = null)
     {
         // set the const as class properties to allow overwriting in child classes
         $this->roboClass = $roboClass ? $roboClass : self::ROBOCLASS ;
         $this->roboFile  = $roboFile ? $roboFile : self::ROBOFILE;
         $this->dir = getcwd();
-
-        // Store the container in our config object if it was provided.
-        if ($container != null) {
-            Robo::setContainer($container);
-        }
     }
 
     protected function loadRoboFile($output)
@@ -110,9 +109,15 @@ class Runner
         $this->setInput($input);
         $this->setOutput($output);
 
+        // If our client gave us a container, then also set it inside
+        // the static Robo class.
+        if ($this->getContainer()) {
+            Robo::setContainer($this->getContainer());
+        }
         // If we were not provided a container, then create one
         if (!Robo::hasContainer()) {
             Robo::createDefaultContainer($input, $output, $app);
+            $this->setContainer(Robo::getContainer());
             // Automatically register a shutdown function and
             // an error handler when we provide the container.
             $this->installRoboHandlers();

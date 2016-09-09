@@ -34,7 +34,7 @@ class Application extends SymfonyApplication
         $createRoboFile->setCode(function () use ($roboClass, $roboFile) {
             $output = Robo::output();
             $output->writeln("<comment>  ~~~ Welcome to Robo! ~~~~ </comment>");
-            $output->writeln("<comment>  ". $roboFile ." will be created in current dir </comment>");
+            $output->writeln("<comment>  ". basename($roboFile) ." will be created in the current directory </comment>");
             file_put_contents(
                 $roboFile,
                 '<?php'
@@ -45,7 +45,7 @@ class Application extends SymfonyApplication
                 . "\n */"
                 . "\nclass " . $roboClass . " extends \\Robo\\Tasks\n{\n    // define public methods as commands\n}"
             );
-            $output->writeln("<comment>  Edit RoboFile.php to add your commands! </comment>");
+            $output->writeln("<comment>  Edit this file to add your commands! </comment>");
         });
         $this->add($createRoboFile);
     }

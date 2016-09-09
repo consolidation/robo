@@ -25,6 +25,11 @@ trait SeeInOutputTrait
         $container->add('progressIndicator', new \Robo\Common\ProgressIndicator($progressBar, $this->testPrinter));
     }
 
+    public function capturedOutputStream()
+    {
+        return $this->testPrinter;
+    }
+
     public function logger()
     {
         return $this->logger;

@@ -74,7 +74,9 @@ Create the Robo dependency injection container:
 ```
 use League\Container\Container;
 
+$input = new \Symfony\Component\Console\Input\ArgvInput($argv);
 $output = new \Symfony\Component\Console\Output\ConsoleOutput();
-$container = \Robo\Robo::createDefaultContainer($input, $output);
+$app = new \My\Application();
+$container = \Robo\Robo::createDefaultContainer($input, $output, $app);
 ```
 If you are using League\Container (recommended), then you may simply add and share your own classes to the same container.  If you are using some other DI container, then you should use [delegate lookup](https://github.com/container-interop/fig-standards/blob/master/proposed/container.md#14-additional-feature-delegate-lookup) to combine them.

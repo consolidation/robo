@@ -72,11 +72,10 @@ class Robo
     /**
      * Create a container and initiailze it.
      */
-    public static function createDefaultContainer($input = null, $output = null, $appName = null, $appVersion = null)
+    public static function createDefaultContainer($input = null, $output = null, $app)
     {
         // Set up our dependency injection container.
         $container = new Container();
-        $app = static::createDefaultApplication($appName, $appVersion);
         static::configureContainer($container, $input, $output, $app);
         static::setContainer($container);
 
@@ -139,12 +138,14 @@ class Robo
         $container->share('application', $app);
     }
 
-    protected static function createDefaultApplication($appName = null, $appVersion = null)
+    public static function createDefaultApplication($appName = null, $appVersion = null)
     {
         $appName = $appName ?: self::APPLICATION_NAME;
         $appVersion = $appVersion ?: self::VERSION;
 
-        return new \Robo\Application($appName, $appVersion);
+        $app = new \Robo\Application($appName, $appVersion);
+        $app->setAutoExit(false);
+        return $app;
     }
 
     /**

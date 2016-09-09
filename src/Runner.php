@@ -50,8 +50,13 @@ class Runner
         }
     }
 
-    protected function loadRoboFile()
+    protected function loadRoboFile($output)
     {
+        // If we have not been provided an output object, make a temporary one.
+        if (!$output) {
+            $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+        }
+
         // If $this->roboClass is a single class that has not already
         // been loaded, then we will try to obtain it from $this->roboFile.
         // If $this->roboClass is an array, we presume all classes requested
@@ -60,7 +65,7 @@ class Runner
             return true;
         }
         if (!file_exists($this->dir)) {
-            $this->yell("Path `{$this->dir}` is invalid; please provide a valid absolute path to the Robofile to load.", 40, 'red');
+            $output->writeln("<error>Path `{$this->dir}` is invalid; please provide a valid absolute path to the Robofile to load.</error>");
             return false;
         }
 
@@ -69,13 +74,13 @@ class Runner
         $roboFilePath = $realDir . DIRECTORY_SEPARATOR . $this->roboFile;
         if (!file_exists($roboFilePath)) {
             $requestedRoboFilePath = $this->dir . DIRECTORY_SEPARATOR . $this->roboFile;
-            $this->yell("Requested RoboFile `$requestedRoboFilePath` is invalid, please provide valid absolute path to load Robofile", 40, 'red');
+            $output->writeln("<error>Requested RoboFile `$requestedRoboFilePath` is invalid, please provide valid absolute path to load Robofile</error>");
             return false;
         }
         require_once $roboFilePath;
 
         if (!class_exists($this->roboClass)) {
-            $this->writeln("<error>Class ".$this->roboClass." was not loaded</error>");
+            $output->writeln("<error>Class ".$this->roboClass." was not loaded</error>");
             return false;
         }
         return true;
@@ -84,28 +89,43 @@ class Runner
     public function execute($argv, $output = null, $appName = null, $appVersion = null)
     {
         $argv = $this->shebang($argv);
-        $input = $this->prepareInput($argv);
-        if (!$output) {
-            $output = new \Symfony\Component\Console\Output\ConsoleOutput();
-        }
-        $app = $this->init($input, $output, $appName, $appVersion);
-        return $this->run($input, $output, $app);
+        $argv = $this->processRoboOptions($argv);
+        $app = Robo::createDefaultApplication($appName, $appVersion);
+        $commandFiles = $this->getRoboFileCommands($app, $output);
+        return $this->run($argv, $output, $app, $commandFiles);
     }
 
-    public function run($input = null, $output = null, $app = null)
+    public function run($input = null, $output = null, $app = null, $commandFiles = [])
     {
         // Create default input and output objects if they were not provided
         if (!$input) {
             $input = new StringInput('');
         }
+        if (is_array($input)) {
+            $input = $this->prepareInput($input);
+        }
         if (!$output) {
             $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+        }
+        $this->setInput($input);
+        $this->setOutput($output);
+
+        // If we were not provided a container, then create one
+        if (!Robo::hasContainer()) {
+            Robo::createDefaultContainer($input, $output, $app);
+            // Automatically register a shutdown function and
+            // an error handler when we provide the container.
+            $this->installRoboHandlers();
         }
         if (!$app) {
             $app = Robo::application();
         }
-        $this->setInput($input);
-        $this->setOutput($output);
+        if (!isset($commandFiles)) {
+            $this->yell("Robo is not initialized here. Please run `robo init` to create a new RoboFile", 40, 'yellow');
+            $app->addInitRoboFileCommand($this->roboFile, $this->roboClass);
+            $commandFiles = [];
+        }
+        $this->registerCommandClasses($app, $commandFiles);
 
         try {
             $statusCode = $app->run($input, $output);
@@ -115,31 +135,12 @@ class Runner
         return $statusCode;
     }
 
-    public function init($input, $output, $appName = null, $appVersion = null)
+    protected function getRoboFileCommands($app, $output)
     {
-        // If we were not provided a container, then create one
-        if (!Robo::hasContainer()) {
-            Robo::createDefaultContainer($input, $output, $appName, $appVersion);
-            // Automatically register a shutdown function and
-            // an error handler when we provide the container.
-            $this->installRoboHandlers();
-        }
-        $app = Robo::application();
-        $this->setInput($input);
-        $this->setOutput($output);
-        $this->registerRoboFileCommands($app);
-        return $app;
-    }
-
-    protected function registerRoboFileCommands($app)
-    {
-        if (!$this->loadRoboFile()) {
-            $this->yell("Robo is not initialized here. Please run `robo init` to create a new RoboFile", 40, 'yellow');
-            $app->addInitRoboFileCommand($this->roboFile, $this->roboClass);
-            $app->run(Robo::input(), Robo::output());
+        if (!$this->loadRoboFile($output)) {
             return;
         }
-        $this->registerCommandClasses($app, $this->roboClass);
+        return $this->roboClass;
     }
 
     protected function registerCommandClasses($app, $commandClasses)
@@ -270,7 +271,10 @@ class Runner
     }
 
     /**
-     * @param $argv
+     * Search for the pass-thru args (everything after --) and separate them
+     * into separate input object that retains the pass-thru args.
+     *
+     * @param array $argv
      * @return InputInterface
      */
     protected function prepareInput($argv)
@@ -284,39 +288,60 @@ class Runner
             $argv = array_slice($argv, 0, $pos);
         }
 
-        // loading from other directory
-        $pos = $this->arraySearchBeginsWith('--load-from', $argv) ?: array_search('-f', $argv);
-        if ($pos !== false) {
-            if (substr($argv[$pos], 0, 12) == '--load-from=') {
-                $this->dir = substr($argv[$pos], 12);
-            } elseif (isset($argv[$pos +1])) {
-                $this->dir = $argv[$pos +1];
-                unset($argv[$pos +1]);
-            }
-            unset($argv[$pos]);
-            // Make adjustments if '--load-from' points at a file.
-            if (is_file($this->dir)) {
-                $this->roboFile = basename($this->dir);
-                $this->dir = dirname($this->dir);
-                $className = basename($this->roboFile, '.php');
-                if ($className != $this->roboFile) {
-                    $this->roboClass = $className;
-                }
-            }
-            // Convert directory to a real path, but only if the
-            // path exists. We do not want to lose the original
-            // directory if the user supplied a bad value.
-            $realDir = realpath($this->dir);
-            if ($realDir) {
-                chdir($realDir);
-                $this->dir = $realDir;
-            }
-        }
         $input = new ArgvInput($argv);
         if (!empty($passThroughArgs)) {
             $input = new PassThroughArgsInput($passThroughArgs, $input);
         }
         return $input;
+    }
+
+    /**
+     * Check for Robo-specific arguments such as --load-from, process them,
+     * and remove them from the array.  We have to process --load-from before
+     * we set up Symfony Console.
+     *
+     * @param array $argv
+     * @return array
+     */
+    protected function processRoboOptions($argv)
+    {
+        // loading from other directory
+        $pos = $this->arraySearchBeginsWith('--load-from', $argv) ?: array_search('-f', $argv);
+        if ($pos === false) {
+            return $argv;
+        }
+
+        $passThru = array_search('--', $argv);
+        if (($passThru !== false) && ($passThru < $pos)) {
+            return $argv;
+        }
+
+        if (substr($argv[$pos], 0, 12) == '--load-from=') {
+            $this->dir = substr($argv[$pos], 12);
+        } elseif (isset($argv[$pos +1])) {
+            $this->dir = $argv[$pos +1];
+            unset($argv[$pos +1]);
+        }
+        unset($argv[$pos]);
+        // Make adjustments if '--load-from' points at a file.
+        if (is_file($this->dir) || (substr($this->dir, -4) == '.php')) {
+            $this->roboFile = basename($this->dir);
+            $this->dir = dirname($this->dir);
+            $className = basename($this->roboFile, '.php');
+            if ($className != $this->roboFile) {
+                $this->roboClass = $className;
+            }
+        }
+        // Convert directory to a real path, but only if the
+        // path exists. We do not want to lose the original
+        // directory if the user supplied a bad value.
+        $realDir = realpath($this->dir);
+        if ($realDir) {
+            chdir($realDir);
+            $this->dir = $realDir;
+        }
+
+        return $argv;
     }
 
     protected function arraySearchBeginsWith($needle, $haystack)

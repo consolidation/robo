@@ -13,7 +13,6 @@ use Robo\Exception\TaskExitException;
 use Robo\Contract\CommandInterface;
 
 
-use Robo\Contract\ProgressIndicatorAwareInterface;
 use Robo\Common\ProgressIndicatorAwareTrait;
 use Robo\Contract\InflectionInterface;
 
@@ -245,16 +244,6 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
     }
 
     /**
-     * Test to see if the given name is an unnamed task, or
-     * something functionally equivalent.  Any numeric index
-     * is renumbered when added to the collection.
-     */
-    public static function isUnnamedTask($name)
-    {
-        return is_numeric($name);
-    }
-
-    /**
      * Find an existing named task.
      *
      * @param string
@@ -300,7 +289,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
     {
         // If a task name is not provided, then we'll let php pick
         // the array index.
-        if (static::isUnnamedTask($name)) {
+        if (Result::isUnnamed($name)) {
             $this->taskList[] = $taskGroup;
             return $this;
         }
@@ -397,19 +386,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
     {
         $steps = 0;
         foreach ($this->taskList as $name => $taskGroup) {
-            foreach ($taskGroup->getTaskList() as $task) {
-                if ($task instanceof WrappedTaskInterface) {
-                    $task = $task->original();
-                }
-                // If the task is a ProgressIndicatorAwareInterface, then it
-                // will advance the progress indicator a number of times.
-                if ($task instanceof ProgressIndicatorAwareInterface) {
-                    $steps += $task->progressIndicatorSteps();
-                }
-                // We also advance the progress indicator once regardless
-                // of whether it is progress-indicator aware or not.
-                $steps++;
-            }
+            $steps += $taskGroup->progressIndicatorSteps();
         }
         return $steps;
     }
@@ -482,7 +459,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
      * Run every task in a list, but only up to the first failure.
      * Return the failing result, or success if all tasks run.
      */
-    private function runTaskList($name, array $taskList, $result)
+    private function runTaskList($name, array $taskList, Result $result)
     {
         try {
             foreach ($taskList as $taskName => $task) {
@@ -496,8 +473,8 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
                 // We accumulate our results into a field so that tasks that
                 // have a reference to the collection may examine and modify
                 // the incremental results, if they wish.
-                $key = static::isUnnamedTask($taskName) ? $name : $taskName;
-                $result = $this->accumulateResults($key, $result, $taskResult);
+                $key = Result::isUnnamed($taskName) ? $name : $taskName;
+                $result->accumulate($key, $taskResult);
             }
         } catch (TaskExitException $exitException) {
             $this->fail();
@@ -576,33 +553,6 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
         if ($task instanceof NestedCollectionInterface) {
             $task->setParentCollection($parentCollection);
         }
-    }
-
-    /**
-     * Add the results from the most recent task to the accumulated
-     * results from all tasks that have run so far, merging data
-     * as necessary.
-     */
-    public function accumulateResults($key, Result $result, Result $taskResult)
-    {
-        // If the result is not set or is not a Result, then ignore it
-        if (isset($result) && ($result instanceof Result)) {
-            // If the task is unnamed, then all of its data elements
-            // just get merged in at the top-level of the final Result object.
-            if (static::isUnnamedTask($key)) {
-                $result->merge($taskResult);
-            } elseif (isset($result[$key])) {
-                // There can only be one task with a given name; however, if
-                // there are tasks added 'before' or 'after' the named task,
-                // then the results from these will be stored under the same
-                // name unless they are given a name of their own when added.
-                $current = $result[$key];
-                $result[$key] = $taskResult->merge($current);
-            } else {
-                $result[$key] = $taskResult;
-            }
-        }
-        return $result;
     }
 
     /**

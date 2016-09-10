@@ -85,7 +85,7 @@ class GenerateTask extends BaseTask
         $replacements['{immediateMethods}'] = "\n\n" . implode("\n\n", $immediateMethods);
         $replacements['{methodImplementations}'] = "\n\n" . implode("\n\n", $methodImplementations);
 
-        $template = file_get_contents(__DIR__ . "/GeneratedWrapper.tmpl");
+        $template = file_get_contents(__DIR__ . '/../../../data/Task/Development/GeneratedWrapper.tmpl');
         $template = str_replace(array_keys($replacements), array_values($replacements), $template);
 
         // Returning data in the $message will cause it to be printed.

@@ -88,4 +88,15 @@ class RoboFileFixture extends \Robo\Tasks implements LoggerAwareInterface
         $this->logger->notice('This is a notice log message.');
         $this->logger->debug('This is a debug log message.');
     }
+
+    public function testDeploy()
+    {
+        $gitTask = $this->taskGitStack()
+            ->pull();
+
+        $this->taskSshExec('mysite.com')
+            ->remoteDir('/var/www/somesite')
+            ->exec($gitTask)
+            ->run();
+    }
 }

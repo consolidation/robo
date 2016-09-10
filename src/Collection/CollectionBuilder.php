@@ -17,6 +17,8 @@ use Robo\Common\ConfigAwareTrait;
 use ReflectionClass;
 use Robo\Task\BaseTask;
 use Robo\Contract\BuilderAwareInterface;
+use Robo\Contract\CommandInterface;
+use Robo\Exception\TaskException;
 
 /**
  * Creates a collection, and adds tasks to it.  The collection builder
@@ -45,7 +47,7 @@ use Robo\Contract\BuilderAwareInterface;
  * In the example above, the `taskDeleteDir` will be called if
  * ```
  */
-class CollectionBuilder extends BaseTask implements NestedCollectionInterface, WrappedTaskInterface
+class CollectionBuilder extends BaseTask implements NestedCollectionInterface, WrappedTaskInterface, CommandInterface
 {
     protected $commandFile;
     protected $collection;
@@ -352,6 +354,19 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
             return $this->currentTask->run();
         }
         return $this->getCollection()->run();
+    }
+
+    public function getCommand()
+    {
+        if (!$this->collection && $this->currentTask) {
+            $task = $this->currentTask;
+            $task = ($task instanceof WrappedTaskInterface) ? $task->original() : $task;
+            if ($task instanceof CommandInterface) {
+                return $task->getCommand();
+            }
+        }
+
+        return $this->getCollection()->getCommand();
     }
 
     public function original()

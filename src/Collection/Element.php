@@ -3,6 +3,8 @@
 namespace Robo\Collection;
 
 use Robo\Contract\TaskInterface;
+use Robo\Contract\WrappedTaskInterface;
+use Robo\Contract\ProgressIndicatorAwareInterface;
 
 /**
  * One element in a collection.  Each element consists of a task
@@ -57,5 +59,24 @@ class Element
     public function getTaskList()
     {
         return array_merge($this->getBefore(), [$this->getTask()], $this->getAfter());
+    }
+
+    public function progressIndicatorSteps()
+    {
+        $steps = 0;
+        foreach ($this->getTaskList() as $task) {
+            if ($task instanceof WrappedTaskInterface) {
+                $task = $task->original();
+            }
+            // If the task is a ProgressIndicatorAwareInterface, then it
+            // will advance the progress indicator a number of times.
+            if ($task instanceof ProgressIndicatorAwareInterface) {
+                $steps += $task->progressIndicatorSteps();
+            }
+            // We also advance the progress indicator once regardless
+            // of whether it is progress-indicator aware or not.
+            $steps++;
+        }
+        return $steps;
     }
 }

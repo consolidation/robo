@@ -47,7 +47,7 @@ class Robo
     /**
      * Returns the currently active global container.
      *
-     * @return \League\Container\ContainerInterface|null
+     * @return \League\Container\ContainerInterface
      *
      * @throws \RuntimeException
      */
@@ -74,10 +74,14 @@ class Robo
      */
     public static function createDefaultContainer($input = null, $output = null, $app)
     {
+        // Do not allow this function to be called more than once.
+        if (static::hasContainer()) {
+            return static::getContainer();
+        }
+
         // Set up our dependency injection container.
         $container = new Container();
         static::configureContainer($container, $input, $output, $app);
-        static::setContainer($container);
 
         return $container;
     }
@@ -89,6 +93,7 @@ class Robo
     {
         // Self-referential container refernce for the inflector
         $container->add('container', $container);
+        static::setContainer($container);
 
         // Create default input and output objects if they were not provided
         if (!$input) {

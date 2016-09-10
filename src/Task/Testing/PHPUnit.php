@@ -131,7 +131,8 @@ class PHPUnit extends BaseTask implements CommandInterface, PrintedInterface
      * @param string $file path to file to test
      * @return $this
      */
-    public function file($file) {
+    public function file($file)
+    {
         return $this->files($file);
     }
 
@@ -140,7 +141,8 @@ class PHPUnit extends BaseTask implements CommandInterface, PrintedInterface
      * @param string $dir path to directory to test
      * @return $this
      */
-    public function dir($dir) {
+    public function dir($dir)
+    {
         return $this->dir($dir);
     }
 

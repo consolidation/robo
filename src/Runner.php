@@ -89,8 +89,11 @@ class Runner implements ContainerAwareInterface
     {
         $argv = $this->shebang($argv);
         $argv = $this->processRoboOptions($argv);
-        $app = Robo::createDefaultApplication($appName, $appVersion);
-        $commandFiles = $this->getRoboFileCommands($app, $output);
+        $app = null;
+        if ($appName && $appVersion) {
+            $app = Robo::createDefaultApplication($appName, $appVersion);
+        }
+        $commandFiles = $this->getRoboFileCommands($output);
         return $this->run($argv, $output, $app, $commandFiles);
     }
 
@@ -109,19 +112,15 @@ class Runner implements ContainerAwareInterface
         $this->setInput($input);
         $this->setOutput($output);
 
-        // If our client gave us a container, then also set it inside
-        // the static Robo class.
-        if ($this->getContainer()) {
-            Robo::setContainer($this->getContainer());
-        }
         // If we were not provided a container, then create one
-        if (!Robo::hasContainer()) {
-            Robo::createDefaultContainer($input, $output, $app);
-            $this->setContainer(Robo::getContainer());
+        if (!$this->getContainer()) {
+            $container = Robo::createDefaultContainer($input, $output, $app);
+            $this->setContainer($container);
             // Automatically register a shutdown function and
             // an error handler when we provide the container.
             $this->installRoboHandlers();
         }
+
         if (!$app) {
             $app = Robo::application();
         }
@@ -140,7 +139,7 @@ class Runner implements ContainerAwareInterface
         return $statusCode;
     }
 
-    protected function getRoboFileCommands($app, $output)
+    protected function getRoboFileCommands($output)
     {
         if (!$this->loadRoboFile($output)) {
             return;

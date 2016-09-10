@@ -189,7 +189,8 @@ class Runner implements ContainerAwareInterface
             $commandClass = $container->get($commandFileName);
         }
         // If the command class is a Builder Aware Interface, then
-        //
+        // ensure that it has a builder.  Every command class needs
+        // its own collection builder, as they have references to each other.
         if ($commandClass instanceof BuilderAwareInterface) {
             $builder = $container->get('collectionBuilder', [$commandClass]);
             $commandClass->setBuilder($builder);

@@ -31,7 +31,8 @@ class ApplicationTest extends \Codeception\TestCase\Test
     protected function _before()
     {
         $container = new Container();
-        \Robo\Robo::configureContainer($container);
+        $config = new \Robo\Config();
+        \Robo\Robo::configureContainer($container, $config);
         \Robo\Robo::setContainer($container);
         $this->app = $container->get('application');
         $this->commandFactory = $container->get('commandFactory');

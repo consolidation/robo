@@ -19,7 +19,8 @@ trait SeeInOutputTrait
         $this->logger = new \Robo\Log\RoboLogger($this->testPrinter);
         $progressBar = new \Symfony\Component\Console\Helper\ProgressBar($this->testPrinter);
 
-        \Robo\Robo::configureContainer($container, $input, $this->testPrinter);
+        $config = new \Robo\Config();
+        \Robo\Robo::configureContainer($container, $config, $input, $this->testPrinter);
         $container->add('output', $this->testPrinter);
         $container->add('progressBar', $progressBar);
         $container->add('progressIndicator', new \Robo\Common\ProgressIndicator($progressBar, $this->testPrinter));

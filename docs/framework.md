@@ -44,7 +44,8 @@ if ($pharPath) {
 
 $commandClasses = [ \MyProject\Commands\RoboCommands::class ];
 $runner = new \Robo\Runner($commandClasses);
-$statusCode = $runner->execute($_SERVER['argv']);
+$output = new \Symfony\Component\Console\Output\ConsoleOutput();
+$statusCode = $runner->execute($_SERVER['argv'], $output, 'MyAppName', '0.0.0-alpha0');
 exit($statusCode);
 ```
 Use [box-project/box2](https://github.com/box-project/box2) to create a phar for your application.  Note that if you use Robo's taskPackPhar to create your phar, then `\Phar::running()` will always return an empty string due to a bug in this phar builder. If you encounter any problems with this, then hardcode the path to your autoload file.  See the [robo](https://github.com/consolidation-org/Robo/blob/master/robo) script for details.

@@ -11,7 +11,7 @@ trait CommandArguments
     protected $arguments = '';
 
     /**
-     * Pass argument to executable
+     * Pass argument to executable. Its value will be automatically escaped.
      *
      * @param $arg
      * @return $this
@@ -22,9 +22,10 @@ trait CommandArguments
     }
 
     /**
-     * Pass methods parameters as arguments to executable
+     * Pass methods parameters as arguments to executable. Argument values
+     * are automatically escaped.
      *
-     * @param $args
+     * @param string|string[] $args
      * @return $this
      */
     public function args($args)
@@ -37,6 +38,12 @@ trait CommandArguments
         return $this;
     }
 
+    /**
+     * Pass the provided string in its raw (as provided) form as an argument to executable.
+     *
+     * @param string $arg
+     * @return type
+     */
     public function rawArg($arg)
     {
         $this->arguments .= " $arg";
@@ -59,8 +66,7 @@ trait CommandArguments
 
     /**
      * Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
-     *
-     * Option values are automatically escaped if necessary.
+     * Option values are automatically escaped.
      *
      * @param $option
      * @param string $value
@@ -78,8 +84,7 @@ trait CommandArguments
 
     /**
      * Pass multiple options to executable. Value can be a string or array.
-     *
-     * Option values should be provided in raw, unescaped form
+     * Option values are automatically escaped.
      *
      * @param $option
      * @param string|array $value

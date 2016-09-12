@@ -29,6 +29,17 @@ class GlobalOptionsEventListener implements EventSubscriberInterface, ConfigAwar
      */
     public function setGlobalOptions(ConsoleCommandEvent $event)
     {
-        $this->getConfig()->setGlobalOptions($event->getInput());
+        $config = $this->getConfig();
+        $input = $event->getInput();
+        $globalOptions = $config->getGlobalOptionDefaultValues();
+
+        foreach ($globalOptions as $option => $default) {
+            $value = $input->hasOption($option) ? $input->getOption($option) : null;
+            // Unfortunately, the `?:` operator does not differentate between `0` and `null`
+            if (!isset($value)) {
+                $value = $default;
+            }
+            $config->set($option, $value);
+        }
     }
 }

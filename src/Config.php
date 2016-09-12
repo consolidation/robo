@@ -4,28 +4,49 @@ namespace Robo;
 class Config
 {
     const PROGRESS_BAR_AUTO_DISPLAY_INTERVAL = 'progress-delay';
+    const DEFAULT_PROGRESS_DELAY = 2;
     const SIMULATE = 'simulate';
     const SUPRESS_MESSAGES = 'supress-messages';
     const DECORATED = 'decorated';
 
     protected $config = [];
 
-    public function get($key, $default = null)
+    /**
+     * Fet a configuration value
+     * @param string $key Which config item to look up
+     * @param string|null $defaultOverride Override usual default value with a different default
+     * @return mixed
+     */
+    public function get($key, $defaultOverride = null)
     {
-        return isset($this->config[$key]) ? $this->config[$key] : $default;
+        if (isset($this->config[$key])) {
+            return $this->config[$key];
+        }
+        return $this->getDefault($key, $defaultOverride);
     }
 
+    /**
+     * Set a configu value
+     * @param string $key
+     * @param mixed $value
+     * @return Config
+     */
     public function set($key, $value)
     {
         $this->config[$key] = $value;
         return $this;
     }
 
+    /**
+     * Return an associative array containing all of the global configuration
+     * options and their default values.
+     * @return array
+     */
     public function getGlobalOptionDefaultValues()
     {
         $globalOptions =
         [
-            self::PROGRESS_BAR_AUTO_DISPLAY_INTERVAL => 2,
+            self::PROGRESS_BAR_AUTO_DISPLAY_INTERVAL => self::DEFAULT_PROGRESS_DELAY,
             self::SIMULATE => false,
             self::SUPRESS_MESSAGES => false,
         ];
@@ -33,18 +54,16 @@ class Config
         return $globalOptions;
     }
 
-    public function setGlobalOptions($input)
+    /**
+     * Return the default value for a given configuration item.
+     * @param string $key
+     * @param string|null $defaultOverride
+     * @return mixed
+     */
+    public function getDefault($key, $defaultOverride = null)
     {
         $globalOptions = $this->getGlobalOptionDefaultValues();
-
-        foreach ($globalOptions as $option => $default) {
-            $value = $input->hasOption($option) ? $input->getOption($option) : null;
-            // Unfortunately, the `?:` operator does not differentate between `0` and `null`
-            if (!isset($value)) {
-                $value = $default;
-            }
-            $this->set($option, $value);
-        }
+        return isset($globalOptions[$key]) ? $globalOptions[$key] : $defaultOverride;
     }
 
     public function isSimulated()

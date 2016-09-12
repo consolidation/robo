@@ -72,7 +72,7 @@ class Robo
     /**
      * Create a container and initiailze it.
      */
-    public static function createDefaultContainer($input = null, $output = null, $app)
+    public static function createDefaultContainer($input = null, $output = null, $app = null)
     {
         // Do not allow this function to be called more than once.
         if (static::hasContainer()) {

@@ -81,7 +81,8 @@ class Robo
 
         // Set up our dependency injection container.
         $container = new Container();
-        static::configureContainer($container, $input, $output, $app);
+        $config = new Config();
+        static::configureContainer($container, $config, $input, $output, $app);
 
         return $container;
     }
@@ -89,7 +90,7 @@ class Robo
     /**
      * Initialize a container with all of the default Robo services.
      */
-    public static function configureContainer($container, $input = null, $output = null, $app = null)
+    public static function configureContainer(ContainerInterface $container, Config $config, $input = null, $output = null, $app = null)
     {
         // Self-referential container refernce for the inflector
         $container->add('container', $container);
@@ -102,12 +103,12 @@ class Robo
         if (!$output) {
             $output = new \Symfony\Component\Console\Output\ConsoleOutput();
         }
+        $config->setDecorated($output->isDecorated());
         $container->share('input', $input);
         $container->share('output', $output);
+        $container->share('config', $config);
 
         // Register logging and related services.
-        $container->share('config', \Robo\Config::class)
-            ->withMethodCall('setDecorated', [$output->isDecorated()]);
         $container->share('logStyler', \Robo\Log\RoboLogStyle::class);
         $container->share('logger', \Robo\Log\RoboLogger::class)
             ->withArgument('output')

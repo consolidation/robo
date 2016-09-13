@@ -6,11 +6,11 @@
 [![Latest Stable Version](https://poser.pugx.org/consolidation/robo/v/stable.png)](https://packagist.org/packages/consolidation/robo) 
 [![Latest Unstable Version](https://poser.pugx.org/consolidation/robo/v/unstable.png)](https://packagist.org/packages/consolidation/robo) 
 [![Total Downloads](https://poser.pugx.org/consolidation/robo/downloads.png)](https://packagist.org/packages/consolidation/robo) 
-[![PHP 7 ready](http://php7ready.timesplinter.ch/consolidation-org/Robo/badge.svg)](https://travis-ci.org/consolidation-org/Robo)
+[![PHP 7 ready](http://php7ready.timesplinter.ch/consolidation/Robo/badge.svg)](https://travis-ci.org/consolidation/Robo)
 [![License](https://poser.pugx.org/consolidation/robo/license.png)](https://www.versioneye.com/user/projects/57c4a6fe968d64004d97620a?child=57c4a6fe968d64004d97620a#tab-licenses)
 
-[![Build Status](https://travis-ci.org/consolidation-org/Robo.svg?branch=master)](https://travis-ci.org/consolidation-org/Robo) 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/consolidation-org/Robo/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/consolidation-org/Robo/?branch=master)
+[![Build Status](https://travis-ci.org/consolidation/Robo.svg?branch=master)](https://travis-ci.org/consolidation/Robo) 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/consolidation/Robo/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/consolidation/Robo/?branch=master)
 [![Dependency Status](https://www.versioneye.com/user/projects/57c4a6fe968d64004d97620a/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/57c4a6fe968d64004d97620a)
 
 * writing cross-platform scripts

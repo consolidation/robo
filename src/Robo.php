@@ -139,7 +139,16 @@ class Robo
         $container->share('formatterManager', \Consolidation\OutputFormatters\FormatterManager::class);
         $container->share('commandProcessor', \Consolidation\AnnotatedCommand\CommandProcessor::class)
             ->withArgument('hookManager')
-            ->withMethodCall('setFormatterManager', ['formatterManager']);
+            ->withMethodCall('setFormatterManager', ['formatterManager'])
+            ->withMethodCall(
+                'setDisplayErrorFunction',
+                [
+                    function ($output, $message) use ($container) {
+                        $logger = $container->get('logger');
+                        $logger->error($message);
+                    }
+                ]
+            );
         $container->share('commandFactory', \Consolidation\AnnotatedCommand\AnnotatedCommandFactory::class)
             ->withMethodCall('setCommandProcessor', ['commandProcessor']);
         $container->add('collection', \Robo\Collection\Collection::class);

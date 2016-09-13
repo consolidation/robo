@@ -26,6 +26,16 @@ class Robo
     protected static $container;
 
     /**
+     * Entrypoint for standalone Robo-based tools.  See docs/framework.md.
+     */
+    public static function run($argv, $commandClasses, $appName = null, $appVersion = null, $output = null)
+    {
+        $runner = new \Robo\Runner($commandClasses);
+        $statusCode = $runner->execute($argv, $appName, $appVersion, $output);
+        return $statusCode;
+    }
+
+    /**
      * Sets a new global container.
      *
      * @param ContainerInterface $container

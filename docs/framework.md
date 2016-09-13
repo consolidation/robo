@@ -20,7 +20,7 @@ Next, add an "autoload" section to your composer.json to provide a namespace for
     }
 }
 ```
-Create a new file for your Robo commands, e.g. `class RoboCommands` in `namespace MyProject\Commands;` in the file `src\Commands\RoboCommands.php`.  Optionally, add more task libraries as described in the [extending](extending.md) document.
+Create a new file for your Robo commands, e.g. `class RoboFile` in `namespace MyProject\Commands;` in the file `src\Commands\RoboFile.php`.  Optionally, add more task libraries as described in the [extending](extending.md) document.
 
 Create a startup script similar to the one below, and add it to the root of your project, or some other location of your choosing:
 
@@ -42,12 +42,17 @@ if ($pharPath) {
     }
 }
 
-$commandClasses = [ \MyProject\Commands\RoboCommands::class ];
-$runner = new \Robo\Runner($commandClasses);
-$output = new \Symfony\Component\Console\Output\ConsoleOutput();
-$statusCode = $runner->execute($_SERVER['argv'], $output, 'MyAppName', '0.0.0-alpha0');
+$commandClasses = [ \MyProject\Commands\RoboFile::class ];
+$statusCode = Robo::run(
+    $_SERVER['argv'], 
+    $commandClasses, 
+    'MyAppName', 
+    '0.0.0-alpha0'
+);
 exit($statusCode);
 ```
+When using Robo as a framework, the Robo file should be included in the autoloader, as Robo does not include a `RoboFile.php` file when used in this mode. Instead, specify the class or classes to load as a parameter to the Robo::run() method. By default, all output will be sent to a Symfony ConsoleOutput() that Robo will create for you. If you would like to use some other OutputInterface to capture the output, it may be specified via an optional fifth parameter.
+
 Use [box-project/box2](https://github.com/box-project/box2) to create a phar for your application.  Note that if you use Robo's taskPackPhar to create your phar, then `\Phar::running()` will always return an empty string due to a bug in this phar builder. If you encounter any problems with this, then hardcode the path to your autoload file.  See the [robo](https://github.com/consolidation-org/Robo/blob/master/robo) script for details.
 
 ## Using Multiple RoboFiles in a Standalone Application

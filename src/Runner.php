@@ -85,7 +85,7 @@ class Runner implements ContainerAwareInterface
         return true;
     }
 
-    public function execute($argv, $output = null, $appName = null, $appVersion = null)
+    public function execute($argv, $appName = null, $appVersion = null, $output = null)
     {
         $argv = $this->shebang($argv);
         $argv = $this->processRoboOptions($argv);

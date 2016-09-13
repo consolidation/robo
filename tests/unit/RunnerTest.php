@@ -78,21 +78,21 @@ class RunnerTest extends \Codeception\TestCase\Test
     public function testRunnerNoSuchCommand()
     {
         $argv = ['placeholder', 'no-such-command'];
-        $this->runner->execute($argv, $this->guy->capturedOutputStream());
+        $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
         $this->guy->seeInOutput('Command "no-such-command" is not defined.');
     }
 
     public function testRunnerList()
     {
         $argv = ['placeholder', 'list'];
-        $this->runner->execute($argv, $this->guy->capturedOutputStream());
+        $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
         $this->guy->seeInOutput('test:array-args');
     }
 
     public function testRunnerTryArgs()
     {
         $argv = ['placeholder', 'test:array-args', 'a', 'b', 'c'];
-        $this->runner->execute($argv, $this->guy->capturedOutputStream());
+        $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
 
         $expected = <<<EOT
 >  The parameters passed are:
@@ -109,14 +109,22 @@ EOT;
     public function testSymfonyStyle()
     {
         $argv = ['placeholder', 'test:symfony-style'];
-        $this->runner->execute($argv, $this->guy->capturedOutputStream());
+        $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
+        $this->guy->seeInOutput('Some text in section one.');
+    }
+
+    public function testRoboStaticRunMethod()
+    {
+        $argv = ['placeholder', 'test:symfony-style'];
+        $commandFiles = ['\Robo\RoboFileFixture'];
+        Robo::run($argv, $commandFiles, 'MyApp', '1.2.3', $this->guy->capturedOutputStream());
         $this->guy->seeInOutput('Some text in section one.');
     }
 
     public function testDeploy()
     {
         $argv = ['placeholder', 'test:deploy', '--simulate'];
-        $this->runner->execute($argv, $this->guy->capturedOutputStream());
+        $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
         $this->guy->seeInOutput('[Simulator] Simulating Remote\\Ssh(\'mysite.com\', null)');
         $this->guy->seeInOutput('[Simulator] Running ssh mysite.com \'cd "/var/www/somesite" && git pull\'');
     }
@@ -124,7 +132,7 @@ EOT;
     public function testRunnerTryError()
     {
         $argv = ['placeholder', 'test:error'];
-        $result = $this->runner->execute($argv, $this->guy->capturedOutputStream());
+        $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
 
         $this->guy->seeInOutput('[Exec] Running ls xyzzy');
         $this->assertTrue($result > 0);
@@ -133,7 +141,7 @@ EOT;
     public function testRunnerTrySimulatedError()
     {
         $argv = ['placeholder', 'test:error', '--simulate'];
-        $result = $this->runner->execute($argv, $this->guy->capturedOutputStream());
+        $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
 
         $this->guy->seeInOutput('Simulating Exec');
         $this->assertEquals(0, $result);
@@ -142,7 +150,7 @@ EOT;
     public function testRunnerTryException()
     {
         $argv = ['placeholder', 'test:exception', '--task'];
-        $result = $this->runner->execute($argv, $this->guy->capturedOutputStream());
+        $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
 
         $this->guy->seeInOutput('Task failed with an exception');
         $this->assertEquals(1, $result);
@@ -168,7 +176,7 @@ EOT;
     public function testTasksStopOnFail()
     {
         $argv = ['placeholder', 'test:stop-on-fail'];
-        $result = $this->runner->execute($argv, $this->guy->capturedOutputStream());
+        $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
 
         $this->guy->seeInOutput('[');
         $this->assertTrue($result > 0);
@@ -179,7 +187,7 @@ EOT;
         $runnerWithNoRoboFile = new \Robo\Runner();
 
         $argv = ['placeholder', 'list', '-f', 'no-such-directory'];
-        $result = $runnerWithNoRoboFile->execute($argv, $this->guy->capturedOutputStream());
+        $result = $runnerWithNoRoboFile->execute($argv, null, null, $this->guy->capturedOutputStream());
 
         $this->guy->seeInOutput('Path `no-such-directory` is invalid; please provide a valid absolute path to the Robofile to load.');
     }
@@ -189,7 +197,7 @@ EOT;
         $runnerWithNoRoboFile = new \Robo\Runner();
 
         $argv = ['placeholder', 'list', '-f', dirname(__DIR__) . '/src/RoboFileFixture.php'];
-        $result = $runnerWithNoRoboFile->execute($argv, $this->guy->capturedOutputStream());
+        $result = $runnerWithNoRoboFile->execute($argv, null, null, $this->guy->capturedOutputStream());
 
         // We cannot load RoboFileFixture.php via -f / --load-from because
         // it has a namespace, and --load-from does not support that.
@@ -199,7 +207,7 @@ EOT;
     public function testRunnerQuietOutput()
     {
         $argv = ['placeholder', 'test:verbosity', '--quiet'];
-        $result = $this->runner->execute($argv, $this->guy->capturedOutputStream());
+        $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
 
         $this->guy->doNotSeeInOutput('This command will print more information at higher verbosity levels');
         $this->guy->doNotSeeInOutput('This is a verbose message (-v).');
@@ -214,7 +222,7 @@ EOT;
     public function testRunnerVerboseOutput()
     {
         $argv = ['placeholder', 'test:verbosity', '-v'];
-        $result = $this->runner->execute($argv, $this->guy->capturedOutputStream());
+        $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
 
         $this->guy->seeInOutput('This command will print more information at higher verbosity levels');
         $this->guy->seeInOutput('This is a verbose message (-v).');
@@ -229,7 +237,7 @@ EOT;
     public function testRunnerVeryVerboseOutput()
     {
         $argv = ['placeholder', 'test:verbosity', '-vv'];
-        $result = $this->runner->execute($argv, $this->guy->capturedOutputStream());
+        $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
 
         $this->guy->seeInOutput('This command will print more information at higher verbosity levels');
         $this->guy->seeInOutput('This is a verbose message (-v).');
@@ -244,7 +252,7 @@ EOT;
     public function testRunnerDebugOutput()
     {
         $argv = ['placeholder', 'test:verbosity', '-vvv'];
-        $result = $this->runner->execute($argv, $this->guy->capturedOutputStream());
+        $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
 
         $this->guy->seeInOutput('This command will print more information at higher verbosity levels');
         $this->guy->seeInOutput('This is a verbose message (-v).');

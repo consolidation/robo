@@ -80,7 +80,7 @@ class RoboFile extends \Robo\Tasks
             ->run();
 
         // loading Symfony Command and running with passed argument
-        $this->taskCommand(new \Codeception\Command\Run('run'))
+        $this->taskSymfonyCommand(new \Codeception\Command\Run('run'))
             ->arg('suite','acceptance')
             ->run();
     }

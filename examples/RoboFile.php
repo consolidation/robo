@@ -146,6 +146,7 @@ class RoboFile extends \Robo\Tasks
      *   first: I
      *   second: II
      *   third: III
+     * @single-field-default second
      * @usage try:formatters --format=yaml
      * @usage try:formatters --format=csv
      * @usage try:formatters --fields=first,third

@@ -205,7 +205,7 @@ Help:
 
 Arguments and options are populated from annotations.
 
-Initially added with [PR by @jonsa](https://github.com/consolidation-org/Robo/pull/71); now provided by the [consolidation/annotated-command](https://github.com/consolidation-org/annotated-command) project, which was factored out from Robo.
+Initially added with [PR by @jonsa](https://github.com/consolidation/Robo/pull/71); now provided by the [consolidation/annotated-command](https://github.com/consolidation/annotated-command) project, which was factored out from Robo.
 
 ### Ignored methods
 
@@ -324,7 +324,7 @@ This allows Robo scripts to follow the [Symfony Console Style Guide](http://symf
 
 ### Formatters
 
-It is preferable for commands that look up and display information should avoid doing IO directly, and should instead return the data they wish to display as an array. This data can then be converted into different data formats, such as "table" and "json". The user may select which formatter to use via the --format option. For details on formatters, see the [consolidation/output-formatters](https://github.com/consolidation-org/output-formatters) project.
+It is preferable for commands that look up and display information should avoid doing IO directly, and should instead return the data they wish to display as an array. This data can then be converted into different data formats, such as "table" and "json". The user may select which formatter to use via the --format option. For details on formatters, see the [consolidation/output-formatters](https://github.com/consolidation/output-formatters) project.
 
 ### Progress
 
@@ -415,4 +415,4 @@ If you would like to simplify the output of your script (e.g. when running on a 
 
 ## Robo as a Framework
 
-For an overview on how to turn your Robo scripts into standalone tools, see the section [Robo as a Framework](framework.md).
+For an overview on how to turn your Robo scripts into standalone tools, see the example [robo.script](https://github.com/consolidation/Robo/blob/master/examples/robo.script), and the section [Robo as a Framework](framework.md).

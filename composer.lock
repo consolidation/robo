@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "10f2e56e2fd818c409a5b2c7c5cff07e",
-    "content-hash": "39d58b94857235a62568ac9e1c6e2273",
+    "hash": "7af271a63fb0d7922f39f970dbbf181e",
+    "content-hash": "73031284e8d66365405f9d16ef50e6ca",
     "packages": [
         {
             "name": "consolidation/annotated-command",
-            "version": "1.4.1",
+            "version": "2.0.0-beta1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/consolidation-org/annotated-command.git",
-                "reference": "c2dc2464e1edf0498bf97a99f34cac5805d00946"
+                "url": "https://github.com/consolidation/annotated-command.git",
+                "reference": "697c234f3a2ffdd02b8af7b39605c9f78684e56a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation-org/annotated-command/zipball/c2dc2464e1edf0498bf97a99f34cac5805d00946",
-                "reference": "c2dc2464e1edf0498bf97a99f34cac5805d00946",
+                "url": "https://api.github.com/repos/consolidation/annotated-command/zipball/697c234f3a2ffdd02b8af7b39605c9f78684e56a",
+                "reference": "697c234f3a2ffdd02b8af7b39605c9f78684e56a",
                 "shasum": ""
             },
             "require": {
@@ -38,7 +38,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.x-dev"
+                    "dev-master": "2.x-dev"
                 }
             },
             "autoload": {
@@ -57,19 +57,19 @@
                 }
             ],
             "description": "Initialize Symfony Console commands from annotated command class methods.",
-            "time": "2016-09-13 21:37:50"
+            "time": "2016-09-15 18:06:42"
         },
         {
             "name": "consolidation/log",
             "version": "1.0.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/consolidation-org/log.git",
+                "url": "https://github.com/consolidation/log.git",
                 "reference": "74ba81b4edc585616747cc5c5309ce56fec41254"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation-org/log/zipball/74ba81b4edc585616747cc5c5309ce56fec41254",
+                "url": "https://api.github.com/repos/consolidation/log/zipball/74ba81b4edc585616747cc5c5309ce56fec41254",
                 "reference": "74ba81b4edc585616747cc5c5309ce56fec41254",
                 "shasum": ""
             },
@@ -108,16 +108,16 @@
         },
         {
             "name": "consolidation/output-formatters",
-            "version": "1.0.0",
+            "version": "2.0.0-beta1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/consolidation-org/output-formatters.git",
-                "reference": "6428d8fb30c9ed3b96314580808b3e4415b46dd9"
+                "url": "https://github.com/consolidation/output-formatters.git",
+                "reference": "22f03ba1d3b17bbf071a7bdae32728401bdd71b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation-org/output-formatters/zipball/6428d8fb30c9ed3b96314580808b3e4415b46dd9",
-                "reference": "6428d8fb30c9ed3b96314580808b3e4415b46dd9",
+                "url": "https://api.github.com/repos/consolidation/output-formatters/zipball/22f03ba1d3b17bbf071a7bdae32728401bdd71b8",
+                "reference": "22f03ba1d3b17bbf071a7bdae32728401bdd71b8",
                 "shasum": ""
             },
             "require": {
@@ -132,7 +132,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.x-dev"
+                    "dev-master": "2.x-dev"
                 }
             },
             "autoload": {
@@ -151,7 +151,7 @@
                 }
             ],
             "description": "Format text by applying transformations provided by plug-in formatters.",
-            "time": "2016-05-20 04:17:55"
+            "time": "2016-09-15 18:06:12"
         },
         {
             "name": "container-interop/container-interop",
@@ -3388,7 +3388,10 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "consolidation/annotated-command": 10,
+        "consolidation/output-formatters": 10
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

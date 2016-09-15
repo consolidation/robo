@@ -2,6 +2,7 @@
 namespace Robo\Collection;
 
 use Consolidation\AnnotatedCommand\Hooks\ProcessResultInterface;
+use Consolidation\AnnotatedCommand\AnnotationData;
 use Robo\Contract\TaskInterface;
 use Robo\Result;
 
@@ -15,7 +16,7 @@ use Robo\Result;
  */
 class CollectionProcessHook implements ProcessResultInterface
 {
-    public function process($result, array $args)
+    public function process($result, array $args, AnnotationData $annotations)
     {
         if ($result instanceof TaskInterface) {
             try {

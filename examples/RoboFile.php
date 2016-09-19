@@ -151,6 +151,8 @@ class RoboFile extends \Robo\Tasks
      * @usage try:formatters --format=csv
      * @usage try:formatters --fields=first,third
      * @usage try:formatters --fields=III,II
+     *
+     * @return \Consolidation\OutputFormatters\StructuredData\RowsOfFields
      */
     public function tryFormatters($options = ['format' => 'table', 'fields' => ''])
     {

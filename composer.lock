@@ -111,16 +111,16 @@
         },
         {
             "name": "consolidation/output-formatters",
-            "version": "2.0.0-beta4",
+            "version": "2.0.0-beta5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/output-formatters.git",
-                "reference": "d2c0dd9dd5ccf88f81960fae3a23e7488011130b"
+                "reference": "9f40486dfccd510bb1620a7c0b4ee5dfd6ccd66a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/output-formatters/zipball/d2c0dd9dd5ccf88f81960fae3a23e7488011130b",
-                "reference": "d2c0dd9dd5ccf88f81960fae3a23e7488011130b",
+                "url": "https://api.github.com/repos/consolidation/output-formatters/zipball/9f40486dfccd510bb1620a7c0b4ee5dfd6ccd66a",
+                "reference": "9f40486dfccd510bb1620a7c0b4ee5dfd6ccd66a",
                 "shasum": ""
             },
             "require": {
@@ -155,7 +155,7 @@
                 }
             ],
             "description": "Format text by applying transformations provided by plug-in formatters.",
-            "time": "2016-09-19 18:54:14"
+            "time": "2016-09-19 19:44:19"
         },
         {
             "name": "container-interop/container-interop",

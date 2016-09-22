@@ -6,7 +6,6 @@ class Config
     const PROGRESS_BAR_AUTO_DISPLAY_INTERVAL = 'progress-delay';
     const DEFAULT_PROGRESS_DELAY = 2;
     const SIMULATE = 'simulate';
-    const SUPRESS_MESSAGES = 'supress-messages';
     const DECORATED = 'decorated';
 
     protected $config = [];
@@ -48,7 +47,6 @@ class Config
         [
             self::PROGRESS_BAR_AUTO_DISPLAY_INTERVAL => self::DEFAULT_PROGRESS_DELAY,
             self::SIMULATE => false,
-            self::SUPRESS_MESSAGES => false,
         ];
 
         return $globalOptions;
@@ -84,16 +82,6 @@ class Config
     public function setDecorated($decorated = true)
     {
         return $this->set(self::DECORATED, $decorated);
-    }
-
-    public function isSupressed()
-    {
-        return $this->get(self::SUPRESS_MESSAGES);
-    }
-
-    public function setSupressed($supressed = true)
-    {
-        return $this->set(self::SUPRESS_MESSAGES, $supressed);
     }
 
     public function setProgressBarAutoDisplayInterval($interval)

@@ -114,7 +114,7 @@ trait TaskIO
     protected function printTaskOutput($level, $text, $context)
     {
         $logger = $this->logger();
-        if (($this->getConfig() && $this->getConfig()->isSupressed()) || !$logger) {
+        if (!$logger) {
             return;
         }
         // Hide the progress indicator, if it is visible.

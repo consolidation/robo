@@ -21,10 +21,6 @@ class Application extends SymfonyApplication
             ->addOption(
                 new InputOption('--progress-delay', null, InputOption::VALUE_REQUIRED, 'Number of seconds before progress bar is displayed in long-running task collections. Default: 2s.', Config::DEFAULT_PROGRESS_DELAY)
             );
-        $this->getDefinition()
-            ->addOption(
-                new InputOption('--supress-messages', null, InputOption::VALUE_NONE, 'Supress all Robo TaskIO messages.')
-            );
     }
 
     public function addInitRoboFileCommand($roboFile, $roboClass)

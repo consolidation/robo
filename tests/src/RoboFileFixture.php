@@ -42,6 +42,27 @@ class RoboFileFixture extends \Robo\Tasks implements LoggerAwareInterface
     }
 
     /**
+     * @hook command-event test:command-event
+     */
+    public function hookCommandEvent()
+    {
+        $this->io()->text('This is the command-event hook for the test:command-event command.');
+    }
+
+    public function testCommandEvent()
+    {
+        $this->io()->text('This is the main method for the test:command-event command.');
+    }
+
+    /**
+     * @hook post-command test:command-event
+     */
+    public function hookPostCommand()
+    {
+        $this->io()->text('This is the post-command hook for the test:command-event command.');
+    }
+
+    /**
      * Demonstrate Robo error output and command failure.
      */
     public function testError()

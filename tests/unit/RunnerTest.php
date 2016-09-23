@@ -113,6 +113,19 @@ EOT;
         $this->guy->seeInOutput('Some text in section one.');
     }
 
+    public function testCommandEventHook()
+    {
+        $argv = ['placeholder', 'test:command-event'];
+        $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
+
+        $expected = <<<EOT
+ This is the command-event hook for the test:command-event command.
+ This is the main method for the test:command-event command.
+ This is the post-command hook for the test:command-event command.
+EOT;
+        $this->guy->seeInOutput($expected);
+    }
+
     public function testRoboStaticRunMethod()
     {
         $argv = ['placeholder', 'test:symfony-style'];

@@ -10,8 +10,13 @@ use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
  *
  * To test:
  *
- * $ cd examples
+ * $ cd ROBO_PROJECT/examples
  * $ ../robo try:success
+ *
+ *   - or -
+ *
+ * $ cd ROBO_PROJECT
+ * $ ./robo -f examples try:formatters
  */
 class RoboFile extends \Robo\Tasks
 {

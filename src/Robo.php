@@ -106,6 +106,11 @@ class Robo
         $container->add('container', $container);
         static::setContainer($container);
 
+        if (!$app) {
+            $app = static::createDefaultApplication();
+        }
+        $container->share('application', $app);
+
         // Create default input and output objects if they were not provided
         if (!$input) {
             $input = new StringInput('');
@@ -134,8 +139,11 @@ class Robo
         $container->share('collectionProcessHook', \Robo\Collection\CollectionProcessHook::class);
         $container->share('hookManager', \Consolidation\AnnotatedCommand\Hooks\HookManager::class)
             ->withMethodCall('addResultProcessor', ['collectionProcessHook', '*']);
+        $container->share('alterOptionsCommandEvent', \Consolidation\AnnotatedCommand\AlterOptionsCommandEvent::class)
+            ->withArgument('application');
         $container->share('eventDispatcher', \Symfony\Component\EventDispatcher\EventDispatcher::class)
             ->withMethodCall('addSubscriber', ['globalOptionsEventListener'])
+            ->withMethodCall('addSubscriber', ['alterOptionsCommandEvent'])
             ->withMethodCall('addSubscriber', ['hookManager']);
         $container->share('formatterManager', \Consolidation\OutputFormatters\FormatterManager::class);
         $container->share('commandProcessor', \Consolidation\AnnotatedCommand\CommandProcessor::class)
@@ -156,12 +164,9 @@ class Robo
         $container->add('collectionBuilder', \Robo\Collection\CollectionBuilder::class);
         static::addInflectors($container);
 
-        if (!$app) {
-            $app = static::createDefaultApplication();
-        }
+        // Make sure the application is appropriately initialized.
         $app->setAutoExit(false);
         $app->setDispatcher($container->get('eventDispatcher'));
-        $container->share('application', $app);
     }
 
     public static function createDefaultApplication($appName = null, $appVersion = null)

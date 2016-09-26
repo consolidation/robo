@@ -4,6 +4,7 @@ use Robo\ResultData;
 use Robo\Collection\CollectionBuilder;
 
 use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
+use Consolidation\AnnotatedCommand\AnnotationData;
 
 /**
  * Example RoboFile.
@@ -156,10 +157,11 @@ class RoboFile extends \Robo\Tasks
      * @usage try:formatters --format=csv
      * @usage try:formatters --fields=first,third
      * @usage try:formatters --fields=III,II
+     * @aliases tf
      *
      * @return \Consolidation\OutputFormatters\StructuredData\RowsOfFields
      */
-    public function tryFormatters($options = ['format' => 'table', 'fields' => ''])
+    public function tryFormatters($somthing = 'default', $options = ['format' => 'table', 'fields' => ''])
     {
         $outputData = [
             [ 'first' => 'One',  'second' => 'Two',  'third' => 'Three' ],
@@ -168,6 +170,22 @@ class RoboFile extends \Robo\Tasks
             [ 'first' => 'Uno',  'second' => 'Dos',  'third' => 'Tres'  ],
         ];
         return new RowsOfFields($outputData);
+    }
+
+    /**
+     * Demonstrate an alter hook with an option
+     *
+     * @hook alter try:formatters
+     * @option $french Add a row with French numbers.
+     * @usage try:formatters --french
+     */
+    public function alterFormatters($result, array $args, AnnotationData $annotationData)
+    {
+        if ($args['options']['french']) {
+            $result[] = [ 'first' => 'Un',  'second' => 'Deux',  'third' => 'Trois'  ];
+        }
+
+        return $result;
     }
 
     /**

@@ -104,7 +104,7 @@ class Runner implements ContainerAwareInterface
             $input = new StringInput('');
         }
         if (is_array($input)) {
-            $input = $this->prepareInput($input);
+            $input = new ArgvInput($input);
         }
         if (!$output) {
             $output = new \Symfony\Component\Console\Output\ConsoleOutput();
@@ -273,31 +273,6 @@ class Runner implements ContainerAwareInterface
     protected function isShebangLine($line)
     {
         return ((substr($line, 0, 2) == '#!') && (strstr($line, 'robo') !== false));
-    }
-
-    /**
-     * Search for the pass-thru args (everything after --) and separate them
-     * into separate input object that retains the pass-thru args.
-     *
-     * @param array $argv
-     * @return InputInterface
-     */
-    protected function prepareInput($argv)
-    {
-        $passThroughArgs = [];
-        $pos = array_search('--', $argv);
-
-        // cutting pass-through arguments
-        if ($pos !== false) {
-            $passThroughArgs = array_slice($argv, $pos+1);
-            $argv = array_slice($argv, 0, $pos);
-        }
-
-        $input = new ArgvInput($argv);
-        if (!empty($passThroughArgs)) {
-            $input = new PassThroughArgsInput($passThroughArgs, $input);
-        }
-        return $input;
     }
 
     /**

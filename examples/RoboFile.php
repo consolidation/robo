@@ -164,10 +164,10 @@ class RoboFile extends \Robo\Tasks
     public function tryFormatters($somthing = 'default', $options = ['format' => 'table', 'fields' => ''])
     {
         $outputData = [
-            [ 'first' => 'One',  'second' => 'Two',  'third' => 'Three' ],
-            [ 'first' => 'Eins', 'second' => 'Zwei', 'third' => 'Drei'  ],
-            [ 'first' => 'Ichi', 'second' => 'Ni',   'third' => 'San'   ],
-            [ 'first' => 'Uno',  'second' => 'Dos',  'third' => 'Tres'  ],
+            'en' => [ 'first' => 'One',  'second' => 'Two',  'third' => 'Three' ],
+            'de' => [ 'first' => 'Eins', 'second' => 'Zwei', 'third' => 'Drei'  ],
+            'jp' => [ 'first' => 'Ichi', 'second' => 'Ni',   'third' => 'San'   ],
+            'es' => [ 'first' => 'Uno',  'second' => 'Dos',  'third' => 'Tres'  ],
         ];
         return new RowsOfFields($outputData);
     }
@@ -182,7 +182,7 @@ class RoboFile extends \Robo\Tasks
     public function alterFormatters($result, array $args, AnnotationData $annotationData)
     {
         if ($args['options']['french']) {
-            $result[] = [ 'first' => 'Un',  'second' => 'Deux',  'third' => 'Trois'  ];
+            $result['fr'] = [ 'first' => 'Un',  'second' => 'Deux',  'third' => 'Trois'  ];
         }
 
         return $result;

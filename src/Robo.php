@@ -145,7 +145,9 @@ class Robo
             ->withMethodCall('addSubscriber', ['globalOptionsEventListener'])
             ->withMethodCall('addSubscriber', ['alterOptionsCommandEvent'])
             ->withMethodCall('addSubscriber', ['hookManager']);
-        $container->share('formatterManager', \Consolidation\OutputFormatters\FormatterManager::class);
+        $container->share('formatterManager', \Consolidation\OutputFormatters\FormatterManager::class)
+            ->withMethodCall('addDefaultFormatters', [])
+            ->withMethodCall('addDefaultSimplifiers', []);
         $container->share('commandProcessor', \Consolidation\AnnotatedCommand\CommandProcessor::class)
             ->withArgument('hookManager')
             ->withMethodCall('setFormatterManager', ['formatterManager'])

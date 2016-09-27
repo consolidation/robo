@@ -139,7 +139,7 @@ class Robo
         $container->share('collectionProcessHook', \Robo\Collection\CollectionProcessHook::class);
         $container->share('hookManager', \Consolidation\AnnotatedCommand\Hooks\HookManager::class)
             ->withMethodCall('addResultProcessor', ['collectionProcessHook', '*']);
-        $container->share('alterOptionsCommandEvent', \Consolidation\AnnotatedCommand\AlterOptionsCommandEvent::class)
+        $container->share('alterOptionsCommandEvent', \Consolidation\AnnotatedCommand\Options\AlterOptionsCommandEvent::class)
             ->withArgument('application');
         $container->share('eventDispatcher', \Symfony\Component\EventDispatcher\EventDispatcher::class)
             ->withMethodCall('addSubscriber', ['globalOptionsEventListener'])

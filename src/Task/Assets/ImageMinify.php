@@ -350,7 +350,7 @@ class ImageMinify extends BaseTask
             }
 
             // Convert minifier name to camelCase (e.g. jpeg-recompress)
-            $funcMinifier = camelCase($minifier);
+            $funcMinifier = $this->camelCase($minifier);
 
             // call the minifier method which prepares the command
             if (is_callable($funcMinifier)) {

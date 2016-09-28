@@ -4,6 +4,7 @@ use Robo\ResultData;
 use Robo\Collection\CollectionBuilder;
 
 use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
+use Consolidation\OutputFormatters\StructuredData\AssociativeList;
 use Consolidation\AnnotatedCommand\AnnotationData;
 
 /**
@@ -143,6 +144,28 @@ class RoboFile extends \Robo\Tasks
     public function trySuccess()
     {
         return $this->_exec('pwd');
+    }
+
+    /**
+     * @field-labels
+     *   name: Name
+     *   species: Species
+     *   legs: Legs
+     *   food: Favorite Food
+     *   id: Id
+     * @return AssociativeList
+     */
+    public function tryInfo()
+    {
+        $outputData = [
+            'name' => 'fluffy',
+            'species' => 'cat',
+            'legs' => 4,
+            'food' => 'salmon',
+            'id' => 389245032,
+        ];
+
+        return new AssociativeList($outputData);
     }
 
     /**

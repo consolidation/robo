@@ -7,6 +7,7 @@ use League\Container\ContainerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\StringInput;
+use Symfony\Component\Console\Application as SymfonyApplication;
 
 /**
  * Manages the container reference and other static data.  Favor
@@ -80,36 +81,55 @@ class Robo
     }
 
     /**
-     * Create a container and initiailze it.
+     * Create a container and initiailze it.  If you wish to *change*
+     * anything defined in the container, then you should call
+     * \Robo::configureContainer() instead of this function.
      */
-    public static function createDefaultContainer($input = null, $output = null, $app = null)
+    public static function createDefaultContainer($input = null, $output = null, $app = null, $config = null)
     {
         // Do not allow this function to be called more than once.
         if (static::hasContainer()) {
             return static::getContainer();
         }
 
+        if (!$app) {
+            $app = static::createDefaultApplication();
+        }
+
+        if (!$config) {
+            $config = new Config();
+        }
+
         // Set up our dependency injection container.
         $container = new Container();
-        $config = new Config();
-        static::configureContainer($container, $config, $input, $output, $app);
+        static::configureContainer($container, $app, $config, $input, $output);
+
+        // Set the application dispatcher
+        $app->setDispatcher($container->get('eventDispatcher'));
 
         return $container;
     }
 
     /**
      * Initialize a container with all of the default Robo services.
+     * IMPORTANT:  after calling this method, clients MUST call:
+     *
+     * $dispatcher = $container->get('eventDispatcher');
+     * $app->setDispatcher($dispatcher);
+     *
+     * Any modification to the container should be done prior to fetching
+     * objects from it.
+     *
+     * It is recommended to use \Robo::createDefaultContainer()
+     * instead, which does all required setup for the caller, but has
+     * the limitation that the container it creates can only be
+     * extended, not modified.
      */
-    public static function configureContainer(ContainerInterface $container, Config $config, $input = null, $output = null, $app = null)
+    public static function configureContainer(ContainerInterface $container, SymfonyApplication $app, Config $config, $input = null, $output = null)
     {
         // Self-referential container refernce for the inflector
         $container->add('container', $container);
         static::setContainer($container);
-
-        if (!$app) {
-            $app = static::createDefaultApplication();
-        }
-        $container->share('application', $app);
 
         // Create default input and output objects if they were not provided
         if (!$input) {
@@ -119,9 +139,11 @@ class Robo
             $output = new \Symfony\Component\Console\Output\ConsoleOutput();
         }
         $config->setDecorated($output->isDecorated());
+
+        $container->share('application', $app);
+        $container->share('config', $config);
         $container->share('input', $input);
         $container->share('output', $output);
-        $container->share('config', $config);
 
         // Register logging and related services.
         $container->share('logStyler', \Robo\Log\RoboLogStyle::class);
@@ -168,7 +190,6 @@ class Robo
 
         // Make sure the application is appropriately initialized.
         $app->setAutoExit(false);
-        $app->setDispatcher($container->get('eventDispatcher'));
     }
 
     public static function createDefaultApplication($appName = null, $appVersion = null)

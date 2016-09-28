@@ -1,6 +1,7 @@
 <?php
 require_once codecept_data_dir() . 'TestedRoboFile.php';
 
+use Robo\Robo;
 use Robo\Runner;
 use League\Container\Container;
 use Consolidation\AnnotatedCommand\AnnotatedCommandFactory;
@@ -30,11 +31,10 @@ class ApplicationTest extends \Codeception\TestCase\Test
 
     protected function _before()
     {
-        $container = new Container();
-        $config = new \Robo\Config();
-        \Robo\Robo::configureContainer($container, $config);
-        \Robo\Robo::setContainer($container);
+        $container = Robo::createDefaultContainer();
+
         $this->app = $container->get('application');
+        $config = $container->get('config');
         $this->commandFactory = $container->get('commandFactory');
         $this->roboCommandFileInstance = new TestedRoboFile;
         $builder = $container->get('collectionBuilder', [$this->roboCommandFileInstance]);

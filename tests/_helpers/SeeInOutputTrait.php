@@ -16,14 +16,14 @@ trait SeeInOutputTrait
     {
         $this->capturedOutput = '';
         $this->testPrinter = new BufferedOutput(OutputInterface::VERBOSITY_DEBUG);
-        $this->logger = new \Robo\Log\RoboLogger($this->testPrinter);
-        $progressBar = new \Symfony\Component\Console\Helper\ProgressBar($this->testPrinter);
 
+        $app = Robo::createDefaultApplication();
         $config = new \Robo\Config();
-        \Robo\Robo::configureContainer($container, $config, $input, $this->testPrinter);
-        $container->add('output', $this->testPrinter);
-        $container->add('progressBar', $progressBar);
-        $container->add('progressIndicator', new \Robo\Common\ProgressIndicator($progressBar, $this->testPrinter));
+        \Robo\Robo::configureContainer($container, $app, $config, $input, $this->testPrinter);
+
+        // Set the application dispatcher
+        $app->setDispatcher($container->get('eventDispatcher'));
+        $this->logger = $container->get('logger');
     }
 
     public function capturedOutputStream()

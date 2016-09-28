@@ -6,8 +6,4 @@ use Robo\Runner;
 use League\Container\Container;
 use Symfony\Component\Console\Input\StringInput;
 
-$container = new Container();
-$config = new \Robo\Config();
-$input = new StringInput('');
-Robo::configureContainer($container, $config, $input);
-Robo::setContainer($container);
+$container = Robo::createDefaultContainer();

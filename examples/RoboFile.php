@@ -5,7 +5,7 @@ use Robo\Collection\CollectionBuilder;
 
 use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
 use Consolidation\OutputFormatters\StructuredData\AssociativeList;
-use Consolidation\AnnotatedCommand\AnnotationData;
+use Consolidation\AnnotatedCommand\CommandData;
 
 /**
  * Example RoboFile.
@@ -202,9 +202,9 @@ class RoboFile extends \Robo\Tasks
      * @option $french Add a row with French numbers.
      * @usage try:formatters --french
      */
-    public function alterFormatters($result, array $args, AnnotationData $annotationData)
+    public function alterFormatters($result, CommandData $commandData)
     {
-        if ($args['options']['french']) {
+        if ($commandData->input()->getOption('french')) {
             $result['fr'] = [ 'first' => 'Un',  'second' => 'Deux',  'third' => 'Trois'  ];
         }
 

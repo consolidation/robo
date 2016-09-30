@@ -174,7 +174,7 @@ class Run extends Base
 
     protected function getCid()
     {
-        if (!$this->cidFile) {
+        if (!$this->cidFile || !file_exists($this->cidFile)) {
             return null;
         }
         $cid = trim(file_get_contents($this->cidFile));

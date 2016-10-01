@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3eaa3c816deb7673d35fc55e2eb95509",
-    "content-hash": "274ffee2e1614e9a90db9d8d714c4014",
+    "hash": "4e2fdd5209a008b0aef4b321d2309502",
+    "content-hash": "c78f3165c7a121409d817d8bba77f6e3",
     "packages": [
         {
             "name": "consolidation/annotated-command",
-            "version": "2.0.0-rc7",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/annotated-command.git",
-                "reference": "c0326c5a47c7cc17363c84cbaeef001be4564576"
+                "reference": "2e178edadfa186806bc7a296fa1dc4e9587c7d64"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/annotated-command/zipball/c0326c5a47c7cc17363c84cbaeef001be4564576",
-                "reference": "c0326c5a47c7cc17363c84cbaeef001be4564576",
+                "url": "https://api.github.com/repos/consolidation/annotated-command/zipball/2e178edadfa186806bc7a296fa1dc4e9587c7d64",
+                "reference": "2e178edadfa186806bc7a296fa1dc4e9587c7d64",
                 "shasum": ""
             },
             "require": {
@@ -57,7 +57,7 @@
                 }
             ],
             "description": "Initialize Symfony Console commands from annotated command class methods.",
-            "time": "2016-09-30 22:32:23"
+            "time": "2016-10-01 15:03:43"
         },
         {
             "name": "consolidation/log",
@@ -108,16 +108,16 @@
         },
         {
             "name": "consolidation/output-formatters",
-            "version": "2.0.0-rc3",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/output-formatters.git",
-                "reference": "8458e131521236e215114d4964f7595afe386d88"
+                "reference": "42fedb697d47e4c3657238e48d1098d5c18e7286"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/output-formatters/zipball/8458e131521236e215114d4964f7595afe386d88",
-                "reference": "8458e131521236e215114d4964f7595afe386d88",
+                "url": "https://api.github.com/repos/consolidation/output-formatters/zipball/42fedb697d47e4c3657238e48d1098d5c18e7286",
+                "reference": "42fedb697d47e4c3657238e48d1098d5c18e7286",
                 "shasum": ""
             },
             "require": {
@@ -152,7 +152,7 @@
                 }
             ],
             "description": "Format text by applying transformations provided by plug-in formatters.",
-            "time": "2016-09-30 22:38:56"
+            "time": "2016-10-01 14:58:50"
         },
         {
             "name": "container-interop/container-interop",
@@ -3403,10 +3403,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "consolidation/annotated-command": 5,
-        "consolidation/output-formatters": 5
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

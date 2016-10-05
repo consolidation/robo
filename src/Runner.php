@@ -147,7 +147,7 @@ class Runner implements ContainerAwareInterface
         return $this->roboClass;
     }
 
-    protected function registerCommandClasses($app, $commandClasses)
+    public function registerCommandClasses($app, $commandClasses)
     {
         foreach ((array)$commandClasses as $commandClass) {
             $this->registerCommandClass($app, $commandClass);

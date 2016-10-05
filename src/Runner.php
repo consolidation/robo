@@ -154,7 +154,7 @@ class Runner implements ContainerAwareInterface
         }
     }
 
-    protected function registerCommandClass($app, $commandClass)
+    public function registerCommandClass($app, $commandClass)
     {
         $container = Robo::getContainer();
         $roboCommandFileInstance = $this->instantiateCommandClass($commandClass);
@@ -168,6 +168,7 @@ class Runner implements ContainerAwareInterface
         foreach ($commandList as $command) {
             $app->add($command);
         }
+        return $roboCommandFileInstance;
     }
 
     protected function instantiateCommandClass($commandClass)

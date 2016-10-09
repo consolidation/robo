@@ -29,7 +29,7 @@ after_success:
 
 # Prior to a deploy, build a fresh robo.phar
 before_deploy:
-  - test -n "$TRAVIS_TAG" && ./robo phar:build
+  - test -z "$TRAVIS_TAG" || ./robo phar:build
 
 # Deploy instructions set up via `travis setup releases` per
 # https://docs.travis-ci.com/user/deployment/releases

@@ -40,5 +40,4 @@ deploy:
   file: robo.phar
   skip_cleanup: true
   on:
-    repo: consolidation/Robo
     tag: true

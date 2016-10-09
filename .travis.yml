@@ -30,8 +30,8 @@ after_success:
 # Prior to a deploy, build a fresh robo.phar
 before_deploy:
   - git config --global user.email "phar.builder@robo.li"
-  - git config --global user.name "Travis Phar Builder"
-  - test $TRAVIS_TAG=true && rm -rf .git && git init && git add . && git commit -m "Temporary repository" && ./robo phar:build && find . -name "robo.phar"
+  - git config --global user.name "TravisPhar Builder"
+  - test $TRAVIS_TAG=true && rm -rf .git && git init && git add . && git commit -m "Temporary repository" && ./robo phar:build
 
 # Deploy instructions set up via `travis setup releases` per
 # https://docs.travis-ci.com/user/deployment/releases
@@ -40,5 +40,6 @@ deploy:
   api_key:
     secure: EdmB1nW5gj5nggYfmHv20enSgvRIAl1PIWV5GKmkxAJwuummh3UqdI7z0ecTGdw2IBgJx9lizNvqhcWjXbpNhE9VaaT1sHFCKv4Zust6sLb9bneK3oLRdJk2wemfrrZQpdH900zA0o7b3CHVth8UhkrCB4FXVDjUW13K061EXG8=
   file: robo.phar
+  skip_cleanup: true
   on:
     repo: consolidation/Robo

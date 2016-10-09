@@ -250,21 +250,15 @@ class RoboFile extends \Robo\Tasks
      */
     public function pharBuild()
     {
-        $uncommitted = exec('git diff-index --name-only HEAD --');
-        if (!empty($uncommitted)) {
-            $this->yell('Uncommitted changes present. Only committed files will be included in the phar.');
-        }
-
         // Create a collection builder to hold the temporary
         // directory until the pack phar task runs.
         $collection = $this->collectionBuilder();
 
         $workDir = $collection->tmpDir();
         $roboBuildDir = "$workDir/robo";
-        $sourceRepo = 'file://' . __DIR__ . '/.git';
 
         // Before we run `composer install`, we will remove the dev
-        // dependencies thatwe use in the unit tests.  Any dev dependency
+        // dependencies that we only use in the unit tests.  Any dev dependency
         // that is in the 'suggested' section is used by a core task;
         // we will include all of those in the phar.
         $devProjectsToRemove = $this->devDependenciesToRemoveFromPhar();
@@ -272,11 +266,31 @@ class RoboFile extends \Robo\Tasks
         // We need to create our work dir and run `composer install`
         // before we prepare the pack phar task, so create a separate
         // collection builder to do this step in.
-        $preparationResult = $this->collectionBuilder()
-            ->taskGitStack()
-                ->cloneRepo($sourceRepo, $roboBuildDir)
+        $prepTasks = $this->collectionBuilder();
+
+        $preparationResult = $prepTasks
             ->taskFilesystemStack()
-                ->remove("$workDir/robo/composer.lock")
+                ->mkdir($workDir)
+            ->taskRsync()
+                ->fromPath(__DIR__ . '/')
+                ->toPath($roboBuildDir)
+                ->recursive()
+                ->exclude(
+                    [
+                        'vendor/',
+                        '.idea/',
+                        'build',
+                        'site/',
+                        'robotheme/',
+                        'tests/_log',
+                        'tests/_helpers/_generated',
+                        'composer.phar',
+                        'composer.lock',
+                        'robo.phar',
+                    ]
+                )
+                ->progress()
+                ->stats()
             ->taskComposerRemove()
                 ->dir($roboBuildDir)
                 ->dev()

@@ -31,7 +31,7 @@ after_success:
 before_deploy:
   - git config --global user.email "phar.builder@robo.li"
   - git config --global user.name "Travis Phar Builder"
-  - test $TRAVIS_TAG=true && rm -rf .git && git init && git add . && git commit -m "Temporary repository" && ./robo phar:build
+  - test $TRAVIS_TAG=true && rm -rf .git && git init && git add . && git commit -m "Temporary repository" && ./robo phar:build && find . -name "robo.phar"
 
 # Deploy instructions set up via `travis setup releases` per
 # https://docs.travis-ci.com/user/deployment/releases

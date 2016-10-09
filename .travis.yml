@@ -29,6 +29,8 @@ after_success:
 
 # Prior to a deploy, build a fresh robo.phar
 before_deploy:
+  - git config --global user.email "phar.builder@robo.li"
+  - git config --global user.name "Travis Phar Builder"
   - test $TRAVIS_TAG=true && rm -rf .git && git init && git add . && git commit -m "Temporary repository" && ./robo phar:build
 
 # Deploy instructions set up via `travis setup releases` per

@@ -40,4 +40,4 @@ deploy:
   file: robo.phar
   skip_cleanup: true
   on:
-    tag: true
+    tags: true

@@ -196,6 +196,9 @@ class Runner implements ContainerAwareInterface
             $builder = $container->get('collectionBuilder', [$commandClass]);
             $commandClass->setBuilder($builder);
         }
+        if ($commandClass instanceof ContainerAwareInterface) {
+            $commandClass->setContainer($container);
+        }
         return $commandClass;
     }
 

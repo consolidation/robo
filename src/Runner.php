@@ -244,7 +244,7 @@ class Runner implements ContainerAwareInterface
      */
     protected function isShebangFile($filepath)
     {
-        if (!file_exists($filepath)) {
+        if (!is_file($filepath)) {
             return false;
         }
         $fp = fopen($filepath, "r");

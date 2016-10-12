@@ -1,7 +1,6 @@
 <?php
 namespace Robo\Task\Development;
 
-use Robo\Common\Timer;
 use Robo\Result;
 
 /**
@@ -10,7 +9,7 @@ use Robo\Result;
  * ``` php
  * <?php
  * $this->taskGitHubRelease('0.1.0')
- *   ->uri('Codegyre/Robo')
+ *   ->uri('consolidation-org/Robo')
  *   ->description('Add stuff people need.')
  *   ->change('Fix #123')
  *   ->change('Add frobulation method to all widgets')
@@ -20,8 +19,6 @@ use Robo\Result;
  */
 class GitHubRelease extends GitHub
 {
-    use Timer;
-
     protected $tag;
     protected $name;
     protected $description = '';

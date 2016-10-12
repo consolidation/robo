@@ -6,6 +6,8 @@ use Robo\Result;
 use Robo\Task\BaseTask;
 use Robo\Task\Filesystem\FilesystemStack;
 use Robo\Task\Filesystem\DeleteDir;
+use Robo\Contract\BuilderAwareInterface;
+use Robo\Common\BuilderAwareTrait;
 
 /**
  * Extracts an archive.
@@ -32,9 +34,9 @@ use Robo\Task\Filesystem\DeleteDir;
  *
  * @method to(string) location to store extracted files
  */
-class Extract extends BaseTask
+class Extract extends BaseTask implements BuilderAwareInterface
 {
-    use \Robo\Common\Timer;
+    use BuilderAwareTrait;
 
     protected $filename;
     protected $to;

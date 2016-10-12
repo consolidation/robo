@@ -4,8 +4,6 @@ use Robo\Robo;
 
 class NpmTest extends \Codeception\TestCase\Test
 {
-    protected $container;
-
     /**
      * @var \AspectMock\Proxy\ClassProxy
      */
@@ -14,39 +12,38 @@ class NpmTest extends \Codeception\TestCase\Test
     protected function _before()
     {
         $this->baseNpm = test::double('Robo\Task\Npm\Base', [
-            'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
+            'output' => new \Symfony\Component\Console\Output\NullOutput(),
+            'logger' => new \Psr\Log\NullLogger(),
         ]);
-        $this->container = Robo::getContainer();
-        $this->container->addServiceProvider(\Robo\Task\Npm\loadTasks::getNpmServices());
     }
 
     // tests
     public function testNpmInstall()
     {
-        $npm = test::double('Robo\Task\Npm\Install', ['executeCommand' => null]);
-        $this->container->get('taskNpmInstall', ['npm'])->run();
+        $npm = test::double('Robo\Task\Npm\Install', ['executeCommand' => null, 'logger' => new \Psr\Log\NullLogger()]);
+        (new \Robo\Task\Npm\Install('npm'))->run();
         $npm->verifyInvoked('executeCommand', ['npm install']);
     }
 
     public function testNpmUpdate()
     {
-        $npm = test::double('Robo\Task\Npm\Update', ['executeCommand' => null]);
-        $this->container->get('taskNpmUpdate', ['npm'])->run();
+        $npm = test::double('Robo\Task\Npm\Update', ['executeCommand' => null, 'logger' => new \Psr\Log\NullLogger()]);
+        (new \Robo\Task\Npm\Update('npm'))->run();
         $npm->verifyInvoked('executeCommand', ['npm update']);
     }
 
     public function testNpmInstallCommand()
     {
         verify(
-            $this->container->get('taskNpmInstall', ['npm'])->getCommand()
+            (new \Robo\Task\Npm\Install('npm'))->getCommand()
         )->equals('npm install');
 
         verify(
-            $this->container->get('taskNpmInstall', ['npm'])->getCommand()
+            (new \Robo\Task\Npm\Install('npm'))->getCommand()
         )->equals('npm install');
 
         verify(
-            $this->container->get('taskNpmInstall', ['npm'])
+            (new \Robo\Task\Npm\Install('npm'))
                 ->noDev()
                 ->getCommand()
         )->equals('npm install --production');

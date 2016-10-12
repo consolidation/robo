@@ -7,8 +7,9 @@ use Robo\Contract\TaskInterface;
 use Robo\Contract\SimulatedInterface;
 use Robo\Log\RoboLogLevel;
 use Psr\Log\LogLevel;
+use Robo\Contract\CommandInterface;
 
-class Simulator extends BaseTask
+class Simulator extends BaseTask implements CommandInterface
 {
     protected $task;
     protected $constructorParameters;
@@ -63,6 +64,23 @@ class Simulator extends BaseTask
         return $result;
     }
 
+    /**
+     * Danger: reach through the simulated wrapper and pull out the command
+     * to be executed.  This is used when using a simulated task with another
+     * simulated task that runs commands, e.g. the Remote\Ssh task.  Using
+     * a simulated CommandInterface task with a non-simulated task may produce
+     * unexpected results (e.g. execution!).
+     *
+     * @return string
+     */
+    public function getCommand()
+    {
+        if (!$this->task instanceof CommandInterface) {
+            throw new TaskException($this->task, 'Simulated task that is not a CommandInterface used as a CommandInterface.');
+        }
+        return $this->task->getCommand();
+    }
+
     protected function formatParameters($action)
     {
         $parameterList = array_map([$this, 'convertParameter'], $action);
@@ -78,10 +96,13 @@ class Simulator extends BaseTask
             return $this->shortenParameter(var_export($item, true));
         }
         if (is_object($item)) {
-            return $this->shortenParameter(var_export($item, true), '[' . get_class($item). 'object]');
+            return '[' . get_class($item). ' object]';
         }
         if (is_string($item)) {
             return $this->shortenParameter("'$item'");
+        }
+        if (is_null($item)) {
+            return 'null';
         }
         return $item;
     }

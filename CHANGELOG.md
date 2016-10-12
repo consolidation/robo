@@ -17,14 +17,16 @@
    * If a Robo command returns a string, or a `Result` object with a `$message`, then it will be printed
    * Commands may be annotated to describe output formats that may be used
    * Structured arrays returned from function results may be converted into different formats, such as a table, yml, json, etc.
+   * Tasks must `use TaskIO` for output methods. It is no longer possible to `use IO` from a task. For direct access use `Robo::output()` (not recommended).   
 * Use league/container to do Dependency Injection
-   * *Breaking* Tasks' loadTasks traits must now include a getServices method that returns a SimpleServiceProvider listing the task classes provided.
-   * *Breaking* Tasks' loadTasks traits must use `$this->task('taskName');` instead of `new TaskClass();`
-   * *Breaking* Tasks that use other tasks must also use `$this->task('taskName');` instead of `new TaskClass();` when creating task objects to call.
+   * *Breaking* Tasks' loadTasks traits must use `$this->task(TaskClass::class);` instead of `new TaskClass();`
+   * *Breaking* Tasks that use other tasks must use `$this->collectionBuilder()->taskName();` instead of `new TaskClass();` when creating task objects to call. Implement `Robo\Contract\BuilderAwareInterface` and use `Robo\Contract\BuilderAwareTrait` to add the `collectionBuilder()` method to your task class.
+* *Breaking* The `arg()`, `args()` and `option()` methods in CommandArguments now escape the values passed in to them. There is now a `rawArg()` method if you need to add just one argument that has already been escaped.
+* *Breaking* taskWrite is now called taskWriteToFile
 * [Extract] task added
 * [Pack] task added
 * [TmpDir], [WorkDir] and [TmpFile] tasks added
-* Support standalone Robo scripts that allows scripts starting with `#!/usr/bin/env robo` to define multiple robo commands.  Use `#!/usr/bin/env robo run` to define a single robo command implemented by the `run()` method.
+* Support Robo scripts that allows scripts starting with `#!/usr/bin/env robo` to define multiple robo commands.  Use `#!/usr/bin/env robo run` to define a single robo command implemented by the `run()` method.
 * Provide ProgresIndicatorAwareInterface and ProgressIndicatorAwareTrait that make it easy to add progress indicators to tasks
 * Add --simulate mode that causes tasks to print what they would have done, but make no changes
 * Add `robo generate:task` code-generator to make new stack-based task wrappers around existing classes
@@ -37,6 +39,7 @@
 * ArgvInput now available via $this->getInput() in RoboFile by Thomas Spigel
 * Add optional message to git tag task by Tim Tegeler
 * Rename 'FileSystem' to 'Filesystem' wherever it occurs.
+* Current directory is changed with `chdir` only if specified via the `--load-from` option (RC2)
 
 #### 0.6.0
 
@@ -108,7 +111,7 @@ Refactored core
 #### 0.4.7
 
 * [Minify] Task added by @Rarst. Requires additional dependencies installed *2014-12-26*
-* [Help command is populated from annotation](https://github.com/Codegyre/Robo/pull/71) by @jonsa *2014-12-26*
+* [Help command is populated from annotation](https://github.com/consolidation-org/Robo/pull/71) by @jonsa *2014-12-26*
 * Allow empty values as defaults to optional options by @jonsa *2014-12-26*
 * `PHP_WINDOWS_VERSION_BUILD` constant is used to check for Windows in tasks by @boedah *2014-12-26*
 * [Copy][EmptyDir] Fixed infinite loop by @boedah *2014-12-26*

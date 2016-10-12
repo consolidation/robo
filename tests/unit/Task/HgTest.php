@@ -5,12 +5,6 @@ use Robo\Robo;
 
 class HgTest extends \Codeception\TestCase\Test
 {
-
-    /**
-     * @var \League\Container\Container
-     */
-    protected $container;
-
     /**
      * @var \AspectMock\Proxy\ClassProxy
      */
@@ -25,11 +19,10 @@ class HgTest extends \Codeception\TestCase\Test
     {
         $this->hg = Test::double('Robo\Task\Vcs\HgStack', [
             'executeCommand' => new \AspectMock\Proxy\Anything(),
-            'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
+            'output' => new \Symfony\Component\Console\Output\NullOutput(),
+            'logger' => new \Psr\Log\NullLogger(),
         ]);
-        $this->container = Robo::getContainer();
-        $this->container->addServiceProvider(\Robo\Task\Vcs\loadTasks::getVcsServices());
-        $this->hgStack = $this->container->get('taskHgStack', ['hg']);
+        $this->hgStack = (new \Robo\Task\Vcs\HgStack('hg'));
     }
 
     // tests
@@ -39,7 +32,7 @@ class HgTest extends \Codeception\TestCase\Test
         $this->hg->verifyInvoked('executeCommand', ['hg add']);
         $this->hg->verifyInvoked('executeCommand', ['hg pull']);
 
-        $this->container->get('taskHgStack', ['hg'])->add()->pull()->run();
+        (new \Robo\Task\Vcs\HgStack('hg'))->add()->pull()->run();
         $this->hg->verifyInvoked('executeCommand', ['hg add && hg pull']);
     }
 

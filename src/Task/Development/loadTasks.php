@@ -1,36 +1,15 @@
 <?php
 namespace Robo\Task\Development;
 
-use Robo\Container\SimpleServiceProvider;
-
 trait loadTasks
 {
-    /**
-     * Return services.
-     */
-    public static function getDevelopmentServices()
-    {
-        return new SimpleServiceProvider(
-            [
-                'taskChangelog' => Changelog::class,
-                'taskGenDoc' => GenerateMarkdownDoc::class,
-                'taskGenTask' => GenerateTask::class,
-                'taskSemVer' => SemVer::class,
-                'taskServer' => PhpServer::class,
-                'taskPackPhar' => PackPhar::class,
-                'taskGitHubRelease' => GitHubRelease::class,
-                'taskOpenBrowser' => OpenBrowser::class,
-            ]
-        );
-    }
-
     /**
      * @param string $filename
      * @return Changelog
      */
     protected function taskChangelog($filename = 'CHANGELOG.md')
     {
-        return $this->task(__FUNCTION__, $filename);
+        return $this->task(Changelog::class, $filename);
     }
 
     /**
@@ -39,16 +18,16 @@ trait loadTasks
      */
     protected function taskGenDoc($filename)
     {
-        return $this->task(__FUNCTION__, $filename);
+        return $this->task(GenerateMarkdownDoc::class, $filename);
     }
 
     /**
      * @param $filename
-     * @return GenerateMarkdownDoc
+     * @return GenerateTask
      */
     protected function taskGenTask($className, $wrapperClassName = '')
     {
-        return $this->task(__FUNCTION__, $className, $wrapperClassName);
+        return $this->task(GenerateTask::class, $className, $wrapperClassName);
     }
 
     /**
@@ -57,7 +36,7 @@ trait loadTasks
      */
     protected function taskSemVer($pathToSemVer = '.semver')
     {
-        return $this->task(__FUNCTION__, $pathToSemVer);
+        return $this->task(SemVer::class, $pathToSemVer);
     }
 
     /**
@@ -66,7 +45,7 @@ trait loadTasks
      */
     protected function taskServer($port = 8000)
     {
-        return $this->task(__FUNCTION__, $port);
+        return $this->task(PhpServer::class, $port);
     }
 
     /**
@@ -75,7 +54,7 @@ trait loadTasks
      */
     protected function taskPackPhar($filename)
     {
-        return $this->task(__FUNCTION__, $filename);
+        return $this->task(PackPhar::class, $filename);
     }
 
     /**
@@ -84,7 +63,7 @@ trait loadTasks
      */
     protected function taskGitHubRelease($tag)
     {
-        return $this->task(__FUNCTION__, $tag);
+        return $this->task(GitHubRelease::class, $tag);
     }
 
     /**
@@ -93,6 +72,6 @@ trait loadTasks
      */
     protected function taskOpenBrowser($url)
     {
-        return $this->task(__FUNCTION__, $url);
+        return $this->task(OpenBrowser::class, $url);
     }
 }

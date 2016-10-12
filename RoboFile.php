@@ -1,10 +1,7 @@
 <?php
 use Symfony\Component\Finder\Finder;
 use Robo\Result;
-use Robo\ResultData;
 use Robo\Collection\CollectionBuilder;
-
-use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
 
 class RoboFile extends \Robo\Tasks
 {
@@ -99,7 +96,7 @@ class RoboFile extends \Robo\Tasks
         $this->publish();
 
         $this->taskGitStack()
-            ->tag(\Robo\Runner::VERSION)
+            ->tag(\Robo\Robo::VERSION)
             ->push('origin master --tags')
             ->run();
 
@@ -116,7 +113,7 @@ class RoboFile extends \Robo\Tasks
     public function changed($addition)
     {
         return $this->taskChangelog()
-            ->version(\Robo\Runner::VERSION)
+            ->version(\Robo\Robo::VERSION)
             ->change($addition)
             ->run();
     }
@@ -130,12 +127,12 @@ class RoboFile extends \Robo\Tasks
     public function versionBump($version = '')
     {
         if (empty($version)) {
-            $versionParts = explode('.', \Robo\Runner::VERSION);
+            $versionParts = explode('.', \Robo\Robo::VERSION);
             $versionParts[count($versionParts)-1]++;
             $version = implode('.', $versionParts);
         }
-        return $this->taskReplaceInFile(__DIR__.'/src/Runner.php')
-            ->from("VERSION = '".\Robo\Runner::VERSION."'")
+        return $this->taskReplaceInFile(__DIR__.'/src/Robo.php')
+            ->from("VERSION = '".\Robo\Robo::VERSION."'")
             ->to("VERSION = '".$version."'")
             ->run();
     }
@@ -196,6 +193,9 @@ class RoboFile extends \Robo\Tasks
                         'setLogger',
                         'setProgressIndicator',
                         'progressIndicatorSteps',
+                        'setBuilder',
+                        'getBuilder',
+                        'collectionBuilder',
                     ];
                     return !in_array($m->name, $undocumentedMethods) && $m->isPublic(); // methods are not documented
                 }
@@ -250,44 +250,99 @@ class RoboFile extends \Robo\Tasks
      */
     public function pharBuild()
     {
-        // Make sure to remove dev files before finding the files to pack into
-        // the phar.  This must therefore be done outside the collection,
-        // as the files to pack are found when the collection is built.
-        $this->taskComposerInstall()
-            ->noDev()
-            ->printed(false)
-            ->run();
-
+        // Create a collection builder to hold the temporary
+        // directory until the pack phar task runs.
         $collection = $this->collectionBuilder();
 
-        // revert back phar dependencies on completion
-        $collection->completion($this
-            ->taskComposerInstall()
-            ->printed(false)
-        );
+        $workDir = $collection->tmpDir();
+        $roboBuildDir = "$workDir/robo";
 
-        $packer = $collection->taskPackPhar('robo.phar');
+        // Before we run `composer install`, we will remove the dev
+        // dependencies that we only use in the unit tests.  Any dev dependency
+        // that is in the 'suggested' section is used by a core task;
+        // we will include all of those in the phar.
+        $devProjectsToRemove = $this->devDependenciesToRemoveFromPhar();
+
+        // We need to create our work dir and run `composer install`
+        // before we prepare the pack phar task, so create a separate
+        // collection builder to do this step in.
+        $prepTasks = $this->collectionBuilder();
+
+        $preparationResult = $prepTasks
+            ->taskFilesystemStack()
+                ->mkdir($workDir)
+            ->taskRsync()
+                ->fromPath(__DIR__ . '/')
+                ->toPath($roboBuildDir)
+                ->recursive()
+                ->exclude(
+                    [
+                        'vendor/',
+                        '.idea/',
+                        'build',
+                        'site/',
+                        'robotheme/',
+                        'tests/_log',
+                        'tests/_helpers/_generated',
+                        'composer.phar',
+                        'composer.lock',
+                        'robo.phar',
+                    ]
+                )
+                ->progress()
+                ->stats()
+            ->taskComposerRemove()
+                ->dir($roboBuildDir)
+                ->dev()
+                ->noUpdate()
+                ->args($devProjectsToRemove)
+            ->taskComposerInstall()
+                ->dir($roboBuildDir)
+                ->printed(false)
+                ->run();
+
+        // Exit if the preparation step failed
+        if (!$preparationResult->wasSuccessful()) {
+            return $preparationResult;
+        }
+
+        // Decide which files we're going to pack
         $files = Finder::create()->ignoreVCS(true)
             ->files()
             ->name('*.php')
             ->name('*.exe') // for 1symfony/console/Resources/bin/hiddeninput.exe
+            ->name('GeneratedWrapper.tmpl')
             ->path('src')
             ->path('vendor')
-            ->exclude('symfony/config/Tests')
-            ->exclude('symfony/console/Tests')
-            ->exclude('symfony/event-dispatcher/Tests')
-            ->exclude('symfony/filesystem/Tests')
-            ->exclude('symfony/finder/Tests')
-            ->exclude('symfony/process/Tests')
-            ->exclude('henrikbjorn/lurker/tests')
-            ->in(__DIR__);
-        foreach ($files as $file) {
-            $packer->addFile($file->getRelativePathname(), $file->getRealPath());
-        }
-        $packer->addFile('robo', 'robo')
-            ->executable('robo');
+            ->notPath('docs')
+            ->notPath('/vendor\/.*\/[Tt]est/')
+            ->in($roboBuildDir);
 
-        return $collection->run();
+        // Build the phar
+        return $collection
+            ->taskPackPhar('robo.phar')
+                ->addFiles($files)
+                ->addFile('robo', 'robo')
+                ->executable('robo')
+            ->taskFilesystemStack()
+                ->chmod('robo.phar', 0777)
+            ->run();
+    }
+
+    /**
+     * The phar:build command removes the project requirements from the
+     * 'require-dev' section that are not in the 'suggest' section.
+     *
+     * @return array
+     */
+    protected function devDependenciesToRemoveFromPhar()
+    {
+        $composerInfo = (array) json_decode(file_get_contents(__DIR__ . '/composer.json'));
+
+        $devDependencies = array_keys((array)$composerInfo['require-dev']);
+        $suggestedProjects = array_keys((array)$composerInfo['suggest']);
+
+        return array_diff($devDependencies, $suggestedProjects);
     }
 
     /**
@@ -325,360 +380,5 @@ class RoboFile extends \Robo\Tasks
                 ->push('origin', 'gh-pages')
                 ->checkout('master')
                 ->run();
-    }
-
-    /**
-     * Watch a file.
-     *
-     * Demonstrates the 'watch' command. Runs 'composer update' any time
-     * composer.json changes.
-     */
-    public function tryWatch()
-    {
-        $this->taskWatch()->monitor(['composer.json', 'composer.lock'], function () {
-            $this->taskComposerUpdate()->run();
-        })->run();
-    }
-
-    /**
-     * Demonstrates Robo input APIs.
-     */
-    public function tryInput()
-    {
-        $answer = $this->ask('how are you?');
-        $this->say('You are '.$answer);
-        $yes = $this->confirm('Do you want one more question?');
-        if (!$yes) {
-            return Result::cancelled();
-        }
-        $lang = $this->askDefault('what is your favorite scripting language?', 'PHP');
-        $this->say($lang);
-        $pin = $this->askHidden('Ok, now tell your PIN code (it is hidden)');
-        $this->yell('Ha-ha, your pin code is: '.$pin);
-        $this->say('Bye!');
-    }
-
-    /**
-     * Demonstrates parallel execution.
-     *
-     * @option $printed Print the output of each process.
-     * @option $error Include an extra process that fails.
-     */
-    public function tryPara($options = ['printed' => false, 'error' => false])
-    {
-        $dir = __DIR__;
-        $para = $this->taskParallelExec()
-            ->printed($options['printed'])
-            ->process("php $dir/tests/_data/parascript.php hey 4")
-            ->process("php $dir/tests/_data/parascript.php hoy 3")
-            ->process("php $dir/tests/_data/parascript.php gou 2")
-            ->process("php $dir/tests/_data/parascript.php die 1");
-        if ($options['error']) {
-            $para->process("ls $dir/tests/_data/filenotfound");
-        }
-        return $para->run();
-    }
-
-    /**
-     * Demonstrates Robo argument passing.
-     *
-     * @param string $a The first parameter. Required.
-     * @param string $b The second parameter. Optional.
-     */
-    public function tryArgs($a, $b = 'default')
-    {
-        $this->say("The parameter a is $a and b is $b");
-    }
-
-    /**
-     * Demonstrate Robo variable argument passing.
-     *
-     * @param $a A list of commandline parameters.
-     */
-    public function tryArrayArgs(array $a)
-    {
-        $this->say("The parameters passed are:\n" . var_export($a, true));
-    }
-
-    /**
-     * Demonstrate Robo boolean options.
-     *
-     * @param $opts The options.
-     * @option boolean $silent Supress output.
-     */
-    public function tryOptbool($opts = ['silent|s' => false])
-    {
-        if (!$opts['silent']) {
-            $this->say("Hello, world");
-        }
-    }
-
-    /**
-     * Demonstrate the use of the PHP built-in webserver.
-     */
-    public function tryServer()
-    {
-        return $this->taskServer(8000)
-            ->dir('site')
-            ->arg('site/index.php')
-            ->run();
-    }
-
-    /**
-     * Demonstrate the use of the Robo open-browser task.
-     */
-    public function tryOpenBrowser()
-    {
-        return $this->taskOpenBrowser([
-            'http://robo.li',
-            'https://github.com/Codegyre/Robo'
-            ])->run();
-    }
-
-    /**
-     * Demonstrate Robo error output and command failure.
-     */
-    public function tryError()
-    {
-        return $this->taskExec('ls xyzzy' . date('U'))->dir('/tmp')->run();
-    }
-
-    /**
-     * Demonstrate Robo standard output and command success.
-     */
-    public function trySuccess()
-    {
-        return $this->taskExec('pwd')->run();
-    }
-
-    /**
-     * Demonstrate Robo formatters.  Default format is 'table'.
-     *
-     * @field-labels
-     *   first: I
-     *   second: II
-     *   third: III
-     * @usage try:formatters --format=yaml
-     * @usage try:formatters --format=csv
-     * @usage try:formatters --fields=first,third
-     * @usage try:formatters --fields=III,II
-     */
-    public function tryFormatters($options = ['format' => 'table', 'fields' => ''])
-    {
-        $outputData = [
-            [ 'first' => 'One',  'second' => 'Two',  'third' => 'Three' ],
-            [ 'first' => 'Eins', 'second' => 'Zwei', 'third' => 'Drei'  ],
-            [ 'first' => 'Ichi', 'second' => 'Ni',   'third' => 'San'   ],
-            [ 'first' => 'Uno',  'second' => 'Dos',  'third' => 'Tres'  ],
-        ];
-        // Note that we can also simply return the output data array here.
-        return ResultData::message(new RowsOfFields($outputData));
-    }
-
-    /**
-     * Demonstrate what happens when a command or a task
-     * throws an exception.  Note that typically, Robo commands
-     * should return Result objects rather than throw exceptions.
-     */
-    public function tryException($options = ['task' => false])
-    {
-        if (!$options['task']) {
-            throw new RuntimeException('Command failed with an exception.');
-        }
-        return new ExceptionTask('Task failed with an exception.');
-    }
-
-    /**
-     * Demonstrate deprecated task behavior.
-     *
-     * Demonstrate what happens when using a task that is created via
-     * direct instantiation, which omits initialization done by the
-     * container.  Emits a warning message.
-     */
-    public function tryDeprecated()
-    {
-        // Calling 'new' directly without manually setting
-        // up dependencies will result in a deprecation warning.
-        // @see RoboFile::trySuccess()
-        return (new \Robo\Task\Base\Exec('pwd'))->run();
-    }
-
-    /**
-     * Demonstrate the use of a collection builder to chain multiple tasks
-     * together into a collection, which is executed once constructed.
-     *
-     * For demonstration purposes only; this could, of course, be done
-     * with a single FilesystemStack.
-     */
-    public function tryBuilder()
-    {
-        return $this->collectionBuilder()
-            ->taskFilesystemStack()
-                ->mkdir('a')
-                ->touch('a/a.txt')
-            ->taskFilesystemStack()
-                ->mkdir('a/b')
-                ->touch('a/b/b.txt')
-            ->taskFilesystemStack()
-                ->mkdir('a/b/c')
-                ->touch('a/b/c/c.txt')
-            ->run();
-    }
-
-    public function tryBuilderRollback()
-    {
-        // This example will create two builders, and add
-        // the first one as a child of the second in order
-        // to demonstrate nested rollbacks.
-        $collection = $this->collectionBuilder()
-            ->taskFilesystemStack()
-                ->mkdir('g')
-                ->touch('g/g.txt')
-            ->rollback(
-                $this->taskDeleteDir('g')
-            )
-            ->taskFilesystemStack()
-                ->mkdir('g/h')
-                ->touch('g/h/h.txt')
-            ->taskFilesystemStack()
-                ->mkdir('g/h/i/c')
-                ->touch('g/h/i/i.txt');
-
-        return $this->collectionBuilder()
-            ->progressMessage('Start recursive collection')
-            ->addTask($collection)
-            ->progressMessage('Done with recursive collection')
-            ->taskExec('ls xyzzy' . date('U'))
-                ->dir('/tmp')
-            ->run();
-    }
-
-    public function tryWorkdir()
-    {
-        // This example works like tryBuilderRollback,
-        // but does equivalent operations using a working
-        // directory. The working directory is deleted on rollback
-        $collection = $this->collectionBuilder();
-
-        $workdir = $collection->workDir('w');
-
-        $collection
-            ->taskFilesystemStack()
-                ->touch("$workdir/g.txt")
-            ->taskFilesystemStack()
-                ->mkdir("$workdir/h")
-                ->touch("$workdir/h/h.txt")
-            ->taskFilesystemStack()
-                ->mkdir("$workdir/h/i/c")
-                ->touch("$workdir/h/i/i.txt");
-
-        return $this->collectionBuilder()
-            ->progressMessage('Start recursive collection')
-            ->addTask($collection)
-            ->progressMessage('Done with recursive collection')
-            ->taskExec('ls xyzzy' . date('U'))
-                ->dir('/tmp')
-            ->run();
-    }
-
-    /**
-     * Demonstrates Robo temporary directory usage.
-     */
-    public function tryTmpDir()
-    {
-        // Set up a collection to add tasks to
-        $collection = $this->collectionBuilder();
-
-        // Get a temporary directory to work in. Note that we get a path
-        // back, but the directory is not created until the task runs.
-        $tmpPath = $collection->tmpDir();
-
-        $result = $collection
-            ->taskWriteToFile("$tmpPath/file.txt")
-                ->line('Example file')
-
-            // Print a progress message. The callback function is called immediately
-            // before the message is printed.
-            ->progressMessage(
-                'The directory at {path} {verb}.',
-                ['path' => $tmpPath, 'verb' => 'might have been created'],
-                function ($context) {
-                    // It would also be legitimate to `use ($tmpDir)` and reference that.
-                    if (is_dir($context['path'])) {
-                        $context['verb'] = 'was created';
-                    } else {
-                        // Should never get here: will roll back if creation fails.
-                        $context['verb'] = 'was NOT created';
-                    }
-                    return $context;
-                }
-            )
-
-            // Run the tasks that we build
-            ->run();
-
-        if (is_dir($tmpPath)) {
-            $this->say("The temporary directory at $tmpPath was not cleaned up after the collection completed.");
-        } else {
-            $this->say("The temporary directory at $tmpPath was automatically deleted.");
-        }
-
-        return $result;
-    }
-
-    public function tryProgress()
-    {
-        $delayUntilProgressStart = \Robo\Robo::config()->get(\Robo\Config::PROGRESS_BAR_AUTO_DISPLAY_INTERVAL);
-        $this->say("Progress bar will display after $delayUntilProgressStart seconds of activity.");
-
-        $processList = range(1, 10);
-        return $this->collectionBuilder()
-            ->taskForEach($processList)
-                ->iterationMessage('Processing {value}')
-                ->call(
-                    function ($value) {
-                        // TaskForEach::call should only be used to do
-                        // non-Robo operations. To use Robo tasks in an
-                        // iterator, @see TaskForEach::withBuilder.
-                        usleep(500000); // sleep for half a second
-                    }
-                )
-            ->run();
-    }
-
-    public function tryIter()
-    {
-        $workdir = 'build/iter-example';
-        $this->say("Creating sample direcories in $workdir.");
-
-        $processList = ['cats', 'dogs', 'sheep', 'fish', 'horses', 'cows'];
-        return $this->collectionBuilder()
-            ->taskFilesystemStack()
-                ->mkdir($workdir)
-            ->taskCleanDir($workdir)
-            ->taskForEach($processList)
-                ->withBuilder(
-                    function ($builder, $key, $value) use ($workdir) {
-                        return $builder
-                            ->taskFilesystemStack()
-                                ->mkdir("$workdir/$value");
-                    }
-                )
-            ->run();
-    }
-}
-
-class ExceptionTask extends \Robo\Task\BaseTask
-{
-    protected $message;
-
-    public function __construct($message)
-    {
-        $this->message = $message;
-    }
-
-    public function run()
-    {
-        throw new RuntimeException($this->message);
     }
 }

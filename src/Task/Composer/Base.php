@@ -1,13 +1,13 @@
 <?php
 namespace Robo\Task\Composer;
 
+use Robo\Robo;
 use Robo\Task\BaseTask;
 use Robo\Exception\TaskException;
 
 abstract class Base extends BaseTask
 {
     use \Robo\Common\ExecOneCommand;
-    use \Robo\Common\IO;
 
     protected $prefer;
     protected $dev;
@@ -97,14 +97,13 @@ abstract class Base extends BaseTask
         if (!$this->command) {
             throw new TaskException(__CLASS__, "Neither local composer.phar nor global composer installation could be found.");
         }
-
-        if ($this->getOutput()->isDecorated()) {
-            $this->ansi();
-        }
     }
 
     public function getCommand()
     {
+        if (!isset($this->ansi) && $this->getConfig()->isDecorated()) {
+            $this->ansi();
+        }
         $this->option($this->prefer)
             ->option($this->dev)
             ->option($this->optimizeAutoloader)

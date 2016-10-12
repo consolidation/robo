@@ -1,50 +1,40 @@
 <?php
 namespace Robo;
 
+use Robo\Common\BuilderAwareTrait;
+
 trait TaskAccessor
 {
-    /**
-     * Commands that use TaskAccessor must provide 'getContainer()'.
-     */
-    public abstract function getContainer();
+    use BuilderAwareTrait;
 
     /**
-     * Convenience function. Use:
+     * Provides the collection builder with access to all of the
+     * protected 'task' methods available on this object.
+     */
+    public function getBuiltTask($fn, $args)
+    {
+        if (preg_match('#^task[A-Z]#', $fn)) {
+            return call_user_func_array([$this, $fn], $args);
+        }
+    }
+
+    /**
+     * Alternative access to instantiate. Use:
      *
-     * $this->task('Foo', $a, $b);
+     *   $this->task(Foo::class, $a, $b);
      *
      * instead of:
      *
-     * $this->getContainer()->get('taskFoo', [$a, $b]);
+     *   $this->taskFoo($a, $b);
      *
-     * Note that most tasks will define another convenience
-     * function, $this->taskFoo($a, $b), declared in a
-     * 'loadTasks' trait in the task's namespace.  These
-     * 'loadTasks' convenience functions typically will call
-     * $this->task() to ensure that task objects are fetched
-     * from the container, so that their dependencies may be
-     * automatically resolved.
+     * The later form is preferred.
      */
     protected function task()
     {
         $args = func_get_args();
         $name = array_shift($args);
-        // We'll allow callers to include the literal 'task'
-        // or not, as they wish; however, the container object
-        // that we fetch must always begin with 'task'
-        if (!preg_match('#^task#', $name)) {
-            $name = "task$name";
-        }
+
         $collectionBuilder = $this->collectionBuilder();
         return $collectionBuilder->build($name, $args);
-    }
-
-    /**
-     * Get a builder
-     * @return \Robo\Collection\CollectionBuilder
-     */
-    protected function collectionBuilder()
-    {
-        return $this->getContainer()->get('collectionBuilder');
     }
 }

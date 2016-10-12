@@ -25,7 +25,8 @@ class PHPUnit extends BaseTask implements CommandInterface, PrintedInterface
     protected $command;
 
     /**
-     * Test files to run, they're appended to the command and arguments.
+     * Directory of test files or single test file to run. Appended to
+     * the command and arguments.
      *
      * @var string
      */
@@ -109,18 +110,40 @@ class PHPUnit extends BaseTask implements CommandInterface, PrintedInterface
     }
 
     /**
-     * Test files to run.
+     * Directory of test files or single test file to run.
      *
-     * @param string|array A single file or a list of files.
+     * @param string A single test file or a directory containing test files.
+     * @deprecated Use file() or dir() method instead
      * @return $this
      */
     public function files($files)
     {
-        if (is_string($files)) {
-            $files = [$files];
+        if (!empty($this->files) || is_array($files)) {
+            throw new \Robo\Exception\TaskException(__CLASS__, "Only one file or directory may be provided.");
         }
-        $this->files = ' ' . implode(',', $files);
+        $this->files = ' ' . $files;
+
         return $this;
+    }
+
+    /**
+     * Test the provided file.
+     * @param string $file path to file to test
+     * @return $this
+     */
+    public function file($file)
+    {
+        return $this->files($file);
+    }
+
+    /**
+     * Test all of the files in the provided directory.
+     * @param string $dir path to directory to test
+     * @return $this
+     */
+    public function dir($dir)
+    {
+        return $this->dir($dir);
     }
 
     public function getCommand()

@@ -4,8 +4,6 @@ use Robo\Robo;
 
 class ParallelExecTest extends \Codeception\TestCase\Test
 {
-    protected $container;
-
     /**
      * @var \CodeGuy
      */
@@ -23,15 +21,17 @@ class ParallelExecTest extends \Codeception\TestCase\Test
             'start' => false,
             'isRunning' => false,
             'getOutput' => 'Hello world',
-            'getExitCode' => 0
+            'getExitCode' => 0,
+            'logger' => new \Psr\Log\NullLogger(),
         ]);
-        $this->container = Robo::getContainer();
-        $this->container->addServiceProvider(\Robo\Task\Base\loadTasks::getBaseServices());
     }
 
     public function testParallelExec()
     {
-        $result = $this->container->get('taskParallelExec')
+        $task = new \Robo\Task\Base\ParallelExec();
+        $task->setLogger($this->guy->logger());
+
+        $result = $task
             ->process('ls 1')
             ->process('ls 2')
             ->process('ls 3')
@@ -40,5 +40,4 @@ class ParallelExecTest extends \Codeception\TestCase\Test
         verify($result->getExitCode())->equals(0);
         $this->guy->seeInOutput("3 processes finished");
     }
-
 }

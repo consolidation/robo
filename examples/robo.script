@@ -1,0 +1,44 @@
+#!/usr/bin/env robo
+<?php
+
+/**
+ * Robo script.
+ *
+ * This file may be executed from the shell as if it were a bash script.
+ *
+ * Example:
+ *
+ *   $ ./robo.script foo bar
+ *   ➜  This is a Robo script, bar
+ *
+ * If the script has only one command, then you may remove the need to
+ * specify it on the commandline by naming it on the `#!` line.
+ *
+ * e.g. if the first line is `#!/usr/bin/env robo foo`:
+ *
+ *   $ ./robo.script bar
+ *   ➜  This is a Robo script, bar
+ *
+ * Note that in order for Robo scripts to work, the 'robo' application
+ * must be in your $PATH.  Usually, this is done by installing
+ * Robo via `composer global require`, and placing ~/.composer/vendor/bin
+ * on your $PATH.  Robo libraries that are also installed via `composer global
+ * require` will be available for use in your Robo scripts, provided that
+ * they are loaded via the `getServiceProviders` method of the script.
+ *
+ * See also: https://github.com/consolidation-org/cgr
+ */
+class MyRoboScript extends \Robo\Tasks
+{
+    /**
+     * Foo
+     *
+     * A demonstration of a command in a Robo script.
+     *
+     * @param string $name a name that is printed.
+     */
+    public function foo($name)
+    {
+        $this->say("This is a Robo script, $name");
+    }
+}

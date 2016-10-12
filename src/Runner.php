@@ -1,20 +1,25 @@
 <?php
 namespace Robo;
 
-use Robo\Common\IO;
 use League\Container\Container;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\StringInput;
 use Consolidation\AnnotatedCommand\PassThroughArgsInput;
+use Robo\Contract\BuilderAwareInterface;
+use Robo\Common\IO;
+use Robo\Exception\TaskExitException;
+use League\Container\ContainerInterface;
+use League\Container\ContainerAwareInterface;
+use League\Container\ContainerAwareTrait;
 
-class Runner
+class Runner implements ContainerAwareInterface
 {
-    use IO;
-
-    const VERSION = '1.0.0-RC1';
     const ROBOCLASS = 'RoboFile';
     const ROBOFILE = 'RoboFile.php';
+
+    use IO;
+    use ContainerAwareTrait;
 
     /**
      * @var string RoboClass
@@ -36,87 +41,126 @@ class Runner
      * @param null $roboClass
      * @param null $roboFile
      */
-    public function __construct($roboClass = null, $roboFile = null, $container = null)
+    public function __construct($roboClass = null, $roboFile = null)
     {
         // set the const as class properties to allow overwriting in child classes
         $this->roboClass = $roboClass ? $roboClass : self::ROBOCLASS ;
         $this->roboFile  = $roboFile ? $roboFile : self::ROBOFILE;
         $this->dir = getcwd();
-
-        // Store the container in our config object if it was provided.
-        if ($container != null) {
-            Robo::setContainer($container);
-        }
     }
 
-    protected function loadRoboFile()
+    protected function loadRoboFile($output)
     {
-        if (class_exists($this->roboClass)) {
+        // If we have not been provided an output object, make a temporary one.
+        if (!$output) {
+            $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+        }
+
+        // If $this->roboClass is a single class that has not already
+        // been loaded, then we will try to obtain it from $this->roboFile.
+        // If $this->roboClass is an array, we presume all classes requested
+        // are available via the autoloader.
+        if (is_array($this->roboClass) || class_exists($this->roboClass)) {
             return true;
         }
-
         if (!file_exists($this->dir)) {
-            $this->yell("Path in `{$this->dir}` is invalid, please provide valid absolute path to load Robofile", 40, 'red');
+            $output->writeln("<error>Path `{$this->dir}` is invalid; please provide a valid absolute path to the Robofile to load.</error>");
             return false;
         }
 
-        $this->dir = realpath($this->dir);
-        chdir($this->dir);
+        $realDir = realpath($this->dir);
 
-        if (!file_exists($this->dir . DIRECTORY_SEPARATOR . $this->roboFile)) {
+        $roboFilePath = $realDir . DIRECTORY_SEPARATOR . $this->roboFile;
+        if (!file_exists($roboFilePath)) {
+            $requestedRoboFilePath = $this->dir . DIRECTORY_SEPARATOR . $this->roboFile;
+            $output->writeln("<error>Requested RoboFile `$requestedRoboFilePath` is invalid, please provide valid absolute path to load Robofile</error>");
             return false;
         }
-
-        require_once $this->dir . DIRECTORY_SEPARATOR .$this->roboFile;
+        require_once $roboFilePath;
 
         if (!class_exists($this->roboClass)) {
-            $this->writeln("<error>Class ".$this->roboClass." was not loaded</error>");
+            $output->writeln("<error>Class ".$this->roboClass." was not loaded</error>");
             return false;
         }
         return true;
     }
 
-    public function execute($argv, $output = null)
+    public function execute($argv, $appName = null, $appVersion = null, $output = null)
     {
         $argv = $this->shebang($argv);
-        $input = $this->prepareInput($argv);
-        return $this->run($input, $output);
+        $argv = $this->processRoboOptions($argv);
+        $app = null;
+        if ($appName && $appVersion) {
+            $app = Robo::createDefaultApplication($appName, $appVersion);
+        }
+        $commandFiles = $this->getRoboFileCommands($output);
+        return $this->run($argv, $output, $app, $commandFiles);
     }
 
-    public function run($input = null, $output = null)
+    public function run($input = null, $output = null, $app = null, $commandFiles = [])
     {
-        // If we were not provided a container, then create one
-        if (!Robo::hasContainer()) {
-            // Set up our dependency injection container.
-            $container = new Container();
-            static::configureContainer($container, $input, $output);
-            Robo::setContainer($container);
+        // Create default input and output objects if they were not provided
+        if (!$input) {
+            $input = new StringInput('');
+        }
+        if (is_array($input)) {
+            $input = new ArgvInput($input);
+        }
+        if (!$output) {
+            $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+        }
+        $this->setInput($input);
+        $this->setOutput($output);
 
-            // Only register a shutdown function when we
-            // provide the container.
-            register_shutdown_function(array($this, 'shutdown'));
-            set_error_handler(array($this, 'handleError'));
+        // If we were not provided a container, then create one
+        if (!$this->getContainer()) {
+            $container = Robo::createDefaultContainer($input, $output, $app);
+            $this->setContainer($container);
+            // Automatically register a shutdown function and
+            // an error handler when we provide the container.
+            $this->installRoboHandlers();
         }
 
-        $container = Robo::getContainer();
-        $output = $container->get('output');
-        $app = $container->get('application');
-
-        if (!$this->loadRoboFile()) {
+        if (!$app) {
+            $app = Robo::application();
+        }
+        if (!isset($commandFiles)) {
             $this->yell("Robo is not initialized here. Please run `robo init` to create a new RoboFile", 40, 'yellow');
             $app->addInitRoboFileCommand($this->roboFile, $this->roboClass);
-            $app->run(Robo::input(), Robo::output());
+            $commandFiles = [];
+        }
+        $this->registerCommandClasses($app, $commandFiles);
+
+        try {
+            $statusCode = $app->run($input, $output);
+        } catch (TaskExitException $e) {
+            $statusCode = $e->getCode() ?: 1;
+        }
+        return $statusCode;
+    }
+
+    protected function getRoboFileCommands($output)
+    {
+        if (!$this->loadRoboFile($output)) {
             return;
         }
+        return $this->roboClass;
+    }
 
-        // Register the RoboFile with the container and then immediately
-        // fetch it; this ensures that all of the inflectors will run.
-        $commandFileName = "{$this->roboClass}Commands";
-        $container->share($commandFileName, $this->roboClass);
-        $roboCommandFileInstance = $container->get($commandFileName);
+    public function registerCommandClasses($app, $commandClasses)
+    {
+        foreach ((array)$commandClasses as $commandClass) {
+            $this->registerCommandClass($app, $commandClass);
+        }
+    }
 
-        // RoboFiles must always extend `Tasks`.
-        $this->addServiceProviders($container, $roboCommandFileInstance->getServiceProviders());
+    public function registerCommandClass($app, $commandClass)
+    {
+        $container = Robo::getContainer();
+        $roboCommandFileInstance = $this->instantiateCommandClass($commandClass);
+        if (!$roboCommandFileInstance) {
+            return;
+        }
 
         // Register commands for all of the public methods in the RoboFile.
         $commandFactory = $container->get('commandFactory');
@@ -124,86 +168,44 @@ class Runner
         foreach ($commandList as $command) {
             $app->add($command);
         }
-        $statusCode = $app->run($input, $output);
-        return $statusCode;
+        return $roboCommandFileInstance;
     }
 
-    /**
-     * Create a container and initiailze it.
-     */
-    public static function configureContainer($container, $input = null, $output = null)
+    protected function instantiateCommandClass($commandClass)
     {
-        // Self-referential container refernce for the inflector
-        $container->add('container', $container);
+        $container = Robo::getContainer();
 
-        // Create default input and output objects if they were not provided
-        if (!$input) {
-            $input = new StringInput('');
+        // Register the RoboFile with the container and then immediately
+        // fetch it; this ensures that all of the inflectors will run.
+        // If the command class is already an instantiated object, then
+        // just use it exactly as it was provided to us.
+        if (is_string($commandClass)) {
+            $reflectionClass = new \ReflectionClass($commandClass);
+            if ($reflectionClass->isAbstract()) {
+                return;
+            }
+
+            $commandFileName = "{$commandClass}Commands";
+            $container->share($commandFileName, $commandClass);
+            $commandClass = $container->get($commandFileName);
         }
-        if (!$output) {
-            $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+        // If the command class is a Builder Aware Interface, then
+        // ensure that it has a builder.  Every command class needs
+        // its own collection builder, as they have references to each other.
+        if ($commandClass instanceof BuilderAwareInterface) {
+            $builder = $container->get('collectionBuilder', [$commandClass]);
+            $commandClass->setBuilder($builder);
         }
-        $container->add('input', $input);
-        $container->add('output', $output);
-
-        // Register logging and related services.
-        $container->share('config', \Robo\Config::class);
-        $container->share('logStyler', \Robo\Log\RoboLogStyle::class);
-        $container->share('logger', \Robo\Log\RoboLogger::class)
-            ->withArgument('output')
-            ->withMethodCall('setLogOutputStyler', ['logStyler']);
-        $container->add('progressBar', \Symfony\Component\Console\Helper\ProgressBar::class)
-            ->withArgument('output');
-        $container->share('progressIndicator', \Robo\Common\ProgressIndicator::class)
-            ->withArgument('progressBar')
-            ->withArgument('output');
-        $container->share('resultPrinter', \Robo\Log\ResultPrinter::class);
-        $container->add('simulator', \Robo\Task\Simulator::class);
-        $container->share('globalOptionsEventListener', \Robo\GlobalOptionsEventListener::class);
-        $container->share('eventDispatcher', \Symfony\Component\EventDispatcher\EventDispatcher::class)
-            ->withMethodCall('addSubscriber', ['globalOptionsEventListener']);
-        $container->share('collectionProcessHook', \Robo\Collection\CollectionProcessHook::class);
-        $container->share('hookManager', \Consolidation\AnnotatedCommand\Hooks\HookManager::class)
-            ->withMethodCall('addResultProcessor', ['collectionProcessHook', '*']);
-        $container->share('formatterManager', \Consolidation\OutputFormatters\FormatterManager::class);
-        $container->share('commandProcessor', \Consolidation\AnnotatedCommand\CommandProcessor::class)
-            ->withArgument('hookManager')
-            ->withMethodCall('setFormatterManager', ['formatterManager']);
-        $container->share('commandFactory', \Consolidation\AnnotatedCommand\AnnotatedCommandFactory::class)
-            ->withMethodCall('setCommandProcessor', ['commandProcessor']);
-        $container->add('collectionBuilder', \Robo\Collection\CollectionBuilder::class);
-        $container->share('application', \Robo\Application::class)
-            ->withArgument('Robo')
-            ->withArgument(self::VERSION)
-            ->withMethodCall('setAutoExit', [false])
-            ->withMethodCall('setDispatcher', ['eventDispatcher']);
-
-        static::addInflectors($container);
+        if ($commandClass instanceof ContainerAwareInterface) {
+            $commandClass->setContainer($container);
+        }
+        return $commandClass;
     }
 
-    public static function addInflectors($container)
+    public function installRoboHandlers()
     {
-        // Register our various inflectors.
-        $container->inflector(\Robo\Contract\ConfigAwareInterface::class)
-            ->invokeMethod('setConfig', ['config']);
-        $container->inflector(\Psr\Log\LoggerAwareInterface::class)
-            ->invokeMethod('setLogger', ['logger']);
-        $container->inflector(\League\Container\ContainerAwareInterface::class)
-            ->invokeMethod('setContainer', ['container']);
-        $container->inflector(\Symfony\Component\Console\Input\InputAwareInterface::class)
-            ->invokeMethod('setInput', ['input']);
-        $container->inflector(\Robo\Contract\ProgressIndicatorAwareInterface::class)
-            ->invokeMethod('setProgressIndicator', ['progressIndicator']);
-    }
-
-    /**
-     * Register our service providers
-     */
-    public static function addServiceProviders($container, $providerList)
-    {
-        foreach ($providerList as $provider) {
-            $container->addServiceProvider($provider);
-        }
+        register_shutdown_function(array($this, 'shutdown'));
+        set_error_handler(array($this, 'handleError'));
     }
 
     /**
@@ -242,7 +244,7 @@ class Runner
      */
     protected function isShebangFile($filepath)
     {
-        if (!file_exists($filepath)) {
+        if (!is_file($filepath)) {
             return false;
         }
         $fp = fopen($filepath, "r");
@@ -278,43 +280,62 @@ class Runner
     }
 
     /**
-     * @param $argv
-     * @return InputInterface
+     * Check for Robo-specific arguments such as --load-from, process them,
+     * and remove them from the array.  We have to process --load-from before
+     * we set up Symfony Console.
+     *
+     * @param array $argv
+     * @return array
      */
-    protected function prepareInput($argv)
+    protected function processRoboOptions($argv)
     {
-        $passThroughArgs = [];
-        $pos = array_search('--', $argv);
-
-        // cutting pass-through arguments
-        if ($pos !== false) {
-            $passThroughArgs = array_slice($argv, $pos+1);
-            $argv = array_slice($argv, 0, $pos);
-        }
-
         // loading from other directory
-        $pos = array_search('--load-from', $argv) ?: array_search('-f', $argv);
-        if ($pos !== false) {
-            if (isset($argv[$pos +1])) {
-                $this->dir = $argv[$pos +1];
-                unset($argv[$pos +1]);
-            }
-            unset($argv[$pos]);
-            // Make adjustments if '--load-from' points at a file.
-            if (is_file($this->dir)) {
-                $this->roboFile = basename($this->dir);
-                $this->dir = dirname($this->dir);
-                $className = basename($this->roboFile, '.php');
-                if ($className != $this->roboFile) {
-                    $this->roboClass = $className;
-                }
+        $pos = $this->arraySearchBeginsWith('--load-from', $argv) ?: array_search('-f', $argv);
+        if ($pos === false) {
+            return $argv;
+        }
+
+        $passThru = array_search('--', $argv);
+        if (($passThru !== false) && ($passThru < $pos)) {
+            return $argv;
+        }
+
+        if (substr($argv[$pos], 0, 12) == '--load-from=') {
+            $this->dir = substr($argv[$pos], 12);
+        } elseif (isset($argv[$pos +1])) {
+            $this->dir = $argv[$pos +1];
+            unset($argv[$pos +1]);
+        }
+        unset($argv[$pos]);
+        // Make adjustments if '--load-from' points at a file.
+        if (is_file($this->dir) || (substr($this->dir, -4) == '.php')) {
+            $this->roboFile = basename($this->dir);
+            $this->dir = dirname($this->dir);
+            $className = basename($this->roboFile, '.php');
+            if ($className != $this->roboFile) {
+                $this->roboClass = $className;
             }
         }
-        $input = new ArgvInput($argv);
-        if (!empty($passThroughArgs)) {
-            $input = new PassThroughArgsInput($passThroughArgs, $input);
+        // Convert directory to a real path, but only if the
+        // path exists. We do not want to lose the original
+        // directory if the user supplied a bad value.
+        $realDir = realpath($this->dir);
+        if ($realDir) {
+            chdir($realDir);
+            $this->dir = $realDir;
         }
-        return $input;
+
+        return $argv;
+    }
+
+    protected function arraySearchBeginsWith($needle, $haystack)
+    {
+        for ($i = 0; $i < count($haystack); ++$i) {
+            if (substr($haystack[$i], 0, strlen($needle)) == $needle) {
+                return $i;
+            }
+        }
+        return false;
     }
 
     public function shutdown()

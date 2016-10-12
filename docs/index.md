@@ -2,10 +2,13 @@
 
 * [Getting Started](getting-started.md)
 * [Collections](collections.md)
+* [Extending](extending.md)
+* [Robo as a Framework](framework.md)
 
 ## Tasks
 
 * [ApiGen](tasks/ApiGen.md)
+* [Archive](tasks/Archive.md)
 * [Assets](tasks/Assets.md)
 * [Base](tasks/Base.md)
 * [Bower](tasks/Bower.md)
@@ -13,7 +16,7 @@
 * [Development](tasks/Development.md)
 * [Docker](tasks/Docker.md)
 * [File](tasks/File.md)
-* [FileSystem](tasks/FileSystem.md)
+* [Filesystem](tasks/Filesystem.md)
 * [Gulp](tasks/Gulp.md)
 * [Npm](tasks/Npm.md)
 * [Remote](tasks/Remote.md)

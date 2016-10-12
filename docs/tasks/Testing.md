@@ -7,7 +7,7 @@ Runs [atoum](http://atoum.org/) tests
 ``` php
 <?php
 $this->taskAtoum()
- ->file('path/to/test.php')
+ ->files('path/to/test.php')
  ->configFile('config/dev.php')
  ->run()
 
@@ -20,12 +20,44 @@ $this->taskAtoum()
 * `bootstrap($file)`  Path to the bootstrap file.
 * `configFile($file)`  Path to the config file.
 * `debug()`  Use atoum's debug mode.
-* `files($files)`  Test file ou test files to run.
+* `files($files)`  Test file or test files to run.
 * `directories($directories)`  Test directory or directories to run.
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
-* `arg($arg)`  Pass argument to executable
-* `args($args)`  Pass methods parameters as arguments to executable
+* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
+* `args($args)`  Pass methods parameters as arguments to executable. Argument values
+* `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
+* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
+* `optionList($option, $value = null)`  Pass multiple options to executable. Value can be a string or array.
+
+## Behat
+
+
+Executes Behat tests
+
+``` php
+<?php
+$this->taskBehat()
+     ->format('pretty')
+     ->noInteraction()
+     ->run();
+?>
+```
+
+
+* `stopOnFail()` 
+* `noInteraction()` 
+* `config($config_file)` 
+* `colors()` 
+* `noColors()` 
+* `suite($suite)` 
+* `verbose($level = null)` 
+* `format($formater)` 
+* `dir($dir)`  changes working directory of command
+* `printed($arg)`  Should command output be printed
+* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
+* `args($args)`  Pass methods parameters as arguments to executable. Argument values
+* `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
 * `optionList($option, $value = null)`  Pass multiple options to executable. Value can be a string or array.
 
@@ -66,8 +98,9 @@ $this->taskCodecept()
 * `debug()` 
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
-* `arg($arg)`  Pass argument to executable
-* `args($args)`  Pass methods parameters as arguments to executable
+* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
+* `args($args)`  Pass methods parameters as arguments to executable. Argument values
+* `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
 * `optionList($option, $value = null)`  Pass multiple options to executable. Value can be a string or array.
 
@@ -95,11 +128,13 @@ $this->taskPHPUnit()
 * `bootstrap($file)` 
 * `configFile($file)` 
 * `debug()` 
-* `files($files)`  Test files to run.
-* `dir($dir)`  changes working directory of command
+* `files($files)`  Directory of test files or single test file to run.
+* `file($file)`  Test the provided file.
+* `dir($dir)`  Test all of the files in the provided directory.
 * `printed($arg)`  Should command output be printed
-* `arg($arg)`  Pass argument to executable
-* `args($args)`  Pass methods parameters as arguments to executable
+* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
+* `args($args)`  Pass methods parameters as arguments to executable. Argument values
+* `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
 * `optionList($option, $value = null)`  Pass multiple options to executable. Value can be a string or array.
 
@@ -128,8 +163,9 @@ $this->taskPhpspec()
 * `format($formater)` 
 * `dir($dir)`  changes working directory of command
 * `printed($arg)`  Should command output be printed
-* `arg($arg)`  Pass argument to executable
-* `args($args)`  Pass methods parameters as arguments to executable
+* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
+* `args($args)`  Pass methods parameters as arguments to executable. Argument values
+* `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
 * `optionList($option, $value = null)`  Pass multiple options to executable. Value can be a string or array.
 

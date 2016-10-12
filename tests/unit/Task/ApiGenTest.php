@@ -15,11 +15,11 @@ class ApiGenTest extends \Codeception\TestCase\Test
     {
         $this->apigen = test::double('Robo\Task\ApiGen\ApiGen', [
             'executeCommand' => null,
-            'getOutput' => new \Symfony\Component\Console\Output\NullOutput()
+            'output' => new \Symfony\Component\Console\Output\NullOutput(),
+            'logger' => new \Psr\Log\NullLogger(),
         ]);
 
         $this->container = Robo::getContainer();
-        $this->container->addServiceProvider(\Robo\Task\ApiGen\loadTasks::getApiGenServices());
     }
 
     // tests
@@ -31,7 +31,7 @@ class ApiGenTest extends \Codeception\TestCase\Test
         $skippedPaths->push('b');
 
         // going for 'bang for the buck' here re: test converage
-        $task = $this->container->get('taskApiGen', ['apigen'])
+        $task = (new \Robo\Task\ApiGen\ApiGen('apigen'))
             ->config('./apigen.neon')
             ->source('src') // single string value of Traversable
             ->extensions('php') // single string value of List
@@ -43,7 +43,7 @@ class ApiGenTest extends \Codeception\TestCase\Test
             ->tree('Y') // boolean as string
             ->debug('n');
 
-        $cmd = 'apigen --config ./apigen.neon --source src --extensions php --exclude test --exclude tmp --skip-doc-path a --skip-doc-path b --charset utf8,iso88591 --internal no --php yes --tree yes --debug no';
+        $cmd = 'apigen --config ./apigen.neon --source src --extensions php --exclude test --exclude tmp --skip-doc-path a --skip-doc-path b --charset \'utf8,iso88591\' --internal no --php yes --tree yes --debug no';
         verify($task->getCommand())->equals($cmd);
 
         $task->run();

@@ -14,22 +14,14 @@ use Robo\Robo;
 
 class CollectionTest extends \Codeception\TestCase\Test
 {
-    protected $container;
-
     /**
      * @var \CodeGuy
      */
     protected $guy;
 
-    protected function _before()
-    {
-        $this->container = Robo::getContainer();
-        $this->container->addServiceProvider(\Robo\Collection\loadTasks::getCollectionServices());
-    }
-
     public function testAfterFilters()
     {
-        $collection = $this->container->get('collection');
+        $collection = new Collection();
 
         $taskA = new CollectionTestTask('a', 'value-a');
         $taskB = new CollectionTestTask('b', 'value-b');
@@ -68,7 +60,7 @@ class CollectionTest extends \Codeception\TestCase\Test
 
     public function testBeforeFilters()
     {
-        $collection = $this->container->get('collection');
+        $collection = new Collection();
 
         $taskA = new CollectionTestTask('a', 'value-a');
         $taskB = new CollectionTestTask('b', 'value-b');
@@ -99,7 +91,7 @@ class CollectionTest extends \Codeception\TestCase\Test
 
     public function testAddCodeRollbackAndCompletion()
     {
-        $collection = $this->container->get('collection');
+        $collection = new Collection();
         $rollback1 = new CountingTask();
         $rollback2 = new CountingTask();
         $completion1 = new CountingTask();
@@ -116,6 +108,8 @@ class CollectionTest extends \Codeception\TestCase\Test
             ->rollback($rollback2)
             ->completion($completion2)
             ->addCode(function () { return 13; });
+
+        $collection->setLogger($this->guy->logger());
 
         $result = $collection->run();
         // Execution stops on the first error.

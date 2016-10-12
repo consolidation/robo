@@ -7,19 +7,34 @@ use League\Container\ContainerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\StringInput;
+use Symfony\Component\Console\Application as SymfonyApplication;
 
 /**
- * Manages the container reference and other static data.  Avoid using
- * this class; favor dependency injection whenever possible.
+ * Manages the container reference and other static data.  Favor
+ * using dependency injection wherever possible.  Avoid using
+ * this class directly, unless setting up a custom DI container.
  */
 class Robo
 {
+    const APPLICATION_NAME = 'Robo';
+    const VERSION = '1.0.0-RC3';
+
     /**
      * The currently active container object, or NULL if not initialized yet.
      *
      * @var ContainerInterface|null
      */
     protected static $container;
+
+    /**
+     * Entrypoint for standalone Robo-based tools.  See docs/framework.md.
+     */
+    public static function run($argv, $commandClasses, $appName = null, $appVersion = null, $output = null)
+    {
+        $runner = new \Robo\Runner($commandClasses);
+        $statusCode = $runner->execute($argv, $appName, $appVersion, $output);
+        return $statusCode;
+    }
 
     /**
      * Sets a new global container.
@@ -43,7 +58,7 @@ class Robo
     /**
      * Returns the currently active global container.
      *
-     * @return \League\Container\ContainerInterface|null
+     * @return \League\Container\ContainerInterface
      *
      * @throws \RuntimeException
      */
@@ -63,6 +78,148 @@ class Robo
     public static function hasContainer()
     {
         return static::$container !== null;
+    }
+
+    /**
+     * Create a container and initiailze it.  If you wish to *change*
+     * anything defined in the container, then you should call
+     * \Robo::configureContainer() instead of this function.
+     */
+    public static function createDefaultContainer($input = null, $output = null, $app = null, $config = null)
+    {
+        // Do not allow this function to be called more than once.
+        if (static::hasContainer()) {
+            return static::getContainer();
+        }
+
+        if (!$app) {
+            $app = static::createDefaultApplication();
+        }
+
+        if (!$config) {
+            $config = new Config();
+        }
+
+        // Set up our dependency injection container.
+        $container = new Container();
+        static::configureContainer($container, $app, $config, $input, $output);
+
+        // Set the application dispatcher
+        $app->setDispatcher($container->get('eventDispatcher'));
+
+        return $container;
+    }
+
+    /**
+     * Initialize a container with all of the default Robo services.
+     * IMPORTANT:  after calling this method, clients MUST call:
+     *
+     * $dispatcher = $container->get('eventDispatcher');
+     * $app->setDispatcher($dispatcher);
+     *
+     * Any modification to the container should be done prior to fetching
+     * objects from it.
+     *
+     * It is recommended to use \Robo::createDefaultContainer()
+     * instead, which does all required setup for the caller, but has
+     * the limitation that the container it creates can only be
+     * extended, not modified.
+     */
+    public static function configureContainer(ContainerInterface $container, SymfonyApplication $app, Config $config, $input = null, $output = null)
+    {
+        // Self-referential container refernce for the inflector
+        $container->add('container', $container);
+        static::setContainer($container);
+
+        // Create default input and output objects if they were not provided
+        if (!$input) {
+            $input = new StringInput('');
+        }
+        if (!$output) {
+            $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+        }
+        $config->setDecorated($output->isDecorated());
+
+        $container->share('application', $app);
+        $container->share('config', $config);
+        $container->share('input', $input);
+        $container->share('output', $output);
+
+        // Register logging and related services.
+        $container->share('logStyler', \Robo\Log\RoboLogStyle::class);
+        $container->share('logger', \Robo\Log\RoboLogger::class)
+            ->withArgument('output')
+            ->withMethodCall('setLogOutputStyler', ['logStyler']);
+        $container->add('progressBar', \Symfony\Component\Console\Helper\ProgressBar::class)
+            ->withArgument('output');
+        $container->share('progressIndicator', \Robo\Common\ProgressIndicator::class)
+            ->withArgument('progressBar')
+            ->withArgument('output');
+        $container->share('resultPrinter', \Robo\Log\ResultPrinter::class);
+        $container->add('simulator', \Robo\Task\Simulator::class);
+        $container->share('globalOptionsEventListener', \Robo\GlobalOptionsEventListener::class);
+        $container->share('collectionProcessHook', \Robo\Collection\CollectionProcessHook::class);
+        $container->share('hookManager', \Consolidation\AnnotatedCommand\Hooks\HookManager::class)
+            ->withMethodCall('addResultProcessor', ['collectionProcessHook', '*']);
+        $container->share('alterOptionsCommandEvent', \Consolidation\AnnotatedCommand\Options\AlterOptionsCommandEvent::class)
+            ->withArgument('application');
+        $container->share('eventDispatcher', \Symfony\Component\EventDispatcher\EventDispatcher::class)
+            ->withMethodCall('addSubscriber', ['globalOptionsEventListener'])
+            ->withMethodCall('addSubscriber', ['alterOptionsCommandEvent'])
+            ->withMethodCall('addSubscriber', ['hookManager']);
+        $container->share('formatterManager', \Consolidation\OutputFormatters\FormatterManager::class)
+            ->withMethodCall('addDefaultFormatters', [])
+            ->withMethodCall('addDefaultSimplifiers', []);
+        $container->share('commandProcessor', \Consolidation\AnnotatedCommand\CommandProcessor::class)
+            ->withArgument('hookManager')
+            ->withMethodCall('setFormatterManager', ['formatterManager'])
+            ->withMethodCall(
+                'setDisplayErrorFunction',
+                [
+                    function ($output, $message) use ($container) {
+                        $logger = $container->get('logger');
+                        $logger->error($message);
+                    }
+                ]
+            );
+        $container->share('commandFactory', \Consolidation\AnnotatedCommand\AnnotatedCommandFactory::class)
+            ->withMethodCall('setCommandProcessor', ['commandProcessor']);
+        $container->add('collection', \Robo\Collection\Collection::class);
+        $container->add('collectionBuilder', \Robo\Collection\CollectionBuilder::class);
+        static::addInflectors($container);
+
+        // Make sure the application is appropriately initialized.
+        $app->setAutoExit(false);
+    }
+
+    public static function createDefaultApplication($appName = null, $appVersion = null)
+    {
+        $appName = $appName ?: self::APPLICATION_NAME;
+        $appVersion = $appVersion ?: self::VERSION;
+
+        $app = new \Robo\Application($appName, $appVersion);
+        $app->setAutoExit(false);
+        return $app;
+    }
+
+    /**
+     * Add the Robo League\Container inflectors to the container
+     */
+    public static function addInflectors($container)
+    {
+        // Register our various inflectors.
+        $container->inflector(\Robo\Contract\ConfigAwareInterface::class)
+            ->invokeMethod('setConfig', ['config']);
+        $container->inflector(\Psr\Log\LoggerAwareInterface::class)
+            ->invokeMethod('setLogger', ['logger']);
+        $container->inflector(\League\Container\ContainerAwareInterface::class)
+            ->invokeMethod('setContainer', ['container']);
+        $container->inflector(\Symfony\Component\Console\Input\InputAwareInterface::class)
+            ->invokeMethod('setInput', ['input']);
+        $container->inflector(\Robo\Contract\OutputAwareInterface::class)
+            ->invokeMethod('setOutput', ['output']);
+        $container->inflector(\Robo\Contract\ProgressIndicatorAwareInterface::class)
+            ->invokeMethod('setProgressIndicator', ['progressIndicator']);
     }
 
     /**
@@ -116,6 +273,11 @@ class Robo
     public static function logger()
     {
         return static::service('logger');
+    }
+
+    public static function application()
+    {
+        return static::service('application');
     }
 
     /**

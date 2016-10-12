@@ -2,11 +2,8 @@
 namespace Robo\Collection;
 
 use Robo\Config;
-use Robo\Common\IO;
 use Robo\Common\Timer;
 use Psr\Log\LogLevel;
-use League\Container\ContainerAwareInterface;
-use League\Container\ContainerAwareTrait;
 use Robo\Contract\TaskInterface;
 use Robo\Contract\CompletionInterface;
 use Robo\Contract\WrappedTaskInterface;
@@ -17,6 +14,11 @@ use Robo\Collection\CompletionWrapper;
 use Robo\Collection\Temporary;
 use Robo\Contract\ConfigAwareInterface;
 use Robo\Common\ConfigAwareTrait;
+use ReflectionClass;
+use Robo\Task\BaseTask;
+use Robo\Contract\BuilderAwareInterface;
+use Robo\Contract\CommandInterface;
+use Robo\Exception\TaskException;
 
 /**
  * Creates a collection, and adds tasks to it.  The collection builder
@@ -45,24 +47,22 @@ use Robo\Common\ConfigAwareTrait;
  * In the example above, the `taskDeleteDir` will be called if
  * ```
  */
-class CollectionBuilder implements NestedCollectionInterface, ConfigAwareInterface, ContainerAwareInterface, TaskInterface, WrappedTaskInterface
+class CollectionBuilder extends BaseTask implements NestedCollectionInterface, WrappedTaskInterface, CommandInterface
 {
-    use ConfigAwareTrait;
-    use ContainerAwareTrait;
-    use LoadAllTasks;
-    use Timer;
-
+    protected $commandFile;
     protected $collection;
     protected $currentTask;
     protected $simulated;
 
-    public function __construct()
+    public function __construct($commandFile)
     {
+        $this->commandFile = $commandFile;
     }
 
     public function simulated($simulated = true)
     {
         $this->simulated = $simulated;
+        return $this;
     }
 
     public function isSimulated()
@@ -158,9 +158,9 @@ class CollectionBuilder implements NestedCollectionInterface, ConfigAwareInterfa
         return $this;
     }
 
-    public function progressMessage($text, $context = [], $filter = false, $level = LogLevel::NOTICE)
+    public function progressMessage($text, $context = [], $level = LogLevel::NOTICE)
     {
-        $this->getCollection()->progressMessage($text, $context, $filter, $level);
+        $this->getCollection()->progressMessage($text, $context, $level);
         return $this;
     }
 
@@ -204,17 +204,65 @@ class CollectionBuilder implements NestedCollectionInterface, ConfigAwareInterfa
     }
 
     /**
+     * Create a new builder with its own task collection
+     * @return type
+     */
+    public function newBuilder()
+    {
+        $collectionBuilder = new self($this->commandFile);
+        $collectionBuilder->inflect($this);
+        $collectionBuilder->simulated($this->isSimulated());
+        return $collectionBuilder;
+    }
+
+    /**
      * Calling the task builder with methods of the current
      * task calls through to that method of the task.
+     *
+     * There is extra complexity in this function that could be
+     * simplified if we attached the 'LoadAllTasks' and custom tasks
+     * to the collection builder instead of the RoboFile.  While that
+     * change would be a better design overall, it would require that
+     * the user do a lot more work to set up and use custom tasks.
+     * We therefore take on some additional complexity here in order
+     * to allow users to maintain their tasks in their RoboFile, which
+     * is much more convenient.
+     *
+     * Calls to $this->collectionBuilder()->taskFoo() cannot be made
+     * directly because all of the task methods are protected.  These
+     * calls will therefore end up here.  If the method name begins
+     * with 'task', then it is eligible to be used with the builder.
+     *
+     * When we call getBuiltTask, below, it will use the builder attached
+     * to the commandfile to build the task. However, this is not what we
+     * want:  the task needs to be built from THIS collection builder, so that
+     * it will be affected by whatever state is active in this builder.
+     * To do this, we have two choices: 1) save and restore the builder
+     * in the commandfile, or 2) clone the commandfile and set this builder
+     * on the copy. 1) is vulnerable to failure in multithreaded environments
+     * (currently not supported), while 2) might cause confusion if there
+     * is shared state maintained in the commandfile, which is in the
+     * domain of the user.
+     *
+     * Note that even though we are setting up the commandFile to
+     * use this builder, getBuiltTask always creates a new builder
+     * (which is constructed using all of the settings from the
+     * commandFile's builder), and the new task is added to that.
+     * We therefore need to transfer the newly built task into this
+     * builder. The temporary builder is discarded.
      */
     public function __call($fn, $args)
     {
-        // Calls to $this->collectionBuilder()->taskFoo() cannot be made
-        // directly because all of the task methods are protected.  These
-        // calls will therefore end up here.  If the method name begins
-        // with 'task', then it is eligible to be used with the builder.
-        if (preg_match('#^task[A-Z]#', $fn)) {
-            return $this->build($fn, $args);
+        if (preg_match('#^task[A-Z]#', $fn) && (method_exists($this->commandFile, 'getBuiltTask'))) {
+            $saveBuilder = $this->commandFile->getBuilder();
+            $this->commandFile->setBuilder($this);
+            $temporaryBuilder = $this->commandFile->getBuiltTask($fn, $args);
+            $this->commandFile->setBuilder($saveBuilder);
+            if (!$temporaryBuilder) {
+                throw new \BadMethodCallException("No such method $fn: task does not exist in " . get_class($this->commandFile));
+            }
+            $temporaryBuilder->getCollection()->transferTasks($this);
+            return $this;
         }
         if (!isset($this->currentTask)) {
             throw new \BadMethodCallException("No such method $fn: current task undefined in collection builder.");
@@ -223,9 +271,9 @@ class CollectionBuilder implements NestedCollectionInterface, ConfigAwareInterfa
         // then call through to the current task's setter method.
         $result = call_user_func_array([$this->currentTask, $fn], $args);
 
-        // If something other than a setter method is called,
-        // then return its result.
-        if (isset($result) && ($result !== $this->currentTask)) {
+        // If something other than a setter method is called, then return its result.
+        $currentTask = ($this->currentTask instanceof WrappedTaskInterface) ? $this->currentTask->original() : $this->currentTask;
+        if (isset($result) && ($result !== $currentTask)) {
             return $result;
         }
 
@@ -233,11 +281,12 @@ class CollectionBuilder implements NestedCollectionInterface, ConfigAwareInterfa
     }
 
     /**
-     * Construct the desired task via the container and add it to this builder.
+     * Construct the desired task and add it to this builder.
      */
     public function build($name, $args)
     {
-        $task = $this->getContainer()->get($name, $args);
+        $reflection = new ReflectionClass($name);
+        $task = $reflection->newInstanceArgs($args);
         if (!$task) {
             throw new RuntimeException("Can not construct task $name");
         }
@@ -245,17 +294,22 @@ class CollectionBuilder implements NestedCollectionInterface, ConfigAwareInterfa
         return $this->addTaskToCollection($task);
     }
 
-    protected function fixTask($service, $args)
+    protected function fixTask($task, $args)
     {
+        $task->inflect($this);
+        if ($task instanceof BuilderAwareInterface) {
+            $task->setBuilder($this);
+        }
+
         // Do not wrap our wrappers.
-        if ($service instanceof CompletionWrapper || $service instanceof Simulator) {
-            return $service;
+        if ($task instanceof CompletionWrapper || $task instanceof Simulator) {
+            return $task;
         }
 
         // Remember whether or not this is a task before
-        // it gets wrapped in any service decorator.
-        $isTask = $service instanceof TaskInterface;
-        $isCollection = $service instanceof NestedCollectionInterface;
+        // it gets wrapped in any decorator.
+        $isTask = $task instanceof TaskInterface;
+        $isCollection = $task instanceof NestedCollectionInterface;
 
         // If the task implements CompletionInterface, ensure
         // that its 'complete' method is called when the application
@@ -264,17 +318,18 @@ class CollectionBuilder implements NestedCollectionInterface, ConfigAwareInterfa
         // task will be unwrapped via its `original` method, and
         // it will be re-wrapped with a new completion wrapper for
         // its new collection.
-        if ($service instanceof CompletionInterface) {
-            $service = new CompletionWrapper(Temporary::getCollection(), $service);
+        if ($task instanceof CompletionInterface) {
+            $task = new CompletionWrapper(Temporary::getCollection(), $task);
         }
 
         // If we are in simulated mode, then wrap any task in
         // a TaskSimulator.
         if ($isTask && !$isCollection && ($this->isSimulated())) {
-            $service = $this->getContainer()->get('simulator', [$service, $args]);
+            $task = new \Robo\Task\Simulator($task, $args);
+            $task->inflect($this);
         }
 
-        return $service;
+        return $task;
     }
 
     /**
@@ -301,6 +356,19 @@ class CollectionBuilder implements NestedCollectionInterface, ConfigAwareInterfa
         return $this->getCollection()->run();
     }
 
+    public function getCommand()
+    {
+        if (!$this->collection && $this->currentTask) {
+            $task = $this->currentTask;
+            $task = ($task instanceof WrappedTaskInterface) ? $task->original() : $task;
+            if ($task instanceof CommandInterface) {
+                return $task->getCommand();
+            }
+        }
+
+        return $this->getCollection()->getCommand();
+    }
+
     public function original()
     {
         return $this->getCollection();
@@ -314,7 +382,8 @@ class CollectionBuilder implements NestedCollectionInterface, ConfigAwareInterfa
     public function getCollection()
     {
         if (!isset($this->collection)) {
-            $this->collection = $this->collection();
+            $this->collection = new Collection();
+            $this->collection->inflect($this);
             $this->collection->setProgressBarAutoDisplayInterval($this->getConfig()->get(Config::PROGRESS_BAR_AUTO_DISPLAY_INTERVAL));
 
             if (isset($this->currentTask)) {
@@ -322,17 +391,5 @@ class CollectionBuilder implements NestedCollectionInterface, ConfigAwareInterfa
             }
         }
         return $this->collection;
-    }
-
-    /**
-     * Override TaskAccessor::collectionBuilder(). By default, a new builder
-     * is returned, so RoboFile::taskFoo() will create a 'foo' task
-     * with its own builder.  If CollectionBuilder::taskBar() is called, though,
-     * then the task accessor will fetch the builder to use from this
-     * method, and the new task will go into the existing builder instance.
-     */
-    protected function collectionBuilder()
-    {
-        return $this;
     }
 }

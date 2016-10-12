@@ -23,8 +23,6 @@ use Symfony\Component\Finder\Finder;
  */
 class Pack extends BaseTask implements PrintedInterface
 {
-    use \Robo\Common\Timer;
-
     /**
      * The list of items to be packed into the archive.
      *
@@ -42,14 +40,13 @@ class Pack extends BaseTask implements PrintedInterface
     /**
      * Construct the class.
      *
-     * @param string $folder  The full path to the folder and subfolders to pack.
-     * @param string $zipname The full path and name of the zipfile to create.
+     * @param string $archiveFile The full path and name of the archive file to create.
      *
      * @since   1.0
      */
-    public function __construct($archive)
+    public function __construct($archiveFile)
     {
-        $this->archiveFile = $archive;
+        $this->archiveFile = $archiveFile;
     }
 
     /**
@@ -78,6 +75,7 @@ class Pack extends BaseTask implements PrintedInterface
      *             Relative path and name of item to store in archive
      * @var string
      *             Absolute or relative path to file or directory's location in filesystem
+     * @return $this
      */
     public function addFile($placementLocation, $filesystemLocation)
     {
@@ -94,6 +92,7 @@ class Pack extends BaseTask implements PrintedInterface
      *             Relative path and name of directory to store in archive
      * @var string
      *             Absolute or relative path to directory or directory's location in filesystem
+     * @return $this
      */
     public function addDir($placementLocation, $filesystemLocation)
     {
@@ -112,6 +111,7 @@ class Pack extends BaseTask implements PrintedInterface
      *                   If given an array, the key of each item should be the path to store
      *                   in the archive, and the value should be the filesystem path to the
      *                   item to store.
+     * @return $this
      */
     public function add($item)
     {
@@ -127,9 +127,9 @@ class Pack extends BaseTask implements PrintedInterface
     /**
      * Create a zip archive for distribution.
      *
-     * @return bool True on success | False on failure.
+     * @return Result
      *
-     * @since   1.0
+     * @since  1.0
      */
     public function run()
     {
@@ -153,7 +153,7 @@ class Pack extends BaseTask implements PrintedInterface
             $this->printTaskSuccess("{filename} created.", ['filename' => $this->archiveFile]);
         } catch (\Exception $e) {
             $this->printTaskError("Could not create {filename}. {exception}", ['filename' => $this->archiveFile, 'exception' => $e->getMessage(), '_style' => ['exception' => '']]);
-            $result = Result::error($this);
+            $result = Result::error($this, sprintf('Could not create %s. %s', $this->archiveFile, $e->getMessage()));
         }
         $this->stopTimer();
         $result['time'] = $this->getExecutionTime();

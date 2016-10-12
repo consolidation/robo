@@ -113,7 +113,9 @@ class TmpDir extends BaseDir implements CompletionInterface
 
     protected function deleteTmpDir()
     {
-        (new DeleteDir($this->dirs))->inflect($this)->run();
+        foreach ($this->dirs as $dir) {
+            $this->fs->remove($dir);
+        }
     }
 
     /**

@@ -5,8 +5,6 @@ use Robo\Robo;
 
 class PHPServerTest extends \Codeception\TestCase\Test
 {
-    protected $container;
-
     /**
      * @var \AspectMock\Proxy\ClassProxy
      */
@@ -18,22 +16,27 @@ class PHPServerTest extends \Codeception\TestCase\Test
             'run' => false,
             'start' => false,
             'getOutput' => 'Hello world',
-            'getExitCode' => 0
+            'getExitCode' => 0,
+            'logger' => new \Psr\Log\NullLogger(),
         ]);
-        test::double('Robo\Task\Development\PhpServer', ['getOutput' => new \Symfony\Component\Console\Output\NullOutput()]);
-        $this->container = Robo::getContainer();
-        $this->container->addServiceProvider(\Robo\Task\Development\loadTasks::getDevelopmentServices());
+        test::double('Robo\Task\Development\PhpServer', ['output' => new \Symfony\Component\Console\Output\NullOutput()]);
     }
 
     public function testServerBackgroundRun()
     {
-        $this->container->get('taskServer', ['8000'])->background()->run();
+        $task = new \Robo\Task\Development\PhpServer('8000');
+        $task->setLogger(new \Psr\Log\NullLogger());
+
+        $task->background()->run();
         $this->process->verifyInvoked('start');
     }
 
     public function testServerRun()
     {
-        $this->container->get('taskServer', ['8000'])->run();
+        $task = new \Robo\Task\Development\PhpServer('8000');
+        $task->setLogger(new \Psr\Log\NullLogger());
+
+        $task->run();
         $this->process->verifyInvoked('run');
     }
 
@@ -46,7 +49,7 @@ class PHPServerTest extends \Codeception\TestCase\Test
         }
 
         verify(
-            $this->container->get('taskServer', ['8000'])
+            (new \Robo\Task\Development\PhpServer('8000'))
                 ->host('127.0.0.1')
                 ->dir('web')
                 ->getCommand()

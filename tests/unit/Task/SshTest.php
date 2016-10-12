@@ -5,19 +5,11 @@ use Robo\Robo;
 
 class SshTest extends \Codeception\TestCase\Test
 {
-    protected $container;
-
-    protected function _before()
-    {
-        $this->container = Robo::getContainer();
-        $this->container->addServiceProvider(\Robo\Task\Remote\loadTasks::getRemoteServices());
-    }
-
     // tests
     public function testBasicCommand()
     {
         verify(
-            $this->container->get('taskSshExec', ['remote.example.com', 'user'])
+            (new \Robo\Task\Remote\Ssh('remote.example.com', 'user'))
                 ->exec('ls -la')
                 ->exec('chmod g+x logs')
                 ->getCommand()
@@ -27,7 +19,7 @@ class SshTest extends \Codeception\TestCase\Test
     public function testStopOnFail()
     {
         verify(
-            $this->container->get('taskSshExec', ['remote.example.com', 'user'])
+            (new \Robo\Task\Remote\Ssh('remote.example.com', 'user'))
                 ->stopOnFail(false)
                 ->exec('one')
                 ->exec('two')
@@ -42,27 +34,28 @@ class SshTest extends \Codeception\TestCase\Test
     {
         \Robo\Task\Remote\Ssh::configure('remoteDir', '/some-dir');
         verify(
-            $this->container->get('taskSshExec', ['remote.example.com', 'user'])
+            (new \Robo\Task\Remote\Ssh('remote.example.com', 'user'))
+                ->setConfig(Robo::config())
                 ->exec('echo test')
                 ->getCommand()
         )->equals("ssh user@remote.example.com 'cd \"/some-dir\" && echo test'");
         verify(
-            $this->container->get('taskSshExec', ['remote.example.com', 'user'])
+            (new \Robo\Task\Remote\Ssh('remote.example.com', 'user'))
                 ->remoteDir('/other-dir')
                 ->exec('echo test')
                 ->getCommand()
         )->equals("ssh user@remote.example.com 'cd \"/other-dir\" && echo test'");
         verify(
-            $this->container->get('taskSshExec', ['remote.example.com', 'user'])
+            (new \Robo\Task\Remote\Ssh('remote.example.com', 'user'))
+                ->setConfig(Robo::config())
                 ->exec('echo test')
                 ->getCommand()
         )->equals("ssh user@remote.example.com 'cd \"/some-dir\" && echo test'");
         \Robo\Task\Remote\Ssh::configure('remoteDir', null);
         verify(
-            $this->container->get('taskSshExec', ['remote.example.com', 'user'])
+            (new \Robo\Task\Remote\Ssh('remote.example.com', 'user'))
                 ->exec('echo test')
                 ->getCommand()
         )->equals("ssh user@remote.example.com 'echo test'");
     }
-
 }

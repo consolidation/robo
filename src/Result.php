@@ -3,6 +3,7 @@ namespace Robo;
 
 use Robo\Contract\TaskInterface;
 use Robo\Contract\LogResultInterface;
+use Robo\Exception\TaskExitException;
 
 class Result extends ResultData
 {
@@ -87,6 +88,39 @@ class Result extends ResultData
     }
 
     /**
+     * Add the results from the most recent task to the accumulated
+     * results from all tasks that have run so far, merging data
+     * as necessary.
+     */
+    public function accumulate($key, Result $taskResult)
+    {
+        // If the task is unnamed, then all of its data elements
+        // just get merged in at the top-level of the final Result object.
+        if (static::isUnnamed($key)) {
+            $this->merge($taskResult);
+        } elseif (isset($this[$key])) {
+            // There can only be one task with a given name; however, if
+            // there are tasks added 'before' or 'after' the named task,
+            // then the results from these will be stored under the same
+            // name unless they are given a name of their own when added.
+            $current = $this[$key];
+            $this[$key] = $taskResult->merge($current);
+        } else {
+            $this[$key] = $taskResult;
+        }
+    }
+
+    /**
+     * We assume that named values (e.g. for associative array keys)
+     * are non-numeric; numeric keys are presumed to simply be the
+     * index of an array, and therefore insignificant.
+     */
+    public static function isUnnamed($key)
+    {
+        return is_numeric($key);
+    }
+
+    /**
      * @return TaskInterface
      */
     public function getTask()
@@ -116,8 +150,13 @@ class Result extends ResultData
             if ($resultPrinter) {
                 $resultPrinter->printStopOnFail($this);
             }
-            exit($this->exitCode);
+            $this->exitEarly($this->getExitCode());
         }
         return $this;
+    }
+
+    private function exitEarly($status)
+    {
+        throw new TaskExitException($this->getTask(), $this->getMessage(), $status);
     }
 }

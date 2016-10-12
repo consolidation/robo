@@ -9,6 +9,8 @@ pages:
 - Guides:
   - "Getting Started": getting-started.md
   - Collections: collections.md
+  - "Extending": extending.md
+  - "Robo as Framework": framework.md
 - Tasks:
   - "Base Tasks": tasks/Base.md
   - "FileSystem Tasks": tasks/Filesystem.md

@@ -57,19 +57,28 @@
                 
                 
                     <li >
-                        <a href="..">Introduction</a>
+                        <a href="..">Index</a>
                     </li>
                 
                 
                 
-                    <li class="active">
-                        <a href="./">Getting Started</a>
-                    </li>
-                
-                
-                
-                    <li >
-                        <a href="../collections/">Collections</a>
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Guides <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li class="active">
+    <a href="./">Getting Started</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../collections/">Collections</a>
+</li>
+
+                        
+                        </ul>
                     </li>
                 
                 
@@ -80,49 +89,13 @@
                         
                             
 <li >
-    <a href="../tasks/ApiGen/">ApiGen Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../tasks/Archive/">Archive Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../tasks/Assets/">Assets Tasks</a>
-</li>
-
-                        
-                            
-<li >
     <a href="../tasks/Base/">Base Tasks</a>
 </li>
 
                         
                             
 <li >
-    <a href="../tasks/Bower/">Bower Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../tasks/Composer/">Composer Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../tasks/Development/">Development Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../tasks/Docker/">Docker Tasks</a>
+    <a href="../tasks/Filesystem/">FileSystem Tasks</a>
 </li>
 
                         
@@ -134,19 +107,31 @@
                         
                             
 <li >
-    <a href="../tasks/Filesystem/">Filesystem Tasks</a>
+    <a href="../tasks/Composer/">Composer Tasks</a>
 </li>
 
                         
                             
 <li >
-    <a href="../tasks/Gulp/">Gulp Tasks</a>
+    <a href="../tasks/Vcs/">VCS Tasks</a>
 </li>
 
                         
                             
 <li >
-    <a href="../tasks/Npm/">NPM Tasks</a>
+    <a href="../tasks/Development/">Development Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Assets/">Assets Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Archive/">Archive Tasks</a>
 </li>
 
                         
@@ -164,7 +149,31 @@
                         
                             
 <li >
-    <a href="../tasks/Vcs/">VCS Tasks</a>
+    <a href="../tasks/Npm/">NPM Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Bower/">Bower Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Gulp/">Gulp Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Docker/">Docker Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/ApiGen/">ApiGen Tasks</a>
 </li>
 
                         
@@ -201,7 +210,7 @@
                 
                 
                     <li>
-                        <a href="https://github.com/consolidation-org/Robo/">
+                        <a href="https://github.com/codegyre/robo/">
                             
                                 <i class="fa fa-github"></i>
                             
@@ -226,17 +235,22 @@
         
             <li><a href="#tasks">Tasks</a></li>
         
+            <li><a href="#working-with-composer">Working with Composer</a></li>
+        
+            <li><a href="#robo-as-a-framework">Robo as a Framework</a></li>
+        
     
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
 <h1 id="getting-started">Getting Started</h1>
-<p>To begin you need to create a RoboFile. Just run <code>robo init</code> in empty dir:</p>
-<pre><code>robo init
+<p>To begin you need to create a RoboFile. Just run <code>robo init</code> in your project directory:</p>
+<pre><code>cd myproject
+robo init
 </code></pre>
 
-<p>This will create a new <code>RoboFile.php</code> for you. There will be RoboFile class which extends <code>\Robo\Tasks</code>, which includes all bundled tasks of Robo.</p>
+<p>Your project directory may start out empty; Robo will create a new <code>RoboFile.php</code> for you. There will be RoboFile class which extends <code>\Robo\Tasks</code>, which includes all bundled tasks of Robo.</p>
 <pre><code class="php">&lt;?php
 class RoboFile extends \Robo\Tasks
 {
@@ -264,6 +278,7 @@ class RoboFile extends \Robo\Tasks
 
 <p>Method names should be camelCased. In CLI <code>camelCased</code> method will be available as <code>camel:cased</code> command.
 <code>longCamelCased</code> method will be transformed to <code>long:camel-cased</code> command.</p>
+<p><strong>Note:</strong> This assumes you have installed Robo by downloading the <a href="http://robo.li/robo.phar">robo.phar</a> file and copied it to a directory in your $PATH. For example, <code>cp robo.phar ~/bin/robo</code>.</p>
 <h3 id="arguments">Arguments</h3>
 <p>All method parameters without default values are treated as required arguments. In our example command <code>hello</code> requires one argument.
 If you pass a default value to parameter the argument becomes optional:</p>
@@ -396,7 +411,7 @@ Help:
 </code></pre>
 
 <p>Arguments and options are populated from annotations.</p>
-<p>Initially added with <a href="https://github.com/consolidation-org/Robo/pull/71">PR by @jonsa</a>; now provided by the <a href="https://github.com/consolidation-org/annotated-command">consolidation/annotated-command</a> project, which was factored out from Robo.</p>
+<p>Initially added with <a href="https://github.com/consolidation/Robo/pull/71">PR by @jonsa</a>; now provided by the <a href="https://github.com/consolidation/annotated-command">consolidation/annotated-command</a> project, which was factored out from Robo.</p>
 <h3 id="ignored-methods">Ignored methods</h3>
 <p>Robo ignores any method of your RoboFile that begins with <code>get</code> or <code>set</code>. These methods are presumed to be data accessors, not commands.  To implement a command whose name contains <code>get</code> or <code>set</code>, use the <code>@command</code> annotation.</p>
 <pre><code class="php">&lt;?php
@@ -412,70 +427,7 @@ Help:
 
 <h2 id="tasks">Tasks</h2>
 <p>Robo commands typically divide the work they need to accomplish into <strong>tasks</strong>. The command first determines what needs to be done, inspecting current state if necessary, and then sets up and executes one or more tasks that make the actual changes needed by the command.  (See also the documentation on <a href="../collections/">Collections</a>, which allow you to combine groups of tasks which can provide rollback functions to recover from failure situations.)</p>
-<p>The convention used to add new tasks for use in your RoboFiles is to create a wrapper trait that instantiates the implementation class for each task. Each task method in the trait should start with the prefix <code>task</code>, and should use <strong>chained method calls</strong> for configuration. Task execution should be triggered by the method <code>run</code>. </p>
-<p><em>It is recommended to have store your trait loading task in a <code>loadTasks</code> file in the same namespace as the task implementation.</em></p>
-<p>A very basic task is shown below.  The namespace is <code>MyAssetTasks</code>, and the example task is <code>CompileAssets</code>. To customize to your purposes, choose an appropriate namespace, and then define as many tasks as you need.</p>
-<pre><code class="php">&lt;?php
-namespace MyAssetTasks;
-
-trait loadTasks
-{
-    /**
-     * Example task to compile assets
-     *
-     * @param string $pathToCompileAssets
-     * @return \MyAssetTasks\CompileAssets
-     */
-    protected function taskCompileAssets($path = null)
-    {
-        // Always construct your tasks with the `task()` task builder.
-        return $this-&gt;task(CompileAssets::class, $path);
-    }
-}
-
-class CompileAssets implements \Robo\Contract\TaskInterface
-{
-    // configuration params
-    protected $path;
-    protected $to;
-    function __construct($path)
-    {
-        $this-&gt;path = $path;
-    }
-
-    function to($filename)
-    {
-        $this-&gt;to = $filename;
-        // must return $this
-        return $this;
-    }
-
-    // must implement Run
-    function run()
-    {
-        //....
-    }
-}
-?&gt;
-</code></pre>
-
-<p>To use it in a RoboFile, include the task via its trait:</p>
-<pre><code class="php">&lt;?php
-class RoboFile extends \Robo\Tasks
-{
-    use \MyAssetTasks\loadTasks;
-
-    public function build()
-    {
-        $this-&gt;taskCompileAssets('web/css-src')
-            -&gt;to('web/assets.min.css')
-            -&gt;run();
-    }
-}
-?&gt;
-</code></pre>
-
-<p>Robo\Tasks includes all of the standard task traits by default, so a RoboFile may call the <code>$this-&gt;taskXXX</code> method for any of these tasks. To use an external task, ensure that its class files are available (e.g. <code>require</code> its project in your composer.json file), and include corresponding trait or traits in your Robofile.</p>
+<p>For details on how to add custom tasks to Robo, see the <a href="extending.md">extending</a> document.</p>
 <h3 id="shortcuts">Shortcuts</h3>
 <p>Some tasks may have shortcuts. If a task does not require multi-step configuration, it can be executed with a single line:</p>
 <pre><code class="php">&lt;?php
@@ -513,6 +465,7 @@ class RoboFile
 ?&gt;
 </code></pre>
 
+<p>When making multi-step commands that call one task after another, it is best to use a collection to group the tasks together. The collection will handle error detection and rollback, and will return a single Result object when done. For more information, see the <a href="../collections/">Collections</a> documentation.</p>
 <p>Some tasks may also attach data to the Result object.  If this is done, the data may be accessed as an array; for example, <code>$result['path'];</code>. This is not common.</p>
 <p>Commands should return a Result object obtained from a task; this will ensure that the command exit code is set correctly.  If a command does not have a Result object available, then it may use a ResultData object.  ResultData objects are just like Result objects, except the do not contain a reference to a task.</p>
 <p>return new Robo\ResultData($exitcode, 'Error message.');</p>
@@ -535,14 +488,11 @@ class RoboFile
 </code></pre>
 
 <p>There are also <code>askDefault</code>, <code>askHidden</code>, and <code>confirm</code> methods.</p>
-<p>Inside tasks you should print process details with <code>printTaskInfo</code>, <code>`printTaskSuccess</code>, and <code>printTaskError</code>.</p>
-<p>To allow tasks access IO, use the <code>Robo\Common\TaskIO</code> trait, or inherit your task class from <code>Robo\Task\BaseTask</code> (recommended).</p>
-<pre><code>$this-&gt;printTaskInfo('Processing...');
-</code></pre>
-
-<p>The Task IO methods send all output through a PSR-3 logger. Tasks should use task IO exclusively; methods such as 'say' and 'ask' should reside in the command method. This allows tasks to be usable in any context that has a PSR-3 logger, including background or server processes where it is not possible to directly query the user.</p>
+<p>In addition, Robo makes all of the methods of Symfony Style available throgh the <code>io()</code> method:</p>
+<p>$this-&gt;io()-&gt;title("Build all site assets");</p>
+<p>This allows Robo scripts to follow the <a href="http://symfony.com/blog/new-in-symfony-2-8-console-style-guide">Symfony Console Style Guide</a> if desired.</p>
 <h3 id="formatters">Formatters</h3>
-<p>It is preferable for commands that look up and display information should avoid doing IO directly, and should instead return the data they wish to display as an array. This data can then be converted into different data formats, such as "table" and "json". The user may select which formatter to use via the --format option.</p>
+<p>It is preferable for commands that look up and display information should avoid doing IO directly, and should instead return the data they wish to display as an array. This data can then be converted into different data formats, such as "table" and "json". The user may select which formatter to use via the --format option. For details on formatters, see the <a href="https://github.com/consolidation/output-formatters">consolidation/output-formatters</a> project.</p>
 <h3 id="progress">Progress</h3>
 <p>Robo supports progress indicators via the Symfony ProgressBar class.  Long-running tasks that wish to display the progress indicator may do so via four simple steps:</p>
 <ul>
@@ -580,7 +530,46 @@ class MyTask extends BaseTask
 </code></pre>
 
 <p>Tasks should not attempt to use a specific progress indicator (e.g. the Symfony ProgressBar class) directly, as the ProgressIndicatorAwareTrait allows for an appropriate progress indicator to be used (or omitted) as best suits the application.</p>
-<p>Note that when using <a href="../collections/">Collections</a>, the progress bar will automatically be shown if the collection takes longer than two seconds to run.  Each task in the collection will count for one "step"; if the task supports progress indicators as shown above, then it will add an additional number of steps as indicated by its <code>progressIndicatorSteps()</code> method.</p></div>
+<p>Note that when using <a href="../collections/">Collections</a>, the progress bar will automatically be shown if the collection takes longer than two seconds to run.  Each task in the collection will count for one "step"; if the task supports progress indicators as shown above, then it will add an additional number of steps as indicated by its <code>progressIndicatorSteps()</code> method.</p>
+<h2 id="working-with-composer">Working with Composer</h2>
+<h3 id="adding-a-robofile-to-your-project">Adding a RoboFile to your Project</h3>
+<p>Robo is designed to work well with Composer. To use Robo scripts in your Composer-based project, simply add <code>robo</code> to your composer.json file:</p>
+<pre><code>$ cd myproject
+$ composer require consolidation/Robo:~1
+$ ./vendor/bin/robo mycommand
+</code></pre>
+
+<p>If you do not want to type the whole path to Robo, you may add <code>./vendor/bin</code> to your $PATH (relative paths work), or use <code>composer exec</code> to find and run Robo:</p>
+<pre><code>$ composer exec robo mycommand
+</code></pre>
+
+<h3 id="implementing-composer-scripts-with-robo">Implementing Composer Scripts with Robo</h3>
+<p>When using Robo in your project, it is convenient to define Composer scripts that call your Robo commands.  Simply add the following to your composer.json file:</p>
+<pre><code>{
+    &quot;name&quot;: &quot;myorg/myproject&quot;,
+    &quot;require&quot;: {
+        &quot;consolidation/Robo&quot;: &quot;~1&quot;
+    },
+    &quot;scripts&quot;: {
+        &quot;test&quot;: &quot;composer robo test&quot;,
+        &quot;phar&quot;: &quot;composer robo phar:build&quot;,
+        &quot;robo&quot;: &quot;robo --ansi --load-from $(pwd)/scripts/BuildCommands.php&quot;
+    }
+}
+</code></pre>
+
+<p><em>Note</em>: When you include Robo as a library like this, some external projects used by certain core Robo tasks are not automatically included in your project.  See the <code>"suggest":</code> section of Robo's composer.json for a list of external projects you might also want to require in your project.</p>
+<p>Once you have set up your composer.json file (and ran <code>composer update</code> if you manually changed the <code>require</code> or <code>require-dev</code> sections), Composer will ensure that your project-local copy of Robo in the <code>vendor/bin</code> dir is in your $PATH when you run the additional Composer scripts that you declared:</p>
+<pre><code>$ cd myproject
+$ composer test
+$ composer phar
+</code></pre>
+
+<p>This will call the public methods <code>test()</code> and <code>phar()</code> in your RoboFile.php when using <code>composer test</code> and <code>composer phar</code>, respectively.</p>
+<p>Advertising your build commands as Composer scripts is a useful way to provide the key commands used for testing, building or packaging your application. Also, if your application should happen to provide a commandline tool to perform the operations of the application itself, then defining your build commands in their own RoboFile provides desirable separation, keeping your build commands out of the help and list commands of your primary script.</p>
+<p>If you would like to simplify the output of your script (e.g. when running on a CI service), replace the <code>--ansi</code> option in the example above with <code>--no-ansi</code>, and  colored terminal output and progress bars will be disabled. </p>
+<h2 id="robo-as-a-framework">Robo as a Framework</h2>
+<p>For an overview on how to turn your Robo scripts into standalone tools, see the example <a href="https://github.com/consolidation/Robo/blob/master/examples/robo.script">robo.script</a>, and the section <a href="framework.md">Robo as a Framework</a>.</p></div>
             
 
         </div>
@@ -611,6 +600,33 @@ class MyTask extends BaseTask
         <script src="../js/bootstrap-3.0.3.min.js"></script>
         <script src="../js/prettify-1.0.min.js"></script>
         <script src="../js/highlight.pack.js"></script>
+        <script>var base_url = '..';</script>
+        <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script>
         <script src="../js/base.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+         <div class="modal-dialog">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                     <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                 </div>
+                 <div class="modal-body">
+                     <p>
+                         From here you can search these documents. Enter
+                         your search terms below.
+                     </p>
+                     <form role="form">
+                         <div class="form-group">
+                             <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                         </div>
+                     </form>
+                     <div id="mkdocs-search-results"></div>
+                 </div>
+                 <div class="modal-footer">
+                 </div>
+             </div>
+         </div>
+     </div>
     </body>
 </html>

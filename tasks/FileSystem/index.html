@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         
-        <link rel="canonical" href="http://robo.li/tasks/Filesystem/">
+        <link rel="canonical" href="http://robo.li/tasks/FileSystem/">
         <link rel="shortcut icon" href="../../../../img/favicon.png">
         
         <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
@@ -229,7 +229,7 @@
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
     
-        <li class="main active"><a href="#filesystem-tasks">Filesystem Tasks</a></li>
+        <li class="main active"><a href="#filesystem-tasks">FileSystem Tasks</a></li>
         
             <li><a href="#cleandir">CleanDir</a></li>
         
@@ -245,14 +245,12 @@
         
             <li><a href="#tmpdir">TmpDir</a></li>
         
-            <li><a href="#workdir">WorkDir</a></li>
-        
     
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
-<h1 id="filesystem-tasks">Filesystem Tasks</h1>
+<h1 id="filesystem-tasks">FileSystem Tasks</h1>
 <h2 id="cleandir">CleanDir</h2>
 <p>Deletes all files from specified dir, ignoring git files.</p>
 <pre><code class="php">&lt;?php
@@ -262,6 +260,16 @@ $this-&gt;_cleanDir('app/cache');
 ?&gt;
 </code></pre>
 
+<ul>
+<li><code>setLogger($logger)</code>  Sets a logger.</li>
+<li><code>setContainer($container)</code>  Set a container.</li>
+<li><code>getContainer()</code>  Get the container.</li>
+<li><code>logger()</code> </li>
+<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
+<li><code>addAsRollback($collection)</code> </li>
+<li><code>addAsCompletion($collection)</code> </li>
+<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
+</ul>
 <h2 id="copydir">CopyDir</h2>
 <p>Copies one dir into another</p>
 <pre><code class="php">&lt;?php
@@ -273,7 +281,14 @@ $this-&gt;_copyDir('dist/config', 'config');
 
 <ul>
 <li><code>dirPermissions($value)</code>  Sets the default folder permissions for the destination if it doesn't exist</li>
-<li><code>exclude($exclude = null)</code>  List files to exclude.</li>
+<li><code>setLogger($logger)</code>  Sets a logger.</li>
+<li><code>setContainer($container)</code>  Set a container.</li>
+<li><code>getContainer()</code>  Get the container.</li>
+<li><code>logger()</code> </li>
+<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
+<li><code>addAsRollback($collection)</code> </li>
+<li><code>addAsCompletion($collection)</code> </li>
+<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
 </ul>
 <h2 id="deletedir">DeleteDir</h2>
 <p>Deletes dir</p>
@@ -284,11 +299,21 @@ $this-&gt;_deleteDir(['tmp', 'log']);
 ?&gt;
 </code></pre>
 
+<ul>
+<li><code>setLogger($logger)</code>  Sets a logger.</li>
+<li><code>setContainer($container)</code>  Set a container.</li>
+<li><code>getContainer()</code>  Get the container.</li>
+<li><code>logger()</code> </li>
+<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
+<li><code>addAsRollback($collection)</code> </li>
+<li><code>addAsCompletion($collection)</code> </li>
+<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
+</ul>
 <h2 id="filesystemstack">FilesystemStack</h2>
-<p>Wrapper for <a href="http://symfony.com/doc/current/components/filesystem.html">Symfony Filesystem</a> Component.
+<p>Wrapper for <a href="http://symfony.com/doc/current/components/filesystem.html">Symfony FileSystem</a> Component.
 Comands are executed in stack and can be stopped on first fail with <code>stopOnFail</code> option.</p>
 <pre><code class="php">&lt;?php
-$this-&gt;taskFilesystemStack()
+$this-&gt;taskFileSystemStack()
      -&gt;mkdir('logs')
      -&gt;touch('logs/.gitignore')
      -&gt;chgrp('www', 'www-data')
@@ -303,21 +328,29 @@ $this-&gt;_mkdir('logs');
 </code></pre>
 
 <ul>
-<li><code>$this mkdir($dir)</code> </li>
-<li><code>$this touch($file)</code> </li>
-<li><code>$this copy($from, $to, $force = null)</code> </li>
-<li><code>$this chmod($file, $permissions, $umask = null, $recursive = null)</code> </li>
-<li><code>$this chgrp($file, $group, $recursive = null)</code> </li>
-<li><code>$this chown($file, $user, $recursive = null)</code> </li>
-<li><code>$this remove($file)</code> </li>
-<li><code>$this rename($from, $to)</code> </li>
-<li><code>$this symlink($from, $to)</code> </li>
+<li><code>mkdir($dir)</code> </li>
+<li><code>touch($file)</code> </li>
+<li><code>copy($from, $to, $force = null)</code> </li>
+<li><code>chmod($file, $permissions, $umask = null, $recursive = null)</code> </li>
+<li><code>remove($file)</code> </li>
+<li><code>rename($from, $to)</code> </li>
+<li><code>symlink($from, $to)</code> </li>
+<li><code>mirror($from, $to)</code> </li>
+<li><code>chgrp($file, $group)</code> </li>
 <li>
-<p><code>$this mirror($from, $to)</code> </p>
+<p><code>chown($file, $user)</code> </p>
 </li>
 <li>
 <p><code>stopOnFail($stop = null)</code> </p>
 </li>
+<li><code>setLogger($logger)</code>  Sets a logger.</li>
+<li><code>setContainer($container)</code>  Set a container.</li>
+<li><code>getContainer()</code>  Get the container.</li>
+<li><code>logger()</code> </li>
+<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
+<li><code>addAsRollback($collection)</code> </li>
+<li><code>addAsCompletion($collection)</code> </li>
+<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
 </ul>
 <h2 id="flattendir">FlattenDir</h2>
 <p>Searches for files in a nested directory structure and copies them to
@@ -373,6 +406,14 @@ $this-&gt;taskFlattenDir(['assets/*.min.js' =&gt; 'dist'])
 <li><code>includeParents($parents)</code>  Sets the value from which direction and how much parent dirs should be included.</li>
 <li><code>parentDir($dir)</code>  Sets the parent directory from which the relative parent directories will be calculated.</li>
 <li><code>to($target)</code>  Sets the target directory where the files will be copied to.</li>
+<li><code>setLogger($logger)</code>  Sets a logger.</li>
+<li><code>setContainer($container)</code>  Set a container.</li>
+<li><code>getContainer()</code>  Get the container.</li>
+<li><code>logger()</code> </li>
+<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
+<li><code>addAsRollback($collection)</code> </li>
+<li><code>addAsCompletion($collection)</code> </li>
+<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
 </ul>
 <h2 id="mirrordir">MirrorDir</h2>
 <p>Mirrors a directory to another</p>
@@ -384,19 +425,29 @@ $this-&gt;_mirrorDir('dist/config/', 'config/');
 ?&gt;
 </code></pre>
 
+<ul>
+<li><code>setLogger($logger)</code>  Sets a logger.</li>
+<li><code>setContainer($container)</code>  Set a container.</li>
+<li><code>getContainer()</code>  Get the container.</li>
+<li><code>logger()</code> </li>
+<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
+<li><code>addAsRollback($collection)</code> </li>
+<li><code>addAsCompletion($collection)</code> </li>
+<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
+</ul>
 <h2 id="tmpdir">TmpDir</h2>
 <p>Create a temporary directory that is automatically cleaned up
 once the task collection is is part of completes.</p>
-<p>Use WorkDir if you do not want the directory to be deleted.</p>
+<p>Move the directory to another location to prevent its deletion.</p>
 <pre><code class="php">&lt;?php
 // Delete on rollback or on successful completion.
 // Note that in this example, everything is deleted at
 // the end of $collection-&gt;run().
-$collection = $this-&gt;collectionBuilder();
-$tmpPath = $collection-&gt;tmpDir()-&gt;getPath();
-$collection-&gt;taskFilesystemStack()
+$tmpPath = $this-&gt;taskTmpDir()-&gt;addToCollection($collection)-&gt;getPath();
+$this-&gt;taskFileSystemStack()
           -&gt;mkdir(&quot;$tmpPath/log&quot;)
-          -&gt;touch(&quot;$tmpPath/log/error.txt&quot;);
+          -&gt;touch(&quot;$tmpPath/log/error.txt&quot;)
+          -&gt;addToCollection($collection);
 $collection-&gt;run();
 // as shortcut (deleted when program exits)
 $tmpPath = $this-&gt;_tmpDir();
@@ -404,29 +455,17 @@ $tmpPath = $this-&gt;_tmpDir();
 </code></pre>
 
 <ul>
-<li><code>cwd($shouldChangeWorkingDirectory = null)</code>  Flag that we should cwd to the temporary directory when it is</li>
+<li><code>cwd()</code>  Flag that we should cwd to the temporary directory when it is</li>
 <li><code>complete()</code>  Delete this directory when our collection completes.</li>
 <li><code>getPath()</code>  Get a reference to the path to the temporary directory, so that</li>
-</ul>
-<h2 id="workdir">WorkDir</h2>
-<p>Create a temporary working directory that is automatically renamed to its
-final desired location if all of the tasks in the collection succeed.  If
-there is a rollback, then the working directory is deleted.</p>
-<pre><code class="php">&lt;?php
-$collection = $this-&gt;collectionBuilder();
-$workingPath = $collection-&gt;workDir(&quot;build&quot;)-&gt;getPath();
-$collection-&gt;taskFilesystemStack()
-          -&gt;mkdir(&quot;$workingPath/log&quot;)
-          -&gt;touch(&quot;$workingPath/log/error.txt&quot;);
-$collection-&gt;run();
-?&gt;
-</code></pre>
-
-<ul>
-<li><code>complete()</code>  Move our working directory into its final destination once the</li>
-<li><code>rollback()</code>  Delete our working directory</li>
-<li><code>getPath()</code>  Get a reference to the path to the temporary directory, so that</li>
-<li><code>cwd($shouldChangeWorkingDirectory = null)</code>  Flag that we should cwd to the temporary directory when it is</li>
+<li><code>setLogger($logger)</code>  Sets a logger.</li>
+<li><code>setContainer($container)</code>  Set a container.</li>
+<li><code>getContainer()</code>  Get the container.</li>
+<li><code>logger()</code> </li>
+<li><code>addToCollection($collection, $taskName = null, $rollbackTask = null)</code> </li>
+<li><code>addAsRollback($collection)</code> </li>
+<li><code>addAsCompletion($collection)</code> </li>
+<li><code>addToCollectionAndIgnoreErrors($collection, $taskName = null)</code> </li>
 </ul></div>
             
 

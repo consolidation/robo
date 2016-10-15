@@ -22,8 +22,18 @@ class Atoum extends BaseTask implements CommandInterface, PrintedInterface
 {
     use \Robo\Common\ExecOneCommand;
 
+    /**
+     * @var string
+     */
     protected $command;
 
+    /**
+     * Atoum constructor.
+     *
+     * @param null|string $pathToAtoum
+     *
+     * @throws \Robo\Exception\TaskException
+     */
     public function __construct($pathToAtoum = null)
     {
         $this->command = $pathToAtoum;
@@ -74,7 +84,7 @@ class Atoum extends BaseTask implements CommandInterface, PrintedInterface
     /**
      * Path to the bootstrap file.
 
-     * @param $file
+     * @param string $file
      *
      * @return $this
      */
@@ -155,7 +165,7 @@ class Atoum extends BaseTask implements CommandInterface, PrintedInterface
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getCommand()
     {
@@ -163,7 +173,7 @@ class Atoum extends BaseTask implements CommandInterface, PrintedInterface
     }
 
     /**
-     * @return \Robo\Result
+     * {@inheritdoc}
      */
     public function run()
     {

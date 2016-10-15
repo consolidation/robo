@@ -6,9 +6,10 @@ trait ResourceExistenceChecker
     /**
      * Checks if the given input is a file or folder.
      *
-     * @param string|array $resources
+     * @param string|string[] $resources
      * @param string $type "file", "dir", "fileAndDir"
-     * @return boolean True if no errors were encountered otherwise false.
+     *
+     * @return bool True if no errors were encountered otherwise false.
      */
     protected function checkResources($resources, $type = 'fileAndDir')
     {
@@ -42,7 +43,8 @@ trait ResourceExistenceChecker
      *
      * @param string $resource File or folder.
      * @param string $type "file", "dir", "fileAndDir"
-     * @return boolean
+     *
+     * @return bool
      */
     protected function checkResource($resource, $type)
     {
@@ -72,7 +74,6 @@ trait ResourceExistenceChecker
      * Convenience method to check the often uses "source => target" file / folder arrays.
      *
      * @param string|array $resources
-     * @return void
      */
     protected function checkSourceAndTargetResource($resources)
     {
@@ -93,7 +94,8 @@ trait ResourceExistenceChecker
     * Wrapper method around phps is_dir()
     *
     * @param string $directory
-    * @return boolean
+    *
+    * @return bool
     */
     protected function isDir($directory)
     {
@@ -104,7 +106,8 @@ trait ResourceExistenceChecker
     * Wrapper method around phps file_exists()
     *
     * @param string $file
-    * @return boolean
+    *
+    * @return bool
     */
     protected function isFile($file)
     {

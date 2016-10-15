@@ -4,18 +4,31 @@ namespace Robo\Common;
 trait ProgressIndicatorAwareTrait
 {
     use Timer;
+
+    /**
+     * @var ProgressIndicator
+     */
     protected $progressIndicator;
 
+    /**
+     * @return int
+     */
     public function progressIndicatorSteps()
     {
         return 0;
     }
 
+    /**
+     * @param \Robo\Common\ProgressIndicator $progressIndicator
+     */
     public function setProgressIndicator($progressIndicator)
     {
         $this->progressIndicator = $progressIndicator;
     }
 
+    /**
+     * @return null|bool
+     */
     protected function hideProgressIndicator()
     {
         if (!$this->progressIndicator) {
@@ -32,6 +45,9 @@ trait ProgressIndicatorAwareTrait
         $this->progressIndicator->showProgressIndicator();
     }
 
+    /**
+     * @param bool $visible
+     */
     protected function restoreProgressIndicator($visible)
     {
         if (!$this->progressIndicator) {
@@ -40,6 +56,9 @@ trait ProgressIndicatorAwareTrait
         $this->progressIndicator->restoreProgressIndicator($visible);
     }
 
+    /**
+     * @return int
+     */
     protected function getTotalExecutionTime()
     {
         if (!$this->progressIndicator) {
@@ -58,6 +77,9 @@ trait ProgressIndicatorAwareTrait
         $this->progressIndicator->startProgressIndicator($totalSteps, $this);
     }
 
+    /**
+     * @return bool
+     */
     protected function inProgress()
     {
         if (!$this->progressIndicator) {
@@ -89,6 +111,9 @@ trait ProgressIndicatorAwareTrait
         $this->setProgressIndicator(null);
     }
 
+    /**
+     * @param int $steps
+     */
     protected function advanceProgressIndicator($steps = 1)
     {
         if (!$this->progressIndicator) {

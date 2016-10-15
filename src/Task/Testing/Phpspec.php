@@ -22,10 +22,13 @@ class Phpspec extends BaseTask implements CommandInterface, PrintedInterface
 {
     use \Robo\Common\ExecOneCommand;
 
+    /**
+     * @var string
+     */
     protected $command;
 
     /**
-     * @var array $formaters available formaters for format option
+     * @var string[] $formaters available formaters for format option
      */
     protected $formaters = ['progress', 'html', 'pretty', 'junit', 'dot', 'tap'];
 

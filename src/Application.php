@@ -9,6 +9,10 @@ use Symfony\Component\Console\Input\InputOption;
 
 class Application extends SymfonyApplication
 {
+    /**
+     * @param string $name
+     * @param string $version
+     */
     public function __construct($name, $version)
     {
         parent::__construct($name, $version);
@@ -23,6 +27,10 @@ class Application extends SymfonyApplication
             );
     }
 
+    /**
+     * @param string $roboFile
+     * @param string $roboClass
+     */
     public function addInitRoboFileCommand($roboFile, $roboClass)
     {
         $createRoboFile = new Command('init');

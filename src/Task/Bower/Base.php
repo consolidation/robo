@@ -11,6 +11,10 @@ abstract class Base extends BaseTask
     protected $opts = [];
     protected $action = '';
 
+    /**
+     * @var string
+     */
+    protected $command = '';
 
     /**
      * adds `allow-root` option to bower
@@ -56,6 +60,13 @@ abstract class Base extends BaseTask
         return $this;
     }
 
+    /**
+     * Base constructor.
+     *
+     * @param null|string $pathToBower
+     *
+     * @throws \Robo\Exception\TaskException
+     */
     public function __construct($pathToBower = null)
     {
         $this->command = $pathToBower;
@@ -67,6 +78,9 @@ abstract class Base extends BaseTask
         }
     }
 
+    /**
+     * @return string
+     */
     public function getCommand()
     {
         return "{$this->command} {$this->action}{$this->arguments}";

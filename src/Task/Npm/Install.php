@@ -20,8 +20,14 @@ use Robo\Contract\CommandInterface;
  */
 class Install extends Base implements CommandInterface
 {
+    /**
+     * @var string
+     */
     protected $action = 'install';
 
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         $this->printTaskInfo('Install Npm packages: {arguments}', ['arguments' => $this->arguments]);

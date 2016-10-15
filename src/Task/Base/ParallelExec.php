@@ -31,54 +31,100 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
 {
     use \Robo\Common\CommandReceiver;
 
+    /**
+     * @var Process[]
+     */
     protected $processes = [];
+
+    /**
+     * @var null|int
+     */
     protected $timeout = null;
+
+    /**
+     * @var null|int
+     */
     protected $idleTimeout = null;
+
+    /**
+     * @var bool
+     */
     protected $isPrinted = false;
 
+    /**
+     * {@inheritdoc}
+     */
     public function getPrinted()
     {
         return $this->isPrinted;
     }
 
+    /**
+     * @param bool $isPrinted
+     *
+     * @return $this
+     */
     public function printed($isPrinted = true)
     {
         $this->isPrinted = $isPrinted;
         return $this;
     }
 
+    /**
+     * @param string|\Robo\Contract\CommandInterface $command
+     *
+     * @return $this
+     */
     public function process($command)
     {
         $this->processes[] = new Process($this->receiveCommand($command));
         return $this;
     }
 
+    /**
+     * @param int $timeout
+     *
+     * @return $this
+     */
     public function timeout($timeout)
     {
         $this->timeout = $timeout;
         return $this;
     }
 
+    /**
+     * @param int $idleTimeout
+     *
+     * @return $this
+     */
     public function idleTimeout($idleTimeout)
     {
         $this->idleTimeout = $idleTimeout;
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getCommand()
     {
         return implode(' && ', $this->processes);
     }
 
+    /**
+     * @return int
+     */
     public function progressIndicatorSteps()
     {
         return count($this->processes);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         foreach ($this->processes as $process) {
-            /** @var $process Process  **/
             $process->setIdleTimeout($this->idleTimeout);
             $process->setTimeout($this->timeout);
             $process->start();

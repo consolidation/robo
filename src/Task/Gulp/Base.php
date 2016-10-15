@@ -10,9 +10,20 @@ abstract class Base extends BaseTask
 {
     use \Robo\Common\ExecOneCommand;
 
-    protected $opts = [];
-    protected $task = '';
+    /**
+     * @var string
+     */
+    protected $command = '';
 
+    /**
+     * @var array
+     */
+    protected $opts = [];
+
+    /**
+     * @var string
+     */
+    protected $task = '';
 
     /**
      * adds `silent` option to gulp
@@ -58,6 +69,12 @@ abstract class Base extends BaseTask
         return $this;
     }
 
+    /**
+     * @param string $task
+     * @param null|string $pathToGulp
+     *
+     * @throws \Robo\Exception\TaskException
+     */
     public function __construct($task, $pathToGulp = null)
     {
         $this->task = $task;
@@ -70,6 +87,9 @@ abstract class Base extends BaseTask
         }
     }
 
+    /**
+     * @return string
+     */
     public function getCommand()
     {
         return "{$this->command} " . ProcessUtils::escapeArgument($this->task) . "{$this->arguments}";

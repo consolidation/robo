@@ -8,22 +8,59 @@ class ProgressIndicator
 {
     use Timer;
 
-    /** var \Symfony\Component\Console\Helper\ProgressBar */
+    /**
+     * @var \Symfony\Component\Console\Helper\ProgressBar
+     */
     protected $progressBar;
+
+    /**
+     * @var \Symfony\Component\Console\Output\OutputInterface
+     */
     protected $output;
+
+    /**
+     * @var bool
+     */
     protected $progressIndicatorRunning = false;
+
+    /**
+     * @var int
+     */
     protected $autoDisplayInterval = 0;
+
+    /**
+     * @var int
+     */
     protected $cachedSteps = 0;
+
+    /**
+     * @var int
+     */
     protected $totalSteps = 0;
+
+    /**
+     * @var bool
+     */
     protected $progressBarDisplayed = false;
+
+    /**
+     * @var \Robo\Contract\TaskInterface
+     */
     protected $owner;
 
+    /**
+     * @param \Symfony\Component\Console\Helper\ProgressBar $progressBar
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     */
     public function __construct($progressBar, \Symfony\Component\Console\Output\OutputInterface $output)
     {
         $this->progressBar = $progressBar;
         $this->output = $output;
     }
 
+    /**
+     * @param int $interval
+     */
     public function setProgressBarAutoDisplayInterval($interval)
     {
         if ($this->progressIndicatorRunning) {
@@ -32,6 +69,9 @@ class ProgressIndicator
         $this->autoDisplayInterval = $interval;
     }
 
+    /**
+     * @return bool
+     */
     public function hideProgressIndicator()
     {
         $result = $this->progressBarDisplayed;
@@ -53,6 +93,9 @@ class ProgressIndicator
         }
     }
 
+    /**
+     * @param bool $visible
+     */
     public function restoreProgressIndicator($visible)
     {
         if ($visible) {
@@ -60,6 +103,10 @@ class ProgressIndicator
         }
     }
 
+    /**
+     * @param int $totalSteps
+     * @param \Robo\Contract\TaskInterface $owner
+     */
     public function startProgressIndicator($totalSteps, $owner)
     {
         if (!isset($this->progressBar)) {
@@ -87,11 +134,17 @@ class ProgressIndicator
         }
     }
 
+    /**
+     * @return bool
+     */
     public function inProgress()
     {
         return $this->progressIndicatorRunning;
     }
 
+    /**
+     * @param \Robo\Contract\TaskInterface $owner
+     */
     public function stopProgressIndicator($owner)
     {
         if ($this->progressIndicatorRunning && ($this->owner === $owner)) {
@@ -124,6 +177,9 @@ class ProgressIndicator
         $this->progressBar = null;
     }
 
+    /**
+     * @param int $steps
+     */
     public function advanceProgressIndicator($steps = 1)
     {
         $this->cachedSteps += $steps;

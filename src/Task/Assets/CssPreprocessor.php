@@ -18,7 +18,8 @@ abstract class CssPreprocessor extends BaseTask
 
     /**
      * Available compilers list
-     * @var array
+     *
+     * @var string[]
      */
     protected $compilers = [];
 
@@ -30,7 +31,7 @@ abstract class CssPreprocessor extends BaseTask
     protected $compilerOptions = [];
 
     /**
-     * @var array $file
+     * @var array
      */
     protected $files = [];
 
@@ -60,6 +61,7 @@ abstract class CssPreprocessor extends BaseTask
      * @see CssPreprocessor::setImportPaths
      *
      * @param array|string $dirs
+     *
      * @return $this
      */
     public function importDir($dirs)
@@ -91,6 +93,7 @@ abstract class CssPreprocessor extends BaseTask
      * Sets import directories
      *
      * @param array|string $dirs
+     *
      * @return $this
      */
     public function setImportPaths($dirs)
@@ -121,6 +124,7 @@ abstract class CssPreprocessor extends BaseTask
      *
      * @param string $compiler
      * @param array $options
+     *
      * @return $this
      */
     public function compiler($compiler, array $options = [])
@@ -133,6 +137,7 @@ abstract class CssPreprocessor extends BaseTask
 
     /**
      * Compiles file
+     *
      * @param $file
      *
      * @return bool|mixed
@@ -151,9 +156,7 @@ abstract class CssPreprocessor extends BaseTask
     }
 
     /**
-     * Writes the result to destination.
-     *
-     * @return Result
+     * {@inheritdoc}
      */
     public function run()
     {

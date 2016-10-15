@@ -4,7 +4,8 @@ namespace Robo\Task\Bower;
 trait loadTasks
 {
     /**
-     * @param null $pathToBower
+     * @param null|string $pathToBower
+     *
      * @return Install
      */
     protected function taskBowerInstall($pathToBower = null)
@@ -13,7 +14,8 @@ trait loadTasks
     }
 
     /**
-     * @param null $pathToBower
+     * @param null|string $pathToBower
+     *
      * @return Update
      */
     protected function taskBowerUpdate($pathToBower = null)

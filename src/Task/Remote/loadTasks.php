@@ -4,7 +4,7 @@ namespace Robo\Task\Remote;
 trait loadTasks
 {
     /**
-     * @return Rsync
+     * @return \Robo\Task\Remote\Rsync
      */
     protected function taskRsync()
     {
@@ -12,9 +12,10 @@ trait loadTasks
     }
 
     /**
-     * @param null $hostname
-     * @param null $user
-     * @return Ssh
+     * @param null|string $hostname
+     * @param null|string $user
+     *
+     * @return \Robo\Task\Remote\Ssh
      */
     protected function taskSshExec($hostname = null, $user = null)
     {

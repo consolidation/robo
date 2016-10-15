@@ -4,8 +4,9 @@ namespace Robo\Task\Vcs;
 trait loadShortcuts
 {
     /**
-     * @param $url
-     * @return mixed
+     * @param string $url
+     *
+     * @return \Robo\Result
      */
     protected function _svnCheckout($url)
     {
@@ -13,7 +14,8 @@ trait loadShortcuts
     }
 
     /**
-     * @param $url
+     * @param string $url
+     *
      * @return \Robo\Result
      */
     protected function _gitClone($url)
@@ -22,7 +24,8 @@ trait loadShortcuts
     }
 
     /**
-     * @param $url
+     * @param string $url
+     *
      * @return \Robo\Result
      */
     protected function _hgClone($url)

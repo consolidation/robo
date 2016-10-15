@@ -18,7 +18,7 @@ abstract class BaseTask implements TaskInterface, LoggerAwareInterface, ConfigAw
     use InflectionTrait;
 
     /**
-     * {inheritdoc}
+     * {@inheritdoc}
      */
     public function injectDependencies(InflectionInterface $child)
     {

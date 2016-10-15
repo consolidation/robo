@@ -1,6 +1,8 @@
 <?php
 namespace Robo\Task;
 
+use Robo\Contract\WrappedTaskInterface;
+use Robo\Exception\TaskException;
 use Robo\TaskInfo;
 use Robo\Result;
 use Robo\Contract\TaskInterface;
@@ -11,10 +13,25 @@ use Robo\Contract\CommandInterface;
 
 class Simulator extends BaseTask implements CommandInterface
 {
+    /**
+     * @var \Robo\Contract\TaskInterface
+     */
     protected $task;
+
+    /**
+     * @var array
+     */
     protected $constructorParameters;
+
+    /**
+     * @var array
+     */
     protected $stack = [];
 
+    /**
+     * @param \Robo\Contract\TaskInterface $task
+     * @param array $constructorParameters
+     */
     public function __construct(TaskInterface $task, $constructorParameters)
     {
         // TODO: If we ever want to convert the simulated task back into
@@ -23,6 +40,12 @@ class Simulator extends BaseTask implements CommandInterface
         $this->constructorParameters = $constructorParameters;
     }
 
+    /**
+     * @param string $function
+     * @param array $args
+     *
+     * @return \Robo\Result|\Robo\Task\Simulator
+     */
     public function __call($function, $args)
     {
         $this->stack[] = array_merge([$function], $args);
@@ -30,6 +53,9 @@ class Simulator extends BaseTask implements CommandInterface
         return $result == $this->task ? $this : $result;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         $callchain = '';
@@ -72,6 +98,8 @@ class Simulator extends BaseTask implements CommandInterface
      * unexpected results (e.g. execution!).
      *
      * @return string
+     *
+     * @throws \Robo\Exception\TaskException
      */
     public function getCommand()
     {
@@ -81,12 +109,22 @@ class Simulator extends BaseTask implements CommandInterface
         return $this->task->getCommand();
     }
 
+    /**
+     * @param string $action
+     *
+     * @return string
+     */
     protected function formatParameters($action)
     {
         $parameterList = array_map([$this, 'convertParameter'], $action);
         return implode(', ', $parameterList);
     }
 
+    /**
+     * @param mixed $item
+     *
+     * @return string
+     */
     protected function convertParameter($item)
     {
         if (is_callable($item)) {
@@ -107,6 +145,12 @@ class Simulator extends BaseTask implements CommandInterface
         return $item;
     }
 
+    /**
+     * @param string $item
+     * @param string $shortForm
+     *
+     * @return string
+     */
     protected function shortenParameter($item, $shortForm = '')
     {
         $maxLength = 80;

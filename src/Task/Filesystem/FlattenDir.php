@@ -68,21 +68,38 @@ use Symfony\Component\Finder\Finder;
  */
 class FlattenDir extends BaseDir
 {
-    /** @var int $chmod */
+    /**
+     * @var int
+     */
     protected $chmod = 0755;
-    /** @var int $parents */
+
+    /**
+     * @var int[]
+     */
     protected $parents = array(0, 0);
-    /** @var string $parentDir */
+
+    /**
+     * @var string
+     */
     protected $parentDir = '';
-    /** @var string $to */
+
+    /**
+     * @var string
+     */
     protected $to;
 
+    /**
+     * {@inheritdoc}
+     */
     public function __construct($dirs)
     {
         parent::__construct($dirs);
         $this->parentDir = getcwd();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         // find the files
@@ -119,8 +136,10 @@ class FlattenDir extends BaseDir
      * Sets the value from which direction and how much parent dirs should be included.
      * Accepts a positive or negative integer or an array with two integer values.
      *
-     * @param mixed $parents
+     * @param int|int[] $parents
+     *
      * @return $this
+     *
      * @throws TaskException
      */
     public function includeParents($parents)
@@ -178,6 +197,13 @@ class FlattenDir extends BaseDir
         return $this;
     }
 
+    /**
+     * @param array $dirs
+     *
+     * @return array|\Robo\Result
+     *
+     * @throws \Robo\Exception\TaskException
+     */
     protected function findFiles($dirs)
     {
         $files = array();
@@ -226,6 +252,12 @@ class FlattenDir extends BaseDir
         return $files;
     }
 
+    /**
+     * @param string $file
+     * @param string $to
+     *
+     * @return string
+     */
     protected function getTarget($file, $to)
     {
         $target = $to.'/'.basename($file);
@@ -245,6 +277,9 @@ class FlattenDir extends BaseDir
         return $target;
     }
 
+    /**
+     * @param array $files
+     */
     protected function copyFiles($files)
     {
         // copy the files

@@ -30,6 +30,9 @@ class Scss extends CssPreprocessor
 {
     const FORMAT_NAME = 'scss';
 
+    /**
+     * @var string[]
+     */
     protected $compilers = [
         'scssphp', // https://github.com/leafo/scssphp
     ];
@@ -39,6 +42,7 @@ class Scss extends CssPreprocessor
      * @link https://github.com/leafo/scssphp
      *
      * @param string $file
+     *
      * @return string
      */
     protected function scssphp($file)
@@ -77,8 +81,10 @@ class Scss extends CssPreprocessor
      * - Leafo\ScssPhp\Formatter\Crunched
      *
      * @link http://leafo.github.io/scssphp/docs/#output-formatting
+     *
      * @param string $formatterName
-     * @return Scss
+     *
+     * @return $this
      */
     public function setFormatter($formatterName)
     {

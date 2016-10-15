@@ -28,6 +28,14 @@ class Robo
 
     /**
      * Entrypoint for standalone Robo-based tools.  See docs/framework.md.
+     *
+     * @param string[] $argv
+     * @param string $commandClasses
+     * @param null|string $appName
+     * @param null|string $appVersion
+     * @param null|\Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @return int
      */
     public static function run($argv, $commandClasses, $appName = null, $appVersion = null, $output = null)
     {
@@ -84,6 +92,13 @@ class Robo
      * Create a container and initiailze it.  If you wish to *change*
      * anything defined in the container, then you should call
      * \Robo::configureContainer() instead of this function.
+     *
+     * @param null|\Symfony\Component\Console\Input\InputInterface $input
+     * @param null|\Symfony\Component\Console\Output\OutputInterface $output
+     * @param null|\Robo\Application $app
+     * @param null|\Robo\Config $config
+     *
+     * @return \League\Container\Container|\League\Container\ContainerInterface
      */
     public static function createDefaultContainer($input = null, $output = null, $app = null, $config = null)
     {
@@ -124,6 +139,12 @@ class Robo
      * instead, which does all required setup for the caller, but has
      * the limitation that the container it creates can only be
      * extended, not modified.
+     *
+     * @param \League\Container\ContainerInterface $container
+     * @param \Symfony\Component\Console\Application $app
+     * @param \Robo\Config $config
+     * @param null|\Symfony\Component\Console\Input\InputInterface $input
+     * @param null|\Symfony\Component\Console\Output\OutputInterface $output
      */
     public static function configureContainer(ContainerInterface $container, SymfonyApplication $app, Config $config, $input = null, $output = null)
     {
@@ -192,6 +213,12 @@ class Robo
         $app->setAutoExit(false);
     }
 
+    /**
+     * @param null|string $appName
+     * @param null|string $appVersion
+     *
+     * @return \Robo\Application
+     */
     public static function createDefaultApplication($appName = null, $appVersion = null)
     {
         $appName = $appName ?: self::APPLICATION_NAME;
@@ -204,6 +231,8 @@ class Robo
 
     /**
      * Add the Robo League\Container inflectors to the container
+     *
+     * @param \League\Container\ContainerInterface $container
      */
     public static function addInflectors($container)
     {
@@ -258,23 +287,32 @@ class Robo
     /**
      * Return the result printer object.
      *
-     * @return ResultPrinter
+     * @return \Robo\Log\ResultPrinter
      */
     public static function resultPrinter()
     {
         return static::service('resultPrinter');
     }
 
+    /**
+     * @return \Robo\Config
+     */
     public static function config()
     {
         return static::service('config');
     }
 
+    /**
+     * @return \Consolidation\Log\Logger
+     */
     public static function logger()
     {
         return static::service('logger');
     }
 
+    /**
+     * @return \Robo\Application
+     */
     public static function application()
     {
         return static::service('application');
@@ -283,7 +321,7 @@ class Robo
     /**
      * Return the output object.
      *
-     * @return OutputInterface
+     * @return \Symfony\Component\Console\Output\OutputInterface
      */
     public static function output()
     {
@@ -293,7 +331,7 @@ class Robo
     /**
      * Return the input object.
      *
-     * @return InputInterface
+     * @return \Symfony\Component\Console\Input\InputInterface
      */
     public static function input()
     {

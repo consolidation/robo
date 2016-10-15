@@ -10,9 +10,11 @@ use Robo\Exception\TaskException;
 trait CommandReceiver
 {
     /**
-     * @param $command
+     * @param string|\Robo\Contract\CommandInterface $command
+     *
+     * @return string
+     *
      * @throws \Robo\Exception\TaskException
-     * @return string $command
      */
     protected function receiveCommand($command)
     {

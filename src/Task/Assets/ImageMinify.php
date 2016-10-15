@@ -198,6 +198,9 @@ class ImageMinify extends BaseTask
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         // find the files
@@ -253,6 +256,13 @@ class ImageMinify extends BaseTask
         return $this;
     }
 
+    /**
+     * @param array $dirs
+     *
+     * @return array|\Robo\Result
+     *
+     * @throws \Robo\Exception\TaskException
+     */
     protected function findFiles($dirs)
     {
         $files = array();
@@ -301,6 +311,12 @@ class ImageMinify extends BaseTask
         return $files;
     }
 
+    /**
+     * @param string $file
+     * @param string $to
+     *
+     * @return string
+     */
     protected function getTarget($file, $to)
     {
         $target = $to.'/'.basename($file);
@@ -308,6 +324,11 @@ class ImageMinify extends BaseTask
         return $target;
     }
 
+    /**
+     * @param array $files
+     *
+     * @return \Robo\Result
+     */
     protected function minify($files)
     {
         // store the individual results into the results array
@@ -405,6 +426,9 @@ class ImageMinify extends BaseTask
         }
     }
 
+    /**
+     * @return string
+     */
     protected function getOS()
     {
         $os = php_uname('s');
@@ -419,6 +443,11 @@ class ImageMinify extends BaseTask
         return $os;
     }
 
+    /**
+     * @param string $command
+     *
+     * @return \Robo\Result
+     */
     protected function executeCommand($command)
     {
         // insert the options into the command
@@ -447,6 +476,11 @@ class ImageMinify extends BaseTask
         return $exec->inflect($this)->printed(false)->run();
     }
 
+    /**
+     * @param string $executable
+     *
+     * @return \Robo\Result
+     */
     protected function installFromImagemin($executable)
     {
         // check if there is an url defined for the executable
@@ -517,6 +551,12 @@ class ImageMinify extends BaseTask
         return Result::success($this, $message);
     }
 
+    /**
+     * @param string $from
+     * @param string $to
+     *
+     * @return string
+     */
     protected function optipng($from, $to)
     {
         $command = sprintf('optipng -quiet -out "%s" -- "%s"', $to, $from);
@@ -529,6 +569,12 @@ class ImageMinify extends BaseTask
         return $command;
     }
 
+    /**
+     * @param string $from
+     * @param string $to
+     *
+     * @return string
+     */
     protected function jpegtran($from, $to)
     {
         $command = sprintf('jpegtran -optimize -outfile "%s" "%s"', $to, $from);
@@ -543,6 +589,12 @@ class ImageMinify extends BaseTask
         return $command;
     }
 
+    /**
+     * @param string $from
+     * @param string $to
+     *
+     * @return string
+     */
     protected function svgo($from, $to)
     {
         $command = sprintf('svgo "%s" "%s"', $from, $to);
@@ -550,6 +602,12 @@ class ImageMinify extends BaseTask
         return $command;
     }
 
+    /**
+     * @param string $from
+     * @param string $to
+     *
+     * @return string
+     */
     protected function pngquant($from, $to)
     {
         $command = sprintf('pngquant --force --output "%s" "%s"', $to, $from);
@@ -557,6 +615,12 @@ class ImageMinify extends BaseTask
         return $command;
     }
 
+    /**
+     * @param string $from
+     * @param string $to
+     *
+     * @return string
+     */
     protected function advpng($from, $to)
     {
         // advpng does not have any output parameters, copy the file and then compress the copy
@@ -566,6 +630,12 @@ class ImageMinify extends BaseTask
         return $command;
     }
 
+    /**
+     * @param string $from
+     * @param string $to
+     *
+     * @return string
+     */
     protected function pngout($from, $to)
     {
         $command = sprintf('pngout -y -q "%s" "%s"', $from, $to);
@@ -573,6 +643,12 @@ class ImageMinify extends BaseTask
         return $command;
     }
 
+    /**
+     * @param string $from
+     * @param string $to
+     *
+     * @return string
+     */
     protected function zopflipng($from, $to)
     {
         $command = sprintf('zopflipng -y "%s" "%s"', $from, $to);
@@ -580,6 +656,12 @@ class ImageMinify extends BaseTask
         return $command;
     }
 
+    /**
+     * @param string $from
+     * @param string $to
+     *
+     * @return string
+     */
     protected function pngcrush($from, $to)
     {
         $command = sprintf('pngcrush -q -ow "%s" "%s"', $from, $to);
@@ -587,6 +669,12 @@ class ImageMinify extends BaseTask
         return $command;
     }
 
+    /**
+     * @param string $from
+     * @param string $to
+     *
+     * @return string
+     */
     protected function jpegoptim($from, $to)
     {
         // jpegoptim only takes the destination directory as an argument
@@ -595,6 +683,12 @@ class ImageMinify extends BaseTask
         return $command;
     }
 
+    /**
+     * @param string $from
+     * @param string $to
+     *
+     * @return string
+     */
     protected function jpegRecompress($from, $to)
     {
         $command = sprintf('jpeg-recompress --quiet "%s" "%s"', $from, $to);
@@ -602,6 +696,11 @@ class ImageMinify extends BaseTask
         return $command;
     }
 
+    /**
+     * @param string $text
+     *
+     * @return string
+     */
     public static function camelCase($text)
     {
         // non-alpha and non-numeric characters become spaces

@@ -9,6 +9,14 @@ abstract class Base extends BaseTask implements PrintedInterface
 {
     use ExecOneCommand;
 
+    /**
+     * @var string
+     */
+    protected $command = '';
+
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         $command = $this->getCommand();

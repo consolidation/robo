@@ -38,8 +38,7 @@ trait CommandArguments
         if (!is_array($args)) {
             $args = func_get_args();
         }
-        array_map('static::escape', $args);
-        $this->arguments .= " ".implode(' ', $args);
+        $this->arguments .= ' ' . implode(' ', array_map('static::escape', $args));
         return $this;
     }
 
@@ -63,7 +62,7 @@ trait CommandArguments
      */
     public static function escape($value)
     {
-        if (preg_match('/^[a-zA-Z0-9\/.@~_-]*$/', $value)) {
+        if (preg_match('/^[a-zA-Z0-9\/\.@~_-]+$/', $value)) {
             return $value;
         }
         return ProcessUtils::escapeArgument($value);

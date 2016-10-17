@@ -136,7 +136,7 @@ class GitHubRelease extends GitHub
     public function appendDescription($description)
     {
         if (!empty($this->description)) {
-            $$this->description .= "\n\n";
+            $this->description .= "\n\n";
         }
         $this->description .= $description;
         return $this;

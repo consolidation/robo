@@ -112,7 +112,7 @@ class ResultData extends \ArrayObject implements ExitCodeInterface, OutputDataIn
      */
     public function wasCancelled()
     {
-        return $this->exitCode == EXITCODE_USER_CANCEL;
+        return $this->exitCode == self::EXITCODE_USER_CANCEL;
     }
 
     /**

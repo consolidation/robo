@@ -13,7 +13,11 @@ trait InputAwareTrait
     protected $input;
 
     /**
-     * @inheritdoc
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     *
+     * @return $this
+     *
+     * @see \Symfony\Component\Console\Input\InputAwareInterface::setInput()
      */
     public function setInput(InputInterface $input)
     {
@@ -23,7 +27,7 @@ trait InputAwareTrait
     }
 
     /**
-     * @inheritdoc
+     * @return \Symfony\Component\Console\Input\InputInterface
      */
     protected function input()
     {
@@ -33,7 +37,13 @@ trait InputAwareTrait
         return $this->input;
     }
 
-    // Backwards compatibility.
+    /**
+     * Backwards compatibility.
+     *
+     * @return \Symfony\Component\Console\Input\InputInterface
+     *
+     * @deprecated
+     */
     protected function getInput()
     {
         return $this->input();

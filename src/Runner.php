@@ -22,12 +22,12 @@ class Runner implements ContainerAwareInterface
     use ContainerAwareTrait;
 
     /**
-     * @var string RoboClass
+     * @var string
      */
     protected $roboClass;
 
     /**
-     * @var string RoboFile
+     * @var string
      */
     protected $roboFile;
 
@@ -38,8 +38,9 @@ class Runner implements ContainerAwareInterface
 
     /**
      * Class Constructor
-     * @param null $roboClass
-     * @param null $roboFile
+     *
+     * @param null|string $roboClass
+     * @param null|string $roboFile
      */
     public function __construct($roboClass = null, $roboFile = null)
     {
@@ -49,6 +50,11 @@ class Runner implements ContainerAwareInterface
         $this->dir = getcwd();
     }
 
+    /**
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @return bool
+     */
     protected function loadRoboFile($output)
     {
         // If we have not been provided an output object, make a temporary one.
@@ -85,6 +91,14 @@ class Runner implements ContainerAwareInterface
         return true;
     }
 
+    /**
+     * @param array $argv
+     * @param null|string $appName
+     * @param null|string $appVersion
+     * @param null|\Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @return int
+     */
     public function execute($argv, $appName = null, $appVersion = null, $output = null)
     {
         $argv = $this->shebang($argv);
@@ -97,6 +111,14 @@ class Runner implements ContainerAwareInterface
         return $this->run($argv, $output, $app, $commandFiles);
     }
 
+    /**
+     * @param null|\Symfony\Component\Console\Input\InputInterface $input
+     * @param null|\Symfony\Component\Console\Output\OutputInterface $output
+     * @param null|\Robo\Application $app
+     * @param array[] $commandFiles
+     *
+     * @return int
+     */
     public function run($input = null, $output = null, $app = null, $commandFiles = [])
     {
         // Create default input and output objects if they were not provided
@@ -139,6 +161,11 @@ class Runner implements ContainerAwareInterface
         return $statusCode;
     }
 
+    /**
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @return null|string
+     */
     protected function getRoboFileCommands($output)
     {
         if (!$this->loadRoboFile($output)) {
@@ -147,6 +174,10 @@ class Runner implements ContainerAwareInterface
         return $this->roboClass;
     }
 
+    /**
+     * @param \Robo\Application $app
+     * @param array $commandClasses
+     */
     public function registerCommandClasses($app, $commandClasses)
     {
         foreach ((array)$commandClasses as $commandClass) {
@@ -154,6 +185,12 @@ class Runner implements ContainerAwareInterface
         }
     }
 
+    /**
+     * @param \Robo\Application $app
+     * @param string|BuilderAwareInterface|ContainerAwareInterface $commandClass
+     *
+     * @return mixed|void
+     */
     public function registerCommandClass($app, $commandClass)
     {
         $container = Robo::getContainer();
@@ -171,6 +208,11 @@ class Runner implements ContainerAwareInterface
         return $roboCommandFileInstance;
     }
 
+    /**
+     * @param string|BuilderAwareInterface|ContainerAwareInterface  $commandClass
+     *
+     * @return null|object
+     */
     protected function instantiateCommandClass($commandClass)
     {
         $container = Robo::getContainer();
@@ -212,7 +254,8 @@ class Runner implements ContainerAwareInterface
      * Process a shebang script, if one was used to launch this Runner.
      *
      * @param array $args
-     * @return $args with shebang script removed
+     *
+     * @return array $args with shebang script removed
      */
     protected function shebang($args)
     {
@@ -239,8 +282,9 @@ class Runner implements ContainerAwareInterface
      * Determine if the specified argument is a path to a shebang script.
      * If so, load it.
      *
-     * @param $filepath file to check
-     * @return true if shebang script was processed
+     * @param string $filepath file to check
+     *
+     * @return bool Returns TRUE if shebang script was processed
      */
     protected function isShebangFile($filepath)
     {
@@ -273,6 +317,10 @@ class Runner implements ContainerAwareInterface
 
     /**
      * Test to see if the provided line is a robo 'shebang' line.
+     *
+     * @param string $line
+     *
+     * @return bool
      */
     protected function isShebangLine($line)
     {
@@ -285,6 +333,7 @@ class Runner implements ContainerAwareInterface
      * we set up Symfony Console.
      *
      * @param array $argv
+     *
      * @return array
      */
     protected function processRoboOptions($argv)
@@ -328,6 +377,12 @@ class Runner implements ContainerAwareInterface
         return $argv;
     }
 
+    /**
+     * @param string $needle
+     * @param string[] $haystack
+     *
+     * @return bool|int
+     */
     protected function arraySearchBeginsWith($needle, $haystack)
     {
         for ($i = 0; $i < count($haystack); ++$i) {

@@ -12,6 +12,13 @@ namespace Robo\Contract;
  */
 interface ProgressIndicatorAwareInterface
 {
+    /**
+     * @return int
+     */
     public function progressIndicatorSteps();
+
+    /**
+     * @param \Robo\Common\ProgressIndicator $progressIndicator
+     */
     public function setProgressIndicator($progressIndicator);
 }

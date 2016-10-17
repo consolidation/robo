@@ -24,6 +24,8 @@ interface InflectionInterface
      * that subclasses of BaseTask that implement a new FooAwareInterface
      * can override injectDependencies() as explained below, and add more
      * dependencies that can be injected as needed.
+     *
+     * @param \Robo\Contract\InflectionInterface $parent
      */
     public function inflect(InflectionInterface $parent);
 
@@ -41,10 +43,10 @@ interface InflectionInterface
      * The required dependencies of an object should be provided via constructor
      * injection, not inflection.
      *
-     * See: https://mwop.net/blog/2016-04-26-on-locators.html
-     *
-     * @param TaskInterface $child An object created by this class that
+     * @param InflectionInterface $child An object created by this class that
      *   should have its dependencies injected.
+     *
+     * @see https://mwop.net/blog/2016-04-26-on-locators.html
      */
     public function injectDependencies(InflectionInterface $child);
 }

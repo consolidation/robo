@@ -11,6 +11,12 @@ namespace Robo\Common;
  */
 trait DynamicParams
 {
+    /**
+     * @param string $property
+     * @param array $args
+     *
+     * @return $this
+     */
     public function __call($property, $args)
     {
         if (!property_exists($this, $property)) {

@@ -19,6 +19,9 @@ class DeleteDir extends BaseDir
 {
     use ResourceExistenceChecker;
 
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         if (!$this->checkResources($this->dirs, 'dir')) {

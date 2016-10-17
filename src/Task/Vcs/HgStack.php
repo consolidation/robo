@@ -23,6 +23,9 @@ use Robo\Task\CommandStack;
 class HgStack extends CommandStack
 {
 
+    /**
+     * @param string $pathToHg
+     */
     public function __construct($pathToHg = 'hg')
     {
         $this->executable = $pathToHg;
@@ -31,8 +34,9 @@ class HgStack extends CommandStack
     /**
      * Executes `hg clone`
      *
-     * @param $repo
+     * @param string $repo
      * @param string $to
+     *
      * @return $this
      */
     public function cloneRepo($repo, $to = '')
@@ -45,6 +49,7 @@ class HgStack extends CommandStack
      *
      * @param string $include
      * @param string $exclude
+     *
      * @return $this
      */
     public function add($include = '', $exclude = '')
@@ -63,8 +68,9 @@ class HgStack extends CommandStack
     /**
      * Executes `hg commit` command with a message
      *
-     * @param $message
+     * @param string $message
      * @param string $options
+     *
      * @return $this
      */
     public function commit($message, $options = '')
@@ -76,6 +82,7 @@ class HgStack extends CommandStack
      * Executes `hg pull` command.
      *
      * @param string $branch
+     *
      * @return $this
      */
     public function pull($branch = '')
@@ -91,6 +98,7 @@ class HgStack extends CommandStack
      * Executes `hg push` command
      *
      * @param string $branch
+     *
      * @return $this
      */
     public function push($branch = '')
@@ -106,6 +114,7 @@ class HgStack extends CommandStack
      * Performs hg merge
      *
      * @param string $revision
+     *
      * @return $this
      */
     public function merge($revision = '')
@@ -120,8 +129,9 @@ class HgStack extends CommandStack
     /**
      * Executes `hg tag` command
      *
-     * @param $tag_name
+     * @param string $tag_name
      * @param string $message
+     *
      * @return $this
      */
     public function tag($tag_name, $message = '')
@@ -132,6 +142,9 @@ class HgStack extends CommandStack
         return $this->exec([__FUNCTION__, $message, $tag_name]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         $this->printTaskInfo('Running hg commands...');

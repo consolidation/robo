@@ -1,9 +1,11 @@
 <?php
 namespace Robo\Collection;
 
+use Guzzle\Inflection\InflectorInterface;
 use Robo\Config;
 use Robo\Common\Timer;
 use Psr\Log\LogLevel;
+use Robo\Contract\InflectionInterface;
 use Robo\Contract\TaskInterface;
 use Robo\Contract\CompletionInterface;
 use Robo\Contract\WrappedTaskInterface;
@@ -49,22 +51,48 @@ use Robo\Exception\TaskException;
  */
 class CollectionBuilder extends BaseTask implements NestedCollectionInterface, WrappedTaskInterface, CommandInterface
 {
+    /**
+     * @var \Robo\Tasks
+     */
     protected $commandFile;
+
+    /**
+     * @var CollectionInterface
+     */
     protected $collection;
+
+    /**
+     * @var TaskInterface
+     */
     protected $currentTask;
+
+    /**
+     * @var bool
+     */
     protected $simulated;
 
+    /**
+     * @param \Robo\Tasks $commandFile
+     */
     public function __construct($commandFile)
     {
         $this->commandFile = $commandFile;
     }
 
+    /**
+     * @param bool $simulated
+     *
+     * @return $this
+     */
     public function simulated($simulated = true)
     {
         $this->simulated = $simulated;
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     public function isSimulated()
     {
         if (!isset($this->simulated)) {
@@ -78,6 +106,10 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
      * completes or rolls back, the temporary directory will be deleted.
      * Returns the path to the location where the directory will be
      * created.
+     *
+     * @param string $prefix
+     * @param string $base
+     * @param bool $includeRandomPart
      *
      * @return string
      */
@@ -100,6 +132,7 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
      *
      * @param string $finalDestination The path where the working directory
      *   will be moved once the task collection completes.
+     *
      * @return string
      */
     public function workDir($finalDestination)
@@ -123,8 +156,10 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
     /**
      * Add a list of tasks to our task collection.
      *
-     * @param TaskInterface[]
+     * @param TaskInterface[] $tasks
      *   An array of tasks to run with rollback protection
+     *
+     * @return $this
      */
     public function addTaskList(array $tasks)
     {
@@ -158,12 +193,24 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
         return $this;
     }
 
+    /**
+     * @param string $text
+     * @param array $context
+     * @param string $level
+     *
+     * @return $this
+     */
     public function progressMessage($text, $context = [], $level = LogLevel::NOTICE)
     {
         $this->getCollection()->progressMessage($text, $context, $level);
         return $this;
     }
 
+    /**
+     * @param \Robo\Collection\NestedCollectionInterface $parentCollection
+     *
+     * @return $this
+     */
     public function setParentCollection(NestedCollectionInterface $parentCollection)
     {
         $this->getCollection()->setParentCollection($parentCollection);
@@ -175,6 +222,10 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
      * task to the task builder.
      *
      * TODO: protected
+     *
+     * @param TaskInterface $task
+     *
+     * @return $this
      */
     public function addTaskToCollection($task)
     {
@@ -197,6 +248,8 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
     /**
      * Return the current task for this collection builder.
      * TODO: Not needed?
+     *
+     * @return \Robo\Contract\TaskInterface
      */
     public function getCollectionBuilderCurrentTask()
     {
@@ -205,7 +258,8 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
 
     /**
      * Create a new builder with its own task collection
-     * @return type
+     *
+     * @return CollectionBuilder
      */
     public function newBuilder()
     {
@@ -250,6 +304,11 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
      * commandFile's builder), and the new task is added to that.
      * We therefore need to transfer the newly built task into this
      * builder. The temporary builder is discarded.
+     *
+     * @param string $fn
+     * @param array $args
+     *
+     * @return $this|mixed
      */
     public function __call($fn, $args)
     {
@@ -282,6 +341,11 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
 
     /**
      * Construct the desired task and add it to this builder.
+     *
+     * @param string|object $name
+     * @param array $args
+     *
+     * @return \Robo\Collection\CollectionBuilder
      */
     public function build($name, $args)
     {
@@ -294,6 +358,12 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
         return $this->addTaskToCollection($task);
     }
 
+    /**
+     * @param InflectionInterface $task
+     * @param array $args
+     *
+     * @return \Robo\Collection\CompletionWrapper|\Robo\Task\Simulator
+     */
     protected function fixTask($task, $args)
     {
         $task->inflect($this);
@@ -334,6 +404,8 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
 
     /**
      * When we run the collection builder, run everything in the collection.
+     *
+     * @return \Robo\Result
      */
     public function run()
     {
@@ -347,6 +419,8 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
     /**
      * If there is a single task, run it; if there is a collection, run
      * all of its tasks.
+     *
+     * @return \Robo\Result
      */
     protected function runTasks()
     {
@@ -356,6 +430,9 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
         return $this->getCollection()->run();
     }
 
+    /**
+     * @return string
+     */
     public function getCommand()
     {
         if (!$this->collection && $this->currentTask) {
@@ -369,6 +446,9 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
         return $this->getCollection()->getCommand();
     }
 
+    /**
+     * @return \Robo\Collection\Collection
+     */
     public function original()
     {
         return $this->getCollection();
@@ -377,7 +457,7 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
     /**
      * Return the collection of tasks associated with this builder.
      *
-     * @return Collection
+     * @return CollectionInterface
      */
     public function getCollection()
     {

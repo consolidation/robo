@@ -8,12 +8,17 @@ class Config
     const SIMULATE = 'simulate';
     const DECORATED = 'decorated';
 
+    /**
+     * @var array
+     */
     protected $config = [];
 
     /**
      * Fet a configuration value
+     *
      * @param string $key Which config item to look up
      * @param string|null $defaultOverride Override usual default value with a different default
+     *
      * @return mixed
      */
     public function get($key, $defaultOverride = null)
@@ -25,10 +30,12 @@ class Config
     }
 
     /**
-     * Set a configu value
+     * Set a config value
+     *
      * @param string $key
      * @param mixed $value
-     * @return Config
+     *
+     * @return $this
      */
     public function set($key, $value)
     {
@@ -39,6 +46,7 @@ class Config
     /**
      * Return an associative array containing all of the global configuration
      * options and their default values.
+     *
      * @return array
      */
     public function getGlobalOptionDefaultValues()
@@ -54,8 +62,10 @@ class Config
 
     /**
      * Return the default value for a given configuration item.
+     *
      * @param string $key
-     * @param string|null $defaultOverride
+     * @param mixed $defaultOverride
+     *
      * @return mixed
      */
     public function getDefault($key, $defaultOverride = null)
@@ -64,26 +74,47 @@ class Config
         return isset($globalOptions[$key]) ? $globalOptions[$key] : $defaultOverride;
     }
 
+    /**
+     * @return bool
+     */
     public function isSimulated()
     {
         return $this->get(self::SIMULATE);
     }
 
+    /**
+     * @param bool $simulated
+     *
+     * @return $this
+     */
     public function setSimulated($simulated = true)
     {
         return $this->set(self::SIMULATE, $simulated);
     }
 
+    /**
+     * @return bool
+     */
     public function isDecorated()
     {
         return $this->get(self::DECORATED);
     }
 
+    /**
+     * @param bool $decorated
+     *
+     * @return $this
+     */
     public function setDecorated($decorated = true)
     {
         return $this->set(self::DECORATED, $decorated);
     }
 
+    /**
+     * @param int $interval
+     *
+     * @return $this
+     */
     public function setProgressBarAutoDisplayInterval($interval)
     {
         return $this->set(self::PROGRESS_BAR_AUTO_DISPLAY_INTERVAL, $interval);

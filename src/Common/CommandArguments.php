@@ -8,12 +8,16 @@ use Symfony\Component\Process\ProcessUtils;
  */
 trait CommandArguments
 {
+    /**
+     * @var string
+     */
     protected $arguments = '';
 
     /**
      * Pass argument to executable. Its value will be automatically escaped.
      *
-     * @param $arg
+     * @param string $arg
+     *
      * @return $this
      */
     public function arg($arg)
@@ -26,6 +30,7 @@ trait CommandArguments
      * are automatically escaped.
      *
      * @param string|string[] $args
+     *
      * @return $this
      */
     public function args($args)
@@ -42,7 +47,6 @@ trait CommandArguments
      * Pass the provided string in its raw (as provided) form as an argument to executable.
      *
      * @param string $arg
-     * @return type
      */
     public function rawArg($arg)
     {
@@ -54,6 +58,7 @@ trait CommandArguments
      * plus a few other basic characters.
      *
      * @param string $value
+     *
      * @return string
      */
     public static function escape($value)
@@ -68,8 +73,9 @@ trait CommandArguments
      * Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
      * Option values are automatically escaped.
      *
-     * @param $option
+     * @param string $option
      * @param string $value
+     *
      * @return $this
      */
     public function option($option, $value = null)
@@ -86,8 +92,9 @@ trait CommandArguments
      * Pass multiple options to executable. Value can be a string or array.
      * Option values are automatically escaped.
      *
-     * @param $option
+     * @param string $option
      * @param string|array $value
+     *
      * @return $this
      */
     public function optionList($option, $value = array())

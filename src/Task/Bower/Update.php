@@ -20,8 +20,14 @@ use Robo\Task\Bower;
  */
 class Update extends Base
 {
+    /**
+     * {@inheritdoc}
+     */
     protected $action = 'update';
 
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         $this->printTaskInfo('Update Bower packages: {arguments}', ['arguments' => $this->arguments]);

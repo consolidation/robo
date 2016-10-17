@@ -20,14 +20,21 @@ class CopyDir extends BaseDir
 {
     use ResourceExistenceChecker;
 
-    /** @var int $chmod */
+    /**
+     * @var int
+     */
     protected $chmod = 0755;
 
     /**
-     * @var array files to exclude on copying
+     * Files to exclude on copying.
+     *
+     * @var string[]
      */
     protected $exclude = [];
 
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         if (!$this->checkResources($this->dirs, 'dir')) {
@@ -46,7 +53,9 @@ class CopyDir extends BaseDir
      * @link http://en.wikipedia.org/wiki/Chmod
      * @link http://php.net/manual/en/function.mkdir.php
      * @link http://php.net/manual/en/function.chmod.php
+     *
      * @param int $value
+     *
      * @return $this
      */
     public function dirPermissions($value)
@@ -58,7 +67,8 @@ class CopyDir extends BaseDir
     /**
      * List files to exclude.
      *
-     * @param array $exclude
+     * @param string[] $exclude
+     *
      * @return $this
      */
     public function exclude($exclude = [])
@@ -72,8 +82,8 @@ class CopyDir extends BaseDir
      *
      * @param string $src Source directory
      * @param string $dst Destination directory
+     *
      * @throws \Robo\Exception\TaskException
-     * @return void
      */
     protected function copyDir($src, $dst)
     {

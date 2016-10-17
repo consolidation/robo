@@ -11,6 +11,8 @@ interface SimulatedInterface extends TaskInterface
 {
     /**
      * Called in place of `run()` for simulated tasks.
+     *
+     * @param null|array $context
      */
     public function simulate($context);
 }

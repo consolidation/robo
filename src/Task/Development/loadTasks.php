@@ -5,6 +5,7 @@ trait loadTasks
 {
     /**
      * @param string $filename
+     *
      * @return Changelog
      */
     protected function taskChangelog($filename = 'CHANGELOG.md')
@@ -13,7 +14,8 @@ trait loadTasks
     }
 
     /**
-     * @param $filename
+     * @param string $filename
+     *
      * @return GenerateMarkdownDoc
      */
     protected function taskGenDoc($filename)
@@ -22,7 +24,8 @@ trait loadTasks
     }
 
     /**
-     * @param $filename
+     * @param string $filename
+     *
      * @return GenerateTask
      */
     protected function taskGenTask($className, $wrapperClassName = '')
@@ -32,6 +35,7 @@ trait loadTasks
 
     /**
      * @param string $pathToSemVer
+     *
      * @return SemVer
      */
     protected function taskSemVer($pathToSemVer = '.semver')
@@ -41,6 +45,7 @@ trait loadTasks
 
     /**
      * @param int $port
+     *
      * @return PhpServer
      */
     protected function taskServer($port = 8000)
@@ -49,7 +54,8 @@ trait loadTasks
     }
 
     /**
-     * @param $filename
+     * @param string $filename
+     *
      * @return PackPhar
      */
     protected function taskPackPhar($filename)
@@ -58,7 +64,8 @@ trait loadTasks
     }
 
     /**
-     * @param $tag
+     * @param string $tag
+     *
      * @return GitHubRelease
      */
     protected function taskGitHubRelease($tag)
@@ -68,6 +75,7 @@ trait loadTasks
 
     /**
      * @param string|array $url
+     *
      * @return OpenBrowser
      */
     protected function taskOpenBrowser($url)

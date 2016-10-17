@@ -27,10 +27,24 @@ use Robo\Task\Base\Exec;
  */
 class PhpServer extends Exec
 {
+    /**
+     * @var int
+     */
     protected $port;
+
+    /**
+     * @var string
+     */
     protected $host = '127.0.0.1';
+
+    /**
+     * {@inheritdoc}
+     */
     protected $command = 'php -S %s:%d ';
 
+    /**
+     * @param int $port
+     */
     public function __construct($port)
     {
         $this->port = $port;
@@ -40,18 +54,31 @@ class PhpServer extends Exec
         }
     }
 
+    /**
+     * @param string $host
+     *
+     * @return $this
+     */
     public function host($host)
     {
         $this->host = $host;
         return $this;
     }
 
+    /**
+     * @param string $path
+     *
+     * @return $this
+     */
     public function dir($path)
     {
         $this->command .= "-t $path";
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getCommand()
     {
         return sprintf($this->command . $this->arguments, $this->host, $this->port);

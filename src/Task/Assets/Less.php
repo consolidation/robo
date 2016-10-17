@@ -43,6 +43,9 @@ class Less extends CssPreprocessor
 {
     const FORMAT_NAME = 'less';
 
+    /**
+     * @var string[]
+     */
     protected $compilers = [
         'less', // https://github.com/oyejorge/less.php
         'lessphp', //https://github.com/leafo/lessphp
@@ -53,6 +56,7 @@ class Less extends CssPreprocessor
      * @link https://github.com/leafo/lessphp
      *
      * @param string $file
+     *
      * @return string
      */
     protected function lessphp($file)
@@ -76,6 +80,7 @@ class Less extends CssPreprocessor
      * @link https://github.com/oyejorge/less.php
      *
      * @param string $file
+     *
      * @return string
      */
     protected function less($file)

@@ -22,20 +22,42 @@ namespace Robo\Task\Docker;
  */
 class Commit extends Base
 {
+    /**
+     * @var string
+     */
     protected $command = "docker commit";
+
+    /**
+     * @var string
+     */
     protected $name;
+
+    /**
+     * @var string
+     */
     protected $cid;
 
+    /**
+     * @param string|\Robo\Task\Docker\Result $cidOrResult
+     */
     public function __construct($cidOrResult)
     {
         $this->cid = $cidOrResult instanceof Result ? $cidOrResult->getCid() : $cidOrResult;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getCommand()
     {
         return $this->command . ' ' . $this->cid . ' ' . $this->name . ' ' . $this->arguments;
     }
 
+    /**
+     * @param $name
+     *
+     * @return $this
+     */
     public function name($name)
     {
         $this->name = $name;

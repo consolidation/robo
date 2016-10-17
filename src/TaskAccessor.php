@@ -10,6 +10,11 @@ trait TaskAccessor
     /**
      * Provides the collection builder with access to all of the
      * protected 'task' methods available on this object.
+     *
+     * @param string $fn
+     * @param array $args
+     *
+     * @return null|\Robo\Collection\CollectionBuilder
      */
     public function getBuiltTask($fn, $args)
     {
@@ -28,6 +33,8 @@ trait TaskAccessor
      *   $this->taskFoo($a, $b);
      *
      * The later form is preferred.
+     *
+     * @return \Robo\Collection\CollectionBuilder
      */
     protected function task()
     {

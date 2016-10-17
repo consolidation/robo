@@ -29,22 +29,37 @@ namespace Robo\Task\Composer;
  */
 class DumpAutoload extends Base
 {
+    /**
+     * {@inheritdoc}
+     */
     protected $action = 'dump-autoload';
 
+    /**
+     * @var string
+     */
     protected $optimize;
 
+    /**
+     * @return $this
+     */
     public function optimize()
     {
         $this->optimize = "--optimize";
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getCommand()
     {
         $this->option($this->optimize);
         return parent::getCommand();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         $command = $this->getCommand();

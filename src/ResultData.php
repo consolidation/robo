@@ -7,7 +7,14 @@ use Consolidation\AnnotatedCommand\OutputDataInterface;
 
 class ResultData extends \ArrayObject implements ExitCodeInterface, OutputDataInterface
 {
+    /**
+     * @var int
+     */
     protected $exitCode;
+
+    /**
+     * @var string
+     */
     protected $message;
 
     const EXITCODE_OK = 0;
@@ -23,6 +30,11 @@ class ResultData extends \ArrayObject implements ExitCodeInterface, OutputDataIn
     not particularly meaningful. */
     const EXITCODE_USER_CANCEL = 75;
 
+    /**
+     * @param int $exitCode
+     * @param string $message
+     * @param array $data
+     */
     public function __construct($exitCode = self::EXITCODE_OK, $message = '', $data = [])
     {
         $this->exitCode = $exitCode;
@@ -31,11 +43,23 @@ class ResultData extends \ArrayObject implements ExitCodeInterface, OutputDataIn
         parent::__construct($data);
     }
 
+    /**
+     * @param string $message
+     * @param array $data
+     *
+     * @return \Robo\ResultData
+     */
     public static function message($message, $data = [])
     {
         return new self(self::EXITCODE_OK, $message, $data);
     }
 
+    /**
+     * @param string $message
+     * @param array $data
+     *
+     * @return \Robo\ResultData
+     */
     public static function cancelled($message = '', $data = [])
     {
         return new ResultData(self::EXITCODE_USER_CANCEL, $message, $data);
@@ -50,13 +74,16 @@ class ResultData extends \ArrayObject implements ExitCodeInterface, OutputDataIn
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getExitCode()
     {
         return $this->exitCode;
     }
 
+    /**
+     * @return null|string
+     */
     public function getOutputData()
     {
         if (!empty($this->message) && !isset($this['already-printed'])) {
@@ -65,18 +92,24 @@ class ResultData extends \ArrayObject implements ExitCodeInterface, OutputDataIn
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getMessage()
     {
         return $this->message;
     }
 
+    /**
+     * @return bool
+     */
     public function wasSuccessful()
     {
         return $this->exitCode === self::EXITCODE_OK;
     }
 
+    /**
+     * @return bool
+     */
     public function wasCancelled()
     {
         return $this->exitCode == EXITCODE_USER_CANCEL;
@@ -86,6 +119,10 @@ class ResultData extends \ArrayObject implements ExitCodeInterface, OutputDataIn
      * Merge another result into this result.  Data already
      * existing in this result takes precedence over the
      * data in the Result being merged.
+     *
+     * @param \Robo\ResultData $result
+     *
+     * @return $this
      */
     public function merge(ResultData $result)
     {
@@ -94,11 +131,17 @@ class ResultData extends \ArrayObject implements ExitCodeInterface, OutputDataIn
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     public function hasExecutionTime()
     {
         return isset($this['time']);
     }
 
+    /**
+     * @return null|float
+     */
     public function getExecutionTime()
     {
         if (!$this->hasExecutionTime()) {

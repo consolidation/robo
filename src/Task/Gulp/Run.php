@@ -21,6 +21,9 @@ use Robo\Contract\CommandInterface;
  */
 class Run extends Base implements CommandInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         if (strlen($this->arguments)) {

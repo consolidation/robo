@@ -64,7 +64,7 @@ trait ProgressIndicatorAwareTrait
         if (!$this->progressIndicator) {
             return 0;
         }
-        $this->progressIndicator->getExecutionTime();
+        return $this->progressIndicator->getExecutionTime();
     }
 
     protected function startProgressIndicator()

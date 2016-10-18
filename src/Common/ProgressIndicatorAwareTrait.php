@@ -6,7 +6,7 @@ trait ProgressIndicatorAwareTrait
     use Timer;
 
     /**
-     * @var ProgressIndicator
+     * @var null|\Robo\Common\ProgressIndicator
      */
     protected $progressIndicator;
 
@@ -19,7 +19,7 @@ trait ProgressIndicatorAwareTrait
     }
 
     /**
-     * @param \Robo\Common\ProgressIndicator $progressIndicator
+     * @param null|\Robo\Common\ProgressIndicator $progressIndicator
      */
     public function setProgressIndicator($progressIndicator)
     {

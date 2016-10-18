@@ -24,9 +24,10 @@ trait loadTasks
     }
 
     /**
-     * @param string $filename
+     * @param string $className
+     * @param string $wrapperClassName
      *
-     * @return GenerateTask
+     * @return \Robo\Task\Development\GenerateTask
      */
     protected function taskGenTask($className, $wrapperClassName = '')
     {

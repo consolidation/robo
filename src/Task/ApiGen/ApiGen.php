@@ -281,7 +281,7 @@ class ApiGen extends BaseTask implements CommandInterface
     }
 
     /**
-     * @param array $groups
+     * @param string $groups
      *
      * @return $this
      */

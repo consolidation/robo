@@ -139,9 +139,9 @@ trait ExecCommand
 
         // If this project is inside a vendor directory, give highest priority
         // to that directory.
-        $vendorDirContainingUs = realpath(__DIR__ . '/../../../../..');
+        $vendorDirContainingUs = realpath(__DIR__ . '/../../../..');
         if (is_dir($vendorDirContainingUs) && (basename($vendorDirContainingUs) == 'vendor')) {
-            array_unshift($candidates, $vendorDirContainingUs);
+            array_unshift($candidates, $vendorDirContainingUs . '/bin');
         }
 
         foreach ($candidates as $dir) {

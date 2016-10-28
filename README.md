@@ -40,7 +40,7 @@ Now you can use it just like `robo`.
 
 ### Composer
 
-* Run `composer require consolidation/robo:"<1.0.0"`
+* Run `composer require consolidation/robo:~1`
 * Use `vendor/bin/robo` to execute Robo tasks.
 
 ## Usage

@@ -85,7 +85,6 @@ class RoboFile extends \Robo\Tasks
             ->run();
     }
 }
-?>
 ```
 
 If you execute `robo` you will see this task added to list of available task with name: `test:acceptance`.
@@ -109,7 +108,6 @@ class RoboFile extends \Robo\Tasks {
         })->run();
     }
 }
-?>
 ```
 
 ---
@@ -123,7 +121,7 @@ class RoboFile extends \Robo\Tasks
     public function clean()
     {
         $this->taskCleanDir([
-            'app/cache'
+            'app/cache',
             'app/logs'
         ])->run();
 
@@ -131,8 +129,7 @@ class RoboFile extends \Robo\Tasks
             'web/assets/tmp_uploads',
         ])->run();
     }
-
-?>
+}
 ```
 
 This task cleans `app/cache` and `app/logs` dirs (ignoring .gitignore and .gitkeep files)

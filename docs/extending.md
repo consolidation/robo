@@ -2,7 +2,7 @@
 
 Robo tasks can be added to your Robo application by using Composer to suppliment the set of built-in tasks that Robo provides by default. To find existing Robo task extensions, search in Packagist for projects of type [robo-tasks](https://packagist.org/search/?type=robo-tasks).
 
-The convention used to add new tasks for use in your RoboFiles is to create a wrapper trait named 'loadTasks` that instantiates the implementation class for each task. Each task method in the trait should start with the prefix `task`, and should use **chained method calls** for configuration. Task execution should be triggered by the method `run`. 
+The convention used to add new tasks for use in your RoboFiles is to create a wrapper trait named `loadTasks` that instantiates the implementation class for each task. Each task method in the trait should start with the prefix `task`, and should use **chained method calls** for configuration. Task execution should be triggered by the method `run`. 
 
 To include additional tasks in your RoboFile, you must `use` the appropriate `loadTasks` in your RoboFile. See the section [Including Additional Tasks](#including-additional-tasks) below. To create your own Robo extension that provides tasks for use in RoboFiles, then you must write your own class that implements TaskInterface, and create a `loadTasks` trait for it as described in the section [Creating a Robo Extension](#creating-a-robo-extension).
 

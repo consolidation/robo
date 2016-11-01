@@ -20,7 +20,9 @@ use Robo\Task\BaseTask;
  */
 class PHPUnit extends BaseTask implements CommandInterface, PrintedInterface
 {
-    use \Robo\Common\ExecOneCommand;
+    use \Robo\Common\ExecOneCommand {
+        dir as execOneCommandDir;
+    }
 
     /**
      * @var string
@@ -189,7 +191,7 @@ class PHPUnit extends BaseTask implements CommandInterface, PrintedInterface
      */
     public function dir($dir)
     {
-        return $this->dir($dir);
+        return $this->execOneCommandDir($dir);
     }
 
     /**

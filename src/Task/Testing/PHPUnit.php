@@ -20,9 +20,7 @@ use Robo\Task\BaseTask;
  */
 class PHPUnit extends BaseTask implements CommandInterface, PrintedInterface
 {
-    use \Robo\Common\ExecOneCommand {
-        dir as execOneCommandDir;
-    }
+    use \Robo\Common\ExecOneCommand;
 
     /**
      * @var string
@@ -180,18 +178,6 @@ class PHPUnit extends BaseTask implements CommandInterface, PrintedInterface
     public function file($file)
     {
         return $this->files($file);
-    }
-
-    /**
-     * Test all of the files in the provided directory.
-     *
-     * @param string $dir path to directory to test
-     *
-     * @return $this
-     */
-    public function dir($dir)
-    {
-        return $this->execOneCommandDir($dir);
     }
 
     /**

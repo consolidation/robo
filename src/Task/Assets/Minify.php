@@ -263,7 +263,6 @@ class Minify extends BaseTask
             return Result::error($this, 'Minification failed.');
         }
 
-        $size_after = strlen($minified);
         $dst = $this->dst . '.part';
         $write_result = file_put_contents($dst, $minified);
 

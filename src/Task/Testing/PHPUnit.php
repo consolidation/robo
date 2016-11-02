@@ -181,18 +181,6 @@ class PHPUnit extends BaseTask implements CommandInterface, PrintedInterface
     }
 
     /**
-     * Test all of the files in the provided directory.
-     *
-     * @param string $dir path to directory to test
-     *
-     * @return $this
-     */
-    public function dir($dir)
-    {
-        return $this->dir($dir);
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function getCommand()

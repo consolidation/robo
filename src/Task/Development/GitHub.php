@@ -4,10 +4,6 @@ namespace Robo\Task\Development;
 use Robo\Exception\TaskException;
 use Robo\Task\BaseTask;
 
-/**
- * @method \Robo\Task\Development\GitHub repo(string)
- * @method \Robo\Task\Development\GitHub owner(string)
- */
 abstract class GitHub extends BaseTask
 {
     const GITHUB_URL = 'https://api.github.com';

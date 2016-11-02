@@ -17,8 +17,6 @@ use Robo\Task\BaseTask;
  *      ->run();
  * ?>
  * ```
- *
- * @method append()
  */
 class Write extends BaseTask
 {

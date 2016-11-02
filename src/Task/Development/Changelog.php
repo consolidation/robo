@@ -33,10 +33,6 @@ use Robo\Common\BuilderAwareTrait;
  *  ->run();
  * ?>
  * ```
- *
- * @method Development\Changelog filename(string $filename)
- * @method Development\Changelog anchor(string $anchor)
- * @method Development\Changelog version(string $version)
  */
 class Changelog extends BaseTask implements BuilderAwareInterface
 {

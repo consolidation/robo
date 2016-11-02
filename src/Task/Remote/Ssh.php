@@ -41,10 +41,6 @@ use Robo\Contract\SimulatedInterface;
  * ```php
  * \Robo\Task\Remote\Ssh::configure('remoteDir', '/some-dir');
  * ```
- *
- * @method $this stopOnFail(bool $stopOnFail) Whether or not to chain commands together with &&
- *                                            and stop the chain if one command fails
- * @method $this remoteDir(string $remoteWorkingDirectory) Changes to the given directory before running commands
  */
 class Ssh extends BaseTask implements CommandInterface, SimulatedInterface
 {
@@ -111,6 +107,8 @@ class Ssh extends BaseTask implements CommandInterface, SimulatedInterface
     }
 
     /**
+     * Whether or not to chain commands together with && and stop the chain if one command fails.
+     *
      * @param bool $stopOnFail
      *
      * @return $this
@@ -122,6 +120,8 @@ class Ssh extends BaseTask implements CommandInterface, SimulatedInterface
     }
 
     /**
+     * Changes to the given directory before running commands.
+     *
      * @param string $remoteDir
      *
      * @return $this

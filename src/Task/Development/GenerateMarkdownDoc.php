@@ -41,24 +41,6 @@ use Robo\Common\BuilderAwareTrait;
  *          return strpos($r->name, 'save')===0 ? "[Saves to the database]\n" . $text : $text;
  *      })->run();
  * ```
- *
- * @method \Robo\Task\Development\GenerateMarkdownDoc docClass(string $classname) put a class you want to be documented
- * @method \Robo\Task\Development\GenerateMarkdownDoc filterMethods(\Closure $func) using callback function filter out methods that won't be documented
- * @method \Robo\Task\Development\GenerateMarkdownDoc filterClasses(\Closure $func) using callback function filter out classes that won't be documented
- * @method \Robo\Task\Development\GenerateMarkdownDoc filterProperties(\Closure $func) using callback function filter out properties that won't be documented
- * @method \Robo\Task\Development\GenerateMarkdownDoc processClass(\Closure $func) post-process class documentation
- * @method \Robo\Task\Development\GenerateMarkdownDoc processClassSignature(\Closure $func) post-process class signature. Provide *false* to skip.
- * @method \Robo\Task\Development\GenerateMarkdownDoc processClassDocBlock(\Closure $func) post-process class docblock contents. Provide *false* to skip.
- * @method \Robo\Task\Development\GenerateMarkdownDoc processMethod(\Closure $func) post-process method documentation. Provide *false* to skip.
- * @method \Robo\Task\Development\GenerateMarkdownDoc processMethodSignature(\Closure $func) post-process method signature. Provide *false* to skip.
- * @method \Robo\Task\Development\GenerateMarkdownDoc processMethodDocBlock(\Closure $func) post-process method docblock contents. Provide *false* to skip.
- * @method \Robo\Task\Development\GenerateMarkdownDoc processProperty(\Closure $func) post-process property documentation. Provide *false* to skip.
- * @method \Robo\Task\Development\GenerateMarkdownDoc processPropertySignature(\Closure $func) post-process property signature. Provide *false* to skip.
- * @method \Robo\Task\Development\GenerateMarkdownDoc processPropertyDocBlock(\Closure $func) post-process property docblock contents. Provide *false* to skip.
- * @method \Robo\Task\Development\GenerateMarkdownDoc reorder(\Closure $func) use a function to reorder classes
- * @method \Robo\Task\Development\GenerateMarkdownDoc reorderMethods(\Closure $func) use a function to reorder methods in class
- * @method \Robo\Task\Development\GenerateMarkdownDoc prepend($text) inserts text into beginning of markdown file
- * @method \Robo\Task\Development\GenerateMarkdownDoc append($text) inserts text in the end of markdown file
  */
 class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
 {
@@ -190,6 +172,8 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
     }
 
     /**
+     * Put a class you want to be documented.
+     *
      * @param string $item
      *
      * @return $this
@@ -201,6 +185,8 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
     }
 
     /**
+     * Using a callback function filter out methods that won't be documented.
+     *
      * @param callable $filterMethods
      *
      * @return $this
@@ -212,6 +198,8 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
     }
 
     /**
+     * Using a callback function filter out classes that won't be documented.
+     *
      * @param callable $filterClasses
      *
      * @return $this
@@ -223,6 +211,8 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
     }
 
     /**
+     * Using a callback function filter out properties that won't be documented.
+     *
      * @param callable $filterProperties
      *
      * @return $this
@@ -234,6 +224,8 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
     }
 
     /**
+     * Post-process class documentation.
+     *
      * @param callable $processClass
      *
      * @return $this
@@ -245,6 +237,8 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
     }
 
     /**
+     * Post-process class signature. Provide *false* to skip.
+     *
      * @param callable|false $processClassSignature
      *
      * @return $this
@@ -256,6 +250,8 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
     }
 
     /**
+     * Post-process class docblock contents. Provide *false* to skip.
+     *
      * @param callable|false $processClassDocBlock
      *
      * @return $this
@@ -267,6 +263,8 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
     }
 
     /**
+     * Post-process method documentation. Provide *false* to skip.
+     *
      * @param callable|false $processMethod
      *
      * @return $this
@@ -278,6 +276,8 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
     }
 
     /**
+     * Post-process method signature. Provide *false* to skip.
+     *
      * @param callable|false $processMethodSignature
      *
      * @return $this
@@ -289,6 +289,8 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
     }
 
     /**
+     * Post-process method docblock contents. Provide *false* to skip.
+     *
      * @param callable|false $processMethodDocBlock
      *
      * @return $this
@@ -300,6 +302,8 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
     }
 
     /**
+     * Post-process property documentation. Provide *false* to skip.
+     *
      * @param callable|false $processProperty
      *
      * @return $this
@@ -311,6 +315,8 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
     }
 
     /**
+     * Post-process property signature. Provide *false* to skip.
+     *
      * @param callable|false $processPropertySignature
      *
      * @return $this
@@ -322,6 +328,8 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
     }
 
     /**
+     * Post-process property docblock contents. Provide *false* to skip.
+     *
      * @param callable|false $processPropertyDocBlock
      *
      * @return $this
@@ -333,6 +341,8 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
     }
 
     /**
+     * Use a function to reorder classes.
+     *
      * @param callable $reorder
      *
      * @return $this
@@ -344,6 +354,8 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
     }
 
     /**
+     * Use a function to reorder methods in class.
+     *
      * @param callable $reorderMethods
      *
      * @return $this
@@ -377,6 +389,8 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
     }
 
     /**
+     * Inserts text at the beginning of markdown file.
+     *
      * @param string $prepend
      *
      * @return $this
@@ -388,6 +402,8 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
     }
 
     /**
+     * Inserts text at the end of markdown file.
+     *
      * @param string $append
      *
      * @return $this

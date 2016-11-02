@@ -31,8 +31,6 @@ use Robo\Common\BuilderAwareTrait;
  *  ->run();
  * ?>
  * ```
- *
- * @method to(string) location to store extracted files
  */
 class Extract extends BaseTask implements BuilderAwareInterface
 {

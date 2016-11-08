@@ -266,7 +266,7 @@ class Minify extends BaseTask
         $size_after = strlen($minified);
 
         // Minification did not reduce file size, so use original file.
-        if($size_after > $size_before) {
+        if ($size_after > $size_before) {
             $minified = $this->text;
             $size_after = $size_before;
         }

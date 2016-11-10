@@ -375,6 +375,8 @@ class RoboFile extends \Robo\Tasks
             ->taskGitStack()
                 ->add('robo.phar')
                 ->commit('phar updated')
+                ->push('origin gh-pages')
+                ->checkout('master')
                 ->run();
     }
 }

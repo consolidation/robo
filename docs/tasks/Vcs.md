@@ -32,11 +32,11 @@ $this->taskGitStack()
 * `merge($branch)`  Performs git merge
 * `checkout($branch)`  Executes `git checkout` command
 * `tag($tag_name, $message = null)`  Executes `git tag` command
-* `executable($executable)` 
-* `exec($command)` 
-* `stopOnFail($stopOnFail = null)` 
+* `executable($executable)`   * `param string` $executable
+* `exec($command)`   * `param string|string[]` $command
+* `stopOnFail($stopOnFail = null)`   * `param bool` $stopOnFail
 * `result($result)` 
-* `dir($dir)`  changes working directory of command
+* `dir($dir)`  Changes working directory of command
 * `printed($arg)`  Should command output be printed
 
 ## HgStack
@@ -65,11 +65,11 @@ $this->hgStack
 * `push($branch = null)`  Executes `hg push` command
 * `merge($revision = null)`  Performs hg merge
 * `tag($tag_name, $message = null)`  Executes `hg tag` command
-* `executable($executable)` 
-* `exec($command)` 
-* `stopOnFail($stopOnFail = null)` 
+* `executable($executable)`   * `param string` $executable
+* `exec($command)`   * `param string|string[]` $command
+* `stopOnFail($stopOnFail = null)`   * `param bool` $stopOnFail
 * `result($result)` 
-* `dir($dir)`  changes working directory of command
+* `dir($dir)`  Changes working directory of command
 * `printed($arg)`  Should command output be printed
 
 ## SvnStack
@@ -99,10 +99,10 @@ $this->taskSvnStack('username', 'password')
 * `add($pattern = null)`  Executes `svn add` command with files to add pattern
 * `commit($message, $options = null)`  Executes `svn commit` command with a message
 * `checkout($branch)`  Executes `svn checkout` command
-* `executable($executable)` 
-* `exec($command)` 
-* `stopOnFail($stopOnFail = null)` 
+* `executable($executable)`   * `param string` $executable
+* `exec($command)`   * `param string|string[]` $command
+* `stopOnFail($stopOnFail = null)`   * `param bool` $stopOnFail
 * `result($result)` 
-* `dir($dir)`  changes working directory of command
+* `dir($dir)`  Changes working directory of command
 * `printed($arg)`  Should command output be printed
 

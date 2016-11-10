@@ -3,9 +3,6 @@ namespace Robo;
 
 use League\Container\Container;
 use League\Container\ContainerInterface;
-
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Application as SymfonyApplication;
 
@@ -17,7 +14,7 @@ use Symfony\Component\Console\Application as SymfonyApplication;
 class Robo
 {
     const APPLICATION_NAME = 'Robo';
-    const VERSION = '1.0.0-RC3';
+    const VERSION = '1.0.0';
 
     /**
      * The currently active container object, or NULL if not initialized yet.

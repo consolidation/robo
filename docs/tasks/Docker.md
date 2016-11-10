@@ -20,8 +20,8 @@ $this->taskDockerBuild('path/to/dir')
 Class Build
 @package Robo\Task\Docker
 
-* `tag($tag)` 
-* `dir($dir)`  changes working directory of command
+* `tag($tag)`   * `param string` $tag
+* `dir($dir)`  Changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -50,8 +50,8 @@ $task->dockerCommit($result)
      ->run();
 ```
 
-* `name($name)` 
-* `dir($dir)`  changes working directory of command
+* `name($name)`   * `param` $name
+* `dir($dir)`  Changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -85,10 +85,10 @@ $this->taskDockerExec($test)
 ```
 
 
-* `detached()` 
-* `interactive()` 
-* `exec($command)` 
-* `dir($dir)`  changes working directory of command
+* `detached()`   * `return` $this
+* `interactive()`   * `return` $this
+* `exec($command)`   * `param string|\Robo\Contract\CommandInterface` $command
+* `dir($dir)`  Changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -110,7 +110,7 @@ $this->taskDockerPull('wordpress')
 ```
 
 
-* `dir($dir)`  changes working directory of command
+* `dir($dir)`  Changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -131,7 +131,7 @@ $this->taskDockerRemove($container)
 ```
 
 
-* `dir($dir)`  changes working directory of command
+* `dir($dir)`  Changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -185,21 +185,21 @@ $this->taskDockerRun('wordpress')
 ```
 
 
-* `detached()` 
-* `interactive()` 
-* `exec($run)` 
-* `volume($from, $to = null)` 
-* `env($variable, $value = null)` 
-* `publish($port = null, $portTo = null)` 
-* `containerWorkdir($dir)` 
-* `user($user)` 
-* `privileged()` 
-* `name($name)` 
-* `link($name, $alias)` 
-* `tmpDir($dir)` 
-* `getTmpDir()` 
-* `getUniqId()` 
-* `dir($dir)`  changes working directory of command
+* `detached()`   * `return` $this
+* `interactive()`   * `return` $this
+* `exec($run)`   * `param string|\Robo\Contract\CommandInterface` $run
+* `volume($from, $to = null)`   * `param string` $from
+* `env($variable, $value = null)`   * `param string` $variable
+* `publish($port = null, $portTo = null)`   * `param null|int` $port
+* `containerWorkdir($dir)`   * `param string` $dir
+* `user($user)`   * `param string` $user
+* `privileged()`   * `return` $this
+* `name($name)`   * `param string` $name
+* `link($name, $alias)`   * `param string|\Robo\Task\Docker\Result` $name
+* `tmpDir($dir)`   * `param string` $dir
+* `getTmpDir()`  @return string
+* `getUniqId()`  @return string
+* `dir($dir)`  Changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -219,7 +219,7 @@ $this->taskDockerStart($cidOrResult)
 ?>
 ```
 
-* `dir($dir)`  changes working directory of command
+* `dir($dir)`  Changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -239,7 +239,7 @@ $this->taskDockerStop($cidOrResult)
 ?>
 ```
 
-* `dir($dir)`  changes working directory of command
+* `dir($dir)`  Changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values

@@ -21,7 +21,7 @@ $this->taskGulpRun('clean')
 * `noColor()`  adds `--no-color` option to gulp
 * `color()`  adds `--color` option to gulp
 * `simple()`  adds `--tasks-simple` option to gulp
-* `dir($dir)`  changes working directory of command
+* `dir($dir)`  Changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values

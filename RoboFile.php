@@ -82,8 +82,6 @@ class RoboFile extends \Robo\Tasks
             $this->say('non-stable release');
         }
 
-        $releaseDescription = $this->ask("Description of Release\n");
-
         $this->docs();
         $this->taskGitStack()
             ->add('-A')

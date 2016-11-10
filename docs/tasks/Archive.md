@@ -26,8 +26,8 @@ $this->taskExtract($archivePath)
 
 * `to(string)`  location to store extracted files
 
-* `to($to)` 
-* `preserveTopDirectory($preserve = null)` 
+* `to($to)`  Location to store extracted files.
+* `preserveTopDirectory($preserve = null)`   * `param bool` $preserve
 
 ## Pack
 
@@ -45,7 +45,7 @@ $this->taskPack(
 ?>
 ```
 
-* `archiveFile($archiveFile)` 
+* `archiveFile($archiveFile)`   * `param string` $archiveFile
 * `addFile($placementLocation, $filesystemLocation)`  Add an item to the archive. Like file_exists(), the parameter
 * `addDir($placementLocation, $filesystemLocation)`  Alias for addFile, in case anyone has angst about using
 * `add($item)`  Add a file or directory, or list of same to the archive.

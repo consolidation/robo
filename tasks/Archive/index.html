@@ -277,9 +277,9 @@ $this-&gt;taskExtract($archivePath)
 <p><code>to(string)</code>  location to store extracted files</p>
 </li>
 <li>
-<p><code>to($to)</code> </p>
+<p><code>to($to)</code>  Location to store extracted files.</p>
 </li>
-<li><code>preserveTopDirectory($preserve = null)</code> </li>
+<li><code>preserveTopDirectory($preserve = null)</code>   * <code>param bool</code> $preserve</li>
 </ul>
 <h2 id="pack">Pack</h2>
 <p>Creates a zip or tar archive.</p>
@@ -294,7 +294,7 @@ $this-&gt;taskPack(
 </code></pre>
 
 <ul>
-<li><code>archiveFile($archiveFile)</code> </li>
+<li><code>archiveFile($archiveFile)</code>   * <code>param string</code> $archiveFile</li>
 <li><code>addFile($placementLocation, $filesystemLocation)</code>  Add an item to the archive. Like file_exists(), the parameter</li>
 <li><code>addDir($placementLocation, $filesystemLocation)</code>  Alias for addFile, in case anyone has angst about using</li>
 <li><code>add($item)</code>  Add a file or directory, or list of same to the archive.</li>

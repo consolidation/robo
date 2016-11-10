@@ -279,7 +279,7 @@ $this-&gt;taskAtoum()
 <li><code>debug()</code>  Use atoum's debug mode.</li>
 <li><code>files($files)</code>  Test file or test files to run.</li>
 <li><code>directories($directories)</code>  Test directory or directories to run.</li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>dir($dir)</code>  Changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
@@ -298,15 +298,15 @@ $this-&gt;taskBehat()
 </code></pre>
 
 <ul>
-<li><code>stopOnFail()</code> </li>
-<li><code>noInteraction()</code> </li>
-<li><code>config($config_file)</code> </li>
-<li><code>colors()</code> </li>
-<li><code>noColors()</code> </li>
-<li><code>suite($suite)</code> </li>
-<li><code>verbose($level = null)</code> </li>
-<li><code>format($formater)</code> </li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>stopOnFail()</code>   * <code>return</code> $this</li>
+<li><code>noInteraction()</code>   * <code>return</code> $this</li>
+<li><code>config($config_file)</code>   * <code>param</code> $config_file</li>
+<li><code>colors()</code>   * <code>return</code> $this</li>
+<li><code>noColors()</code>   * <code>return</code> $this</li>
+<li><code>suite($suite)</code>   * <code>param string</code> $suite</li>
+<li><code>verbose($level = null)</code>   * <code>param string</code> $level</li>
+<li><code>format($formater)</code>   * <code>param string</code> $formater</li>
+<li><code>dir($dir)</code>  Changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
@@ -330,10 +330,10 @@ $this-&gt;taskCodecept()
 </code></pre>
 
 <ul>
-<li><code>suite($suite)</code> </li>
-<li><code>test($testName)</code> </li>
+<li><code>suite($suite)</code>   * <code>param string</code> $suite</li>
+<li><code>test($testName)</code>   * <code>param string</code> $testName</li>
 <li><code>group($group)</code>  set group option. Can be called multiple times</li>
-<li><code>excludeGroup($group)</code> </li>
+<li><code>excludeGroup($group)</code>   * <code>param string</code> $group</li>
 <li><code>json($file = null)</code>  generate json report</li>
 <li><code>xml($file = null)</code>  generate xml JUnit report</li>
 <li><code>html($dir = null)</code>  Generate html report</li>
@@ -343,9 +343,9 @@ $this-&gt;taskCodecept()
 <li><code>silent()</code>  execute in silent mode</li>
 <li><code>coverageXml($xml = null)</code>  collect code coverage in xml format. You may pass name of xml file to save results</li>
 <li><code>coverageHtml($html = null)</code>  collect code coverage and generate html report. You may pass</li>
-<li><code>env($env)</code> </li>
-<li><code>debug()</code> </li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>env($env)</code>   * <code>param string</code> $env</li>
+<li><code>debug()</code>   * <code>return</code> $this</li>
+<li><code>dir($dir)</code>  Changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
@@ -365,18 +365,18 @@ $this-&gt;taskPHPUnit()
 </code></pre>
 
 <ul>
-<li><code>filter($filter)</code> </li>
-<li><code>group($group)</code> </li>
-<li><code>excludeGroup($group)</code> </li>
+<li><code>filter($filter)</code>   * <code>param string</code> $filter</li>
+<li><code>group($group)</code>   * <code>param string</code> $group</li>
+<li><code>excludeGroup($group)</code>   * <code>param string</code> $group</li>
 <li><code>json($file = null)</code>  adds <code>log-json</code> option to runner</li>
 <li><code>xml($file = null)</code>  adds <code>log-junit</code> option</li>
-<li><code>tap($file = null)</code> </li>
-<li><code>bootstrap($file)</code> </li>
-<li><code>configFile($file)</code> </li>
-<li><code>debug()</code> </li>
+<li><code>tap($file = null)</code>   * <code>param string</code> $file</li>
+<li><code>bootstrap($file)</code>   * <code>param string</code> $file</li>
+<li><code>configFile($file)</code>   * <code>param string</code> $file</li>
+<li><code>debug()</code>   * <code>return</code> $this</li>
 <li><code>files($files)</code>  Directory of test files or single test file to run.</li>
 <li><code>file($file)</code>  Test the provided file.</li>
-<li><code>dir($dir)</code>  Test all of the files in the provided directory.</li>
+<li><code>dir($dir)</code>  Changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
@@ -403,7 +403,7 @@ $this-&gt;taskPhpspec()
 <li><code>noInteraction()</code> </li>
 <li><code>config($config_file)</code> </li>
 <li><code>format($formater)</code> </li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>dir($dir)</code>  Changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>

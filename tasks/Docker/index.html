@@ -281,8 +281,8 @@ $this-&gt;taskDockerBuild('path/to/dir')
 <p>Class Build
 @package Robo\Task\Docker</p>
 <ul>
-<li><code>tag($tag)</code> </li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>tag($tag)</code>   * <code>param string</code> $tag</li>
+<li><code>dir($dir)</code>  Changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
@@ -308,8 +308,8 @@ $task-&gt;dockerCommit($result)
 </code></pre>
 
 <ul>
-<li><code>name($name)</code> </li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>name($name)</code>   * <code>param</code> $name</li>
+<li><code>dir($dir)</code>  Changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
@@ -339,10 +339,10 @@ $this-&gt;taskDockerExec($test)
 </code></pre>
 
 <ul>
-<li><code>detached()</code> </li>
-<li><code>interactive()</code> </li>
-<li><code>exec($command)</code> </li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>detached()</code>   * <code>return</code> $this</li>
+<li><code>interactive()</code>   * <code>return</code> $this</li>
+<li><code>exec($command)</code>   * <code>param string|\Robo\Contract\CommandInterface</code> $command</li>
+<li><code>dir($dir)</code>  Changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
@@ -360,7 +360,7 @@ $this-&gt;taskDockerPull('wordpress')
 </code></pre>
 
 <ul>
-<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>dir($dir)</code>  Changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
@@ -377,7 +377,7 @@ $this-&gt;taskDockerRemove($container)
 </code></pre>
 
 <ul>
-<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>dir($dir)</code>  Changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
@@ -426,21 +426,21 @@ $this-&gt;taskDockerRun('wordpress')
 </code></pre>
 
 <ul>
-<li><code>detached()</code> </li>
-<li><code>interactive()</code> </li>
-<li><code>exec($run)</code> </li>
-<li><code>volume($from, $to = null)</code> </li>
-<li><code>env($variable, $value = null)</code> </li>
-<li><code>publish($port = null, $portTo = null)</code> </li>
-<li><code>containerWorkdir($dir)</code> </li>
-<li><code>user($user)</code> </li>
-<li><code>privileged()</code> </li>
-<li><code>name($name)</code> </li>
-<li><code>link($name, $alias)</code> </li>
-<li><code>tmpDir($dir)</code> </li>
-<li><code>getTmpDir()</code> </li>
-<li><code>getUniqId()</code> </li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>detached()</code>   * <code>return</code> $this</li>
+<li><code>interactive()</code>   * <code>return</code> $this</li>
+<li><code>exec($run)</code>   * <code>param string|\Robo\Contract\CommandInterface</code> $run</li>
+<li><code>volume($from, $to = null)</code>   * <code>param string</code> $from</li>
+<li><code>env($variable, $value = null)</code>   * <code>param string</code> $variable</li>
+<li><code>publish($port = null, $portTo = null)</code>   * <code>param null|int</code> $port</li>
+<li><code>containerWorkdir($dir)</code>   * <code>param string</code> $dir</li>
+<li><code>user($user)</code>   * <code>param string</code> $user</li>
+<li><code>privileged()</code>   * <code>return</code> $this</li>
+<li><code>name($name)</code>   * <code>param string</code> $name</li>
+<li><code>link($name, $alias)</code>   * <code>param string|\Robo\Task\Docker\Result</code> $name</li>
+<li><code>tmpDir($dir)</code>   * <code>param string</code> $dir</li>
+<li><code>getTmpDir()</code>  @return string</li>
+<li><code>getUniqId()</code>  @return string</li>
+<li><code>dir($dir)</code>  Changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
@@ -457,7 +457,7 @@ $this-&gt;taskDockerStart($cidOrResult)
 </code></pre>
 
 <ul>
-<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>dir($dir)</code>  Changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
@@ -474,7 +474,7 @@ $this-&gt;taskDockerStop($cidOrResult)
 </code></pre>
 
 <ul>
-<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>dir($dir)</code>  Changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>

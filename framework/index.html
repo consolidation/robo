@@ -292,7 +292,7 @@ if ($pharPath) {
 }
 
 $commandClasses = [ \MyProject\Commands\RoboFile::class ];
-$statusCode = Robo::run(
+$statusCode = \Robo\Robo::run(
     $_SERVER['argv'], 
     $commandClasses, 
     'MyAppName', 

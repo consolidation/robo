@@ -293,14 +293,14 @@ $this-&gt;taskChangelog()
 <p><code>Development\Changelog version(string $version)</code> </p>
 </li>
 <li>
-<p><code>filename($filename)</code> </p>
+<p><code>filename($filename)</code>   * <code>param string</code> $filename</p>
 </li>
-<li><code>log($item)</code> </li>
-<li><code>anchor($anchor)</code> </li>
-<li><code>version($version)</code> </li>
-<li><code>changes(array $data)</code> </li>
-<li><code>change($change)</code> </li>
-<li><code>getChanges()</code> </li>
+<li><code>log($item)</code>   * <code>param string</code> $item</li>
+<li><code>anchor($anchor)</code>   * <code>param string</code> $anchor</li>
+<li><code>version($version)</code>   * <code>param string</code> $version</li>
+<li><code>changes(array $data)</code>   * <code>param array</code> $data</li>
+<li><code>change($change)</code>   * <code>param string</code> $change</li>
+<li><code>getChanges()</code>  @return array</li>
 </ul>
 <h2 id="generatemarkdowndoc">GenerateMarkdownDoc</h2>
 <p>Simple documentation generator from source files.
@@ -352,28 +352,28 @@ $this-&gt;taskGenDoc('models.md')
 <p><code>append($text)</code>  inserts text in the end of markdown file</p>
 </li>
 <li>
-<p><code>docClass($item)</code> </p>
+<p><code>docClass($item)</code>   * <code>param string</code> $item</p>
 </li>
-<li><code>filterMethods($filterMethods)</code> </li>
-<li><code>filterClasses($filterClasses)</code> </li>
-<li><code>filterProperties($filterProperties)</code> </li>
-<li><code>processClass($processClass)</code> </li>
-<li><code>processClassSignature($processClassSignature)</code> </li>
-<li><code>processClassDocBlock($processClassDocBlock)</code> </li>
-<li><code>processMethod($processMethod)</code> </li>
-<li><code>processMethodSignature($processMethodSignature)</code> </li>
-<li><code>processMethodDocBlock($processMethodDocBlock)</code> </li>
-<li><code>processProperty($processProperty)</code> </li>
-<li><code>processPropertySignature($processPropertySignature)</code> </li>
-<li><code>processPropertyDocBlock($processPropertyDocBlock)</code> </li>
-<li><code>reorder($reorder)</code> </li>
-<li><code>reorderMethods($reorderMethods)</code> </li>
-<li><code>reorderProperties($reorderProperties)</code> </li>
-<li><code>filename($filename)</code> </li>
-<li><code>prepend($prepend)</code> </li>
-<li><code>append($append)</code> </li>
-<li><code>text($text)</code> </li>
-<li><code>textForClass($item)</code> </li>
+<li><code>filterMethods($filterMethods)</code>   * <code>param callable</code> $filterMethods</li>
+<li><code>filterClasses($filterClasses)</code>   * <code>param callable</code> $filterClasses</li>
+<li><code>filterProperties($filterProperties)</code>   * <code>param callable</code> $filterProperties</li>
+<li><code>processClass($processClass)</code>   * <code>param callable</code> $processClass</li>
+<li><code>processClassSignature($processClassSignature)</code>   * <code>param callable|false</code> $processClassSignature</li>
+<li><code>processClassDocBlock($processClassDocBlock)</code>   * <code>param callable|false</code> $processClassDocBlock</li>
+<li><code>processMethod($processMethod)</code>   * <code>param callable|false</code> $processMethod</li>
+<li><code>processMethodSignature($processMethodSignature)</code>   * <code>param callable|false</code> $processMethodSignature</li>
+<li><code>processMethodDocBlock($processMethodDocBlock)</code>   * <code>param callable|false</code> $processMethodDocBlock</li>
+<li><code>processProperty($processProperty)</code>   * <code>param callable|false</code> $processProperty</li>
+<li><code>processPropertySignature($processPropertySignature)</code>   * <code>param callable|false</code> $processPropertySignature</li>
+<li><code>processPropertyDocBlock($processPropertyDocBlock)</code>   * <code>param callable|false</code> $processPropertyDocBlock</li>
+<li><code>reorder($reorder)</code>   * <code>param callable</code> $reorder</li>
+<li><code>reorderMethods($reorderMethods)</code>   * <code>param callable</code> $reorderMethods</li>
+<li><code>reorderProperties($reorderProperties)</code>   * <code>param callable</code> $reorderProperties</li>
+<li><code>filename($filename)</code>   * <code>param string</code> $filename</li>
+<li><code>prepend($prepend)</code>   * <code>param string</code> $prepend</li>
+<li><code>append($append)</code>   * <code>param string</code> $append</li>
+<li><code>text($text)</code>   * <code>param string</code> $text</li>
+<li><code>textForClass($item)</code>   * <code>param string</code> $item</li>
 </ul>
 <h2 id="generate">Generate</h2>
 <p>Generate a Robo Task that is a wrapper around an existing class.</p>
@@ -395,20 +395,20 @@ $this-&gt;taskGitHubRelease('0.1.0')
 </code></pre>
 
 <ul>
-<li><code>tag($tag)</code> </li>
-<li><code>draft($draft)</code> </li>
-<li><code>name($name)</code> </li>
-<li><code>description($description)</code> </li>
-<li><code>prerelease($prerelease)</code> </li>
-<li><code>comittish($comittish)</code> </li>
-<li><code>appendDescription($description)</code> </li>
+<li><code>tag($tag)</code>   * <code>param string</code> $tag</li>
+<li><code>draft($draft)</code>   * <code>param bool</code> $draft</li>
+<li><code>name($name)</code>   * <code>param string</code> $name</li>
+<li><code>description($description)</code>   * <code>param string</code> $description</li>
+<li><code>prerelease($prerelease)</code>   * <code>param bool</code> $prerelease</li>
+<li><code>comittish($comittish)</code>   * <code>param string</code> $comittish</li>
+<li><code>appendDescription($description)</code>   * <code>param string</code> $description</li>
 <li><code>changes(array $changes)</code> </li>
-<li><code>change($change)</code> </li>
-<li><code>repo($repo)</code> </li>
-<li><code>owner($owner)</code> </li>
-<li><code>uri($uri)</code> </li>
-<li><code>user($user)</code> </li>
-<li><code>password($password)</code> </li>
+<li><code>change($change)</code>   * <code>param string</code> $change</li>
+<li><code>repo($repo)</code>   * <code>param string</code> $repo</li>
+<li><code>owner($owner)</code>   * <code>param string</code> $owner</li>
+<li><code>uri($uri)</code>   * <code>param string</code> $uri</li>
+<li><code>user($user)</code>   * <code>param string</code> $user</li>
+<li><code>password($password)</code>   * <code>param</code> $password</li>
 </ul>
 <h2 id="openbrowser">OpenBrowser</h2>
 <p>Opens the default's user browser
@@ -456,12 +456,12 @@ $pharTask = $this-&gt;taskPackPhar('package/codecept.phar')
 </code></pre>
 
 <ul>
-<li><code>compress($compress = null)</code>   * <code>param boolean</code> $compress</li>
-<li><code>stub($stub)</code>   * <code>param</code> $stub</li>
-<li><code>addStripped($path, $file)</code> </li>
-<li><code>addFile($path, $file)</code> </li>
-<li><code>addFiles($files)</code> </li>
-<li><code>executable($file)</code> </li>
+<li><code>compress($compress = null)</code>   * <code>param bool</code> $compress</li>
+<li><code>stub($stub)</code>   * <code>param string</code> $stub</li>
+<li><code>addStripped($path, $file)</code>   * <code>param string</code> $path</li>
+<li><code>addFile($path, $file)</code>   * <code>param string</code> $path</li>
+<li><code>addFiles($files)</code>   * <code>param \Symfony\Component\Finder\SplFileInfo[]</code> $files</li>
+<li><code>executable($file)</code>   * <code>param string</code> $file</li>
 </ul>
 <h2 id="phpserver">PhpServer</h2>
 <p>Runs PHP server and stops it when task finishes.</p>
@@ -484,13 +484,13 @@ $this-&gt;taskServer(8000)
 </code></pre>
 
 <ul>
-<li><code>host($host)</code> </li>
-<li><code>dir($path)</code>  changes working directory of command</li>
+<li><code>host($host)</code>   * <code>param string</code> $host</li>
+<li><code>dir($path)</code>   * <code>param string</code> $path</li>
 <li><code>background()</code>  Executes command in background mode (asynchronously)</li>
 <li><code>timeout($timeout)</code>  Stop command if it runs longer then $timeout in seconds</li>
 <li><code>idleTimeout($timeout)</code>  Stops command if it does not output something for a while</li>
 <li><code>env(array $env)</code>  Sets the environment variables for the command</li>
-<li><code>simulate($context)</code>  Called in place of <code>run()</code> for simulated tasks.</li>
+<li><code>simulate($context)</code>  {@inheritdoc}</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
@@ -508,13 +508,13 @@ $this-&gt;taskSemVer('.semver')
 </code></pre>
 
 <ul>
-<li><code>__toString()</code> </li>
-<li><code>setFormat($format)</code> </li>
-<li><code>setMetadataSeparator($separator)</code> </li>
-<li><code>setPrereleaseSeparator($separator)</code> </li>
-<li><code>increment($what = null)</code> </li>
-<li><code>prerelease($tag = null)</code> </li>
-<li><code>metadata($data)</code> </li>
+<li><code>__toString()</code>  @return string</li>
+<li><code>setFormat($format)</code>   * <code>param string</code> $format</li>
+<li><code>setMetadataSeparator($separator)</code>   * <code>param string</code> $separator</li>
+<li><code>setPrereleaseSeparator($separator)</code>   * <code>param string</code> $separator</li>
+<li><code>increment($what = null)</code>   * <code>param string</code> $what</li>
+<li><code>prerelease($tag = null)</code>   * <code>param string</code> $tag</li>
+<li><code>metadata($data)</code>   * <code>param array|string</code> $data</li>
 </ul></div>
             
 

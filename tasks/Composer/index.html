@@ -284,14 +284,14 @@ $this-&gt;taskComposerDumpAutoload('path/to/my/composer.phar')
 </code></pre>
 
 <ul>
-<li><code>optimize()</code> </li>
+<li><code>optimize()</code>   * <code>return</code> $this</li>
 <li><code>preferDist()</code>  adds <code>prefer-dist</code> option to composer</li>
 <li><code>preferSource()</code>  adds <code>prefer-source</code> option to composer</li>
 <li><code>noDev()</code>  adds <code>no-dev</code> option to composer</li>
 <li><code>noAnsi()</code>  adds <code>no-ansi</code> option to composer</li>
 <li><code>ansi()</code>  adds <code>ansi</code> option to composer</li>
 <li><code>optimizeAutoloader()</code>  adds <code>optimize-autoloader</code> option to composer</li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>dir($dir)</code>  Changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
@@ -324,7 +324,7 @@ $this-&gt;taskComposerInstall('path/to/my/composer.phar')
 <li><code>noAnsi()</code>  adds <code>no-ansi</code> option to composer</li>
 <li><code>ansi()</code>  adds <code>ansi</code> option to composer</li>
 <li><code>optimizeAutoloader()</code>  adds <code>optimize-autoloader</code> option to composer</li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>dir($dir)</code>  Changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
@@ -341,18 +341,18 @@ $this-&gt;taskComposerValidate()-&gt;run();
 </code></pre>
 
 <ul>
-<li><code>dev()</code> </li>
-<li><code>noProgress()</code> </li>
-<li><code>noUpdate()</code> </li>
-<li><code>updateNoDev()</code> </li>
-<li><code>noUpdateWithDependencies()</code> </li>
+<li><code>dev()</code>   * <code>return</code> $this</li>
+<li><code>noProgress()</code>   * <code>return</code> $this</li>
+<li><code>noUpdate()</code>   * <code>return</code> $this</li>
+<li><code>updateNoDev()</code>   * <code>return</code> $this</li>
+<li><code>noUpdateWithDependencies()</code>   * <code>return</code> $this</li>
 <li><code>preferDist()</code>  adds <code>prefer-dist</code> option to composer</li>
 <li><code>preferSource()</code>  adds <code>prefer-source</code> option to composer</li>
 <li><code>noDev()</code>  adds <code>no-dev</code> option to composer</li>
 <li><code>noAnsi()</code>  adds <code>no-ansi</code> option to composer</li>
 <li><code>ansi()</code>  adds <code>ansi</code> option to composer</li>
 <li><code>optimizeAutoloader()</code>  adds <code>optimize-autoloader</code> option to composer</li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>dir($dir)</code>  Changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
@@ -385,7 +385,7 @@ $this-&gt;taskComposerUpdate('path/to/my/composer.phar')
 <li><code>noAnsi()</code>  adds <code>no-ansi</code> option to composer</li>
 <li><code>ansi()</code>  adds <code>ansi</code> option to composer</li>
 <li><code>optimizeAutoloader()</code>  adds <code>optimize-autoloader</code> option to composer</li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>dir($dir)</code>  Changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
@@ -402,18 +402,18 @@ $this-&gt;taskComposerValidate()-&gt;run();
 </code></pre>
 
 <ul>
-<li><code>noCheckAll()</code> </li>
-<li><code>noCheckLock()</code> </li>
-<li><code>noCheckPublish()</code> </li>
-<li><code>withDependencies()</code> </li>
-<li><code>strict()</code> </li>
+<li><code>noCheckAll()</code>   * <code>return</code> $this</li>
+<li><code>noCheckLock()</code>   * <code>return</code> $this</li>
+<li><code>noCheckPublish()</code>   * <code>return</code> $this</li>
+<li><code>withDependencies()</code>   * <code>return</code> $this</li>
+<li><code>strict()</code>   * <code>return</code> $this</li>
 <li><code>preferDist()</code>  adds <code>prefer-dist</code> option to composer</li>
 <li><code>preferSource()</code>  adds <code>prefer-source</code> option to composer</li>
 <li><code>noDev()</code>  adds <code>no-dev</code> option to composer</li>
 <li><code>noAnsi()</code>  adds <code>no-ansi</code> option to composer</li>
 <li><code>ansi()</code>  adds <code>ansi</code> option to composer</li>
 <li><code>optimizeAutoloader()</code>  adds <code>optimize-autoloader</code> option to composer</li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>dir($dir)</code>  Changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>

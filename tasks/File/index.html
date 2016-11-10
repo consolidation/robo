@@ -305,11 +305,11 @@ $this-&gt;taskReplaceInFile('box/robo.txt')
 <p><code>to(string|array)</code>  value(s) to be set as a replacement</p>
 </li>
 <li>
-<p><code>filename($filename)</code> </p>
+<p><code>filename($filename)</code>   * <code>param string</code> $filename</p>
 </li>
-<li><code>from($from)</code> </li>
-<li><code>to($to)</code> </li>
-<li><code>regex($regex)</code> </li>
+<li><code>from($from)</code>   * <code>param string</code> $from</li>
+<li><code>to($to)</code>   * <code>param string</code> $to</li>
+<li><code>regex($regex)</code>   * <code>param string</code> $regex</li>
 </ul>
 <h2 id="tmpfile">TmpFile</h2>
 <p>Create a temporary file that is automatically cleaned up
@@ -331,8 +331,8 @@ $collection-&gt;run();
 
 <ul>
 <li><code>complete()</code>  Delete this file when our collection completes.</li>
-<li><code>filename($filename)</code> </li>
-<li><code>append($append = null)</code> </li>
+<li><code>filename($filename)</code>   * <code>param string</code> $filename</li>
+<li><code>append($append = null)</code>   * <code>param bool</code> $append</li>
 <li><code>line($line)</code>  add a line.</li>
 <li><code>lines(array $lines)</code>  add more lines.</li>
 <li><code>text($text)</code>  add a text.</li>
@@ -342,9 +342,9 @@ $collection-&gt;run();
 <li><code>regexReplace($pattern, $replacement)</code>  replace any string with value using regular expression.</li>
 <li><code>appendIfMatches($pattern, $text)</code>  Append the provided text to the end of the buffer if the provided</li>
 <li><code>appendUnlessMatches($pattern, $text)</code>  Append the provided text to the end of the buffer unless the provided</li>
-<li><code>originalContents()</code> </li>
-<li><code>wouldChange()</code> </li>
-<li><code>getPath()</code> </li>
+<li><code>originalContents()</code>  @return string</li>
+<li><code>wouldChange()</code>  @return bool</li>
+<li><code>getPath()</code>  @return string</li>
 </ul>
 <h2 id="write">Write</h2>
 <p>Writes to file.</p>
@@ -362,9 +362,9 @@ $this-&gt;taskWriteToFile('blogpost.md')
 <p><code>append()</code> </p>
 </li>
 <li>
-<p><code>filename($filename)</code> </p>
+<p><code>filename($filename)</code>   * <code>param string</code> $filename</p>
 </li>
-<li><code>append($append = null)</code> </li>
+<li><code>append($append = null)</code>   * <code>param bool</code> $append</li>
 <li><code>line($line)</code>  add a line.</li>
 <li><code>lines(array $lines)</code>  add more lines.</li>
 <li><code>text($text)</code>  add a text.</li>
@@ -374,9 +374,9 @@ $this-&gt;taskWriteToFile('blogpost.md')
 <li><code>regexReplace($pattern, $replacement)</code>  replace any string with value using regular expression.</li>
 <li><code>appendIfMatches($pattern, $text)</code>  Append the provided text to the end of the buffer if the provided</li>
 <li><code>appendUnlessMatches($pattern, $text)</code>  Append the provided text to the end of the buffer unless the provided</li>
-<li><code>originalContents()</code> </li>
-<li><code>wouldChange()</code> </li>
-<li><code>getPath()</code> </li>
+<li><code>originalContents()</code>  @return string</li>
+<li><code>wouldChange()</code>  @return bool</li>
+<li><code>getPath()</code>  @return string</li>
 </ul></div>
             
 

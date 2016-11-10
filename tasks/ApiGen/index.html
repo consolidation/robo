@@ -263,39 +263,39 @@ $this-&gt;taskApiGen('./apigen.neon')
 </code></pre>
 
 <ul>
-<li><code>config($config)</code> </li>
+<li><code>config($config)</code>   * <code>param string</code> $config</li>
 <li><code>source($src)</code>   * <code>param array|string|Traversable</code> $src one or more source values</li>
-<li><code>destination($dest)</code> </li>
+<li><code>destination($dest)</code>   * <code>param string</code> $dest</li>
 <li><code>extensions($exts)</code>   * <code>param array|string</code> $exts one or more extensions</li>
 <li><code>exclude($exclude)</code>   * <code>param array|string</code> $exclude one or more exclusions</li>
 <li><code>skipDocPath($path)</code>   * <code>param array|string|Traversable</code> $path one or more skip-doc-path values</li>
 <li><code>skipDocPrefix($prefix)</code>   * <code>param array|string|Traversable</code> $prefix one or more skip-doc-prefix values</li>
 <li><code>charset($charset)</code>   * <code>param array|string</code> $charset one or more charsets</li>
-<li><code>mainProjectNamePrefix($name)</code> </li>
-<li><code>title($title)</code> </li>
-<li><code>baseUrl($baseUrl)</code> </li>
-<li><code>googleCseId($id)</code> </li>
-<li><code>googleAnalytics($trackingCode)</code> </li>
-<li><code>templateConfig($templateConfig)</code> </li>
+<li><code>mainProjectNamePrefix($name)</code>   * <code>param string</code> $name</li>
+<li><code>title($title)</code>   * <code>param string</code> $title</li>
+<li><code>baseUrl($baseUrl)</code>   * <code>param string</code> $baseUrl</li>
+<li><code>googleCseId($id)</code>   * <code>param string</code> $id</li>
+<li><code>googleAnalytics($trackingCode)</code>   * <code>param string</code> $trackingCode</li>
+<li><code>templateConfig($templateConfig)</code>   * <code>param mixed</code> $templateConfig</li>
 <li><code>allowedHtml($tags)</code>   * <code>param array|string</code> $tags one or more supported html tags</li>
-<li><code>groups($groups)</code> </li>
+<li><code>groups($groups)</code>   * <code>param string</code> $groups</li>
 <li><code>autocomplete($types)</code>   * <code>param array|string</code> $types or more supported autocomplete types</li>
 <li><code>accessLevels($levels)</code>   * <code>param array|string</code> $levels one or more access levels</li>
 <li><code>internal($internal)</code>   * <code>param boolean|string</code> $internal 'yes' or true if internal, 'no' or false if not</li>
 <li><code>php($php)</code>   * <code>param boolean|string</code> $php 'yes' or true to generate documentation for internal php classes,</li>
-<li><code>tree($tree)</code>   * <code>param boolean|string</code> $tree 'yes' or true to generate a tree view of classes, 'no' or false otherwise</li>
-<li><code>deprecated($dep)</code>   * <code>param boolean|string</code> $dep 'yes' or true to generate documentation for deprecated classes, 'no' or false otherwise</li>
-<li><code>todo($todo)</code>   * <code>param boolean|string</code> $todo 'yes' or true to document tasks, 'no' or false otherwise</li>
-<li><code>sourceCode($src)</code>   * <code>param boolean|string</code> $src 'yes' or true to generate highlighted source code, 'no' or false otherwise</li>
-<li><code>download($zipped)</code>   * <code>param boolean|string</code> $zipped 'yes' or true to generate downloadable documentation, 'no' or false otherwise</li>
+<li><code>tree($tree)</code>   * <code>param bool|string</code> $tree 'yes' or true to generate a tree view of classes, 'no' or false otherwise</li>
+<li><code>deprecated($dep)</code>   * <code>param bool|string</code> $dep 'yes' or true to generate documentation for deprecated classes, 'no' or false otherwise</li>
+<li><code>todo($todo)</code>   * <code>param bool|string</code> $todo 'yes' or true to document tasks, 'no' or false otherwise</li>
+<li><code>sourceCode($src)</code>   * <code>param bool|string</code> $src 'yes' or true to generate highlighted source code, 'no' or false otherwise</li>
+<li><code>download($zipped)</code>   * <code>param bool|string</code> $zipped 'yes' or true to generate downloadable documentation, 'no' or false otherwise</li>
 <li><code>report($path)</code> </li>
-<li><code>wipeout($wipeout)</code>   * <code>param boolean|string</code> $wipeout 'yes' or true to clear out the destination directory, 'no' or false otherwise</li>
-<li><code>quiet($quiet)</code>   * <code>param boolean|string</code> $quiet 'yes' or true for quiet, 'no' or false otherwise</li>
-<li><code>progressbar($bar)</code>   * <code>param boolean|string</code> $bar 'yes' or true to display a progress bar, 'no' or false otherwise</li>
-<li><code>colors($colors)</code>   * <code>param boolean|string</code> $colors 'yes' or true colorize the output, 'no' or false otherwise</li>
-<li><code>updateCheck($check)</code>   * <code>param boolean|string</code> $check 'yes' or true to check for updates, 'no' or false otherwise</li>
-<li><code>debug($debug)</code>   * <code>param boolean|string</code> $debug 'yes' or true to enable debug mode, 'no' or false otherwise</li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>wipeout($wipeout)</code>   * <code>param bool|string</code> $wipeout 'yes' or true to clear out the destination directory, 'no' or false otherwise</li>
+<li><code>quiet($quiet)</code>   * <code>param bool|string</code> $quiet 'yes' or true for quiet, 'no' or false otherwise</li>
+<li><code>progressbar($bar)</code>   * <code>param bool|string</code> $bar 'yes' or true to display a progress bar, 'no' or false otherwise</li>
+<li><code>colors($colors)</code>   * <code>param bool|string</code> $colors 'yes' or true colorize the output, 'no' or false otherwise</li>
+<li><code>updateCheck($check)</code>   * <code>param bool|string</code> $check 'yes' or true to check for updates, 'no' or false otherwise</li>
+<li><code>debug($debug)</code>   * <code>param bool|string</code> $debug 'yes' or true to enable debug mode, 'no' or false otherwise</li>
+<li><code>dir($dir)</code>  Changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>

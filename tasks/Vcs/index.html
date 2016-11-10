@@ -285,11 +285,11 @@ $this-&gt;taskGitStack()
 <li><code>merge($branch)</code>  Performs git merge</li>
 <li><code>checkout($branch)</code>  Executes <code>git checkout</code> command</li>
 <li><code>tag($tag_name, $message = null)</code>  Executes <code>git tag</code> command</li>
-<li><code>executable($executable)</code> </li>
-<li><code>exec($command)</code> </li>
-<li><code>stopOnFail($stopOnFail = null)</code> </li>
+<li><code>executable($executable)</code>   * <code>param string</code> $executable</li>
+<li><code>exec($command)</code>   * <code>param string|string[]</code> $command</li>
+<li><code>stopOnFail($stopOnFail = null)</code>   * <code>param bool</code> $stopOnFail</li>
 <li><code>result($result)</code> </li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>dir($dir)</code>  Changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 </ul>
 <h2 id="hgstack">HgStack</h2>
@@ -315,11 +315,11 @@ $this-&gt;hgStack
 <li><code>push($branch = null)</code>  Executes <code>hg push</code> command</li>
 <li><code>merge($revision = null)</code>  Performs hg merge</li>
 <li><code>tag($tag_name, $message = null)</code>  Executes <code>hg tag</code> command</li>
-<li><code>executable($executable)</code> </li>
-<li><code>exec($command)</code> </li>
-<li><code>stopOnFail($stopOnFail = null)</code> </li>
+<li><code>executable($executable)</code>   * <code>param string</code> $executable</li>
+<li><code>exec($command)</code>   * <code>param string|string[]</code> $command</li>
+<li><code>stopOnFail($stopOnFail = null)</code>   * <code>param bool</code> $stopOnFail</li>
 <li><code>result($result)</code> </li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>dir($dir)</code>  Changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 </ul>
 <h2 id="svnstack">SvnStack</h2>
@@ -346,11 +346,11 @@ $this-&gt;taskSvnStack('username', 'password')
 <li><code>add($pattern = null)</code>  Executes <code>svn add</code> command with files to add pattern</li>
 <li><code>commit($message, $options = null)</code>  Executes <code>svn commit</code> command with a message</li>
 <li><code>checkout($branch)</code>  Executes <code>svn checkout</code> command</li>
-<li><code>executable($executable)</code> </li>
-<li><code>exec($command)</code> </li>
-<li><code>stopOnFail($stopOnFail = null)</code> </li>
+<li><code>executable($executable)</code>   * <code>param string</code> $executable</li>
+<li><code>exec($command)</code>   * <code>param string|string[]</code> $command</li>
+<li><code>stopOnFail($stopOnFail = null)</code>   * <code>param bool</code> $stopOnFail</li>
 <li><code>result($result)</code> </li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>dir($dir)</code>  Changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 </ul></div>
             

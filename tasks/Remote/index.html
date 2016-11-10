@@ -299,34 +299,34 @@ if ('y' === $this-&gt;ask('Do you want to run (y/n)')) {
 <p><code>fromPath($path)</code>  This can either be a full rsync path spec (user@host:path) or just a path.</p>
 </li>
 <li><code>toPath($path)</code>  This can either be a full rsync path spec (user@host:path) or just a path.</li>
-<li><code>fromUser($fromUser)</code> </li>
-<li><code>fromHost($fromHost)</code> </li>
-<li><code>toUser($toUser)</code> </li>
-<li><code>toHost($toHost)</code> </li>
-<li><code>progress()</code> </li>
-<li><code>stats()</code> </li>
-<li><code>recursive()</code> </li>
-<li><code>verbose()</code> </li>
-<li><code>checksum()</code> </li>
-<li><code>archive()</code> </li>
-<li><code>compress()</code> </li>
-<li><code>owner()</code> </li>
-<li><code>group()</code> </li>
-<li><code>times()</code> </li>
-<li><code>delete()</code> </li>
-<li><code>timeout($seconds)</code> </li>
-<li><code>humanReadable()</code> </li>
-<li><code>wholeFile()</code> </li>
-<li><code>dryRun()</code> </li>
-<li><code>itemizeChanges()</code> </li>
+<li><code>fromUser($fromUser)</code>   * <code>param string</code> $fromUser</li>
+<li><code>fromHost($fromHost)</code>   * <code>param string</code> $fromHost</li>
+<li><code>toUser($toUser)</code>   * <code>param string</code> $toUser</li>
+<li><code>toHost($toHost)</code>   * <code>param string</code> $toHost</li>
+<li><code>progress()</code>   * <code>return</code> $this</li>
+<li><code>stats()</code>   * <code>return</code> $this</li>
+<li><code>recursive()</code>   * <code>return</code> $this</li>
+<li><code>verbose()</code>   * <code>return</code> $this</li>
+<li><code>checksum()</code>   * <code>return</code> $this</li>
+<li><code>archive()</code>   * <code>return</code> $this</li>
+<li><code>compress()</code>   * <code>return</code> $this</li>
+<li><code>owner()</code>   * <code>return</code> $this</li>
+<li><code>group()</code>   * <code>return</code> $this</li>
+<li><code>times()</code>   * <code>return</code> $this</li>
+<li><code>delete()</code>   * <code>return</code> $this</li>
+<li><code>timeout($seconds)</code>   * <code>param int</code> $seconds</li>
+<li><code>humanReadable()</code>   * <code>return</code> $this</li>
+<li><code>wholeFile()</code>   * <code>return</code> $this</li>
+<li><code>dryRun()</code>   * <code>return</code> $this</li>
+<li><code>itemizeChanges()</code>   * <code>return</code> $this</li>
 <li><code>excludeVcs()</code>  Excludes .git, .svn and .hg items at any depth.</li>
-<li><code>exclude($pattern)</code> </li>
-<li><code>excludeFrom($file)</code> </li>
-<li><code>includeFilter($pattern)</code> </li>
-<li><code>filter($pattern)</code> </li>
-<li><code>filesFrom($file)</code> </li>
-<li><code>remoteShell($command)</code> </li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>exclude($pattern)</code>   * <code>param array|string</code> $pattern</li>
+<li><code>excludeFrom($file)</code>   * <code>param string</code> $file</li>
+<li><code>includeFilter($pattern)</code>   * <code>param array|string</code> $pattern</li>
+<li><code>filter($pattern)</code>   * <code>param array|string</code> $pattern</li>
+<li><code>filesFrom($file)</code>   * <code>param string</code> $file</li>
+<li><code>remoteShell($command)</code>   * <code>param string</code> $command</li>
+<li><code>dir($dir)</code>  Changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
@@ -369,19 +369,19 @@ $this-&gt;taskSshExec('remote.example.com')
 <p><code>$this remoteDir(string $remoteWorkingDirectory)</code>  Changes to the given directory before running commands</p>
 </li>
 <li>
-<p><code>hostname($hostname)</code> </p>
+<p><code>hostname($hostname)</code>   * <code>param string</code> $hostname</p>
 </li>
-<li><code>user($user)</code> </li>
-<li><code>stopOnFail($stopOnFail = null)</code> </li>
-<li><code>remoteDir($remoteDir)</code> </li>
-<li><code>identityFile($filename)</code> </li>
-<li><code>port($port)</code> </li>
-<li><code>forcePseudoTty()</code> </li>
-<li><code>quiet()</code> </li>
-<li><code>verbose()</code> </li>
-<li><code>exec($command)</code>   * <code>param string|CommandInterface</code> $command</li>
-<li><code>simulate($context)</code>  Called in place of <code>run()</code> for simulated tasks.</li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>user($user)</code>   * <code>param string</code> $user</li>
+<li><code>stopOnFail($stopOnFail = null)</code>   * <code>param bool</code> $stopOnFail</li>
+<li><code>remoteDir($remoteDir)</code>   * <code>param string</code> $remoteDir</li>
+<li><code>identityFile($filename)</code>   * <code>param string</code> $filename</li>
+<li><code>port($port)</code>   * <code>param int</code> $port</li>
+<li><code>forcePseudoTty()</code>   * <code>return</code> $this</li>
+<li><code>quiet()</code>   * <code>return</code> $this</li>
+<li><code>verbose()</code>   * <code>return</code> $this</li>
+<li><code>exec($command)</code>   * <code>param string|string[]|CommandInterface</code> $command</li>
+<li><code>simulate($context)</code>  {@inheritdoc}</li>
+<li><code>dir($dir)</code>  Changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>

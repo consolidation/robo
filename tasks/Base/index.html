@@ -280,8 +280,8 @@ if ($this-&gt;taskExec('phpunit .')-&gt;run()-&gt;wasSuccessful()) {
 <li><code>timeout($timeout)</code>  Stop command if it runs longer then $timeout in seconds</li>
 <li><code>idleTimeout($timeout)</code>  Stops command if it does not output something for a while</li>
 <li><code>env(array $env)</code>  Sets the environment variables for the command</li>
-<li><code>simulate($context)</code>  Called in place of <code>run()</code> for simulated tasks.</li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>simulate($context)</code>  {@inheritdoc}</li>
+<li><code>dir($dir)</code>  Changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
@@ -307,12 +307,12 @@ $this-&gt;taskExecStack()
 <p><code>$this stopOnFail()</code> </p>
 </li>
 <li>
-<p><code>executable($executable)</code> </p>
+<p><code>executable($executable)</code>   * <code>param string</code> $executable</p>
 </li>
-<li><code>exec($command)</code> </li>
-<li><code>stopOnFail($stopOnFail = null)</code> </li>
+<li><code>exec($command)</code>   * <code>param string|string[]</code> $command</li>
+<li><code>stopOnFail($stopOnFail = null)</code>   * <code>param bool</code> $stopOnFail</li>
 <li><code>result($result)</code> </li>
-<li><code>dir($dir)</code>  changes working directory of command</li>
+<li><code>dir($dir)</code>  Changes working directory of command</li>
 <li><code>printed($arg)</code>  Should command output be printed</li>
 </ul>
 <h2 id="parallelexec">ParallelExec</h2>
@@ -332,11 +332,11 @@ $this-&gt;taskParallelExec()
 <p><code>idleTimeout(int $timeout)</code>  stops process if it does not output for time longer then <code>$timeout</code> (seconds)</p>
 </li>
 <li>
-<p><code>printed($isPrinted = null)</code> </p>
+<p><code>printed($isPrinted = null)</code>   * <code>param bool</code> $isPrinted</p>
 </li>
-<li><code>process($command)</code> </li>
-<li><code>timeout($timeout)</code> </li>
-<li><code>idleTimeout($idleTimeout)</code> </li>
+<li><code>process($command)</code>   * <code>param string|\Robo\Contract\CommandInterface</code> $command</li>
+<li><code>timeout($timeout)</code>   * <code>param int</code> $timeout</li>
+<li><code>idleTimeout($idleTimeout)</code>   * <code>param int</code> $idleTimeout</li>
 </ul>
 <h2 id="symfonycommand">SymfonyCommand</h2>
 <p>Executes Symfony Command</p>
@@ -355,7 +355,7 @@ $this-&gt;taskSymfonyCommand(new ModelGeneratorCommand())
 </code></pre>
 
 <ul>
-<li><code>arg($arg, $value)</code> </li>
+<li><code>arg($arg, $value)</code>   * <code>param string</code> $arg</li>
 <li><code>opt($option, $value = null)</code> </li>
 </ul>
 <h2 id="watch">Watch</h2>
@@ -372,7 +372,7 @@ $this-&gt;taskWatch()
 </code></pre>
 
 <ul>
-<li><code>monitor($paths, $callable)</code> </li>
+<li><code>monitor($paths, $callable)</code>   * <code>param string|string[]</code> $paths</li>
 </ul></div>
             
 

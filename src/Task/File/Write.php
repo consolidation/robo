@@ -22,22 +22,50 @@ use Robo\Task\BaseTask;
  */
 class Write extends BaseTask
 {
+    /**
+     * @var array
+     */
     protected $stack = [];
+
+    /**
+     * @var string
+     */
     protected $filename;
+
+    /**
+     * @var bool
+     */
     protected $append = false;
+
+    /**
+     * @var null|string
+     */
     protected $originalContents = null;
 
+    /**
+     * @param string $filename
+     */
     public function __construct($filename)
     {
         $this->filename = $filename;
     }
 
+    /**
+     * @param string $filename
+     *
+     * @return $this
+     */
     public function filename($filename)
     {
         $this->filename = $filename;
         return $this;
     }
 
+    /**
+     * @param bool $append
+     *
+     * @return $this
+     */
     public function append($append = true)
     {
         $this->append = $append;
@@ -49,7 +77,7 @@ class Write extends BaseTask
      *
      * @param string $line
      *
-     * @return Write The current instance
+     * @return $this The current instance
      */
     public function line($line)
     {
@@ -62,7 +90,7 @@ class Write extends BaseTask
      *
      * @param array $lines
      *
-     * @return Write The current instance
+     * @return $this The current instance
      */
     public function lines(array $lines)
     {
@@ -75,7 +103,7 @@ class Write extends BaseTask
      *
      * @param string $text
      *
-     * @return Write The current instance
+     * @return $this The current instance
      */
     public function text($text)
     {
@@ -94,7 +122,7 @@ class Write extends BaseTask
      *
      * @param string $filename
      *
-     * @return Write The current instance
+     * @return $this The current instance
      */
     public function textFromFile($filename)
     {
@@ -108,7 +136,7 @@ class Write extends BaseTask
      * @param string $name
      * @param string $val
      *
-     * @return Write The current instance
+     * @return $this The current instance
      */
     public function place($name, $val)
     {
@@ -123,7 +151,7 @@ class Write extends BaseTask
      * @param string $string
      * @param string $replacement
      *
-     * @return Write The current instance
+     * @return $this The current instance
      */
     public function replace($string, $replacement)
     {
@@ -137,7 +165,7 @@ class Write extends BaseTask
      * @param string $pattern
      * @param string $replacement
      *
-     * @return Write The current instance
+     * @return $this The current instance
      */
     public function regexReplace($pattern, $replacement)
     {
@@ -150,7 +178,9 @@ class Write extends BaseTask
      * regex pattern matches any text already in the buffer.
      *
      * @param string $pattern
-     * @param string
+     * @param string $text
+     *
+     * @return $this
      */
     public function appendIfMatches($pattern, $text)
     {
@@ -163,7 +193,9 @@ class Write extends BaseTask
      * regex pattern matches any text already in the buffer.
      *
      * @param string $pattern
-     * @param string
+     * @param string $text
+     *
+     * @return $this
      */
     public function appendUnlessMatches($pattern, $text)
     {
@@ -171,6 +203,12 @@ class Write extends BaseTask
         return $this;
     }
 
+    /**
+     * @param $contents string
+     * @param $filename string
+     *
+     * @return string
+     */
     protected function textFromFileCollect($contents, $filename)
     {
         if (file_exists($filename)) {
@@ -179,21 +217,49 @@ class Write extends BaseTask
         return $contents;
     }
 
+    /**
+     * @param string|string[] $contents
+     * @param string|string[] $string
+     * @param string|string[] $replacement
+     *
+     * @return string|string[]
+     */
     protected function replaceCollect($contents, $string, $replacement)
     {
         return str_replace($string, $replacement, $contents);
     }
 
+    /**
+     * @param string|string[] $contents
+     * @param string|string[] $pattern
+     * @param string|string[] $replacement
+     *
+     * @return string|string[]
+     */
     protected function regexReplaceCollect($contents, $pattern, $replacement)
     {
         return preg_replace($pattern, $replacement, $contents);
     }
 
+    /**
+     * @param string $contents
+     * @param string $text
+     *
+     * @return string
+     */
     protected function textCollect($contents, $text)
     {
         return $contents . $text;
     }
 
+    /**
+     * @param string $contents
+     * @param string $pattern
+     * @param string $text
+     * @param bool $shouldMatch
+     *
+     * @return string
+     */
     protected function appendIfMatchesCollect($contents, $pattern, $text, $shouldMatch)
     {
         if (preg_match($pattern, $contents) == $shouldMatch) {
@@ -202,6 +268,9 @@ class Write extends BaseTask
         return $contents;
     }
 
+    /**
+     * @return string
+     */
     public function originalContents()
     {
         if (!isset($this->originalContents)) {
@@ -213,11 +282,17 @@ class Write extends BaseTask
         return $this->originalContents;
     }
 
+    /**
+     * @return bool
+     */
     public function wouldChange()
     {
         return $this->originalContents() != $this->getContentsToWrite();
     }
 
+    /**
+     * @return string
+     */
     protected function getContentsToWrite()
     {
         $contents = "";
@@ -234,6 +309,9 @@ class Write extends BaseTask
         return $contents;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         $this->printTaskInfo("Writing to {filename}.", ['filename' => $this->filename]);
@@ -249,6 +327,9 @@ class Write extends BaseTask
         return Result::success($this);
     }
 
+    /**
+     * @return string
+     */
     public function getPath()
     {
         return $this->filename;

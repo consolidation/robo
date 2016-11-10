@@ -30,11 +30,31 @@ use Robo\Contract\CompletionInterface;
  */
 class TmpDir extends BaseDir implements CompletionInterface
 {
+    /**
+     * @var string
+     */
     protected $base;
+
+    /**
+     * @var string
+     */
     protected $prefix;
+
+    /**
+     * @var bool
+     */
     protected $cwd;
+
+    /**
+     * @var string
+     */
     protected $savedWorkingDirectory;
 
+    /**
+     * @param string $prefix
+     * @param string $base
+     * @param bool $includeRandomPart
+     */
     public function __construct($prefix = 'tmp', $base = '', $includeRandomPart = true)
     {
         if (empty($base)) {
@@ -50,8 +70,10 @@ class TmpDir extends BaseDir implements CompletionInterface
     /**
      * Add a random part to a path, ensuring that the directory does
      * not (currently) exist.
+     *
      * @param string $path The base/prefix path to add a random component to
      * @param int $length Number of digits in the random part
+     *
      * @return string
      */
     protected static function randomLocation($path, $length = 12)
@@ -66,6 +88,10 @@ class TmpDir extends BaseDir implements CompletionInterface
     /**
      * Generate a suitably random string to use as the suffix for our
      * temporary directory.
+     *
+     * @param int $length
+     *
+     * @return string
      */
     protected static function randomString($length = 12)
     {
@@ -75,6 +101,10 @@ class TmpDir extends BaseDir implements CompletionInterface
     /**
      * Flag that we should cwd to the temporary directory when it is
      * created, and restore the old working directory when it is deleted.
+     *
+     * @param bool $shouldChangeWorkingDirectory
+     *
+     * @return $this
      */
     public function cwd($shouldChangeWorkingDirectory = true)
     {
@@ -84,7 +114,7 @@ class TmpDir extends BaseDir implements CompletionInterface
     }
 
     /**
-     * Create our temporary directory.
+     * {@inheritdoc}
      */
     public function run()
     {
@@ -134,6 +164,8 @@ class TmpDir extends BaseDir implements CompletionInterface
      * Get a reference to the path to the temporary directory, so that
      * it may be used to create other tasks.  Note that the directory
      * is not actually created until the task runs.
+     *
+     * @return string
      */
     public function getPath()
     {

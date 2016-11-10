@@ -23,8 +23,14 @@ namespace Robo\Task\Composer;
  */
 class Update extends Base
 {
+    /**
+     * {@inheritdoc}
+     */
     protected $action = 'update';
 
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         $command = $this->getCommand();

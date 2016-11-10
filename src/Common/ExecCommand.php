@@ -11,10 +11,24 @@ use Symfony\Component\Process\Process;
  */
 trait ExecCommand
 {
+    /**
+     * @var bool
+     */
     protected $isPrinted = true;
+
+    /**
+     * @var string
+     */
     protected $workingDirectory;
+
+    /**
+     * @var \Robo\Common\TimeKeeper
+     */
     protected $execTimer;
 
+    /**
+     * @return \Robo\Common\TimeKeeper
+     */
     protected function getExecTimer()
     {
         if (!isset($this->execTimer)) {
@@ -25,6 +39,7 @@ trait ExecCommand
 
     /**
      * Is command printing its output to screen
+     *
      * @return bool
      */
     public function getPrinted()
@@ -33,8 +48,10 @@ trait ExecCommand
     }
 
     /**
-     * changes working directory of command
-     * @param $dir
+     * Changes working directory of command
+     *
+     * @param string $dir
+     *
      * @return $this
      */
     public function dir($dir)
@@ -47,7 +64,8 @@ trait ExecCommand
     /**
      * Should command output be printed
      *
-     * @param $arg
+     * @param bool $arg
+     *
      * @return $this
      */
     public function printed($arg)
@@ -63,6 +81,10 @@ trait ExecCommand
      * directory; return a string to exec it if it is
      * found.  Otherwise, look for an executable command
      * of the same name via findExecutable.
+     *
+     * @param string $cmd
+     *
+     * @return bool|string
      */
     protected function findExecutablePhar($cmd)
     {
@@ -77,6 +99,10 @@ trait ExecCommand
      * with the provided name.  Favor vendor/bin in the
      * current project. If not found there, use
      * whatever is on the $PATH.
+     *
+     * @param string $cmd
+     *
+     * @return bool|string
      */
     protected function findExecutable($cmd)
     {
@@ -87,6 +113,11 @@ trait ExecCommand
         return false;
     }
 
+    /**
+     * @param string $cmd
+     *
+     * @return string
+     */
     private function searchForExecutable($cmd)
     {
         $projectBin = $this->findProjectBin();
@@ -99,15 +130,18 @@ trait ExecCommand
         return $finder->find($cmd, null, []);
     }
 
+    /**
+     * @return bool|string
+     */
     protected function findProjectBin()
     {
         $candidates = [ __DIR__ . '/../../vendor/bin', __DIR__ . '/../../bin' ];
 
         // If this project is inside a vendor directory, give highest priority
         // to that directory.
-        $vendorDirContainingUs = realpath(__DIR__ . '/../../../../..');
+        $vendorDirContainingUs = realpath(__DIR__ . '/../../../..');
         if (is_dir($vendorDirContainingUs) && (basename($vendorDirContainingUs) == 'vendor')) {
-            array_unshift($candidates, $vendorDirContainingUs);
+            array_unshift($candidates, $vendorDirContainingUs . '/bin');
         }
 
         foreach ($candidates as $dir) {
@@ -120,6 +154,10 @@ trait ExecCommand
 
     /**
      * Wrap Windows executables in 'call' per 7a88757d
+     *
+     * @param string $cmd
+     *
+     * @return string
      */
     protected function useCallOnWindows($cmd)
     {
@@ -133,8 +171,9 @@ trait ExecCommand
     }
 
     /**
-     * @param $command
-     * @return Result
+     * @param string $command
+     *
+     * @return \Robo\Result
      */
     protected function executeCommand($command)
     {

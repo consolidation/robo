@@ -30,13 +30,13 @@ $this->taskChangelog()
 * `Development\Changelog anchor(string $anchor)` 
 * `Development\Changelog version(string $version)` 
 
-* `filename($filename)` 
-* `log($item)` 
-* `anchor($anchor)` 
-* `version($version)` 
-* `changes(array $data)` 
-* `change($change)` 
-* `getChanges()` 
+* `filename($filename)`   * `param string` $filename
+* `log($item)`   * `param string` $item
+* `anchor($anchor)`   * `param string` $anchor
+* `version($version)`   * `param string` $version
+* `changes(array $data)`   * `param array` $data
+* `change($change)`   * `param string` $change
+* `getChanges()`  @return array
 
 ## GenerateMarkdownDoc
 
@@ -91,27 +91,27 @@ $this->taskGenDoc('models.md')
 * ` prepend($text)`  inserts text into beginning of markdown file
 * ` append($text)`  inserts text in the end of markdown file
 
-* `docClass($item)` 
-* `filterMethods($filterMethods)` 
-* `filterClasses($filterClasses)` 
-* `filterProperties($filterProperties)` 
-* `processClass($processClass)` 
-* `processClassSignature($processClassSignature)` 
-* `processClassDocBlock($processClassDocBlock)` 
-* `processMethod($processMethod)` 
-* `processMethodSignature($processMethodSignature)` 
-* `processMethodDocBlock($processMethodDocBlock)` 
-* `processProperty($processProperty)` 
-* `processPropertySignature($processPropertySignature)` 
-* `processPropertyDocBlock($processPropertyDocBlock)` 
-* `reorder($reorder)` 
-* `reorderMethods($reorderMethods)` 
-* `reorderProperties($reorderProperties)` 
-* `filename($filename)` 
-* `prepend($prepend)` 
-* `append($append)` 
-* `text($text)` 
-* `textForClass($item)` 
+* `docClass($item)`   * `param string` $item
+* `filterMethods($filterMethods)`   * `param callable` $filterMethods
+* `filterClasses($filterClasses)`   * `param callable` $filterClasses
+* `filterProperties($filterProperties)`   * `param callable` $filterProperties
+* `processClass($processClass)`   * `param callable` $processClass
+* `processClassSignature($processClassSignature)`   * `param callable|false` $processClassSignature
+* `processClassDocBlock($processClassDocBlock)`   * `param callable|false` $processClassDocBlock
+* `processMethod($processMethod)`   * `param callable|false` $processMethod
+* `processMethodSignature($processMethodSignature)`   * `param callable|false` $processMethodSignature
+* `processMethodDocBlock($processMethodDocBlock)`   * `param callable|false` $processMethodDocBlock
+* `processProperty($processProperty)`   * `param callable|false` $processProperty
+* `processPropertySignature($processPropertySignature)`   * `param callable|false` $processPropertySignature
+* `processPropertyDocBlock($processPropertyDocBlock)`   * `param callable|false` $processPropertyDocBlock
+* `reorder($reorder)`   * `param callable` $reorder
+* `reorderMethods($reorderMethods)`   * `param callable` $reorderMethods
+* `reorderProperties($reorderProperties)`   * `param callable` $reorderProperties
+* `filename($filename)`   * `param string` $filename
+* `prepend($prepend)`   * `param string` $prepend
+* `append($append)`   * `param string` $append
+* `text($text)`   * `param string` $text
+* `textForClass($item)`   * `param string` $item
 
 ## Generate
 
@@ -143,20 +143,20 @@ $this->taskGitHubRelease('0.1.0')
 ?>
 ```
 
-* `tag($tag)` 
-* `draft($draft)` 
-* `name($name)` 
-* `description($description)` 
-* `prerelease($prerelease)` 
-* `comittish($comittish)` 
-* `appendDescription($description)` 
+* `tag($tag)`   * `param string` $tag
+* `draft($draft)`   * `param bool` $draft
+* `name($name)`   * `param string` $name
+* `description($description)`   * `param string` $description
+* `prerelease($prerelease)`   * `param bool` $prerelease
+* `comittish($comittish)`   * `param string` $comittish
+* `appendDescription($description)`   * `param string` $description
 * `changes(array $changes)` 
-* `change($change)` 
-* `repo($repo)` 
-* `owner($owner)` 
-* `uri($uri)` 
-* `user($user)` 
-* `password($password)` 
+* `change($change)`   * `param string` $change
+* `repo($repo)`   * `param string` $repo
+* `owner($owner)`   * `param string` $owner
+* `uri($uri)`   * `param string` $uri
+* `user($user)`   * `param string` $user
+* `password($password)`   * `param` $password
 
 ## OpenBrowser
 
@@ -213,12 +213,12 @@ $pharTask = $this->taskPackPhar('package/codecept.phar')
 ?>
 ```
 
-* `compress($compress = null)`   * `param boolean` $compress
-* `stub($stub)`   * `param` $stub
-* `addStripped($path, $file)` 
-* `addFile($path, $file)` 
-* `addFiles($files)` 
-* `executable($file)` 
+* `compress($compress = null)`   * `param bool` $compress
+* `stub($stub)`   * `param string` $stub
+* `addStripped($path, $file)`   * `param string` $path
+* `addFile($path, $file)`   * `param string` $path
+* `addFiles($files)`   * `param \Symfony\Component\Finder\SplFileInfo[]` $files
+* `executable($file)`   * `param string` $file
 
 ## PhpServer
 
@@ -244,13 +244,13 @@ $this->taskServer(8000)
 ?>
 ```
 
-* `host($host)` 
-* `dir($path)`  changes working directory of command
+* `host($host)`   * `param string` $host
+* `dir($path)`   * `param string` $path
 * `background()`  Executes command in background mode (asynchronously)
 * `timeout($timeout)`  Stop command if it runs longer then $timeout in seconds
 * `idleTimeout($timeout)`  Stops command if it does not output something for a while
 * `env(array $env)`  Sets the environment variables for the command
-* `simulate($context)`  Called in place of `run()` for simulated tasks.
+* `simulate($context)`  {@inheritdoc}
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -272,11 +272,11 @@ $this->taskSemVer('.semver')
 ```
 
 
-* `__toString()` 
-* `setFormat($format)` 
-* `setMetadataSeparator($separator)` 
-* `setPrereleaseSeparator($separator)` 
-* `increment($what = null)` 
-* `prerelease($tag = null)` 
-* `metadata($data)` 
+* `__toString()`  @return string
+* `setFormat($format)`   * `param string` $format
+* `setMetadataSeparator($separator)`   * `param string` $separator
+* `setPrereleaseSeparator($separator)`   * `param string` $separator
+* `increment($what = null)`   * `param string` $what
+* `prerelease($tag = null)`   * `param string` $tag
+* `metadata($data)`   * `param array|string` $data
 

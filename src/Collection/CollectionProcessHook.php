@@ -16,6 +16,12 @@ use Robo\Result;
  */
 class CollectionProcessHook implements ProcessResultInterface
 {
+    /**
+     * @param \Robo\Result|\Robo\Contract\TaskInterface $result
+     * @param \Consolidation\AnnotatedCommand\CommandData $commandData
+     *
+     * @return null|\Robo\Result
+     */
     public function process($result, CommandData $commandData)
     {
         if ($result instanceof TaskInterface) {

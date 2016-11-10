@@ -4,8 +4,9 @@ namespace Robo\Task\Assets;
 trait loadTasks
 {
     /**
-    * @param $input
-    * @return Minify
+    * @param string $input
+    *
+     * @return \Robo\Task\Assets\Minify
     */
     protected function taskMinify($input)
     {
@@ -13,8 +14,9 @@ trait loadTasks
     }
 
     /**
-     * @param $input
-     * @return ImageMinify
+     * @param string|string[] $input
+     *
+     * @return \Robo\Task\Assets\ImageMinify
      */
     protected function taskImageMinify($input)
     {
@@ -22,8 +24,9 @@ trait loadTasks
     }
 
    /**
-    * @param $input
-    * @return Less
+    * @param array $input
+    *
+    * @return \Robo\Task\Assets\Less
     */
     protected function taskLess($input)
     {
@@ -31,8 +34,9 @@ trait loadTasks
     }
 
     /**
-     * @param $input
-     * @return Scss
+     * @param array $input
+     *
+     * @return \Robo\Task\Assets\Scss
      */
     protected function taskScss($input)
     {

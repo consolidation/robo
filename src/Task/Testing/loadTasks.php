@@ -4,8 +4,9 @@ namespace Robo\Task\Testing;
 trait loadTasks
 {
     /**
-     * @param null $pathToCodeception
-     * @return Codecept
+     * @param null|string $pathToCodeception
+     *
+     * @return \Robo\Task\Testing\Codecept
      */
     protected function taskCodecept($pathToCodeception = null)
     {
@@ -13,8 +14,9 @@ trait loadTasks
     }
 
     /**
-     * @param null $pathToPhpUnit
-     * @return PHPUnit
+     * @param null|string $pathToPhpUnit
+     *
+     * @return \Robo\Task\Testing\PHPUnit
      */
     protected function taskPhpUnit($pathToPhpUnit = null)
     {
@@ -23,7 +25,8 @@ trait loadTasks
 
     /**
      * @param null $pathToPhpspec
-     * @return Phpspec
+     *
+     * @return \Robo\Task\Testing\Phpspec
      */
     protected function taskPhpspec($pathToPhpspec = null)
     {
@@ -32,7 +35,8 @@ trait loadTasks
 
     /**
      * @param null $pathToAtoum
-     * @return Atoum
+     *
+     * @return \Robo\Task\Testing\Atoum
      */
     protected function taskAtoum($pathToAtoum = null)
     {
@@ -41,7 +45,8 @@ trait loadTasks
 
     /**
      * @param null $pathToBehat
-     * @return Behat
+     *
+     * @return \Robo\Task\Testing\Behat
      */
     protected function taskBehat($pathToBehat = null)
     {

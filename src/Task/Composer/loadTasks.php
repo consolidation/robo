@@ -4,7 +4,8 @@ namespace Robo\Task\Composer;
 trait loadTasks
 {
     /**
-     * @param null $pathToComposer
+     * @param null|string $pathToComposer
+     *
      * @return Install
      */
     protected function taskComposerInstall($pathToComposer = null)
@@ -13,7 +14,8 @@ trait loadTasks
     }
 
     /**
-     * @param null $pathToComposer
+     * @param null|string $pathToComposer
+     *
      * @return Update
      */
     protected function taskComposerUpdate($pathToComposer = null)
@@ -22,7 +24,8 @@ trait loadTasks
     }
 
     /**
-     * @param null $pathToComposer
+     * @param null|string $pathToComposer
+     *
      * @return DumpAutoload
      */
     protected function taskComposerDumpAutoload($pathToComposer = null)
@@ -31,7 +34,8 @@ trait loadTasks
     }
 
     /**
-     * @param null $pathToComposer
+     * @param null|string $pathToComposer
+     *
      * @return Validate
      */
     protected function taskComposerValidate($pathToComposer = null)
@@ -40,7 +44,8 @@ trait loadTasks
     }
 
     /**
-     * @param null $pathToComposer
+     * @param null|string $pathToComposer
+     *
      * @return Remove
      */
     protected function taskComposerRemove($pathToComposer = null)

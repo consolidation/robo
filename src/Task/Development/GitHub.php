@@ -8,47 +8,98 @@ abstract class GitHub extends BaseTask
 {
     const GITHUB_URL = 'https://api.github.com';
 
+    /**
+     * @var string
+     */
     protected $user = '';
+
+    /**
+     * @var string
+     */
     protected $password = '';
 
+    /**
+     * @var string
+     */
     protected $repo;
+
+    /**
+     * @var string
+     */
     protected $owner;
 
+    /**
+     * @param string $repo
+     *
+     * @return $this
+     */
     public function repo($repo)
     {
         $this->repo = $repo;
         return $this;
     }
 
+    /**
+     * @param string $owner
+     *
+     * @return $this
+     */
     public function owner($owner)
     {
         $this->owner = $owner;
         return $this;
     }
 
+    /**
+     * @param string $uri
+     *
+     * @return $this
+     */
     public function uri($uri)
     {
         list($this->owner, $this->repo) = explode('/', $uri);
         return $this;
     }
 
+    /**
+     * @return string
+     */
     protected function getUri()
     {
         return $this->owner . '/' . $this->repo;
     }
 
+    /**
+     * @param string $user
+     *
+     * @return $this
+     */
     public function user($user)
     {
         $this->user = $user;
         return $this;
     }
 
+    /**
+     * @param $password
+     *
+     * @return $this
+     */
     public function password($password)
     {
         $this->password = $password;
         return $this;
     }
 
+    /**
+     * @param string $uri
+     * @param array $params
+     * @param string $method
+     *
+     * @return array
+     *
+     * @throws \Robo\Exception\TaskException
+     */
     protected function sendRequest($uri, $params = [], $method = 'POST')
     {
         if (!$this->owner or !$this->repo) {

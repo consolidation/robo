@@ -22,7 +22,7 @@ $this->taskAtoum()
 * `debug()`  Use atoum's debug mode.
 * `files($files)`  Test file or test files to run.
 * `directories($directories)`  Test directory or directories to run.
-* `dir($dir)`  changes working directory of command
+* `dir($dir)`  Changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -45,15 +45,15 @@ $this->taskBehat()
 ```
 
 
-* `stopOnFail()` 
-* `noInteraction()` 
-* `config($config_file)` 
-* `colors()` 
-* `noColors()` 
-* `suite($suite)` 
-* `verbose($level = null)` 
-* `format($formater)` 
-* `dir($dir)`  changes working directory of command
+* `stopOnFail()`   * `return` $this
+* `noInteraction()`   * `return` $this
+* `config($config_file)`   * `param` $config_file
+* `colors()`   * `return` $this
+* `noColors()`   * `return` $this
+* `suite($suite)`   * `param string` $suite
+* `verbose($level = null)`   * `param string` $level
+* `format($formater)`   * `param string` $formater
+* `dir($dir)`  Changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -81,10 +81,10 @@ $this->taskCodecept()
 ```
 
 
-* `suite($suite)` 
-* `test($testName)` 
+* `suite($suite)`   * `param string` $suite
+* `test($testName)`   * `param string` $testName
 * `group($group)`  set group option. Can be called multiple times
-* `excludeGroup($group)` 
+* `excludeGroup($group)`   * `param string` $group
 * `json($file = null)`  generate json report
 * `xml($file = null)`  generate xml JUnit report
 * `html($dir = null)`  Generate html report
@@ -94,9 +94,9 @@ $this->taskCodecept()
 * `silent()`  execute in silent mode
 * `coverageXml($xml = null)`  collect code coverage in xml format. You may pass name of xml file to save results
 * `coverageHtml($html = null)`  collect code coverage and generate html report. You may pass
-* `env($env)` 
-* `debug()` 
-* `dir($dir)`  changes working directory of command
+* `env($env)`   * `param string` $env
+* `debug()`   * `return` $this
+* `dir($dir)`  Changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -119,18 +119,18 @@ $this->taskPHPUnit()
 ?>
 ```
 
-* `filter($filter)` 
-* `group($group)` 
-* `excludeGroup($group)` 
+* `filter($filter)`   * `param string` $filter
+* `group($group)`   * `param string` $group
+* `excludeGroup($group)`   * `param string` $group
 * `json($file = null)`  adds `log-json` option to runner
 * `xml($file = null)`  adds `log-junit` option
-* `tap($file = null)` 
-* `bootstrap($file)` 
-* `configFile($file)` 
-* `debug()` 
+* `tap($file = null)`   * `param string` $file
+* `bootstrap($file)`   * `param string` $file
+* `configFile($file)`   * `param string` $file
+* `debug()`   * `return` $this
 * `files($files)`  Directory of test files or single test file to run.
 * `file($file)`  Test the provided file.
-* `dir($dir)`  Test all of the files in the provided directory.
+* `dir($dir)`  Changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -161,7 +161,7 @@ $this->taskPhpspec()
 * `noInteraction()` 
 * `config($config_file)` 
 * `format($formater)` 
-* `dir($dir)`  changes working directory of command
+* `dir($dir)`  Changes working directory of command
 * `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values

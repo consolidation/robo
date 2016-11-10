@@ -19,59 +19,124 @@ use Robo\Result;
  */
 class GitHubRelease extends GitHub
 {
+    /**
+     * @var string
+     */
     protected $tag;
+
+    /**
+     * @var string
+     */
     protected $name;
+
+    /**
+     * @var string
+     */
     protected $description = '';
+
+    /**
+     * @var string[]
+     */
     protected $changes = [];
+
+    /**
+     * @var bool
+     */
     protected $draft = false;
+
+    /**
+     * @var bool
+     */
     protected $prerelease = false;
+
+    /**
+     * @var string
+     */
     protected $comittish = 'master';
 
+    /**
+     * @param string $tag
+     */
     public function __construct($tag)
     {
         $this->tag = $tag;
     }
 
+    /**
+     * @param string $tag
+     *
+     * @return $this
+     */
     public function tag($tag)
     {
         $this->tag = $tag;
         return $this;
     }
 
+    /**
+     * @param bool $draft
+     *
+     * @return $this
+     */
     public function draft($draft)
     {
         $this->draft = $draft;
         return $this;
     }
 
+    /**
+     * @param string $name
+     *
+     * @return $this
+     */
     public function name($name)
     {
         $this->name = $name;
         return $this;
     }
 
+    /**
+     * @param string $description
+     *
+     * @return $this
+     */
     public function description($description)
     {
         $this->description = $description;
         return $this;
     }
 
+    /**
+     * @param bool $prerelease
+     *
+     * @return $this
+     */
     public function prerelease($prerelease)
     {
         $this->prerelease = $prerelease;
         return $this;
     }
 
+    /**
+     * @param string $comittish
+     *
+     * @return $this
+     */
     public function comittish($comittish)
     {
         $this->comittish = $comittish;
         return $this;
     }
 
+    /**
+     * @param string $description
+     *
+     * @return $this
+     */
     public function appendDescription($description)
     {
         if (!empty($this->description)) {
-            $$this->description .= "\n\n";
+            $this->description .= "\n\n";
         }
         $this->description .= $description;
         return $this;
@@ -83,12 +148,20 @@ class GitHubRelease extends GitHub
         return $this;
     }
 
-    public function change(string $change)
+    /**
+     * @param string $change
+     *
+     * @return $this
+     */
+    public function change($change)
     {
         $this->changes[] = $change;
         return $this;
     }
 
+    /**
+     * @return string
+     */
     protected function getBody()
     {
         $body = $this->description;
@@ -105,6 +178,9 @@ class GitHubRelease extends GitHub
         return $body;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         $this->printTaskInfo('Releasing {tag}', ['tag' => $this->tag]);

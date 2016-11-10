@@ -29,7 +29,9 @@ use Symfony\Component\Process\ProcessUtils;
  */
 class GitStack extends CommandStack
 {
-
+    /**
+     * @param string $pathToGit
+     */
     public function __construct($pathToGit = 'git')
     {
         $this->executable = $pathToGit;
@@ -38,8 +40,9 @@ class GitStack extends CommandStack
     /**
      * Executes `git clone`
      *
-     * @param $repo
+     * @param string $repo
      * @param string $to
+     *
      * @return $this
      */
     public function cloneRepo($repo, $to = "")
@@ -50,7 +53,8 @@ class GitStack extends CommandStack
     /**
      * Executes `git add` command with files to add pattern
      *
-     * @param $pattern
+     * @param string $pattern
+     *
      * @return $this
      */
     public function add($pattern)
@@ -61,8 +65,9 @@ class GitStack extends CommandStack
     /**
      * Executes `git commit` command with a message
      *
-     * @param $message
+     * @param string $message
      * @param string $options
+     *
      * @return $this
      */
     public function commit($message, $options = "")
@@ -76,6 +81,7 @@ class GitStack extends CommandStack
      *
      * @param string $origin
      * @param string $branch
+     *
      * @return $this
      */
     public function pull($origin = '', $branch = '')
@@ -88,6 +94,7 @@ class GitStack extends CommandStack
      *
      * @param string $origin
      * @param string $branch
+     *
      * @return $this
      */
     public function push($origin = '', $branch = '')
@@ -99,6 +106,7 @@ class GitStack extends CommandStack
      * Performs git merge
      *
      * @param string $branch
+     *
      * @return $this
      */
     public function merge($branch)
@@ -109,7 +117,8 @@ class GitStack extends CommandStack
     /**
      * Executes `git checkout` command
      *
-     * @param $branch
+     * @param string $branch
+     *
      * @return $this
      */
     public function checkout($branch)
@@ -120,8 +129,9 @@ class GitStack extends CommandStack
     /**
      * Executes `git tag` command
      *
-     * @param $tag_name
+     * @param string $tag_name
      * @param string $message
+     *
      * @return $this
      */
     public function tag($tag_name, $message = "")
@@ -132,6 +142,9 @@ class GitStack extends CommandStack
         return $this->exec([__FUNCTION__, $message, $tag_name]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         $this->printTaskInfo("Running git commands...");

@@ -23,15 +23,35 @@ use Robo\Task\BaseTask;
  */
 class Watch extends BaseTask
 {
+    /**
+     * @var \Closure
+     */
     protected $closure;
+
+    /**
+     * @var array
+     */
     protected $monitor = [];
+
+    /**
+     * @var object
+     */
     protected $bindTo;
 
+    /**
+     * @param $bindTo
+     */
     public function __construct($bindTo)
     {
         $this->bindTo = $bindTo;
     }
 
+    /**
+     * @param string|string[] $paths
+     * @param \Closure $callable
+     *
+     * @return $this
+     */
     public function monitor($paths, \Closure $callable)
     {
         if (!is_array($paths)) {
@@ -41,6 +61,9 @@ class Watch extends BaseTask
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         if (!class_exists('Lurker\\ResourceWatcher')) {
@@ -50,6 +73,7 @@ class Watch extends BaseTask
         $watcher = new ResourceWatcher();
 
         foreach ($this->monitor as $k => $monitor) {
+            /** @var \Closure $closure */
             $closure = $monitor[1];
             $closure->bindTo($this->bindTo);
             foreach ($monitor[0] as $i => $dir) {

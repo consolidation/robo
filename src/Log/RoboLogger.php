@@ -18,6 +18,9 @@ use Symfony\Component\Console\Logger\ConsoleLogger;
  */
 class RoboLogger extends Logger
 {
+    /**
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     */
     public function __construct(OutputInterface $output)
     {
         // In Robo, we use log level 'notice' for messages that appear all

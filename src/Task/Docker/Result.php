@@ -11,6 +11,9 @@ class Result extends \Robo\Result
     {
     }
 
+    /**
+     * @return null|string
+     */
     public function getCid()
     {
         if (isset($this['cid'])) {
@@ -19,6 +22,9 @@ class Result extends \Robo\Result
         return null;
     }
 
+    /**
+     * @return null|string
+     */
     public function getContainerName()
     {
         if (isset($this['name'])) {

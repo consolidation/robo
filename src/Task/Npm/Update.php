@@ -18,8 +18,14 @@ namespace Robo\Task\Npm;
  */
 class Update extends Base
 {
+    /**
+     * @var string
+     */
     protected $action = 'update';
 
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         $this->printTaskInfo('Update Npm packages: {arguments}', ['arguments' => $this->arguments]);

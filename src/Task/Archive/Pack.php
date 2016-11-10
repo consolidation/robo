@@ -61,6 +61,11 @@ class Pack extends BaseTask implements PrintedInterface
         return true;
     }
 
+    /**
+     * @param string $archiveFile
+     *
+     * @return $this
+     */
     public function archiveFile($archiveFile)
     {
         $this->archiveFile = $archiveFile;
@@ -75,6 +80,7 @@ class Pack extends BaseTask implements PrintedInterface
      *             Relative path and name of item to store in archive
      * @var string
      *             Absolute or relative path to file or directory's location in filesystem
+     *
      * @return $this
      */
     public function addFile($placementLocation, $filesystemLocation)
@@ -92,6 +98,7 @@ class Pack extends BaseTask implements PrintedInterface
      *             Relative path and name of directory to store in archive
      * @var string
      *             Absolute or relative path to directory or directory's location in filesystem
+     *
      * @return $this
      */
     public function addDir($placementLocation, $filesystemLocation)
@@ -127,7 +134,7 @@ class Pack extends BaseTask implements PrintedInterface
     /**
      * Create a zip archive for distribution.
      *
-     * @return Result
+     * @return \Robo\Result
      *
      * @since  1.0
      */
@@ -161,6 +168,12 @@ class Pack extends BaseTask implements PrintedInterface
         return $result;
     }
 
+    /**
+     * @param string $archiveFile
+     * @param array $items
+     *
+     * @return \Robo\Result
+     */
     protected function archiveTar($archiveFile, $items)
     {
         if (!class_exists('Archive_Tar')) {
@@ -187,6 +200,12 @@ class Pack extends BaseTask implements PrintedInterface
         return Result::success($this);
     }
 
+    /**
+     * @param string $archiveFile
+     * @param array $items
+     *
+     * @return \Robo\Result
+     */
     protected function archiveZip($archiveFile, $items)
     {
         if (!extension_loaded('zlib')) {
@@ -203,6 +222,12 @@ class Pack extends BaseTask implements PrintedInterface
         return $result;
     }
 
+    /**
+     * @param \ZipArchive $zip
+     * @param array $items
+     *
+     * @return \Robo\Result
+     */
     protected function addItemsToZip($zip, $items)
     {
         foreach ($items as $placementLocation => $filesystemLocation) {

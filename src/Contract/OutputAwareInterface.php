@@ -13,7 +13,7 @@ interface OutputAwareInterface
     /**
      * Sets the Console Output.
      *
-     * @param OutputInterface
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
      */
     public function setOutput(OutputInterface $output);
 }

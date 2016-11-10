@@ -44,6 +44,9 @@ class FilesystemStack extends StackBasedTask implements BuilderAwareInterface
 {
     use BuilderAwareTrait;
 
+    /**
+     * @var \Symfony\Component\Filesystem\Filesystem
+     */
     protected $fs;
 
     public function __construct()
@@ -51,31 +54,62 @@ class FilesystemStack extends StackBasedTask implements BuilderAwareInterface
         $this->fs = new sfFilesystem();
     }
 
+    /**
+     * @return \Symfony\Component\Filesystem\Filesystem
+     */
     protected function getDelegate()
     {
         return $this->fs;
     }
 
+    /**
+     * @param string $from
+     * @param string $to
+     * @param bool $force
+     */
     protected function _copy($from, $to, $force = false)
     {
         $this->fs->copy($from, $to, $force);
     }
 
+    /**
+     * @param string|string[]|\Traversable $file
+     * @param int $permissions
+     * @param int $umask
+     * @param bool $recursive
+     */
     protected function _chmod($file, $permissions, $umask = 0000, $recursive = false)
     {
         $this->fs->chmod($file, $permissions, $umask, $recursive);
     }
 
+    /**
+     * @param string|string[]|\Traversable $file
+     * @param string $group
+     * @param bool $recursive
+     */
     protected function _chgrp($file, $group, $recursive = null)
     {
         $this->fs->chgrp($file, $group, $recursive);
     }
 
+    /**
+     * @param string|string[]|\Traversable $file
+     * @param string $user
+     * @param bool $recursive
+     */
     protected function _chown($file, $user, $recursive = null)
     {
         $this->fs->chown($file, $user, $recursive);
     }
 
+    /**
+     * @param string $origin
+     * @param string $target
+     * @param bool $overwrite
+     *
+     * @return null|true|\Robo\Result
+     */
     protected function _rename($origin, $target, $overwrite = false)
     {
         // we check that target does not exist
@@ -91,6 +125,12 @@ class FilesystemStack extends StackBasedTask implements BuilderAwareInterface
         return true;
     }
 
+    /**
+     * @param string $origin
+     * @param string $target
+     *
+     * @return null|\Robo\Result
+     */
     protected function crossVolumeRename($origin, $target)
     {
         // First step is to try to get rid of the target. If there
@@ -105,6 +145,8 @@ class FilesystemStack extends StackBasedTask implements BuilderAwareInterface
         if (file_exists($target)) {
             $this->fs->remove($target);
         }
+
+        /** @var \Robo\Result $result */
         $result = $this->collectionBuilder()->taskCopyDir([$origin => $target])->run();
         if (!$result->wasSuccessful()) {
             return $result;

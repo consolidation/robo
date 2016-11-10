@@ -10,6 +10,8 @@ interface ConfigAwareInterface
      * Set the config reference
      *
      * @param \Robo\Config $config
+     *
+     * @return $this
      */
     public function setConfig(Config $config);
 

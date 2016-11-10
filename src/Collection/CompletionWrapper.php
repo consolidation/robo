@@ -16,12 +16,23 @@ use Robo\Contract\WrappedTaskInterface;
  * Clients may need to wrap their task in a CompletionWrapper if it
  * creates temporary objects.
  *
- * @see Robo\Task\Filesystem\loadTasks::taskTmpDir
+ * @see \Robo\Task\Filesystem\loadTasks::taskTmpDir
  */
 class CompletionWrapper extends BaseTask implements WrappedTaskInterface
 {
+    /**
+     * @var \Robo\Collection\Collection
+     */
     private $collection;
+
+    /**
+     * @var \Robo\Contract\TaskInterface
+     */
     private $task;
+
+    /**
+     * @var NULL|\Robo\Contract\TaskInterface
+     */
     private $rollbackTask;
 
     /**
@@ -36,6 +47,12 @@ class CompletionWrapper extends BaseTask implements WrappedTaskInterface
      * In this way, when the CompletionWrapper is finally executed, the
      * task's rollback and completion handlers will be registered on
      * whichever collection it was registered on.
+     *
+     * @todo Why not CollectionInterface the type of the $collection argument?
+     *
+     * @param \Robo\Collection\Collection $collection
+     * @param \Robo\Contract\TaskInterface $task
+     * @param \Robo\Contract\TaskInterface|NULL $rollbackTask
      */
     public function __construct(Collection $collection, TaskInterface $task, TaskInterface $rollbackTask = null)
     {
@@ -44,6 +61,9 @@ class CompletionWrapper extends BaseTask implements WrappedTaskInterface
         $this->rollbackTask = $rollbackTask;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function original()
     {
         return $this->task;
@@ -53,6 +73,8 @@ class CompletionWrapper extends BaseTask implements WrappedTaskInterface
      * Before running this task, register its rollback and completion
      * handlers on its collection. The reason this class exists is to
      * defer registration of rollback and completion tasks until 'run()' time.
+     *
+     * @return \Robo\Result
      */
     public function run()
     {
@@ -71,6 +93,11 @@ class CompletionWrapper extends BaseTask implements WrappedTaskInterface
 
     /**
      * Make this wrapper object act like the class it wraps.
+     *
+     * @param string $function
+     * @param array $args
+     *
+     * @return mixed
      */
     public function __call($function, $args)
     {

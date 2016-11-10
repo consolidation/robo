@@ -32,10 +32,24 @@ use Robo\Contract\InflectionInterface;
  */
 class Collection extends BaseTask implements CollectionInterface, CommandInterface
 {
+    /**
+     * @var \Robo\Collection\Element[]
+     */
     protected $taskList = [];
+
+    /**
+     * @var TaskInterface[]
+     */
     protected $rollbackStack = [];
+
+    /**
+     * @var TaskInterface[]
+     */
     protected $completionStack = [];
-    /** var CollectionInterface */
+
+    /**
+     * @var CollectionInterface
+     */
     protected $parentCollection;
 
     /**
@@ -54,7 +68,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function add(TaskInterface $task, $name = self::UNNAMEDTASK)
     {
@@ -64,7 +78,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function addCode(callable $code, $name = self::UNNAMEDTASK)
     {
@@ -72,7 +86,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function addIterable($iterable, callable $code)
     {
@@ -81,7 +95,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rollback(TaskInterface $rollbackTask)
     {
@@ -91,7 +105,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rollbackCode(callable $rollbackCode)
     {
@@ -101,7 +115,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function completion(TaskInterface $completionTask)
     {
@@ -118,7 +132,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function completionCode(callable $completionTask)
     {
@@ -127,7 +141,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function before($name, $task, $nameOfTaskToAdd = self::UNNAMEDTASK)
     {
@@ -135,7 +149,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function after($name, $task, $nameOfTaskToAdd = self::UNNAMEDTASK)
     {
@@ -143,7 +157,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function progressMessage($text, $context = [], $level = LogLevel::NOTICE)
     {
@@ -156,6 +170,11 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
         );
     }
 
+    /**
+     * @param \Robo\Contract\TaskInterface $rollbackTask
+     *
+     * @return $this
+     */
     protected function wrapAndRegisterRollback(TaskInterface $rollbackTask)
     {
         $collection = $this;
@@ -171,6 +190,13 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
 
     /**
      * Add either a 'before' or 'after' function or task.
+     *
+     * @param string $method
+     * @param string $name
+     * @param callable|TaskInterface $task
+     * @param string $nameOfTaskToAdd
+     *
+     * @return $this
      */
     protected function addBeforeOrAfter($method, $name, $task, $nameOfTaskToAdd)
     {
@@ -193,6 +219,10 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
      * TODO: Provide some way to specify which sort of errors
      * are ignored, so that 'file not found' may be ignored,
      * but 'permission denied' reported?
+     *
+     * @param \Robo\Contract\TaskInterface $task
+     *
+     * @return \Robo\Collection\CallableTask
      */
     public function ignoreErrorsTaskWrapper(TaskInterface $task)
     {
@@ -219,6 +249,11 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
         return new CallableTask($ignoreErrorsInTask, $this);
     }
 
+    /**
+     * @param callable $task
+     *
+     * @return \Robo\Collection\CallableTask
+     */
     public function ignoreErrorsCodeWrapper(callable $task)
     {
         return $this->ignoreErrorsTaskWrapper(new CallableTask($task, $this));
@@ -226,6 +261,8 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
 
     /**
      * Return the list of task names added to this collection.
+     *
+     * @return array
      */
     public function taskNames()
     {
@@ -237,6 +274,10 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
      * n.b. before() and after() require that the named
      * task exist; use this function to test first, if
      * unsure.
+     *
+     * @param string $name
+     *
+     * @return bool
      */
     public function hasTask($name)
     {
@@ -246,8 +287,9 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
     /**
      * Find an existing named task.
      *
-     * @param string
+     * @param string $name
      *   The name of the task to insert before.  The named task MUST exist.
+     *
      * @return Element
      *   The task group for the named task. Generally this is only
      *   used to call 'before()' and 'after()'.
@@ -263,8 +305,10 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
     /**
      * Add a list of tasks to our task collection.
      *
-     * @param TaskInterface[]
+     * @param TaskInterface[] $tasks
      *   An array of tasks to run with rollback protection
+     *
+     * @return $this
      */
     public function addTaskList(array $tasks)
     {
@@ -276,6 +320,11 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
 
     /**
      * Add the provided task to our task list.
+     *
+     * @param string $name
+     * @param \Robo\Contract\TaskInterface $task
+     *
+     * @return \Robo\Collection\Collection
      */
     protected function addToTaskList($name, TaskInterface $task)
     {
@@ -285,6 +334,12 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
         return $this->addCollectionElementToTaskList($name, $taskGroup);
     }
 
+    /**
+     * @param int|string $name
+     * @param \Robo\Collection\Element $taskGroup
+     *
+     * @return $this
+     */
     protected function addCollectionElementToTaskList($name, Element $taskGroup)
     {
         // If a task name is not provided, then we'll let php pick
@@ -305,6 +360,10 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
      * collections' rollback and completion tasks can be added to the
      * top-level collection, ensuring that the rollbacks for a collection
      * will run if any later task fails.
+     *
+     * @param \Robo\Collection\NestedCollectionInterface $parentCollection
+     *
+     * @return $this
      */
     public function setParentCollection(NestedCollectionInterface $parentCollection)
     {
@@ -314,6 +373,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
 
     /**
      * Get the appropriate parent collection to use
+     *
      * @return CollectionInterface
      */
     public function getParentCollection()
@@ -335,7 +395,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
      * function directly is to add a task that sends notification
      * when a task fails.
      *
-     * @param TaskInterface
+     * @param TaskInterface $rollbackTask
      *   The rollback task to run on failure.
      */
     public function registerRollback(TaskInterface $rollbackTask)
@@ -363,7 +423,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
      * the nested task completes; they are not deferred to the end of
      * the containing collection's execution.
      *
-     * @param TaskInterface
+     * @param TaskInterface $completionTask
      *   The completion task to run at the end of all other operations.
      */
     public function registerCompletion(TaskInterface $completionTask)
@@ -380,6 +440,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
 
     /**
      * Return the count of steps in this collection
+     *
      * @return int
      */
     public function progressIndicatorSteps()
@@ -394,7 +455,10 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
     /**
      * A Collection of tasks can provide a command via `getCommand()`
      * if it contains a single task, and that task implements CommandInterface.
+     *
      * @return string
+     *
+     * @throws \Robo\Exception\TaskException
      */
     public function getCommand()
     {
@@ -421,6 +485,8 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
 
     /**
      * Run our tasks, and roll back if necessary.
+     *
+     * @return \Robo\Result
      */
     public function run()
     {
@@ -429,6 +495,9 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
         return $result;
     }
 
+    /**
+     * @return \Robo\Result
+     */
     private function runWithoutCompletion()
     {
         $result = Result::success($this);
@@ -458,6 +527,14 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
     /**
      * Run every task in a list, but only up to the first failure.
      * Return the failing result, or success if all tasks run.
+     *
+     * @param string $name
+     * @param TaskInterface[] $taskList
+     * @param \Robo\Result $result
+     *
+     * @return \Robo\Result
+     *
+     * @throws \Robo\Exception\TaskExitException
      */
     private function runTaskList($name, array $taskList, Result $result)
     {
@@ -489,6 +566,8 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
 
     /**
      * Force the rollback functions to run
+     *
+     * @return $this
      */
     public function fail()
     {
@@ -500,6 +579,8 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
 
     /**
      * Force the completion functions to run
+     *
+     * @return $this
      */
     public function complete()
     {
@@ -511,6 +592,8 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
 
     /**
      * Reset this collection, removing all tasks.
+     *
+     * @return $this
      */
     public function reset()
     {
@@ -537,6 +620,11 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
         $this->rollbackStack = [];
     }
 
+    /**
+     * @param TaskInterface|NestedCollectionInterface|WrappedTaskInterface $task
+     *
+     * @return \Robo\Result
+     */
     protected function runSubtask($task)
     {
         $original = ($task instanceof WrappedTaskInterface) ? $task->original() : $task;
@@ -548,6 +636,10 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
         return $taskResult;
     }
 
+    /**
+     * @param TaskInterface|NestedCollectionInterface|WrappedTaskInterface $task
+     * @param $parentCollection
+     */
     protected function setParentCollectionForTask($task, $parentCollection)
     {
         if ($task instanceof NestedCollectionInterface) {
@@ -558,6 +650,8 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
     /**
      * Run all of the tasks in a provided list, ignoring failures.
      * This is used to roll back or complete.
+     *
+     * @param TaskInterface[] $taskList
      */
     protected function runTaskListIgnoringFailures(array $taskList)
     {
@@ -572,6 +666,8 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
 
     /**
      * Give all of our tasks to the provided collection builder.
+     *
+     * @param CollectionBuilder $builder
      */
     public function transferTasks($builder)
     {

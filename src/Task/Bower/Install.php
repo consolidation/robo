@@ -21,8 +21,14 @@ use Robo\Contract\CommandInterface;
  */
 class Install extends Base implements CommandInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     protected $action = 'install';
 
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         $this->printTaskInfo('Install Bower packages: {arguments}', ['arguments' => $this->arguments]);

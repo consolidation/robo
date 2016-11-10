@@ -47,12 +47,11 @@ class ScriptHandler
         $status = 0;
 
         $fs->remove('composer.lock');
+
         // Composer has already read our composer.json file, so we will
         // need to run in a new process to fix things up.
-        passthru('composer require --ansi --dev --no-update "phpunit/php-code-coverage:~2"', $status);
-        if (!$status) {
-            passthru('composer install --ansi', $status);
-        }
+        passthru('composer install --ansi', $status);
+
         // Don't continue with the initial 'composer install' command
         exit($status);
     }

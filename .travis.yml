@@ -6,21 +6,25 @@ branches:
     - master
     - /^[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+.*$/
 
-php:
-  - 7.0
-  - 5.6
-  - 5.5
+matrix:
+  include:
+    - php: 7.0
+      env: dependencies=highest
+    - php: 5.6
+    - php: 5.5
+    - php: 5.5
+      env: dependencies=lowest
 
 sudo: false
 
 cache:
   directories:
-    - vendor
     - $HOME/.composer/cache
 
 before_script:
-  - 'if [ "$TRAVIS_PHP_VERSION" = "5.5" ]; then rm composer.lock; composer require --no-update "phpunit/php-code-coverage:~2"; fi'
-  - composer install -n --prefer-source
+  - if [ -z "$dependencies" ]; then composer install --prefer-dist; fi;
+  - if [ "$dependencies" = "lowest" ]; then composer update --prefer-dist --prefer-lowest -n; fi;
+  - if [ "$dependencies" = "highest" ]; then composer update --prefer-dist -n; fi;
 
 script: "./robo test --coverage"
 

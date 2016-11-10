@@ -9,6 +9,9 @@
         }
     ],
     "autoload":{
+        "classmap": [
+            "scripts/composer/ScriptHandler.php"
+        ],
         "psr-4":{
             "Robo\\":"src"
         }
@@ -42,6 +45,13 @@
         "satooshi/php-coveralls": "~1",
         "squizlabs/php_codesniffer": "~2",
         "phpunit/php-code-coverage": "~4"
+    },
+    "scripts": {
+        "pre-install-cmd": [
+          "Robo\\composer\\ScriptHandler::checkDependencies"
+        ],
+        "cs": "/robo sniff",
+        "test": "./robo test"
     },
     "extra": {
         "branch-alias": {

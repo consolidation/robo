@@ -9,6 +9,9 @@
         }
     ],
     "autoload":{
+        "classmap": [
+            "scripts/composer/ScriptHandler.php"
+        ],
         "psr-4":{
             "Robo\\":"src"
         }
@@ -23,10 +26,10 @@
         "php": ">=5.5.0",
         "league/container": "^2.2",
         "consolidation/log": "~1",
-        "consolidation/annotated-command": "~2",
-        "consolidation/output-formatters": "~2",
+        "consolidation/annotated-command": "^2.0.1",
+        "consolidation/output-formatters": "^2.1.2",
         "symfony/finder": "~2.5|~3.0",
-        "symfony/console": "~2.5|~3.0",
+        "symfony/console": "~2.8|~3.0",
         "symfony/process": "~2.5|~3.0",
         "symfony/filesystem": "~2.5|~3.0",
         "symfony/event-dispatcher": "~2.5|~3.0"
@@ -35,13 +38,20 @@
         "patchwork/jsqueeze": "~2",
         "henrikbjorn/lurker": "~1",
         "natxet/CssMin": "~3",
-        "pear/archive_tar": "~1",
-        "codeception/base": "^2.1.5",
+        "pear/archive_tar": "^1.4.2",
+        "codeception/base": "^2.2.6",
         "codeception/verify": "^0.3.2",
         "codeception/aspect-mock": "~1",
         "satooshi/php-coveralls": "~1",
         "squizlabs/php_codesniffer": "~2",
-        "phpunit/php-code-coverage": "~4"
+        "phpunit/php-code-coverage": "~2|~4"
+    },
+    "scripts": {
+        "pre-install-cmd": [
+          "Robo\\composer\\ScriptHandler::checkDependencies"
+        ],
+        "cs": "/robo sniff",
+        "test": "./robo test"
     },
     "extra": {
         "branch-alias": {

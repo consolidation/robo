@@ -424,7 +424,7 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
         if (is_callable($this->processPropertyDocBlock)) {
             $propertyDoc = call_user_func($this->processPropertyDocBlock, $reflectedProperty, $propertyDoc);
         }
-        return trim($propertyDoc);
+        return ltrim($propertyDoc);
     }
 
     protected function documentParam(\ReflectionParameter $param)

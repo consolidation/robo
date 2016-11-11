@@ -366,7 +366,7 @@ class RoboFile extends \Robo\Tasks
         $this->pharBuild();
 
         $this->_rename('robo.phar', 'robo-release.phar');
-        return $this->collectionBuilder()
+        $this->collectionBuilder()
             ->taskGitStack()
                 ->checkout('gh-pages')
             ->taskFilesystemStack()
@@ -374,8 +374,8 @@ class RoboFile extends \Robo\Tasks
                 ->rename('robo-release.phar', 'robo.phar')
             ->taskGitStack()
                 ->add('robo.phar')
-                ->commit('robo.phar published')
-                ->push('origin', 'gh-pages')
+                ->commit('phar updated')
+                ->push('origin gh-pages')
                 ->checkout('master')
                 ->run();
     }

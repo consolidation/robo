@@ -14,7 +14,7 @@ use Symfony\Component\Console\Application as SymfonyApplication;
 class Robo
 {
     const APPLICATION_NAME = 'Robo';
-    const VERSION = '1.0.0';
+    const VERSION = '1.0.1';
 
     /**
      * The currently active container object, or NULL if not initialized yet.

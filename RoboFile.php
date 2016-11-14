@@ -270,23 +270,16 @@ class RoboFile extends \Robo\Tasks
             ->taskFilesystemStack()
                 ->mkdir($workDir)
             ->taskRsync()
-                ->fromPath(__DIR__ . '/')
-                ->toPath($roboBuildDir)
-                ->recursive()
-                ->exclude(
+                ->fromPath(
                     [
-                        'vendor/',
-                        '.idea/',
-                        'build',
-                        'site/',
-                        'robotheme/',
-                        'tests/_log',
-                        'tests/_helpers/_generated',
-                        'composer.phar',
-                        'composer.lock',
-                        'robo.phar',
+                        __DIR__ . '/composer.json',
+                        __DIR__ . '/scripts',
+                        __DIR__ . '/src',
+                        __DIR__ . '/data'
                     ]
                 )
+                ->toPath($roboBuildDir)
+                ->recursive()
                 ->progress()
                 ->stats()
             ->taskComposerRemove()

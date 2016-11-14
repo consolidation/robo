@@ -3,9 +3,10 @@ use Robo\Result;
 use Robo\ResultData;
 use Robo\Collection\CollectionBuilder;
 
-use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
-use Consolidation\OutputFormatters\StructuredData\AssociativeList;
 use Consolidation\AnnotatedCommand\CommandData;
+use Consolidation\OutputFormatters\Options\FormatterOptions;
+use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
+use Consolidation\OutputFormatters\StructuredData\PropertyList;
 
 /**
  * Example RoboFile.
@@ -153,7 +154,7 @@ class RoboFile extends \Robo\Tasks
      *   legs: Legs
      *   food: Favorite Food
      *   id: Id
-     * @return AssociativeList
+     * @return PropertyList
      */
     public function tryInfo()
     {
@@ -165,7 +166,23 @@ class RoboFile extends \Robo\Tasks
             'id' => 389245032,
         ];
 
-        return new AssociativeList($outputData);
+        $data = new PropertyList($outputData);
+
+        // Add a render function to transform cell data when the output
+        // format is a table, or similar.  This allows us to add color
+        // information to the output without modifying the data cells when
+        // using yaml or json output formats.
+        $data->addRendererFunction(
+            // n.b. There is a fourth parameter $rowData that may be added here.
+            function ($key, $cellData, FormatterOptions $options) {
+                if ($key == 'name') {
+                    return "<info>$cellData</>";
+                }
+                return $cellData;
+            }
+        );
+
+        return $data;
     }
 
     /**

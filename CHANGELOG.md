@@ -1,5 +1,9 @@
 # Changelog
 
+#### 1.0.1
+
+* Updated to latest changes in `master` branch.
+
 #### 1.0.0
 
 * [Collection] Add tasks to a collection, and implement them as a group with rollback

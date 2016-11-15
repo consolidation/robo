@@ -1,6 +1,6 @@
 # Changelog
 
-#### 1.0.1 ~ 1.0.2
+#### 1.0.3
 
 * Updated to latest changes in `master` branch. Phar and tag issues.
 

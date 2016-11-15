@@ -3,7 +3,9 @@ namespace Robo\Common;
 
 trait Timer
 {
-    /** var TimeKeeper */
+    /**
+     * @var \Robo\Common\TimeKeeper
+     */
     protected $timer;
 
     protected function startTimer()
@@ -22,6 +24,9 @@ trait Timer
         $this->timer->stop();
     }
 
+    /**
+     * @return float|null
+     */
     protected function getExecutionTime()
     {
         if (!isset($this->timer)) {

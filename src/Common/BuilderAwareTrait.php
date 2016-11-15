@@ -13,7 +13,11 @@ trait BuilderAwareTrait
     protected $builder;
 
     /**
-     * @inheritdoc
+     * @see \Robo\Contract\BuilderAwareInterface::setBuilder()
+     *
+     * @param \Robo\Collection\CollectionBuilder $builder
+     *
+     * @return $this
      */
     public function setBuilder(CollectionBuilder $builder)
     {
@@ -23,7 +27,9 @@ trait BuilderAwareTrait
     }
 
     /**
-     * @inheritdoc
+     * @see \Robo\Contract\BuilderAwareInterface::getBuilder()
+     *
+     * @return \Robo\Collection\CollectionBuilder
      */
     public function getBuilder()
     {
@@ -31,9 +37,9 @@ trait BuilderAwareTrait
     }
 
     /**
-     * @inheritdoc
+     * @return \Robo\Collection\CollectionBuilder
      */
-    public function collectionBuilder()
+    protected function collectionBuilder()
     {
         return $this->getBuilder()->newBuilder();
     }

@@ -19,11 +19,4 @@ interface BuilderAwareInterface
      * @return \Robo\Collection\CollectionBuilder
      */
     public function getBuilder();
-
-    /**
-     * Create a new collection builder object
-     *
-     * @return \Robo\Collection\CollectionBuilder
-     */
-    public function collectionBuilder();
 }

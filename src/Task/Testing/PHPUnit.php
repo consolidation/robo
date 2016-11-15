@@ -22,10 +22,14 @@ class PHPUnit extends BaseTask implements CommandInterface, PrintedInterface
 {
     use \Robo\Common\ExecOneCommand;
 
+    /**
+     * @var string
+     */
     protected $command;
 
     /**
-     * Test files to run, they're appended to the command and arguments.
+     * Directory of test files or single test file to run. Appended to
+     * the command and arguments.
      *
      * @var string
      */
@@ -42,18 +46,33 @@ class PHPUnit extends BaseTask implements CommandInterface, PrintedInterface
         }
     }
 
+    /**
+     * @param string $filter
+     *
+     * @return $this
+     */
     public function filter($filter)
     {
         $this->option('filter', $filter);
         return $this;
     }
 
+    /**
+     * @param string $group
+     *
+     * @return $this
+     */
     public function group($group)
     {
         $this->option("group", $group);
         return $this;
     }
 
+    /**
+     * @param string $group
+     *
+     * @return $this
+     */
     public function excludeGroup($group)
     {
         $this->option("exclude-group", $group);
@@ -64,6 +83,7 @@ class PHPUnit extends BaseTask implements CommandInterface, PrintedInterface
      * adds `log-json` option to runner
      *
      * @param string $file
+     *
      * @return $this
      */
     public function json($file = null)
@@ -76,6 +96,7 @@ class PHPUnit extends BaseTask implements CommandInterface, PrintedInterface
      * adds `log-junit` option
      *
      * @param string $file
+     *
      * @return $this
      */
     public function xml($file = null)
@@ -84,24 +105,42 @@ class PHPUnit extends BaseTask implements CommandInterface, PrintedInterface
         return $this;
     }
 
+    /**
+     * @param string $file
+     *
+     * @return $this
+     */
     public function tap($file = "")
     {
         $this->option("log-tap", $file);
         return $this;
     }
 
+    /**
+     * @param string $file
+     *
+     * @return $this
+     */
     public function bootstrap($file)
     {
         $this->option("bootstrap", $file);
         return $this;
     }
 
+    /**
+     * @param string $file
+     *
+     * @return $this
+     */
     public function configFile($file)
     {
         $this->option('-c', $file);
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function debug()
     {
         $this->option("debug");
@@ -109,25 +148,49 @@ class PHPUnit extends BaseTask implements CommandInterface, PrintedInterface
     }
 
     /**
-     * Test files to run.
+     * Directory of test files or single test file to run.
      *
-     * @param string|array A single file or a list of files.
+     * @param string $files A single test file or a directory containing test files.
+     *
      * @return $this
+     *
+     * @throws \Robo\Exception\TaskException
+     *
+     * @deprecated Use file() or dir() method instead
      */
     public function files($files)
     {
-        if (is_string($files)) {
-            $files = [$files];
+        if (!empty($this->files) || is_array($files)) {
+            throw new \Robo\Exception\TaskException(__CLASS__, "Only one file or directory may be provided.");
         }
-        $this->files = ' ' . implode(',', $files);
+        $this->files = ' ' . $files;
+
         return $this;
     }
 
+    /**
+     * Test the provided file.
+     *
+     * @param string $file path to file to test
+     *
+     * @return $this
+     */
+    public function file($file)
+    {
+        return $this->files($file);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getCommand()
     {
         return $this->command . $this->arguments . $this->files;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         $this->printTaskInfo('Running PHPUnit {arguments}', ['arguments' => $this->arguments]);

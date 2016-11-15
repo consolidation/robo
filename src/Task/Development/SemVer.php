@@ -23,14 +23,29 @@ class SemVer implements TaskInterface
 
     const REGEX = "/^\-\-\-\n:major:\s(0|[1-9]\d*)\n:minor:\s(0|[1-9]\d*)\n:patch:\s(0|[1-9]\d*)\n:special:\s'([a-zA-z0-9]*\.?(?:0|[1-9]\d*)?)'\n:metadata:\s'((?:0|[1-9]\d*)?(?:\.[a-zA-z0-9\.]*)?)'/";
 
+    /**
+     * @var string
+     */
     protected $format = 'v%M.%m.%p%s';
 
+    /**
+     * @var string
+     */
     protected $specialSeparator = '-';
 
+    /**
+     * @var string
+     */
     protected $metadataSeparator = '+';
 
+    /**
+     * @var string
+     */
     protected $path;
 
+    /**
+     * @var array
+     */
     protected $version = [
         'major' => 0,
         'minor' => 0,
@@ -39,6 +54,9 @@ class SemVer implements TaskInterface
         'metadata' => ''
     ];
 
+    /**
+     * @param string $filename
+     */
     public function __construct($filename = '')
     {
         $this->path = $filename;
@@ -48,6 +66,9 @@ class SemVer implements TaskInterface
         }
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         $search = ['%M', '%m', '%p', '%s'];
@@ -64,24 +85,46 @@ class SemVer implements TaskInterface
         return str_replace($search, $replace, $this->format);
     }
 
+    /**
+     * @param string $format
+     *
+     * @return $this
+     */
     public function setFormat($format)
     {
         $this->format = $format;
         return $this;
     }
 
+    /**
+     * @param string $separator
+     *
+     * @return $this
+     */
     public function setMetadataSeparator($separator)
     {
         $this->metadataSeparator = $separator;
         return $this;
     }
 
+    /**
+     * @param string $separator
+     *
+     * @return $this
+     */
     public function setPrereleaseSeparator($separator)
     {
         $this->specialSeparator = $separator;
         return $this;
     }
 
+    /**
+     * @param string $what
+     *
+     * @return $this
+     *
+     * @throws \Robo\Exception\TaskException
+     */
     public function increment($what = 'patch')
     {
         switch ($what) {
@@ -106,6 +149,13 @@ class SemVer implements TaskInterface
         return $this;
     }
 
+    /**
+     * @param string $tag
+     *
+     * @return $this
+     *
+     * @throws \Robo\Exception\TaskException
+     */
     public function prerelease($tag = 'RC')
     {
         if (!is_string($tag)) {
@@ -127,6 +177,11 @@ class SemVer implements TaskInterface
         return $this;
     }
 
+    /**
+     * @param array|string $data
+     *
+     * @return $this
+     */
     public function metadata($data)
     {
         if (is_array($data)) {
@@ -137,12 +192,20 @@ class SemVer implements TaskInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         $written = $this->dump();
         return new Result($this, (int)($written === false), $this->__toString());
     }
 
+    /**
+     * @return bool
+     *
+     * @throws \Robo\Exception\TaskException
+     */
     protected function dump()
     {
         extract($this->version);
@@ -153,6 +216,9 @@ class SemVer implements TaskInterface
         return true;
     }
 
+    /**
+     * @throws \Robo\Exception\TaskException
+     */
     protected function parse()
     {
         $output = file_get_contents($this->path);

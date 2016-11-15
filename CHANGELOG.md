@@ -1,5 +1,9 @@
 # Changelog
 
+#### 1.0.1 ~ 1.0.2
+
+* Updated to latest changes in `master` branch. Phar and tag issues.
+
 #### 1.0.0
 
 * [Collection] Add tasks to a collection, and implement them as a group with rollback
@@ -21,6 +25,8 @@
 * Use league/container to do Dependency Injection
    * *Breaking* Tasks' loadTasks traits must use `$this->task(TaskClass::class);` instead of `new TaskClass();`
    * *Breaking* Tasks that use other tasks must use `$this->collectionBuilder()->taskName();` instead of `new TaskClass();` when creating task objects to call. Implement `Robo\Contract\BuilderAwareInterface` and use `Robo\Contract\BuilderAwareTrait` to add the `collectionBuilder()` method to your task class.
+* *Breaking* The `arg()`, `args()` and `option()` methods in CommandArguments now escape the values passed in to them. There is now a `rawArg()` method if you need to add just one argument that has already been escaped.
+* *Breaking* taskWrite is now called taskWriteToFile
 * [Extract] task added
 * [Pack] task added
 * [TmpDir], [WorkDir] and [TmpFile] tasks added
@@ -30,7 +36,6 @@
 * Add `robo generate:task` code-generator to make new stack-based task wrappers around existing classes
 * Add `robo sniff` by @dustinleblanc. Runs the PHP code sniffer followed by the code beautifier, if needed.
 * Implement ArrayInterface for Result class, so result data may be accessed like an array 
-* *Breaking* taskWrite is now called taskWriteToFile
 * Defer execution of operations in taskWriteToFile until the run() method
 * Add Write::textIfMatch() for taskWriteToFile
 * ResourceExistenceChecker used for error checking in DeleteDir, CopyDir, CleanDir and Concat tasks by @burzum

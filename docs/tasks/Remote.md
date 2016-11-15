@@ -47,37 +47,38 @@ if ('y' === $this->ask('Do you want to run (y/n)')) {
 
 * `fromPath($path)`  This can either be a full rsync path spec (user@host:path) or just a path.
 * `toPath($path)`  This can either be a full rsync path spec (user@host:path) or just a path.
-* `fromUser($fromUser)` 
-* `fromHost($fromHost)` 
-* `toUser($toUser)` 
-* `toHost($toHost)` 
-* `progress()` 
-* `stats()` 
-* `recursive()` 
-* `verbose()` 
-* `checksum()` 
-* `archive()` 
-* `compress()` 
-* `owner()` 
-* `group()` 
-* `times()` 
-* `delete()` 
-* `timeout($seconds)` 
-* `humanReadable()` 
-* `wholeFile()` 
-* `dryRun()` 
-* `itemizeChanges()` 
+* `fromUser($fromUser)`   * `param string` $fromUser
+* `fromHost($fromHost)`   * `param string` $fromHost
+* `toUser($toUser)`   * `param string` $toUser
+* `toHost($toHost)`   * `param string` $toHost
+* `progress()`   * `return` $this
+* `stats()`   * `return` $this
+* `recursive()`   * `return` $this
+* `verbose()`   * `return` $this
+* `checksum()`   * `return` $this
+* `archive()`   * `return` $this
+* `compress()`   * `return` $this
+* `owner()`   * `return` $this
+* `group()`   * `return` $this
+* `times()`   * `return` $this
+* `delete()`   * `return` $this
+* `timeout($seconds)`   * `param int` $seconds
+* `humanReadable()`   * `return` $this
+* `wholeFile()`   * `return` $this
+* `dryRun()`   * `return` $this
+* `itemizeChanges()`   * `return` $this
 * `excludeVcs()`  Excludes .git, .svn and .hg items at any depth.
-* `exclude($pattern)` 
-* `excludeFrom($file)` 
-* `includeFilter($pattern)` 
-* `filter($pattern)` 
-* `filesFrom($file)` 
-* `remoteShell($command)` 
-* `dir($dir)`  changes working directory of command
+* `exclude($pattern)`   * `param array|string` $pattern
+* `excludeFrom($file)`   * `param string` $file
+* `includeFilter($pattern)`   * `param array|string` $pattern
+* `filter($pattern)`   * `param array|string` $pattern
+* `filesFrom($file)`   * `param string` $file
+* `remoteShell($command)`   * `param string` $command
+* `dir($dir)`  Changes working directory of command
 * `printed($arg)`  Should command output be printed
-* `arg($arg)`  Pass argument to executable
-* `args($args)`  Pass methods parameters as arguments to executable
+* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
+* `args($args)`  Pass methods parameters as arguments to executable. Argument values
+* `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
 * `optionList($option, $value = null)`  Pass multiple options to executable. Value can be a string or array.
 
@@ -121,20 +122,22 @@ You can configure the remote directory for all future calls:
                                            and stop the chain if one command fails
 * `$this remoteDir(string $remoteWorkingDirectory)`  Changes to the given directory before running commands
 
-* `hostname($hostname)` 
-* `user($user)` 
-* `stopOnFail($stopOnFail = null)` 
-* `remoteDir($remoteDir)` 
-* `identityFile($filename)` 
-* `port($port)` 
-* `forcePseudoTty()` 
-* `quiet()` 
-* `verbose()` 
-* `exec($command)`   * `param string|CommandInterface` $command
-* `dir($dir)`  changes working directory of command
+* `hostname($hostname)`   * `param string` $hostname
+* `user($user)`   * `param string` $user
+* `stopOnFail($stopOnFail = null)`   * `param bool` $stopOnFail
+* `remoteDir($remoteDir)`   * `param string` $remoteDir
+* `identityFile($filename)`   * `param string` $filename
+* `port($port)`   * `param int` $port
+* `forcePseudoTty()`   * `return` $this
+* `quiet()`   * `return` $this
+* `verbose()`   * `return` $this
+* `exec($command)`   * `param string|string[]|CommandInterface` $command
+* `simulate($context)`  {@inheritdoc}
+* `dir($dir)`  Changes working directory of command
 * `printed($arg)`  Should command output be printed
-* `arg($arg)`  Pass argument to executable
-* `args($args)`  Pass methods parameters as arguments to executable
+* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
+* `args($args)`  Pass methods parameters as arguments to executable. Argument values
+* `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
 * `optionList($option, $value = null)`  Pass multiple options to executable. Value can be a string or array.
 

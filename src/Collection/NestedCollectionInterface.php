@@ -6,5 +6,10 @@ use Robo\Contract\TaskInterface;
 
 interface NestedCollectionInterface
 {
+    /**
+     * @param \Robo\Collection\NestedCollectionInterface $parentCollection
+     *
+     * @return $this
+     */
     public function setParentCollection(NestedCollectionInterface $parentCollection);
 }

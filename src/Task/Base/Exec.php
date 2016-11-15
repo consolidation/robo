@@ -31,12 +31,34 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
     use \Robo\Common\CommandReceiver;
     use \Robo\Common\ExecOneCommand;
 
+    /**
+     * @var static[]
+     */
     protected static $instances = [];
 
+    /**
+     * @var string|\Robo\Contract\CommandInterface
+     */
     protected $command;
+
+    /**
+     * @var bool
+     */
     protected $background = false;
+
+    /**
+     * @var null|int
+     */
     protected $timeout = null;
+
+    /**
+     * @var null|int
+     */
     protected $idleTimeout = null;
+
+    /**
+     * @var null|array
+     */
     protected $env = null;
 
     /**
@@ -44,11 +66,17 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
      */
     protected $process;
 
+    /**
+     * @param string|\Robo\Contract\CommandInterface $command
+     */
     public function __construct($command)
     {
         $this->command = $this->receiveCommand($command);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getCommand()
     {
         return trim($this->command . $this->arguments);
@@ -69,7 +97,8 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
     /**
      * Stop command if it runs longer then $timeout in seconds
      *
-     * @param $timeout
+     * @param int $timeout
+     *
      * @return $this
      */
     public function timeout($timeout)
@@ -81,7 +110,8 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
     /**
      * Stops command if it does not output something for a while
      *
-     * @param $timeout
+     * @param int $timeout
+     *
      * @return $this
      */
     public function idleTimeout($timeout)
@@ -93,7 +123,8 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
     /**
      * Sets the environment variables for the command
      *
-     * @param $env
+     * @param array $env
+     *
      * @return $this
      */
     public function env(array $env)
@@ -115,6 +146,9 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
         }
     }
 
+    /**
+     * @param array $context
+     */
     protected function printAction($context = [])
     {
         $command = $this->getCommand();
@@ -122,6 +156,9 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
         $this->printTaskInfo("Running {command}$dir", ['command' => $command, 'dir' => $this->workingDirectory] + $context);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         $this->printAction();
@@ -162,6 +199,9 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
         return Result::success($this);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function simulate($context)
     {
         $this->printAction($context);

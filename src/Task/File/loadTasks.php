@@ -6,8 +6,9 @@ use Robo\Collection\Temporary;
 trait loadTasks
 {
     /**
-     * @param $files
-     * @return Concat
+     * @param array|\Iterator $files
+     *
+     * @return \Robo\Task\File\Concat
      */
     protected function taskConcat($files)
     {
@@ -15,8 +16,9 @@ trait loadTasks
     }
 
     /**
-     * @param $file
-     * @return Replace
+     * @param string $file
+     *
+     * @return \Robo\Task\File\Replace
      */
     protected function taskReplaceInFile($file)
     {
@@ -24,8 +26,9 @@ trait loadTasks
     }
 
     /**
-     * @param $file
-     * @return Write
+     * @param string $file
+     *
+     * @return \Robo\Task\File\Write
      */
     protected function taskWriteToFile($file)
     {
@@ -33,10 +36,12 @@ trait loadTasks
     }
 
     /**
-     * @param $prefix
-     * @param $base
-     * @param $includeRandomPart
-     * @return TmpFile
+     * @param string $filename
+     * @param string $extension
+     * @param string $baseDir
+     * @param bool $includeRandomPart
+     *
+     * @return \Robo\Task\File\TmpFile
      */
     protected function taskTmpFile($filename = 'tmp', $extension = '', $baseDir = '', $includeRandomPart = true)
     {

@@ -6,9 +6,13 @@ use Robo\Contract\TaskInterface;
 
 interface CollectionInterface extends NestedCollectionInterface
 {
-    // Unnamed tasks are assigned an arbitrary numeric index
-    // in the task list. Any numeric value may be used, but the
-    // UNNAMEDTASK constant is recommended for clarity.
+    /**
+     * Unnamed tasks are assigned an arbitrary numeric index
+     * in the task list. Any numeric value may be used, but the
+     * UNNAMEDTASK constant is recommended for clarity.
+     *
+     * @var int
+     */
     const UNNAMEDTASK = 0;
 
     /**
@@ -19,11 +23,12 @@ interface CollectionInterface extends NestedCollectionInterface
      * method ONLY if its 'run()' method completes successfully, and some
      * task added after it fails.
      *
-     * @param TaskInterface
+     * @param TaskInterface $task
      *   The task to add to our collection.
-     * @param string
+     * @param int|string $name
      *   An optional name for the task -- missing or UNNAMEDTASK for unnamed tasks.
      *   Names are used for positioning before and after tasks.
+     *
      * @return CollectionInterface
      */
     public function add(TaskInterface $task, $name = self::UNNAMEDTASK);
@@ -32,10 +37,11 @@ interface CollectionInterface extends NestedCollectionInterface
      * Add arbitrary code to execute as a task.
      *
      * @param callable $code Code to execute as a task
-     * @param string
+     * @param int|string $name
      *   An optional name for the task -- missing or UNNAMEDTASK for unnamed tasks.
      *   Names are used for positioning before and after tasks.
-     * @return CollectionInterface
+     *
+     * @return $this
      */
     public function addCode(callable $code, $name = self::UNNAMEDTASK);
 
@@ -45,9 +51,10 @@ interface CollectionInterface extends NestedCollectionInterface
      * provided callback is a TaskInterface or Collection, then it will be
      * executed.
      *
-     * @param $collection A collection of things to iterate
-     * @param $code A cllback function to call for each item in the collection.
-     * @return CollectionInterface
+     * @param CollectionInterface|array $iterable A collection of things to iterate
+     * @param $code $code A callback function to call for each item in the collection.
+     *
+     * @return $this
      */
     public function addIterable($iterable, callable $code);
 
@@ -56,11 +63,12 @@ interface CollectionInterface extends NestedCollectionInterface
      * will execute ONLY if all of the tasks added before it complete
      * successfully, AND some task added after it fails.
      *
-     * @param TaskInterface
+     * @param TaskInterface $rollbackTask
      *   The rollback task to add.  Note that the 'run()' method of the
      *   task executes, not its 'rollback()' method.  To use the 'rollback()'
      *   method, add the task via 'Collection::add()' instead.
-     * @return CollectionInterface
+     *
+     * @return $this
      */
     public function rollback(TaskInterface $rollbackTask);
 
@@ -68,7 +76,8 @@ interface CollectionInterface extends NestedCollectionInterface
      * Add arbitrary code to execute as a rollback.
      *
      * @param callable $rollbackTask Code to execute during rollback processing
-     * @return CollectionInterface
+     *
+     * @return $this
      */
     public function rollbackCode(callable $rollbackTask);
 
@@ -78,10 +87,11 @@ interface CollectionInterface extends NestedCollectionInterface
      * any task fails.  Completion tasks never cause errors to be returned
      * from Collection::run(), even if they fail.
      *
-     * @param TaskInterface
+     * @param TaskInterface $completionTask
      *   The completion task to add.  Note that the 'run()' method of the
      *   task executes, just as if the task was added normally.
-     * @return CollectionInterface
+     *
+     * @return $this
      */
     public function completion(TaskInterface $completionTask);
 
@@ -89,35 +99,38 @@ interface CollectionInterface extends NestedCollectionInterface
      * Add arbitrary code to execute as a completion.
      *
      * @param callable $completionTask Code to execute after collection completes
-     * @return CollectionInterface
+     *
+     * @return $this
      */
     public function completionCode(callable $completionTask);
 
     /**
      * Add a task before an existing named task.
      *
-     * @param string
+     * @param string $name
      *   The name of the task to insert before.  The named task MUST exist.
-     * @param callable|TaskInterface
+     * @param callable|TaskInterface $task
      *   The task to add.
-     * @param string
+     * @param int|string $nameOfTaskToAdd
      *   The name of the task to add. If not provided, will be associated
      *   with the named task it was added before.
-     * @return CollectionInterface
+     *
+     * @return $this
      */
     public function before($name, $task, $nameOfTaskToAdd = self::UNNAMEDTASK);
 
     /**
      * Add a task after an existing named task.
      *
-     * @param string
+     * @param string $name
      *   The name of the task to insert before.  The named task MUST exist.
-     * @param callable|TaskInterface
+     * @param callable|TaskInterface $task
      *   The task to add.
-     * @param string
+     * @param int|string $nameOfTaskToAdd
      *   The name of the task to add. If not provided, will be associated
      *   with the named task it was added after.
-     * @return CollectionInterface
+     *
+     * @return $this
      */
     public function after($name, $task, $nameOfTaskToAdd = self::UNNAMEDTASK);
 
@@ -129,8 +142,9 @@ interface CollectionInterface extends NestedCollectionInterface
      *
      * @param string $text Message to print.
      * @param array $context Extra context data for use by the logger.
-     * @param LogLevel $level The log level to print the information at. Default is NOTICE.
-     * @return CollectionInterface
+     * @param \Psr\Log\LogLevel|string $level The log level to print the information at. Default is NOTICE.
+     *
+     * @return $this
      */
     public function progressMessage($text, $context = [], $level = LogLevel::NOTICE);
 }

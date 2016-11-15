@@ -9,5 +9,8 @@ namespace Robo\Contract;
  */
 interface PrintedInterface
 {
+    /**
+     * @return bool
+     */
     public function getPrinted();
 }

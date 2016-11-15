@@ -22,19 +22,29 @@ use Robo\Task\BaseTask;
  */
 class Minify extends BaseTask
 {
-    /** @var array $types */
+    /**
+     * @var array
+     */
     protected $types = ['css', 'js'];
 
-    /** @var string $text */
+    /**
+     * @var string
+     */
     protected $text;
 
-    /** @var string $dst */
+    /**
+     * @var string
+     */
     protected $dst;
 
-    /** @var string $type css|js */
+    /**
+     * @var string
+     */
     protected $type;
 
-    /** @var array $squeezeOptions */
+    /**
+     * @var array
+     */
     protected $squeezeOptions = [
         'singleLine' => true,
         'keepImportantComments' => true,
@@ -44,7 +54,7 @@ class Minify extends BaseTask
     /**
      * Constructor. Accepts asset file path or string source.
      *
-     * @param bool|string $input
+     * @param string $input
      */
     public function __construct($input)
     {
@@ -183,7 +193,9 @@ class Minify extends BaseTask
     /**
      * Single line option for the JS minimisation.
      *
-     * @return $this;
+     * @param bool $singleLine
+     *
+     * @return $this
      */
     public function singleLine($singleLine)
     {
@@ -194,7 +206,9 @@ class Minify extends BaseTask
     /**
      * keepImportantComments option for the JS minimisation.
      *
-     * @return $this;
+     * @param bool $keepImportantComments
+     *
+     * @return $this
      */
     public function keepImportantComments($keepImportantComments)
     {
@@ -205,7 +219,9 @@ class Minify extends BaseTask
     /**
      * specialVarRx option for the JS minimisation.
      *
-     * @return $this;
+     * @param bool $specialVarRx
+     *
+     * @return $this ;
      */
     public function specialVarRx($specialVarRx)
     {
@@ -222,9 +238,7 @@ class Minify extends BaseTask
     }
 
     /**
-     * Writes minified result to destination.
-     *
-     * @return Result
+     * {@inheritdoc}
      */
     public function run()
     {
@@ -250,6 +264,13 @@ class Minify extends BaseTask
         }
 
         $size_after = strlen($minified);
+
+        // Minification did not reduce file size, so use original file.
+        if ($size_after > $size_before) {
+            $minified = $this->text;
+            $size_after = $size_before;
+        }
+
         $dst = $this->dst . '.part';
         $write_result = file_put_contents($dst, $minified);
 

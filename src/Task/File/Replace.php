@@ -37,40 +37,81 @@ use Robo\Task\BaseTask;
  */
 class Replace extends BaseTask
 {
+    /**
+     * @var string
+     */
     protected $filename;
+
+    /**
+     * @var string[]
+     */
     protected $from;
+
+    /**
+     * @var string[]
+     */
     protected $to;
+
+    /**
+     * @var string
+     */
     protected $regex;
 
+    /**
+     * @param string $filename
+     */
     public function __construct($filename)
     {
         $this->filename = $filename;
     }
 
+    /**
+     * @param string $filename
+     *
+     * @return $this
+     */
     public function filename($filename)
     {
         $this->filename = $filename;
         return $this;
     }
 
+    /**
+     * @param string $from
+     *
+     * @return $this
+     */
     public function from($from)
     {
         $this->from = $from;
         return $this;
     }
 
+    /**
+     * @param string $to
+     *
+     * @return $this
+     */
     public function to($to)
     {
         $this->to = $to;
         return $this;
     }
 
+    /**
+     * @param string $regex
+     *
+     * @return $this
+     */
     public function regex($regex)
     {
         $this->regex = $regex;
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         if (!file_exists($this->filename)) {

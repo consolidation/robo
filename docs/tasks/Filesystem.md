@@ -1,4 +1,4 @@
-# FileSystem Tasks
+# Filesystem Tasks
 
 ## CleanDir
 
@@ -79,7 +79,7 @@ $this->_mkdir('logs');
 * `$this symlink($from, $to)` 
 * `$this mirror($from, $to)` 
 
-* `stopOnFail($stop = null)` 
+* `stopOnFail($stop = null)`   * `param bool` $stop
 
 ## FlattenDir
 

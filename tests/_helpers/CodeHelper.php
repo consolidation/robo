@@ -11,60 +11,27 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CodeHelper extends \Codeception\Module
 {
-    protected static $testPrinter;
-    protected static $capturedOutput;
+    use SeeInOutputTrait;
+
     protected static $container;
-    protected static $logger;
 
     public function _before(\Codeception\TestCase $test)
     {
-        static::$capturedOutput = '';
-        static::$testPrinter = new BufferedOutput(OutputInterface::VERBOSITY_DEBUG);
-        static::$logger = new \Robo\Log\RoboLogger(static::$testPrinter);
-        $progressBar = new \Symfony\Component\Console\Helper\ProgressBar(static::$testPrinter);
-
         static::$container = new \League\Container\Container();
-        \Robo\Robo::configureContainer(static::$container, null, static::$testPrinter);
         Robo::setContainer(static::$container);
-        static::$container->add('output', static::$testPrinter);
-        static::$container->add('progressBar', $progressBar);
-        static::$container->add('progressIndicator', new \Robo\Common\ProgressIndicator($progressBar, static::$testPrinter));
+        $this->initSeeInOutputTrait(static::$container);
     }
 
     public function _after(\Codeception\TestCase $test)
     {
+        // Ensure that $stopOnFail global static is reset, as tests
+        // that set it to true will force an exception, and therefor
+        // will not have a chance to clean this up.
+        \Robo\Result::$stopOnFail = false;
+
         \AspectMock\Test::clean();
         $consoleOutput = new ConsoleOutput();
         static::$container->add('output', $consoleOutput);
         static::$container->add('logger', new \Consolidation\Log\Logger($consoleOutput));
-    }
-
-    public function logger()
-    {
-        return static::$logger;
-    }
-
-    public function accumulate()
-    {
-        static::$capturedOutput .= static::$testPrinter->fetch();
-        return static::$capturedOutput;
-    }
-
-    public function seeInOutput($value)
-    {
-        $output = $this->accumulate();
-        $this->assertContains($value, $output);
-    }
-
-    public function doNotSeeInOutput($value)
-    {
-        $output = $this->accumulate();
-        $this->assertNotContains($value, $output);
-    }
-
-    public function seeOutputEquals($value)
-    {
-        $output = $this->accumulate();
-        $this->assertEquals($value, $output);
     }
 }

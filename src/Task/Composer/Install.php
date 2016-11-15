@@ -23,8 +23,14 @@ namespace Robo\Task\Composer;
  */
 class Install extends Base
 {
+    /**
+     * {@inheritdoc}
+     */
     protected $action = 'install';
 
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         $command = $this->getCommand();

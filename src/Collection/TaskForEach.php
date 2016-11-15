@@ -1,11 +1,11 @@
 <?php
 namespace Robo\Collection;
 
+use Robo\Collection\NestedCollectionInterface;
 use Robo\Result;
 use Robo\TaskInfo;
 use Robo\Task\BaseTask;
 use Robo\Contract\TaskInterface;
-use Robo\Collection\NestedCollectionInterface;
 use Robo\Contract\BuilderAwareInterface;
 use Robo\Common\BuilderAwareTrait;
 
@@ -21,11 +21,31 @@ class TaskForEach extends BaseTask implements NestedCollectionInterface, Builder
 {
     use BuilderAwareTrait;
 
+    /**
+     * @var callable[]
+     */
     protected $functionStack = [];
+
+    /**
+     * @var callable[]
+     */
     protected $countingStack = [];
+
+    /**
+     * @var string
+     */
     protected $message;
+
+    /**
+     * @var array
+     */
     protected $context = [];
+
     protected $iterable;
+
+    /**
+     * @var \Robo\Collection\NestedCollectionInterface
+     */
     protected $parentCollection;
 
     public function __construct($iterable)
@@ -33,6 +53,12 @@ class TaskForEach extends BaseTask implements NestedCollectionInterface, Builder
         $this->iterable = $iterable;
     }
 
+    /**
+     * @param string $message
+     * @param array $context
+     *
+     * @return $this
+     */
     public function iterationMessage($message, $context = [])
     {
         $this->message = $message;
@@ -40,6 +66,10 @@ class TaskForEach extends BaseTask implements NestedCollectionInterface, Builder
         return $this;
     }
 
+    /**
+     * @param int|string $key
+     * @param mixed $value
+     */
     protected function showIterationMessage($key, $value)
     {
         if ($this->message) {
@@ -50,12 +80,22 @@ class TaskForEach extends BaseTask implements NestedCollectionInterface, Builder
         }
     }
 
+    /**
+     * @param callable $fn
+     *
+     * @return $this
+     */
     public function withEachKeyValueCall(callable $fn)
     {
         $this->functionStack[] = $fn;
         return $this;
     }
 
+    /**
+     * @param callable $fn
+     *
+     * @return \Robo\Collection\TaskForEach
+     */
     public function call(callable $fn)
     {
         return $this->withEachKeyValueCall(
@@ -65,6 +105,11 @@ class TaskForEach extends BaseTask implements NestedCollectionInterface, Builder
         );
     }
 
+    /**
+     * @param callable $fn
+     *
+     * @return \Robo\Collection\TaskForEach
+     */
     public function withBuilder(callable $fn)
     {
         $this->countingStack[] =
@@ -91,12 +136,18 @@ class TaskForEach extends BaseTask implements NestedCollectionInterface, Builder
         );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setParentCollection(NestedCollectionInterface $parentCollection)
     {
         $this->parentCollection = $parentCollection;
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function progressIndicatorSteps()
     {
         $multiplier = count($this->functionStack);
@@ -110,6 +161,9 @@ class TaskForEach extends BaseTask implements NestedCollectionInterface, Builder
         return count($this->iterable) * $multiplier;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         $finalResult = Result::success($this);

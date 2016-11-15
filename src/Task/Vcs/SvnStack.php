@@ -28,9 +28,21 @@ use Robo\Task\CommandStack;
  */
 class SvnStack extends CommandStack implements CommandInterface
 {
+    /**
+     * @var bool
+     */
     protected $stopOnFail = false;
+
+    /**
+     * @var \Robo\Result
+     */
     protected $result;
 
+    /**
+     * @param string $username
+     * @param string $password
+     * @param string $pathToSvn
+     */
     public function __construct($username = '', $password = '', $pathToSvn = 'svn')
     {
         $this->executable = $pathToSvn;
@@ -47,6 +59,7 @@ class SvnStack extends CommandStack implements CommandInterface
      * Updates `svn update` command
      *
      * @param string $path
+     *
      * @return $this;
      */
     public function update($path = '')
@@ -57,7 +70,8 @@ class SvnStack extends CommandStack implements CommandInterface
     /**
      * Executes `svn add` command with files to add pattern
      *
-     * @param $pattern
+     * @param string $pattern
+     *
      * @return $this
      */
     public function add($pattern = '')
@@ -68,8 +82,9 @@ class SvnStack extends CommandStack implements CommandInterface
     /**
      * Executes `svn commit` command with a message
      *
-     * @param $message
+     * @param string $message
      * @param string $options
+     *
      * @return $this
      */
     public function commit($message, $options = "")
@@ -80,7 +95,8 @@ class SvnStack extends CommandStack implements CommandInterface
     /**
      * Executes `svn checkout` command
      *
-     * @param $branch
+     * @param string $branch
+     *
      * @return $this
      */
     public function checkout($branch)

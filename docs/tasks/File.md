@@ -51,10 +51,10 @@ $this->taskReplaceInFile('box/robo.txt')
 * `from(string|array)`  string(s) to be replaced
 * `to(string|array)`  value(s) to be set as a replacement
 
-* `filename($filename)` 
-* `from($from)` 
-* `to($to)` 
-* `regex($regex)` 
+* `filename($filename)`   * `param string` $filename
+* `from($from)`   * `param string` $from
+* `to($to)`   * `param string` $to
+* `regex($regex)`   * `param string` $regex
 
 ## TmpFile
 
@@ -80,8 +80,8 @@ $collection->run();
 ```
 
 * `complete()`  Delete this file when our collection completes.
-* `filename($filename)` 
-* `append($append = null)` 
+* `filename($filename)`   * `param string` $filename
+* `append($append = null)`   * `param bool` $append
 * `line($line)`  add a line.
 * `lines(array $lines)`  add more lines.
 * `text($text)`  add a text.
@@ -91,9 +91,9 @@ $collection->run();
 * `regexReplace($pattern, $replacement)`  replace any string with value using regular expression.
 * `appendIfMatches($pattern, $text)`  Append the provided text to the end of the buffer if the provided
 * `appendUnlessMatches($pattern, $text)`  Append the provided text to the end of the buffer unless the provided
-* `originalContents()` 
-* `wouldChange()` 
-* `getPath()` 
+* `originalContents()`  @return string
+* `wouldChange()`  @return bool
+* `getPath()`  @return string
 
 ## Write
 
@@ -112,8 +112,8 @@ $this->taskWriteToFile('blogpost.md')
 
 * `append()` 
 
-* `filename($filename)` 
-* `append($append = null)` 
+* `filename($filename)`   * `param string` $filename
+* `append($append = null)`   * `param bool` $append
 * `line($line)`  add a line.
 * `lines(array $lines)`  add more lines.
 * `text($text)`  add a text.
@@ -123,7 +123,7 @@ $this->taskWriteToFile('blogpost.md')
 * `regexReplace($pattern, $replacement)`  replace any string with value using regular expression.
 * `appendIfMatches($pattern, $text)`  Append the provided text to the end of the buffer if the provided
 * `appendUnlessMatches($pattern, $text)`  Append the provided text to the end of the buffer unless the provided
-* `originalContents()` 
-* `wouldChange()` 
-* `getPath()` 
+* `originalContents()`  @return string
+* `wouldChange()`  @return bool
+* `getPath()`  @return string
 

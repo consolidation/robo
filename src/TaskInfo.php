@@ -5,6 +5,10 @@ class TaskInfo
 {
     /**
      * Return a context useful for logging messages.
+     *
+     * @param object $task
+     *
+     * @return array
      */
     public static function getTaskContext($task)
     {
@@ -14,6 +18,11 @@ class TaskInfo
         ];
     }
 
+    /**
+     * @param object $task
+     *
+     * @return string
+     */
     public static function formatTaskName($task)
     {
         $name = get_class($task);

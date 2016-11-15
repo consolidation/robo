@@ -44,14 +44,22 @@ class OutputTest extends \Codeception\TestCase\Test
     }
     public function testAskMethod()
     {
-        $this->dialog = $this->getMock('\Symfony\Component\Console\Helper\QuestionHelper', ['ask']);
+        if (method_exists($this, 'createMock')) {
+            $this->dialog = $this->createMock('\Symfony\Component\Console\Helper\QuestionHelper', ['ask']);
+        } else {
+            $this->dialog = $this->getMock('\Symfony\Component\Console\Helper\QuestionHelper', ['ask']);
+        }
         $this->dialog->expects($this->once())
             ->method('ask');
         $this->ask('What is your name?');
     }
     public function testAskHiddenMethod()
     {
-        $this->dialog = $this->getMock('\Symfony\Component\Console\Helper\QuestionHelper', ['ask']);
+        if (method_exists($this, 'createMock')) {
+            $this->dialog = $this->createMock('\Symfony\Component\Console\Helper\QuestionHelper', ['ask']);
+        } else {
+            $this->dialog = $this->getMock('\Symfony\Component\Console\Helper\QuestionHelper', ['ask']);
+        }
         $this->dialog->expects($this->once())
             ->method('ask');
         $this->ask('What is your name?', true);

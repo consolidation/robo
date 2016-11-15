@@ -28,6 +28,12 @@ use Robo\Contract\CompletionInterface;
  */
 class TmpFile extends Write implements CompletionInterface
 {
+    /**
+     * @param string $filename
+     * @param string $extension
+     * @param string $baseDir
+     * @param bool $includeRandomPart
+     */
     public function __construct($filename = 'tmp', $extension = '', $baseDir = '', $includeRandomPart = true)
     {
         if (empty($base)) {
@@ -44,6 +50,10 @@ class TmpFile extends Write implements CompletionInterface
     /**
      * Generate a suitably random string to use as the suffix for our
      * temporary file.
+     *
+     * @param int $length
+     *
+     * @return string
      */
     private static function randomString($length = 12)
     {

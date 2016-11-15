@@ -9,7 +9,9 @@ trait InflectionTrait
      * Ask the provided parent class to inject all of the dependencies
      * that it has and we need.
      *
-     * @param InflectionInterface $parent
+     * @param \Robo\Contract\InflectionInterface $parent
+     *
+     * @return $this
      */
     public function inflect(InflectionInterface $parent)
     {

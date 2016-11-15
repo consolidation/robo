@@ -8,7 +8,19 @@ abstract class Base extends BaseTask
 {
     use \Robo\Common\ExecOneCommand;
 
+    /**
+     * @var string
+     */
+    protected $command = '';
+
+    /**
+     * @var string[]
+     */
     protected $opts = [];
+
+    /**
+     * @var string
+     */
     protected $action = '';
 
     /**
@@ -22,6 +34,11 @@ abstract class Base extends BaseTask
         return $this;
     }
 
+    /**
+     * @param null|string $pathToNpm
+     *
+     * @throws \Robo\Exception\TaskException
+     */
     public function __construct($pathToNpm = null)
     {
         $this->command = $pathToNpm;
@@ -33,6 +50,9 @@ abstract class Base extends BaseTask
         }
     }
 
+    /**
+     * @return string
+     */
     public function getCommand()
     {
         return "{$this->command} {$this->action}{$this->arguments}";

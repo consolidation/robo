@@ -25,13 +25,22 @@ use Robo\Result;
  */
 class OpenBrowser extends BaseTask
 {
+    /**
+     * @var string[]
+     */
     protected $urls = [];
 
+    /**
+     * @param string|array $url
+     */
     public function __construct($url)
     {
         $this->urls = (array) $url;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         $openCommand = $this->getOpenCommand();
@@ -48,6 +57,9 @@ class OpenBrowser extends BaseTask
         return Result::success($this);
     }
 
+    /**
+     * @return null|string
+     */
     private function getOpenCommand()
     {
         if (defined('PHP_WINDOWS_VERSION_MAJOR')) {

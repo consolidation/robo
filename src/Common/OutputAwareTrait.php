@@ -13,7 +13,11 @@ trait OutputAwareTrait
     protected $output;
 
     /**
-     * @inheritdoc
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @return $this
+     *
+     * @see \Robo\Contract\OutputAwareInterface::setOutput()
      */
     public function setOutput(OutputInterface $output)
     {
@@ -23,7 +27,7 @@ trait OutputAwareTrait
     }
 
     /**
-     * @inheritdoc
+     * @return \Symfony\Component\Console\Output\OutputInterface
      */
     protected function output()
     {
@@ -33,7 +37,13 @@ trait OutputAwareTrait
         return $this->output;
     }
 
-    // Backwards compatibility
+    /**
+     * Backwards compatibility
+     *
+     * @return \Symfony\Component\Console\Output\OutputInterface
+     *
+     * @deprecated
+     */
     protected function getOutput()
     {
         return $this->output();

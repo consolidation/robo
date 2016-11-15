@@ -9,10 +9,34 @@ abstract class Base extends BaseTask
 {
     use \Robo\Common\ExecOneCommand;
 
+    /**
+     * @var string
+     */
+    protected $command = '';
+
+    /**
+     * @var string
+     */
     protected $prefer;
+
+    /**
+     * @var string
+     */
     protected $dev;
+
+    /**
+     * @var string
+     */
     protected $optimizeAutoloader;
+
+    /**
+     * @var string
+     */
     protected $ansi;
+
+    /**
+     * @var string
+     */
     protected $dir;
 
     /**
@@ -88,6 +112,11 @@ abstract class Base extends BaseTask
         return $this;
     }
 
+    /**
+     * @param null|string $pathToComposer
+     *
+     * @throws \Robo\Exception\TaskException
+     */
     public function __construct($pathToComposer = null)
     {
         $this->command = $pathToComposer;
@@ -99,6 +128,9 @@ abstract class Base extends BaseTask
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getCommand()
     {
         if (!isset($this->ansi) && $this->getConfig()->isDecorated()) {

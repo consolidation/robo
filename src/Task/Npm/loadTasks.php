@@ -4,8 +4,9 @@ namespace Robo\Task\Npm;
 trait loadTasks
 {
     /**
-     * @param null $pathToNpm
-     * @return Install
+     * @param null|string $pathToNpm
+     *
+     * @return \Robo\Task\Npm\Install
      */
     protected function taskNpmInstall($pathToNpm = null)
     {
@@ -13,8 +14,9 @@ trait loadTasks
     }
 
     /**
-     * @param null $pathToNpm
-     * @return Update
+     * @param null|string $pathToNpm
+     *
+     * @return \Robo\Task\Npm\Update
      */
     protected function taskNpmUpdate($pathToNpm = null)
     {

@@ -6,8 +6,9 @@ trait loadTasks
     /**
      * Run a callback function on each item in a collection
      *
-     * @param array|Iterable $collection
-     * @return ForEach
+     * @param array $collection
+     *
+     * @return \Robo\Collection\TaskForEach
      */
     protected function taskForEach($collection)
     {

@@ -6,23 +6,42 @@ branches:
     - master
     - /^[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+.*$/
 
-php:
-  - 5.5
-  - 5.6
-  - 7.0
+matrix:
+  include:
+    - php: 7.0
+      env: dependencies=highest
+    - php: 5.6
+    - php: 5.5
+    - php: 5.5
+      env: dependencies=lowest
 
 sudo: false
 
 cache:
   directories:
-    - vendor
     - $HOME/.composer/cache
 
 before_script:
-  - 'if [ "$TRAVIS_PHP_VERSION" = "5.4" ]; then rm composer.lock; fi'
-  - composer install -n --prefer-source
+  - if [ -z "$dependencies" ]; then composer install --prefer-dist; fi;
+  - if [ "$dependencies" = "lowest" ]; then composer update --prefer-dist --prefer-lowest -n; fi;
+  - if [ "$dependencies" = "highest" ]; then composer update --prefer-dist -n; fi;
 
 script: "./robo test --coverage"
 
 after_success:
   - travis_retry php vendor/bin/coveralls -v
+
+# Prior to a deploy, build a fresh robo.phar
+before_deploy:
+  - ./robo phar:build
+
+# Deploy instructions set up via `travis setup releases` per
+# https://docs.travis-ci.com/user/deployment/releases
+deploy:
+  provider: releases
+  api_key:
+    secure: EdmB1nW5gj5nggYfmHv20enSgvRIAl1PIWV5GKmkxAJwuummh3UqdI7z0ecTGdw2IBgJx9lizNvqhcWjXbpNhE9VaaT1sHFCKv4Zust6sLb9bneK3oLRdJk2wemfrrZQpdH900zA0o7b3CHVth8UhkrCB4FXVDjUW13K061EXG8=
+  file: robo.phar
+  skip_cleanup: true
+  on:
+    tags: true

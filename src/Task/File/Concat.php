@@ -26,12 +26,12 @@ class Concat extends BaseTask
     use ResourceExistenceChecker;
 
     /**
-     * @var array|Iterator files
+     * @var array|Iterator
      */
     protected $files;
 
     /**
-     * @var string dst
+     * @var string
      */
     protected $dst;
 
@@ -50,7 +50,7 @@ class Concat extends BaseTask
      *
      * @param string $dst
      *
-     * @return Concat The current instance
+     * @return $this
      */
     public function to($dst)
     {

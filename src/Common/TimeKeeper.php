@@ -7,7 +7,14 @@ class TimeKeeper
     const HOUR = 3600;
     const DAY = 86400;
 
+    /**
+     * @var float
+     */
     protected $startedAt;
+
+    /**
+     * @var float
+     */
     protected $finishedAt;
 
     public function start()
@@ -24,6 +31,9 @@ class TimeKeeper
         $this->finishedAt = microtime(true);
     }
 
+    /**
+     * @return float|null
+     */
     public function elapsed()
     {
         $finished = $this->finishedAt ? $this->finishedAt : microtime(true);
@@ -37,6 +47,7 @@ class TimeKeeper
      * Format a duration into a human-readable time
      *
      * @param float $duration Duration in seconds, with fractional component
+     *
      * @return string
      */
     public static function formatDuration($duration)

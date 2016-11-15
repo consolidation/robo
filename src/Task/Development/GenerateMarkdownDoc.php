@@ -15,7 +15,7 @@ use Robo\Common\BuilderAwareTrait;
  *
  * ``` php
  * <?php
- * $this->taskGenerateMarkdownDoc('models.md')
+ * $this->taskGenDoc('models.md')
  *      ->docClass('Model\User') // take class Model\User
  *      ->docClass('Model\Post') // take class Model\Post
  *      ->filterMethods(function(\ReflectionMethod $r) {
@@ -30,7 +30,7 @@ use Robo\Common\BuilderAwareTrait;
  *
  * ``` php
  * <?php
- * $this->taskGenerateMarkdownDoc('models.md')
+ * $this->taskGenDoc('models.md')
  *      ->docClass('Model\User')
  *      ->processClassSignature(false) // false can be passed to not include class signature
  *      ->processClassDocBlock(function(\ReflectionClass $r, $text) {
@@ -64,39 +64,116 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
 {
     use BuilderAwareTrait;
 
+    /**
+     * @var string[]
+     */
     protected $docClass = [];
+
+    /**
+     * @var callable
+     */
     protected $filterMethods;
+
+    /**
+     * @var callable
+     */
     protected $filterClasses;
+
+    /**
+     * @var callable
+     */
     protected $filterProperties;
 
-    // process class
+    /**
+     * @var callable
+     */
     protected $processClass;
+
+    /**
+     * @var callable|false
+     */
     protected $processClassSignature;
+
+    /**
+     * @var callable|false
+     */
     protected $processClassDocBlock;
 
-    // process methods
+    /**
+     * @var callable|false
+     */
     protected $processMethod;
+
+    /**
+     * @var callable|false
+     */
     protected $processMethodSignature;
+
+    /**
+     * @var callable|false
+     */
     protected $processMethodDocBlock;
 
-    // process Properties
+    /**
+     * @var callable|false
+     */
     protected $processProperty;
+
+    /**
+     * @var callable|false
+     */
     protected $processPropertySignature;
+
+    /**
+     * @var callable|false
+     */
     protected $processPropertyDocBlock;
 
+    /**
+     * @var callable
+     */
     protected $reorder;
+
+    /**
+     * @var callable
+     */
     protected $reorderMethods;
+
+    /**
+     * @todo Unused property.
+     *
+     * @var callable
+     */
     protected $reorderProperties;
 
+    /**
+     * @var string
+     */
     protected $filename;
+
+    /**
+     * @var string
+     */
     protected $prepend = "";
+
+    /**
+     * @var string
+     */
     protected $append = "";
 
+    /**
+     * @var string
+     */
     protected $text;
+
+    /**
+     * @var string[]
+     */
     protected $textForClass = [];
 
     /**
-     * @param $filename
+     * @param string $filename
+     *
      * @return static
      */
     public static function init($filename)
@@ -104,137 +181,248 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
         return new static($filename);
     }
 
+    /**
+     * @param string $filename
+     */
     public function __construct($filename)
     {
         $this->filename = $filename;
     }
 
+    /**
+     * @param string $item
+     *
+     * @return $this
+     */
     public function docClass($item)
     {
         $this->docClass[] = $item;
         return $this;
     }
 
+    /**
+     * @param callable $filterMethods
+     *
+     * @return $this
+     */
     public function filterMethods($filterMethods)
     {
         $this->filterMethods = $filterMethods;
         return $this;
     }
 
+    /**
+     * @param callable $filterClasses
+     *
+     * @return $this
+     */
     public function filterClasses($filterClasses)
     {
         $this->filterClasses = $filterClasses;
         return $this;
     }
 
+    /**
+     * @param callable $filterProperties
+     *
+     * @return $this
+     */
     public function filterProperties($filterProperties)
     {
         $this->filterProperties = $filterProperties;
         return $this;
     }
 
+    /**
+     * @param callable $processClass
+     *
+     * @return $this
+     */
     public function processClass($processClass)
     {
         $this->processClass = $processClass;
         return $this;
     }
 
+    /**
+     * @param callable|false $processClassSignature
+     *
+     * @return $this
+     */
     public function processClassSignature($processClassSignature)
     {
         $this->processClassSignature = $processClassSignature;
         return $this;
     }
 
+    /**
+     * @param callable|false $processClassDocBlock
+     *
+     * @return $this
+     */
     public function processClassDocBlock($processClassDocBlock)
     {
         $this->processClassDocBlock = $processClassDocBlock;
         return $this;
     }
 
+    /**
+     * @param callable|false $processMethod
+     *
+     * @return $this
+     */
     public function processMethod($processMethod)
     {
         $this->processMethod = $processMethod;
         return $this;
     }
 
+    /**
+     * @param callable|false $processMethodSignature
+     *
+     * @return $this
+     */
     public function processMethodSignature($processMethodSignature)
     {
         $this->processMethodSignature = $processMethodSignature;
         return $this;
     }
 
+    /**
+     * @param callable|false $processMethodDocBlock
+     *
+     * @return $this
+     */
     public function processMethodDocBlock($processMethodDocBlock)
     {
         $this->processMethodDocBlock = $processMethodDocBlock;
         return $this;
     }
 
+    /**
+     * @param callable|false $processProperty
+     *
+     * @return $this
+     */
     public function processProperty($processProperty)
     {
         $this->processProperty = $processProperty;
         return $this;
     }
 
+    /**
+     * @param callable|false $processPropertySignature
+     *
+     * @return $this
+     */
     public function processPropertySignature($processPropertySignature)
     {
         $this->processPropertySignature = $processPropertySignature;
         return $this;
     }
 
+    /**
+     * @param callable|false $processPropertyDocBlock
+     *
+     * @return $this
+     */
     public function processPropertyDocBlock($processPropertyDocBlock)
     {
         $this->processPropertyDocBlock = $processPropertyDocBlock;
         return $this;
     }
 
+    /**
+     * @param callable $reorder
+     *
+     * @return $this
+     */
     public function reorder($reorder)
     {
         $this->reorder = $reorder;
         return $this;
     }
 
+    /**
+     * @param callable $reorderMethods
+     *
+     * @return $this
+     */
     public function reorderMethods($reorderMethods)
     {
         $this->reorderMethods = $reorderMethods;
         return $this;
     }
 
+    /**
+     * @param callable $reorderProperties
+     *
+     * @return $this
+     */
     public function reorderProperties($reorderProperties)
     {
         $this->reorderProperties = $reorderProperties;
         return $this;
     }
 
+    /**
+     * @param string $filename
+     *
+     * @return $this
+     */
     public function filename($filename)
     {
         $this->filename = $filename;
         return $this;
     }
 
+    /**
+     * @param string $prepend
+     *
+     * @return $this
+     */
     public function prepend($prepend)
     {
         $this->prepend = $prepend;
         return $this;
     }
 
+    /**
+     * @param string $append
+     *
+     * @return $this
+     */
     public function append($append)
     {
         $this->append = $append;
         return $this;
     }
 
+    /**
+     * @param string $text
+     *
+     * @return $this
+     */
     public function text($text)
     {
         $this->text = $text;
         return $this;
     }
 
+    /**
+     * @param string $item
+     *
+     * @return $this
+     */
     public function textForClass($item)
     {
         $this->textForClass[] = $item;
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         foreach ($this->docClass as $class) {
@@ -249,6 +437,7 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
 
         $this->text = implode("\n", $this->textForClass);
 
+        /** @var \Robo\Result $result */
         $result = $this->collectionBuilder()->taskWriteToFile($this->filename)
             ->line($this->prepend)
             ->text($this->text)
@@ -260,6 +449,11 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
         return new Result($this, $result->getExitCode(), $result->getMessage(), $this->textForClass);
     }
 
+    /**
+     * @param string $class
+     *
+     * @return null|string
+     */
     protected function documentClass($class)
     {
         if (!class_exists($class)) {
@@ -304,6 +498,11 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
         return $doc;
     }
 
+    /**
+     * @param \ReflectionClass $reflectionClass
+     *
+     * @return string
+     */
     protected function documentClassSignature(\ReflectionClass $reflectionClass)
     {
         if ($this->processClassSignature === false) {
@@ -330,6 +529,11 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
         return $signature;
     }
 
+    /**
+     * @param \ReflectionClass $reflectionClass
+     *
+     * @return string
+     */
     protected function documentClassDocBlock(\ReflectionClass $reflectionClass)
     {
         if ($this->processClassDocBlock === false) {
@@ -342,6 +546,11 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
         return $doc;
     }
 
+    /**
+     * @param \ReflectionMethod $reflectedMethod
+     *
+     * @return string
+     */
     protected function documentMethod(\ReflectionMethod $reflectedMethod)
     {
         if ($this->processMethod === false) {
@@ -367,6 +576,11 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
         return $methodDoc;
     }
 
+    /**
+     * @param \ReflectionProperty $reflectedProperty
+     *
+     * @return string
+     */
     protected function documentProperty(\ReflectionProperty $reflectedProperty)
     {
         if ($this->processProperty === false) {
@@ -391,6 +605,11 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
         return $propertyDoc;
     }
 
+    /**
+     * @param \ReflectionProperty $reflectedProperty
+     *
+     * @return string
+     */
     protected function documentPropertySignature(\ReflectionProperty $reflectedProperty)
     {
         if ($this->processPropertySignature === false) {
@@ -404,6 +623,11 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
         return $signature;
     }
 
+    /**
+     * @param \ReflectionProperty $reflectedProperty
+     *
+     * @return string
+     */
     protected function documentPropertyDocBlock(\ReflectionProperty $reflectedProperty)
     {
         if ($this->processPropertyDocBlock === false) {
@@ -424,9 +648,14 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
         if (is_callable($this->processPropertyDocBlock)) {
             $propertyDoc = call_user_func($this->processPropertyDocBlock, $reflectedProperty, $propertyDoc);
         }
-        return trim($propertyDoc);
+        return ltrim($propertyDoc);
     }
 
+    /**
+     * @param \ReflectionParameter $param
+     *
+     * @return string
+     */
     protected function documentParam(\ReflectionParameter $param)
     {
         $text = "";
@@ -448,6 +677,12 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
         return $text;
     }
 
+    /**
+     * @param string $doc
+     * @param int $indent
+     *
+     * @return string
+     */
     public static function indentDoc($doc, $indent = 3)
     {
         if (!$doc) {
@@ -464,6 +699,11 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
         );
     }
 
+    /**
+     * @param \ReflectionMethod $reflectedMethod
+     *
+     * @return string
+     */
     protected function documentMethodSignature(\ReflectionMethod $reflectedMethod)
     {
         if ($this->processMethodSignature === false) {
@@ -488,7 +728,8 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
 
     /**
      * @param \ReflectionMethod $reflectedMethod
-     * @return mixed|string
+     *
+     * @return string
      */
     protected function documentMethodDocBlock(\ReflectionMethod $reflectedMethod)
     {

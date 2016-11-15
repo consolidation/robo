@@ -3,12 +3,26 @@ namespace Robo;
 
 use Robo\Contract\TaskInterface;
 use Robo\Contract\LogResultInterface;
+use Robo\Exception\TaskExitException;
 
 class Result extends ResultData
 {
+    /**
+     * @var bool
+     */
     public static $stopOnFail = false;
+
+    /**
+     * @var \Robo\Contract\TaskInterface
+     */
     protected $task;
 
+    /**
+     * @param \Robo\Contract\TaskInterface $task
+     * @param string $exitCode
+     * @param string $message
+     * @param array $data
+     */
     public function __construct(TaskInterface $task, $exitCode, $message = '', $data = [])
     {
         parent::__construct($exitCode, $message, $data);
@@ -36,6 +50,13 @@ class Result extends ResultData
         }
     }
 
+    /**
+     * @param \Robo\Contract\TaskInterface $task
+     * @param string $extension
+     * @param string $service
+     *
+     * @return \Robo\Result
+     */
     public static function errorMissingExtension(TaskInterface $task, $extension, $service)
     {
         $messageTpl = 'PHP extension required for %s. Please enable %s';
@@ -44,6 +65,13 @@ class Result extends ResultData
         return self::error($task, $message);
     }
 
+    /**
+     * @param \Robo\Contract\TaskInterface $task
+     * @param string $class
+     * @param string $package
+     *
+     * @return \Robo\Result
+     */
     public static function errorMissingPackage(TaskInterface $task, $class, $package)
     {
         $messageTpl = 'Class %s not found. Please install %s Composer package';
@@ -52,11 +80,25 @@ class Result extends ResultData
         return self::error($task, $message);
     }
 
+    /**
+     * @param \Robo\Contract\TaskInterface $task
+     * @param string $message
+     * @param array $data
+     *
+     * @return \Robo\Result
+     */
     public static function error(TaskInterface $task, $message, $data = [])
     {
         return new self($task, self::EXITCODE_ERROR, $message, $data);
     }
 
+    /**
+     * @param \Robo\Contract\TaskInterface $task
+     * @param \Exception $e
+     * @param array $data
+     *
+     * @return \Robo\Result
+     */
     public static function fromException(TaskInterface $task, \Exception $e, $data = [])
     {
         $exitCode = $e->getCode();
@@ -66,6 +108,13 @@ class Result extends ResultData
         return new self($task, $exitCode, $e->getMessage(), $data);
     }
 
+    /**
+     * @param \Robo\Contract\TaskInterface $task
+     * @param string $message
+     * @param array $data
+     *
+     * @return \Robo\Result
+     */
     public static function success(TaskInterface $task, $message = '', $data = [])
     {
         return new self($task, self::EXITCODE_OK, $message, $data);
@@ -73,6 +122,8 @@ class Result extends ResultData
 
     /**
      * Return a context useful for logging messages.
+     *
+     * @return array
      */
     public function getContext()
     {
@@ -87,13 +138,56 @@ class Result extends ResultData
     }
 
     /**
-     * @return TaskInterface
+     * Add the results from the most recent task to the accumulated
+     * results from all tasks that have run so far, merging data
+     * as necessary.
+     *
+     * @param int|string $key
+     * @param \Robo\Result $taskResult
+     */
+    public function accumulate($key, Result $taskResult)
+    {
+        // If the task is unnamed, then all of its data elements
+        // just get merged in at the top-level of the final Result object.
+        if (static::isUnnamed($key)) {
+            $this->merge($taskResult);
+        } elseif (isset($this[$key])) {
+            // There can only be one task with a given name; however, if
+            // there are tasks added 'before' or 'after' the named task,
+            // then the results from these will be stored under the same
+            // name unless they are given a name of their own when added.
+            $current = $this[$key];
+            $this[$key] = $taskResult->merge($current);
+        } else {
+            $this[$key] = $taskResult;
+        }
+    }
+
+    /**
+     * We assume that named values (e.g. for associative array keys)
+     * are non-numeric; numeric keys are presumed to simply be the
+     * index of an array, and therefore insignificant.
+     *
+     * @param int|string $key
+     *
+     * @return bool
+     */
+    public static function isUnnamed($key)
+    {
+        return is_numeric($key);
+    }
+
+    /**
+     * @return \Robo\Contract\TaskInterface
      */
     public function getTask()
     {
         return $this->task;
     }
 
+    /**
+     * @return \Robo\Contract\TaskInterface
+     */
     public function cloneTask()
     {
         $reflect  = new \ReflectionClass(get_class($this->task));
@@ -101,7 +195,11 @@ class Result extends ResultData
     }
 
     /**
-     * @deprecated since 1.0.  @see wasSuccessful()
+     * @return bool
+     *
+     * @deprecated since 1.0.
+     *
+     * @see wasSuccessful()
      */
     public function __invoke()
     {
@@ -109,6 +207,9 @@ class Result extends ResultData
         return $this->wasSuccessful();
     }
 
+    /**
+     * @return $this
+     */
     public function stopOnFail()
     {
         if (!$this->wasSuccessful()) {
@@ -116,8 +217,18 @@ class Result extends ResultData
             if ($resultPrinter) {
                 $resultPrinter->printStopOnFail($this);
             }
-            exit($this->exitCode);
+            $this->exitEarly($this->getExitCode());
         }
         return $this;
+    }
+
+    /**
+     * @param int $status
+     *
+     * @throws \Robo\Exception\TaskExitException
+     */
+    private function exitEarly($status)
+    {
+        throw new TaskExitException($this->getTask(), $this->getMessage(), $status);
     }
 }

@@ -19,6 +19,9 @@ class CleanDir extends BaseDir
 {
     use ResourceExistenceChecker;
 
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         if (!$this->checkResources($this->dirs, 'dir')) {
@@ -31,6 +34,9 @@ class CleanDir extends BaseDir
         return Result::success($this);
     }
 
+    /**
+     * @param string $path
+     */
     protected function emptyDir($path)
     {
         $iterator = new \RecursiveIteratorIterator(

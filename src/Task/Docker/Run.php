@@ -50,21 +50,50 @@ class Run extends Base
 {
     use CommandReceiver;
 
+    /**
+     * @var string
+     */
     protected $image = '';
+
+    /**
+     * @var string
+     */
     protected $run = '';
+
+    /**
+     * @var string
+     */
     protected $cidFile;
+
+    /**
+     * @var string
+     */
     protected $name;
 
+    /**
+     * @var string
+     */
+    protected $dir;
+
+    /**
+     * @param string $image
+     */
     public function __construct($image)
     {
         $this->image = $image;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getPrinted()
     {
         return $this->isPrinted;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getCommand()
     {
         if ($this->isPrinted) {
@@ -76,24 +105,41 @@ class Run extends Base
         return trim('docker run ' . $this->arguments . ' ' . $this->image . ' ' . $this->run);
     }
 
+    /**
+     * @return $this
+     */
     public function detached()
     {
         $this->option('-d');
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function interactive()
     {
         $this->option('-i');
         return $this;
     }
 
+    /**
+     * @param string|\Robo\Contract\CommandInterface $run
+     *
+     * @return $this
+     */
     public function exec($run)
     {
         $this->run = $this->receiveCommand($run);
         return $this;
     }
 
+    /**
+     * @param string $from
+     * @param null|string $to
+     *
+     * @return $this
+     */
     public function volume($from, $to = null)
     {
         $volume = $to ? "$from:$to" : $from;
@@ -101,12 +147,24 @@ class Run extends Base
         return $this;
     }
 
+    /**
+     * @param string $variable
+     * @param null|string $value
+     *
+     * @return $this
+     */
     public function env($variable, $value = null)
     {
         $env = $value ? "$variable=$value" : $variable;
         return $this->option("-e", $env);
     }
 
+    /**
+     * @param null|int $port
+     * @param null|int $portTo
+     *
+     * @return $this
+     */
     public function publish($port = null, $portTo = null)
     {
         if (!$port) {
@@ -118,27 +176,51 @@ class Run extends Base
         return $this->option('-p', $port);
     }
 
+    /**
+     * @param string $dir
+     *
+     * @return $this
+     */
     public function containerWorkdir($dir)
     {
         return $this->option('-w', $dir);
     }
 
+    /**
+     * @param string $user
+     *
+     * @return $this
+     */
     public function user($user)
     {
         return $this->option('-u', $user);
     }
 
+    /**
+     * @return $this
+     */
     public function privileged()
     {
         return $this->option('--privileged');
     }
 
+    /**
+     * @param string $name
+     *
+     * @return $this
+     */
     public function name($name)
     {
         $this->name = $name;
         return $this->option('name', $name);
     }
 
+    /**
+     * @param string|\Robo\Task\Docker\Result $name
+     * @param string $alias
+     *
+     * @return $this
+     */
     public function link($name, $alias)
     {
         if ($name instanceof Result) {
@@ -148,17 +230,50 @@ class Run extends Base
         return $this;
     }
 
+    /**
+     * @param string $dir
+     *
+     * @return $this
+     */
+    public function tmpDir($dir)
+    {
+        $this->dir = $dir;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTmpDir()
+    {
+        return $this->dir ? $this->dir : sys_get_temp_dir();
+    }
+
+    /**
+     * @return string
+     */
+    public function getUniqId()
+    {
+        return uniqid();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
-        $this->cidFile = sys_get_temp_dir() . '/docker_' . uniqid() . '.cid';
+        $this->cidFile = $this->getTmpDir() . '/docker_' . $this->getUniqId() . '.cid';
         $result = parent::run();
         $result['cid'] = $this->getCid();
         return $result;
     }
 
+    /**
+     * @return null|string
+     */
     protected function getCid()
     {
-        if (!$this->cidFile) {
+        if (!$this->cidFile || !file_exists($this->cidFile)) {
             return null;
         }
         $cid = trim(file_get_contents($this->cidFile));

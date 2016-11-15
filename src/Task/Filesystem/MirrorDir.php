@@ -17,6 +17,9 @@ use Robo\Result;
  */
 class MirrorDir extends BaseDir
 {
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         foreach ($this->dirs as $src => $dst) {

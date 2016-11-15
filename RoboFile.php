@@ -368,8 +368,8 @@ class RoboFile extends \Robo\Tasks
                 ->remove('robotheme/robo.phar')
                 ->rename('robo-release.phar', 'robotheme/robo.phar')
             ->taskGitStack()
-                ->add('robo.phar')
-                ->commit('phar updated')
+                ->add('robotheme/robo.phar')
+                ->commit('Update robo.phar to ' . \Robo\Robo::VERSION)
                 ->push('origin site')
                 ->checkout('master')
                 ->run();

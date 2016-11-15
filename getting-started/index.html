@@ -57,40 +57,19 @@
                 
                 
                     <li >
-                        <a href="..">Index</a>
+                        <a href="..">Introduction</a>
                     </li>
                 
                 
                 
-                    <li class="dropdown active">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Guides <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                        
-                            
-<li class="active">
-    <a href="./">Getting Started</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../collections/">Collections</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../extending/">Extending</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../framework/">Robo as Framework</a>
-</li>
-
-                        
-                        </ul>
+                    <li class="active">
+                        <a href="./">Getting Started</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../collections/">Collections</a>
                     </li>
                 
                 
@@ -101,37 +80,13 @@
                         
                             
 <li >
-    <a href="../tasks/Base/">Base Tasks</a>
+    <a href="../tasks/ApiGen/">ApiGen Tasks</a>
 </li>
 
                         
                             
 <li >
-    <a href="../tasks/Filesystem/">FileSystem Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../tasks/File/">File Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../tasks/Composer/">Composer Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../tasks/Vcs/">VCS Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../tasks/Development/">Development Tasks</a>
+    <a href="../tasks/Archive/">Archive Tasks</a>
 </li>
 
                         
@@ -143,7 +98,55 @@
                         
                             
 <li >
-    <a href="../tasks/Archive/">Archive Tasks</a>
+    <a href="../tasks/Base/">Base Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Bower/">Bower Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Composer/">Composer Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Development/">Development Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Docker/">Docker Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/File/">File Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Filesystem/">Filesystem Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Gulp/">Gulp Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Npm/">NPM Tasks</a>
 </li>
 
                         
@@ -161,31 +164,7 @@
                         
                             
 <li >
-    <a href="../tasks/Npm/">NPM Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../tasks/Bower/">Bower Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../tasks/Gulp/">Gulp Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../tasks/Docker/">Docker Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../tasks/ApiGen/">ApiGen Tasks</a>
+    <a href="../tasks/Vcs/">VCS Tasks</a>
 </li>
 
                         
@@ -222,7 +201,7 @@
                 
                 
                     <li>
-                        <a href="https://github.com/codegyre/robo/">
+                        <a href="https://github.com/consolidation-org/Robo/">
                             
                                 <i class="fa fa-github"></i>
                             
@@ -439,7 +418,7 @@ Help:
 
 <h2 id="tasks">Tasks</h2>
 <p>Robo commands typically divide the work they need to accomplish into <strong>tasks</strong>. The command first determines what needs to be done, inspecting current state if necessary, and then sets up and executes one or more tasks that make the actual changes needed by the command.  (See also the documentation on <a href="../collections/">Collections</a>, which allow you to combine groups of tasks which can provide rollback functions to recover from failure situations.)</p>
-<p>For details on how to add custom tasks to Robo, see the <a href="../extending/">extending</a> document.</p>
+<p>For details on how to add custom tasks to Robo, see the <a href="extending.md">extending</a> document.</p>
 <h3 id="shortcuts">Shortcuts</h3>
 <p>Some tasks may have shortcuts. If a task does not require multi-step configuration, it can be executed with a single line:</p>
 <pre><code class="php">&lt;?php
@@ -581,28 +560,29 @@ $ composer phar
 <p>Advertising your build commands as Composer scripts is a useful way to provide the key commands used for testing, building or packaging your application. Also, if your application should happen to provide a commandline tool to perform the operations of the application itself, then defining your build commands in their own RoboFile provides desirable separation, keeping your build commands out of the help and list commands of your primary script.</p>
 <p>If you would like to simplify the output of your script (e.g. when running on a CI service), replace the <code>--ansi</code> option in the example above with <code>--no-ansi</code>, and  colored terminal output and progress bars will be disabled. </p>
 <h2 id="robo-as-a-framework">Robo as a Framework</h2>
-<p>For an overview on how to turn your Robo scripts into standalone tools, see the example <a href="https://github.com/consolidation/Robo/blob/master/examples/robo.script">robo.script</a>, and the section <a href="../framework/">Robo as a Framework</a>.</p></div>
+<p>For an overview on how to turn your Robo scripts into standalone tools, see the example <a href="https://github.com/consolidation/Robo/blob/master/examples/robo.script">robo.script</a>, and the section <a href="framework.md">Robo as a Framework</a>.</p></div>
             
 
         </div>
         
 
         <footer class="col-md-12">
-            <p>Brought to you by <a href="https://github.com/orgs/consolidation/people">Consolidation Team</a> and our <a href="https://github.com/consolidation/Robo/graphs/contributors">awesome contributors</a>
+            <div >
+
+                <p>Robo is product of <a href="http://codegyre.com">Codegyre</a>. 
 
 </p>
 <p>
-Robo is on <a href="http://twitter.com/robo_php">Twitter</a> and on <a href="https://github.com/consolidation/robo">GitHub</a>
+    Robo is on <a href="http://twitter.com/robo_php">Twitter</a> and on <a href="https://github.com/codegyre/robo">GitHub</a>
 </p>
-
-            <p>
-                Projects Using It:
-                <a href="http://codeception.com">Codeception</a> |
-                <a href="http://www.drush.org">Drush</a> |
-                <a href="https://github.com/Codeception/AspectMock">AspectMock</a> |
-                <a href="https://github.com/pantheon-systems/terminus">Pantheon Terminus</a> |
-                <a href="https://github.com/Codeception/CodeceptJS">CodeceptJS</a>
-            </p>
+                
+                <p>
+                    See also:
+                    <a href="http://codeception.com">Codeception</a> |
+                    <a href="https://github.com/Codeception/AspectMock">AspectMock</a> |
+                    <a href="http://phptest.club">PHP Test Club</a>
+                </p>
+            </div>
         </footer>
 
         
@@ -611,33 +591,6 @@ Robo is on <a href="http://twitter.com/robo_php">Twitter</a> and on <a href="htt
         <script src="../js/bootstrap-3.0.3.min.js"></script>
         <script src="../js/prettify-1.0.min.js"></script>
         <script src="../js/highlight.pack.js"></script>
-        <script>var base_url = '..';</script>
-        <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script>
         <script src="../js/base.js"></script>
-
-    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
-         <div class="modal-dialog">
-             <div class="modal-content">
-                 <div class="modal-header">
-                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                     <h4 class="modal-title" id="exampleModalLabel">Search</h4>
-                 </div>
-                 <div class="modal-body">
-                     <p>
-                         From here you can search these documents. Enter
-                         your search terms below.
-                     </p>
-                     <form role="form">
-                         <div class="form-group">
-                             <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
-                         </div>
-                     </form>
-                     <div id="mkdocs-search-results"></div>
-                 </div>
-                 <div class="modal-footer">
-                 </div>
-             </div>
-         </div>
-     </div>
     </body>
 </html>

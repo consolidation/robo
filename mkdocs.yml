@@ -8,6 +8,8 @@ pages:
 - ['index.md', 'Introduction']
 - [getting-started.md, Getting Started]
 - [collections.md, Collections]
+- [extending.md, Extending Robo]
+- [framework.md, Framework]
 - [tasks/ApiGen.md, Tasks, ApiGen Tasks]
 - [tasks/Archive.md, Tasks, Archive Tasks]
 - [tasks/Assets.md, Tasks, Assets Tasks]

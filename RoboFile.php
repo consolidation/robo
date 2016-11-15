@@ -362,6 +362,7 @@ class RoboFile extends \Robo\Tasks
         $this->collectionBuilder()
             ->taskGitStack()
                 ->checkout('gh-pages')
+                ->pull('origin gh-pages')
             ->taskFilesystemStack()
                 ->remove('robo.phar')
                 ->rename('robo-release.phar', 'robo.phar')

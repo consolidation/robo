@@ -307,7 +307,7 @@ class RoboFile extends \Robo\Tasks
             ->path('vendor')
             ->notPath('docs')
             ->notPath('/vendor\/.*\/[Tt]est/')
-            ->in($roboBuildDir);
+            ->in(is_dir($roboBuildDir) ? $roboBuildDir : __DIR__);
 
         // Build the phar
         return $collection
@@ -358,8 +358,9 @@ class RoboFile extends \Robo\Tasks
     {
         $this->pharBuild();
 
-        $this->_rename('robo.phar', 'robo-release.phar');
         $this->collectionBuilder()
+            ->taskFilesystemStack()
+                ->rename('robo.phar', 'robo-release.phar')
             ->taskGitStack()
                 ->checkout('site')
                 ->pull('origin site')

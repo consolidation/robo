@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        <link rel="canonical" href="http://robo.li/extending/">
+        <link rel="shortcut icon" href="../../img/favicon.png">
+        
+        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+
+	<title>Extending Robo - Robo</title>
+
+        <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.css">
+        <link href="..//css/robo.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="..">Robo</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="..">Introduction</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../getting-started/">Getting Started</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../collections/">Collections</a>
+                    </li>
+                
+                
+                
+                    <li class="active">
+                        <a href="./">Extending Robo</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../framework/">Framework</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tasks <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../tasks/ApiGen/">ApiGen Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Archive/">Archive Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Assets/">Assets Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Base/">Base Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Bower/">Bower Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Composer/">Composer Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Development/">Development Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Docker/">Docker Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/File/">File Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Filesystem/">Filesystem Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Gulp/">Gulp Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Npm/">NPM Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Remote/">SSH, Rsync Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Testing/">Testing Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../tasks/Vcs/">VCS Tasks</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../changelog/">Releases</a>
+                    </li>
+                
+                
+                </ul>
+            
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                </li>
+                
+                    <li >
+                        <a rel="next" href="../collections/">
+                            <i class="fa fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../framework/">
+                            Next <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a href="https://github.com/consolidation-org/Robo/">
+                            
+                                <i class="fa fa-github"></i>
+                            
+                            GitHub
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        
+        <div class="container">
+            
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#extending">Extending</a></li>
+        
+            <li><a href="#including-additional-tasks">Including Additional Tasks</a></li>
+        
+            <li><a href="#creating-a-robo-extension">Creating a Robo Extension</a></li>
+        
+    
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<h1 id="extending">Extending</h1>
+<p>Robo tasks can be added to your Robo application by using Composer to suppliment the set of built-in tasks that Robo provides by default. To find existing Robo task extensions, search in Packagist for projects of type <a href="https://packagist.org/search/?type=robo-tasks">robo-tasks</a>.</p>
+<p>The convention used to add new tasks for use in your RoboFiles is to create a wrapper trait named <code>loadTasks</code> that instantiates the implementation class for each task. Each task method in the trait should start with the prefix <code>task</code>, and should use <strong>chained method calls</strong> for configuration. Task execution should be triggered by the method <code>run</code>. </p>
+<p>To include additional tasks in your RoboFile, you must <code>use</code> the appropriate <code>loadTasks</code> in your RoboFile. See the section <a href="#including-additional-tasks">Including Additional Tasks</a> below. To create your own Robo extension that provides tasks for use in RoboFiles, then you must write your own class that implements TaskInterface, and create a <code>loadTasks</code> trait for it as described in the section <a href="#creating-a-robo-extension">Creating a Robo Extension</a>.</p>
+<h2 id="including-additional-tasks">Including Additional Tasks</h2>
+<p>Additional tasks may be installed into projects that have included Robo via Composer. For example:</p>
+<pre><code>$ cd myproject
+$ composer require boedah/robo-drush
+</code></pre>
+
+<p>If any of the tasks you include require external Composer projects themselves, then you must <code>composer require</code> these as well.  See the <code>suggests</code> section of Robo's composer.json file for a list of some projects you might need to require.</p>
+<p>Once the extension you wish to use has been added to your vendor directory, you may then include it from your RoboFile:</p>
+<pre><code class="php">class RoboFile extends \Robo\Tasks
+{
+  use \Boedah\Robo\Task\Drush\loadTasks;
+
+  public function test()
+  {
+    // ...
+  }
+}
+</code></pre>
+
+<p>Once you have done this, all of the tasks defined in the extension you selected will be available for use in your commands.</p>
+<p>Note that at the moment, it is not possible to extend Robo when using the robo.phar. This capability may be added in the future via <a href="https://github.com/dflydev/dflydev-embedded-composer">embedded composer</a>.</p>
+<h2 id="creating-a-robo-extension">Creating a Robo Extension</h2>
+<p>A Robo tasks extension is created by advertising a Composer package of type <code>robo-tasks</code> on <a href="https://packagist.org/">Packagist</a>.  For an overview on how this is done, see the article <a href="https://knpuniversity.com/screencast/question-answer-day/create-composer-package">Creating your very own Composer Package</a>.  Specific instructions for creating Robo task extensions are provided below.</p>
+<h3 id="create-your-composerjson-file">Create your composer.json File</h3>
+<p>Your composer.json file should look something like the example below:</p>
+<pre><code>{
+    &quot;name&quot;: &quot;boedah/robo-drush&quot;,
+    &quot;description&quot;: &quot;Drush CommandStack for Robo Task Runner&quot;,
+    &quot;type&quot;: &quot;robo-tasks&quot;,
+    &quot;autoload&quot;: {
+        &quot;psr-4&quot;: {
+            &quot;Boedah\\Robo\\Task\\Drush\\&quot;: &quot;src&quot;
+        }
+    },
+    &quot;require&quot;: {
+        &quot;php&quot;: &quot;&gt;=5.5.0&quot;,
+        &quot;consolidation/robo&quot;: &quot;~1&quot;
+    }
+}
+</code></pre>
+
+<p>Customize the name and autoload paths as necessary, and add any additional required projects needed by the tasks that your extensions will provide.  The type of your project should always be <code>robo-tasks</code>.  Robo only supports php &gt;= 5.5.0; you may require a higher version of php if necessary.</p>
+<h3 id="create-the-loadtasksphp-trait">Create the loadTasks.php Trait</h3>
+<p>It is recommended to place your trait-loading task in a <code>loadTasks</code> file in the same namespace as the task implementation.</p>
+<pre><code>namespace Boedah\Robo\Task\Drush;
+
+use Robo\Container\SimpleServiceProvider;
+
+trait loadTasks
+{
+    /**
+     * @param string $pathToDrush
+     * @return DrushStack
+     */
+    protected function taskDrushStack($pathToDrush = 'drush')
+    {
+        return $this-&gt;task(__FUNCTION__, $pathToDrush);
+    }
+}
+</code></pre>
+
+<p>Note that the name of the service for a given task must start with the word "task", and must have the same name as the function used to call the task.  <code>$this-&gt;task()</code> looks up the service by name; using the PHP built-in constant <strong>FUNCTION</strong> for this parameter ensures that the names of these items remain in alignment.</p>
+<h3 id="task-implementation">Task implementation</h3>
+<p>The implementation of each task class should extend \Robo\Task\BaseTask, or some class that extends the same, and should used chained initializer methods and defer all operations that alter the state of the system until its <code>run()</code> method.  If you follow these patterns, then your task extensions will be usable via Robo collection builders, as explained in the <a href="../collections/">collections</a> documentation.</p>
+<p>There are many examples of task implementations in the Robo\Task namespace.  A very basic task example is provided below.  The namespace is <code>MyAssetTasks</code>, and the example task is <code>CompileAssets</code>. To customize to your purposes, choose an appropriate namespace, and then define as many tasks as you need.</p>
+<pre><code class="php">&lt;?php
+namespace MyAssetTasks;
+
+trait loadTasks
+{
+    /**
+     * Example task to compile assets
+     *
+     * @param string $pathToCompileAssets
+     * @return \MyAssetTasks\CompileAssets
+     */
+    protected function taskCompileAssets($path = null)
+    {
+        // Always construct your tasks with the `task()` task builder.
+        return $this-&gt;task(CompileAssets::class, $path);
+    }
+}
+
+class CompileAssets implements \Robo\Contract\TaskInterface
+{
+    // configuration params
+    protected $path;
+    protected $to;
+    function __construct($path)
+    {
+        $this-&gt;path = $path;
+    }
+
+    function to($filename)
+    {
+        $this-&gt;to = $filename;
+        // must return $this
+        return $this;
+    }
+
+    // must implement Run
+    function run()
+    {
+        //....
+    }
+}
+?&gt;
+</code></pre>
+
+<p>To use the tasks you define in a RoboFile, use its <code>loadTasks</code> trait as explained in the section <a href="#including-additional-tasks">Including Additional Tasks</a>, above.</p>
+<h3 id="taskio">TaskIO</h3>
+<p>To allow tasks access IO, use the <code>Robo\Common\TaskIO</code> trait, or inherit your task class from <code>Robo\Task\BaseTask</code> (recommended).</p>
+<p>Inside tasks you should print process details with <code>printTaskInfo</code>, <code>printTaskSuccess</code>, and <code>printTaskError</code>.</p>
+<pre><code>$this-&gt;printTaskInfo('Processing...');
+</code></pre>
+
+<p>The Task IO methods send all output through a PSR-3 logger. Tasks should use task IO exclusively; methods such as 'say' and 'ask' should reside in the command method. This allows tasks to be usable in any context that has a PSR-3 logger, including background or server processes where it is not possible to directly query the user.</p>
+<h3 id="tasks-that-use-tasks">Tasks That Use Tasks</h3>
+<p>If one task implementation needs to use other tasks while it is running, it should do so via a <code>CollectionBuilder</code> object, as explained in the <a href="../collections/">Collections</a> documentation.</p>
+<p>To obtain access to a <code>CollectionBuilder</code>, a task should implement <code>BuilderAwareInterface</code> and use <code>BuilderAwareTrait</code>.  It will then have access to a collection builder via the <code>$this-&gt;collectionBuilder()</code> method.</p>
+<h3 id="testing-extensions">Testing Extensions</h3>
+<p>If you wish to use the <code>task()</code> methods from your <code>loadTasks</code> trait in your unit tests, it is necessary to also use the Robo <code>TaskAccessor</code> trait, and define a <code>collectionBuilder()</code> method to provide a builder.  Collection builders are used to initialize all Robo tasks.  The easiest way to get a usable collection builder in your tests is to initialize Robo's default dependency injection container, and use it to request a new builder.</p>
+<p>An example of how to do this in a PHPUnit test is shown below.</p>
+<pre><code>use League\Container\ContainerAwareInterface;
+use League\Container\ContainerAwareTrait;
+use Symfony\Component\Console\Output\NullOutput;
+use Robo\TaskAccessor;
+use Robo\Robo;
+
+class DrushStackTest extends \PHPUnit_Framework_TestCase implements ContainerAwareInterface
+{
+    use \Boedah\Robo\Task\Drush\loadTasks;
+    use TaskAccessor;
+    use ContainerAwareTrait;
+
+    // Set up the Robo container so that we can create tasks in our tests.
+    function setup()
+    {
+        $container = Robo::createDefaultContainer(null, new NullOutput());
+        $this-&gt;setContainer($container);
+    }
+
+    // Scaffold the collection builder
+    public function collectionBuilder()
+    {
+        $emptyRobofile = new \Robo\Tasks;
+        return $this-&gt;getContainer()-&gt;get('collectionBuilder', [$emptyRobofile]);
+    }
+
+    public function testYesIsAssumed()
+    {
+        $command = $this-&gt;taskDrushStack()
+            -&gt;drush('command')
+            -&gt;getCommand();
+        $this-&gt;assertEquals('drush command -y', $command);
+    }
+}
+</code></pre>
+
+<p>To assert that the output of a command contains some value, use a <code>Symfony\Component\Console\Output\BufferedOutput</code> in place of null output when calling Robo::createDefaultContainer().</p></div>
+            
+
+        </div>
+        
+
+        <footer class="col-md-12">
+            <div >
+
+                <p>Robo is product of <a href="http://codegyre.com">Codegyre</a>. 
+
+</p>
+<p>
+    Robo is on <a href="http://twitter.com/robo_php">Twitter</a> and on <a href="https://github.com/codegyre/robo">GitHub</a>
+</p>
+                
+                <p>
+                    See also:
+                    <a href="http://codeception.com">Codeception</a> |
+                    <a href="https://github.com/Codeception/AspectMock">AspectMock</a> |
+                    <a href="http://phptest.club">PHP Test Club</a>
+                </p>
+            </div>
+        </footer>
+
+        
+
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../js/prettify-1.0.min.js"></script>
+        <script src="../js/highlight.pack.js"></script>
+        <script src="../js/base.js"></script>
+    </body>
+</html>

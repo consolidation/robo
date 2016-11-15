@@ -74,6 +74,18 @@
                 
                 
                 
+                    <li >
+                        <a href="../extending/">Extending Robo</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../framework/">Framework</a>
+                    </li>
+                
+                
+                
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tasks <b class="caret"></b></a>
                         <ul class="dropdown-menu">
@@ -418,7 +430,7 @@ Help:
 
 <h2 id="tasks">Tasks</h2>
 <p>Robo commands typically divide the work they need to accomplish into <strong>tasks</strong>. The command first determines what needs to be done, inspecting current state if necessary, and then sets up and executes one or more tasks that make the actual changes needed by the command.  (See also the documentation on <a href="../collections/">Collections</a>, which allow you to combine groups of tasks which can provide rollback functions to recover from failure situations.)</p>
-<p>For details on how to add custom tasks to Robo, see the <a href="extending.md">extending</a> document.</p>
+<p>For details on how to add custom tasks to Robo, see the <a href="../extending/">extending</a> document.</p>
 <h3 id="shortcuts">Shortcuts</h3>
 <p>Some tasks may have shortcuts. If a task does not require multi-step configuration, it can be executed with a single line:</p>
 <pre><code class="php">&lt;?php
@@ -560,7 +572,7 @@ $ composer phar
 <p>Advertising your build commands as Composer scripts is a useful way to provide the key commands used for testing, building or packaging your application. Also, if your application should happen to provide a commandline tool to perform the operations of the application itself, then defining your build commands in their own RoboFile provides desirable separation, keeping your build commands out of the help and list commands of your primary script.</p>
 <p>If you would like to simplify the output of your script (e.g. when running on a CI service), replace the <code>--ansi</code> option in the example above with <code>--no-ansi</code>, and  colored terminal output and progress bars will be disabled. </p>
 <h2 id="robo-as-a-framework">Robo as a Framework</h2>
-<p>For an overview on how to turn your Robo scripts into standalone tools, see the example <a href="https://github.com/consolidation/Robo/blob/master/examples/robo.script">robo.script</a>, and the section <a href="framework.md">Robo as a Framework</a>.</p></div>
+<p>For an overview on how to turn your Robo scripts into standalone tools, see the example <a href="https://github.com/consolidation/Robo/blob/master/examples/robo.script">robo.script</a>, and the section <a href="../framework/">Robo as a Framework</a>.</p></div>
             
 
         </div>

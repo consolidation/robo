@@ -213,6 +213,26 @@ class RoboFile extends \Robo\Tasks
     }
 
     /**
+     * Try word wrapping
+     *
+     * @field-labels
+     *   first: First
+     *   second: Second
+     *
+     * @return \Consolidation\OutputFormatters\StructuredData\RowsOfFields
+     */
+    public function tryWrap()
+    {
+        $data = [
+            [
+                'first' => 'This is a really long cell that contains a lot of data. When it is rendered, it should be wrapped across multiple lines.',
+                'second' => 'This is the second column of the same table. It is also very long, and should be wrapped across multiple lines, just like the first column.',
+            ]
+        ];
+        return new RowsOfFields($data);
+    }
+
+    /**
      * Demonstrate an alter hook with an option
      *
      * @hook alter try:formatters

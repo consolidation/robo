@@ -188,9 +188,12 @@ class Robo
         $container->share('formatterManager', \Consolidation\OutputFormatters\FormatterManager::class)
             ->withMethodCall('addDefaultFormatters', [])
             ->withMethodCall('addDefaultSimplifiers', []);
+        $container->share('prepareTerminalWidthOption', \Consolidation\AnnotatedCommand\Options\PrepareTerminalWidthOption::class)
+            ->withMethodCall('setApplication', ['application']);
         $container->share('commandProcessor', \Consolidation\AnnotatedCommand\CommandProcessor::class)
             ->withArgument('hookManager')
             ->withMethodCall('setFormatterManager', ['formatterManager'])
+            ->withMethodCall('addPrepareFormatter', ['prepareTerminalWidthOption'])
             ->withMethodCall(
                 'setDisplayErrorFunction',
                 [

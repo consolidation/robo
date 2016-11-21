@@ -270,23 +270,16 @@ class RoboFile extends \Robo\Tasks
             ->taskFilesystemStack()
                 ->mkdir($workDir)
             ->taskRsync()
-                ->fromPath(__DIR__ . '/')
-                ->toPath($roboBuildDir)
-                ->recursive()
-                ->exclude(
+                ->fromPath(
                     [
-                        'vendor/',
-                        '.idea/',
-                        'build',
-                        'site/',
-                        'robotheme/',
-                        'tests/_log',
-                        'tests/_helpers/_generated',
-                        'composer.phar',
-                        'composer.lock',
-                        'robo.phar',
+                        __DIR__ . '/composer.json',
+                        __DIR__ . '/scripts',
+                        __DIR__ . '/src',
+                        __DIR__ . '/data'
                     ]
                 )
+                ->toPath($roboBuildDir)
+                ->recursive()
                 ->progress()
                 ->stats()
             ->taskComposerRemove()
@@ -314,7 +307,7 @@ class RoboFile extends \Robo\Tasks
             ->path('vendor')
             ->notPath('docs')
             ->notPath('/vendor\/.*\/[Tt]est/')
-            ->in($roboBuildDir);
+            ->in(is_dir($roboBuildDir) ? $roboBuildDir : __DIR__);
 
         // Build the phar
         return $collection
@@ -365,17 +358,19 @@ class RoboFile extends \Robo\Tasks
     {
         $this->pharBuild();
 
-        $this->_rename('robo.phar', 'robo-release.phar');
         $this->collectionBuilder()
-            ->taskGitStack()
-                ->checkout('gh-pages')
             ->taskFilesystemStack()
-                ->remove('robo.phar')
-                ->rename('robo-release.phar', 'robo.phar')
+                ->rename('robo.phar', 'robo-release.phar')
             ->taskGitStack()
-                ->add('robo.phar')
-                ->commit('phar updated')
-                ->push('origin gh-pages')
+                ->checkout('site')
+                ->pull('origin site')
+            ->taskFilesystemStack()
+                ->remove('robotheme/robo.phar')
+                ->rename('robo-release.phar', 'robotheme/robo.phar')
+            ->taskGitStack()
+                ->add('robotheme/robo.phar')
+                ->commit('Update robo.phar to ' . \Robo\Robo::VERSION)
+                ->push('origin site')
                 ->checkout('master')
                 ->run();
     }

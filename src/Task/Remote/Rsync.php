@@ -106,7 +106,7 @@ class Rsync extends BaseTask implements CommandInterface
      * This can either be a full rsync path spec (user@host:path) or just a path.
      * In case of the former do not specify host and user.
      *
-     * @param string $path
+     * @param string|array $path
      *
      * @return $this
      */
@@ -445,8 +445,10 @@ class Rsync extends BaseTask implements CommandInterface
      */
     public function getCommand()
     {
-        $this->option(null, $this->getFromPathSpec())
-            ->option(null, $this->getToPathSpec());
+        foreach ((array)$this->fromPath as $from) {
+            $this->option(null, $this->getFromPathSpec($from));
+        }
+        $this->option(null, $this->getToPathSpec());
 
         return $this->command . $this->arguments;
     }
@@ -454,9 +456,9 @@ class Rsync extends BaseTask implements CommandInterface
     /**
      * @return string
      */
-    protected function getFromPathSpec()
+    protected function getFromPathSpec($from)
     {
-        return $this->getPathSpec($this->fromHost, $this->fromUser, $this->fromPath);
+        return $this->getPathSpec($this->fromHost, $this->fromUser, $from);
     }
 
     /**

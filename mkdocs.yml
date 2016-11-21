@@ -3,7 +3,7 @@ theme: mkdocs
 site_favicon: img/favicon.png
 theme_dir: robotheme
 site_url: http://robo.li
-repo_url: https://github.com/codegyre/robo/
+repo_url: https://github.com/consolidation/Robo/
 pages:
 - Index: index.md
 - Guides:

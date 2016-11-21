@@ -57,18 +57,18 @@
                 
                 
                     <li >
-                        <a href="../..">Introduction</a>
+                        <a href="../..">Index</a>
                     </li>
                 
                 
                 
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Getting Started <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Guides <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                         
                             
 <li >
-    <a href="../../getting-started/">First Steps</a>
+    <a href="../../getting-started/">Getting Started</a>
 </li>
 
                         
@@ -80,13 +80,13 @@
                         
                             
 <li >
-    <a href="../../extending/">Extending Robo</a>
+    <a href="../../extending/">Extending</a>
 </li>
 
                         
                             
 <li >
-    <a href="../../framework/">Robo as a Framework</a>
+    <a href="../../framework/">Robo as Framework</a>
 </li>
 
                         
@@ -101,49 +101,13 @@
                         
                             
 <li >
-    <a href="../ApiGen/">ApiGen Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../Archive/">Archive Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../Assets/">Assets Tasks</a>
-</li>
-
-                        
-                            
-<li >
     <a href="../Base/">Base Tasks</a>
 </li>
 
                         
                             
 <li >
-    <a href="../Bower/">Bower Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../Composer/">Composer Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../Development/">Development Tasks</a>
-</li>
-
-                        
-                            
-<li >
-    <a href="../Docker/">Docker Tasks</a>
+    <a href="../Filesystem/">FileSystem Tasks</a>
 </li>
 
                         
@@ -155,19 +119,31 @@
                         
                             
 <li >
-    <a href="../Filesystem/">Filesystem Tasks</a>
+    <a href="../Composer/">Composer Tasks</a>
+</li>
+
+                        
+                            
+<li class="active">
+    <a href="./">VCS Tasks</a>
 </li>
 
                         
                             
 <li >
-    <a href="../Gulp/">Gulp Tasks</a>
+    <a href="../Development/">Development Tasks</a>
 </li>
 
                         
                             
 <li >
-    <a href="../Npm/">NPM Tasks</a>
+    <a href="../Assets/">Assets Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../Archive/">Archive Tasks</a>
 </li>
 
                         
@@ -184,8 +160,32 @@
 
                         
                             
-<li class="active">
-    <a href="./">VCS Tasks</a>
+<li >
+    <a href="../Npm/">NPM Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../Bower/">Bower Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../Gulp/">Gulp Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../Docker/">Docker Tasks</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../ApiGen/">ApiGen Tasks</a>
 </li>
 
                         
@@ -210,19 +210,19 @@
                 </li>
                 
                     <li >
-                        <a rel="next" href="../Testing/">
+                        <a rel="next" href="../Composer/">
                             <i class="fa fa-arrow-left"></i> Previous
                         </a>
                     </li>
                     <li >
-                        <a rel="prev" href="../../changelog/">
+                        <a rel="prev" href="../Development/">
                             Next <i class="fa fa-arrow-right"></i>
                         </a>
                     </li>
                 
                 
                     <li>
-                        <a href="https://github.com/consolidation-org/Robo/">
+                        <a href="https://github.com/consolidation/Robo/">
                             
                                 <i class="fa fa-github"></i>
                             
@@ -359,22 +359,21 @@ $this-&gt;taskSvnStack('username', 'password')
         
 
         <footer class="col-md-12">
-            <div >
-
-                <p>Robo is product of <a href="http://codegyre.com">Codegyre</a>. 
+            <p>Brought to you by <a href="https://github.com/orgs/consolidation/people">Consolidation Team</a> and our <a href="https://github.com/consolidation/Robo/graphs/contributors">awesome contributors</a>
 
 </p>
 <p>
-    Robo is on <a href="http://twitter.com/robo_php">Twitter</a> and on <a href="https://github.com/codegyre/robo">GitHub</a>
+Robo is on <a href="http://twitter.com/robo_php">Twitter</a> and on <a href="https://github.com/consolidation/robo">GitHub</a>
 </p>
-                
-                <p>
-                    See also:
-                    <a href="http://codeception.com">Codeception</a> |
-                    <a href="https://github.com/Codeception/AspectMock">AspectMock</a> |
-                    <a href="http://phptest.club">PHP Test Club</a>
-                </p>
-            </div>
+
+            <p>
+                Projects Using It:
+                <a href="http://codeception.com">Codeception</a> |
+                <a href="http://www.drush.org">Drush</a> |
+                <a href="https://github.com/Codeception/AspectMock">AspectMock</a> |
+                <a href="https://github.com/pantheon-systems/terminus">Pantheon Terminus</a> |
+                <a href="https://github.com/Codeception/CodeceptJS">CodeceptJS</a>
+            </p>
         </footer>
 
         
@@ -383,6 +382,33 @@ $this-&gt;taskSvnStack('username', 'password')
         <script src="../../js/bootstrap-3.0.3.min.js"></script>
         <script src="../../js/prettify-1.0.min.js"></script>
         <script src="../../js/highlight.pack.js"></script>
+        <script>var base_url = '../..';</script>
+        <script data-main="../../mkdocs/js/search.js" src="../../mkdocs/js/require.js"></script>
         <script src="../../js/base.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+         <div class="modal-dialog">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                     <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                 </div>
+                 <div class="modal-body">
+                     <p>
+                         From here you can search these documents. Enter
+                         your search terms below.
+                     </p>
+                     <form role="form">
+                         <div class="form-group">
+                             <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                         </div>
+                     </form>
+                     <div id="mkdocs-search-results"></div>
+                 </div>
+                 <div class="modal-footer">
+                 </div>
+             </div>
+         </div>
+     </div>
     </body>
 </html>

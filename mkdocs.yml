@@ -3,28 +3,30 @@ theme: mkdocs
 site_favicon: img/favicon.png
 theme_dir: robotheme
 site_url: http://robo.li
-repo_url: https://github.com/consolidation-org/Robo/
+repo_url: https://github.com/consolidation/Robo/
 pages:
-- ['index.md', 'Introduction']
-- [getting-started.md, Getting Started, First Steps]
-- [collections.md, Getting Started, Collections]
-- [extending.md, Getting Started, Extending Robo]
-- [framework.md, Getting Started, Robo as a Framework]
-- [tasks/ApiGen.md, Tasks, ApiGen Tasks]
-- [tasks/Archive.md, Tasks, Archive Tasks]
-- [tasks/Assets.md, Tasks, Assets Tasks]
-- [tasks/Base.md, Tasks, Base Tasks]
-- [tasks/Bower.md, Tasks, Bower Tasks]
-- [tasks/Composer.md, Tasks, Composer Tasks]
-- [tasks/Development.md, Tasks, Development Tasks]
-- [tasks/Docker.md, Tasks, Docker Tasks]
-- [tasks/File.md, Tasks, File Tasks]
-- [tasks/Filesystem.md, Tasks, Filesystem Tasks]
-- [tasks/Gulp.md, Tasks, Gulp Tasks]
-- [tasks/Npm.md, Tasks, NPM Tasks]
-- [tasks/Remote.md, Tasks, 'SSH, Rsync Tasks']
-- [tasks/Testing.md, Tasks, Testing Tasks]
-- [tasks/Vcs.md, Tasks, VCS Tasks]
-- [changelog.md, 'Releases']
+- Index: index.md
+- Guides:
+  - "Getting Started": getting-started.md
+  - Collections: collections.md
+  - "Extending": extending.md
+  - "Robo as Framework": framework.md
+- Tasks:
+  - "Base Tasks": tasks/Base.md
+  - "FileSystem Tasks": tasks/Filesystem.md
+  - "File Tasks": tasks/File.md
+  - "Composer Tasks": tasks/Composer.md
+  - "VCS Tasks": tasks/Vcs.md
+  - "Development Tasks": tasks/Development.md
+  - "Assets Tasks": tasks/Assets.md
+  - "Archive Tasks": tasks/Archive.md
+  - "SSH, Rsync Tasks": tasks/Remote.md
+  - "Testing Tasks": tasks/Testing.md
+  - "NPM Tasks": tasks/Npm.md
+  - "Bower Tasks": tasks/Bower.md
+  - "Gulp Tasks": tasks/Gulp.md
+  - "Docker Tasks": tasks/Docker.md
+  - "ApiGen Tasks": tasks/ApiGen.md
+- Releases: changelog.md
 extra_css:
 - /css/robo.css

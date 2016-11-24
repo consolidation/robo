@@ -41,6 +41,7 @@ class RoboFile extends \Robo\Tasks
      */
     public function tryInput()
     {
+        $this->say('The <b>expression</b> <bogus>is</bogus> <info>a < b</> it even works');
         $answer = $this->ask('how are you?');
         $this->say('You are '.$answer);
         $yes = $this->confirm('Do you want one more question?');

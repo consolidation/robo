@@ -249,6 +249,8 @@ class Robo
             ->invokeMethod('setOutput', ['output']);
         $container->inflector(\Robo\Contract\ProgressIndicatorAwareInterface::class)
             ->invokeMethod('setProgressIndicator', ['progressIndicator']);
+        $container->inflector(\Consolidation\AnnotatedCommand\Events\CustomEventAwareInterface::class)
+            ->invokeMethod('setHookManager', ['hookManager']);
     }
 
     /**

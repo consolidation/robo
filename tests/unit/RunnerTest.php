@@ -126,6 +126,15 @@ EOT;
         $this->guy->seeInOutput($expected);
     }
 
+    public function testCustomEventHook()
+    {
+        $argv = ['placeholder', 'test:custom-event'];
+        $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
+
+        $expected = 'one,two';
+        $this->guy->seeInOutput($expected);
+    }
+
     public function testRoboStaticRunMethod()
     {
         $argv = ['placeholder', 'test:symfony-style'];

@@ -2,7 +2,6 @@
 
 namespace Robo\Common;
 
-use Robo\Robo;
 use Robo\Collection\CollectionBuilder;
 
 trait BuilderAwareTrait

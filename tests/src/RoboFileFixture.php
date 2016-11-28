@@ -2,15 +2,11 @@
 
 namespace Robo;
 
-use Robo\Result;
-use Robo\ResultData;
-use Robo\Collection\CollectionBuilder;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerAwareInterface;
 
 use Consolidation\AnnotatedCommand\Events\CustomEventAwareInterface;
 use Consolidation\AnnotatedCommand\Events\CustomEventAwareTrait;
-use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**

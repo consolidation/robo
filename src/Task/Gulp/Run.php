@@ -1,7 +1,6 @@
 <?php
 namespace Robo\Task\Gulp;
 
-use Robo\Task\Gulp;
 use Robo\Contract\CommandInterface;
 
 /**

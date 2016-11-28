@@ -1,7 +1,5 @@
 <?php
 use Robo\Result;
-use Robo\ResultData;
-use Robo\Collection\CollectionBuilder;
 
 use Consolidation\AnnotatedCommand\CommandData;
 use Consolidation\OutputFormatters\Options\FormatterOptions;

@@ -2,7 +2,6 @@
 
 namespace Robo\Task\Remote;
 
-use Robo\Result;
 use Robo\Contract\CommandInterface;
 use Robo\Exception\TaskException;
 use Robo\Task\BaseTask;

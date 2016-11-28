@@ -1,6 +1,5 @@
 <?php
 use AspectMock\Test as test;
-use Robo\Robo;
 
 class PhpspecTest extends \Codeception\TestCase\Test
 {

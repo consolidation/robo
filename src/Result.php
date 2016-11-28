@@ -2,7 +2,6 @@
 namespace Robo;
 
 use Robo\Contract\TaskInterface;
-use Robo\Contract\LogResultInterface;
 use Robo\Exception\TaskExitException;
 
 class Result extends ResultData

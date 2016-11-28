@@ -2,7 +2,6 @@
 
 namespace Robo\Task\File;
 
-use Robo\Collection\Collection;
 use Robo\Contract\CompletionInterface;
 
 /**

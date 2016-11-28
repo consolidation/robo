@@ -2,8 +2,6 @@
 
 namespace Robo\Collection;
 
-use Robo\Contract\TaskInterface;
-
 /**
  * The temporary collection keeps track of the global collection of
  * temporary cleanup tasks in instances where temporary-generating

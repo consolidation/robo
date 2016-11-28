@@ -1,8 +1,6 @@
 <?php
 namespace Robo\Task\Bower;
 
-use Robo\Task\Bower;
-
 /**
  * Bower Update
  *

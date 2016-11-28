@@ -2,7 +2,6 @@
 namespace Robo\Task\Base;
 
 use Robo\Task\CommandStack;
-use Robo\Task\Base;
 
 /**
  * Execute commands one by one in stack.

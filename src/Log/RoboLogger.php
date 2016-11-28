@@ -1,17 +1,10 @@
 <?php
 namespace Robo\Log;
 
-use Robo\Result;
-use Robo\TaskInfo;
-use Robo\Contract\PrintedInterface;
-use Robo\Contract\LogResultInterface;
-use Consolidation\Log\ConsoleLogLevel;
 use Consolidation\Log\Logger;
 
 use Psr\Log\LogLevel;
-use Psr\Log\AbstractLogger;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Logger\ConsoleLogger;
 
 /**
  * Robo's default logger

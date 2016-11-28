@@ -2,9 +2,6 @@
 require_once codecept_data_dir() . 'TestedRoboFile.php';
 
 use Robo\Robo;
-use Robo\Runner;
-use League\Container\Container;
-use Consolidation\AnnotatedCommand\AnnotatedCommandFactory;
 use Consolidation\AnnotatedCommand\Parser\CommandInfo;
 
 class ApplicationTest extends \Codeception\TestCase\Test

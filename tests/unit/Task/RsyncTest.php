@@ -1,8 +1,5 @@
 <?php
 
-use AspectMock\Test as test;
-use Robo\Robo;
-
 class RsyncTest extends \Codeception\TestCase\Test
 {
     /**

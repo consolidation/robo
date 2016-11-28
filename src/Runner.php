@@ -1,15 +1,11 @@
 <?php
 namespace Robo;
 
-use League\Container\Container;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\StringInput;
-use Consolidation\AnnotatedCommand\PassThroughArgsInput;
 use Robo\Contract\BuilderAwareInterface;
 use Robo\Common\IO;
 use Robo\Exception\TaskExitException;
-use League\Container\ContainerInterface;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 

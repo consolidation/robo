@@ -2,8 +2,6 @@
 namespace Robo\Task;
 
 use Robo\Result;
-use Robo\Task\BaseTask;
-use Robo\Contract\TaskInterface;
 
 /**
  * Extend StackBasedTask to create a Robo task that

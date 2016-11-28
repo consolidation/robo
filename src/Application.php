@@ -3,8 +3,6 @@ namespace Robo;
 
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 
 class Application extends SymfonyApplication

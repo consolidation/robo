@@ -3,7 +3,6 @@ namespace Robo\Task\Remote;
 
 use Robo\Contract\CommandInterface;
 use Robo\Task\BaseTask;
-use Robo\Task\Remote;
 use Robo\Exception\TaskException;
 
 /**

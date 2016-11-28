@@ -1,8 +1,6 @@
 <?php
 namespace Robo\Task\Base;
 
-use Robo\Contract\ProgressIndicatorAwareInterface;
-use Robo\Common\ProgressIndicatorAwareTrait;
 use Robo\Contract\CommandInterface;
 use Robo\Contract\PrintedInterface;
 use Robo\Result;

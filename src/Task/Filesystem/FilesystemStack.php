@@ -1,10 +1,8 @@
 <?php
 namespace Robo\Task\Filesystem;
 
-use Robo\Result;
 use Robo\Task\StackBasedTask;
 use Symfony\Component\Filesystem\Filesystem as sfFilesystem;
-use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Robo\Contract\BuilderAwareInterface;
 use Robo\Common\BuilderAwareTrait;

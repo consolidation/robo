@@ -3,7 +3,6 @@
 namespace Robo\Task\Filesystem;
 
 use Robo\Result;
-use Robo\Collection\Collection;
 use Robo\Contract\CompletionInterface;
 
 /**

@@ -67,6 +67,16 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
     protected $process;
 
     /**
+     * @var resource|string
+     */
+    protected $input;
+
+    /**
+     * @var boolean
+     */
+    protected $interactive;
+    
+    /**
      * @param string|\Robo\Contract\CommandInterface $command
      */
     public function __construct($command)
@@ -133,6 +143,30 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
         return $this;
     }
 
+    /**
+     * Pass an input to the process. Can be resource created with fopen() or string
+     *
+     * @param resource|string $input
+     *
+     * @return $this
+     */
+    public function input($input)
+    {
+        $this->input = $input;
+        return $this;
+    }
+
+    /**
+     * Attach tty to process for interactive input
+     *
+     * @return $this
+     */
+    public function interactive()
+    {
+        $this->interactive = true;
+        return $this;
+    }
+
     public function __destruct()
     {
         $this->stop();
@@ -166,6 +200,14 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
         $this->process->setTimeout($this->timeout);
         $this->process->setIdleTimeout($this->idleTimeout);
         $this->process->setWorkingDirectory($this->workingDirectory);
+
+        if ($this->input) {
+            $this->process->setInput($this->input);
+        }
+
+        if ($this->interactive) {
+            $this->process->setTty(true);
+        }
 
         if (isset($this->env)) {
             $this->process->setEnv($this->env);

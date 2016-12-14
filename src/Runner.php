@@ -222,6 +222,9 @@ class Runner implements ContainerAwareInterface
         // If the command class is already an instantiated object, then
         // just use it exactly as it was provided to us.
         if (is_string($commandClass)) {
+            if (!class_exists($commandClass)) {
+                return;
+            }
             $reflectionClass = new \ReflectionClass($commandClass);
             if ($reflectionClass->isAbstract()) {
                 return;

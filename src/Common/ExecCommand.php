@@ -17,6 +17,11 @@ trait ExecCommand
     protected $isPrinted = true;
 
     /**
+     * @var bool
+     */
+    protected $isMetadataPrinted = true;
+
+    /**
      * @var string
      */
     protected $workingDirectory;
@@ -72,6 +77,32 @@ trait ExecCommand
     {
         if (is_bool($arg)) {
             $this->isPrinted = $arg;
+        }
+        return $this;
+    }
+
+    /**
+     * Should command output be printed
+     *
+     * @param bool $arg
+     *
+     * @return $this
+     */
+    public function printOutput($arg)
+    {
+       return $this->printed($arg);
+    }
+
+    /**
+     * Should command metadata be printed. I,e., command and timer.
+     *
+     * @param bool $arg
+     *
+     * @return $this
+     */
+    public function printMetadata($arg) {
+        if (is_bool($arg)) {
+            $this->isMetadataPrinted = $arg;
         }
         return $this;
     }

@@ -56,7 +56,8 @@ $this->taskExecStack()
 * `stopOnFail($stopOnFail = null)`   * `param bool` $stopOnFail
 * `result($result)` 
 * `dir($dir)`  Changes working directory of command
-* `printed($arg)`  Should command output be printed
+* `printOutput($arg)`  Should command output be printed
+* `printMetadata($arg)`  Should command metadata (command, working directory, and timer) be printed
 
 ## ParallelExec
 

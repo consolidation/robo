@@ -157,11 +157,27 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
     }
 
     /**
+     * Gets the data array to be passed to Result().
+     *
+     * @return array
+     *   The data array passed to Result().
+     */
+    protected function getResultData() {
+        if ($this->isMetadataPrinted) {
+            return ['time' => $this->getExecutionTime()];
+        }
+
+        return [];
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function run()
     {
-        $this->printAction();
+        if ($this->isMetadataPrinted) {
+            $this->printAction();
+        }
         $this->process = new Process($this->getCommand());
         $this->process->setTimeout($this->timeout);
         $this->process->setIdleTimeout($this->idleTimeout);
@@ -175,7 +191,7 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
             $this->startTimer();
             $this->process->run();
             $this->stopTimer();
-            return new Result($this, $this->process->getExitCode(), $this->process->getOutput(), ['time' => $this->getExecutionTime()]);
+            return new Result($this, $this->process->getExitCode(), $this->process->getOutput(), $this->getResultData());
         }
 
         if (!$this->background and $this->isPrinted) {
@@ -188,7 +204,7 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
                 }
             );
             $this->stopTimer();
-            return new Result($this, $this->process->getExitCode(), $this->process->getOutput(), ['time' => $this->getExecutionTime()]);
+            return new Result($this, $this->process->getExitCode(), $this->process->getOutput(), $this->getResultData());
         }
 
         try {

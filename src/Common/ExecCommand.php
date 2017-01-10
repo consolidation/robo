@@ -90,7 +90,7 @@ trait ExecCommand
      */
     public function printOutput($arg)
     {
-       return $this->printed($arg);
+        return $this->printed($arg);
     }
 
     /**
@@ -100,7 +100,8 @@ trait ExecCommand
      *
      * @return $this
      */
-    public function printMetadata($arg) {
+    public function printMetadata($arg)
+    {
         if (is_bool($arg)) {
             $this->isMetadataPrinted = $arg;
         }

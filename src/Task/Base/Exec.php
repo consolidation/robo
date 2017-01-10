@@ -162,7 +162,8 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
      * @return array
      *   The data array passed to Result().
      */
-    protected function getResultData() {
+    protected function getResultData()
+    {
         if ($this->isMetadataPrinted) {
             return ['time' => $this->getExecutionTime()];
         }

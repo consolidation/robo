@@ -67,6 +67,22 @@ trait ExecCommand
 
 
     /**
+     * Shortcut for setting isPrinted() and isMetadataPrinted() to false.
+     *
+     * @param bool $arg
+     *
+     * @return $this
+     */
+    public function silent($arg)
+    {
+        if (is_bool($arg)) {
+            $this->isPrinted = !$arg;
+            $this->isMetadataPrinted = !$arg;
+        }
+        return $this;
+    }
+
+    /**
      * Should command output be printed
      *
      * @param bool $arg

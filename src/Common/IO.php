@@ -76,7 +76,7 @@ trait IO
      * @param int $length
      * @param string $format
      */
-    private function formattedOutput($text, $length, $format)
+    protected function formattedOutput($text, $length, $format)
     {
         $lines = explode("\n", trim($text, "\n"));
         $maxLineLength = array_reduce(array_map('strlen', $lines), 'max');
@@ -143,7 +143,7 @@ trait IO
      *
      * @return string
      */
-    private function doAsk(Question $question)
+    protected function doAsk(Question $question)
     {
         return $this->getDialog()->ask($this->input(), $this->output(), $question);
     }
@@ -153,7 +153,7 @@ trait IO
      *
      * @return string
      */
-    private function formatQuestion($message)
+    protected function formatQuestion($message)
     {
         return  "<question>?  $message</question> ";
     }
@@ -169,7 +169,7 @@ trait IO
     /**
      * @param $text
      */
-    private function writeln($text)
+    protected function writeln($text)
     {
         $this->output()->writeln($text);
     }

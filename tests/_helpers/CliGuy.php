@@ -17,9 +17,6 @@
  * @SuppressWarnings(PHPMD)
 */
 
-use League\Container\ContainerAwareInterface;
-use League\Container\ContainerAwareTrait;
-
 class CliGuy extends \Codeception\Actor
 {
     use _generated\CliGuyActions;

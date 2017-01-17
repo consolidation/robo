@@ -4,9 +4,7 @@ namespace Robo\Common;
 use Robo\Robo;
 use Robo\TaskInfo;
 use Consolidation\Log\ConsoleLogLevel;
-use Robo\Common\ConfigAwareTrait;
 use Psr\Log\LoggerAwareTrait;
-use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Robo\Contract\ProgressIndicatorAwareInterface;
 

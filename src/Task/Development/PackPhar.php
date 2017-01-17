@@ -2,7 +2,6 @@
 namespace Robo\Task\Development;
 
 use Robo\Contract\ProgressIndicatorAwareInterface;
-use Robo\Common\ProgressIndicatorAwareTrait;
 use Robo\Contract\PrintedInterface;
 use Robo\Result;
 use Robo\Task\BaseTask;

@@ -8,7 +8,6 @@ use Robo\Result;
 use Robo\Contract\TaskInterface;
 use Robo\Contract\SimulatedInterface;
 use Robo\Log\RoboLogLevel;
-use Psr\Log\LogLevel;
 use Robo\Contract\CommandInterface;
 
 class Simulator extends BaseTask implements CommandInterface

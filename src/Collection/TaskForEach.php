@@ -1,11 +1,9 @@
 <?php
 namespace Robo\Collection;
 
-use Robo\Collection\NestedCollectionInterface;
 use Robo\Result;
 use Robo\TaskInfo;
 use Robo\Task\BaseTask;
-use Robo\Contract\TaskInterface;
 use Robo\Contract\BuilderAwareInterface;
 use Robo\Common\BuilderAwareTrait;
 

@@ -1,10 +1,8 @@
 <?php
 namespace Robo\Task\Filesystem;
 
-use Robo\Result;
 use Robo\Task\StackBasedTask;
 use Symfony\Component\Filesystem\Filesystem as sfFilesystem;
-use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Robo\Contract\BuilderAwareInterface;
 use Robo\Common\BuilderAwareTrait;
@@ -29,16 +27,16 @@ use Robo\Common\BuilderAwareTrait;
  * ?>
  * ```
  *
- * @method $this mkdir($dir)
- * @method $this touch($file)
- * @method $this copy($from, $to, $force = null)
- * @method $this chmod($file, $permissions, $umask = null, $recursive = null)
- * @method $this chgrp($file, $group, $recursive = null)
- * @method $this chown($file, $user, $recursive = null)
- * @method $this remove($file)
- * @method $this rename($from, $to)
- * @method $this symlink($from, $to)
- * @method $this mirror($from, $to)
+ * @method $this mkdir(string|array|\Traversable $dir, int $mode = 0777)
+ * @method $this touch(string|array|\Traversable $file, int $time = null, int $atime = null)
+ * @method $this copy(string $from, string $to, bool $force = false)
+ * @method $this chmod(string|array|\Traversable $file, int $permissions, int $umask = 0000, bool $recursive = false)
+ * @method $this chgrp(string|array|\Traversable $file, string $group, bool $recursive = false)
+ * @method $this chown(string|array|\Traversable $file, string $user, bool $recursive = false)
+ * @method $this remove(string|array|\Traversable $file)
+ * @method $this rename(string $from, string $to, bool $force = false)
+ * @method $this symlink(string $from, string $to, bool $copyOnWindows = false)
+ * @method $this mirror(string $from, string $to, \Traversable $iterator = null, array $options = [])
  */
 class FilesystemStack extends StackBasedTask implements BuilderAwareInterface
 {

@@ -6,7 +6,6 @@ use Robo\Common\ExecCommand;
 use Robo\Contract\PrintedInterface;
 use Robo\Result;
 use Robo\Contract\CommandInterface;
-use Robo\Common\DynamicParams;
 use Robo\Exception\TaskException;
 
 abstract class CommandStack extends BaseTask implements CommandInterface, PrintedInterface

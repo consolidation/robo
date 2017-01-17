@@ -1,7 +1,5 @@
 <?php
-use AspectMock\Test as test;
 use Robo\Robo;
-use Robo\Common\IO;
 
 class OutputTest extends \Codeception\TestCase\Test
 {

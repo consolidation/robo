@@ -1,7 +1,6 @@
 <?php
 
 use AspectMock\Test as test;
-use Robo\Robo;
 
 class GitTest extends \Codeception\TestCase\Test
 {

@@ -1,8 +1,6 @@
 <?php
 namespace Robo\Task\Base;
 
-use Robo\Contract\ProgressIndicatorAwareInterface;
-use Robo\Common\ProgressIndicatorAwareTrait;
 use Robo\Contract\CommandInterface;
 use Robo\Contract\PrintedInterface;
 use Robo\Result;
@@ -22,10 +20,6 @@ use Symfony\Component\Process\Process;
  *   ->run();
  * ?>
  * ```
- *
- *
- * @method \Robo\Task\Base\ParallelExec timeout(int $timeout) stops process if it runs longer then `$timeout` (seconds)
- * @method \Robo\Task\Base\ParallelExec idleTimeout(int $timeout) stops process if it does not output for time longer then `$timeout` (seconds)
  */
 class ParallelExec extends BaseTask implements CommandInterface, PrintedInterface
 {
@@ -82,6 +76,8 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
     }
 
     /**
+     * Stops process if it runs longer then `$timeout` (seconds).
+     *
      * @param int $timeout
      *
      * @return $this
@@ -93,6 +89,8 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
     }
 
     /**
+     * Stops process if it does not output for time longer then `$timeout` (seconds).
+     *
      * @param int $idleTimeout
      *
      * @return $this

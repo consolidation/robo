@@ -2,13 +2,11 @@
 namespace Robo\Log;
 
 use Robo\Result;
-use Robo\TaskInfo;
 use Robo\Contract\PrintedInterface;
 use Robo\Contract\ProgressIndicatorAwareInterface;
 use Robo\Common\ProgressIndicatorAwareTrait;
 
 use Psr\Log\LogLevel;
-use Psr\Log\LoggerInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Consolidation\Log\ConsoleLogLevel;

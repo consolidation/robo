@@ -1,6 +1,5 @@
 <?php
 use Robo\Robo;
-use Symfony\Component\Console\Output\BufferedOutput;
 
 class RunnerTest extends \Codeception\TestCase\Test
 {

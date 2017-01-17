@@ -2,7 +2,6 @@
 namespace Robo\Task\Base;
 
 use Robo\Task\CommandStack;
-use Robo\Task\Base;
 
 /**
  * Execute commands one by one in stack.
@@ -18,8 +17,6 @@ use Robo\Task\Base;
  *
  * ?>
  * ```
- *
- * @method $this stopOnFail()
  */
 class ExecStack extends CommandStack
 {

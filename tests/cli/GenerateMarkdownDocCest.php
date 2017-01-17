@@ -3,10 +3,6 @@ namespace Robo;
 
 use \CliGuy;
 
-use Robo\Contract\TaskInterface;
-use Robo\Collection\Temporary;
-use Robo\Result;
-
 class GenerateMarkdownDocCest
 {
     public function _before(CliGuy $I)

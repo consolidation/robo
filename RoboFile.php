@@ -1,7 +1,5 @@
 <?php
 use Symfony\Component\Finder\Finder;
-use Robo\Result;
-use Robo\Collection\CollectionBuilder;
 
 class RoboFile extends \Robo\Tasks
 {

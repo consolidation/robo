@@ -2,10 +2,7 @@
 namespace Robo\Task\Development;
 
 use Robo\Task\BaseTask;
-use Robo\Task\File\Replace;
-use Robo\Task\Filesystem;
 use Robo\Result;
-use Robo\Task\Development;
 use Robo\Contract\BuilderAwareInterface;
 use Robo\Common\BuilderAwareTrait;
 
@@ -33,10 +30,6 @@ use Robo\Common\BuilderAwareTrait;
  *  ->run();
  * ?>
  * ```
- *
- * @method Development\Changelog filename(string $filename)
- * @method Development\Changelog anchor(string $anchor)
- * @method Development\Changelog version(string $version)
  */
 class Changelog extends BaseTask implements BuilderAwareInterface
 {

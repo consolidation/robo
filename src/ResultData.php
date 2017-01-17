@@ -1,7 +1,6 @@
 <?php
 namespace Robo;
 
-use Robo\Contract\LogResultInterface;
 use Consolidation\AnnotatedCommand\ExitCodeInterface;
 use Consolidation\AnnotatedCommand\OutputDataInterface;
 

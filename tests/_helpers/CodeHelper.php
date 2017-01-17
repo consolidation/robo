@@ -6,8 +6,6 @@ namespace Codeception\Module;
 
 use Robo\Robo;
 use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Output\BufferedOutput;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class CodeHelper extends \Codeception\Module
 {

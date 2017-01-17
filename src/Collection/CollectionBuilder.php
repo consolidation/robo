@@ -1,26 +1,17 @@
 <?php
 namespace Robo\Collection;
 
-use Guzzle\Inflection\InflectorInterface;
 use Robo\Config;
-use Robo\Common\Timer;
 use Psr\Log\LogLevel;
 use Robo\Contract\InflectionInterface;
 use Robo\Contract\TaskInterface;
 use Robo\Contract\CompletionInterface;
 use Robo\Contract\WrappedTaskInterface;
-use Robo\Collection\NestedCollectionInterface;
-use Robo\LoadAllTasks;
 use Robo\Task\Simulator;
-use Robo\Collection\CompletionWrapper;
-use Robo\Collection\Temporary;
-use Robo\Contract\ConfigAwareInterface;
-use Robo\Common\ConfigAwareTrait;
 use ReflectionClass;
 use Robo\Task\BaseTask;
 use Robo\Contract\BuilderAwareInterface;
 use Robo\Contract\CommandInterface;
-use Robo\Exception\TaskException;
 
 /**
  * Creates a collection, and adds tasks to it.  The collection builder

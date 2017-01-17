@@ -3,7 +3,6 @@ namespace Robo\Task\Remote;
 
 use Robo\Contract\CommandInterface;
 use Robo\Task\BaseTask;
-use Robo\Task\Remote;
 use Robo\Exception\TaskException;
 
 /**
@@ -44,11 +43,6 @@ use Robo\Exception\TaskException;
  *   $rsync->run();
  * }
  * ```
- *
- * @method \Robo\Task\Remote\Rsync fromUser(string $user)
- * @method \Robo\Task\Remote\Rsync fromHost(string $hostname)
- * @method \Robo\Task\Remote\Rsync toUser(string $user)
- * @method \Robo\Task\Remote\Rsync toHost(string $hostname)
  */
 class Rsync extends BaseTask implements CommandInterface
 {

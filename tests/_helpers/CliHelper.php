@@ -3,7 +3,6 @@ namespace Codeception\Module;
 
 use Robo\Robo;
 use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Output\NullOutput;
 
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;

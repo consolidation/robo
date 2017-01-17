@@ -135,7 +135,8 @@ trait ExecCommand
      */
     protected function findProjectBin()
     {
-        $candidates = [ __DIR__ . '/../../vendor/bin', __DIR__ . '/../../bin' ];
+        $cwd = getcwd();
+        $candidates = [ __DIR__ . '/../../vendor/bin', __DIR__ . '/../../bin', $cwd . '/vendor/bin' ];
 
         // If this project is inside a vendor directory, give highest priority
         // to that directory.

@@ -130,8 +130,6 @@ class MyApplication {
       My\Custom\Command::class
     ]);
     $this->runner->setContainer($container);
-
-    $this->setLogger($container->get('logger'));
   }
 
   public function run(InputInterface $input, OutputInterface $output) {

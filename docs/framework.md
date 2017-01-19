@@ -85,7 +85,8 @@ $input = new \Symfony\Component\Console\Input\ArgvInput($argv);
 $output = new \Symfony\Component\Console\Output\ConsoleOutput();
 $conf = new \Robo\Config(); \\ or use your own subclass
 $app = new \MyApplication($config, $input, $output);
-$container = \Robo\Robo::createDefaultContainer($input, $output, $app, $conf);
+$status_code = $app->run($input, $output);
+exit($status_code);
 
 ```
 
@@ -94,10 +95,6 @@ Then, create your own custom application:
 ```php
 <?php
 
-use League\Container\ContainerAwareInterface;
-use League\Container\ContainerAwareTrait;
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerAwareTrait;
 use Robo\Common\ConfigAwareTrait;
 use Robo\Config;
 use Robo\Robo;
@@ -106,14 +103,11 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class MyApplication implements ContainerAwareInterface, LoggerAwareInterface {
+class MyApplication {
 
   use ConfigAwareTrait;
-  use ContainerAwareTrait;
-  use LoggerAwareTrait;
 
   private $runner;
-  private $commands = [];
 
   public function __construct(
     Config $config,
@@ -131,18 +125,17 @@ class MyApplication implements ContainerAwareInterface, LoggerAwareInterface {
     $this->setContainer($container);
     $container->add(MyCustomService::class);
 
-    // Add commands.
-    $this->commands = [My\Custom\Command::class];
-
     // Instantiate Robo Runner.
-    $this->runner = new RoboRunner();
+    $this->runner = new RoboRunner([
+      My\Custom\Command::class
+    ]);
     $this->runner->setContainer($container);
 
     $this->setLogger($container->get('logger'));
   }
 
   public function run(InputInterface $input, OutputInterface $output) {
-    $status_code = $this->runner->run($input, $output, NULL, $this->commands);
+    $status_code = $this->runner->run($input, $output);
 
     return $status_code;
   }

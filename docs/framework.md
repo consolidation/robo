@@ -7,7 +7,7 @@ There are multiple ways to use and package Robo scripts; a few of the alternativ
 It is possible to create a standalone phar that is implemented with Robo; doing this does not require the RoboFile to be located in the current working directory, or any particular location within your project. To achieve this, first set up your project as shown in the section [Implementing Composer Scripts with Robo](getting-started.md#implementing-composer-scripts-with-robo). Use of the "scripts" section is optional.
 
 Next, add an "autoload" section to your composer.json to provide a namespace for your Robo commands:
-```
+```json
 {
     "name": "myorg/myproject",
     "require": {
@@ -76,14 +76,79 @@ Pass the resulting `$commandClasses` to the `Runner()` constructor as shown abov
 
 It is also possible to completely replace the Robo application with your own.  To do this, set up your project as described in the sections above, but replace the Robo runner with your own main event loop.
 
-Create the Robo dependency injection container:
-```
+Add the following to your startup file:
+```php
+<?php
 use League\Container\Container;
 
 $input = new \Symfony\Component\Console\Input\ArgvInput($argv);
 $output = new \Symfony\Component\Console\Output\ConsoleOutput();
 $conf = new \Robo\Config(); \\ or use your own subclass
-$app = new \My\Application();
+$app = new \MyApplication($config, $input, $output);
 $container = \Robo\Robo::createDefaultContainer($input, $output, $app, $conf);
+
 ```
+
+Then, create your own custom application:
+
+```php
+<?php
+
+use League\Container\ContainerAwareInterface;
+use League\Container\ContainerAwareTrait;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
+use Robo\Common\ConfigAwareTrait;
+use Robo\Config;
+use Robo\Robo;
+use Robo\Runner as RoboRunner;
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
+class MyApplication implements ContainerAwareInterface, LoggerAwareInterface {
+
+  use ConfigAwareTrait;
+  use ContainerAwareTrait;
+  use LoggerAwareTrait;
+
+  private $runner;
+  private $commands = [];
+
+  public function __construct(
+    Config $config,
+    InputInterface $input = NULL,
+    OutputInterface $output = NULL
+  ) {
+
+    // Create applicaton.
+    $this->setConfig($config);
+    $application = new Application('My Application', $config->get('version'));
+
+    // Create and configure container.
+    $container = Robo::createDefaultContainer($input, $output, $application,
+      $config);
+    $this->setContainer($container);
+    $container->add(MyCustomService::class);
+
+    // Add commands.
+    $this->commands = [My\Custom\Command::class];
+
+    // Instantiate Robo Runner.
+    $this->runner = new RoboRunner();
+    $this->runner->setContainer($container);
+
+    $this->setLogger($container->get('logger'));
+  }
+
+  public function run(InputInterface $input, OutputInterface $output) {
+    $status_code = $this->runner->run($input, $output, NULL, $this->commands);
+
+    return $status_code;
+  }
+
+}
+
+```
+
 If you are using League\Container (recommended), then you may simply add and share your own classes to the same container.  If you are using some other DI container, then you should use [delegate lookup](https://github.com/container-interop/fig-standards/blob/master/proposed/container.md#14-additional-feature-delegate-lookup) to combine them.

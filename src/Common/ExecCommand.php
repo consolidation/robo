@@ -17,6 +17,11 @@ trait ExecCommand
     protected $isPrinted = true;
 
     /**
+     * @var bool
+     */
+    protected $isMetadataPrinted = true;
+
+    /**
      * @var string
      */
     protected $workingDirectory;
@@ -62,6 +67,22 @@ trait ExecCommand
 
 
     /**
+     * Shortcut for setting isPrinted() and isMetadataPrinted() to false.
+     *
+     * @param bool $arg
+     *
+     * @return $this
+     */
+    public function silent($arg)
+    {
+        if (is_bool($arg)) {
+            $this->isPrinted = !$arg;
+            $this->isMetadataPrinted = !$arg;
+        }
+        return $this;
+    }
+
+    /**
      * Should command output be printed
      *
      * @param bool $arg
@@ -70,8 +91,36 @@ trait ExecCommand
      */
     public function printed($arg)
     {
+        $this->logger()->warning("printed() is deprecated. Please use printOutput().");
+        return $this->printOutput($arg);
+    }
+
+    /**
+     * Should command output be printed
+     *
+     * @param bool $arg
+     *
+     * @return $this
+     */
+    public function printOutput($arg)
+    {
         if (is_bool($arg)) {
             $this->isPrinted = $arg;
+        }
+        return $this;
+    }
+
+    /**
+     * Should command metadata be printed. I,e., command and timer.
+     *
+     * @param bool $arg
+     *
+     * @return $this
+     */
+    public function printMetadata($arg)
+    {
+        if (is_bool($arg)) {
+            $this->isMetadataPrinted = $arg;
         }
         return $this;
     }

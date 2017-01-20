@@ -82,7 +82,9 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
     public function __construct($command)
     {
         $this->command = $this->receiveCommand($command);
-        $this->interactive = posix_isatty(STDOUT);
+        if (function_exists('posix_isatty')) {
+            $this->interactive = posix_isatty(STDOUT);
+        }
     }
 
     /**

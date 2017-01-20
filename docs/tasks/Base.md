@@ -22,6 +22,7 @@ if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
 * `background()`  Executes command in background mode (asynchronously)
 * `timeout($timeout)`  Stop command if it runs longer then $timeout in seconds
 * `idleTimeout($timeout)`  Stops command if it does not output something for a while
+* `interactive($arg)`  Sets process TTY mode, allowing user interaction with executed command.
 * `env(array $env)`  Sets the environment variables for the command
 * `simulate($context)`  {@inheritdoc}
 * `dir($dir)`  Changes working directory of command

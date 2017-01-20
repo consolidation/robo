@@ -74,14 +74,15 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
     /**
      * @var boolean
      */
-    protected $interactive;
-    
+    protected $interactive = false;
+
     /**
      * @param string|\Robo\Contract\CommandInterface $command
      */
     public function __construct($command)
     {
         $this->command = $this->receiveCommand($command);
+        $this->interactive = posix_isatty(STDOUT);
     }
 
     /**
@@ -159,11 +160,13 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
     /**
      * Attach tty to process for interactive input
      *
+     * @param $interactive bool
+     *
      * @return $this
      */
-    public function interactive()
+    public function interactive($interactive)
     {
-        $this->interactive = true;
+        $this->interactive = $interactive;
         return $this;
     }
 

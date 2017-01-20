@@ -23,6 +23,7 @@ if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
 * `timeout($timeout)`  Stop command if it runs longer then $timeout in seconds
 * `idleTimeout($timeout)`  Stops command if it does not output something for a while
 * `interactive($arg)`  Sets process TTY mode, allowing user interaction with executed command.
+* `setInput($arg)`  Sets the input stream for the executed PHP process. Can be resource created with `fopen()` or string.
 * `env(array $env)`  Sets the environment variables for the command
 * `simulate($context)`  {@inheritdoc}
 * `dir($dir)`  Changes working directory of command

@@ -85,8 +85,7 @@ class ResultPrinter implements LoggerAwareInterface, ProgressIndicatorAwareInter
         $task = $result->getTask();
         $verbosity_level = ConsoleLogLevel::SUCCESS;
         if (method_exists($task, 'getVerbosityLevel')) {
-            $verbosity_level = min($task->getVerbosityLevel(),
-                ConsoleLogLevel::SUCCESS);
+            $verbosity_level = min($task->getVerbosityLevel(), ConsoleLogLevel::SUCCESS);
         }
         $context = $result->getContext() + ['timer-label' => 'in'];
         $time = $result->getExecutionTime();

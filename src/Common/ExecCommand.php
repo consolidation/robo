@@ -91,10 +91,8 @@ trait ExecCommand
      */
     public function printed($arg)
     {
-        if (is_bool($arg)) {
-            $this->isPrinted = $arg;
-        }
-        return $this;
+        $this->logger()->warning("printed() is deprecated. Please use printOutput().");
+        return $this->printOutput($arg);
     }
 
     /**
@@ -106,7 +104,10 @@ trait ExecCommand
      */
     public function printOutput($arg)
     {
-        return $this->printed($arg);
+        if (is_bool($arg)) {
+            $this->isPrinted = $arg;
+        }
+        return $this;
     }
 
     /**

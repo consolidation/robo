@@ -71,6 +71,21 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
     }
 
     /**
+     * @param int $verbosityLevel
+     *
+     * @return $this
+     */
+    public function setVerbosityLevel($verbosityLevel)
+    {
+        $this->verbosityLevel = $verbosityLevel;
+        if (method_exists($this->currentTask, 'setVerbosityLevel')) {
+            $this->currentTask->setVerbosityLevel($verbosityLevel);
+        }
+
+        return $this;
+    }
+
+    /**
      * @param bool $simulated
      *
      * @return $this
@@ -342,6 +357,9 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
     {
         $reflection = new ReflectionClass($name);
         $task = $reflection->newInstanceArgs($args);
+        if (method_exists($this->currentTask, 'setVerbosityLevel')) {
+            $this->currentTask->setVerbosityLevel($this->verbosityLevel);
+        }
         if (!$task) {
             throw new RuntimeException("Can not construct task $name");
         }

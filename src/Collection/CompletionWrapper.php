@@ -62,6 +62,18 @@ class CompletionWrapper extends BaseTask implements WrappedTaskInterface
     }
 
     /**
+     * @param int $verbosityLevel
+     */
+    public function setVerbosityLevel($verbosityLevel)
+    {
+        $this->verbosityLevel = $verbosityLevel;
+        $this->collection->setVerbosityLevel($verbosityLevel);
+        if (method_exists($this->task, 'setVerbosityLevel')) {
+            $this->task->setVerbosityLevel($verbosityLevel);
+        }
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function original()

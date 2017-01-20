@@ -74,7 +74,7 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
     /**
      * @var boolean
      */
-    protected $interactive = false;
+    protected $interactive;
 
     /**
      * @param string|\Robo\Contract\CommandInterface $command
@@ -82,7 +82,7 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
     public function __construct($command)
     {
         $this->command = $this->receiveCommand($command);
-        if (function_exists('posix_isatty')) {
+        if (!isset($this->interactive) && function_exists('posix_isatty')) {
             $this->interactive = posix_isatty(STDOUT);
         }
     }

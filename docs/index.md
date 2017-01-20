@@ -3,6 +3,7 @@
 * [Getting Started](getting-started.md)
 * [Collections](collections.md)
 * [Extending](extending.md)
+* [Styling Output](styling-output.md)
 * [Robo as a Framework](framework.md)
 
 ## Tasks

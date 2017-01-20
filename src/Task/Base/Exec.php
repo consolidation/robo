@@ -153,7 +153,7 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
      *
      * @return $this
      */
-    public function input($input)
+    public function setInput($input)
     {
         $this->input = $input;
         return $this;

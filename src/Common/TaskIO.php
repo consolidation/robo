@@ -21,6 +21,27 @@ trait TaskIO
     use ConfigAwareTrait;
 
     /**
+     * @var int
+     */
+    protected $logLevel = LogLevel::NOTICE;
+
+    /**
+     * @param int $logLevel
+     */
+    public function setLogLevel($logLevel)
+    {
+        $this->logLevel = $logLevel;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLogLevel()
+    {
+        return $this->logLevel;
+    }
+
+    /**
      * @return mixed|null|\Psr\Log\LoggerInterface
      */
     public function logger()
@@ -64,7 +85,7 @@ trait TaskIO
         // The 'note' style is used for both 'notice' and 'info' log levels;
         // However, 'notice' is printed at VERBOSITY_NORMAL, whereas 'info'
         // is only printed at VERBOSITY_VERBOSE.
-        $this->printTaskOutput(LogLevel::NOTICE, $text, $this->getTaskContext($context));
+        $this->printTaskOutput($this->logLevel, $text, $this->getTaskContext($context));
     }
 
     /**
@@ -84,7 +105,7 @@ trait TaskIO
         // override in the context so that this message will be
         // logged as SUCCESS if that log level is recognized.
         $context['_level'] = ConsoleLogLevel::SUCCESS;
-        $this->printTaskOutput(LogLevel::NOTICE, $text, $this->getTaskContext($context));
+        $this->printTaskOutput($this->logLevel, $text, $this->getTaskContext($context));
     }
 
     /**

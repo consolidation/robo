@@ -52,7 +52,6 @@ $this->taskExecStack()
 ```
 
 * `$this stopOnFail()` 
-
 * `executable($executable)`   * `param string` $executable
 * `exec($command)`   * `param string|string[]` $command
 * `stopOnFail($stopOnFail = null)`   * `param bool` $stopOnFail
@@ -62,6 +61,20 @@ $this->taskExecStack()
 * `printOutput($arg)`  Should command output be printed
 * `printMetadata($arg)`  Should command metadata (command, working directory, and timer) be printed
 * `silent($arg)`  Shortcut for setting printMetadata(false) and printOutput(false)
+
+### Handling output
+
+All tasks extending from `Robo\Task\BaseTask` inherit `setVerbosityLevel()`, which sets the verbosity level at which task success is displayed on screen. Combined with the methods available on `taskExecStack()` you can control exactly what is written to screen:
+ 
+| wasSuccessful() | setVerbosityLevel() | printMetadata() | printOutput() | Metadata visible | Output visible |
+|-----------------|---------------------|-----------------|---------------|------------------|----------------|
+| true            | LogLevel::INFO      | true            | false         | yes              | no             |
+| true            | INFO                | true            | true          | yes              | yes            |
+| true            | ERROR               | true            | false         | yes              | no             |
+| false           | INFO                | true            | false         | yes              | no             |
+| false           | ERROR               | true            | false         | yes              | no             |
+
+See [LogLevel.php](https://github.com/php-fig/log/blob/master/Psr/Log/LogLevel.php#L8) for list of all available setVerbosityLevel() constants. 
 
 ## ParallelExec
 

@@ -58,23 +58,16 @@ $this->taskExecStack()
 * `result($result)` 
 * `dir($dir)`  Changes working directory of command
 * `printed($arg)`  _Deprecated_. Should command output be printed
-* `printOutput($arg)`  Should command output be printed
-* `printMetadata($arg)`  Should command metadata (command, working directory, and timer) be printed
-* `silent($arg)`  Shortcut for setting printMetadata(false) and printOutput(false)
+* `printOutput($arg)`  Should command output be printed directly to screen, bypassing the logger.
+* `logOutput($arg)`  Should command output be logged. This implicitly disables output printing.
+* `logMetadata($arg)`  Should command metadata (command, working directory, and timer) be logged
+* `setLogLevel($arg)`  Determines the verbosity level at which command output is displayed on screen. Accepts [LogLevel](https://github.com/php-fig/log/blob/master/Psr/Log/LogLevel.php#L8) constants.
+* `silent($arg)`  Shortcut for setting logMetadata(false) and logOutput(false)
 
 ### Handling output
 
-All tasks extending from `Robo\Task\BaseTask` inherit `setVerbosityLevel()`, which sets the verbosity level at which task success is displayed on screen. Combined with the methods available on `taskExecStack()` you can control exactly what is written to screen:
- 
-| wasSuccessful() | setVerbosityLevel() | printMetadata() | printOutput() | Metadata visible | Output visible |
-|-----------------|---------------------|-----------------|---------------|------------------|----------------|
-| true            | LogLevel::INFO      | true            | false         | yes              | no             |
-| true            | INFO                | true            | true          | yes              | yes            |
-| true            | ERROR               | true            | false         | yes              | no             |
-| false           | INFO                | true            | false         | yes              | no             |
-| false           | ERROR               | true            | false         | yes              | no             |
+All tasks extending from `Robo\Task\BaseTask` inherit `setLogLevel()`, which sets the level at which task information is displayed on screen. For instance, `setLogLevel(LogLevel::INFO)` will display output only when a command is run with the `-v` argument.
 
-See [LogLevel.php](https://github.com/php-fig/log/blob/master/Psr/Log/LogLevel.php#L8) for list of all available setVerbosityLevel() constants. 
 
 ## ParallelExec
 

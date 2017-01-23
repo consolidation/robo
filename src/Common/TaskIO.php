@@ -23,22 +23,22 @@ trait TaskIO
     /**
      * @var int
      */
-    protected $verbosityLevel = LogLevel::NOTICE;
+    protected $logLevel = LogLevel::NOTICE;
 
     /**
-     * @param int $verbosityLevel
+     * @param int $logLevel
      */
-    public function setVerbosityLevel($verbosityLevel)
+    public function setLogLevel($logLevel)
     {
-        $this->verbosityLevel = $verbosityLevel;
+        $this->logLevel = $logLevel;
     }
 
     /**
      * @return int
      */
-    public function getVerbosityLevel()
+    public function getLogLevel()
     {
-        return $this->verbosityLevel;
+        return $this->logLevel;
     }
 
     /**
@@ -85,7 +85,7 @@ trait TaskIO
         // The 'note' style is used for both 'notice' and 'info' log levels;
         // However, 'notice' is printed at VERBOSITY_NORMAL, whereas 'info'
         // is only printed at VERBOSITY_VERBOSE.
-        $this->printTaskOutput($this->verbosityLevel, $text, $this->getTaskContext($context));
+        $this->printTaskOutput($this->logLevel, $text, $this->getTaskContext($context));
     }
 
     /**
@@ -105,7 +105,7 @@ trait TaskIO
         // override in the context so that this message will be
         // logged as SUCCESS if that log level is recognized.
         $context['_level'] = ConsoleLogLevel::SUCCESS;
-        $this->printTaskOutput($this->verbosityLevel, $text, $this->getTaskContext($context));
+        $this->printTaskOutput($this->logLevel, $text, $this->getTaskContext($context));
     }
 
     /**

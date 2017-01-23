@@ -62,14 +62,18 @@ class ResultPrinter implements LoggerAwareInterface, ProgressIndicatorAwareInter
         $context = $result->getContext() + ['timer-label' => 'Time', '_style' => []];
         $context['_style']['message'] = '';
 
+        $log_level = method_exists($task, 'getLogLevel') ? $task->getLogLevel() : ConsoleLogLevel::ERROR;
+
         $printOutput = true;
         if ($task instanceof PrintedInterface) {
             $printOutput = !$task->getPrinted();
         }
         if ($printOutput) {
-            $this->printMessage(LogLevel::ERROR, "{message}", $context);
+            $this->printMessage($log_level, "{message}", $context);
         }
-        $this->printMessage(LogLevel::ERROR, 'Exit code {code}', $context);
+
+
+        $this->printMessage($log_level, 'Exit code {code}', $context);
         return true;
     }
 
@@ -83,14 +87,11 @@ class ResultPrinter implements LoggerAwareInterface, ProgressIndicatorAwareInter
     protected function printSuccess(Result $result)
     {
         $task = $result->getTask();
-        $verbosity_level = ConsoleLogLevel::SUCCESS;
-        if (method_exists($task, 'getVerbosityLevel')) {
-            $verbosity_level = min($task->getVerbosityLevel(), ConsoleLogLevel::SUCCESS);
-        }
+        $log_level = method_exists($task, 'getLogLevel') ? $task->getLogLevel() : ConsoleLogLevel::SUCCESS;
         $context = $result->getContext() + ['timer-label' => 'in'];
         $time = $result->getExecutionTime();
         if ($time) {
-            $this->printMessage($verbosity_level, 'Done', $context);
+            $this->printMessage($log_level, 'Done', $context);
         }
         return false;
     }

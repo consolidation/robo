@@ -57,12 +57,12 @@ $this->taskExecStack()
 * `stopOnFail($stopOnFail = null)`   * `param bool` $stopOnFail
 * `result($result)` 
 * `dir($dir)`  Changes working directory of command
-* `printed($arg)`  _Deprecated_. Should command output be printed
-* `printOutput($arg)`  Should command output be printed directly to screen, bypassing the logger.
-* `logOutput($arg)`  Should command output be logged. This implicitly disables output printing.
-* `logMetadata($arg)`  Should command metadata (command, working directory, and timer) be logged
+* `printed($arg)`  _Deprecated_. Should command output be printed.
+* `printOutput($arg)`  Should command output be printed directly to screen, bypassing the logger. Default to true.
+* `logOutput($arg)`  Should command output be logged. This implicitly disables output printing. Defaults to false.
+* `logMetadata($arg)`  Should command metadata (command, working directory, and timer) be logged. Defaults to true.
 * `setLogLevel($arg)`  Determines the verbosity level at which command output is displayed on screen. Accepts [LogLevel](https://github.com/php-fig/log/blob/master/Psr/Log/LogLevel.php#L8) constants.
-* `silent($arg)`  Shortcut for setting logMetadata(false) and logOutput(false)
+* `silent($arg)`  Shortcut for setting logMetadata(false) and logOutput(false). Defaults to false.
 
 ### Handling output
 

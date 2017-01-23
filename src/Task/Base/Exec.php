@@ -203,7 +203,7 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
      */
     protected function getResultData()
     {
-        if ($this->isMetadataPrinted) {
+        if ($this->isMetadataLogged) {
             return ['time' => $this->getExecutionTime()];
         }
 
@@ -215,7 +215,7 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
      */
     public function run()
     {
-        if ($this->isMetadataPrinted) {
+        if ($this->isMetadataLogged) {
             $this->printAction();
         }
         $this->process = new Process($this->getCommand());

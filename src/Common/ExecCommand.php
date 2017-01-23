@@ -19,12 +19,12 @@ trait ExecCommand
     /**
      * @var bool
      */
-    protected $isOutputLogged = true;
+    protected $isOutputLogged = false;
 
     /**
      * @var bool
      */
-    protected $isMetadataPrinted = true;
+    protected $isMetadataLogged = true;
 
     /**
      * @var string
@@ -72,7 +72,7 @@ trait ExecCommand
 
 
     /**
-     * Shortcut for setting isOutputPrinted, isOutputLogged, isMetadataPrinted.
+     * Shortcut for setting isOutputPrinted, isOutputLogged, isMetadataLogged.
      *
      * @param bool $arg
      *
@@ -83,7 +83,7 @@ trait ExecCommand
         if (is_bool($arg)) {
             $this->isOutputPrinted = !$arg;
             $this->isOutputLogged = !$arg;
-            $this->isMetadataPrinted = !$arg;
+            $this->isMetadataLogged = !$arg;
         }
         return $this;
     }
@@ -141,7 +141,7 @@ trait ExecCommand
     public function logMetadata($arg)
     {
         if (is_bool($arg)) {
-            $this->isMetadataPrinted = $arg;
+            $this->isMetadataLogged = $arg;
         }
         return $this;
     }

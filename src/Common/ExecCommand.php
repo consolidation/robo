@@ -254,13 +254,15 @@ trait ExecCommand
             $process->setWorkingDirectory($this->workingDirectory);
         }
         $this->getExecTimer()->start();
-        if ($this->isOutputPrinted) {
-            $process->run(function ($type, $buffer) {
-                print $buffer;
-            });
-        } else {
-            $process->run();
-        }
+        $process->run(
+            function ($type, $buffer) {
+                if ($this->isOutputLogged) {
+                    $this->printTaskInfo($buffer);
+                } elseif ($this->isOutputPrinted) {
+                    print($buffer);
+                }
+            }
+        );
         $this->getExecTimer()->stop();
 
         return new Result($this, $process->getExitCode(), $process->getOutput(), ['time' => $this->getExecTimer()->elapsed()]);

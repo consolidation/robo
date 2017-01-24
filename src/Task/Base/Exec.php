@@ -256,6 +256,7 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
         }
 
         try {
+            $this->process->disableOutput();
             $this->process->start();
         } catch (\Exception $e) {
             return Result::fromException($this, $e);

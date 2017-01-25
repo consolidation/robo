@@ -8,8 +8,14 @@ $I->seeDirFound('some/deeply/nested');
 $I->seeFileFound('structu.re', 'some/deeply/nested');
 $I->seeFileFound('existing_file', 'some/deeply');
 
+$linuxSupportedTypes = ['zip', 'tar', 'tar.gz', 'tar.bz2', 'tgz'];
+
+$windowsSupportedTypes = ['zip'];
+
+$supportedTypes = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? $windowsSupportedTypes : $linuxSupportedTypes;
+
 // Test a bunch of archive types that we support
-foreach (['zip', 'tar', 'tar.gz', 'tar.bz2', 'tgz'] as $archiveType) {
+foreach ($supportedTypes as $archiveType) {
     // First, take everything from the folder 'some/deeply' and make
     // an archive for it located in 'deep'
     $I->taskPack("deeply.$archiveType")

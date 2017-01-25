@@ -203,7 +203,7 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
      */
     protected function getResultData()
     {
-        if ($this->isMetadataPrinted) {
+        if ($this->isMetadataLogged) {
             return ['time' => $this->getExecutionTime()];
         }
 
@@ -215,7 +215,7 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
      */
     public function run()
     {
-        if ($this->isMetadataPrinted) {
+        if ($this->isMetadataLogged) {
             $this->printAction();
         }
         $this->process = new Process($this->getCommand());
@@ -235,19 +235,16 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
             $this->process->setEnv($this->env);
         }
 
-        if (!$this->background and !$this->isPrinted) {
-            $this->startTimer();
-            $this->process->run();
-            $this->stopTimer();
-            return new Result($this, $this->process->getExitCode(), $this->process->getOutput(), $this->getResultData());
-        }
-
-        if (!$this->background and $this->isPrinted) {
+        if (!$this->background) {
             $this->startTimer();
             $this->process->run(
                 function ($type, $buffer) {
                     $progressWasVisible = $this->hideTaskProgress();
-                    print($buffer);
+                    if ($this->isOutputLogged) {
+                        $this->printTaskInfo($buffer);
+                    } elseif ($this->isOutputPrinted) {
+                        print($buffer);
+                    }
                     $this->showTaskProgress($progressWasVisible);
                 }
             );

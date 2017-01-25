@@ -62,6 +62,18 @@ class CompletionWrapper extends BaseTask implements WrappedTaskInterface
     }
 
     /**
+     * @param int $logLevel
+     */
+    public function setLogLevel($logLevel)
+    {
+        $this->logLevel = $logLevel;
+        $this->collection->setLogLevel($logLevel);
+        if (method_exists($this->task, 'setLogLevel')) {
+            $this->task->setLogLevel($logLevel);
+        }
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function original()

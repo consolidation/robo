@@ -10,7 +10,8 @@ use Symfony\Component\Process\Process;
  * Class ExecTrait
  * @package Robo\Common
  */
-trait ExecTrait {
+trait ExecTrait
+{
 
     use LoggerAwareTrait;
     use Timer;
@@ -18,22 +19,22 @@ trait ExecTrait {
     /**
      * @var bool
      */
-    protected $background = FALSE;
+    protected $background = false;
 
     /**
      * @var null|int
      */
-    protected $timeout = NULL;
+    protected $timeout = null;
 
     /**
      * @var null|int
      */
-    protected $idleTimeout = NULL;
+    protected $idleTimeout = null;
 
     /**
      * @var null|array
      */
-    protected $env = NULL;
+    protected $env = null;
 
     /**
      * @var Process
@@ -53,12 +54,12 @@ trait ExecTrait {
     /**
      * @var bool
      */
-    protected $isPrinted = TRUE;
+    protected $isPrinted = true;
 
     /**
      * @var bool
      */
-    protected $isMetadataPrinted = TRUE;
+    protected $isMetadataPrinted = true;
 
     /**
      * @var string
@@ -68,7 +69,8 @@ trait ExecTrait {
     /**
      * Sets $this->interactive() based on posix_isatty().
      */
-    public function detectInteractive() {
+    public function detectInteractive()
+    {
         if (!isset($this->interactive) && function_exists('posix_isatty')) {
             $this->interactive = posix_isatty(STDOUT);
         }
@@ -79,7 +81,8 @@ trait ExecTrait {
      *
      * @return $this
      */
-    public function background($arg = TRUE) {
+    public function background($arg = true)
+    {
         $this->background = $arg;
         return $this;
     }
@@ -91,7 +94,8 @@ trait ExecTrait {
      *
      * @return $this
      */
-    public function timeout($timeout) {
+    public function timeout($timeout)
+    {
         $this->timeout = $timeout;
         return $this;
     }
@@ -103,7 +107,8 @@ trait ExecTrait {
      *
      * @return $this
      */
-    public function idleTimeout($timeout) {
+    public function idleTimeout($timeout)
+    {
         $this->idleTimeout = $timeout;
         return $this;
     }
@@ -115,7 +120,8 @@ trait ExecTrait {
      *
      * @return $this
      */
-    public function env(array $env) {
+    public function env(array $env)
+    {
         $this->env = $env;
         return $this;
     }
@@ -127,7 +133,8 @@ trait ExecTrait {
      *
      * @return $this
      */
-    public function setInput($input) {
+    public function setInput($input)
+    {
         $this->input = $input;
         return $this;
     }
@@ -139,7 +146,8 @@ trait ExecTrait {
      *
      * @return $this
      */
-    public function interactive($interactive) {
+    public function interactive($interactive)
+    {
         $this->interactive = $interactive;
         return $this;
     }
@@ -150,7 +158,8 @@ trait ExecTrait {
      *
      * @return bool
      */
-    public function getPrinted() {
+    public function getPrinted()
+    {
         return $this->isPrinted;
     }
 
@@ -161,7 +170,8 @@ trait ExecTrait {
      *
      * @return $this
      */
-    public function dir($dir) {
+    public function dir($dir)
+    {
         $this->workingDirectory = $dir;
         return $this;
     }
@@ -173,7 +183,8 @@ trait ExecTrait {
      *
      * @return $this
      */
-    public function silent($arg) {
+    public function silent($arg)
+    {
         if (is_bool($arg)) {
             $this->isPrinted = !$arg;
             $this->isMetadataPrinted = !$arg;
@@ -190,7 +201,8 @@ trait ExecTrait {
      *
      * @deprecated
      */
-    public function printed($arg) {
+    public function printed($arg)
+    {
         $this->logger->warning("printed() is deprecated. Please use printOutput().");
         return $this->printOutput($arg);
     }
@@ -202,7 +214,8 @@ trait ExecTrait {
      *
      * @return $this
      */
-    public function printOutput($arg) {
+    public function printOutput($arg)
+    {
         if (is_bool($arg)) {
             $this->isPrinted = $arg;
         }
@@ -216,7 +229,8 @@ trait ExecTrait {
      *
      * @return $this
      */
-    public function printMetadata($arg) {
+    public function printMetadata($arg)
+    {
         if (is_bool($arg)) {
             $this->isMetadataPrinted = $arg;
         }
@@ -226,14 +240,16 @@ trait ExecTrait {
     /**
      *
      */
-    public function __destruct() {
+    public function __destruct()
+    {
         $this->stop();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function run() {
+    public function run()
+    {
         $output_callback =
             function ($type, $buffer) {
                 $progressWasVisible = $this->hideTaskProgress();
@@ -250,8 +266,9 @@ trait ExecTrait {
      *
      * @return \Robo\Result
      */
-    public function execute($command, $output_callback = NULL) {
-       if (!$output_callback) {
+    public function execute($command, $output_callback = null)
+    {
+        if (!$output_callback) {
             $output_callback = function ($type, $buffer) {
                 print($buffer);
             };
@@ -270,7 +287,7 @@ trait ExecTrait {
         }
 
         if ($this->interactive) {
-            $this->process->setTty(TRUE);
+            $this->process->setTty(true);
         }
 
         if (isset($this->env)) {
@@ -304,7 +321,8 @@ trait ExecTrait {
     /**
      *
      */
-    protected function stop() {
+    protected function stop()
+    {
         if ($this->background && $this->process->isRunning()) {
             $this->process->stop();
             $this->printTaskInfo("Stopped {command}",
@@ -315,7 +333,8 @@ trait ExecTrait {
     /**
      * @param array $context
      */
-    protected function printAction($context = []) {
+    protected function printAction($context = [])
+    {
         $command = $this->getCommand();
         $dir = $this->workingDirectory ? " in {dir}" : "";
         $this->printTaskInfo("Running {command}$dir", [
@@ -330,7 +349,8 @@ trait ExecTrait {
      * @return array
      *   The data array passed to Result().
      */
-    protected function getResultData() {
+    protected function getResultData()
+    {
         if ($this->isMetadataPrinted) {
             return ['time' => $this->getExecutionTime()];
         }

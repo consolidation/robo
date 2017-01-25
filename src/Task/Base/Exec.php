@@ -27,7 +27,8 @@ use Robo\Result;
  * ?>
  * ```
  */
-class Exec extends BaseTask implements CommandInterface, SimulatedInterface {
+class Exec extends BaseTask implements CommandInterface, SimulatedInterface
+{
     use \Robo\Common\CommandReceiver;
     use \Robo\Common\ExecOneCommand;
 
@@ -44,7 +45,8 @@ class Exec extends BaseTask implements CommandInterface, SimulatedInterface {
     /**
      * @param string|\Robo\Contract\CommandInterface $command
      */
-    public function __construct($command) {
+    public function __construct($command)
+    {
         $this->command = $this->receiveCommand($command);
     }
 
@@ -53,7 +55,8 @@ class Exec extends BaseTask implements CommandInterface, SimulatedInterface {
      *
      * @return $this
      */
-    public function background($arg = TRUE) {
+    public function background($arg = true)
+    {
         self::$instances[] = $this;
         $this->background = $arg;
         return $this;
@@ -62,18 +65,21 @@ class Exec extends BaseTask implements CommandInterface, SimulatedInterface {
     /**
      * {@inheritdoc}
      */
-    public function getCommand() {
+    public function getCommand()
+    {
         return trim($this->command . $this->arguments);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function simulate($context) {
+    public function simulate($context)
+    {
         $this->printAction($context);
     }
 
-    public static function stopRunningJobs() {
+    public static function stopRunningJobs()
+    {
         foreach (self::$instances as $instance) {
             if ($instance) {
                 unset($instance);

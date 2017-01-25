@@ -250,23 +250,16 @@ trait ExecTrait
      */
     public function run()
     {
-        $output_callback =
-            function ($type, $buffer) {
-                $progressWasVisible = $this->hideTaskProgress();
-                print($buffer);
-                $this->showTaskProgress($progressWasVisible);
-            };
-
-        return $this->execute($this->getCommand(), $output_callback);
+        return $this->execute($this->getCommand());
     }
 
     /**
-     * @param $command
-     * @param null $output_callback
+     * @param string $command
+     * @param callable $output_callback
      *
      * @return \Robo\Result
      */
-    public function execute($command, $output_callback = null)
+    protected function execute($command, $output_callback = null)
     {
         if (!$output_callback) {
             $output_callback = function ($type, $buffer) {

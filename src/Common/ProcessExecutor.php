@@ -2,10 +2,11 @@
 
 namespace Robo\Common;
 
+use Robo\Contract\TaskInterface;
 use Robo\Robo;
 use Robo\Task\BaseTask;
 
-class ProcessExecutor extends BaseTask
+class ProcessExecutor extends BaseTask implements TaskInterface
 {
     use ExecTrait;
 

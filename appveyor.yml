@@ -1,0 +1,63 @@
+build: false
+shallow_clone: true
+platform: 'x86'
+clone_folder: C:\projects\robo
+branches:
+  only:
+    - master
+
+## Cache composer bits
+cache:
+    - '%LOCALAPPDATA%\Composer\files -> composer.lock'
+
+init:
+  #https://github.com/composer/composer/blob/master/appveyor.yml
+  #- SET ANSICON=121x90 (121x90)
+
+# Inspired by https://github.com/Codeception/base/blob/master/appveyor.yml and https://github.com/phpmd/phpmd/blob/master/appveyor.yml
+install:
+  - cinst -y curl
+  - SET PATH=C:\Program Files\curl;%PATH%
+  #which is only needed by the test suite.
+  - cinst -y which
+  - SET PATH=C:\Program Files\which;%PATH%
+  - git clone -q https://github.com/acquia/DevDesktopCommon.git #For tar, cksum, ...
+  - SET PATH=%APPVEYOR_BUILD_FOLDER%/DevDesktopCommon/bintools-win/msys/bin;%PATH%
+  - SET PATH=C:\Program Files\MySql\MySQL Server 5.7\bin\;%PATH%
+  #Install PHP per https://blog.wyrihaximus.net/2016/11/running-php-unit-tests-on-windows-using-appveyor-and-chocolatey/
+  - ps: appveyor-retry cinst --ignore-checksums -y php --version ((choco search php --exact --all-versions -r | select-string -pattern $Env:php_ver_target | Select-Object -first 1) -replace '[php|]','')
+  - cd c:\tools\php
+  - copy php.ini-production php.ini
+
+  - echo extension_dir=ext >> php.ini
+  - echo extension=php_openssl.dll >> php.ini
+  - echo date.timezone="UTC" >> php.ini
+  - echo variables_order="EGPCS" >> php.ini #May be unneeded.
+  - echo mbstring.http_input=pass >> php.ini
+  - echo mbstring.http_output=pass >> php.ini
+  - echo sendmail_path=nul >> php.ini
+  - echo extension=php_mbstring.dll >> php.ini
+  - echo extension=php_curl.dll >> php.ini
+  - echo extension=php_pdo_mysql.dll >> php.ini
+  - echo extension=php_pdo_pgsql.dll >> php.ini
+  - echo extension=php_pdo_sqlite.dll >> php.ini
+  - echo extension=php_pgsql.dll >> php.ini
+  - echo extension=php_gd2.dll >> php.ini
+  - SET PATH=C:\tools\php;%PATH%
+  #Install Composer
+  - cd %APPVEYOR_BUILD_FOLDER%
+  #- appveyor DownloadFile https://getcomposer.org/composer.phar
+  - php -r "readfile('http://getcomposer.org/installer');" | php
+  #Install dependencies via Composer
+  - php composer.phar -q install --prefer-dist -n
+  - SET PATH=%APPVEYOR_BUILD_FOLDER%;%APPVEYOR_BUILD_FOLDER%/vendor/bin;%PATH%
+  #Create a sandbox for testing. Don't think we need this.
+  - mkdir c:\test_temp
+
+test_script:
+  - php robo test
+
+# environment variables
+environment:
+  global:
+      php_ver_target: 7.0

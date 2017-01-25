@@ -49,7 +49,7 @@ trait ExecTrait
     /**
      * @var boolean
      */
-    protected $interactive;
+    protected $interactive = false;
 
     /**
      * @var bool
@@ -325,8 +325,10 @@ trait ExecTrait
     {
         if ($this->background && $this->process->isRunning()) {
             $this->process->stop();
-            $this->printTaskInfo("Stopped {command}",
-                ['command' => $this->getCommand()]);
+            $this->printTaskInfo(
+                "Stopped {command}",
+                ['command' => $this->getCommand()]
+            );
         }
     }
 

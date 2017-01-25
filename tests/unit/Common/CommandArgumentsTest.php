@@ -18,46 +18,57 @@ class CommandArgumentsTest extends \Codeception\Test\Unit
         return [
             'no arguments' => [
                 ' ',
+                ' ',
                 [],
             ],
             'empty string' => [
                 " ''",
+                ' ""',
                 [''],
             ],
             'space' => [
                 " ' '",
+                ' " "',
                 [' '],
             ],
             'no escape - a' => [
+                " a",
                 " a",
                 ['a'],
             ],
             'no escape - A' => [
                 " A",
+                " A",
                 ['A'],
             ],
             'no escape - 0' => [
+                " 0",
                 " 0",
                 ['0'],
             ],
             'no escape - --' => [
                 " --",
+                " --",
                 ['--'],
             ],
             'no escape - @_~.' => [
+                " @_~.",
                 " @_~.",
                 ['@_~.'],
             ],
             '$' => [
                 " 'a\$b'",
+                ' "a$b"',
                 ['a$b'],
             ],
             '*' => [
                 " 'a*b'",
+                ' "a*b"',
                 ['a*b'],
             ],
             'multi' => [
                 " '' a '\$PATH'",
+                ' "" a "$PATH"',
                 ['', 'a', '$PATH'],
             ],
         ];
@@ -71,8 +82,9 @@ class CommandArgumentsTest extends \Codeception\Test\Unit
      * @param string $expected
      * @param array $args
      */
-    public function testArgs($expected, $args)
+    public function testArgs($expectedLinux, $expectedWindows, $args)
     {
+        $expected = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? $expectedWindows : $expectedLinux;
         $commandArguments = new CommandArgumentsHost();
         $commandArguments->args($args);
         $this->guy->assertEquals($expected, $commandArguments->getArguments());

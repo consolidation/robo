@@ -357,7 +357,9 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
      */
     protected function fixTask($task, $args)
     {
-        $task->inflect($this);
+        if ($task instanceof InflectionInterface) {
+            $task->inflect($this);
+        }
         if ($task instanceof BuilderAwareInterface) {
             $task->setBuilder($this);
         }

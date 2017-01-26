@@ -39,11 +39,6 @@ class Codecept extends BaseTask implements CommandInterface, PrintedInterface
     protected $test = '';
 
     /**
-     * @var string
-     */
-    protected $command;
-
-    /**
      * @param string $pathToCodeception
      *
      * @throws \Robo\Exception\TaskException

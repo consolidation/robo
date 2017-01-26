@@ -86,6 +86,20 @@ class Exec extends BaseTask implements CommandInterface, SimulatedInterface
             }
         }
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function run()
+    {
+        $result_data = $this->execute($this->getCommand());
+        return new Result(
+            $this,
+            $result_data->getExitCode(),
+            $result_data->getMessage(),
+            $result_data->getData()
+        );
+    }
 }
 
 if (function_exists('pcntl_signal')) {

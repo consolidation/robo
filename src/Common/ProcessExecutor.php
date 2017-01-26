@@ -6,7 +6,7 @@ use Robo\Contract\TaskInterface;
 use Robo\Robo;
 use Robo\Task\BaseTask;
 
-class ProcessExecutor implements TaskInterface
+class ProcessExecutor
 {
     use ExecTrait;
     use TaskIO; // uses LoggerAwareTrait and ConfigAwareTrait
@@ -16,5 +16,9 @@ class ProcessExecutor implements TaskInterface
     {
         $this->command = $command;
         $this->logger = Robo::logger();
+    }
+
+    public function run() {
+        return $this->execute($this->getCommand());
     }
 }

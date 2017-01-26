@@ -131,6 +131,13 @@ trait ExecCommand
      */
     protected function executeCommand($command)
     {
-        return $this->execute($command);
+
+        $result_data = $this->execute($command);
+        return new Result(
+            $this,
+            $result_data->getExitCode(),
+            $result_data->getMessage(),
+            $result_data->getData()
+        );
     }
 }

@@ -4,6 +4,7 @@ namespace Robo\Common;
 
 use Psr\Log\LoggerAwareTrait;
 use Robo\Result;
+use Robo\ResultData;
 use Symfony\Component\Process\Process;
 
 /**
@@ -255,18 +256,10 @@ trait ExecTrait
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function run()
-    {
-        return $this->execute($this->getCommand());
-    }
-
-    /**
      * @param string $command
      * @param callable $output_callback
      *
-     * @return \Robo\Result
+     * @return \Robo\ResultData
      */
     protected function execute($command, $output_callback = null)
     {
@@ -300,8 +293,7 @@ trait ExecTrait
             $this->startTimer();
             $this->process->run();
             $this->stopTimer();
-            return new Result(
-                $this,
+            return new ResultData(
                 $this->process->getExitCode(),
                 $this->process->getOutput(),
                 $this->getResultData()
@@ -312,8 +304,7 @@ trait ExecTrait
             $this->startTimer();
             $this->process->run($output_callback);
             $this->stopTimer();
-            return new Result(
-                $this,
+            return new ResultData(
                 $this->process->getExitCode(),
                 $this->process->getOutput(),
                 $this->getResultData()
@@ -323,9 +314,13 @@ trait ExecTrait
         try {
             $this->process->start();
         } catch (\Exception $e) {
-            return Result::fromException($this, $e);
+            return new ResultData(
+                $this->process->getExitCode(),
+                $e->getMessage(),
+                $this->getResultData()
+            );
         }
-        return Result::success($this);
+        return new ResultData($this->process->getExitCode());
     }
 
     /**

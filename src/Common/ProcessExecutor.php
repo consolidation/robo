@@ -6,21 +6,15 @@ use Robo\Contract\TaskInterface;
 use Robo\Robo;
 use Robo\Task\BaseTask;
 
-class ProcessExecutor extends BaseTask implements TaskInterface
+class ProcessExecutor implements TaskInterface
 {
     use ExecTrait;
-
-    /** @var string */
-    protected $command;
+    use TaskIO; // uses LoggerAwareTrait and ConfigAwareTrait
+    use ProgressIndicatorAwareTrait;
 
     public function __construct($command)
     {
         $this->command = $command;
         $this->logger = Robo::logger();
-    }
-
-    public function getCommand()
-    {
-        return $this->command;
     }
 }

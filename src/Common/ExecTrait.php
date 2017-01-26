@@ -12,10 +12,6 @@ use Symfony\Component\Process\Process;
  */
 trait ExecTrait
 {
-
-    use LoggerAwareTrait;
-    use Timer;
-
     /**
      * @var bool
      */
@@ -242,7 +238,9 @@ trait ExecTrait
      */
     public function __destruct()
     {
-        $this->stop();
+        if (!$this->background()) {
+            $this->stop();
+        }
     }
 
     /**
@@ -291,16 +289,24 @@ trait ExecTrait
             $this->startTimer();
             $this->process->run();
             $this->stopTimer();
-            return new Result($this, $this->process->getExitCode(),
-                $this->process->getOutput(), $this->getResultData());
+            return new Result(
+                $this,
+                $this->process->getExitCode(),
+                $this->process->getOutput(),
+                $this->getResultData()
+            );
         }
 
         if (!$this->background and $this->isPrinted) {
             $this->startTimer();
             $this->process->run($output_callback);
             $this->stopTimer();
-            return new Result($this, $this->process->getExitCode(),
-                $this->process->getOutput(), $this->getResultData());
+            return new Result(
+                $this,
+                $this->process->getExitCode(),
+                $this->process->getOutput(),
+                $this->getResultData()
+            );
         }
 
         try {

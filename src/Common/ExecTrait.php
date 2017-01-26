@@ -245,13 +245,15 @@ trait ExecTrait
     }
 
     /**
-     * @param string $command
+     * @param Process $process
      * @param callable $output_callback
      *
      * @return \Robo\ResultData
      */
-    protected function execute($output_callback = null)
+    protected function execute($process, $output_callback = null)
     {
+        $this->process = $process;
+
         if (!$output_callback) {
             $output_callback = function ($type, $buffer) {
                 print($buffer);
@@ -316,7 +318,7 @@ trait ExecTrait
      */
     protected function stop()
     {
-        if ($this->background && $this->process->isRunning()) {
+        if ($this->background && isset($this->process) && $this->process->isRunning()) {
             $this->process->stop();
             $this->printTaskInfo(
                 "Stopped {command}",

@@ -92,8 +92,7 @@ class Exec extends BaseTask implements CommandInterface, SimulatedInterface
      */
     public function run()
     {
-        $this->process = new Process($this->getCommand());
-        $result_data = $this->execute();
+        $result_data = $this->execute(new Process($this->getCommand()));
         return new Result(
             $this,
             $result_data->getExitCode(),

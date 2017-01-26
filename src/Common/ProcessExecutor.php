@@ -25,6 +25,6 @@ class ProcessExecutor
 
     public function run()
     {
-        return $this->execute($this->getCommand());
+        return $this->execute($this->process);
     }
 }

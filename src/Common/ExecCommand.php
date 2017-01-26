@@ -136,8 +136,7 @@ trait ExecCommand
      */
     protected function executeCommand($command)
     {
-        $this->process = new Process($command);
-        $result_data = $this->execute();
+        $result_data = $this->execute(new Process($command));
         return new Result(
             $this,
             $result_data->getExitCode(),

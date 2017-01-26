@@ -124,7 +124,8 @@ trait ExecCommand
         return $cmd;
     }
 
-    public function getCommand() {
+    public function getCommand()
+    {
         return $this->process->getCommandLine();
     }
 

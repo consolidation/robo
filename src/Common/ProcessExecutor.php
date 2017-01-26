@@ -18,11 +18,13 @@ class ProcessExecutor
         $this->logger = Robo::logger();
     }
 
-    public function getCommand() {
+    public function getCommand()
+    {
         return $this->process->getCommandLine();
     }
 
-    public function run() {
+    public function run()
+    {
         return $this->execute($this->getCommand());
     }
 }

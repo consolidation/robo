@@ -49,7 +49,7 @@ class ApplicationTest extends \Codeception\TestCase\Test
         // commandfile instance.
         $method = new ReflectionMethod($this->roboCommandFileInstance, 'task');
         $method->setAccessible(true);
-        $collectionBuilder = $method->invoke($this->roboCommandFileInstance, 'Robo\Task\Base\Exec', ['ls']);
+        $collectionBuilder = $method->invoke($this->roboCommandFileInstance, 'Robo\Task\Base\Exec', 'ls');
         verify(get_class($collectionBuilder))->equals('Robo\Collection\CollectionBuilder');
         $task = $collectionBuilder->getCollectionBuilderCurrentTask();
         verify(get_class($task))->equals('Robo\Task\Base\Exec');

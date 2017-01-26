@@ -71,6 +71,21 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
     }
 
     /**
+     * @param int $logLevel
+     *
+     * @return $this
+     */
+    public function setLogLevel($logLevel)
+    {
+        $this->logLevel = $logLevel;
+        if (method_exists($this->currentTask, 'setLogLevel')) {
+            $this->currentTask->setLogLevel($logLevel);
+        }
+
+        return $this;
+    }
+
+    /**
      * @param bool $simulated
      *
      * @return $this
@@ -342,6 +357,9 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
     {
         $reflection = new ReflectionClass($name);
         $task = $reflection->newInstanceArgs($args);
+        if (method_exists($this->currentTask, 'setLogLevel')) {
+            $this->currentTask->setLogLevel($this->logLevel);
+        }
         if (!$task) {
             throw new RuntimeException("Can not construct task $name");
         }

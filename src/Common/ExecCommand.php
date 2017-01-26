@@ -14,7 +14,12 @@ trait ExecCommand
     /**
      * @var bool
      */
-    protected $isPrinted = true;
+    protected $isOutputPrinted = true;
+
+    /**
+     * @var bool
+     */
+    protected $isOutputLogged = true;
 
     /**
      * @var bool
@@ -49,7 +54,7 @@ trait ExecCommand
      */
     public function getPrinted()
     {
-        return $this->isPrinted;
+        return $this->isOutputPrinted;
     }
 
     /**
@@ -67,7 +72,7 @@ trait ExecCommand
 
 
     /**
-     * Shortcut for setting isPrinted() and isMetadataPrinted() to false.
+     * Shortcut for setting isOutputPrinted, isOutputLogged, isMetadataPrinted.
      *
      * @param bool $arg
      *
@@ -76,7 +81,8 @@ trait ExecCommand
     public function silent($arg)
     {
         if (is_bool($arg)) {
-            $this->isPrinted = !$arg;
+            $this->isOutputPrinted = !$arg;
+            $this->isOutputLogged = !$arg;
             $this->isMetadataPrinted = !$arg;
         }
         return $this;
@@ -105,7 +111,22 @@ trait ExecCommand
     public function printOutput($arg)
     {
         if (is_bool($arg)) {
-            $this->isPrinted = $arg;
+            $this->isOutputPrinted = $arg;
+        }
+        return $this;
+    }
+
+    /**
+     * Should command output be printed
+     *
+     * @param bool $arg
+     *
+     * @return $this
+     */
+    public function logOutput($arg)
+    {
+        if (is_bool($arg)) {
+            $this->isOutputLogged = $arg;
         }
         return $this;
     }
@@ -117,7 +138,7 @@ trait ExecCommand
      *
      * @return $this
      */
-    public function printMetadata($arg)
+    public function logMetadata($arg)
     {
         if (is_bool($arg)) {
             $this->isMetadataPrinted = $arg;
@@ -233,7 +254,7 @@ trait ExecCommand
             $process->setWorkingDirectory($this->workingDirectory);
         }
         $this->getExecTimer()->start();
-        if ($this->isPrinted) {
+        if ($this->isOutputPrinted) {
             $process->run(function ($type, $buffer) {
                 print $buffer;
             });

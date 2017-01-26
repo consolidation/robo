@@ -88,7 +88,7 @@ class Run extends Base
      */
     public function getPrinted()
     {
-        return $this->isPrinted;
+        return $this->isOutputPrinted;
     }
 
     /**
@@ -96,7 +96,7 @@ class Run extends Base
      */
     public function getCommand()
     {
-        if ($this->isPrinted) {
+        if ($this->isOutputPrinted) {
             $this->option('-i');
         }
         if ($this->cidFile) {

@@ -62,6 +62,17 @@ trait ExecTrait
      */
     protected $workingDirectory;
 
+    /** @var string */
+    protected $command;
+
+    /**
+     * @return string
+     */
+    public function getCommand()
+    {
+        return $this->command;
+    }
+
     /**
      * Sets $this->interactive() based on posix_isatty().
      */

@@ -124,6 +124,10 @@ trait ExecCommand
         return $cmd;
     }
 
+    public function getCommand() {
+        return $this->process->getCommandLine();
+    }
+
     /**
      * @param string $command
      *
@@ -131,8 +135,8 @@ trait ExecCommand
      */
     protected function executeCommand($command)
     {
-
-        $result_data = $this->execute($command);
+        $this->process = new Process($command);
+        $result_data = $this->execute();
         return new Result(
             $this,
             $result_data->getExitCode(),

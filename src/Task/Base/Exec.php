@@ -48,6 +48,7 @@ class Exec extends BaseTask implements CommandInterface, SimulatedInterface
     public function __construct($command)
     {
         $this->command = $this->receiveCommand($command);
+        $this->process = new Process($this->getCommand());
     }
 
     /**
@@ -92,7 +93,7 @@ class Exec extends BaseTask implements CommandInterface, SimulatedInterface
      */
     public function run()
     {
-        $result_data = $this->execute($this->getCommand());
+        $result_data = $this->execute();
         return new Result(
             $this,
             $result_data->getExitCode(),

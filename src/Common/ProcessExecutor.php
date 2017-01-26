@@ -12,10 +12,14 @@ class ProcessExecutor
     use TaskIO; // uses LoggerAwareTrait and ConfigAwareTrait
     use ProgressIndicatorAwareTrait;
 
-    public function __construct($command)
+    public function __construct($process)
     {
-        $this->command = $command;
+        $this->process = $process;
         $this->logger = Robo::logger();
+    }
+
+    public function getCommand() {
+        return $this->process->getCommandLine();
     }
 
     public function run() {

@@ -63,17 +63,6 @@ trait ExecTrait
      */
     protected $workingDirectory;
 
-    /** @var string */
-    protected $command;
-
-    /**
-     * @return string
-     */
-    public function getCommand()
-    {
-        return $this->command;
-    }
-
     /**
      * Sets $this->interactive() based on posix_isatty().
      */
@@ -261,7 +250,7 @@ trait ExecTrait
      *
      * @return \Robo\ResultData
      */
-    protected function execute($command, $output_callback = null)
+    protected function execute($output_callback = null)
     {
         if (!$output_callback) {
             $output_callback = function ($type, $buffer) {
@@ -272,7 +261,6 @@ trait ExecTrait
         if ($this->isMetadataPrinted) {
             $this->printAction();
         }
-        $this->process = new Process($command);
         $this->process->setTimeout($this->timeout);
         $this->process->setIdleTimeout($this->idleTimeout);
         $this->process->setWorkingDirectory($this->workingDirectory);

@@ -27,8 +27,8 @@ before_script:
   - if [ "$dependencies" = "highest" ]; then composer update --prefer-dist -n; fi;
 
 script:
-  - if [ "$dependencies" != "highest" ]; ./robo test
-  - if [ "$dependencies" = "highest" ]; ./robo test --coverage
+  - if [ "$dependencies" != "highest" ]; then ./robo test; fi;
+  - if [ "$dependencies" = "highest" ]; then ./robo test --coverage; fi;
 
 after_success:
   - if [ "$dependencies" = "highest" ]; travis_retry php vendor/bin/coveralls -v

@@ -29,7 +29,7 @@ before_script:
 script: "./robo test --coverage"
 
 after_success:
-  - travis_retry php vendor/bin/coveralls -v
+  - if [ "$dependencies" = "highest" ]; travis_retry php vendor/bin/coveralls -v
 
 # Prior to a deploy, build a fresh robo.phar
 before_deploy:

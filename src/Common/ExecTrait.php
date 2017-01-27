@@ -235,16 +235,6 @@ trait ExecTrait
     }
 
     /**
-     *
-     */
-    public function __destruct()
-    {
-        if (!$this->background()) {
-            $this->stop();
-        }
-    }
-
-    /**
      * @param Process $process
      * @param callable $output_callback
      *

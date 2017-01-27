@@ -51,6 +51,14 @@ class Exec extends BaseTask implements CommandInterface, SimulatedInterface
     }
 
     /**
+     *
+     */
+    public function __destruct()
+    {
+        $this->stop();
+    }
+
+    /**
      * Executes command in background mode (asynchronously)
      *
      * @return $this

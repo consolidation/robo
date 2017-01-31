@@ -27,7 +27,7 @@ use Robo\Result;
  * ?>
  * ```
  */
-class Exec extends BaseTask implements CommandInterface, SimulatedInterface
+class Exec extends BaseTask implements CommandInterface, PrintedInterface, SimulatedInterface
 {
     use \Robo\Common\CommandReceiver;
     use \Robo\Common\ExecOneCommand;

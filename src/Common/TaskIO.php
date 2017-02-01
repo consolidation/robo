@@ -154,8 +154,7 @@ trait TaskIO
      */
     protected function printTaskOutput($level, $text, $context)
     {
-        $verbosity = $this->output()->getVerbosity();
-        if ($verbosity < $this->verbosityThreshold()) {
+        if ($this->output()->getVerbosity() < $this->verbosityThreshold()) {
             return;
         }
         $logger = $this->logger();
@@ -167,6 +166,18 @@ trait TaskIO
         $logger->log($level, $text, $this->getTaskContext($context));
         // After we have printed our log message, redraw the progress indicator.
         $this->showTaskProgress($inProgress);
+    }
+
+    /**
+     * Print a message if the selected verbosity level is over this task's
+     * verbosity threshhold.
+     */
+    protected function write($message)
+    {
+        if ($this->output()->getVerbosity() < $this->verbosityThreshold()) {
+            return;
+        }
+        $this->output()->write($message);
     }
 
     /**

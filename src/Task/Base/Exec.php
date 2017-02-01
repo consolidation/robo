@@ -247,7 +247,7 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
             $this->process->run(
                 function ($type, $buffer) {
                     $progressWasVisible = $this->hideTaskProgress();
-                    print($buffer);
+                    $this->write($buffer);
                     $this->showTaskProgress($progressWasVisible);
                 }
             );

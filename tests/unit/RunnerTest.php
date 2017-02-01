@@ -277,9 +277,9 @@ EOT;
 
         $this->guy->seeInOutput('This command will print more information at higher verbosity levels');
         $this->guy->seeInOutput('Running echo verbose "or higher"');
-//        $this->guy->seeInOutput('verbose or higher');
+        $this->guy->seeInOutput('verbose or higher');
         $this->guy->doNotSeeInOutput('Running echo "very verbose" "or higher"');
-//        $this->guy->doNotSeeInOutput('very verbose or higher');
+        $this->guy->doNotSeeInOutput('very verbose or higher');
         $this->assertEquals(0, $result);
     }
 
@@ -290,9 +290,9 @@ EOT;
 
         $this->guy->seeInOutput('This command will print more information at higher verbosity levels');
         $this->guy->seeInOutput('Running echo verbose "or higher"');
-//        $this->guy->seeInOutput('verbose or higher');
+        $this->guy->seeInOutput('verbose or higher');
         $this->guy->seeInOutput('Running echo "very verbose" "or higher"');
-//        $this->guy->seeInOutput('very verbose or higher');
+        $this->guy->seeInOutput('very verbose or higher');
         $this->assertEquals(0, $result);
     }
 

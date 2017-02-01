@@ -152,12 +152,12 @@ class RoboFileFixture extends \Robo\Tasks implements LoggerAwareInterface, Custo
 
         return $this->collectionBuilder()
             ->setVerbosityThreshold(OutputInterface::VERBOSITY_VERBOSE)
-            ->taskExec("echo verbose 'or higher'")
+            ->taskExec('echo verbose or higher')
                 ->interactive(false)
-            ->taskExec("echo 'very verbose' 'or higher'")
+            ->taskExec('echo very verbose or higher')
                 ->interactive(false)
                 ->setVerbosityThreshold(OutputInterface::VERBOSITY_VERY_VERBOSE)
-            ->taskExec("echo 'always' 'printed'")
+            ->taskExec('echo always printed')
                 ->interactive(false)
                 ->setVerbosityThreshold(OutputInterface::VERBOSITY_NORMAL)
             ->run();

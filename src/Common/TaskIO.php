@@ -7,6 +7,7 @@ use Consolidation\Log\ConsoleLogLevel;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LogLevel;
 use Robo\Contract\ProgressIndicatorAwareInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Task input/output methods.  TaskIO is 'used' in BaseTask, so any
@@ -19,6 +20,24 @@ trait TaskIO
 {
     use LoggerAwareTrait;
     use ConfigAwareTrait;
+    use OutputAwareTrait;
+
+    protected $requiredVerbosity = 0;
+
+    /**
+     * Required verbocity level before any TaskIO output will be produced.
+     * e.g. OutputInterface::VERBOSITY_VERBOSE
+     */
+    public function setRequiredVerbosity($requiredVerbosity)
+    {
+        $this->requiredVerbosity = $requiredVerbosity;
+        return $this;
+    }
+
+    public function requiredVerbosity()
+    {
+        return $this->requiredVerbosity;
+    }
 
     /**
      * @return mixed|null|\Psr\Log\LoggerInterface
@@ -135,6 +154,10 @@ trait TaskIO
      */
     protected function printTaskOutput($level, $text, $context)
     {
+        $verbosity = $this->output()->getVerbosity();
+        if ($verbosity < $this->requiredVerbosity()) {
+            return;
+        }
         $logger = $this->logger();
         if (!$logger) {
             return;

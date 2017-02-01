@@ -10,10 +10,11 @@ use Robo\Contract\ProgressIndicatorAwareInterface;
 use Robo\Common\ProgressIndicatorAwareTrait;
 use Robo\Contract\ConfigAwareInterface;
 use Psr\Log\LoggerAwareInterface;
+use Robo\Contract\OutputAwareInterface;
 
-abstract class BaseTask implements TaskInterface, LoggerAwareInterface, ConfigAwareInterface, ProgressIndicatorAwareInterface, InflectionInterface
+abstract class BaseTask implements TaskInterface, LoggerAwareInterface, OutputAwareInterface, ConfigAwareInterface, ProgressIndicatorAwareInterface, InflectionInterface
 {
-    use TaskIO; // uses LoggerAwareTrait and ConfigAwareTrait
+    use TaskIO; // uses LoggerAwareTrait, OutputAwareTrait and ConfigAwareTrait
     use ProgressIndicatorAwareTrait;
     use InflectionTrait;
 
@@ -30,6 +31,9 @@ abstract class BaseTask implements TaskInterface, LoggerAwareInterface, ConfigAw
         }
         if ($child instanceof ConfigAwareInterface && $this->getConfig()) {
             $child->setConfig($this->getConfig());
+        }
+        if ($child instanceof OutputAwareInterface && $this->output()) {
+            $child->setOutput($this->output());
         }
     }
 }

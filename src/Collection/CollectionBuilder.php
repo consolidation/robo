@@ -236,14 +236,14 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
         return $this;
     }
 
-    public function setRequiredVerbosity($requiredVerbosity)
+    public function setVerbosityThreshold($verbosityThreshold)
     {
         $currentTask = ($this->currentTask instanceof WrappedTaskInterface) ? $this->currentTask->original() : $this->currentTask;
         if ($currentTask) {
-            $currentTask->setRequiredVerbosity($requiredVerbosity);
+            $currentTask->setVerbosityThreshold($verbosityThreshold);
             return $this;
         }
-        parent::setRequiredVerbosity($requiredVerbosity);
+        parent::setVerbosityThreshold($verbosityThreshold);
         return $this;
     }
 
@@ -269,7 +269,7 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
         $collectionBuilder = new self($this->commandFile);
         $collectionBuilder->inflect($this);
         $collectionBuilder->simulated($this->isSimulated());
-        $collectionBuilder->setRequiredVerbosity($this->requiredVerbosity());
+        $collectionBuilder->setVerbosityThreshold($this->verbosityThreshold());
 
         return $collectionBuilder;
     }
@@ -379,8 +379,8 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
         }
         // TODO: It would be better if we had a TaskIOInterface
         // to go with the TaskIO trait. Perhaps in 2.0.
-        if (method_exists($task, 'setRequiredVerbosity')) {
-            $task->setRequiredVerbosity($this->requiredVerbosity());
+        if (method_exists($task, 'setVerbosityThreshold')) {
+            $task->setVerbosityThreshold($this->verbosityThreshold());
         }
 
         // Do not wrap our wrappers.

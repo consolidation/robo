@@ -145,6 +145,21 @@ class RoboFileFixture extends \Robo\Tasks implements LoggerAwareInterface, Custo
         $this->logger->debug('This is a debug log message.');
     }
 
+    public function testVerbosityThreshold()
+    {
+        $this->output()->writeln('This command will print more information at higher verbosity levels.');
+        $this->output()->writeln('Try running with -v, -vv or -vvv');
+
+        return $this->collectionBuilder()
+            ->setVerbosityThreshold(OutputInterface::VERBOSITY_VERBOSE)
+            ->taskExec('echo verbose "or higher"')
+            ->taskExec('echo "very verbose" "or higher"')
+                ->setVerbosityThreshold(OutputInterface::VERBOSITY_VERY_VERBOSE)
+            ->taskExec('echo "always" "printed"')
+                ->setVerbosityThreshold(OutputInterface::VERBOSITY_NORMAL)
+            ->run();
+    }
+
     public function testDeploy()
     {
         $gitTask = $this->taskGitStack()

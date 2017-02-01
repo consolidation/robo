@@ -22,21 +22,21 @@ trait TaskIO
     use ConfigAwareTrait;
     use OutputAwareTrait;
 
-    protected $requiredVerbosity = 0;
+    protected $verbosityThreshold = 0;
 
     /**
      * Required verbocity level before any TaskIO output will be produced.
      * e.g. OutputInterface::VERBOSITY_VERBOSE
      */
-    public function setRequiredVerbosity($requiredVerbosity)
+    public function setVerbosityThreshold($verbosityThreshold)
     {
-        $this->requiredVerbosity = $requiredVerbosity;
+        $this->verbosityThreshold = $verbosityThreshold;
         return $this;
     }
 
-    public function requiredVerbosity()
+    public function verbosityThreshold()
     {
-        return $this->requiredVerbosity;
+        return $this->verbosityThreshold;
     }
 
     /**
@@ -155,7 +155,7 @@ trait TaskIO
     protected function printTaskOutput($level, $text, $context)
     {
         $verbosity = $this->output()->getVerbosity();
-        if ($verbosity < $this->requiredVerbosity()) {
+        if ($verbosity < $this->verbosityThreshold()) {
             return;
         }
         $logger = $this->logger();

@@ -12,6 +12,7 @@ use ReflectionClass;
 use Robo\Task\BaseTask;
 use Robo\Contract\BuilderAwareInterface;
 use Robo\Contract\CommandInterface;
+use Robo\Contract\VerbosityThresholdInterface;
 
 /**
  * Creates a collection, and adds tasks to it.  The collection builder
@@ -377,9 +378,7 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
         if ($task instanceof BuilderAwareInterface) {
             $task->setBuilder($this);
         }
-        // TODO: It would be better if we had a TaskIOInterface
-        // to go with the TaskIO trait. Perhaps in 2.0.
-        if (method_exists($task, 'setVerbosityThreshold')) {
+        if ($task instanceof VerbosityThresholdInterface) {
             $task->setVerbosityThreshold($this->verbosityThreshold());
         }
 

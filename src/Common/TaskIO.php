@@ -7,7 +7,6 @@ use Consolidation\Log\ConsoleLogLevel;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LogLevel;
 use Robo\Contract\ProgressIndicatorAwareInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Task input/output methods.  TaskIO is 'used' in BaseTask, so any
@@ -20,24 +19,7 @@ trait TaskIO
 {
     use LoggerAwareTrait;
     use ConfigAwareTrait;
-    use OutputAwareTrait;
-
-    protected $verbosityThreshold = 0;
-
-    /**
-     * Required verbocity level before any TaskIO output will be produced.
-     * e.g. OutputInterface::VERBOSITY_VERBOSE
-     */
-    public function setVerbosityThreshold($verbosityThreshold)
-    {
-        $this->verbosityThreshold = $verbosityThreshold;
-        return $this;
-    }
-
-    public function verbosityThreshold()
-    {
-        return $this->verbosityThreshold;
-    }
+    use VerbosityThresholdTrait;
 
     /**
      * @return mixed|null|\Psr\Log\LoggerInterface
@@ -154,7 +136,7 @@ trait TaskIO
      */
     protected function printTaskOutput($level, $text, $context)
     {
-        if ($this->output()->getVerbosity() < $this->verbosityThreshold()) {
+        if (!$this->verbosityMeetsThreshold()) {
             return;
         }
         $logger = $this->logger();
@@ -166,18 +148,6 @@ trait TaskIO
         $logger->log($level, $text, $this->getTaskContext($context));
         // After we have printed our log message, redraw the progress indicator.
         $this->showTaskProgress($inProgress);
-    }
-
-    /**
-     * Print a message if the selected verbosity level is over this task's
-     * verbosity threshhold.
-     */
-    protected function write($message)
-    {
-        if ($this->output()->getVerbosity() < $this->verbosityThreshold()) {
-            return;
-        }
-        $this->output()->write($message);
     }
 
     /**

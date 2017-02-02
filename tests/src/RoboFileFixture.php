@@ -7,6 +7,7 @@ use Psr\Log\LoggerAwareInterface;
 
 use Consolidation\AnnotatedCommand\Events\CustomEventAwareInterface;
 use Consolidation\AnnotatedCommand\Events\CustomEventAwareTrait;
+use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -151,15 +152,15 @@ class RoboFileFixture extends \Robo\Tasks implements LoggerAwareInterface, Custo
         $this->output()->writeln('Try running with -v, -vv or -vvv');
 
         return $this->collectionBuilder()
-            ->setVerbosityThreshold(OutputInterface::VERBOSITY_VERBOSE)
+            ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
             ->taskExec('echo verbose or higher')
                 ->interactive(false)
             ->taskExec('echo very verbose or higher')
                 ->interactive(false)
-                ->setVerbosityThreshold(OutputInterface::VERBOSITY_VERY_VERBOSE)
+                ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERY_VERBOSE)
             ->taskExec('echo always printed')
                 ->interactive(false)
-                ->setVerbosityThreshold(OutputInterface::VERBOSITY_NORMAL)
+                ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_NORMAL)
             ->run();
     }
 

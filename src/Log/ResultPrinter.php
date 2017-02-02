@@ -4,6 +4,7 @@ namespace Robo\Log;
 use Robo\Result;
 use Robo\Contract\PrintedInterface;
 use Robo\Contract\ProgressIndicatorAwareInterface;
+use Robo\Contract\VerbosityThresholdInterface;
 use Robo\Common\ProgressIndicatorAwareTrait;
 
 use Psr\Log\LogLevel;
@@ -30,6 +31,10 @@ class ResultPrinter implements LoggerAwareInterface, ProgressIndicatorAwareInter
      */
     public function printResult(Result $result)
     {
+        $task = $result->getTask();
+        if ($task instanceof VerbosityThresholdInterface && !$task->verbosityMeetsThreshold()) {
+            return;
+        }
         if (!$result->wasSuccessful()) {
             return $this->printError($result);
         } else {

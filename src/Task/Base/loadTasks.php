@@ -13,6 +13,9 @@ trait loadTasks
         return $this->task(Exec::class, $command);
     }
 
+    /**
+     * @return ExecStack
+     */
     protected function taskExecStack()
     {
         return $this->task(ExecStack::class);

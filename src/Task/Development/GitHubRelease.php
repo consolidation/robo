@@ -190,7 +190,7 @@ class GitHubRelease extends GitHub
             [
                 "tag_name" => $this->tag,
                 "target_commitish" => $this->comittish,
-                "name" => $this->tag,
+                "name" => $this->name,
                 "body" => $this->getBody(),
                 "draft" => $this->draft,
                 "prerelease" => $this->prerelease

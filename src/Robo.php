@@ -162,6 +162,7 @@ class Robo
         $container->share('config', $config);
         $container->share('input', $input);
         $container->share('output', $output);
+        $container->share('outputAdapter', \Robo\Common\OutputAdapter::class);
 
         // Register logging and related services.
         $container->share('logStyler', \Robo\Log\RoboLogStyle::class);
@@ -251,6 +252,8 @@ class Robo
             ->invokeMethod('setProgressIndicator', ['progressIndicator']);
         $container->inflector(\Consolidation\AnnotatedCommand\Events\CustomEventAwareInterface::class)
             ->invokeMethod('setHookManager', ['hookManager']);
+        $container->inflector(\Robo\Contract\VerbosityThresholdInterface::class)
+            ->invokeMethod('setOutputAdapter', ['outputAdapter']);
     }
 
     /**

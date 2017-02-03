@@ -19,6 +19,7 @@ trait TaskIO
 {
     use LoggerAwareTrait;
     use ConfigAwareTrait;
+    use VerbosityThresholdTrait;
 
     /**
      * @return mixed|null|\Psr\Log\LoggerInterface
@@ -135,6 +136,9 @@ trait TaskIO
      */
     protected function printTaskOutput($level, $text, $context)
     {
+        if (!$this->verbosityMeetsThreshold()) {
+            return;
+        }
         $logger = $this->logger();
         if (!$logger) {
             return;

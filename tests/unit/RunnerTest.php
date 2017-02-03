@@ -270,6 +270,28 @@ EOT;
         $this->assertEquals(0, $result);
     }
 
+    public function testRunnerVerbosityThresholdVerbose()
+    {
+        $argv = ['placeholder', 'test:verbosity-threshold', '-v'];
+        $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
+
+        $this->guy->seeInOutput('This command will print more information at higher verbosity levels');
+        $this->guy->seeInOutput("Running echo verbose or higher\nverbose or higher");
+        $this->guy->doNotSeeInOutput('very verbose or higher');
+        $this->assertEquals(0, $result);
+    }
+
+    public function testRunnerVerbosityThresholdVeryVerbose()
+    {
+        $argv = ['placeholder', 'test:verbosity-threshold', '-vv'];
+        $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
+
+        $this->guy->seeInOutput('This command will print more information at higher verbosity levels');
+        $this->guy->seeInOutput("Running echo verbose or higher\nverbose or higher");
+        $this->guy->seeInOutput("Running echo very verbose or higher\nvery verbose or higher");
+        $this->assertEquals(0, $result);
+    }
+
     public function testRunnerDebugOutput()
     {
         $argv = ['placeholder', 'test:verbosity', '-vvv'];

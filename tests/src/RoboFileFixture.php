@@ -7,6 +7,7 @@ use Psr\Log\LoggerAwareInterface;
 
 use Consolidation\AnnotatedCommand\Events\CustomEventAwareInterface;
 use Consolidation\AnnotatedCommand\Events\CustomEventAwareTrait;
+use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -143,6 +144,24 @@ class RoboFileFixture extends \Robo\Tasks implements LoggerAwareInterface, Custo
         $this->logger->warning('This is a warning log message.');
         $this->logger->notice('This is a notice log message.');
         $this->logger->debug('This is a debug log message.');
+    }
+
+    public function testVerbosityThreshold()
+    {
+        $this->output()->writeln('This command will print more information at higher verbosity levels.');
+        $this->output()->writeln('Try running with -v, -vv or -vvv');
+
+        return $this->collectionBuilder()
+            ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+            ->taskExec('echo verbose or higher')
+                ->interactive(false)
+            ->taskExec('echo very verbose or higher')
+                ->interactive(false)
+                ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERY_VERBOSE)
+            ->taskExec('echo always printed')
+                ->interactive(false)
+                ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_NORMAL)
+            ->run();
     }
 
     public function testDeploy()

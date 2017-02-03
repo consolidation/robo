@@ -82,9 +82,6 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
     public function __construct($command)
     {
         $this->command = $this->receiveCommand($command);
-        if (!isset($this->interactive) && function_exists('posix_isatty')) {
-            $this->interactive = posix_isatty(STDOUT);
-        }
     }
 
     /**
@@ -215,6 +212,14 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
      */
     public function run()
     {
+        // If the caller did not explicity set the 'interactive' mode,
+        // and output should be produced by this task (verbosityMeetsThreshold),
+        // then we will automatically set interactive mode based on whether
+        // or not output was redirected when robo was executed.
+        if (!isset($this->interactive) && function_exists('posix_isatty') && $this->verbosityMeetsThreshold()) {
+            $this->interactive = posix_isatty(STDOUT);
+        }
+
         if ($this->isMetadataPrinted) {
             $this->printAction();
         }
@@ -247,7 +252,7 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
             $this->process->run(
                 function ($type, $buffer) {
                     $progressWasVisible = $this->hideTaskProgress();
-                    print($buffer);
+                    $this->writeMessage($buffer);
                     $this->showTaskProgress($progressWasVisible);
                 }
             );

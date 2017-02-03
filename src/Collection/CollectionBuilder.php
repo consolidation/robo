@@ -12,6 +12,7 @@ use ReflectionClass;
 use Robo\Task\BaseTask;
 use Robo\Contract\BuilderAwareInterface;
 use Robo\Contract\CommandInterface;
+use Robo\Contract\VerbosityThresholdInterface;
 
 /**
  * Creates a collection, and adds tasks to it.  The collection builder
@@ -236,6 +237,18 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
         return $this;
     }
 
+    public function setVerbosityThreshold($verbosityThreshold)
+    {
+        $currentTask = ($this->currentTask instanceof WrappedTaskInterface) ? $this->currentTask->original() : $this->currentTask;
+        if ($currentTask) {
+            $currentTask->setVerbosityThreshold($verbosityThreshold);
+            return $this;
+        }
+        parent::setVerbosityThreshold($verbosityThreshold);
+        return $this;
+    }
+
+
     /**
      * Return the current task for this collection builder.
      * TODO: Not needed?
@@ -257,6 +270,8 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
         $collectionBuilder = new self($this->commandFile);
         $collectionBuilder->inflect($this);
         $collectionBuilder->simulated($this->isSimulated());
+        $collectionBuilder->setVerbosityThreshold($this->verbosityThreshold());
+
         return $collectionBuilder;
     }
 
@@ -362,6 +377,9 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
         }
         if ($task instanceof BuilderAwareInterface) {
             $task->setBuilder($this);
+        }
+        if ($task instanceof VerbosityThresholdInterface) {
+            $task->setVerbosityThreshold($this->verbosityThreshold());
         }
 
         // Do not wrap our wrappers.

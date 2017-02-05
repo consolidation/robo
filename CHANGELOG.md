@@ -1,5 +1,10 @@
 # Changelog
 
+#### 1.0.5
+
+* Incorporate word-wrapping from output-formatters 3.1.5
+* Incorporate custom event handlers from annotated-command 2.2.0
+
 #### 1.0.4
 
 * Updated to latest changes in `master` branch. Phar and tag issues.

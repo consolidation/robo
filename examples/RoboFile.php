@@ -41,6 +41,7 @@ class RoboFile extends \Robo\Tasks
      */
     public function tryInput()
     {
+        $this->say('The <b>expression</b> <bogus>is</bogus> <info>a < b</> it even works');
         $answer = $this->ask('how are you?');
         $this->say('You are '.$answer);
         $yes = $this->confirm('Do you want one more question?');
@@ -210,6 +211,26 @@ class RoboFile extends \Robo\Tasks
             'es' => [ 'first' => 'Uno',  'second' => 'Dos',  'third' => 'Tres'  ],
         ];
         return new RowsOfFields($outputData);
+    }
+
+    /**
+     * Try word wrapping
+     *
+     * @field-labels
+     *   first: First
+     *   second: Second
+     *
+     * @return \Consolidation\OutputFormatters\StructuredData\RowsOfFields
+     */
+    public function tryWrap()
+    {
+        $data = [
+            [
+                'first' => 'This is a really long cell that contains a lot of data. When it is rendered, it should be wrapped across multiple lines.',
+                'second' => 'This is the second column of the same table. It is also very long, and should be wrapped across multiple lines, just like the first column.',
+            ]
+        ];
+        return new RowsOfFields($data);
     }
 
     /**

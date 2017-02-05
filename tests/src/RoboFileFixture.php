@@ -8,15 +8,18 @@ use Robo\Collection\CollectionBuilder;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerAwareInterface;
 
+use Consolidation\AnnotatedCommand\Events\CustomEventAwareInterface;
+use Consolidation\AnnotatedCommand\Events\CustomEventAwareTrait;
 use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * RoboFile under test: a fixture containing some commands to use with tests.
  */
-class RoboFileFixture extends \Robo\Tasks implements LoggerAwareInterface
+class RoboFileFixture extends \Robo\Tasks implements LoggerAwareInterface, CustomEventAwareInterface
 {
     use LoggerAwareTrait;
+    use CustomEventAwareTrait;
 
     /**
      * Demonstrate Robo variable argument passing.
@@ -60,6 +63,42 @@ class RoboFileFixture extends \Robo\Tasks implements LoggerAwareInterface
     public function hookPostCommand()
     {
         $this->io()->text('This is the post-command hook for the test:command-event command.');
+    }
+
+    /**
+     * This command uses a custom event 'custom-event' to collect data.  Note that
+     * the event handlers will not be found unless the hook manager is
+     * injected into this command handler object via `setHookManager()`
+     * (defined in CustomEventAwareTrait). The Robo DI container does this
+     * for us through inflection.
+     *
+     * @command test:custom-event
+     */
+    public function testCustomEvent()
+    {
+        $myEventHandlers = $this->getCustomEventHandlers('custom-event');
+        $result = [];
+        foreach ($myEventHandlers as $handler) {
+            $result[] = $handler();
+        }
+        sort($result);
+        return implode(',', $result);
+    }
+
+    /**
+     * @hook on-event custom-event
+     */
+    public function hookOne()
+    {
+        return 'one';
+    }
+
+    /**
+     * @hook on-event custom-event
+     */
+    public function hookTwo()
+    {
+        return 'two';
     }
 
     /**

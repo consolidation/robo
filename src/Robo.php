@@ -14,7 +14,7 @@ use Symfony\Component\Console\Application as SymfonyApplication;
 class Robo
 {
     const APPLICATION_NAME = 'Robo';
-    const VERSION = '1.0.5';
+    const VERSION = '1.0.6-dev';
 
     /**
      * The currently active container object, or NULL if not initialized yet.
@@ -188,9 +188,12 @@ class Robo
         $container->share('formatterManager', \Consolidation\OutputFormatters\FormatterManager::class)
             ->withMethodCall('addDefaultFormatters', [])
             ->withMethodCall('addDefaultSimplifiers', []);
+        $container->share('prepareTerminalWidthOption', \Consolidation\AnnotatedCommand\Options\PrepareTerminalWidthOption::class)
+            ->withMethodCall('setApplication', ['application']);
         $container->share('commandProcessor', \Consolidation\AnnotatedCommand\CommandProcessor::class)
             ->withArgument('hookManager')
             ->withMethodCall('setFormatterManager', ['formatterManager'])
+            ->withMethodCall('addPrepareFormatter', ['prepareTerminalWidthOption'])
             ->withMethodCall(
                 'setDisplayErrorFunction',
                 [
@@ -246,6 +249,8 @@ class Robo
             ->invokeMethod('setOutput', ['output']);
         $container->inflector(\Robo\Contract\ProgressIndicatorAwareInterface::class)
             ->invokeMethod('setProgressIndicator', ['progressIndicator']);
+        $container->inflector(\Consolidation\AnnotatedCommand\Events\CustomEventAwareInterface::class)
+            ->invokeMethod('setHookManager', ['hookManager']);
     }
 
     /**

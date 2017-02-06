@@ -62,6 +62,29 @@ trait ExecTrait
     protected $workingDirectory;
 
     /**
+     * @return string
+     */
+    abstract function getCommand();
+
+    /** Typically provided by Timer via ProgressIndicatorAwareTrait.  */
+    abstract function startTimer();
+    abstract function stopTimer();
+    abstract function getExecutionTime();
+
+    /**
+     * Typically provided by TaskIO Trait.
+     */
+    abstract function hideTaskProgress();
+    abstract function showTaskProgress();
+    abstract function printTaskInfo();
+
+    /**
+     * Typically provided by VerbosityThresholdTrait.
+     */
+    abstract function verbosityMeetsThreshold();
+    abstract function writeMessage();
+
+    /**
      * Sets $this->interactive() based on posix_isatty().
      */
     public function detectInteractive()
@@ -275,7 +298,7 @@ trait ExecTrait
             $this->process->setEnv($this->env);
         }
 
-        if (!$this->background and !$this->isPrinted) {
+        if (!$this->background && !$this->isPrinted) {
             $this->startTimer();
             $this->process->run();
             $this->stopTimer();
@@ -286,7 +309,7 @@ trait ExecTrait
             );
         }
 
-        if (!$this->background and $this->isPrinted) {
+        if (!$this->background && $this->isPrinted) {
             $this->startTimer();
             $this->process->run($output_callback);
             $this->stopTimer();

@@ -66,7 +66,7 @@ trait ExecTrait
      */
     abstract function getCommand();
 
-    /** Typically provided by Timer via ProgressIndicatorAwareTrait.  */
+    /** Typically provided by Timer trait via ProgressIndicatorAwareTrait. */
     abstract function startTimer();
     abstract function stopTimer();
     abstract function getExecutionTime();
@@ -75,14 +75,14 @@ trait ExecTrait
      * Typically provided by TaskIO Trait.
      */
     abstract function hideTaskProgress();
-    abstract function showTaskProgress();
-    abstract function printTaskInfo();
+    abstract function showTaskProgress($inProgress);
+    abstract function printTaskInfo($text, $context = null);
 
     /**
      * Typically provided by VerbosityThresholdTrait.
      */
     abstract function verbosityMeetsThreshold();
-    abstract function writeMessage();
+    abstract function writeMessage($message);
 
     /**
      * Sets $this->interactive() based on posix_isatty().

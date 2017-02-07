@@ -2,12 +2,13 @@
 
 namespace Robo\Common;
 
+use Psr\Log\LoggerAwareInterface;
+use Robo\Contract\ConfigAwareInterface;
 use Robo\Contract\OutputAwareInterface;
 use Robo\Contract\VerbosityThresholdInterface;
-use Robo\Robo;
 use Symfony\Component\Process\Process;
 
-class ProcessExecutor implements OutputAwareInterface
+class ProcessExecutor implements ConfigAwareInterface, LoggerAwareInterface, OutputAwareInterface, VerbosityThresholdInterface
 {
     use ExecTrait;
     use TaskIO; // uses LoggerAwareTrait and ConfigAwareTrait
@@ -17,10 +18,7 @@ class ProcessExecutor implements OutputAwareInterface
     public function __construct(Process $process)
     {
         $this->process = $process;
-        $this->logger = Robo::logger();
-        $this->setOutputAdapter(new OutputAdapter());
-        $this->outputAdapter()->setOutput(Robo::output());
-        $this->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_NORMAL);
+        // $this->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_NORMAL);
     }
 
     /**

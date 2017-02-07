@@ -124,7 +124,8 @@ trait ExecCommand
         return $cmd;
     }
 
-    protected function getCommandDescription() {
+    protected function getCommandDescription()
+    {
         return $this->getCommand();
     }
 

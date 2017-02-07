@@ -18,13 +18,12 @@ class ProcessExecutor implements ConfigAwareInterface, LoggerAwareInterface, Out
     public function __construct(Process $process)
     {
         $this->process = $process;
-        // $this->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_NORMAL);
     }
 
     /**
      * @return string
      */
-    public function getCommand()
+    protected function getCommandDescription()
     {
         return $this->process->getCommandLine();
     }

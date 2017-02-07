@@ -64,7 +64,7 @@ trait ExecTrait
     /**
      * @return string
      */
-    abstract function getCommand();
+    abstract function getCommandDescription();
 
     /** Typically provided by Timer trait via ProgressIndicatorAwareTrait. */
     abstract function startTimer();
@@ -341,7 +341,7 @@ trait ExecTrait
             $this->process->stop();
             $this->printTaskInfo(
                 "Stopped {command}",
-                ['command' => $this->getCommand()]
+                ['command' => $this->getCommandDescription()]
             );
         }
     }
@@ -351,7 +351,7 @@ trait ExecTrait
      */
     protected function printAction($context = [])
     {
-        $command = $this->getCommand();
+        $command = $this->getCommandDescription();
         $dir = $this->workingDirectory ? " in {dir}" : "";
         $this->printTaskInfo("Running {command}$dir", [
                 'command' => $command,

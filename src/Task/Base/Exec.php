@@ -73,6 +73,13 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
     /**
      * {@inheritdoc}
      */
+    protected function getCommandDescription()
+    {
+        return $this->getCommand();
+    }
+    /**
+     * {@inheritdoc}
+     */
     public function getCommand()
     {
         return trim($this->command . $this->arguments);

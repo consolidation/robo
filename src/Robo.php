@@ -3,8 +3,10 @@ namespace Robo;
 
 use League\Container\Container;
 use League\Container\ContainerInterface;
+use Robo\Common\ProcessExecutor;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Application as SymfonyApplication;
+use Symfony\Component\Process\Process;
 
 /**
  * Manages the container reference and other static data.  Favor
@@ -208,6 +210,8 @@ class Robo
             ->withMethodCall('setCommandProcessor', ['commandProcessor']);
         $container->add('collection', \Robo\Collection\Collection::class);
         $container->add('collectionBuilder', \Robo\Collection\CollectionBuilder::class);
+        $container->add('processExecutor', ProcessExecutor::class);
+
         static::addInflectors($container);
 
         // Make sure the application is appropriately initialized.
@@ -341,5 +345,10 @@ class Robo
     public static function input()
     {
         return static::service('input');
+    }
+
+    public static function process(Process $process)
+    {
+        return static::getContainer()->get('processExecutor', [$process]);
     }
 }

@@ -5,6 +5,7 @@ use Robo\Contract\PrintedInterface;
 use Robo\Exception\TaskException;
 use Robo\Task\BaseTask;
 use Robo\Contract\CommandInterface;
+use Symfony\Component\Process\Process;
 
 /**
  * Executes Codeception tests

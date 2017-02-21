@@ -139,9 +139,9 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
         return $this;
     }
 
-    public function addCode(callable $code)
+    public function addCode(callable $code, $name)
     {
-        $this->getCollection()->addCode($code);
+        $this->getCollection()->addCode($code, $name);
         return $this;
     }
 

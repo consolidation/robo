@@ -71,8 +71,8 @@ class ApiGen extends BaseTask implements CommandInterface
             $args = func_get_args();
         }
         $args = \array_map(function($arg) {
-            if (\preg_match('/^\w+$/', $arg) === 1) {
-                $this->operation = $arg;
+            if (\preg_match('/^\w+$/', trim($arg)) === 1) {
+                $this->operation = " $arg";
                 return;
             }
             return $arg;

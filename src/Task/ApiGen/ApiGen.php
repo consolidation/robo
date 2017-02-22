@@ -504,7 +504,7 @@ class ApiGen extends BaseTask implements CommandInterface
      */
     public function getCommand()
     {
-        return "$this->command $this->operation $this->arguments";
+        return "$this->command $this->operation$this->arguments";
     }
 
     /**

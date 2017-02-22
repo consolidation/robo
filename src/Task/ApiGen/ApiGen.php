@@ -58,6 +58,30 @@ class ApiGen extends BaseTask implements CommandInterface
     }
 
     /**
+     * Pass methods parameters as arguments to executable. Argument values
+     * are automatically escaped.
+     *
+     * @param string|string[] $args
+     *
+     * @return $this
+     */
+    public function args($args)
+    {
+        if (!is_array($args)) {
+            $args = func_get_args();
+        }
+        $args = \array_map(function($arg) {
+            if (\preg_match('/^\w+$/', $arg) === 1) {
+                $this->operation = $arg;
+                return;
+            }
+            return $arg;
+        }, $args);
+        $this->arguments .= ' ' . implode(' ', array_map('static::escape', $args));
+        return $this;
+    }
+
+    /**
      * @param array|Traversable|string $arg a single object or something traversable
      *
      * @return array|Traversable the provided argument if it was already traversable, or the given

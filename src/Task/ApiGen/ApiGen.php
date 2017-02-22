@@ -31,7 +31,7 @@ class ApiGen extends BaseTask implements CommandInterface
      * @var string
      */
     protected $command;
-    protected $operation = ' generate';
+    protected $operation = 'generate';
 
     /**
      * @param null|string $pathToApiGen
@@ -42,7 +42,7 @@ class ApiGen extends BaseTask implements CommandInterface
     {
         $this->command = $pathToApiGen;
         $command_parts = [];
-        preg_match('/((?:.+)?apigen(?:\.phar)?)( \w+)? ?(.+)?/', $this->command, $command_parts);
+        preg_match('/((?:.+)?apigen(?:\.phar)?) ?( \w+)? ?(.+)?/', $this->command, $command_parts);
         if (count($command_parts) === 3) {
             list(, $this->command, $this->operation) = $command_parts;
         }
@@ -73,7 +73,7 @@ class ApiGen extends BaseTask implements CommandInterface
         }
         $args = array_map(function ($arg) {
             if (preg_match('/^\w+$/', trim($arg)) === 1) {
-                $this->operation = " $arg";
+                $this->operation = $arg;
                 return null;
             }
             return $arg;
@@ -504,7 +504,7 @@ class ApiGen extends BaseTask implements CommandInterface
      */
     public function getCommand()
     {
-        return $this->command . $this->operation . $this->arguments;
+        return "$this->command $this->operation $this->arguments";
     }
 
     /**

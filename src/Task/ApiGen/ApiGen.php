@@ -12,7 +12,8 @@ use Traversable;
  * ``` php
  * <?php
  * // ApiGen Command
- * $this->taskApiGen('./apigen.neon')
+ * $this->taskApiGen('./vendor/apigen/apigen.phar')
+ *      ->config('./apigen.neon')
  *      ->templateConfig('vendor/apigen/apigen/templates/bootstrap/config.neon')
  *      ->wipeout(true)
  *       ->run();
@@ -77,7 +78,7 @@ class ApiGen extends BaseTask implements CommandInterface
             }
             return $arg;
         }, $args);
-		$args = array_filter($args);
+        $args = array_filter($args);
         $this->arguments .= ' ' . implode(' ', array_map('static::escape', $args));
         return $this;
     }

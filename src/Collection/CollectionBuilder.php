@@ -45,12 +45,6 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
 {
 
     /**
-     * @see \Robo\Collection\CollectionInterface::UNNAMEDTASK
-     * @var int
-     */
-    const UNNAMEDTASK = 0;
-
-    /**
      * @var \Robo\Tasks
      */
     protected $commandFile;
@@ -155,7 +149,7 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
    * @param int|string $name
    * @return $this
    */
-    public function addCode(callable $code, $name = self::UNNAMEDTASK)
+    public function addCode(callable $code, $name = \Robo\Collection\CollectionInterface::UNNAMEDTASK)
     {
         $this->getCollection()->addCode($code, $name);
         return $this;

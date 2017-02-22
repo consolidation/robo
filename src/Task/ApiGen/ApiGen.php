@@ -44,10 +44,10 @@ class ApiGen extends BaseTask implements CommandInterface
 		$command_parts = [];
 		preg_match('/((?:.+)?apigen(?:\.phar)?)( \w+)?(.+)?/', $this->command, $command_parts);
 		if (count($command_parts) === 3) {
-			list($full_command, $this->command, $this->operation) = $command_parts;
+			list(, $this->command, $this->operation) = $command_parts;
 		}
 		if (count($command_parts) === 4) {
-			list($full_command, $this->command, $this->operation, $arg) = $command_parts;
+			list(, $this->command, $this->operation, $arg) = $command_parts;
 			$this->arg($arg);
 		}
         if (!$this->command) {

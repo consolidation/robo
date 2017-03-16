@@ -113,6 +113,17 @@ Any task may also implement \Robo\Contract\RollbackInterface; if this is done, t
 
 Use `addAsCompletion($collection)` in place of `addAsRollback($collection)`, or implement \Robo\Contract\CompletionInterface. Completions otherwise work exactly like rollbacks.
 
+### Rollback and Completion Callbacks
+
+You may also provide arbitrary methods as `callable`s to serve as rollback or completion functions, as shown below:
+
+``` php
+<?php
+  $collection->rollbackCode([$myobject, 'myrollback']);
+  $collection->completionCode([$myobject, 'mycompletion']);
+?>
+```
+
 ## Temporary Objects
 
 Since the concept of temporary objects that are cleaned up  on failure is a common pattern, Robo provides built-in support for them. Temporary directories and files are provided out of the box; other kinds of temporary objects can be easily created using the Temporary global collection.

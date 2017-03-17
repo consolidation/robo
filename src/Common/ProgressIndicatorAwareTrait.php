@@ -31,7 +31,6 @@ trait ProgressIndicatorAwareTrait
         $this->progressIndicator = $progressIndicator;
 
         return $this;
-
     }
 
     /**

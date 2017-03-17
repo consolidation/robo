@@ -75,8 +75,7 @@ class OutputTest extends \Codeception\TestCase\Test
         // Use StreamableInputInterface when it's available
         if ($this->input() instanceof \Symfony\Component\Console\Input\StreamableInputInterface) {
             $this->input()->setStream($stream);
-        }
-        else {
+        } else {
             // setInputStream deprecated in Symfony 3.2.
             $this->dialog->setInputStream($stream);
         }

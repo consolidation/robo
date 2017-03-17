@@ -5,6 +5,7 @@ use Consolidation\AnnotatedCommand\CommandData;
 use Consolidation\OutputFormatters\Options\FormatterOptions;
 use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
 use Consolidation\OutputFormatters\StructuredData\PropertyList;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Example RoboFile.
@@ -72,6 +73,14 @@ class RoboFile extends \Robo\Tasks
             $para->process("ls $dir/tests/_data/filenotfound");
         }
         return $para->run();
+    }
+
+    /**
+     * try:opt-required
+     */
+    public function tryOptRequired($options = ['foo' => InputOption::VALUE_REQUIRED])
+    {
+        print "foo is " . $options['foo'];
     }
 
     /**

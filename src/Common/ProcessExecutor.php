@@ -24,9 +24,9 @@ class ProcessExecutor implements ConfigAwareInterface, LoggerAwareInterface, Out
         $this->process = $process;
     }
 
-    public static function create($container)
+    public static function create($container, $process)
     {
-        $processExecutor = new self($commandFile);
+        $processExecutor = new self($process);
 
         $processExecutor->setLogger($container->get('logger'));
         $processExecutor->setProgressIndicator($container->get('progressIndicator'));

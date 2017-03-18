@@ -15,9 +15,25 @@ class ProcessExecutor implements ConfigAwareInterface, LoggerAwareInterface, Out
     use ProgressIndicatorAwareTrait;
     use OutputAwareTrait;
 
+    /**
+     * @param Process $process
+     * @return type
+     */
     public function __construct(Process $process)
     {
         $this->process = $process;
+    }
+
+    public static function create($container, $process)
+    {
+        $processExecutor = new self($process);
+
+        $processExecutor->setLogger($container->get('logger'));
+        $processExecutor->setProgressIndicator($container->get('progressIndicator'));
+        $processExecutor->setConfig($container->get('config'));
+        $processExecutor->setOutputAdapter($container->get('outputAdapter'));
+
+        return $processExecutor;
     }
 
     /**

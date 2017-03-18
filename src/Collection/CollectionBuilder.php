@@ -72,6 +72,18 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
         $this->commandFile = $commandFile;
     }
 
+    public static function create($container, $commandFile)
+    {
+        $builder = new self($commandFile);
+
+        $builder->setLogger($container->get('logger'));
+        $builder->setProgressIndicator($container->get('progressIndicator'));
+        $builder->setConfig($container->get('config'));
+        $builder->setOutputAdapter($container->get('outputAdapter'));
+
+        return $builder;
+    }
+
     /**
      * @param bool $simulated
      *

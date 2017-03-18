@@ -4,6 +4,7 @@ namespace Robo;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\StringInput;
 use Robo\Contract\BuilderAwareInterface;
+use Robo\Collection\CollectionBuilder;
 use Robo\Common\IO;
 use Robo\Exception\TaskExitException;
 use League\Container\ContainerAwareInterface;
@@ -234,7 +235,7 @@ class Runner implements ContainerAwareInterface
         // ensure that it has a builder.  Every command class needs
         // its own collection builder, as they have references to each other.
         if ($commandClass instanceof BuilderAwareInterface) {
-            $builder = $container->get('collectionBuilder', [$commandClass]);
+            $builder = CollectionBuilder::create($container, $commandClass);
             $commandClass->setBuilder($builder);
         }
         if ($commandClass instanceof ContainerAwareInterface) {

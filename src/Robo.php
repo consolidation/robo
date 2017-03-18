@@ -209,7 +209,9 @@ class Robo
         $container->share('commandFactory', \Consolidation\AnnotatedCommand\AnnotatedCommandFactory::class)
             ->withMethodCall('setCommandProcessor', ['commandProcessor']);
         $container->add('collection', \Robo\Collection\Collection::class);
+        // Deprecated: use CollectionBuilder::create() instead.
         $container->add('collectionBuilder', \Robo\Collection\CollectionBuilder::class);
+        // Deprecated: use ProcessExecutor::create() or Robo::process() instead
         $container->add('processExecutor', ProcessExecutor::class);
 
         static::addInflectors($container);
@@ -349,6 +351,6 @@ class Robo
 
     public static function process(Process $process)
     {
-        return static::getContainer()->get('processExecutor', [$process]);
+        return ProcessExecutor::create(static::getContainer(), $process);
     }
 }

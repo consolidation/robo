@@ -208,11 +208,12 @@ class Robo
             );
         $container->share('commandFactory', \Consolidation\AnnotatedCommand\AnnotatedCommandFactory::class)
             ->withMethodCall('setCommandProcessor', ['commandProcessor']);
+
+        // Deprecated: favor using collection builders to direct use of collections.
         $container->add('collection', \Robo\Collection\Collection::class);
-        // Deprecated: use CollectionBuilder::create() instead.
+        // Deprecated: use CollectionBuilder::create() instead -- or, better
+        // yet, BuilderAwareInterface::collectionBuilder() if available.
         $container->add('collectionBuilder', \Robo\Collection\CollectionBuilder::class);
-        // Deprecated: use ProcessExecutor::create() or Robo::process() instead
-        $container->add('processExecutor', ProcessExecutor::class);
 
         static::addInflectors($container);
 

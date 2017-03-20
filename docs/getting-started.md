@@ -117,6 +117,16 @@ Now command can be executed with '-s' to run in silent mode:
 robo hello -s
 ```
 
+The default value for options must be one of:
+
+- The boolean value `false`, which indicates that the option takes no value.
+- A **string** containing the default value for options that may be provided a value, but are not required to.
+- NULL for options that may be provided an optional value, but that have no default when a value is not provided.
+- The special value InputOption::VALUE_REQUIRED, which indicates that the user must provide a value for the option whenever it is used.
+- An empty array, which indicates that the option may appear multiple times on the command line.
+
+No other values should be used for the default value. For example, `$options = ['a' => 1]` is **incorrect**; instead, use `$options = ['a' => '1']`. Similarly, `$options = ['a' => true]` is unsupported, or at least not useful, as this would indicate that the value of `--a` was always `true`, whether or not it appeared on the command line.
+
 ### Load From Other Directories
 
 Robo can execute commands from a RoboFile located in different directory.

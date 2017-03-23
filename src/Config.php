@@ -1,6 +1,8 @@
 <?php
 namespace Robo;
 
+use Dflydev\DotAccessData\Data;
+
 class Config
 {
     const PROGRESS_BAR_AUTO_DISPLAY_INTERVAL = 'progress-delay';
@@ -9,12 +11,25 @@ class Config
     const DECORATED = 'decorated';
 
     /**
-     * @var array
+     * @var Data
      */
-    protected $config = [];
+    protected $config;
+
+    public function __construct()
+    {
+        $this->config = new Data();
+    }
 
     /**
-     * Fet a configuration value
+     * Determine if a non-default config value exists.
+     */
+    public function has($key)
+    {
+        return ($this->config->has($key));
+    }
+
+    /**
+     * Fetch a configuration value
      *
      * @param string $key Which config item to look up
      * @param string|null $defaultOverride Override usual default value with a different default
@@ -23,8 +38,8 @@ class Config
      */
     public function get($key, $defaultOverride = null)
     {
-        if (isset($this->config[$key])) {
-            return $this->config[$key];
+        if ($this->has($key)) {
+            return $this->config->get($key);
         }
         return $this->getDefault($key, $defaultOverride);
     }
@@ -39,7 +54,7 @@ class Config
      */
     public function set($key, $value)
     {
-        $this->config[$key] = $value;
+        $this->config->set($key, $value);
         return $this;
     }
 

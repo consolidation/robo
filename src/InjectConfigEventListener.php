@@ -32,20 +32,16 @@ class InjectConfigEventListener implements EventSubscriberInterface, ConfigAware
         $input = $event->getInput();
 
         $command = $event->getCommand();
-
-/*
-        if ($command->getName() == 'try:formatters') {
-            var_export($command->getName());
-            print "\n";
-            $value = $input->getOption('format');
-            print "format is $value\n";
-            if ($input->hasOption('format')) {
-                print "input has the format option\n";
+        $commandName = $command->getName();
+        $commandName = str_replace(':', '.', $commandName);
+        $definition = $command->getDefinition();
+        $options = $definition->getOptions();
+        foreach ($options as $option => $inputOption) {
+            $key = str_replace('.', '-', $option);
+            $configKey = "command.{$commandName}.options.{$key}";
+            if ($config->has($configKey)) {
+                $inputOption->setDefault($config->get($configKey));
             }
-            $definition = $command->getDefinition();
-            $formatOption = $definition->getOption('format');
-            $formatOption->setDefault('json');
         }
-*/
     }
 }

@@ -179,12 +179,14 @@ class Robo
         $container->share('resultPrinter', \Robo\Log\ResultPrinter::class);
         $container->add('simulator', \Robo\Task\Simulator::class);
         $container->share('globalOptionsEventListener', \Robo\GlobalOptionsEventListener::class);
+        $container->share('injectConfigEventListener', \Robo\InjectConfigEventListener::class);
         $container->share('collectionProcessHook', \Robo\Collection\CollectionProcessHook::class);
         $container->share('hookManager', \Consolidation\AnnotatedCommand\Hooks\HookManager::class)
             ->withMethodCall('addResultProcessor', ['collectionProcessHook', '*']);
         $container->share('alterOptionsCommandEvent', \Consolidation\AnnotatedCommand\Options\AlterOptionsCommandEvent::class)
             ->withArgument('application');
         $container->share('eventDispatcher', \Symfony\Component\EventDispatcher\EventDispatcher::class)
+            ->withMethodCall('addSubscriber', ['injectConfigEventListener'])
             ->withMethodCall('addSubscriber', ['globalOptionsEventListener'])
             ->withMethodCall('addSubscriber', ['alterOptionsCommandEvent'])
             ->withMethodCall('addSubscriber', ['hookManager']);

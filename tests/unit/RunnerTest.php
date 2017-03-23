@@ -306,4 +306,48 @@ EOT;
         $this->guy->seeInOutput(' [debug] This is a debug log message.');
         $this->assertEquals(0, $result);
     }
+
+    public function testNoOptionsNoConfiguration()
+    {
+        // Run without any config and without any options
+        $argv = ['placeholder', 'test:options'];
+        $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
+
+        $this->guy->seeInOutput("a: '1'");
+        $this->guy->seeInOutput("b: '2'");
+    }
+
+    public function testOptionsButNoConfiguration()
+    {
+        // Set one option, but provide no config
+        $argv = ['placeholder', 'test:options', '--b=3'];
+        $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
+
+        $this->guy->seeInOutput("a: '1'");
+        $this->guy->seeInOutput("b: '3'");
+    }
+
+    public function testWithConfigurationButNoOptions()
+    {
+        \Robo\Robo::config()->set('command.test.options.options.a', '4');
+        \Robo\Robo::config()->set('command.test.options.options.b', '5');
+
+        $argv = ['placeholder', 'test:options'];
+        $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
+
+        $this->guy->seeInOutput("a: '4'");
+        $this->guy->seeInOutput("b: '5'");
+    }
+
+    public function testWithConfigurationAndOptionOverride()
+    {
+        \Robo\Robo::config()->set('command.test.options.options.a', '4');
+        \Robo\Robo::config()->set('command.test.options.options.b', '5');
+
+        $argv = ['placeholder', 'test:options', '--b=6'];
+        $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
+
+        $this->guy->seeInOutput("a: '4'");
+        $this->guy->seeInOutput("b: '6'");
+    }
 }

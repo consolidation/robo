@@ -143,7 +143,7 @@ Any special character like `-` will be passed into without change.
 
 ``` php
 <?php
-    function ls($args)
+    function ls(array $args)
     {
         $this->taskExec('ls')->args($args)->run();
     }

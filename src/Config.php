@@ -15,9 +15,13 @@ class Config
      */
     protected $config;
 
-    public function __construct()
+    /**
+     * Create a new configuration object, and initialize it with
+     * the provided nested array containing configuration data.
+     */
+    public function __construct(array $data = null)
     {
-        $this->config = new Data();
+        $this->config = new Data($data);
     }
 
     /**
@@ -57,6 +61,34 @@ class Config
         $this->config->set($key, $value);
         return $this;
     }
+
+    /**
+     * Import configuration from the provided nexted array, replacing whatever
+     * was here previously.
+     */
+    public function import(array $data)
+    {
+        $this->config->import($data, true);
+        return $this;
+    }
+
+    /**
+     * Extend this configuration by merging the provided nested array.
+     */
+    public function extend(array $data)
+    {
+        $this->config->import($data, false);
+        return $this;
+    }
+
+    /**
+     * Export all configuration as a nested array.
+     */
+    public function export()
+    {
+        return $this->config->export();
+    }
+
 
     /**
      * Return an associative array containing all of the global configuration

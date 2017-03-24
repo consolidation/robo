@@ -4,6 +4,7 @@ namespace Robo;
 use League\Container\Container;
 use League\Container\ContainerInterface;
 use Robo\Common\ProcessExecutor;
+use Robo\Common\ConfigLoader;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Process\Process;
@@ -85,6 +86,28 @@ class Robo
     public static function hasContainer()
     {
         return static::$container !== null;
+    }
+
+    /**
+     * Create a config object and load it from the provided paths.
+     */
+    public static function createConfiguration($paths)
+    {
+        $config = new Config();
+        static::loadConfiguration($config, $paths);
+        return $config;
+    }
+
+    /**
+     * Use a simple config loader to load configuration values from specified paths
+     */
+    public static function loadConfiguration($config, $paths)
+    {
+        $loader = new ConfigLoader();
+        foreach ($paths as $path) {
+            $loader->load($path);
+        }
+        $config->extend($loader->export());
     }
 
     /**

@@ -29,7 +29,6 @@ class InjectConfigEventListener implements EventSubscriberInterface, ConfigAware
     public function injectConfiguration(ConsoleCommandEvent $event)
     {
         $config = $this->getConfig();
-        $input = $event->getInput();
 
         $command = $event->getCommand();
         $commandName = $command->getName();

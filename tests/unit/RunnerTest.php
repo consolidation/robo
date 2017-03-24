@@ -1,6 +1,8 @@
 <?php
 use Robo\Robo;
 
+use Robo\Common\ConfigLoader;
+
 class RunnerTest extends \Codeception\TestCase\Test
 {
     /**
@@ -361,5 +363,34 @@ EOT;
 
         $actual = \Robo\Robo::config()->get('config.key');
         $this->assertEquals('value', $actual);
+    }
+
+    public function testWithConfigLoader()
+    {
+        $loader = new ConfigLoader();
+        $loader->load(dirname(__DIR__) . '/_data/robo.yml');
+
+        \Robo\Robo::config()->extend($loader->export());
+
+        $argv = ['placeholder', 'test:simple-list'];
+        $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
+
+        $this->guy->seeInOutput("a: '12'");
+        $this->guy->seeInOutput("b: '13'");
+    }
+
+
+    public function testWithConfigLoaderAndCliOverride()
+    {
+        $loader = new ConfigLoader();
+        $loader->load(dirname(__DIR__) . '/_data/robo.yml');
+
+        \Robo\Robo::config()->extend($loader->export());
+
+        $argv = ['placeholder', 'test:simple-list', '--b=3'];
+        $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
+
+        $this->guy->seeInOutput("a: '12'");
+        $this->guy->seeInOutput("b: '3'");
     }
 }

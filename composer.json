@@ -34,7 +34,8 @@
         "symfony/process": "~2.5|~3.0",
         "symfony/filesystem": "~2.5|~3.0",
         "symfony/event-dispatcher": "~2.5|~3.0",
-        "squizlabs/php_codesniffer": "^2.8"
+        "squizlabs/php_codesniffer": "^2.8",
+        "grasmash/yaml-expander": "^1.1"
     },
     "require-dev": {
         "patchwork/jsqueeze": "~2",

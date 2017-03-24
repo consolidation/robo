@@ -22,7 +22,7 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class RoboFile extends \Robo\Tasks
 {
-   /**
+    /**
      * Watch a file.
      *
      * Demonstrates the 'watch' command. Runs 'composer update' any time

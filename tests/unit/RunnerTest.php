@@ -310,7 +310,7 @@ EOT;
     public function testNoOptionsNoConfiguration()
     {
         // Run without any config and without any options
-        $argv = ['placeholder', 'test:options'];
+        $argv = ['placeholder', 'test:simple-list'];
         $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
 
         $this->guy->seeInOutput("a: '1'");
@@ -320,7 +320,7 @@ EOT;
     public function testOptionsButNoConfiguration()
     {
         // Set one option, but provide no config
-        $argv = ['placeholder', 'test:options', '--b=3'];
+        $argv = ['placeholder', 'test:simple-list', '--b=3'];
         $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
 
         $this->guy->seeInOutput("a: '1'");
@@ -329,10 +329,10 @@ EOT;
 
     public function testWithConfigurationButNoOptions()
     {
-        \Robo\Robo::config()->set('command.test.options.options.a', '4');
-        \Robo\Robo::config()->set('command.test.options.options.b', '5');
+        \Robo\Robo::config()->set('command.test.simple-list.options.a', '4');
+        \Robo\Robo::config()->set('command.test.simple-list.options.b', '5');
 
-        $argv = ['placeholder', 'test:options'];
+        $argv = ['placeholder', 'test:simple-list'];
         $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
 
         $this->guy->seeInOutput("a: '4'");
@@ -341,13 +341,25 @@ EOT;
 
     public function testWithConfigurationAndOptionOverride()
     {
-        \Robo\Robo::config()->set('command.test.options.options.a', '4');
-        \Robo\Robo::config()->set('command.test.options.options.b', '5');
+        \Robo\Robo::config()->set('command.test.simple-list.options.a', '4');
+        \Robo\Robo::config()->set('command.test.simple-list.options.b', '5');
 
-        $argv = ['placeholder', 'test:options', '--b=6'];
+        $argv = ['placeholder', 'test:simple-list', '--b=6'];
         $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
 
         $this->guy->seeInOutput("a: '4'");
         $this->guy->seeInOutput("b: '6'");
+    }
+
+    public function testSettingConfigurationFromCommandOptions()
+    {
+        $argv = ['placeholder', 'test:simple-list', '-D', 'config.key=value'];
+        $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
+
+        $this->guy->seeInOutput("a: '1'");
+        $this->guy->seeInOutput("b: '2'");
+
+        $actual = \Robo\Robo::config()->get('config.key');
+        $this->assertEquals('value', $actual);
     }
 }

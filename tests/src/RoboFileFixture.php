@@ -106,7 +106,7 @@ class RoboFileFixture extends \Robo\Tasks implements LoggerAwareInterface, Custo
      *   a: A
      *   b: B
      */
-    public function testOptions($options = ['a' => '1', 'b' => '2', 'format' => 'yaml'])
+    public function testSimpleList($options = ['a' => '1', 'b' => '2', 'format' => 'yaml'])
     {
         $result = ['a' => $options['a'], 'b' => $options['b']];
         return new PropertyList($result);

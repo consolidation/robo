@@ -1,7 +1,7 @@
 <?php
 namespace Robo\Collection;
 
-use Robo\Config;
+use Robo\Config\Config;
 use Psr\Log\LogLevel;
 use Robo\Contract\InflectionInterface;
 use Robo\Contract\TaskInterface;

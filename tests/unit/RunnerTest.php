@@ -1,7 +1,7 @@
 <?php
 use Robo\Robo;
 
-use Robo\Common\ConfigLoader;
+use Robo\Config\YamlConfigLoader;
 
 class RunnerTest extends \Codeception\TestCase\Test
 {
@@ -367,10 +367,10 @@ EOT;
 
     public function testWithConfigLoader()
     {
-        $loader = new ConfigLoader();
+        $loader = new YamlConfigLoader();
         $loader->load(dirname(__DIR__) . '/_data/robo.yml');
 
-        \Robo\Robo::config()->extend($loader->export());
+        \Robo\Robo::config()->extend($loader);
 
         $argv = ['placeholder', 'test:simple-list'];
         $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
@@ -382,10 +382,10 @@ EOT;
 
     public function testWithConfigLoaderAndCliOverride()
     {
-        $loader = new ConfigLoader();
+        $loader = new YamlConfigLoader();
         $loader->load(dirname(__DIR__) . '/_data/robo.yml');
 
-        \Robo\Robo::config()->extend($loader->export());
+        \Robo\Robo::config()->extend($loader);
 
         $argv = ['placeholder', 'test:simple-list', '--b=3'];
         $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());

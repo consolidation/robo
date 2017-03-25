@@ -1,15 +1,14 @@
 <?php
 
-namespace Robo\Common;
+namespace Robo\Config;
 
 use Symfony\Component\Yaml\Yaml;
-use Grasmash\YamlExpander\Expander;
 
 /**
  * Load configuration files, and fill in any property values that
  * need to be expanded.
  */
-class ConfigLoader
+class YamlConfigLoader extends ConfigLoader
 {
     protected $config = [];
 
@@ -21,15 +20,5 @@ class ConfigLoader
             return;
         }
         $this->add(Yaml::parse(file_get_contents($path)));
-    }
-
-    public function add($data)
-    {
-        $this->config = Expander::expandArrayProperties($data, $this->config);
-    }
-
-    public function export()
-    {
-        return $this->config;
     }
 }

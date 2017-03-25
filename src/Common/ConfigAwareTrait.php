@@ -3,7 +3,7 @@
 namespace Robo\Common;
 
 use Robo\Robo;
-use Robo\Config;
+use Robo\Config\Config;
 
 trait ConfigAwareTrait
 {
@@ -15,7 +15,7 @@ trait ConfigAwareTrait
     /**
      * Set the config management object.
      *
-     * @param \Robo\Config $config
+     * @param \Robo\Config\Config $config
      *
      * @return $this
      *
@@ -31,7 +31,7 @@ trait ConfigAwareTrait
     /**
      * Get the config management object.
      *
-     * @return \Robo\Config
+     * @return \Robo\Config\Config
      *
      * @see \Robo\Contract\ConfigAwareInterface::getConfig()
      */

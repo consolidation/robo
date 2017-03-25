@@ -21,6 +21,13 @@ class ConfigLoader implements ConfigLoaderInterface
     public function setSourceName($source)
     {
         $this->source = $source;
+        return $this;
+    }
+
+    public function import($data)
+    {
+        $this->config = [];
+        return $this->add($data);
     }
 
     public function add($data)
@@ -29,6 +36,7 @@ class ConfigLoader implements ConfigLoaderInterface
             $data = $data->export();
         }
         $this->config = Expander::expandArrayProperties($data, $this->config);
+        return $this;
     }
 
     public function export()

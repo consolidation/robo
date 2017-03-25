@@ -43,4 +43,9 @@ class ConfigLoader implements ConfigLoaderInterface
     {
         return $this->config;
     }
+
+    public function keys()
+    {
+        return array_keys($this->config);
+    }
 }

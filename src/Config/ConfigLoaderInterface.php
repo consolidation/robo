@@ -10,4 +10,6 @@ interface ConfigLoaderInterface
 {
     public function add($data);
     public function export();
+    public function getSourceName();
+    public function setSourceName($source);
 }

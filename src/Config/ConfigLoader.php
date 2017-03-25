@@ -11,6 +11,17 @@ use Grasmash\YamlExpander\Expander;
 class ConfigLoader implements ConfigLoaderInterface
 {
     protected $config = [];
+    protected $source = '';
+
+    public function getSourceName()
+    {
+        return $this->source;
+    }
+
+    public function setSourceName($source)
+    {
+        $this->source = $source;
+    }
 
     public function add($data)
     {

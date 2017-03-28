@@ -10,8 +10,6 @@ use Symfony\Component\Yaml\Yaml;
  */
 class YamlConfigLoader extends ConfigLoader
 {
-    protected $config = [];
-
     public function load($path)
     {
         $this->setSourceName($path);
@@ -21,6 +19,7 @@ class YamlConfigLoader extends ConfigLoader
         if (!file_exists($path)) {
             return $this;
         }
-        return $this->import(Yaml::parse(file_get_contents($path)));
+        $this->config = Yaml::parse(file_get_contents($path));
+        return $this;
     }
 }

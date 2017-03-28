@@ -36,7 +36,7 @@ class Config
      * Fetch a configuration value
      *
      * @param string $key Which config item to look up
-     * @param string|null $defaultOverride Override usual default value with a different default
+     * @param string|null $defaultOverride Override usual default value with a different default. Deprecated; provide defaults to the config processor instead.
      *
      * @return mixed
      */
@@ -67,13 +67,13 @@ class Config
      * was here previously.
      *
      * @param array|ConfigLoaderInterface $data
+     * @return Config
      */
-    public function import($data, $overwrite = true)
+    public function import($data)
     {
-        if ($data instanceof ConfigLoaderInterface) {
-            $data = $data->export();
+        if (!empty($data)) {
+            $this->config->import($data, true);
         }
-        $this->config->import($data, $overwrite);
         return $this;
     }
 
@@ -84,8 +84,8 @@ class Config
      */
     public function extend($data)
     {
-        $this->import($data, false);
-        return $this;
+        $data = array_merge_recursive($this->config->export(), $data);
+        return $this->import($data);
     }
 
     /**
@@ -95,7 +95,6 @@ class Config
     {
         return $this->config->export();
     }
-
 
     /**
      * Return an associative array containing all of the global configuration

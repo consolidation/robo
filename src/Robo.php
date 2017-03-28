@@ -5,6 +5,7 @@ use League\Container\Container;
 use League\Container\ContainerInterface;
 use Robo\Common\ProcessExecutor;
 use Robo\Config\Config;
+use Robo\Config\ConfigProcessor;
 use Robo\Config\YamlConfigLoader;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Application as SymfonyApplication;
@@ -105,10 +106,11 @@ class Robo
     public static function loadConfiguration($config, $paths)
     {
         $loader = new YamlConfigLoader();
+        $processor = new ConfigProcessor();
         foreach ($paths as $path) {
-            $loader->load($path);
+            $processor->extend($loader->load($path));
         }
-        $config->extend($loader->export());
+        $config->import($loader->export());
     }
 
     /**

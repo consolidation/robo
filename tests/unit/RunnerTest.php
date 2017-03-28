@@ -1,6 +1,7 @@
 <?php
 use Robo\Robo;
 
+use Robo\Config\ConfigProcessor;
 use Robo\Config\YamlConfigLoader;
 
 class RunnerTest extends \Codeception\TestCase\Test
@@ -370,7 +371,7 @@ EOT;
         $loader = new YamlConfigLoader();
         $loader->load(dirname(__DIR__) . '/_data/robo.yml');
 
-        \Robo\Robo::config()->extend($loader);
+        \Robo\Robo::config()->extend($loader->export());
 
         $argv = ['placeholder', 'test:simple-list'];
         $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
@@ -379,18 +380,32 @@ EOT;
         $this->guy->seeInOutput("b: '13'");
     }
 
-
     public function testWithConfigLoaderAndCliOverride()
     {
         $loader = new YamlConfigLoader();
         $loader->load(dirname(__DIR__) . '/_data/robo.yml');
 
-        \Robo\Robo::config()->extend($loader);
+        \Robo\Robo::config()->extend($loader->export());
 
         $argv = ['placeholder', 'test:simple-list', '--b=3'];
         $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
 
         $this->guy->seeInOutput("a: '12'");
         $this->guy->seeInOutput("b: '3'");
+    }
+
+    public function testWithConfigProcessor()
+    {
+        $processor = new ConfigProcessor();
+        $loader = new YamlConfigLoader();
+        $processor->extend($loader->load(dirname(__DIR__) . '/_data/robo.yml'));
+        $processor->extend($loader->load(dirname(__DIR__) . '/_data/robo2.yml'));
+        \Robo\Robo::config()->import($processor->export());
+
+        $argv = ['placeholder', 'test:simple-list'];
+        $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
+
+        $this->guy->seeInOutput("a: '112'");
+        $this->guy->seeInOutput("b: '13'");
     }
 }

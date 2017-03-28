@@ -8,10 +8,22 @@ namespace Robo\Config;
  */
 interface ConfigLoaderInterface
 {
-    public function import($data);
-    public function add($data);
+    /**
+     * Convert loaded configuration into a simple php nested array.
+     *
+     * @return array
+     */
     public function export();
+
+    /**
+     * Return the top-level keys in the exported data.
+     *
+     * @return array
+     */
     public function keys();
+
+    /**
+     * Return a symbolic name for this configuration loader instance.
+     */
     public function getSourceName();
-    public function setSourceName($source);
 }

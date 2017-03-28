@@ -1,7 +1,6 @@
-indirect: '12'
 command:
   test:
     simple-list:
       options:
-        a: ${indirect}
+        a: '12'
         b: '13'

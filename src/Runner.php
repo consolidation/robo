@@ -133,7 +133,7 @@ class Runner implements ContainerAwareInterface
 
         // If we were not provided a container, then create one
         if (!$this->getContainer()) {
-            $config = Robo::createConfiguration([__DIR__ . '/robo.yml']);
+            $config = Robo::createConfiguration(['robo.yml']);
             $container = Robo::createDefaultContainer($input, $output, $app, $config);
             $this->setContainer($container);
             // Automatically register a shutdown function and

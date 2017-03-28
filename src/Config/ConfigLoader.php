@@ -18,24 +18,9 @@ class ConfigLoader implements ConfigLoaderInterface
         return $this->source;
     }
 
-    public function setSourceName($source)
+    protected function setSourceName($source)
     {
         $this->source = $source;
-        return $this;
-    }
-
-    public function import($data)
-    {
-        $this->config = [];
-        return $this->add($data);
-    }
-
-    public function add($data)
-    {
-        if ($data instanceof ConfigLoaderInterface) {
-            $data = $data->export();
-        }
-        $this->config = Expander::expandArrayProperties($data, $this->config);
         return $this;
     }
 

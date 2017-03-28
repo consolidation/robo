@@ -29,13 +29,13 @@
         "consolidation/annotated-command": "^2.2",
         "consolidation/output-formatters": "^3.1.5",
         "dflydev/dot-access-data": "^1.1.0",
+        "grasmash/yaml-expander": "^1.1",
         "symfony/finder": "~2.5|~3.0",
         "symfony/console": "~2.8|~3.0",
         "symfony/process": "~2.5|~3.0",
         "symfony/filesystem": "~2.5|~3.0",
         "symfony/event-dispatcher": "~2.5|~3.0",
-        "squizlabs/php_codesniffer": "^2.8",
-        "grasmash/yaml-expander": "^1.1"
+        "squizlabs/php_codesniffer": "^2.8"
     },
     "require-dev": {
         "patchwork/jsqueeze": "~2",

@@ -364,7 +364,7 @@ For example, given the following Robo command:
 
 ``` php
 <?php
-    function hello($opts = ['who' => 'world'])
+    function hello($opts = ['who' => 'unknown'])
     {
         $this->say("Hello, " . $opts['who']);
     }
@@ -408,7 +408,7 @@ The key for configuration-injected settings is `task.CLASSNAME.settings.key`.
 
 ### Accessing Configuration Directly
 
-In a RoboFile, use `Robo::Config()->get('command.hello.options.who');` to fetch the configuration option from the previous example.
+In a RoboFile, use `Robo::Config()->get('task.MyOperation.settings.dir');` to fetch the `dir` configuration option from the previous example.
 
 ### Providing Default Configuration
 

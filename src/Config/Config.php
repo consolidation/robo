@@ -84,8 +84,10 @@ class Config
      */
     public function extend($data)
     {
-        $data = array_merge_recursive($this->config->export(), $data);
-        return $this->import($data);
+        $processor = new ConfigProcessor();
+        $processor->add($this->config->export());
+        $processor->add($data);
+        return $this->import($processor->export());
     }
 
     /**

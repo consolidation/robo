@@ -41,24 +41,40 @@ trait ConfigAwareTrait
     }
 
     /**
+     * Any class that uses ConfigAwareTrait SHOULD override this method
+     * , and define a prefix for its configuration items. This is usually
+     * done in a base class; see BaseTask::configPrefix(). It is not
+     * necessary to override this method for classes that have no configuration
+     * items of their own.
+     *
+     * @return string
+     */
+    protected static function configPrefix()
+    {
+        return '';
+    }
+
+    /**
      * @param string $key
      *
      * @return string
      */
     private static function getClassKey($key)
     {
-        return sprintf('%s.%s', get_called_class(), $key);
+        return sprintf('%s%s.%s', static::configPrefix(), get_called_class(), $key);
     }
 
     /**
      * @param string $key
      * @param mixed $value
-     *
-     * @deprecated
+     * @param Config|null $config
      */
-    public static function configure($key, $value)
+    public static function configure($key, $value, $config = null)
     {
-        Robo::config()->set(static::getClassKey($key), $value);
+        if (!$config) {
+            $config = Robo::config();
+        }
+        $config->setDefault(static::getClassKey($key), $value);
     }
 
     /**

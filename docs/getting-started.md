@@ -382,16 +382,64 @@ command:
 
 If you run this command, then it will print `Hello, world`. If the `--who` option is provided on the command line, that value will take precidence over the value stored in configuration. Thus, `hello --who=everyone` will print `Hello, everyone`.
 
+### Configuration for Task Settings
+
+Robo will automatically configure tasks with values from configuration. For example, given the following task definition:
+```
+$this->taskMyOperation()
+  ->dir($buildDir)
+  ->extrapolated(false)
+  ->run();
+```
+You could instead remove the setter methods and move the parameter values to a configruation file:
+```
+$this->taskComposerInstall()
+  ->run();
+```
+The corresponding configuration file would appear as follows:
+```
+task:
+  MyOperation:
+    settings:
+      dir: /my/path
+      extrapolated: false
+```
+The key for configuration-injected settings is `task.CLASSNAME.settings.key`.
+
 ### Accessing Configuration Directly
 
 In a RoboFile, use `Robo::Config()->get('command.hello.options.who');` to fetch the configuration option from the previous example.
 
-### Loading Configuration from Othe Sources
+### Providing Default Configuration
 
-RoboFiles that wish to define their own configuration options may do so in one of two places.
+RoboFiles that wish to provide default configuration values that can be overridden via robo.yml values or commandline options may do so in the class' constructor method.  The example below demonstrates how to set up a default value for the `task.Ssh.remoteDir` configuration property in code:
+```
+class RoboFile
+{
+    public function __construct()
+    {    
+        Robo\Task\Remote\Ssh::configure('remoteDir', '/srv/www');
+    }
+}
+```
+If `task.Ssh.remoteDir` is set to some other value in the robo.yml configuration file in the current directory, then the value from the configuration file will take precedence.
 
-- To define default configuration values that are overridden by the standard Robo configuration files, use the RoboFile's constructor.
-- To define configuration values that override whatever is in the standard Robo configuration files, use a `@hook init` method.
+### Loading Configuration From Another Source
+
+Sometimes, a RoboFile might want to define its own private configuration file to use in addition to the standard `robo.yml` file. This can also be done in the constructor.
+```
+class RoboFile
+{
+    public function __construct()
+    {    
+        $loader = new YamlConfigLoader();
+        Robo::config()->extend($loader->load(__DIR__ . '/myconf.yml'));
+    }
+}
+```
+Note that configuration loaded in this way will take precedence over the configuration loaded by default by Robo.
+
+It is possible to have even more control than this if you [create your own application using Robo as a Framework](framework.md).
 
 ## IO
 

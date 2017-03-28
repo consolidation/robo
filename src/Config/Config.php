@@ -16,12 +16,18 @@ class Config
     protected $config;
 
     /**
+     * @var array
+     */
+    protected $defaults;
+
+    /**
      * Create a new configuration object, and initialize it with
      * the provided nested array containing configuration data.
      */
     public function __construct(array $data = null)
     {
         $this->config = new Data($data);
+        $this->defaults = $this->getGlobalOptionDefaultValues();
     }
 
     /**
@@ -64,7 +70,7 @@ class Config
 
     /**
      * Import configuration from the provided nexted array, replacing whatever
-     * was here previously.
+     * was here previously. No processing is done on the provided data.
      *
      * @param array|ConfigLoaderInterface $data
      * @return Config
@@ -79,11 +85,15 @@ class Config
 
     /**
      * Extend this configuration by merging the provided nested array.
+     * This will also do some simple processing on the data.
      *
      * @param array|ConfigLoaderInterface $data
      */
     public function extend($data)
     {
+        if (empty($data)) {
+            return;
+        }
         $processor = new ConfigProcessor();
         $processor->add($this->config->export());
         $processor->add($data);
@@ -96,6 +106,31 @@ class Config
     public function export()
     {
         return $this->config->export();
+    }
+
+    /**
+     * Given an object that contains configuration methods, inject any
+     * configuration found in the configuration file.
+     *
+     * The proper use for this method is to call setter methods of the
+     * provided object. Using configuration to call methods that do work
+     * is an abuse of this mechanism.
+     *
+     * TODO: We could use reflection to test to see if the return type
+     * of the provided object is a reference to the object itself. All
+     * setter methods should do this. This test is insufficient to guarentee
+     * that the method is valid, but it would be a good start.
+     */
+    public function applyConfiguration($object, $configurationKey)
+    {
+        if ($this->has($configurationKey)) {
+            $settings = $this->get($configurationKey);
+            foreach ($settings as $setterMethod => $args) {
+                // TODO: Should it be possible to make $args a nested array
+                // to make this code call the setter method multiple times?
+                call_user_func_array([$object, $setterMethod], (array)$args);
+            }
+        }
     }
 
     /**
@@ -125,8 +160,22 @@ class Config
      */
     public function getDefault($key, $defaultOverride = null)
     {
-        $globalOptions = $this->getGlobalOptionDefaultValues();
-        return isset($globalOptions[$key]) ? $globalOptions[$key] : $defaultOverride;
+        return isset($this->defaults[$key]) ? $this->defaults[$key] : $defaultOverride;
+    }
+
+    /**
+     * Set the default value for a configuration setting. This allows us to
+     * set defaults either before or after more specific configuration values
+     * are loaded. Keeping defaults separate from current settings also
+     * allows us to determine when a setting has been overridden.
+     *
+     * @param string $key
+     * @param string $value
+     */
+    public function setDefault($key, $value)
+    {
+        $this->defaults[$key] = $value;
+        return $this;
     }
 
     /**

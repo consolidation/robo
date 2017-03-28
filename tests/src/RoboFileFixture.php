@@ -120,6 +120,11 @@ class RoboFileFixture extends \Robo\Tasks implements LoggerAwareInterface, Custo
         return $this->taskExec('ls xyzzy' . date('U'))->dir('/tmp')->run();
     }
 
+    public function testExec()
+    {
+        return $this->taskExec('pwd')->run();
+    }
+
     /**
      * Demonstrate what happens when a command or a task
      * throws an exception.  Note that typically, Robo commands

@@ -408,4 +408,18 @@ EOT;
         $this->guy->seeInOutput("a: '112'");
         $this->guy->seeInOutput("b: '13'");
     }
+
+    public function testCommandWithTaskConfiguration()
+    {
+        $loader = new YamlConfigLoader();
+        $loader->load(dirname(__DIR__) . '/_data/robo.yml');
+
+        \Robo\Robo::config()->extend($loader->export());
+
+        $argv = ['placeholder', 'test:exec', '--simulate'];
+        $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
+
+        // `task.Exec.settings.dir` is defined in loaded robo.yml configuration file.
+        $this->guy->seeInOutput("->dir('/some/dir')");
+    }
 }

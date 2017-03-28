@@ -4,3 +4,7 @@ command:
       options:
         a: '12'
         b: '13'
+task:
+  Exec:
+    settings:
+      dir: /some/dir

@@ -16,7 +16,16 @@ class GlobalOptionsEventListener implements EventSubscriberInterface, ConfigAwar
      */
     public static function getSubscribedEvents()
     {
-        return [ConsoleEvents::COMMAND => 'setGlobalOptions'];
+        return [ConsoleEvents::COMMAND => 'handleCommandEvent'];
+    }
+
+    /**
+     * Run all of our individual operations when a command event is received.
+     */
+    public function handleCommandEvent(ConsoleCommandEvent $event)
+    {
+        $this->setGlobalOptions($event);
+        $this->setConfigurationValues($event);
     }
 
     /**
@@ -41,6 +50,18 @@ class GlobalOptionsEventListener implements EventSubscriberInterface, ConfigAwar
             }
             $config->set($option, $value);
         }
+    }
+
+    /**
+     * Examine the commandline --define / -D options, and apply the provided
+     * values to the active configuration.
+     *
+     * @param \Symfony\Component\Console\Event\ConsoleCommandEvent $event
+     */
+    public function setConfigurationValues(ConsoleCommandEvent $event)
+    {
+        $config = $this->getConfig();
+        $input = $event->getInput();
 
         // Also set any `-D config.key=value` options from the commandline.
         if ($input->hasOption('define')) {

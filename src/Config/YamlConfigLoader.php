@@ -19,7 +19,7 @@ class YamlConfigLoader extends ConfigLoader
         if (!file_exists($path)) {
             return $this;
         }
-        $this->config = Yaml::parse(file_get_contents($path));
+        $this->config = (array) Yaml::parse(file_get_contents($path));
         return $this;
     }
 }

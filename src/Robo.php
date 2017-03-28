@@ -4,7 +4,6 @@ namespace Robo;
 use League\Container\Container;
 use League\Container\ContainerInterface;
 use Robo\Common\ProcessExecutor;
-use Robo\Config\Config;
 use Robo\Config\ConfigProcessor;
 use Robo\Config\YamlConfigLoader;
 use Symfony\Component\Console\Input\StringInput;
@@ -95,7 +94,7 @@ class Robo
      */
     public static function createConfiguration($paths)
     {
-        $config = new Config();
+        $config = new \Robo\Config\Config();
         static::loadConfiguration($config, $paths);
         return $config;
     }
@@ -137,7 +136,7 @@ class Robo
         }
 
         if (!$config) {
-            $config = new Config();
+            $config = new \Robo\Config\Config();
         }
 
         // Set up our dependency injection container.
@@ -171,7 +170,7 @@ class Robo
      * @param null|\Symfony\Component\Console\Input\InputInterface $input
      * @param null|\Symfony\Component\Console\Output\OutputInterface $output
      */
-    public static function configureContainer(ContainerInterface $container, SymfonyApplication $app, Config $config, $input = null, $output = null)
+    public static function configureContainer(ContainerInterface $container, SymfonyApplication $app, \Robo\Config\Config $config, $input = null, $output = null)
     {
         // Self-referential container refernce for the inflector
         $container->add('container', $container);

@@ -16,6 +16,8 @@ class ConfigProcessor
     /**
      * Extend the configuration to be processed with the
      * configuration provided by the specified loader.
+     *
+     * @param ConfigLoaderInterface $loader
      */
     public function extend(ConfigLoaderInterface $loader)
     {
@@ -25,6 +27,9 @@ class ConfigProcessor
     /**
      * Extend the configuration to be processed with
      * the provided nested array.
+     *
+     * @param array $data
+     * @param string $source
      */
     public function add($data, $source = '')
     {
@@ -39,6 +44,8 @@ class ConfigProcessor
     /**
      * Process all of the configuration that has been collected,
      * and return a nested array.
+     *
+     * @return array
      */
     public function export()
     {
@@ -54,6 +61,7 @@ class ConfigProcessor
     /**
      * Get the configuration to be processed, and clear out the
      * 'unprocessed' list.
+     *
      * @return array
      */
     protected function fetchUnprocessed()
@@ -66,6 +74,10 @@ class ConfigProcessor
     /**
      * Use a map-reduce to evaluate the items to be processed,
      * and merge them into the processed array.
+     *
+     * @param array $processed
+     * @param array $toBeProcessed
+     * @return array
      */
     protected function process($processed, $toBeProcessed)
     {
@@ -78,6 +90,9 @@ class ConfigProcessor
      * list. By default this is a no-op. Override this method to
      * provide any desired configuration preprocessing, e.g. dot-notation
      * expansion of the configuration keys, etc.
+     *
+     * @param array $config
+     * @return array
      */
     protected function preprocess($config)
     {
@@ -87,6 +102,10 @@ class ConfigProcessor
     /**
      * Evaluate one item in the 'to be evaluated' list, and then
      * merge it into the processed configuration (the 'carry').
+     *
+     * @param array $processed
+     * @param array $config
+     * @return array
      */
     protected function reduceOne($processed, $config)
     {
@@ -96,6 +115,10 @@ class ConfigProcessor
 
     /**
      * Evaluate one configuration item.
+     *
+     * @param array $processed
+     * @param array $config
+     * @return array
      */
     protected function evaluate($processed, $config)
     {

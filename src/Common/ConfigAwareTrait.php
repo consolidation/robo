@@ -8,7 +8,7 @@ use Robo\Config\Config;
 trait ConfigAwareTrait
 {
     /**
-     * @var \Robo\Config
+     * @var \Robo\Config\Config
      */
     protected $config;
 

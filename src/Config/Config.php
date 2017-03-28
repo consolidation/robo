@@ -72,7 +72,7 @@ class Config
      * Import configuration from the provided nexted array, replacing whatever
      * was here previously. No processing is done on the provided data.
      *
-     * @param array|ConfigLoaderInterface $data
+     * @param array $data
      * @return Config
      */
     public function import($data)
@@ -96,7 +96,11 @@ class Config
         }
         $processor = new ConfigProcessor();
         $processor->add($this->config->export());
-        $processor->add($data);
+        if ($data instanceof ConfigLoaderInterface) {
+            $processor->extend($data);
+        } else {
+            $processor->add($data);
+        }
         return $this->import($processor->export());
     }
 

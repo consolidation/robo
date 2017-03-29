@@ -17,6 +17,7 @@ class YamlConfigLoader extends ConfigLoader
         // We silently skip any nonexistent config files, so that
         // clients may simply `load` all of their candidates.
         if (!file_exists($path)) {
+            $this->config = [];
             return $this;
         }
         $this->config = (array) Yaml::parse(file_get_contents($path));

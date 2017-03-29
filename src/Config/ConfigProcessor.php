@@ -94,7 +94,8 @@ class ConfigProcessor
     protected function process($processed, $toBeProcessed)
     {
         $toBeReduced = array_map([$this, 'preprocess'], $toBeProcessed);
-        return array_reduce($toBeReduced, [$this, 'reduceOne'], $processed);
+        $reduced = array_reduce($toBeReduced, [$this, 'reduceOne'], $processed);
+        return $this->evaluate($reduced);
     }
 
     /**
@@ -121,8 +122,7 @@ class ConfigProcessor
      */
     protected function reduceOne($processed, $config)
     {
-        $evaluated = $this->evaluate($processed, $config);
-        return static::arrayMergeRecursiveDistinct($processed, $evaluated);
+        return static::arrayMergeRecursiveDistinct($processed, $config);
     }
 
     /**
@@ -132,11 +132,11 @@ class ConfigProcessor
      * @param array $config
      * @return array
      */
-    protected function evaluate($processed, $config)
+    protected function evaluate($config)
     {
         return Expander::expandArrayProperties(
             $config,
-            $processed
+            []
         );
     }
 

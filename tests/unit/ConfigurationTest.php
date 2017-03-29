@@ -31,6 +31,11 @@ class ConfigurationTest extends \Codeception\TestCase\Test
         $processor->extend($loader->load(dirname(__DIR__) . '/_data/config-2.yml'));
         $processor->extend($loader->load(dirname(__DIR__) . '/_data/config-3.yml'));
 
+        $sources = $processor->sources();
+        verify($sources['a'])->equals(dirname(__DIR__) . '/_data/config-3.yml');
+        verify($sources['b'])->equals(dirname(__DIR__) . '/_data/config-2.yml');
+        verify($sources['c'])->equals(dirname(__DIR__) . '/_data/config-1.yml');
+
         \Robo\Robo::config()->import($processor->export());
 
         verify(implode(',', \Robo\Robo::config()->get('m')))->equals('3');
@@ -44,6 +49,11 @@ class ConfigurationTest extends \Codeception\TestCase\Test
         $processor->extend($loader->load(dirname(__DIR__) . '/_data/config-3.yml'));
         $processor->extend($loader->load(dirname(__DIR__) . '/_data/config-2.yml'));
         $processor->extend($loader->load(dirname(__DIR__) . '/_data/config-1.yml'));
+
+        $sources = $processor->sources();
+        verify($sources['a'])->equals(dirname(__DIR__) . '/_data/config-3.yml');
+        verify($sources['b'])->equals(dirname(__DIR__) . '/_data/config-2.yml');
+        verify($sources['c'])->equals(dirname(__DIR__) . '/_data/config-1.yml');
 
         \Robo\Robo::config()->import($processor->export());
 

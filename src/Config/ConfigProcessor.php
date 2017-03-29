@@ -71,6 +71,22 @@ class ConfigProcessor
     }
 
     /**
+     * To aid in debugging: return the source of each configuration item.
+     * n.b. Must call this function *before* export and save the result
+     * if persistence is desired.
+     */
+    public function sources()
+    {
+        $sources = [];
+        foreach ($this->unprocessedConfig as $sourceName => $config) {
+            if (!empty($sourceName)) {
+                $sources = static::arrayMergeRecursiveDistinct($sources, static::arrayReplaceValueRecursive($config, $sourceName));
+            }
+        }
+        return $sources;
+    }
+
+    /**
      * Get the configuration to be processed, and clear out the
      * 'unprocessed' list.
      *
@@ -164,5 +180,22 @@ class ConfigProcessor
             }
         }
         return $merged;
+    }
+
+    /**
+     * Replaces all of the leaf-node values of a nested array with the
+     * provided replacement value.
+     */
+    public static function arrayReplaceValueRecursive(array $data, $replacement)
+    {
+        $result = [];
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                $result[$key] = self::arrayReplaceValueRecursive($value, $replacement);
+            } else {
+                $result[$key] = $replacement;
+            }
+        }
+        return $result;
     }
 }

@@ -21,7 +21,7 @@ class ConfigProcessor
      */
     public function extend(ConfigLoaderInterface $loader)
     {
-        return $this->add($loader->export(), $loader->getSourceName());
+        return $this->addFromSource($loader->export(), $loader->getSourceName());
     }
 
     /**
@@ -29,13 +29,25 @@ class ConfigProcessor
      * the provided nested array.
      *
      * @param array $data
+     */
+    public function add($data)
+    {
+        $this->unprocessedConfig[] = $data;
+        return $this;
+    }
+
+    /**
+     * Extend the configuration to be processed with
+     * the provided nested array. Also record the name
+     * of the data source, if applicable.
+     *
+     * @param array $data
      * @param string $source
      */
-    public function add($data, $source = '')
+    protected function addFromSource($data, $source = '')
     {
         if (empty($source)) {
-            $this->unprocessedConfig[] = $data;
-            return $this;
+            return $this->add($data);
         }
         $this->unprocessedConfig[$source] = $data;
         return $this;

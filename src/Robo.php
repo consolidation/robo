@@ -95,17 +95,21 @@ class Robo
     public static function createConfiguration($paths)
     {
         $config = new \Robo\Config\Config();
-        static::loadConfiguration($config, $paths);
+        static::loadConfiguration($paths, $config);
         return $config;
     }
 
     /**
      * Use a simple config loader to load configuration values from specified paths
      */
-    public static function loadConfiguration($config, $paths)
+    public static function loadConfiguration($paths, $config = null)
     {
+        if ($config == null) {
+            $config = static::config();
+        }
         $loader = new YamlConfigLoader();
         $processor = new ConfigProcessor();
+        $processor->add($config->export());
         foreach ($paths as $path) {
             $processor->extend($loader->load($path));
         }

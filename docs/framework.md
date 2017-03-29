@@ -158,8 +158,10 @@ $loader = new YamlConfigLoader();
 $processor = new ConfigProcessor();
 $processor->extend($loader->load('defaults.yml'));
 $processor->extend($loader->load('myconf.yml'));
-$config->import($loader->export());
+$config->import($processor->export());
 ```
 You may also wish to subclass the provided `Config` and `ConfigProcessor` classes to customize their behavior.
+
+The example above presumes that the configuration object starts off empty. If you need to repeat this process to extend the configuration in a later stage, you should call `$processor->add($config->export());` to ensure that the configuration processor is seeded with the previous configuration values.
 
 Any configuraiton loader that produces a nested array may be used in place of the config loaders and config processor shown in the example above. For example, if you wish to find configuration files in a certain set of directories, allow .yml or .xml configuration files, and validate the schema of your configuration files (to alert users of any syntax errors or unrecognized configuration values), you might want to consider [Symfony/Config](http://symfony.com/doc/current/components/config/definition.html). Symfony/Config produces a clean array of configuration values; the result of `$processor->processConfiguration()` may be provided directly to Robo's `$config->import()` method.

@@ -371,7 +371,7 @@ EOT;
         $loader = new YamlConfigLoader();
         $loader->load(dirname(__DIR__) . '/_data/robo.yml');
 
-        \Robo\Robo::config()->extend($loader->export());
+        \Robo\Robo::config()->import($loader->export());
 
         $argv = ['placeholder', 'test:simple-list'];
         $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
@@ -385,7 +385,7 @@ EOT;
         $loader = new YamlConfigLoader();
         $loader->load(dirname(__DIR__) . '/_data/robo.yml');
 
-        \Robo\Robo::config()->extend($loader->export());
+        \Robo\Robo::config()->import($loader->export());
 
         $argv = ['placeholder', 'test:simple-list', '--b=3'];
         $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
@@ -414,7 +414,7 @@ EOT;
         $loader = new YamlConfigLoader();
         $loader->load(dirname(__DIR__) . '/_data/robo.yml');
 
-        \Robo\Robo::config()->extend($loader->export());
+        \Robo\Robo::config()->import($loader->export());
 
         $argv = ['placeholder', 'test:exec', '--simulate'];
         $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());

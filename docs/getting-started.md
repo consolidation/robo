@@ -432,8 +432,7 @@ class RoboFile
 {
     public function __construct()
     {    
-        $loader = new YamlConfigLoader();
-        Robo::config()->extend($loader->load(__DIR__ . '/myconf.yml'));
+        Robo::loadConfiguration([__DIR__ . '/myconf.yml']);
     }
 }
 ```

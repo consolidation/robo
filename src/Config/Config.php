@@ -84,27 +84,6 @@ class Config
     }
 
     /**
-     * Extend this configuration by merging the provided nested array.
-     * This will also do some simple processing on the data.
-     *
-     * @param array|ConfigLoaderInterface $data
-     */
-    public function extend($data)
-    {
-        if (empty($data)) {
-            return;
-        }
-        $processor = new ConfigProcessor();
-        $processor->add($this->config->export());
-        if ($data instanceof ConfigLoaderInterface) {
-            $processor->extend($data);
-        } else {
-            $processor->add($data);
-        }
-        return $this->import($processor->export());
-    }
-
-    /**
      * Export all configuration as a nested array.
      */
     public function export()

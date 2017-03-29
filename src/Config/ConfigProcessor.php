@@ -80,7 +80,8 @@ class ConfigProcessor
         $sources = [];
         foreach ($this->unprocessedConfig as $sourceName => $config) {
             if (!empty($sourceName)) {
-                $sources = static::arrayMergeRecursiveDistinct($sources, static::arrayReplaceValueRecursive($config, $sourceName));
+                $configSources = static::arrayReplaceValueRecursive($config, $sourceName);
+                $sources = static::arrayMergeRecursiveDistinct($sources, $configSources);
             }
         }
         return $sources;

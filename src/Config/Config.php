@@ -77,6 +77,7 @@ class Config
      */
     public function import($data)
     {
+        $this->config = new Data($data);
         if (!empty($data)) {
             $this->config->import($data, true);
         }

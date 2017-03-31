@@ -19,15 +19,8 @@ if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
 ?>
 ```
 
-* `background()`  Executes command in background mode (asynchronously)
-* `timeout($timeout)`  Stop command if it runs longer then $timeout in seconds
-* `idleTimeout($timeout)`  Stops command if it does not output something for a while
-* `interactive($arg)`  Sets process TTY mode, allowing user interaction with executed command.
-* `setInput($arg)`  Sets the input stream for the executed PHP process. Can be resource created with `fopen()` or string.
-* `env(array $env)`  Sets the environment variables for the command
 * `simulate($context)`  {@inheritdoc}
 * `dir($dir)`  Changes working directory of command
-* `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
 * `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
@@ -51,17 +44,11 @@ $this->taskExecStack()
 ?>
 ```
 
-* `$this stopOnFail()` 
-
 * `executable($executable)`   * `param string` $executable
 * `exec($command)`   * `param string|string[]` $command
 * `stopOnFail($stopOnFail = null)`   * `param bool` $stopOnFail
 * `result($result)` 
 * `dir($dir)`  Changes working directory of command
-* `printed($arg)`  _Deprecated_. Should command output be printed
-* `printOutput($arg)`  Should command output be printed
-* `printMetadata($arg)`  Should command metadata (command, working directory, and timer) be printed
-* `silent($arg)`  Shortcut for setting printMetadata(false) and printOutput(false)
 
 ## ParallelExec
 
@@ -78,14 +65,7 @@ $this->taskParallelExec()
 ?>
 ```
 
-
-* ` timeout(int $timeout)`  stops process if it runs longer then `$timeout` (seconds)
-* ` idleTimeout(int $timeout)`  stops process if it does not output for time longer then `$timeout` (seconds)
-
-* `printed($isPrinted = null)`   * `param bool` $isPrinted
 * `process($command)`   * `param string|\Robo\Contract\CommandInterface` $command
-* `timeout($timeout)`   * `param int` $timeout
-* `idleTimeout($idleTimeout)`   * `param int` $idleTimeout
 
 ## SymfonyCommand
 

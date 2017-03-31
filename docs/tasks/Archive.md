@@ -24,8 +24,6 @@ $this->taskExtract($archivePath)
 ?>
 ```
 
-* `to(string)`  location to store extracted files
-
 * `to($to)`  Location to store extracted files.
 * `preserveTopDirectory($preserve = null)`   * `param bool` $preserve
 

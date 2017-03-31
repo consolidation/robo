@@ -26,10 +26,6 @@ $this->taskChangelog()
 ?>
 ```
 
-* `Development\Changelog filename(string $filename)` 
-* `Development\Changelog anchor(string $anchor)` 
-* `Development\Changelog version(string $version)` 
-
 * `filename($filename)`   * `param string` $filename
 * `log($item)`   * `param string` $item
 * `anchor($anchor)`   * `param string` $anchor
@@ -73,43 +69,25 @@ $this->taskGenDoc('models.md')
      })->run();
 ```
 
-* ` docClass(string $classname)`  put a class you want to be documented
-* ` filterMethods(\Closure $func)`  using callback function filter out methods that won't be documented
-* ` filterClasses(\Closure $func)`  using callback function filter out classes that won't be documented
-* ` filterProperties(\Closure $func)`  using callback function filter out properties that won't be documented
-* ` processClass(\Closure $func)`  post-process class documentation
-* ` processClassSignature(\Closure $func)`  post-process class signature. Provide *false* to skip.
-* ` processClassDocBlock(\Closure $func)`  post-process class docblock contents. Provide *false* to skip.
-* ` processMethod(\Closure $func)`  post-process method documentation. Provide *false* to skip.
-* ` processMethodSignature(\Closure $func)`  post-process method signature. Provide *false* to skip.
-* ` processMethodDocBlock(\Closure $func)`  post-process method docblock contents. Provide *false* to skip.
-* ` processProperty(\Closure $func)`  post-process property documentation. Provide *false* to skip.
-* ` processPropertySignature(\Closure $func)`  post-process property signature. Provide *false* to skip.
-* ` processPropertyDocBlock(\Closure $func)`  post-process property docblock contents. Provide *false* to skip.
-* ` reorder(\Closure $func)`  use a function to reorder classes
-* ` reorderMethods(\Closure $func)`  use a function to reorder methods in class
-* ` prepend($text)`  inserts text into beginning of markdown file
-* ` append($text)`  inserts text in the end of markdown file
-
-* `docClass($item)`   * `param string` $item
-* `filterMethods($filterMethods)`   * `param callable` $filterMethods
-* `filterClasses($filterClasses)`   * `param callable` $filterClasses
-* `filterProperties($filterProperties)`   * `param callable` $filterProperties
-* `processClass($processClass)`   * `param callable` $processClass
-* `processClassSignature($processClassSignature)`   * `param callable|false` $processClassSignature
-* `processClassDocBlock($processClassDocBlock)`   * `param callable|false` $processClassDocBlock
-* `processMethod($processMethod)`   * `param callable|false` $processMethod
-* `processMethodSignature($processMethodSignature)`   * `param callable|false` $processMethodSignature
-* `processMethodDocBlock($processMethodDocBlock)`   * `param callable|false` $processMethodDocBlock
-* `processProperty($processProperty)`   * `param callable|false` $processProperty
-* `processPropertySignature($processPropertySignature)`   * `param callable|false` $processPropertySignature
-* `processPropertyDocBlock($processPropertyDocBlock)`   * `param callable|false` $processPropertyDocBlock
-* `reorder($reorder)`   * `param callable` $reorder
-* `reorderMethods($reorderMethods)`   * `param callable` $reorderMethods
+* `docClass($item)`  Put a class you want to be documented.
+* `filterMethods($filterMethods)`  Using a callback function filter out methods that won't be documented.
+* `filterClasses($filterClasses)`  Using a callback function filter out classes that won't be documented.
+* `filterProperties($filterProperties)`  Using a callback function filter out properties that won't be documented.
+* `processClass($processClass)`  Post-process class documentation.
+* `processClassSignature($processClassSignature)`  Post-process class signature. Provide *false* to skip.
+* `processClassDocBlock($processClassDocBlock)`  Post-process class docblock contents. Provide *false* to skip.
+* `processMethod($processMethod)`  Post-process method documentation. Provide *false* to skip.
+* `processMethodSignature($processMethodSignature)`  Post-process method signature. Provide *false* to skip.
+* `processMethodDocBlock($processMethodDocBlock)`  Post-process method docblock contents. Provide *false* to skip.
+* `processProperty($processProperty)`  Post-process property documentation. Provide *false* to skip.
+* `processPropertySignature($processPropertySignature)`  Post-process property signature. Provide *false* to skip.
+* `processPropertyDocBlock($processPropertyDocBlock)`  Post-process property docblock contents. Provide *false* to skip.
+* `reorder($reorder)`  Use a function to reorder classes.
+* `reorderMethods($reorderMethods)`  Use a function to reorder methods in class.
 * `reorderProperties($reorderProperties)`   * `param callable` $reorderProperties
 * `filename($filename)`   * `param string` $filename
-* `prepend($prepend)`   * `param string` $prepend
-* `append($append)`   * `param string` $append
+* `prepend($prepend)`  Inserts text at the beginning of markdown file.
+* `append($append)`  Inserts text at the end of markdown file.
 * `text($text)`   * `param string` $text
 * `textForClass($item)`   * `param string` $item
 
@@ -246,12 +224,7 @@ $this->taskServer(8000)
 
 * `host($host)`   * `param string` $host
 * `dir($path)`   * `param string` $path
-* `background()`  Executes command in background mode (asynchronously)
-* `timeout($timeout)`  Stop command if it runs longer then $timeout in seconds
-* `idleTimeout($timeout)`  Stops command if it does not output something for a while
-* `env(array $env)`  Sets the environment variables for the command
 * `simulate($context)`  {@inheritdoc}
-* `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
 * `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.

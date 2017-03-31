@@ -7,13 +7,15 @@ Executes ApiGen command to generate documentation
 ``` php
 <?php
 // ApiGen Command
-$this->taskApiGen('./apigen.neon')
+$this->taskApiGen('./vendor/apigen/apigen.phar')
+     ->config('./apigen.neon')
      ->templateConfig('vendor/apigen/apigen/templates/bootstrap/config.neon')
      ->wipeout(true)
       ->run();
 ?>
 ```
 
+* `args($args)`  Pass methods parameters as arguments to executable. Argument values
 * `config($config)`   * `param string` $config
 * `source($src)`   * `param array|string|Traversable` $src one or more source values
 * `destination($dest)`   * `param string` $dest
@@ -47,9 +49,7 @@ $this->taskApiGen('./apigen.neon')
 * `updateCheck($check)`   * `param bool|string` $check 'yes' or true to check for updates, 'no' or false otherwise
 * `debug($debug)`   * `param bool|string` $debug 'yes' or true to enable debug mode, 'no' or false otherwise
 * `dir($dir)`  Changes working directory of command
-* `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
-* `args($args)`  Pass methods parameters as arguments to executable. Argument values
 * `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
 * `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
 * `optionList($option, $value = null)`  Pass multiple options to executable. Value can be a string or array.

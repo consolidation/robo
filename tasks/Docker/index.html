@@ -7,7 +7,7 @@
         
         
         <link rel="canonical" href="http://robo.li/tasks/Docker/">
-        <link rel="shortcut icon" href="../../../../img/favicon.png">
+        <link rel="shortcut icon" href="../../img/favicon.png">
         
         <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 
@@ -35,7 +35,6 @@
 
         <!-- Collapsed navigation -->
         <div class="navbar-header">
-            
             <!-- Expander button -->
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
@@ -43,164 +42,106 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            
-
-            <!-- Main title -->
             <a class="navbar-brand" href="../..">Robo</a>
         </div>
 
         <!-- Expanded navigation -->
         <div class="navbar-collapse collapse">
-            
                 <!-- Main navigation -->
                 <ul class="nav navbar-nav">
-                
-                
                     <li >
                         <a href="../..">Index</a>
                     </li>
-                
-                
-                
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Guides <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                        
                             
 <li >
     <a href="../../getting-started/">Getting Started</a>
 </li>
-
-                        
                             
 <li >
     <a href="../../collections/">Collections</a>
 </li>
-
-                        
                             
 <li >
     <a href="../../extending/">Extending</a>
 </li>
-
-                        
                             
 <li >
     <a href="../../framework/">Robo as Framework</a>
 </li>
-
-                        
                         </ul>
                     </li>
-                
-                
-                
                     <li class="dropdown active">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tasks <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                        
                             
 <li >
     <a href="../Base/">Base Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../Filesystem/">FileSystem Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../File/">File Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../Composer/">Composer Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../Vcs/">VCS Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../Development/">Development Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../Assets/">Assets Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../Archive/">Archive Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../Remote/">SSH, Rsync Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../Testing/">Testing Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../Npm/">NPM Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../Bower/">Bower Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../Gulp/">Gulp Tasks</a>
 </li>
-
-                        
                             
 <li class="active">
     <a href="./">Docker Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../ApiGen/">ApiGen Tasks</a>
 </li>
-
-                        
                         </ul>
                     </li>
-                
-                
-                
                     <li >
                         <a href="../../changelog/">Releases</a>
                     </li>
-                
-                
                 </ul>
-            
 
             <ul class="nav navbar-nav navbar-right">
                 <li>
@@ -208,7 +149,6 @@
                         <i class="fa fa-search"></i> Search
                     </a>
                 </li>
-                
                     <li >
                         <a rel="next" href="../Gulp/">
                             <i class="fa fa-arrow-left"></i> Previous
@@ -219,17 +159,11 @@
                             Next <i class="fa fa-arrow-right"></i>
                         </a>
                     </li>
-                
-                
                     <li>
                         <a href="https://github.com/consolidation/Robo/">
-                            
-                                <i class="fa fa-github"></i>
-                            
-                            GitHub
+                                <i class="fa fa-github"></i>GitHub
                         </a>
                     </li>
-                
             </ul>
         </div>
     </div>
@@ -240,26 +174,15 @@
             
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-    
         <li class="main active"><a href="#docker-tasks">Docker Tasks</a></li>
-        
             <li><a href="#build">Build</a></li>
-        
             <li><a href="#commit">Commit</a></li>
-        
             <li><a href="#exec">Exec</a></li>
-        
             <li><a href="#pull">Pull</a></li>
-        
             <li><a href="#remove">Remove</a></li>
-        
             <li><a href="#run">Run</a></li>
-        
             <li><a href="#start">Start</a></li>
-        
             <li><a href="#stop">Stop</a></li>
-        
-    
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
@@ -283,7 +206,6 @@ $this-&gt;taskDockerBuild('path/to/dir')
 <ul>
 <li><code>tag($tag)</code>   * <code>param string</code> $tag</li>
 <li><code>dir($dir)</code>  Changes working directory of command</li>
-<li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
 <li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
@@ -310,7 +232,6 @@ $task-&gt;dockerCommit($result)
 <ul>
 <li><code>name($name)</code>   * <code>param</code> $name</li>
 <li><code>dir($dir)</code>  Changes working directory of command</li>
-<li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
 <li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
@@ -340,10 +261,8 @@ $this-&gt;taskDockerExec($test)
 
 <ul>
 <li><code>detached()</code>   * <code>return</code> $this</li>
-<li><code>interactive()</code>   * <code>return</code> $this</li>
 <li><code>exec($command)</code>   * <code>param string|\Robo\Contract\CommandInterface</code> $command</li>
 <li><code>dir($dir)</code>  Changes working directory of command</li>
-<li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
 <li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
@@ -361,7 +280,6 @@ $this-&gt;taskDockerPull('wordpress')
 
 <ul>
 <li><code>dir($dir)</code>  Changes working directory of command</li>
-<li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
 <li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
@@ -378,7 +296,6 @@ $this-&gt;taskDockerRemove($container)
 
 <ul>
 <li><code>dir($dir)</code>  Changes working directory of command</li>
-<li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
 <li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
@@ -427,10 +344,8 @@ $this-&gt;taskDockerRun('wordpress')
 
 <ul>
 <li><code>detached()</code>   * <code>return</code> $this</li>
-<li><code>interactive()</code>   * <code>return</code> $this</li>
 <li><code>exec($run)</code>   * <code>param string|\Robo\Contract\CommandInterface</code> $run</li>
 <li><code>volume($from, $to = null)</code>   * <code>param string</code> $from</li>
-<li><code>env($variable, $value = null)</code>   * <code>param string</code> $variable</li>
 <li><code>publish($port = null, $portTo = null)</code>   * <code>param null|int</code> $port</li>
 <li><code>containerWorkdir($dir)</code>   * <code>param string</code> $dir</li>
 <li><code>user($user)</code>   * <code>param string</code> $user</li>
@@ -441,7 +356,6 @@ $this-&gt;taskDockerRun('wordpress')
 <li><code>getTmpDir()</code>  @return string</li>
 <li><code>getUniqId()</code>  @return string</li>
 <li><code>dir($dir)</code>  Changes working directory of command</li>
-<li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
 <li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
@@ -458,7 +372,6 @@ $this-&gt;taskDockerStart($cidOrResult)
 
 <ul>
 <li><code>dir($dir)</code>  Changes working directory of command</li>
-<li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
 <li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
@@ -475,7 +388,6 @@ $this-&gt;taskDockerStop($cidOrResult)
 
 <ul>
 <li><code>dir($dir)</code>  Changes working directory of command</li>
-<li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
 <li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>

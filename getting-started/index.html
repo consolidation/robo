@@ -7,7 +7,7 @@
         
         
         <link rel="canonical" href="http://robo.li/getting-started/">
-        <link rel="shortcut icon" href="../../img/favicon.png">
+        <link rel="shortcut icon" href="../img/favicon.png">
         
         <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 
@@ -35,7 +35,6 @@
 
         <!-- Collapsed navigation -->
         <div class="navbar-header">
-            
             <!-- Expander button -->
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
@@ -43,164 +42,106 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            
-
-            <!-- Main title -->
             <a class="navbar-brand" href="..">Robo</a>
         </div>
 
         <!-- Expanded navigation -->
         <div class="navbar-collapse collapse">
-            
                 <!-- Main navigation -->
                 <ul class="nav navbar-nav">
-                
-                
                     <li >
                         <a href="..">Index</a>
                     </li>
-                
-                
-                
                     <li class="dropdown active">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Guides <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                        
                             
 <li class="active">
     <a href="./">Getting Started</a>
 </li>
-
-                        
                             
 <li >
     <a href="../collections/">Collections</a>
 </li>
-
-                        
                             
 <li >
     <a href="../extending/">Extending</a>
 </li>
-
-                        
                             
 <li >
     <a href="../framework/">Robo as Framework</a>
 </li>
-
-                        
                         </ul>
                     </li>
-                
-                
-                
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tasks <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                        
                             
 <li >
     <a href="../tasks/Base/">Base Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Filesystem/">FileSystem Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/File/">File Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Composer/">Composer Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Vcs/">VCS Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Development/">Development Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Assets/">Assets Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Archive/">Archive Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Remote/">SSH, Rsync Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Testing/">Testing Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Npm/">NPM Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Bower/">Bower Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Gulp/">Gulp Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Docker/">Docker Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/ApiGen/">ApiGen Tasks</a>
 </li>
-
-                        
                         </ul>
                     </li>
-                
-                
-                
                     <li >
                         <a href="../changelog/">Releases</a>
                     </li>
-                
-                
                 </ul>
-            
 
             <ul class="nav navbar-nav navbar-right">
                 <li>
@@ -208,7 +149,6 @@
                         <i class="fa fa-search"></i> Search
                     </a>
                 </li>
-                
                     <li >
                         <a rel="next" href="..">
                             <i class="fa fa-arrow-left"></i> Previous
@@ -219,17 +159,11 @@
                             Next <i class="fa fa-arrow-right"></i>
                         </a>
                     </li>
-                
-                
                     <li>
                         <a href="https://github.com/consolidation/Robo/">
-                            
-                                <i class="fa fa-github"></i>
-                            
-                            GitHub
+                                <i class="fa fa-github"></i>GitHub
                         </a>
                     </li>
-                
             </ul>
         </div>
     </div>
@@ -240,18 +174,13 @@
             
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-    
         <li class="main active"><a href="#getting-started">Getting Started</a></li>
-        
             <li><a href="#commands">Commands</a></li>
-        
             <li><a href="#tasks">Tasks</a></li>
-        
+            <li><a href="#configuration">Configuration</a></li>
+            <li><a href="#io">IO</a></li>
             <li><a href="#working-with-composer">Working with Composer</a></li>
-        
             <li><a href="#robo-as-a-framework">Robo as a Framework</a></li>
-        
-    
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
@@ -348,6 +277,15 @@ robo hello --silent
 <pre><code>robo hello -s
 </code></pre>
 
+<p>The default value for options must be one of:</p>
+<ul>
+<li>The boolean value <code>false</code>, which indicates that the option takes no value.</li>
+<li>A <strong>string</strong> containing the default value for options that may be provided a value, but are not required to.</li>
+<li>NULL for options that may be provided an optional value, but that have no default when a value is not provided.</li>
+<li>The special value InputOption::VALUE_REQUIRED, which indicates that the user must provide a value for the option whenever it is used.</li>
+<li>An empty array, which indicates that the option may appear multiple times on the command line.</li>
+</ul>
+<p>No other values should be used for the default value. For example, <code>$options = ['a' =&gt; 1]</code> is <strong>incorrect</strong>; instead, use <code>$options = ['a' =&gt; '1']</code>. Similarly, <code>$options = ['a' =&gt; true]</code> is unsupported, or at least not useful, as this would indicate that the value of <code>--a</code> was always <code>true</code>, whether or not it appeared on the command line.</p>
 <h3 id="load-from-other-directories">Load From Other Directories</h3>
 <p>Robo can execute commands from a RoboFile located in different directory.
 You can specify the path to another RoboFile by including the <code>--load-from</code> option:</p>
@@ -358,7 +296,7 @@ You can specify the path to another RoboFile by including the <code>--load-from<
 <p>Sometimes you need to pass arguments from your command into a task. A command line after the <code>--</code> characters is treated as one argument.
 Any special character like <code>-</code> will be passed into without change.</p>
 <pre><code class="php">&lt;?php
-    function ls($args)
+    function ls(array $args)
     {
         $this-&gt;taskExec('ls')-&gt;args($args)-&gt;run();
     }
@@ -490,21 +428,6 @@ class RoboFile
 <pre><code>$this-&gt;stopOnFail(true);
 </code></pre>
 
-<h3 id="io">IO</h3>
-<p>As you noticed, you can print text via the <code>say</code> method, which is taken from the <code>Robo\Output</code> trait.</p>
-<pre><code>$this-&gt;say(&quot;Hello&quot;);
-</code></pre>
-
-<p>Also, you can ask for input from console:</p>
-<pre><code>$name = $this-&gt;ask(&quot;What is your name?&quot;);
-</code></pre>
-
-<p>There are also <code>askDefault</code>, <code>askHidden</code>, and <code>confirm</code> methods.</p>
-<p>In addition, Robo makes all of the methods of Symfony Style available throgh the <code>io()</code> method:</p>
-<p>$this-&gt;io()-&gt;title("Build all site assets");</p>
-<p>This allows Robo scripts to follow the <a href="http://symfony.com/blog/new-in-symfony-2-8-console-style-guide">Symfony Console Style Guide</a> if desired.</p>
-<h3 id="formatters">Formatters</h3>
-<p>It is preferable for commands that look up and display information should avoid doing IO directly, and should instead return the data they wish to display as an array. This data can then be converted into different data formats, such as "table" and "json". The user may select which formatter to use via the --format option. For details on formatters, see the <a href="https://github.com/consolidation/output-formatters">consolidation/output-formatters</a> project.</p>
 <h3 id="progress">Progress</h3>
 <p>Robo supports progress indicators via the Symfony ProgressBar class.  Long-running tasks that wish to display the progress indicator may do so via four simple steps:</p>
 <ul>
@@ -543,6 +466,92 @@ class MyTask extends BaseTask
 
 <p>Tasks should not attempt to use a specific progress indicator (e.g. the Symfony ProgressBar class) directly, as the ProgressIndicatorAwareTrait allows for an appropriate progress indicator to be used (or omitted) as best suits the application.</p>
 <p>Note that when using <a href="../collections/">Collections</a>, the progress bar will automatically be shown if the collection takes longer than two seconds to run.  Each task in the collection will count for one "step"; if the task supports progress indicators as shown above, then it will add an additional number of steps as indicated by its <code>progressIndicatorSteps()</code> method.</p>
+<h2 id="configuration">Configuration</h2>
+<p>On startup, Robo will load a configuration file, <code>robo.yml</code>, if it exists in the current working directory.</p>
+<p><strong>Note:</strong> The configuration features below are experimental. Changes that break compatibility may be introduced until it is declared stable in the 1.1.0 release.</p>
+<h3 id="configuration-for-command-options">Configuration for Command Options</h3>
+<p>The preferred method for commands to use to read configuration is to simply define commandline options for each configuration value. Configuration may be provided for any command option in the robl.yml configuration file.</p>
+<p>For example, given the following Robo command:</p>
+<pre><code class="php">&lt;?php
+    function hello($opts = ['who' =&gt; 'unknown'])
+    {
+        $this-&gt;say(&quot;Hello, &quot; . $opts['who']);
+    }
+?&gt;
+</code></pre>
+
+<p>The <code>who</code> option can be defined as follows:</p>
+<pre><code>command:
+  hello:
+    options:
+      who: world
+</code></pre>
+
+<p>If you run this command, then it will print <code>Hello, world</code>. If the <code>--who</code> option is provided on the command line, that value will take precidence over the value stored in configuration. Thus, <code>hello --who=everyone</code> will print <code>Hello, everyone</code>.</p>
+<h3 id="configuration-for-task-settings">Configuration for Task Settings</h3>
+<p>Robo will automatically configure tasks with values from configuration. For example, given the following task definition:</p>
+<pre><code>$this-&gt;taskMyOperation()
+  -&gt;dir($buildDir)
+  -&gt;extrapolated(false)
+  -&gt;run();
+</code></pre>
+
+<p>You could instead remove the setter methods and move the parameter values to a configruation file:</p>
+<pre><code>$this-&gt;taskComposerInstall()
+  -&gt;run();
+</code></pre>
+
+<p>The corresponding configuration file would appear as follows:</p>
+<pre><code>task:
+  MyOperation:
+    settings:
+      dir: /my/path
+      extrapolated: false
+</code></pre>
+
+<p>The key for configuration-injected settings is <code>task.CLASSNAME.settings.key</code>.</p>
+<h3 id="accessing-configuration-directly">Accessing Configuration Directly</h3>
+<p>In a RoboFile, use <code>Robo::Config()-&gt;get('task.MyOperation.settings.dir');</code> to fetch the <code>dir</code> configuration option from the previous example.</p>
+<h3 id="providing-default-configuration">Providing Default Configuration</h3>
+<p>RoboFiles that wish to provide default configuration values that can be overridden via robo.yml values or commandline options may do so in the class' constructor method.  The example below demonstrates how to set up a default value for the <code>task.Ssh.remoteDir</code> configuration property in code:</p>
+<pre><code>class RoboFile
+{
+    public function __construct()
+    {    
+        Robo\Task\Remote\Ssh::configure('remoteDir', '/srv/www');
+    }
+}
+</code></pre>
+
+<p>If <code>task.Ssh.remoteDir</code> is set to some other value in the robo.yml configuration file in the current directory, then the value from the configuration file will take precedence.</p>
+<h3 id="loading-configuration-from-another-source">Loading Configuration From Another Source</h3>
+<p>Sometimes, a RoboFile might want to define its own private configuration file to use in addition to the standard <code>robo.yml</code> file. This can also be done in the constructor.</p>
+<pre><code>class RoboFile
+{
+    public function __construct()
+    {    
+        Robo::loadConfiguration([__DIR__ . '/myconf.yml']);
+    }
+}
+</code></pre>
+
+<p>Note that configuration loaded in this way will take precedence over the configuration loaded by default by Robo.</p>
+<p>It is possible to have even more control than this if you <a href="../framework/">create your own application using Robo as a Framework</a>.</p>
+<h2 id="io">IO</h2>
+<p>As you noticed, you can print text via the <code>say</code> method, which is taken from the <code>Robo\Output</code> trait.</p>
+<pre><code>$this-&gt;say(&quot;Hello&quot;);
+</code></pre>
+
+<p>Also, you can ask for input from console:</p>
+<pre><code>$name = $this-&gt;ask(&quot;What is your name?&quot;);
+</code></pre>
+
+<p>There are also <code>askDefault</code>, <code>askHidden</code>, and <code>confirm</code> methods.</p>
+<p>In addition, Robo makes all of the methods of Symfony Style available throgh the <code>io()</code> method:</p>
+<p>$this-&gt;io()-&gt;title("Build all site assets");</p>
+<p>This allows Robo scripts to follow the <a href="http://symfony.com/blog/new-in-symfony-2-8-console-style-guide">Symfony Console Style Guide</a> if desired.</p>
+<h3 id="formatters">Formatters</h3>
+<p>It is preferable for commands that look up and display information should avoid doing IO directly, and should instead return the data they wish to display as an array. This data can then be converted into different data formats, such as "table" and "json". The user may select which formatter to use via the --format option. For details on formatters, see the <a href="https://github.com/consolidation/output-formatters">consolidation/output-formatters</a> project.</p>
 <h2 id="working-with-composer">Working with Composer</h2>
 <h3 id="adding-a-robofile-to-your-project">Adding a RoboFile to your Project</h3>
 <p>Robo is designed to work well with Composer. To use Robo scripts in your Composer-based project, simply add <code>robo</code> to your composer.json file:</p>

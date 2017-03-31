@@ -7,7 +7,7 @@
         
         
         <link rel="canonical" href="http://robo.li/tasks/Base/">
-        <link rel="shortcut icon" href="../../../../img/favicon.png">
+        <link rel="shortcut icon" href="../../img/favicon.png">
         
         <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 
@@ -35,7 +35,6 @@
 
         <!-- Collapsed navigation -->
         <div class="navbar-header">
-            
             <!-- Expander button -->
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
@@ -43,164 +42,106 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            
-
-            <!-- Main title -->
             <a class="navbar-brand" href="../..">Robo</a>
         </div>
 
         <!-- Expanded navigation -->
         <div class="navbar-collapse collapse">
-            
                 <!-- Main navigation -->
                 <ul class="nav navbar-nav">
-                
-                
                     <li >
                         <a href="../..">Index</a>
                     </li>
-                
-                
-                
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Guides <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                        
                             
 <li >
     <a href="../../getting-started/">Getting Started</a>
 </li>
-
-                        
                             
 <li >
     <a href="../../collections/">Collections</a>
 </li>
-
-                        
                             
 <li >
     <a href="../../extending/">Extending</a>
 </li>
-
-                        
                             
 <li >
     <a href="../../framework/">Robo as Framework</a>
 </li>
-
-                        
                         </ul>
                     </li>
-                
-                
-                
                     <li class="dropdown active">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tasks <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                        
                             
 <li class="active">
     <a href="./">Base Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../Filesystem/">FileSystem Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../File/">File Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../Composer/">Composer Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../Vcs/">VCS Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../Development/">Development Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../Assets/">Assets Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../Archive/">Archive Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../Remote/">SSH, Rsync Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../Testing/">Testing Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../Npm/">NPM Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../Bower/">Bower Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../Gulp/">Gulp Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../Docker/">Docker Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../ApiGen/">ApiGen Tasks</a>
 </li>
-
-                        
                         </ul>
                     </li>
-                
-                
-                
                     <li >
                         <a href="../../changelog/">Releases</a>
                     </li>
-                
-                
                 </ul>
-            
 
             <ul class="nav navbar-nav navbar-right">
                 <li>
@@ -208,7 +149,6 @@
                         <i class="fa fa-search"></i> Search
                     </a>
                 </li>
-                
                     <li >
                         <a rel="next" href="../../framework/">
                             <i class="fa fa-arrow-left"></i> Previous
@@ -219,17 +159,11 @@
                             Next <i class="fa fa-arrow-right"></i>
                         </a>
                     </li>
-                
-                
                     <li>
                         <a href="https://github.com/consolidation/Robo/">
-                            
-                                <i class="fa fa-github"></i>
-                            
-                            GitHub
+                                <i class="fa fa-github"></i>GitHub
                         </a>
                     </li>
-                
             </ul>
         </div>
     </div>
@@ -240,20 +174,12 @@
             
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-    
         <li class="main active"><a href="#base-tasks">Base Tasks</a></li>
-        
             <li><a href="#exec">Exec</a></li>
-        
             <li><a href="#execstack">ExecStack</a></li>
-        
             <li><a href="#parallelexec">ParallelExec</a></li>
-        
             <li><a href="#symfonycommand">SymfonyCommand</a></li>
-        
             <li><a href="#watch">Watch</a></li>
-        
-    
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
@@ -276,13 +202,8 @@ if ($this-&gt;taskExec('phpunit .')-&gt;run()-&gt;wasSuccessful()) {
 </code></pre>
 
 <ul>
-<li><code>background()</code>  Executes command in background mode (asynchronously)</li>
-<li><code>timeout($timeout)</code>  Stop command if it runs longer then $timeout in seconds</li>
-<li><code>idleTimeout($timeout)</code>  Stops command if it does not output something for a while</li>
-<li><code>env(array $env)</code>  Sets the environment variables for the command</li>
 <li><code>simulate($context)</code>  {@inheritdoc}</li>
 <li><code>dir($dir)</code>  Changes working directory of command</li>
-<li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
 <li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
@@ -303,17 +224,11 @@ $this-&gt;taskExecStack()
 </code></pre>
 
 <ul>
-<li>
-<p><code>$this stopOnFail()</code> </p>
-</li>
-<li>
-<p><code>executable($executable)</code>   * <code>param string</code> $executable</p>
-</li>
+<li><code>executable($executable)</code>   * <code>param string</code> $executable</li>
 <li><code>exec($command)</code>   * <code>param string|string[]</code> $command</li>
 <li><code>stopOnFail($stopOnFail = null)</code>   * <code>param bool</code> $stopOnFail</li>
 <li><code>result($result)</code> </li>
 <li><code>dir($dir)</code>  Changes working directory of command</li>
-<li><code>printed($arg)</code>  Should command output be printed</li>
 </ul>
 <h2 id="parallelexec">ParallelExec</h2>
 <p>Class ParallelExecTask</p>
@@ -327,16 +242,7 @@ $this-&gt;taskParallelExec()
 </code></pre>
 
 <ul>
-<li><code>timeout(int $timeout)</code>  stops process if it runs longer then <code>$timeout</code> (seconds)</li>
-<li>
-<p><code>idleTimeout(int $timeout)</code>  stops process if it does not output for time longer then <code>$timeout</code> (seconds)</p>
-</li>
-<li>
-<p><code>printed($isPrinted = null)</code>   * <code>param bool</code> $isPrinted</p>
-</li>
 <li><code>process($command)</code>   * <code>param string|\Robo\Contract\CommandInterface</code> $command</li>
-<li><code>timeout($timeout)</code>   * <code>param int</code> $timeout</li>
-<li><code>idleTimeout($idleTimeout)</code>   * <code>param int</code> $idleTimeout</li>
 </ul>
 <h2 id="symfonycommand">SymfonyCommand</h2>
 <p>Executes Symfony Command</p>

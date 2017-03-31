@@ -7,7 +7,7 @@
         
         
         <link rel="canonical" href="http://robo.li/collections/">
-        <link rel="shortcut icon" href="../../img/favicon.png">
+        <link rel="shortcut icon" href="../img/favicon.png">
         
         <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 
@@ -35,7 +35,6 @@
 
         <!-- Collapsed navigation -->
         <div class="navbar-header">
-            
             <!-- Expander button -->
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
@@ -43,164 +42,106 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            
-
-            <!-- Main title -->
             <a class="navbar-brand" href="..">Robo</a>
         </div>
 
         <!-- Expanded navigation -->
         <div class="navbar-collapse collapse">
-            
                 <!-- Main navigation -->
                 <ul class="nav navbar-nav">
-                
-                
                     <li >
                         <a href="..">Index</a>
                     </li>
-                
-                
-                
                     <li class="dropdown active">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Guides <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                        
                             
 <li >
     <a href="../getting-started/">Getting Started</a>
 </li>
-
-                        
                             
 <li class="active">
     <a href="./">Collections</a>
 </li>
-
-                        
                             
 <li >
     <a href="../extending/">Extending</a>
 </li>
-
-                        
                             
 <li >
     <a href="../framework/">Robo as Framework</a>
 </li>
-
-                        
                         </ul>
                     </li>
-                
-                
-                
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tasks <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                        
                             
 <li >
     <a href="../tasks/Base/">Base Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Filesystem/">FileSystem Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/File/">File Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Composer/">Composer Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Vcs/">VCS Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Development/">Development Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Assets/">Assets Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Archive/">Archive Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Remote/">SSH, Rsync Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Testing/">Testing Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Npm/">NPM Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Bower/">Bower Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Gulp/">Gulp Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Docker/">Docker Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/ApiGen/">ApiGen Tasks</a>
 </li>
-
-                        
                         </ul>
                     </li>
-                
-                
-                
                     <li >
                         <a href="../changelog/">Releases</a>
                     </li>
-                
-                
                 </ul>
-            
 
             <ul class="nav navbar-nav navbar-right">
                 <li>
@@ -208,7 +149,6 @@
                         <i class="fa fa-search"></i> Search
                     </a>
                 </li>
-                
                     <li >
                         <a rel="next" href="../getting-started/">
                             <i class="fa fa-arrow-left"></i> Previous
@@ -219,17 +159,11 @@
                             Next <i class="fa fa-arrow-right"></i>
                         </a>
                     </li>
-                
-                
                     <li>
                         <a href="https://github.com/consolidation/Robo/">
-                            
-                                <i class="fa fa-github"></i>
-                            
-                            GitHub
+                                <i class="fa fa-github"></i>GitHub
                         </a>
                     </li>
-                
             </ul>
         </div>
     </div>
@@ -240,20 +174,12 @@
             
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-    
         <li class="main active"><a href="#collection-builders">Collection Builders</a></li>
-        
             <li><a href="#collections-api">Collections API</a></li>
-        
             <li><a href="#using-a-collection-builder">Using a Collection Builder</a></li>
-        
             <li><a href="#rollbacks-and-completions">Rollbacks and Completions</a></li>
-        
             <li><a href="#temporary-objects">Temporary Objects</a></li>
-        
             <li><a href="#named-tasks">Named Tasks</a></li>
-        
-    
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
@@ -346,6 +272,14 @@ class RoboFile extends \Robo\Tasks
 <h3 id="rollback-and-completion-methods">Rollback and Completion Methods</h3>
 <p>Any task may also implement \Robo\Contract\RollbackInterface; if this is done, then its <code>rollback()</code> method will be called if the task is <code>run()</code> on a collection that later fails.</p>
 <p>Use <code>addAsCompletion($collection)</code> in place of <code>addAsRollback($collection)</code>, or implement \Robo\Contract\CompletionInterface. Completions otherwise work exactly like rollbacks.</p>
+<h3 id="rollback-and-completion-callbacks">Rollback and Completion Callbacks</h3>
+<p>You may also provide arbitrary methods as <code>callable</code>s to serve as rollback or completion functions, as shown below:</p>
+<pre><code class="php">&lt;?php
+  $collection-&gt;rollbackCode([$myobject, 'myrollback']);
+  $collection-&gt;completionCode([$myobject, 'mycompletion']);
+?&gt;
+</code></pre>
+
 <h2 id="temporary-objects">Temporary Objects</h2>
 <p>Since the concept of temporary objects that are cleaned up  on failure is a common pattern, Robo provides built-in support for them. Temporary directories and files are provided out of the box; other kinds of temporary objects can be easily created using the Temporary global collection.</p>
 <h3 id="temporary-directories">Temporary Directories</h3>

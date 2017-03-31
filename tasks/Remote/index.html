@@ -7,7 +7,7 @@
         
         
         <link rel="canonical" href="http://robo.li/tasks/Remote/">
-        <link rel="shortcut icon" href="../../../../img/favicon.png">
+        <link rel="shortcut icon" href="../../img/favicon.png">
         
         <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 
@@ -35,7 +35,6 @@
 
         <!-- Collapsed navigation -->
         <div class="navbar-header">
-            
             <!-- Expander button -->
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
@@ -43,164 +42,106 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            
-
-            <!-- Main title -->
             <a class="navbar-brand" href="../..">Robo</a>
         </div>
 
         <!-- Expanded navigation -->
         <div class="navbar-collapse collapse">
-            
                 <!-- Main navigation -->
                 <ul class="nav navbar-nav">
-                
-                
                     <li >
                         <a href="../..">Index</a>
                     </li>
-                
-                
-                
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Guides <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                        
                             
 <li >
     <a href="../../getting-started/">Getting Started</a>
 </li>
-
-                        
                             
 <li >
     <a href="../../collections/">Collections</a>
 </li>
-
-                        
                             
 <li >
     <a href="../../extending/">Extending</a>
 </li>
-
-                        
                             
 <li >
     <a href="../../framework/">Robo as Framework</a>
 </li>
-
-                        
                         </ul>
                     </li>
-                
-                
-                
                     <li class="dropdown active">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tasks <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                        
                             
 <li >
     <a href="../Base/">Base Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../Filesystem/">FileSystem Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../File/">File Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../Composer/">Composer Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../Vcs/">VCS Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../Development/">Development Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../Assets/">Assets Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../Archive/">Archive Tasks</a>
 </li>
-
-                        
                             
 <li class="active">
     <a href="./">SSH, Rsync Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../Testing/">Testing Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../Npm/">NPM Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../Bower/">Bower Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../Gulp/">Gulp Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../Docker/">Docker Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../ApiGen/">ApiGen Tasks</a>
 </li>
-
-                        
                         </ul>
                     </li>
-                
-                
-                
                     <li >
                         <a href="../../changelog/">Releases</a>
                     </li>
-                
-                
                 </ul>
-            
 
             <ul class="nav navbar-nav navbar-right">
                 <li>
@@ -208,7 +149,6 @@
                         <i class="fa fa-search"></i> Search
                     </a>
                 </li>
-                
                     <li >
                         <a rel="next" href="../Archive/">
                             <i class="fa fa-arrow-left"></i> Previous
@@ -219,17 +159,11 @@
                             Next <i class="fa fa-arrow-right"></i>
                         </a>
                     </li>
-                
-                
                     <li>
                         <a href="https://github.com/consolidation/Robo/">
-                            
-                                <i class="fa fa-github"></i>
-                            
-                            GitHub
+                                <i class="fa fa-github"></i>GitHub
                         </a>
                     </li>
-                
             </ul>
         </div>
     </div>
@@ -240,14 +174,9 @@
             
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-    
         <li class="main active"><a href="#remote-tasks">Remote Tasks</a></li>
-        
             <li><a href="#rsync">Rsync</a></li>
-        
             <li><a href="#ssh">Ssh</a></li>
-        
-    
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
@@ -289,15 +218,7 @@ if ('y' === $this-&gt;ask('Do you want to run (y/n)')) {
 </code></pre>
 
 <ul>
-<li><code>fromUser(string $user)</code> </li>
-<li><code>fromHost(string $hostname)</code> </li>
-<li><code>toUser(string $user)</code> </li>
-<li>
-<p><code>toHost(string $hostname)</code> </p>
-</li>
-<li>
-<p><code>fromPath($path)</code>  This can either be a full rsync path spec (user@host:path) or just a path.</p>
-</li>
+<li><code>fromPath($path)</code>  This can either be a full rsync path spec (user@host:path) or just a path.</li>
 <li><code>toPath($path)</code>  This can either be a full rsync path spec (user@host:path) or just a path.</li>
 <li><code>fromUser($fromUser)</code>   * <code>param string</code> $fromUser</li>
 <li><code>fromHost($fromHost)</code>   * <code>param string</code> $fromHost</li>
@@ -314,7 +235,6 @@ if ('y' === $this-&gt;ask('Do you want to run (y/n)')) {
 <li><code>group()</code>   * <code>return</code> $this</li>
 <li><code>times()</code>   * <code>return</code> $this</li>
 <li><code>delete()</code>   * <code>return</code> $this</li>
-<li><code>timeout($seconds)</code>   * <code>param int</code> $seconds</li>
 <li><code>humanReadable()</code>   * <code>return</code> $this</li>
 <li><code>wholeFile()</code>   * <code>return</code> $this</li>
 <li><code>dryRun()</code>   * <code>return</code> $this</li>
@@ -327,7 +247,6 @@ if ('y' === $this-&gt;ask('Do you want to run (y/n)')) {
 <li><code>filesFrom($file)</code>   * <code>param string</code> $file</li>
 <li><code>remoteShell($command)</code>   * <code>param string</code> $command</li>
 <li><code>dir($dir)</code>  Changes working directory of command</li>
-<li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
 <li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
@@ -363,17 +282,10 @@ $this-&gt;taskSshExec('remote.example.com')
 </code></pre>
 
 <ul>
-<li><code>$this stopOnFail(bool $stopOnFail)</code>  Whether or not to chain commands together with &amp;&amp;
-                                           and stop the chain if one command fails</li>
-<li>
-<p><code>$this remoteDir(string $remoteWorkingDirectory)</code>  Changes to the given directory before running commands</p>
-</li>
-<li>
-<p><code>hostname($hostname)</code>   * <code>param string</code> $hostname</p>
-</li>
+<li><code>hostname($hostname)</code>   * <code>param string</code> $hostname</li>
 <li><code>user($user)</code>   * <code>param string</code> $user</li>
-<li><code>stopOnFail($stopOnFail = null)</code>   * <code>param bool</code> $stopOnFail</li>
-<li><code>remoteDir($remoteDir)</code>   * <code>param string</code> $remoteDir</li>
+<li><code>stopOnFail($stopOnFail = null)</code>  Whether or not to chain commands together with &amp;&amp; and stop the chain if one command fails.</li>
+<li><code>remoteDir($remoteDir)</code>  Changes to the given directory before running commands.</li>
 <li><code>identityFile($filename)</code>   * <code>param string</code> $filename</li>
 <li><code>port($port)</code>   * <code>param int</code> $port</li>
 <li><code>forcePseudoTty()</code>   * <code>return</code> $this</li>
@@ -382,7 +294,6 @@ $this-&gt;taskSshExec('remote.example.com')
 <li><code>exec($command)</code>   * <code>param string|string[]|CommandInterface</code> $command</li>
 <li><code>simulate($context)</code>  {@inheritdoc}</li>
 <li><code>dir($dir)</code>  Changes working directory of command</li>
-<li><code>printed($arg)</code>  Should command output be printed</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
 <li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>

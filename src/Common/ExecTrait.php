@@ -136,13 +136,24 @@ trait ExecTrait
     }
 
     /**
+     * Set a single environment variable, or multiple.
+     */
+    public function env($env, $value = null)
+    {
+        if (!is_array($env)) {
+            $env = [$env => ($value ? $value : true)];
+        }
+        return $this->envVars($env);
+    }
+
+    /**
      * Sets the environment variables for the command
      *
      * @param array $env
      *
      * @return $this
      */
-    public function env(array $env)
+    public function envVars(array $env)
     {
         $this->env = $env;
         return $this;
@@ -168,7 +179,7 @@ trait ExecTrait
      *
      * @return $this
      */
-    public function interactive($interactive)
+    public function interactive($interactive = true)
     {
         $this->interactive = $interactive;
         return $this;

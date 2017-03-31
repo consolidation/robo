@@ -64,12 +64,14 @@ class Exec extends Base
     }
 
     /**
-     * @return $this
+     * {@inheritdoc)}
      */
-    public function interactive()
+    public function interactive($interactive = true)
     {
-        $this->option('-i');
-        return $this;
+        if ($interactive) {
+            $this->option('-i');
+        }
+        return parent::interactive($interactive);
     }
 
     /**

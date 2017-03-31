@@ -115,12 +115,14 @@ class Run extends Base
     }
 
     /**
-     * @return $this
+     * {@inheritdoc)}
      */
-    public function interactive()
+    public function interactive($interactive = true)
     {
-        $this->option('-i');
-        return $this;
+        if ($interactive) {
+            $this->option('-i');
+        }
+        return parent::interactive($interactive);
     }
 
     /**
@@ -148,12 +150,28 @@ class Run extends Base
     }
 
     /**
+     * Set environment variables.
+     * n.b. $this->env($variable, $value) also available here,
+     * inherited from ExecTrait.
+     *
+     * @param array $env
+     * @return type
+     */
+    public function envVars(array $env)
+    {
+        foreach($env as $variable => $value) {
+            $this->setDockerEnv($variable, $value);
+        }
+        return $this;
+    }
+
+    /**
      * @param string $variable
      * @param null|string $value
      *
      * @return $this
      */
-    public function env($variable, $value = null)
+    protected function setDockerEnv($variable, $value = null)
     {
         $env = $value ? "$variable=$value" : $variable;
         return $this->option("-e", $env);

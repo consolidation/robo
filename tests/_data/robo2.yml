@@ -1,0 +1,7 @@
+indirect: '112'
+command:
+  test:
+    simple-list:
+      options:
+        a: ${indirect}
+        c: '44'

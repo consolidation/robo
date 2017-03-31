@@ -3,8 +3,6 @@ namespace Robo\Log;
 
 use Robo\Common\TimeKeeper;
 use Consolidation\Log\LogOutputStyler;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\OutputStyle;
 
 /**
  * Robo Log Styler.

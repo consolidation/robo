@@ -12,7 +12,8 @@ use Traversable;
  * ``` php
  * <?php
  * // ApiGen Command
- * $this->taskApiGen('./apigen.neon')
+ * $this->taskApiGen('./vendor/apigen/apigen.phar')
+ *      ->config('./apigen.neon')
  *      ->templateConfig('vendor/apigen/apigen/templates/bootstrap/config.neon')
  *      ->wipeout(true)
  *       ->run();
@@ -30,6 +31,7 @@ class ApiGen extends BaseTask implements CommandInterface
      * @var string
      */
     protected $command;
+    protected $operation = 'generate';
 
     /**
      * @param null|string $pathToApiGen
@@ -39,12 +41,46 @@ class ApiGen extends BaseTask implements CommandInterface
     public function __construct($pathToApiGen = null)
     {
         $this->command = $pathToApiGen;
+        $command_parts = [];
+        preg_match('/((?:.+)?apigen(?:\.phar)?) ?( \w+)? ?(.+)?/', $this->command, $command_parts);
+        if (count($command_parts) === 3) {
+            list(, $this->command, $this->operation) = $command_parts;
+        }
+        if (count($command_parts) === 4) {
+            list(, $this->command, $this->operation, $arg) = $command_parts;
+            $this->arg($arg);
+        }
         if (!$this->command) {
             $this->command = $this->findExecutablePhar('apigen');
         }
         if (!$this->command) {
             throw new TaskException(__CLASS__, "No apigen installation found");
         }
+    }
+
+    /**
+     * Pass methods parameters as arguments to executable. Argument values
+     * are automatically escaped.
+     *
+     * @param string|string[] $args
+     *
+     * @return $this
+     */
+    public function args($args)
+    {
+        if (!is_array($args)) {
+            $args = func_get_args();
+        }
+        $args = array_map(function ($arg) {
+            if (preg_match('/^\w+$/', trim($arg)) === 1) {
+                $this->operation = $arg;
+                return null;
+            }
+            return $arg;
+        }, $args);
+        $args = array_filter($args);
+        $this->arguments .= ' ' . implode(' ', array_map('static::escape', $args));
+        return $this;
     }
 
     /**
@@ -468,7 +504,7 @@ class ApiGen extends BaseTask implements CommandInterface
      */
     public function getCommand()
     {
-        return $this->command . $this->arguments;
+        return "$this->command $this->operation$this->arguments";
     }
 
     /**

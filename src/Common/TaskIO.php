@@ -4,9 +4,7 @@ namespace Robo\Common;
 use Robo\Robo;
 use Robo\TaskInfo;
 use Consolidation\Log\ConsoleLogLevel;
-use Robo\Common\ConfigAwareTrait;
 use Psr\Log\LoggerAwareTrait;
-use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Robo\Contract\ProgressIndicatorAwareInterface;
 
@@ -21,6 +19,7 @@ trait TaskIO
 {
     use LoggerAwareTrait;
     use ConfigAwareTrait;
+    use VerbosityThresholdTrait;
 
     /**
      * @return mixed|null|\Psr\Log\LoggerInterface
@@ -137,6 +136,9 @@ trait TaskIO
      */
     protected function printTaskOutput($level, $text, $context)
     {
+        if (!$this->verbosityMeetsThreshold()) {
+            return;
+        }
         $logger = $this->logger();
         if (!$logger) {
             return;

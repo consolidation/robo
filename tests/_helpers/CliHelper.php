@@ -2,8 +2,8 @@
 namespace Codeception\Module;
 
 use Robo\Robo;
+use Robo\Collection\CollectionBuilder;
 use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Output\NullOutput;
 
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
@@ -39,7 +39,7 @@ class CliHelper extends \Codeception\Module implements ContainerAwareInterface
     public function collectionBuilder()
     {
         $tasks = new \Robo\Tasks();
-        $builder = $this->getContainer()->get('collectionBuilder', [$tasks]);
+        $builder = CollectionBuilder::create($this->getContainer(), $tasks);
         $tasks->setBuilder($builder);
         return $builder;
     }

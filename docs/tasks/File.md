@@ -47,14 +47,10 @@ $this->taskReplaceInFile('box/robo.txt')
 ?>
 ```
 
-* `regex(string)`  regex to match string to be replaced
-* `from(string|array)`  string(s) to be replaced
-* `to(string|array)`  value(s) to be set as a replacement
-
 * `filename($filename)`   * `param string` $filename
-* `from($from)`   * `param string` $from
-* `to($to)`   * `param string` $to
-* `regex($regex)`   * `param string` $regex
+* `from($from)`  String(s) to be replaced.
+* `to($to)`  Value(s) to be set as a replacement.
+* `regex($regex)`  Regex to match string to be replaced.
 
 ## TmpFile
 
@@ -109,8 +105,6 @@ $this->taskWriteToFile('blogpost.md')
      ->run();
 ?>
 ```
-
-* `append()` 
 
 * `filename($filename)`   * `param string` $filename
 * `append($append = null)`   * `param bool` $append

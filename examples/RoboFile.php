@@ -1,12 +1,11 @@
 <?php
 use Robo\Result;
-use Robo\ResultData;
-use Robo\Collection\CollectionBuilder;
 
 use Consolidation\AnnotatedCommand\CommandData;
 use Consolidation\OutputFormatters\Options\FormatterOptions;
 use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
 use Consolidation\OutputFormatters\StructuredData\PropertyList;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Example RoboFile.
@@ -23,7 +22,7 @@ use Consolidation\OutputFormatters\StructuredData\PropertyList;
  */
 class RoboFile extends \Robo\Tasks
 {
-   /**
+    /**
      * Watch a file.
      *
      * Demonstrates the 'watch' command. Runs 'composer update' any time
@@ -63,7 +62,7 @@ class RoboFile extends \Robo\Tasks
      */
     public function tryPara($options = ['printed' => false, 'error' => false])
     {
-        $dir = __DIR__;
+        $dir = dirname(__DIR__);
         $para = $this->taskParallelExec()
             ->printed($options['printed'])
             ->process("php $dir/tests/_data/parascript.php hey 4")
@@ -74,6 +73,14 @@ class RoboFile extends \Robo\Tasks
             $para->process("ls $dir/tests/_data/filenotfound");
         }
         return $para->run();
+    }
+
+    /**
+     * try:opt-required
+     */
+    public function tryOptRequired($options = ['foo' => InputOption::VALUE_REQUIRED])
+    {
+        print "foo is " . $options['foo'];
     }
 
     /**

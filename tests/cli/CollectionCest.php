@@ -3,9 +3,7 @@ namespace Robo;
 
 use \CliGuy;
 
-use Robo\Contract\TaskInterface;
 use Robo\Collection\Temporary;
-use Robo\Result;
 
 class CollectionCest
 {

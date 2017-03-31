@@ -6,7 +6,6 @@ use Robo\Result;
 use Robo\Task\BaseTask;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Input\InputInterface;
 
 /**
  * Executes Symfony Command

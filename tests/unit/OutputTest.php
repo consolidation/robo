@@ -1,7 +1,5 @@
 <?php
-use AspectMock\Test as test;
 use Robo\Robo;
-use Robo\Common\IO;
 
 class OutputTest extends \Codeception\TestCase\Test
 {
@@ -74,8 +72,13 @@ class OutputTest extends \Codeception\TestCase\Test
         $stream = fopen('php://memory', 'r+', false);
         fputs($stream, $this->expectedAnswer);
         rewind($stream);
-        $this->dialog->setInputStream($stream);
+        // Use StreamableInputInterface when it's available
+        if ($this->input() instanceof \Symfony\Component\Console\Input\StreamableInputInterface) {
+            $this->input()->setStream($stream);
+        } else {
+            // setInputStream deprecated in Symfony 3.2.
+            $this->dialog->setInputStream($stream);
+        }
         return $this->dialog;
     }
-
 }

@@ -1,15 +1,12 @@
 <?php
 namespace Robo;
 
-use League\Container\Container;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\StringInput;
-use Consolidation\AnnotatedCommand\PassThroughArgsInput;
 use Robo\Contract\BuilderAwareInterface;
+use Robo\Collection\CollectionBuilder;
 use Robo\Common\IO;
 use Robo\Exception\TaskExitException;
-use League\Container\ContainerInterface;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 
@@ -136,7 +133,8 @@ class Runner implements ContainerAwareInterface
 
         // If we were not provided a container, then create one
         if (!$this->getContainer()) {
-            $container = Robo::createDefaultContainer($input, $output, $app);
+            $config = Robo::createConfiguration(['robo.yml']);
+            $container = Robo::createDefaultContainer($input, $output, $app, $config);
             $this->setContainer($container);
             // Automatically register a shutdown function and
             // an error handler when we provide the container.
@@ -222,6 +220,9 @@ class Runner implements ContainerAwareInterface
         // If the command class is already an instantiated object, then
         // just use it exactly as it was provided to us.
         if (is_string($commandClass)) {
+            if (!class_exists($commandClass)) {
+                return;
+            }
             $reflectionClass = new \ReflectionClass($commandClass);
             if ($reflectionClass->isAbstract()) {
                 return;
@@ -235,7 +236,7 @@ class Runner implements ContainerAwareInterface
         // ensure that it has a builder.  Every command class needs
         // its own collection builder, as they have references to each other.
         if ($commandClass instanceof BuilderAwareInterface) {
-            $builder = $container->get('collectionBuilder', [$commandClass]);
+            $builder = CollectionBuilder::create($container, $commandClass);
             $commandClass->setBuilder($builder);
         }
         if ($commandClass instanceof ContainerAwareInterface) {

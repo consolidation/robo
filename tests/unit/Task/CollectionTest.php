@@ -8,9 +8,7 @@ namespace unit;
 
 use Robo\Result;
 use Robo\Task\BaseTask;
-use Robo\Contract\TaskInterface;
 use Robo\Collection\Collection;
-use Robo\Robo;
 
 class CollectionTest extends \Codeception\TestCase\Test
 {

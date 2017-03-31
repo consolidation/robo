@@ -3,8 +3,6 @@
 namespace Robo\Task\Filesystem;
 
 use Robo\Result;
-use Robo\Collection\Collection;
-use Robo\Contract\CompletionInterface;
 use Robo\Contract\RollbackInterface;
 use Robo\Contract\BuilderAwareInterface;
 use Robo\Common\BuilderAwareTrait;

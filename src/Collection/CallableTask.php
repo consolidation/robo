@@ -3,7 +3,6 @@ namespace Robo\Collection;
 
 use Robo\Result;
 use Robo\Contract\TaskInterface;
-use Robo\Collection\Collection;
 
 /**
  * Creates a task wrapper that converts any Callable into an

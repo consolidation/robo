@@ -2,7 +2,6 @@
 
 namespace Robo\Task\File;
 
-use Robo\Collection\Collection;
 use Robo\Contract\CompletionInterface;
 
 /**
@@ -36,15 +35,15 @@ class TmpFile extends Write implements CompletionInterface
      */
     public function __construct($filename = 'tmp', $extension = '', $baseDir = '', $includeRandomPart = true)
     {
-        if (empty($base)) {
-            $base = sys_get_temp_dir();
+        if (empty($baseDir)) {
+            $baseDir = sys_get_temp_dir();
         }
         if ($includeRandomPart) {
             $random = static::randomString();
             $filename = "{$filename}_{$random}";
         }
         $filename .= $extension;
-        parent::__construct("{$base}/{$filename}");
+        parent::__construct("{$baseDir}/{$filename}");
     }
 
     /**

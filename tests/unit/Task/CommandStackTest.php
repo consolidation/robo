@@ -1,6 +1,5 @@
 <?php
 use Codeception\Util\Stub;
-use Robo\Robo;
 
 class CommandStackTest extends \Codeception\TestCase\Test
 {

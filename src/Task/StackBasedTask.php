@@ -2,8 +2,6 @@
 namespace Robo\Task;
 
 use Robo\Result;
-use Robo\Task\BaseTask;
-use Robo\Contract\TaskInterface;
 
 /**
  * Extend StackBasedTask to create a Robo task that
@@ -116,7 +114,7 @@ abstract class StackBasedTask extends BaseTask
      */
     protected function printTaskProgress($command, $action)
     {
-        $this->printTaskInfo('{command} {action}', ['command' => "{$command[1]}", 'action' => json_encode($action)]);
+        $this->printTaskInfo('{command} {action}', ['command' => "{$command[1]}", 'action' => json_encode($action, JSON_UNESCAPED_SLASHES)]);
     }
 
     /**

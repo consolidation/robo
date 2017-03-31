@@ -30,10 +30,6 @@ use Robo\Task\BaseTask;
  *  ->run();
  * ?>
  * ```
- *
- * @method regex(string) regex to match string to be replaced
- * @method from(string|array) string(s) to be replaced
- * @method to(string|array) value(s) to be set as a replacement
  */
 class Replace extends BaseTask
 {
@@ -43,12 +39,12 @@ class Replace extends BaseTask
     protected $filename;
 
     /**
-     * @var string[]
+     * @var string|string[]
      */
     protected $from;
 
     /**
-     * @var string[]
+     * @var string|string[]
      */
     protected $to;
 
@@ -77,7 +73,9 @@ class Replace extends BaseTask
     }
 
     /**
-     * @param string $from
+     * String(s) to be replaced.
+     *
+     * @param string|string[] $from
      *
      * @return $this
      */
@@ -88,7 +86,9 @@ class Replace extends BaseTask
     }
 
     /**
-     * @param string $to
+     * Value(s) to be set as a replacement.
+     *
+     * @param string|string[] $to
      *
      * @return $this
      */
@@ -99,6 +99,8 @@ class Replace extends BaseTask
     }
 
     /**
+     * Regex to match string to be replaced.
+     *
      * @param string $regex
      *
      * @return $this

@@ -1,8 +1,6 @@
 <?php
 namespace Robo\Task\Filesystem;
 
-use Robo\Collection\Temporary;
-
 trait loadTasks
 {
     /**

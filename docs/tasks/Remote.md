@@ -40,11 +40,6 @@ if ('y' === $this->ask('Do you want to run (y/n)')) {
 }
 ```
 
-* ` fromUser(string $user)` 
-* ` fromHost(string $hostname)` 
-* ` toUser(string $user)` 
-* ` toHost(string $hostname)` 
-
 * `fromPath($path)`  This can either be a full rsync path spec (user@host:path) or just a path.
 * `toPath($path)`  This can either be a full rsync path spec (user@host:path) or just a path.
 * `fromUser($fromUser)`   * `param string` $fromUser
@@ -62,7 +57,6 @@ if ('y' === $this->ask('Do you want to run (y/n)')) {
 * `group()`   * `return` $this
 * `times()`   * `return` $this
 * `delete()`   * `return` $this
-* `timeout($seconds)`   * `param int` $seconds
 * `humanReadable()`   * `return` $this
 * `wholeFile()`   * `return` $this
 * `dryRun()`   * `return` $this
@@ -75,7 +69,6 @@ if ('y' === $this->ask('Do you want to run (y/n)')) {
 * `filesFrom($file)`   * `param string` $file
 * `remoteShell($command)`   * `param string` $command
 * `dir($dir)`  Changes working directory of command
-* `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
 * `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
@@ -118,14 +111,10 @@ You can configure the remote directory for all future calls:
 ::configure('remoteDir', '/some-dir');
 ```
 
-* `$this stopOnFail(bool $stopOnFail)`  Whether or not to chain commands together with &&
-                                           and stop the chain if one command fails
-* `$this remoteDir(string $remoteWorkingDirectory)`  Changes to the given directory before running commands
-
 * `hostname($hostname)`   * `param string` $hostname
 * `user($user)`   * `param string` $user
-* `stopOnFail($stopOnFail = null)`   * `param bool` $stopOnFail
-* `remoteDir($remoteDir)`   * `param string` $remoteDir
+* `stopOnFail($stopOnFail = null)`  Whether or not to chain commands together with && and stop the chain if one command fails.
+* `remoteDir($remoteDir)`  Changes to the given directory before running commands.
 * `identityFile($filename)`   * `param string` $filename
 * `port($port)`   * `param int` $port
 * `forcePseudoTty()`   * `return` $this
@@ -134,7 +123,6 @@ You can configure the remote directory for all future calls:
 * `exec($command)`   * `param string|string[]|CommandInterface` $command
 * `simulate($context)`  {@inheritdoc}
 * `dir($dir)`  Changes working directory of command
-* `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
 * `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.

@@ -158,6 +158,7 @@ use League\Container\ContainerAwareTrait;
 use Symfony\Component\Console\Output\NullOutput;
 use Robo\TaskAccessor;
 use Robo\Robo;
+use Robo\Collection\CollectionBuilder;
 
 class DrushStackTest extends \PHPUnit_Framework_TestCase implements ContainerAwareInterface
 {
@@ -176,7 +177,7 @@ class DrushStackTest extends \PHPUnit_Framework_TestCase implements ContainerAwa
     public function collectionBuilder()
     {
         $emptyRobofile = new \Robo\Tasks;
-        return $this->getContainer()->get('collectionBuilder', [$emptyRobofile]);
+        return CollectionBuilder::create($this->getContainer(), $emptyRobofile);
     }
 
     public function testYesIsAssumed()

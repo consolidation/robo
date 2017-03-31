@@ -11,15 +11,7 @@ use Symfony\Component\Process\Process;
  */
 trait ExecCommand
 {
-    /**
-     * @var bool
-     */
-    protected $isPrinted = true;
-
-    /**
-     * @var string
-     */
-    protected $workingDirectory;
+    use ExecTrait;
 
     /**
      * @var \Robo\Common\TimeKeeper
@@ -35,45 +27,6 @@ trait ExecCommand
             $this->execTimer = new TimeKeeper();
         }
         return $this->execTimer;
-    }
-
-    /**
-     * Is command printing its output to screen
-     *
-     * @return bool
-     */
-    public function getPrinted()
-    {
-        return $this->isPrinted;
-    }
-
-    /**
-     * Changes working directory of command
-     *
-     * @param string $dir
-     *
-     * @return $this
-     */
-    public function dir($dir)
-    {
-        $this->workingDirectory = $dir;
-        return $this;
-    }
-
-
-    /**
-     * Should command output be printed
-     *
-     * @param bool $arg
-     *
-     * @return $this
-     */
-    public function printed($arg)
-    {
-        if (is_bool($arg)) {
-            $this->isPrinted = $arg;
-        }
-        return $this;
     }
 
     /**
@@ -135,7 +88,8 @@ trait ExecCommand
      */
     protected function findProjectBin()
     {
-        $candidates = [ __DIR__ . '/../../vendor/bin', __DIR__ . '/../../bin' ];
+        $cwd = getcwd();
+        $candidates = [ __DIR__ . '/../../vendor/bin', __DIR__ . '/../../bin', $cwd . '/vendor/bin' ];
 
         // If this project is inside a vendor directory, give highest priority
         // to that directory.
@@ -170,6 +124,11 @@ trait ExecCommand
         return $cmd;
     }
 
+    protected function getCommandDescription()
+    {
+        return $this->process->getCommandLine();
+    }
+
     /**
      * @param string $command
      *
@@ -177,21 +136,12 @@ trait ExecCommand
      */
     protected function executeCommand($command)
     {
-        $process = new Process($command);
-        $process->setTimeout(null);
-        if ($this->workingDirectory) {
-            $process->setWorkingDirectory($this->workingDirectory);
-        }
-        $this->getExecTimer()->start();
-        if ($this->isPrinted) {
-            $process->run(function ($type, $buffer) {
-                print $buffer;
-            });
-        } else {
-            $process->run();
-        }
-        $this->getExecTimer()->stop();
-
-        return new Result($this, $process->getExitCode(), $process->getOutput(), ['time' => $this->getExecTimer()->elapsed()]);
+        $result_data = $this->execute(new Process($command));
+        return new Result(
+            $this,
+            $result_data->getExitCode(),
+            $result_data->getMessage(),
+            $result_data->getData()
+        );
     }
 }

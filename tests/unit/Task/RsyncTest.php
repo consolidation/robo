@@ -1,8 +1,5 @@
 <?php
 
-use AspectMock\Test as test;
-use Robo\Robo;
-
 class RsyncTest extends \Codeception\TestCase\Test
 {
     /**
@@ -13,6 +10,12 @@ class RsyncTest extends \Codeception\TestCase\Test
     // tests
     public function testRsync()
     {
+        $linuxCmd = 'rsync --recursive --exclude .git --exclude .svn --exclude .hg --checksum --whole-file --verbose --progress --human-readable --stats src/ \'dev@localhost:/var/www/html/app/\'';
+
+        $winCmd = 'rsync --recursive --exclude .git --exclude .svn --exclude .hg --checksum --whole-file --verbose --progress --human-readable --stats src/ "dev@localhost:/var/www/html/app/"';
+
+        $cmd = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? $winCmd : $linuxCmd;
+
         verify(
             (new \Robo\Task\Remote\Rsync())
                 ->fromPath('src/')
@@ -28,9 +31,13 @@ class RsyncTest extends \Codeception\TestCase\Test
                 ->humanReadable()
                 ->stats()
                 ->getCommand()
-        )->equals(
-                'rsync --recursive --exclude .git --exclude .svn --exclude .hg --checksum --whole-file --verbose --progress --human-readable --stats src/ \'dev@localhost:/var/www/html/app/\''
-        );
+        )->equals($cmd);
+
+        $linuxCmd = 'rsync \'src/foo bar/baz\' \'dev@localhost:/var/path/with/a space\'';
+
+        $winCmd = 'rsync "src/foo bar/baz" "dev@localhost:/var/path/with/a space"';
+
+        $cmd = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? $winCmd : $linuxCmd;
 
         // From the folder 'foo bar' (with space) in 'src' directory
         verify(
@@ -40,9 +47,13 @@ class RsyncTest extends \Codeception\TestCase\Test
                 ->toUser('dev')
                 ->toPath('/var/path/with/a space')
                 ->getCommand()
-        )->equals(
-                'rsync \'src/foo bar/baz\' \'dev@localhost:/var/path/with/a space\''
-        );
+        )->equals($cmd);
+
+        $linuxCmd = 'rsync src/foo src/bar \'dev@localhost:/var/path/with/a space\'';
+
+        $winCmd = 'rsync src/foo src/bar "dev@localhost:/var/path/with/a space"';
+
+        $cmd = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? $winCmd : $linuxCmd;
 
         // Copy two folders, 'src/foo' and 'src/bar'
         verify(
@@ -52,8 +63,6 @@ class RsyncTest extends \Codeception\TestCase\Test
                 ->toUser('dev')
                 ->toPath('/var/path/with/a space')
                 ->getCommand()
-        )->equals(
-                'rsync src/foo src/bar \'dev@localhost:/var/path/with/a space\''
-        );
+        )->equals($cmd);
     }
 }

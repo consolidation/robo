@@ -3,8 +3,6 @@ namespace Robo;
 
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 
 class Application extends SymfonyApplication
@@ -24,6 +22,11 @@ class Application extends SymfonyApplication
         $this->getDefinition()
             ->addOption(
                 new InputOption('--progress-delay', null, InputOption::VALUE_REQUIRED, 'Number of seconds before progress bar is displayed in long-running task collections. Default: 2s.', Config::DEFAULT_PROGRESS_DELAY)
+            );
+
+        $this->getDefinition()
+            ->addOption(
+                new InputOption('--define', '-D', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Define a configuration item value.', [])
             );
     }
 

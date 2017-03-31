@@ -53,7 +53,6 @@ class Behat extends BaseTask implements CommandInterface, PrintedInterface
         if (!$this->command) {
             throw new \Robo\Exception\TaskException(__CLASS__, "Neither composer nor phar installation of Behat found");
         }
-        $this->arg('run');
     }
 
     /**

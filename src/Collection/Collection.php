@@ -12,8 +12,6 @@ use Robo\Exception\TaskException;
 use Robo\Exception\TaskExitException;
 use Robo\Contract\CommandInterface;
 
-
-use Robo\Common\ProgressIndicatorAwareTrait;
 use Robo\Contract\InflectionInterface;
 
 /**

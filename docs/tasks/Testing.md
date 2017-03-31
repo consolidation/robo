@@ -23,7 +23,6 @@ $this->taskAtoum()
 * `files($files)`  Test file or test files to run.
 * `directories($directories)`  Test directory or directories to run.
 * `dir($dir)`  Changes working directory of command
-* `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
 * `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
@@ -54,7 +53,6 @@ $this->taskBehat()
 * `verbose($level = null)`   * `param string` $level
 * `format($formater)`   * `param string` $formater
 * `dir($dir)`  Changes working directory of command
-* `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
 * `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
@@ -91,13 +89,10 @@ $this->taskCodecept()
 * `tap($file = null)`  generate tap report
 * `configFile($file)`  provides config file other then default `codeception.yml` with `-c` option
 * `coverage($cov = null)`  collect codecoverage in raw format. You may pass name of cov file to save results
-* `silent()`  execute in silent mode
 * `coverageXml($xml = null)`  collect code coverage in xml format. You may pass name of xml file to save results
 * `coverageHtml($html = null)`  collect code coverage and generate html report. You may pass
-* `env($env)`   * `param string` $env
 * `debug()`   * `return` $this
 * `dir($dir)`  Changes working directory of command
-* `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
 * `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
@@ -131,7 +126,6 @@ $this->taskPHPUnit()
 * `files($files)`  Directory of test files or single test file to run.
 * `file($file)`  Test the provided file.
 * `dir($dir)`  Changes working directory of command
-* `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
 * `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
@@ -162,7 +156,6 @@ $this->taskPhpspec()
 * `config($config_file)` 
 * `format($formater)` 
 * `dir($dir)`  Changes working directory of command
-* `printed($arg)`  Should command output be printed
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
 * `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.

@@ -1,6 +1,8 @@
 <?php
 use Robo\Robo;
-use Symfony\Component\Console\Output\BufferedOutput;
+
+use Robo\Config\ConfigProcessor;
+use Robo\Config\YamlConfigLoader;
 
 class RunnerTest extends \Codeception\TestCase\Test
 {
@@ -17,52 +19,6 @@ class RunnerTest extends \Codeception\TestCase\Test
     public function _before()
     {
         $this->runner = new \Robo\Runner('\Robo\RoboFileFixture');
-    }
-
-    public function testHandleError()
-    {
-        $tmpLevel = error_reporting();
-
-        $this->assertFalse($this->runner->handleError());
-        error_reporting(0);
-        $this->assertTrue($this->runner->handleError());
-
-        error_reporting($tmpLevel);
-    }
-
-    public function testErrorIsHandled()
-    {
-        $tmpLevel = error_reporting();
-
-        // Set error_get_last to a known state.  Note that it can never be
-        // reset; see http://php.net/manual/en/function.error-get-last.php
-        @trigger_error('control');
-        $error_description = error_get_last();
-        $this->assertEquals('control', $error_description['message']);
-        @trigger_error('');
-        $error_description = error_get_last();
-        $this->assertEquals('', $error_description['message']);
-
-        // Set error_reporting to a non-zero value.  In this instance,
-        // 'trigger_error' would abort our test script, so we use
-        // @trigger_error so that execution will continue.  With our
-        // error handler in place, the value of error_get_last() does
-        // not change.
-        error_reporting(E_USER_ERROR);
-        set_error_handler(array($this->runner, 'handleError'));
-        @trigger_error('test error', E_USER_ERROR);
-        $error_description = error_get_last();
-        $this->assertEquals('', $error_description['message']);
-
-        // Set error_reporting to zero.  Now, even 'trigger_error'
-        // does not abort execution.  The value of error_get_last()
-        // still does not change.
-        error_reporting(0);
-        trigger_error('test error 2', E_USER_ERROR);
-        $error_description = error_get_last();
-        $this->assertEquals('', $error_description['message']);
-
-        error_reporting($tmpLevel);
     }
 
     public function testThrowsExceptionWhenNoContainerAvailable()
@@ -268,6 +224,28 @@ EOT;
         $this->guy->seeInOutput(' [warning] This is a warning log message.');
         $this->guy->seeInOutput(' [notice] This is a notice log message.');
         $this->guy->doNotSeeInOutput(' [debug] This is a debug log message.');
+        $this->assertEquals(0, $result);
+    }
+
+    public function testRunnerVerbosityThresholdVerbose()
+    {
+        $argv = ['placeholder', 'test:verbosity-threshold', '-v'];
+        $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
+
+        $this->guy->seeInOutput('This command will print more information at higher verbosity levels');
+        $this->guy->seeInOutput("Running echo verbose or higher\nverbose or higher");
+        $this->guy->doNotSeeInOutput('very verbose or higher');
+        $this->assertEquals(0, $result);
+    }
+
+    public function testRunnerVerbosityThresholdVeryVerbose()
+    {
+        $argv = ['placeholder', 'test:verbosity-threshold', '-vv'];
+        $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
+
+        $this->guy->seeInOutput('This command will print more information at higher verbosity levels');
+        $this->guy->seeInOutput("Running echo verbose or higher\nverbose or higher");
+        $this->guy->seeInOutput("Running echo very verbose or higher\nvery verbose or higher");
         $this->assertEquals(0, $result);
     }
 

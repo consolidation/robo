@@ -7,15 +7,27 @@ use Robo\Contract\InflectionInterface;
 use Robo\Common\TaskIO;
 use Robo\Contract\TaskInterface;
 use Robo\Contract\ProgressIndicatorAwareInterface;
+use Robo\Contract\VerbosityThresholdInterface;
 use Robo\Common\ProgressIndicatorAwareTrait;
 use Robo\Contract\ConfigAwareInterface;
 use Psr\Log\LoggerAwareInterface;
+use Robo\Contract\OutputAwareInterface;
 
-abstract class BaseTask implements TaskInterface, LoggerAwareInterface, ConfigAwareInterface, ProgressIndicatorAwareInterface, InflectionInterface
+abstract class BaseTask implements TaskInterface, LoggerAwareInterface, VerbosityThresholdInterface, ConfigAwareInterface, ProgressIndicatorAwareInterface, InflectionInterface
 {
-    use TaskIO; // uses LoggerAwareTrait and ConfigAwareTrait
+    use TaskIO; // uses LoggerAwareTrait, VerbosityThresholdTrait and ConfigAwareTrait
     use ProgressIndicatorAwareTrait;
     use InflectionTrait;
+
+    /**
+     * ConfigAwareInterface uses this to decide where configuration
+     * items come from. Default is this prefix + class name + key,
+     * e.g. `task.Ssh.remoteDir`.
+     */
+    protected static function configPrefix()
+    {
+        return 'task.';
+    }
 
     /**
      * {@inheritdoc}
@@ -30,6 +42,9 @@ abstract class BaseTask implements TaskInterface, LoggerAwareInterface, ConfigAw
         }
         if ($child instanceof ConfigAwareInterface && $this->getConfig()) {
             $child->setConfig($this->getConfig());
+        }
+        if ($child instanceof VerbosityThresholdInterface && $this->outputAdapter()) {
+            $child->setOutputAdapter($this->outputAdapter());
         }
     }
 }

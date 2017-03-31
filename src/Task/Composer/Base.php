@@ -1,7 +1,6 @@
 <?php
 namespace Robo\Task\Composer;
 
-use Robo\Robo;
 use Robo\Task\BaseTask;
 use Robo\Exception\TaskException;
 

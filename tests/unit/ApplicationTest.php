@@ -2,10 +2,8 @@
 require_once codecept_data_dir() . 'TestedRoboFile.php';
 
 use Robo\Robo;
-use Robo\Runner;
-use League\Container\Container;
-use Consolidation\AnnotatedCommand\AnnotatedCommandFactory;
 use Consolidation\AnnotatedCommand\Parser\CommandInfo;
+use Robo\Collection\CollectionBuilder;
 
 class ApplicationTest extends \Codeception\TestCase\Test
 {
@@ -37,7 +35,7 @@ class ApplicationTest extends \Codeception\TestCase\Test
         $config = $container->get('config');
         $this->commandFactory = $container->get('commandFactory');
         $this->roboCommandFileInstance = new TestedRoboFile;
-        $builder = $container->get('collectionBuilder', [$this->roboCommandFileInstance]);
+        $builder = CollectionBuilder::create($container, $this->roboCommandFileInstance);
         $this->roboCommandFileInstance->setBuilder($builder);
         $commandList = $this->commandFactory->createCommandsFromClass($this->roboCommandFileInstance);
         foreach ($commandList as $command) {
@@ -52,7 +50,7 @@ class ApplicationTest extends \Codeception\TestCase\Test
         // commandfile instance.
         $method = new ReflectionMethod($this->roboCommandFileInstance, 'task');
         $method->setAccessible(true);
-        $collectionBuilder = $method->invoke($this->roboCommandFileInstance, 'Robo\Task\Base\Exec', ['ls']);
+        $collectionBuilder = $method->invoke($this->roboCommandFileInstance, 'Robo\Task\Base\Exec', 'ls');
         verify(get_class($collectionBuilder))->equals('Robo\Collection\CollectionBuilder');
         $task = $collectionBuilder->getCollectionBuilderCurrentTask();
         verify(get_class($task))->equals('Robo\Task\Base\Exec');

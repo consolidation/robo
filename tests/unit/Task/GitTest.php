@@ -1,7 +1,6 @@
 <?php
 
 use AspectMock\Test as test;
-use Robo\Robo;
 
 class GitTest extends \Codeception\TestCase\Test
 {
@@ -32,6 +31,12 @@ class GitTest extends \Codeception\TestCase\Test
 
     public function testGitStackCommands()
     {
+        $linuxCmd = "git clone http://github.com/consolidation-org/Robo && git pull && git add -A && git commit -m 'changed' && git push && git tag 0.6.0 && git push origin 0.6.0";
+
+        $winCmd = 'git clone http://github.com/consolidation-org/Robo && git pull && git add -A && git commit -m "changed" && git push && git tag 0.6.0 && git push origin 0.6.0';
+
+        $cmd = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? $winCmd : $linuxCmd;
+
         verify(
             (new \Robo\Task\Vcs\GitStack())
                 ->cloneRepo('http://github.com/consolidation-org/Robo')
@@ -42,11 +47,17 @@ class GitTest extends \Codeception\TestCase\Test
                 ->tag('0.6.0')
                 ->push('origin', '0.6.0')
                 ->getCommand()
-        )->equals("git clone http://github.com/consolidation-org/Robo && git pull && git add -A && git commit -m 'changed' && git push && git tag 0.6.0 && git push origin 0.6.0");
+        )->equals($cmd);
     }
 
     public function testGitStackCommandsWithTagMessage()
     {
+        $linuxCmd = "git clone http://github.com/consolidation-org/Robo && git pull && git add -A && git commit -m 'changed' && git push && git tag -m 'message' 0.6.0 && git push origin 0.6.0";
+
+        $winCmd = 'git clone http://github.com/consolidation-org/Robo && git pull && git add -A && git commit -m "changed" && git push && git tag -m \'message\' 0.6.0 && git push origin 0.6.0';
+
+        $cmd = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? $winCmd : $linuxCmd;
+
         verify(
             (new \Robo\Task\Vcs\GitStack())
                 ->cloneRepo('http://github.com/consolidation-org/Robo')
@@ -57,6 +68,6 @@ class GitTest extends \Codeception\TestCase\Test
                 ->tag('0.6.0', 'message')
                 ->push('origin', '0.6.0')
                 ->getCommand()
-        )->equals("git clone http://github.com/consolidation-org/Robo && git pull && git add -A && git commit -m 'changed' && git push && git tag -m 'message' 0.6.0 && git push origin 0.6.0");
+        )->equals($cmd);
     }
 }

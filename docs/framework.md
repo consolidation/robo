@@ -7,7 +7,7 @@ There are multiple ways to use and package Robo scripts; a few of the alternativ
 It is possible to create a standalone phar that is implemented with Robo; doing this does not require the RoboFile to be located in the current working directory, or any particular location within your project. To achieve this, first set up your project as shown in the section [Implementing Composer Scripts with Robo](getting-started.md#implementing-composer-scripts-with-robo). Use of the "scripts" section is optional.
 
 Next, add an "autoload" section to your composer.json to provide a namespace for your Robo commands:
-```
+```json
 {
     "name": "myorg/myproject",
     "require": {
@@ -76,14 +76,92 @@ Pass the resulting `$commandClasses` to the `Runner()` constructor as shown abov
 
 It is also possible to completely replace the Robo application with your own.  To do this, set up your project as described in the sections above, but replace the Robo runner with your own main event loop.
 
-Create the Robo dependency injection container:
-```
+Add the following to your startup file:
+```php
+<?php
 use League\Container\Container;
+use Robo\Robo;
 
 $input = new \Symfony\Component\Console\Input\ArgvInput($argv);
 $output = new \Symfony\Component\Console\Output\ConsoleOutput();
-$conf = new \Robo\Config(); \\ or use your own subclass
-$app = new \My\Application();
-$container = \Robo\Robo::createDefaultContainer($input, $output, $app, $conf);
+$config = Robo::createConfiguration(['myconf.yml']);
+$app = new \MyApplication($config, $input, $output);
+$status_code = $app->run($input, $output);
+exit($status_code);
+
 ```
+
+Then, create your own custom application:
+
+```php
+<?php
+
+use Robo\Common\ConfigAwareTrait;
+use Robo\Config;
+use Robo\Robo;
+use Robo\Runner as RoboRunner;
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
+class MyApplication {
+
+  use ConfigAwareTrait;
+
+  private $runner;
+
+  public function __construct(
+    Config $config,
+    InputInterface $input = NULL,
+    OutputInterface $output = NULL
+  ) {
+
+    // Create applicaton.
+    $this->setConfig($config);
+    $application = new Application('My Application', $config->get('version'));
+
+    // Create and configure container.
+    $container = Robo::createDefaultContainer($input, $output, $application,
+      $config);
+    $this->setContainer($container);
+    $container->add(MyCustomService::class);
+
+    // Instantiate Robo Runner.
+    $this->runner = new RoboRunner([
+      My\Custom\Command::class
+    ]);
+    $this->runner->setContainer($container);
+  }
+
+  public function run(InputInterface $input, OutputInterface $output) {
+    $status_code = $this->runner->run($input, $output);
+
+    return $status_code;
+  }
+
+}
+
+```
+
 If you are using League\Container (recommended), then you may simply add and share your own classes to the same container.  If you are using some other DI container, then you should use [delegate lookup](https://github.com/container-interop/fig-standards/blob/master/proposed/container.md#14-additional-feature-delegate-lookup) to combine them.
+
+## Using a Custom Configuration Loader
+
+Robo provides a very simple configuration loader. If you wish to use more capable loader, you may opt to do so. Replace the call to `Robo::createConfiguration()` with code similar to the following:
+```
+use Robo\Config\Config;
+use Robo\Config\YamlConfigLoader;
+use Robo\Config\ConfigProcessor;
+
+$config = new Config();
+$loader = new YamlConfigLoader();
+$processor = new ConfigProcessor();
+$processor->extend($loader->load('defaults.yml'));
+$processor->extend($loader->load('myconf.yml'));
+$config->import($processor->export());
+```
+You may also wish to subclass the provided `Config` and `ConfigProcessor` classes to customize their behavior.
+
+The example above presumes that the configuration object starts off empty. If you need to repeat this process to extend the configuration in a later stage, you should call `$processor->add($config->export());` to ensure that the configuration processor is seeded with the previous configuration values.
+
+Any configuraiton loader that produces a nested array may be used in place of the config loaders and config processor shown in the example above. For example, if you wish to find configuration files in a certain set of directories, allow .yml or .xml configuration files, and validate the schema of your configuration files (to alert users of any syntax errors or unrecognized configuration values), you might want to consider [Symfony/Config](http://symfony.com/doc/current/components/config/definition.html). Symfony/Config produces a clean array of configuration values; the result of `$processor->processConfiguration()` may be provided directly to Robo's `$config->import()` method.

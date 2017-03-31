@@ -356,6 +356,8 @@ Note that when using [Collections](collections.md), the progress bar will automa
 
 On startup, Robo will load a configuration file, `robo.yml`, if it exists in the current working directory.
 
+**Note:** The configuration features below are experimental. Changes that break compatibility may be introduced until it is declared stable in the 1.1.0 release.
+
 ### Configuration for Command Options
 
 The preferred method for commands to use to read configuration is to simply define commandline options for each configuration value. Configuration may be provided for any command option in the robl.yml configuration file.

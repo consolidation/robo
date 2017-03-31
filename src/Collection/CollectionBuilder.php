@@ -1,7 +1,7 @@
 <?php
 namespace Robo\Collection;
 
-use Robo\Config;
+use Robo\Config\Config;
 use Psr\Log\LogLevel;
 use Robo\Contract\InflectionInterface;
 use Robo\Contract\TaskInterface;
@@ -383,6 +383,7 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
             throw new RuntimeException("Can not construct task $name");
         }
         $task = $this->fixTask($task, $args);
+        $this->configureTask($name, $task);
         return $this->addTaskToCollection($task);
     }
 
@@ -433,6 +434,39 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
         }
 
         return $task;
+    }
+
+    /**
+     * Check to see if there are any setter methods defined in configuration
+     * for this task.
+     */
+    protected function configureTask($taskClass, $task)
+    {
+        $taskClass = $this->classNameWithoutNamespace($taskClass);
+        $configurationKey = "task.{$taskClass}.settings";
+        $this->getConfig()->applyConfiguration($task, $configurationKey);
+
+        // TODO: If we counted each instance of $taskClass that was called from
+        // this builder, then we could also apply configuration from
+        // "task.{$taskClass}[$N].settings"
+
+        // TODO: If the builder knew what the current command name was,
+        // then we could also search for task configuration under
+        // command-specific keys such as "command.{$commandname}.task.{$taskClass}.settings".
+    }
+
+    /**
+     * Strip the namespace off of the fully-qualified classname
+     * @param string $classname
+     * @return string
+     */
+    protected function classNameWithoutNamespace($classname)
+    {
+        $pos = strrpos($classname, '\\');
+        if ($pos === false) {
+            return $classname;
+        }
+        return substr($classname, $pos + 1);
     }
 
     /**

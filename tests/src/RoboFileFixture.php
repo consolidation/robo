@@ -7,6 +7,7 @@ use Psr\Log\LoggerAwareInterface;
 
 use Consolidation\AnnotatedCommand\Events\CustomEventAwareInterface;
 use Consolidation\AnnotatedCommand\Events\CustomEventAwareTrait;
+use Consolidation\OutputFormatters\StructuredData\PropertyList;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -99,11 +100,29 @@ class RoboFileFixture extends \Robo\Tasks implements LoggerAwareInterface, Custo
     }
 
     /**
+     * Test handling of options
+     *
+     * @field-labels
+     *   a: A
+     *   b: B
+     */
+    public function testSimpleList($options = ['a' => '1', 'b' => '2', 'format' => 'yaml'])
+    {
+        $result = ['a' => $options['a'], 'b' => $options['b']];
+        return new PropertyList($result);
+    }
+
+    /**
      * Demonstrate Robo error output and command failure.
      */
     public function testError()
     {
         return $this->taskExec('ls xyzzy' . date('U'))->dir('/tmp')->run();
+    }
+
+    public function testExec()
+    {
+        return $this->taskExec('pwd')->run();
     }
 
     /**

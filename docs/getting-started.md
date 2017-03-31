@@ -310,32 +310,6 @@ There is a global `stopOnFail` method as well, that can be used to stop a comman
 $this->stopOnFail(true);
 ```
 
-### IO
-
-As you noticed, you can print text via the `say` method, which is taken from the `Robo\Output` trait.
-
-```
-$this->say("Hello");
-```
-
-Also, you can ask for input from console:
-
-```
-$name = $this->ask("What is your name?");
-```
-
-There are also `askDefault`, `askHidden`, and `confirm` methods.
-
-In addition, Robo makes all of the methods of Symfony Style available throgh the `io()` method:
-
-$this->io()->title("Build all site assets");
-
-This allows Robo scripts to follow the [Symfony Console Style Guide](http://symfony.com/blog/new-in-symfony-2-8-console-style-guide) if desired.
-
-### Formatters
-
-It is preferable for commands that look up and display information should avoid doing IO directly, and should instead return the data they wish to display as an array. This data can then be converted into different data formats, such as "table" and "json". The user may select which formatter to use via the --format option. For details on formatters, see the [consolidation/output-formatters](https://github.com/consolidation/output-formatters) project.
-
 ### Progress
 
 Robo supports progress indicators via the Symfony ProgressBar class.  Long-running tasks that wish to display the progress indicator may do so via four simple steps:
@@ -377,6 +351,122 @@ class MyTask extends BaseTask
 Tasks should not attempt to use a specific progress indicator (e.g. the Symfony ProgressBar class) directly, as the ProgressIndicatorAwareTrait allows for an appropriate progress indicator to be used (or omitted) as best suits the application.
 
 Note that when using [Collections](collections.md), the progress bar will automatically be shown if the collection takes longer than two seconds to run.  Each task in the collection will count for one "step"; if the task supports progress indicators as shown above, then it will add an additional number of steps as indicated by its `progressIndicatorSteps()` method.
+
+## Configuration
+
+On startup, Robo will load a configuration file, `robo.yml`, if it exists in the current working directory.
+
+**Note:** The configuration features below are experimental. Changes that break compatibility may be introduced until it is declared stable in the 1.1.0 release.
+
+### Configuration for Command Options
+
+The preferred method for commands to use to read configuration is to simply define commandline options for each configuration value. Configuration may be provided for any command option in the robl.yml configuration file.
+
+For example, given the following Robo command:
+
+``` php
+<?php
+    function hello($opts = ['who' => 'unknown'])
+    {
+        $this->say("Hello, " . $opts['who']);
+    }
+?>
+```
+
+The `who` option can be defined as follows:
+
+```
+command:
+  hello:
+    options:
+      who: world
+```
+
+If you run this command, then it will print `Hello, world`. If the `--who` option is provided on the command line, that value will take precidence over the value stored in configuration. Thus, `hello --who=everyone` will print `Hello, everyone`.
+
+### Configuration for Task Settings
+
+Robo will automatically configure tasks with values from configuration. For example, given the following task definition:
+```
+$this->taskMyOperation()
+  ->dir($buildDir)
+  ->extrapolated(false)
+  ->run();
+```
+You could instead remove the setter methods and move the parameter values to a configruation file:
+```
+$this->taskComposerInstall()
+  ->run();
+```
+The corresponding configuration file would appear as follows:
+```
+task:
+  MyOperation:
+    settings:
+      dir: /my/path
+      extrapolated: false
+```
+The key for configuration-injected settings is `task.CLASSNAME.settings.key`.
+
+### Accessing Configuration Directly
+
+In a RoboFile, use `Robo::Config()->get('task.MyOperation.settings.dir');` to fetch the `dir` configuration option from the previous example.
+
+### Providing Default Configuration
+
+RoboFiles that wish to provide default configuration values that can be overridden via robo.yml values or commandline options may do so in the class' constructor method.  The example below demonstrates how to set up a default value for the `task.Ssh.remoteDir` configuration property in code:
+```
+class RoboFile
+{
+    public function __construct()
+    {    
+        Robo\Task\Remote\Ssh::configure('remoteDir', '/srv/www');
+    }
+}
+```
+If `task.Ssh.remoteDir` is set to some other value in the robo.yml configuration file in the current directory, then the value from the configuration file will take precedence.
+
+### Loading Configuration From Another Source
+
+Sometimes, a RoboFile might want to define its own private configuration file to use in addition to the standard `robo.yml` file. This can also be done in the constructor.
+```
+class RoboFile
+{
+    public function __construct()
+    {    
+        Robo::loadConfiguration([__DIR__ . '/myconf.yml']);
+    }
+}
+```
+Note that configuration loaded in this way will take precedence over the configuration loaded by default by Robo.
+
+It is possible to have even more control than this if you [create your own application using Robo as a Framework](framework.md).
+
+## IO
+
+As you noticed, you can print text via the `say` method, which is taken from the `Robo\Output` trait.
+
+```
+$this->say("Hello");
+```
+
+Also, you can ask for input from console:
+
+```
+$name = $this->ask("What is your name?");
+```
+
+There are also `askDefault`, `askHidden`, and `confirm` methods.
+
+In addition, Robo makes all of the methods of Symfony Style available throgh the `io()` method:
+
+$this->io()->title("Build all site assets");
+
+This allows Robo scripts to follow the [Symfony Console Style Guide](http://symfony.com/blog/new-in-symfony-2-8-console-style-guide) if desired.
+
+### Formatters
+
+It is preferable for commands that look up and display information should avoid doing IO directly, and should instead return the data they wish to display as an array. This data can then be converted into different data formats, such as "table" and "json". The user may select which formatter to use via the --format option. For details on formatters, see the [consolidation/output-formatters](https://github.com/consolidation/output-formatters) project.
 
 ## Working with Composer
 

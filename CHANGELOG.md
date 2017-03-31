@@ -1,5 +1,9 @@
 # Changelog
 
+#### 1.0.6
+
+* Add configuration features to inject values into commandline option and task setter methods. Experimental; incompatible changes may be introduced prior to the stable release of configuration in version 1.1.0.
+
 #### 1.0.5
 
 * Incorporate word-wrapping from output-formatters 3.1.5

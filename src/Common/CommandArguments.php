@@ -78,16 +78,17 @@ trait CommandArguments
      *
      * @param string $option
      * @param string $value
+     * @param string $separator
      *
      * @return $this
      */
-    public function option($option, $value = null)
+    public function option($option, $value = null, $separator = ' ')
     {
         if ($option !== null and strpos($option, '-') !== 0) {
             $option = "--$option";
         }
         $this->arguments .= null == $option ? '' : " " . $option;
-        $this->arguments .= null == $value ? '' : " " . static::escape($value);
+        $this->arguments .= null == $value ? '' : $separator . static::escape($value);
         return $this;
     }
 
@@ -97,17 +98,18 @@ trait CommandArguments
      *
      * @param string $option
      * @param string|array $value
+     * @param string $separator
      *
      * @return $this
      */
-    public function optionList($option, $value = array())
+    public function optionList($option, $value = array(), $separator = ' ')
     {
         if (is_array($value)) {
             foreach ($value as $item) {
-                $this->optionList($option, $item);
+                $this->optionList($option, $item, $separator);
             }
         } else {
-            $this->option($option, $value);
+            $this->option($option, $value, $separator);
         }
 
         return $this;

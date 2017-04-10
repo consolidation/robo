@@ -46,10 +46,14 @@ trait CommandArguments
      * Pass the provided string in its raw (as provided) form as an argument to executable.
      *
      * @param string $arg
+     *
+     * @return $this
      */
     public function rawArg($arg)
     {
         $this->arguments .= " $arg";
+        
+        return $this;
     }
 
     /**

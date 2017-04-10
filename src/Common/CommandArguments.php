@@ -94,17 +94,18 @@ trait CommandArguments
      *
      * @param string $option
      * @param string|array $value
+     * @param string $separator
      *
      * @return $this
      */
-    public function optionList($option, $value = array())
+    public function optionList($option, $value = array(), $separator = ' ')
     {
         if (is_array($value)) {
             foreach ($value as $item) {
-                $this->optionList($option, $item);
+                $this->optionList($option, $item, $separator);
             }
         } else {
-            $this->option($option, $value);
+            $this->option($option, $value, $separator);
         }
 
         return $this;

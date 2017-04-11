@@ -33,6 +33,21 @@ class CopyDir extends BaseDir
     protected $exclude = [];
 
     /**
+     * Overwrite destination files newer than source files.
+     */
+    protected $overwrite;
+
+    /**
+     * @param string|string[] $dirs
+     * @param bool $overwrite
+     */
+    public function __construct($dirs, $overwrite)
+    {
+        $this->overwrite = $overwrite;
+        parent::__construct($dirs);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function run()
@@ -41,7 +56,7 @@ class CopyDir extends BaseDir
             return Result::error($this, 'Source directories are missing!');
         }
         foreach ($this->dirs as $src => $dst) {
-            $this->copyDir($src, $dst);
+            $this->copyDir($src, $dst, $this->overwrite);
             $this->printTaskInfo('Copied from {source} to {destination}', ['source' => $src, 'destination' => $dst]);
         }
         return Result::success($this);
@@ -82,10 +97,12 @@ class CopyDir extends BaseDir
      *
      * @param string $src Source directory
      * @param string $dst Destination directory
+     * @param bool   $overwrite If true, destination files newer than source files are overwritten
+     *
      *
      * @throws \Robo\Exception\TaskException
      */
-    protected function copyDir($src, $dst)
+    protected function copyDir($src, $dst, $overwrite)
     {
         $dir = @opendir($src);
         if (false === $dir) {
@@ -102,9 +119,9 @@ class CopyDir extends BaseDir
                 $srcFile = $src . '/' . $file;
                 $destFile = $dst . '/' . $file;
                 if (is_dir($srcFile)) {
-                    $this->copyDir($srcFile, $destFile);
+                    $this->copyDir($srcFile, $destFile, $overwrite);
                 } else {
-                    copy($srcFile, $destFile);
+                    $this->fs->copy($srcFile, $destFile, $overwrite);
                 }
             }
         }

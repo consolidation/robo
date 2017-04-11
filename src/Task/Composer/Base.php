@@ -1,8 +1,8 @@
 <?php
 namespace Robo\Task\Composer;
 
-use Robo\Task\BaseTask;
 use Robo\Exception\TaskException;
+use Robo\Task\BaseTask;
 
 abstract class Base extends BaseTask
 {
@@ -27,6 +27,11 @@ abstract class Base extends BaseTask
      * @var string
      */
     protected $optimizeAutoloader;
+
+    /**
+     * @var string
+     */
+    protected $ignorePlatformReqs;
 
     /**
      * @var string
@@ -112,6 +117,17 @@ abstract class Base extends BaseTask
     }
 
     /**
+     * adds `ignore-platform-reqs` option to composer
+     *
+     * @return $this
+     */
+    public function ignorePlatformRequirements()
+    {
+        $this->ignorePlatformReqs = '--ignore-platform-reqs';
+        return $this;
+    }
+
+    /**
      * @param null|string $pathToComposer
      *
      * @throws \Robo\Exception\TaskException
@@ -138,6 +154,7 @@ abstract class Base extends BaseTask
         $this->option($this->prefer)
             ->option($this->dev)
             ->option($this->optimizeAutoloader)
+            ->option($this->ignorePlatformReqs)
             ->option($this->ansi);
         return "{$this->command} {$this->action}{$this->arguments}";
     }

@@ -35,17 +35,7 @@ class CopyDir extends BaseDir
     /**
      * Overwrite destination files newer than source files.
      */
-    protected $overwrite;
-
-    /**
-     * @param string|string[] $dirs
-     * @param bool $overwrite
-     */
-    public function __construct($dirs, $overwrite)
-    {
-        $this->overwrite = $overwrite;
-        parent::__construct($dirs);
-    }
+    protected $overwrite = true;
 
     /**
      * {@inheritdoc}
@@ -56,7 +46,7 @@ class CopyDir extends BaseDir
             return Result::error($this, 'Source directories are missing!');
         }
         foreach ($this->dirs as $src => $dst) {
-            $this->copyDir($src, $dst, $this->overwrite);
+            $this->copyDir($src, $dst);
             $this->printTaskInfo('Copied from {source} to {destination}', ['source' => $src, 'destination' => $dst]);
         }
         return Result::success($this);
@@ -93,16 +83,27 @@ class CopyDir extends BaseDir
     }
 
     /**
+     * Destination files newer than source files are overwritten.
+     *
+     * @param bool $overwrite
+     *
+     * @return $this
+     */
+    public function overwrite($overwrite)
+    {
+        $this->overwrite = $overwrite;
+        return $this;
+    }
+
+    /**
      * Copies a directory to another location.
      *
      * @param string $src Source directory
      * @param string $dst Destination directory
-     * @param bool   $overwrite If true, destination files newer than source files are overwritten
-     *
      *
      * @throws \Robo\Exception\TaskException
      */
-    protected function copyDir($src, $dst, $overwrite)
+    protected function copyDir($src, $dst)
     {
         $dir = @opendir($src);
         if (false === $dir) {
@@ -119,9 +120,9 @@ class CopyDir extends BaseDir
                 $srcFile = $src . '/' . $file;
                 $destFile = $dst . '/' . $file;
                 if (is_dir($srcFile)) {
-                    $this->copyDir($srcFile, $destFile, $overwrite);
+                    $this->copyDir($srcFile, $destFile);
                 } else {
-                    $this->fs->copy($srcFile, $destFile, $overwrite);
+                    $this->fs->copy($srcFile, $destFile, $this->overwrite);
                 }
             }
         }

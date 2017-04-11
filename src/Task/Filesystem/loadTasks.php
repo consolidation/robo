@@ -47,13 +47,12 @@ trait loadTasks
 
     /**
      * @param string|string[] $dirs
-     * @param bool $overwrite
      *
      * @return \Robo\Task\Filesystem\CopyDir
      */
-    protected function taskCopyDir($dirs, $overwrite = true)
+    protected function taskCopyDir($dirs)
     {
-        return $this->task(CopyDir::class, $dirs, $overwrite);
+        return $this->task(CopyDir::class, $dirs);
     }
 
     /**

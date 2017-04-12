@@ -86,6 +86,8 @@ trait ExecTrait
 
     /**
      * Sets $this->interactive() based on posix_isatty().
+     *
+     * @return $this
      */
     public function detectInteractive()
     {
@@ -96,6 +98,8 @@ trait ExecTrait
         if (!isset($this->interactive) && function_exists('posix_isatty') && $this->verbosityMeetsThreshold()) {
             $this->interactive = posix_isatty(STDOUT);
         }
+        
+        return $this;
     }
 
     /**

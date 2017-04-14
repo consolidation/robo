@@ -44,7 +44,7 @@ trait ExecTrait
     /**
      * @var boolean
      */
-    protected $interactive = false;
+    protected $interactive = null;
 
     /**
      * @var bool

@@ -42,7 +42,7 @@ class CodeceptionTest extends \Codeception\TestCase\Test
             ->env('process1')
             ->coverage()
             ->getCommand()
-        )->equals('codecept run --group core --env process1 --coverage unit Codeception/Command');
+        )->equals('codecept run unit Codeception/Command --group core --env process1 --coverage');
 
         verify((new \Robo\Task\Testing\Codecept('codecept'))
             ->test('tests/unit/Codeception')
@@ -50,7 +50,7 @@ class CodeceptionTest extends \Codeception\TestCase\Test
             ->xml('result.xml')
             ->html()
             ->getCommand()
-        )->equals('codecept run -c ~/Codeception --xml result.xml --html tests/unit/Codeception');
+        )->equals('codecept run tests/unit/Codeception -c ~/Codeception --xml result.xml --html');
 
         verify((new \Robo\Task\Testing\Codecept('codecept.phar'))->debug()->getCommand())->contains(' --debug');
         verify((new \Robo\Task\Testing\Codecept('codecept.phar'))->silent()->getCommand())->contains(' --silent');

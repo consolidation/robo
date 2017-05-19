@@ -61,6 +61,11 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
     protected $deferredCallbacks = [];
 
     /**
+     * @var string[]
+     */
+    protected $messageStoreKeys = [];
+
+    /**
      * Constructor.
      */
     public function __construct()
@@ -646,8 +651,25 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
         }
         $this->doDeferredInitialization($original);
         $taskResult = $task->run();
-        $this->updateState($taskResult);
+        $this->doStateUpdates($original, $taskResult);
         return $taskResult;
+    }
+
+    public function storeMessage($task, $key)
+    {
+        $this->messageStoreKeys[spl_object_hash($task)] = $key;
+
+        return $this;
+    }
+
+    public function doStateUpdates($task, $taskResult)
+    {
+        $this->updateState($taskResult);
+        $key = spl_object_hash($task);
+        if (array_key_exists($key, $this->messageStoreKeys)) {
+            $state = $this->getState();
+            $state[$this->messageStoreKeys[$key]] = $taskResult->getMessage();
+        }
     }
 
     /**

@@ -185,18 +185,48 @@ class CollectionTest extends \Codeception\TestCase\Test
             ->add($first)
             ->add($second)
             ->add($third)
-            ->defer(
-                $third,
-                function ($task, $state) {
-                    $task->provideData('three', "{$state['one']} and {$state['two']}");
-                }
-            )
+                ->defer(
+                    $third,
+                    function ($task, $state) {
+                        $task->provideData('three', "{$state['one']} and {$state['two']}");
+                    }
+                )
             ->run();
 
         $state = $collection->getState();
         verify($state['one'])->equals('First');
         verify($state['three'])->equals('First and Second');
+    }
 
+    public function testDeferredInitializationWithMessageStorage()
+    {
+        $collection = new Collection();
+
+        $first = new PassthruTask();
+        $first->provideMessage('1st');
+
+        $second = new PassthruTask();
+        $second->provideMessage('2nd');
+
+        $third = new PassthruTask();
+
+        $result = $collection
+            ->add($first)
+                ->storeMessage($first, 'one')
+            ->add($second)
+                ->storeMessage($second, 'two')
+            ->add($third)
+                ->defer(
+                    $third,
+                    function ($task, $state) {
+                        $task->provideData('three', "{$state['one']} and {$state['two']}");
+                    }
+                )
+            ->run();
+
+        $state = $collection->getState();
+        verify($state['one'])->equals('1st');
+        verify($state['three'])->equals('1st and 2nd');
     }
 }
 
@@ -260,15 +290,21 @@ class CollectionTestTask extends BaseTask
 
 class PassthruTask extends BaseTask
 {
+    protected $message = '';
     protected $data = [];
 
     public function run()
     {
-        return Result::success($this, '', $this->data);
+        return Result::success($this, $this->message, $this->data);
     }
 
     public function provideData($key, $value)
     {
         $this->data[$key] = $value;
+    }
+
+    public function provideMessage($message)
+    {
+        $this->message = $message;
     }
 }

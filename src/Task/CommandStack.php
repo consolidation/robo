@@ -115,14 +115,19 @@ abstract class CommandStack extends BaseTask implements CommandInterface, Printe
         // one at a time so that the result will have the exact command
         // that failed available to the caller. This is at the expense of
         // losing the output from all successful commands.
+        $data = [];
+        $message = '';
         foreach ($this->exec as $command) {
             $this->printTaskInfo("Executing {command}", ['command' => $command]);
             $result = $this->executeCommand($command);
+            $result->accumulateExecutionTime($data);
+            $message = $result->accumulateMessage($message);
+            $data = $result->mergeData($data);
             if (!$result->wasSuccessful()) {
                 return $result;
             }
         }
 
-        return Result::success($this);
+        return $result;
     }
 }

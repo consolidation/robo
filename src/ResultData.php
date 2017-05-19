@@ -131,6 +131,25 @@ class ResultData extends \ArrayObject implements ExitCodeInterface, OutputDataIn
     }
 
     /**
+     * Merge another result into this result.  Data already
+     * existing in this result takes precedence over the
+     * data in the Result being merged.
+     *
+     * $data['message'] is handled specially, and is appended
+     * to $this->message if set.
+     *
+     * @param array $data
+     *
+     * @return array
+     */
+    public function mergeData(array $data)
+    {
+        $mergedData = $this->getArrayCopy() + $data;
+        $this->exchangeArray($mergedData);
+        return $mergedData;
+    }
+
+    /**
      * @return bool
      */
     public function hasExecutionTime()
@@ -147,5 +166,30 @@ class ResultData extends \ArrayObject implements ExitCodeInterface, OutputDataIn
             return null;
         }
         return $this['time'];
+    }
+
+    /**
+     * Accumulate execution time
+     */
+    public function accumulateExecutionTime($duration)
+    {
+        // Convert data arrays to scalar
+        if (is_array($duration)) {
+            $duration = isset($duration['time']) ? $duration['time'] : 0;
+        }
+        $this['time'] = $this->getExecutionTime() + $duration;
+        return $this->getExecutionTime();
+    }
+
+    /**
+     * Accumulate the message.
+     */
+    public function accumulateMessage($message)
+    {
+        if (!empty($this->message)) {
+            $this->message .= "\n";
+        }
+        $this->message .= $message;
+        return $this->getMessage();
     }
 }

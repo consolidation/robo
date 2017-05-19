@@ -98,7 +98,7 @@ trait ExecTrait
         if (!isset($this->interactive) && function_exists('posix_isatty') && $this->verbosityMeetsThreshold()) {
             $this->interactive = posix_isatty(STDOUT);
         }
-        
+
         return $this;
     }
 

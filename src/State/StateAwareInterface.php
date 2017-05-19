@@ -15,5 +15,10 @@ interface StateAwareInterface
      */
     public function setState(ResultData $state);
 
+    /**
+     * @param ResultData update state takes precedence over current state.
+     */
+    public function updateState(ResultData $update);
+
     public function resetState();
 }

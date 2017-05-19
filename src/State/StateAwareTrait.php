@@ -6,7 +6,7 @@ use Robo\ResultData;
 trait StateAwareTrait
 {
     /**
-     * @return ResultData
+     * {@inheritdoc}
      */
     public function getState()
     {
@@ -14,13 +14,24 @@ trait StateAwareTrait
     }
 
     /**
-     * @param ResultData state
+     * {@inheritdoc}
      */
     public function setState(ResultData $state)
     {
         $this->state = $state;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function updateState(ResultData $update)
+    {
+        $this->state->update($update);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function resetState()
     {
         $this->state = new ResultData();

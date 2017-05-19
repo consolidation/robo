@@ -7,6 +7,7 @@ namespace unit;
 // rather than in their own file.
 
 use Robo\Result;
+use Robo\ResultData;
 use Robo\Task\BaseTask;
 use Robo\Collection\Collection;
 
@@ -120,6 +121,53 @@ class CollectionTest extends \Codeception\TestCase\Test
         $this->guy->seeInOutput('start collection tasks');
         $this->guy->doNotSeeInOutput('not reached');
     }
+
+    public function testStateWithAddCode()
+    {
+        $collection = new Collection();
+
+        $result = $collection
+            ->addCode(
+                function (ResultData $state) {
+                    $state['one'] = 'first';
+                })
+            ->addCode(
+                function (ResultData $state) {
+                    $state['two'] = 'second';
+                })
+            ->addCode(
+                function (ResultData $state) {
+                    $state['three'] = "{$state['one']} and {$state['two']}";
+                })
+            ->run();
+
+        $state = $collection->getState();
+        verify($state['three'])->equals('first and second');
+    }
+
+    public function testStateWithTaskResult()
+    {
+        $collection = new Collection();
+
+        $first = new PassthruTask();
+        $first->provideData('one', 'First');
+
+        $second = new PassthruTask();
+        $second->provideData('two', 'Second');
+
+        $result = $collection
+            ->add($first)
+            ->add($second)
+            ->addCode(
+                function (ResultData $state) {
+                    $state['three'] = "{$state['one']} and {$state['two']}";
+                })
+            ->run();
+
+        $state = $collection->getState();
+        verify($state['one'])->equals('First');
+        verify($state['three'])->equals('First and Second');
+    }
 }
 
 class CountingTask extends BaseTask
@@ -177,5 +225,20 @@ class CollectionTestTask extends BaseTask
     {
         $this->value = "*{$this->value}*";
         return $this->getValue();
+    }
+}
+
+class PassthruTask extends BaseTask
+{
+    protected $data = [];
+
+    public function run()
+    {
+        return Result::success($this, '', $this->data);
+    }
+
+    public function provideData($key, $value)
+    {
+        $this->data[$key] = $value;
     }
 }

@@ -131,6 +131,26 @@ class ResultData extends \ArrayObject implements ExitCodeInterface, OutputDataIn
     }
 
     /**
+     * Update the current data with the data provided in the parameter.
+     * Provided data takes precedence.
+     *
+     * @param \ArrayObject $update
+     *
+     * @return $this
+     */
+    public function update(\ArrayObject $update)
+    {
+        $iterator = $update->getIterator();
+
+        while ($iterator->valid()) {
+            $this[$iterator->key()] = $iterator->current();
+            $iterator->next();
+        }
+
+        return $this;
+    }
+
+    /**
      * Merge another result into this result.  Data already
      * existing in this result takes precedence over the
      * data in the Result being merged.

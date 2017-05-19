@@ -640,6 +640,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
             $original->setState($this->getState());
         }
         $taskResult = $task->run();
+        $this->updateState($taskResult);
         return $taskResult;
     }
 

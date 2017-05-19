@@ -56,6 +56,11 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
     protected $parentCollection;
 
     /**
+     * @var callable[]
+     */
+    protected $deferredCallbacks = [];
+
+    /**
      * Constructor.
      */
     public function __construct()
@@ -639,9 +644,35 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
         if ($original instanceof StateAwareInterface) {
             $original->setState($this->getState());
         }
+        $this->doDeferredInitialization($original);
         $taskResult = $task->run();
         $this->updateState($taskResult);
         return $taskResult;
+    }
+
+    /**
+     * Defer execution of a callback function until just before a task
+     * runs. Use this time to provide more settings for the task, e.g. from
+     * the collection's shared state, which is populated with the results
+     * of previous test runs.
+     */
+    public function defer($task, $callback)
+    {
+        $this->deferredCallbacks[spl_object_hash($task)][] = $callback;
+
+        return $this;
+    }
+
+    protected function doDeferredInitialization($task)
+    {
+        $key = spl_object_hash($task);
+        if (!array_key_exists($key, $this->deferredCallbacks)) {
+            return;
+        }
+
+        foreach ($this->deferredCallbacks[$key] as $fn) {
+            $fn($task, $this->getState());
+        }
     }
 
     /**

@@ -168,6 +168,36 @@ class CollectionTest extends \Codeception\TestCase\Test
         verify($state['one'])->equals('First');
         verify($state['three'])->equals('First and Second');
     }
+
+    public function testDeferredInitialization()
+    {
+        $collection = new Collection();
+
+        $first = new PassthruTask();
+        $first->provideData('one', 'First');
+
+        $second = new PassthruTask();
+        $second->provideData('two', 'Second');
+
+        $third = new PassthruTask();
+
+        $result = $collection
+            ->add($first)
+            ->add($second)
+            ->add($third)
+            ->defer(
+                $third,
+                function ($task, $state) {
+                    $task->provideData('three', "{$state['one']} and {$state['two']}");
+                }
+            )
+            ->run();
+
+        $state = $collection->getState();
+        verify($state['one'])->equals('First');
+        verify($state['three'])->equals('First and Second');
+
+    }
 }
 
 class CountingTask extends BaseTask

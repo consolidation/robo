@@ -3,6 +3,8 @@ namespace Robo\Collection;
 
 use Robo\Result;
 use Robo\Contract\TaskInterface;
+use Robo\State\StateAwareInterface;
+use Robo\ResultData;
 
 /**
  * Creates a task wrapper that converts any Callable into an
@@ -34,7 +36,7 @@ class CallableTask implements TaskInterface
      */
     public function run()
     {
-        $result = call_user_func($this->fn);
+        $result = call_user_func($this->fn, $this->getState());
         // If the function returns no result, then count it
         // as a success.
         if (!isset($result)) {
@@ -48,5 +50,13 @@ class CallableTask implements TaskInterface
         }
 
         return $result;
+    }
+
+    public function getState()
+    {
+        if ($this->reference instanceof StateAwareInterface) {
+            return $this->reference->getState();
+        }
+        return new ResultData();
     }
 }

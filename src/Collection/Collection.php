@@ -2,6 +2,7 @@
 namespace Robo\Collection;
 
 use Robo\Result;
+use Robo\ResultData;
 use Psr\Log\LogLevel;
 use Robo\Contract\TaskInterface;
 use Robo\Task\StackBasedTask;
@@ -13,6 +14,8 @@ use Robo\Exception\TaskExitException;
 use Robo\Contract\CommandInterface;
 
 use Robo\Contract\InflectionInterface;
+use Robo\State\StateAwareInterface;
+use Robo\State\StateAwareTrait;
 
 /**
  * Group tasks into a collection that run together. Supports
@@ -28,8 +31,10 @@ use Robo\Contract\InflectionInterface;
  * called. Here, taskDeleteDir is used to remove partial results
  * of an unfinished task.
  */
-class Collection extends BaseTask implements CollectionInterface, CommandInterface
+class Collection extends BaseTask implements CollectionInterface, CommandInterface, StateAwareInterface
 {
+    use StateAwareTrait;
+
     /**
      * @var \Robo\Collection\Element[]
      */
@@ -55,6 +60,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
      */
     public function __construct()
     {
+        $this->resetState();
     }
 
     public function setProgressBarAutoDisplayInterval($interval)
@@ -629,6 +635,9 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
         $this->setParentCollectionForTask($original, $this->getParentCollection());
         if ($original instanceof InflectionInterface) {
             $original->inflect($this);
+        }
+        if ($original instanceof StateAwareInterface) {
+            $original->setState($this->getState());
         }
         $taskResult = $task->run();
         return $taskResult;

@@ -13,6 +13,8 @@ use Robo\Task\BaseTask;
 use Robo\Contract\BuilderAwareInterface;
 use Robo\Contract\CommandInterface;
 use Robo\Contract\VerbosityThresholdInterface;
+use Robo\State\StateAwareInterface;
+use Robo\State\StateAwareTrait;
 
 /**
  * Creates a collection, and adds tasks to it.  The collection builder
@@ -41,8 +43,9 @@ use Robo\Contract\VerbosityThresholdInterface;
  * In the example above, the `taskDeleteDir` will be called if
  * ```
  */
-class CollectionBuilder extends BaseTask implements NestedCollectionInterface, WrappedTaskInterface, CommandInterface
+class CollectionBuilder extends BaseTask implements NestedCollectionInterface, WrappedTaskInterface, CommandInterface, StateAwareInterface
 {
+    use StateAwareTrait;
 
     /**
      * @var \Robo\Tasks
@@ -70,6 +73,7 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
     public function __construct($commandFile)
     {
         $this->commandFile = $commandFile;
+        $this->resetState();
     }
 
     public static function create($container, $commandFile)
@@ -293,6 +297,7 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
         $collectionBuilder->inflect($this);
         $collectionBuilder->simulated($this->isSimulated());
         $collectionBuilder->setVerbosityThreshold($this->verbosityThreshold());
+        $collectionBuilder->setState($this->getState());
 
         return $collectionBuilder;
     }
@@ -531,6 +536,7 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
         if (!isset($this->collection)) {
             $this->collection = new Collection();
             $this->collection->inflect($this);
+            $this->collection->setState($this->getState());
             $this->collection->setProgressBarAutoDisplayInterval($this->getConfig()->get(Config::PROGRESS_BAR_AUTO_DISPLAY_INTERVAL));
 
             if (isset($this->currentTask)) {

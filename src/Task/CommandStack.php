@@ -117,6 +117,7 @@ abstract class CommandStack extends BaseTask implements CommandInterface, Printe
         // losing the output from all successful commands.
         $data = [];
         $message = '';
+        $result = null;
         foreach ($this->exec as $command) {
             $this->printTaskInfo("Executing {command}", ['command' => $command]);
             $result = $this->executeCommand($command);

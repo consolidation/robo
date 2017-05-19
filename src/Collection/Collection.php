@@ -672,6 +672,18 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
         }
     }
 
+    public function chainState($task, $functionName, $stateKey)
+    {
+        return $this->defer(
+            $task,
+            function ($task, $state) use ($functionName, $stateKey) {
+                $fn = [$task, $functionName];
+                $value = $state[$stateKey];
+                $fn($value);
+            }
+        );
+    }
+
     /**
      * Defer execution of a callback function until just before a task
      * runs. Use this time to provide more settings for the task, e.g. from

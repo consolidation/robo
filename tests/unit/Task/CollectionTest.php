@@ -228,6 +228,34 @@ class CollectionTest extends \Codeception\TestCase\Test
         verify($state['one'])->equals('1st');
         verify($state['three'])->equals('1st and 2nd');
     }
+    public function testDeferredInitializationWithChainedInitialization()
+    {
+        $collection = new Collection();
+
+        $first = new PassthruTask();
+        $first->provideMessage('1st');
+
+        $second = new PassthruTask();
+        $second->provideMessage('2nd');
+
+        $third = new PassthruTask();
+
+        $result = $collection
+            ->add($first)
+                ->storeMessage($first, 'one')
+            ->add($second)
+                ->storeMessage($second, 'two')
+            ->add($third)
+                ->chainState($third, 'provideItem', 'one')
+                ->chainState($third, 'provideMessage', 'two')
+                ->storeMessage($third, 'final')
+            ->run();
+
+        $state = $collection->getState();
+        verify($state['one'])->equals('1st');
+        verify($state['item'])->equals('1st');
+        verify($state['final'])->equals('2nd');
+    }
 }
 
 class CountingTask extends BaseTask
@@ -301,10 +329,17 @@ class PassthruTask extends BaseTask
     public function provideData($key, $value)
     {
         $this->data[$key] = $value;
+        return $this;
+    }
+
+    public function provideItem($value)
+    {
+        return $this->provideData('item', $value);
     }
 
     public function provideMessage($message)
     {
         $this->message = $message;
+        return $this;
     }
 }

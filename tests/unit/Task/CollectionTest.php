@@ -10,6 +10,7 @@ use Robo\Result;
 use Robo\ResultData;
 use Robo\Task\BaseTask;
 use Robo\Collection\Collection;
+use Robo\Task\PassthruTask;
 
 class CollectionTest extends \Codeception\TestCase\Test
 {
@@ -206,15 +207,15 @@ class CollectionTest extends \Codeception\TestCase\Test
         $first->provideMessage('1st');
 
         $second = new PassthruTask();
-        $second->provideMessage('2nd');
+        $second->provideData('other', '2nd');
 
         $third = new PassthruTask();
 
         $result = $collection
             ->add($first)
-                ->storeMessage($first, 'one')
+                ->storeState($first, 'one')
             ->add($second)
-                ->storeMessage($second, 'two')
+                ->storeState($second, 'two', 'other')
             ->add($third)
                 ->defer(
                     $third,
@@ -242,13 +243,13 @@ class CollectionTest extends \Codeception\TestCase\Test
 
         $result = $collection
             ->add($first)
-                ->storeMessage($first, 'one')
+                ->storeState($first, 'one')
             ->add($second)
-                ->storeMessage($second, 'two')
+                ->storeState($second, 'two')
             ->add($third)
                 ->chainState($third, 'provideItem', 'one')
                 ->chainState($third, 'provideMessage', 'two')
-                ->storeMessage($third, 'final')
+                ->storeState($third, 'final')
             ->run();
 
         $state = $collection->getState();
@@ -316,30 +317,3 @@ class CollectionTestTask extends BaseTask
     }
 }
 
-class PassthruTask extends BaseTask
-{
-    protected $message = '';
-    protected $data = [];
-
-    public function run()
-    {
-        return Result::success($this, $this->message, $this->data);
-    }
-
-    public function provideData($key, $value)
-    {
-        $this->data[$key] = $value;
-        return $this;
-    }
-
-    public function provideItem($value)
-    {
-        return $this->provideData('item', $value);
-    }
-
-    public function provideMessage($message)
-    {
-        $this->message = $message;
-        return $this;
-    }
-}

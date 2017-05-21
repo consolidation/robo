@@ -404,4 +404,27 @@ class CollectionCest
         $I->assertEquals('Error', $result->getMessage());
         $I->assertEquals(1, $result->getExitCode());
     }
+
+    public function toChainData(CliGuy $I)
+    {
+        $collection = $I->collectionBuilder();
+
+        $result = $collection
+            ->taskValueProvider()
+                ->provideMessage('1st')
+                ->storeState('one')
+            ->taskValueProvider()
+                ->provideMessage('2nd')
+                ->storeState('two')
+            ->taskValueProvider()
+                ->chainState('provideItem', 'one')
+                ->chainState('provideMessage', 'two')
+                ->storeState('final')
+            ->run();
+
+        $state = $collection->getState();
+        $I->assertEquals('1st', $state['one']);
+        $I->assertEquals('1st', $state['item']);
+        $I->assertEquals('2nd', $state['final']);
+    }
 }

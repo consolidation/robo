@@ -655,14 +655,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
         return $taskResult;
     }
 
-    public function storeState($task, $key, $source = '')
-    {
-        $this->messageStoreKeys[spl_object_hash($task)] = [$key, $source];
-
-        return $this;
-    }
-
-    public function doStateUpdates($task, $taskResult)
+    protected function doStateUpdates($task, $taskResult)
     {
         $this->updateState($taskResult);
         $key = spl_object_hash($task);
@@ -672,6 +665,13 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
             $value = empty($sourceKey) ? $taskResult->getMessage() : $taskResult[$sourceKey];
             $state[$stateKey] = $value;
         }
+    }
+
+    public function storeState($task, $key, $source = '')
+    {
+        $this->messageStoreKeys[spl_object_hash($task)] = [$key, $source];
+
+        return $this;
     }
 
     public function chainState($task, $functionName, $stateKey)

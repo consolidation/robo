@@ -263,6 +263,39 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
         return $this;
     }
 
+    public function getState()
+    {
+        $collection = $this->getCollection();
+        return $collection->getState();
+    }
+
+    public function storeState($key, $source = '')
+    {
+        return $this->callCollectionStateFuntion(__FUNCTION__, func_get_args());
+    }
+
+    public function chainState($functionName, $stateKey)
+    {
+        return $this->callCollectionStateFuntion(__FUNCTION__, func_get_args());
+    }
+
+    public function defer($callback)
+    {
+        return $this->callCollectionStateFuntion(__FUNCTION__, func_get_args());
+    }
+
+    protected function callCollectionStateFuntion($functionName, $args)
+    {
+        $currentTask = ($this->currentTask instanceof WrappedTaskInterface) ? $this->currentTask->original() : $this->currentTask;
+
+        array_unshift($args, $currentTask);
+        $collection = $this->getCollection();
+        $fn = [$collection, $functionName];
+
+        call_user_func_array($fn, $args);
+        return $this;
+    }
+
     public function setVerbosityThreshold($verbosityThreshold)
     {
         $currentTask = ($this->currentTask instanceof WrappedTaskInterface) ? $this->currentTask->original() : $this->currentTask;

@@ -7,7 +7,7 @@ use Robo\ResultData;
 use Robo\Task\BaseTask;
 use Robo\Collection\Collection;
 
-class PassthruTask extends BaseTask
+class ValueProviderTask extends BaseTask
 {
     protected $message = '';
     protected $data = [];

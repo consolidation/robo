@@ -306,6 +306,17 @@ class RoboFile extends \Robo\Tasks
             ->run();
     }
 
+    public function tryState()
+    {
+        return $this->collectionBuilder()
+            ->taskExec('uname -n')
+                ->printOutput(false)
+                ->storeState('system-name')
+            ->taskFilesystemStack()
+                ->chainState('mkdir', 'system-name')
+            ->run();
+    }
+
     public function tryBuilderRollback()
     {
         // This example will create two builders, and add

@@ -215,6 +215,75 @@ For example, the implementation of taskTmpFile() looks like this:
 
 The `complete()` method of the task will be called once the Collection the temporary object is attached to finishes running. If the temporary is not added to a collection, then its `complete()` method will be called when the script terminates.
 
+## Chained State
+
+When using a collection builder, it is possible to pass state from one task to another. State is generated during the `run()` method of each task, and returned in a `Robo\Result` object. Each result has a "message" and a key/value data store that contains the task's state. This state can be made available to later tasks in the builder.
+
+### Implicitly Passing State
+
+Sometimes it may be desirable to process the files produced by one task using a following task that alters the result.
+
+For example, if you have one task that takes a set of source files and generates destination files, and another task that encrypts a set of files, you could encrypt the results from the first task by running both of the tasks independently:
+``` php
+<?php
+    $result = $this->taskGenerate()
+        ->files($sources)
+        ->run();
+    
+    $result = $this->taskEncrypt()
+        ->files($result['files'])
+        ->run();
+?>
+```
+If the Encrypt task implements `\Robo\State\Consumer` and accepts 'files' from the current state, then these tasks may be chained together as follows:
+``` php
+<?php
+    $collection = $this->collectionBuilder();
+    $collection
+        ->taskGenerate()
+            ->files($sources)
+        ->taskEncrypt()
+        ->run();
+?>
+```
+Tasks that do not implement the `Consumer` interface may still be chained together by explicitly connecting the state from one task with the task configuration methods, as explained in the following section:
+
+### Explicitly Passing State
+
+State from the key/value data store, if set, is automatically stored in the collection's state. The `storeState()` method can be used to store the result "message".
+
+To pass state from one task to another, the `chainState()` method may be used. This method defers initialization until immediately before the task's `run()` method is called. It then calls a single named setter method, passing it the value of some state variable. 
+
+For example, the builder below will create a new directory named after the output of the `uname -n` command returned by taskExec. Note that it is necessary to call `printOutput(false)` in order to make the output of taskExec available to the state system.
+``` php
+<?php
+    $this->collectionBuilder()
+        ->taskExec('uname -n')
+            ->printOutput(false)
+            ->storeState('system-name')
+        ->taskFilesystemStack()
+            ->chainState('mkdir', 'system-name')
+        ->run();
+?>
+```
+More complex task configuration may be done via the `defer()` method. `defer()` works like `chainState()`, except that it will run an arbitrary `callable` immediately prior to the execution of the task. The example below works exactly the same as the previous example, but is implemented using `defer()` instead of `chainState()`.
+``` php
+<?php
+    $this->collectionBuilder()
+        ->taskExec('uname -n')
+            ->printOutput(false)
+            ->storeState('system-name')
+        ->taskFilesystemStack()
+            ->defer(
+                function ($task, $state) {
+                    $task->mkdir($state['system-name']);
+                }
+            )
+        ->run();
+?>
+```
+In general, it is preferable to collect all of the information needed first, and then use that data to configure the necessary tasks. For example, the previous example could be implemented more simply by calling `$system_name = exec('uname -n');` and `taskFilesystemStack->mkdir($system_name);`. Chained state can be helpful in instances where there is a more complex relationship between the tasks.
+
 ## Named Tasks
 
 It is also possible to provide names for the tasks added to a collection. This has two primary benefits:

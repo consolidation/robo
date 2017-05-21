@@ -701,11 +701,18 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
 
     protected function doDeferredInitialization($task)
     {
+        // If the task is a state consumer, then call its receiveState method
+        if ($task instanceof \Robo\State\Consumer) {
+            $task->receiveState($this->getState());
+        }
+
+        // Check and see if there are any deferred callbacks for this task.
         $key = spl_object_hash($task);
         if (!array_key_exists($key, $this->deferredCallbacks)) {
             return;
         }
 
+        // Call all of the deferred callbacks
         foreach ($this->deferredCallbacks[$key] as $fn) {
             $fn($task, $this->getState());
         }

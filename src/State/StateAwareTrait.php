@@ -5,6 +5,8 @@ use Robo\ResultData;
 
 trait StateAwareTrait
 {
+    protected $state;
+
     /**
      * {@inheritdoc}
      */

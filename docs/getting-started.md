@@ -43,7 +43,7 @@ robo hello davert
 Method names should be camelCased. In CLI `camelCased` method will be available as `camel:cased` command.
 `longCamelCased` method will be transformed to `long:camel-cased` command.
 
-**Note:** This assumes you have installed Robo by downloading the [robo.phar](http://robo.li/robo.phar) file and copied it to a directory in your $PATH. For example, `cp robo.phar ~/bin/robo`.
+**Note:** This assumes you have installed Robo by downloading the [robo.phar](http://robo.li/robo.phar) file and copied it to a directory in your `$PATH`. For example, `cp robo.phar ~/bin/robo`.
 
 ### Arguments
 
@@ -479,7 +479,7 @@ $ cd myproject
 $ composer require consolidation/Robo:~1
 $ ./vendor/bin/robo mycommand
 ```
-If you do not want to type the whole path to Robo, you may add `./vendor/bin` to your $PATH (relative paths work), or use `composer exec` to find and run Robo:
+If you do not want to type the whole path to Robo, you may add `./vendor/bin` to your `$PATH` (relative paths work), or use `composer exec` to find and run Robo:
 ```
 $ composer exec robo mycommand
 ```
@@ -502,7 +502,7 @@ When using Robo in your project, it is convenient to define Composer scripts tha
 ```
 *Note*: When you include Robo as a library like this, some external projects used by certain core Robo tasks are not automatically included in your project.  See the `"suggest":` section of Robo's composer.json for a list of external projects you might also want to require in your project.
 
-Once you have set up your composer.json file (and ran `composer update` if you manually changed the `require` or `require-dev` sections), Composer will ensure that your project-local copy of Robo in the `vendor/bin` dir is in your $PATH when you run the additional Composer scripts that you declared:
+Once you have set up your composer.json file (and ran `composer update` if you manually changed the `require` or `require-dev` sections), Composer will ensure that your project-local copy of Robo in the `vendor/bin` dir is in your `$PATH` when you run the additional Composer scripts that you declared:
 ```
 $ cd myproject
 $ composer test

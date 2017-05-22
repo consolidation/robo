@@ -459,8 +459,9 @@ $name = $this->ask("What is your name?");
 There are also `askDefault`, `askHidden`, and `confirm` methods.
 
 In addition, Robo makes all of the methods of Symfony Style available through the `io()` method:
-
+```
 $this->io()->title("Build all site assets");
+```
 
 This allows Robo scripts to follow the [Symfony Console Style Guide](http://symfony.com/blog/new-in-symfony-2-8-console-style-guide) if desired.
 

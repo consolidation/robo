@@ -26,6 +26,14 @@ trait StateAwareTrait
     /**
      * {@inheritdoc}
      */
+    public function setStateValue($key, $value)
+    {
+        $this->state[$key] = $value;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function updateState(ResultData $update)
     {
         $this->state->update($update);

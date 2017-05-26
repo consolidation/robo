@@ -4,7 +4,7 @@ namespace Robo\Collection;
 use Robo\Result;
 use Robo\Contract\TaskInterface;
 use Robo\State\StateAwareInterface;
-use Robo\ResultData;
+use Robo\State\Data;
 
 /**
  * Creates a task wrapper that converts any Callable into an
@@ -57,6 +57,6 @@ class CallableTask implements TaskInterface
         if ($this->reference instanceof StateAwareInterface) {
             return $this->reference->getState();
         }
-        return new ResultData();
+        return new Data();
     }
 }

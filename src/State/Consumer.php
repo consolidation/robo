@@ -1,12 +1,12 @@
 <?php
 namespace Robo\State;
 
-use Robo\ResultData;
+use Robo\State\Data;
 
 interface Consumer
 {
     /**
-     * @return ResultData
+     * @return Data
      */
-    public function receiveState(ResultData $state);
+    public function receiveState(Data $state);
 }

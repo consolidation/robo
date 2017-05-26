@@ -2,7 +2,7 @@
 namespace Robo\Collection;
 
 use Robo\Result;
-use Robo\ResultData;
+use Robo\State\Data;
 use Psr\Log\LogLevel;
 use Robo\Contract\TaskInterface;
 use Robo\Task\StackBasedTask;
@@ -656,7 +656,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
         return $taskResult;
     }
 
-    protected function doStateUpdates($task, ResultData $taskResult)
+    protected function doStateUpdates($task, Data $taskResult)
     {
         $this->updateState($taskResult);
         $key = spl_object_hash($task);

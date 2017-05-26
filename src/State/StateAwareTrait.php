@@ -1,7 +1,7 @@
 <?php
 namespace Robo\State;
 
-use Robo\ResultData;
+use Robo\State\Data;
 
 trait StateAwareTrait
 {
@@ -18,7 +18,7 @@ trait StateAwareTrait
     /**
      * {@inheritdoc}
      */
-    public function setState(ResultData $state)
+    public function setState(Data $state)
     {
         $this->state = $state;
     }
@@ -34,7 +34,7 @@ trait StateAwareTrait
     /**
      * {@inheritdoc}
      */
-    public function updateState(ResultData $update)
+    public function updateState(Data $update)
     {
         $this->state->update($update);
     }
@@ -44,6 +44,6 @@ trait StateAwareTrait
      */
     public function resetState()
     {
-        $this->state = new ResultData();
+        $this->state = new Data();
     }
 }

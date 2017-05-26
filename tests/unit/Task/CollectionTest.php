@@ -8,7 +8,7 @@ namespace unit;
 
 use Robo\Robo;
 use Robo\Result;
-use Robo\ResultData;
+use Robo\State\Data;
 use Robo\Task\BaseTask;
 use Robo\Collection\Collection;
 use Robo\Task\ValueProviderTask;
@@ -137,15 +137,15 @@ class CollectionTest extends \Codeception\TestCase\Test
 
         $result = $collection
             ->addCode(
-                function (ResultData $state) {
+                function (Data $state) {
                     $state['one'] = 'first';
                 })
             ->addCode(
-                function (ResultData $state) {
+                function (Data $state) {
                     $state['two'] = 'second';
                 })
             ->addCode(
-                function (ResultData $state) {
+                function (Data $state) {
                     $state['three'] = "{$state['one']} and {$state['two']}";
                 })
             ->run();
@@ -169,7 +169,7 @@ class CollectionTest extends \Codeception\TestCase\Test
             ->add($first)
             ->add($second)
             ->addCode(
-                function (ResultData $state) {
+                function (Data $state) {
                     $state['three'] = "{$state['one']} and {$state['two']}";
                 })
             ->run();

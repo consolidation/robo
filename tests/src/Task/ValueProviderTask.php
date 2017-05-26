@@ -3,7 +3,6 @@
 namespace Robo\Task;
 
 use Robo\Result;
-use Robo\ResultData;
 use Robo\Task\BaseTask;
 use Robo\Collection\Collection;
 

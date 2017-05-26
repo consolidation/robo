@@ -1,19 +1,19 @@
 <?php
 namespace Robo\State;
 
-use Robo\ResultData;
+use Robo\State\Data;
 
 interface StateAwareInterface
 {
     /**
-     * @return ResultData
+     * @return Data
      */
     public function getState();
 
     /**
-     * @param ResultData state
+     * @param Data state
      */
-    public function setState(ResultData $state);
+    public function setState(Data $state);
 
     /**
      * @param $key
@@ -22,9 +22,9 @@ interface StateAwareInterface
     public function setStateValue($key, $value);
 
     /**
-     * @param ResultData update state takes precedence over current state.
+     * @param Data update state takes precedence over current state.
      */
-    public function updateState(ResultData $update);
+    public function updateState(Data $update);
 
     public function resetState();
 }

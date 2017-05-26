@@ -179,6 +179,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
         $context += TaskInfo::getTaskContext($this);
         return $this->addCode(
             function () use ($level, $text, $context) {
+                $context += $this->getState()->getData();
                 $this->printTaskOutput($level, $text, $context);
             }
         );
@@ -655,7 +656,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
         return $taskResult;
     }
 
-    protected function doStateUpdates($task, $taskResult)
+    protected function doStateUpdates($task, ResultData $taskResult)
     {
         $this->updateState($taskResult);
         $key = spl_object_hash($task);

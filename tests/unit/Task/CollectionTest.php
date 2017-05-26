@@ -6,6 +6,7 @@ namespace unit;
 // as we have a couple of private test classes that appear in this file
 // rather than in their own file.
 
+use Robo\Robo;
 use Robo\Result;
 use Robo\ResultData;
 use Robo\Task\BaseTask;
@@ -24,6 +25,7 @@ class CollectionTest extends \Codeception\TestCase\Test
     public function testAfterFilters()
     {
         $collection = new Collection();
+        $collection->setLogger(Robo::logger());
 
         $taskA = new CollectionTestTask('a', 'value-a');
         $taskB = new CollectionTestTask('b', 'value-b');
@@ -63,6 +65,7 @@ class CollectionTest extends \Codeception\TestCase\Test
     public function testBeforeFilters()
     {
         $collection = new Collection();
+        $collection->setLogger(Robo::logger());
 
         $taskA = new CollectionTestTask('a', 'value-a');
         $taskB = new CollectionTestTask('b', 'value-b');
@@ -94,6 +97,8 @@ class CollectionTest extends \Codeception\TestCase\Test
     public function testAddCodeRollbackAndCompletion()
     {
         $collection = new Collection();
+        $collection->setLogger(Robo::logger());
+
         $rollback1 = new CountingTask();
         $rollback2 = new CountingTask();
         $completion1 = new CountingTask();
@@ -128,6 +133,7 @@ class CollectionTest extends \Codeception\TestCase\Test
     public function testStateWithAddCode()
     {
         $collection = new Collection();
+        $collection->setLogger(Robo::logger());
 
         $result = $collection
             ->addCode(
@@ -151,6 +157,7 @@ class CollectionTest extends \Codeception\TestCase\Test
     public function testStateWithTaskResult()
     {
         $collection = new Collection();
+        $collection->setLogger(Robo::logger());
 
         $first = new ValueProviderTask();
         $first->provideData('one', 'First');
@@ -175,6 +182,7 @@ class CollectionTest extends \Codeception\TestCase\Test
     public function testDeferredInitialization()
     {
         $collection = new Collection();
+        $collection->setLogger(Robo::logger());
 
         $first = new ValueProviderTask();
         $first->provideData('one', 'First');
@@ -204,6 +212,7 @@ class CollectionTest extends \Codeception\TestCase\Test
     public function testDeferredInitializationWithMessageStorage()
     {
         $collection = new Collection();
+        $collection->setLogger(Robo::logger());
 
         $first = new ValueProviderTask();
         $first->provideMessage('1st');
@@ -234,7 +243,9 @@ class CollectionTest extends \Codeception\TestCase\Test
     public function testDeferredInitializationWithChainedInitialization()
     {
         $collection = new Collection();
+        $collection->setLogger(Robo::logger());
 
+        // This task sets the Result message to '1st'
         $first = new ValueProviderTask();
         $first->provideMessage('1st');
 
@@ -244,20 +255,29 @@ class CollectionTest extends \Codeception\TestCase\Test
         $third = new ValueProviderTask();
 
         $result = $collection
+            // $first will set its Result's message to '1st' at `run()` time
             ->add($first)
+                // This will copy the message from $first's result to $state['one'] after $first runs.
+                // Note that it does not matter what order the `storeState` messages are called in;
+                // their first parameter determines when they run. This differs from CollectionBuilder,
+                // which manages order.
                 ->storeState($first, 'one')
             ->add($second)
+                // This will copy the message from $second's result to $state['two']
                 ->storeState($second, 'two')
             ->add($third)
                 ->chainState($third, 'provideItem', 'one')
                 ->chainState($third, 'provideMessage', 'two')
                 ->storeState($third, 'final')
+            ->progressMessage('The final result is {final}')
             ->run();
 
         $state = $collection->getState();
         verify($state['one'])->equals('1st');
         verify($state['item'])->equals('1st');
         verify($state['final'])->equals('2nd');
+
+        $this->guy->seeInOutput("The final result is 2nd");
     }
 }
 

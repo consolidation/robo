@@ -411,13 +411,13 @@ class CollectionCest
 
         $result = $collection
             ->taskValueProvider()
-                ->provideMessage('1st')
-                ->storeState('one')
+                ->provideMessage('1st') // Sets Result's message to '1st'
+                ->storeState('one') // Copy Result's message to $state['one']
             ->taskValueProvider()
                 ->provideMessage('2nd')
                 ->storeState('two')
             ->taskValueProvider()
-                ->chainState('provideItem', 'one')
+                ->chainState('provideItem', 'one') // Same as ->proivdeItem($state['one']), but runs immediately before this task's run() method.
                 ->chainState('provideMessage', 'two')
                 ->storeState('final')
             ->run();

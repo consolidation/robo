@@ -518,6 +518,7 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
         $result = $this->runTasks();
         $this->stopTimer();
         $result['time'] = $this->getExecutionTime();
+        $result->mergeData($this->getState()->getData());
         return $result;
     }
 

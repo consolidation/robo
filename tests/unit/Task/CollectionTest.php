@@ -266,8 +266,8 @@ class CollectionTest extends \Codeception\TestCase\Test
                 // This will copy the message from $second's result to $state['two']
                 ->storeState($second, 'two')
             ->add($third)
-                ->chainState($third, 'provideItem', 'one')
-                ->chainState($third, 'provideMessage', 'two')
+                ->deferTaskConfiguration($third, 'provideItem', 'one')
+                ->deferTaskConfiguration($third, 'provideMessage', 'two')
                 ->storeState($third, 'final')
             ->progressMessage('The final result is {final}')
             ->run();

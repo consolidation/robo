@@ -417,8 +417,8 @@ class CollectionCest
                 ->provideMessage('2nd')
                 ->storeState('two')
             ->taskValueProvider()
-                ->chainState('provideItem', 'one') // Same as ->proivdeItem($state['one']), but runs immediately before this task's run() method.
-                ->chainState('provideMessage', 'two')
+                ->deferTaskConfiguration('provideItem', 'one') // Same as ->proivdeItem($state['one']), but runs immediately before this task's run() method.
+                ->deferTaskConfiguration('provideMessage', 'two')
                 ->storeState('final')
             ->run();
 

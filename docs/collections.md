@@ -252,7 +252,7 @@ Tasks that do not implement the `Consumer` interface may still be chained togeth
 
 State from the key/value data store, if set, is automatically stored in the collection's state. The `storeState()` method can be used to store the result "message".
 
-To pass state from one task to another, the `chainState()` method may be used. This method defers initialization until immediately before the task's `run()` method is called. It then calls a single named setter method, passing it the value of some state variable. 
+To pass state from one task to another, the `deferTaskConfiguration()` method may be used. This method defers initialization until immediately before the task's `run()` method is called. It then calls a single named setter method, passing it the value of some state variable. 
 
 For example, the builder below will create a new directory named after the output of the `uname -n` command returned by taskExec. Note that it is necessary to call `printOutput(false)` in order to make the output of taskExec available to the state system.
 ``` php
@@ -262,11 +262,11 @@ For example, the builder below will create a new directory named after the outpu
             ->printOutput(false)
             ->storeState('system-name')
         ->taskFilesystemStack()
-            ->chainState('mkdir', 'system-name')
+            ->deferTaskConfiguration('mkdir', 'system-name')
         ->run();
 ?>
 ```
-More complex task configuration may be done via the `defer()` method. `defer()` works like `chainState()`, except that it will run an arbitrary `callable` immediately prior to the execution of the task. The example below works exactly the same as the previous example, but is implemented using `defer()` instead of `chainState()`.
+More complex task configuration may be done via the `defer()` method. `defer()` works like `deferTaskConfiguration()`, except that it will run an arbitrary `callable` immediately prior to the execution of the task. The example below works exactly the same as the previous example, but is implemented using `defer()` instead of `deferTaskConfiguration()`.
 ``` php
 <?php
     $this->collectionBuilder()

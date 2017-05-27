@@ -675,7 +675,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
         return $this;
     }
 
-    public function chainState($task, $functionName, $stateKey)
+    public function deferTaskConfiguration($task, $functionName, $stateKey)
     {
         return $this->defer(
             $task,

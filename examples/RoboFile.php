@@ -313,7 +313,7 @@ class RoboFile extends \Robo\Tasks
                 ->printOutput(false)
                 ->storeState('system-name')
             ->taskFilesystemStack()
-                ->chainState('mkdir', 'system-name')
+                ->deferTaskConfiguration('mkdir', 'system-name')
             ->run();
     }
 

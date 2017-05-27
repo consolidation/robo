@@ -274,7 +274,7 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
         return $this->callCollectionStateFuntion(__FUNCTION__, func_get_args());
     }
 
-    public function chainState($functionName, $stateKey)
+    public function deferTaskConfiguration($functionName, $stateKey)
     {
         return $this->callCollectionStateFuntion(__FUNCTION__, func_get_args());
     }

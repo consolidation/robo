@@ -35,12 +35,13 @@ $this->taskComposerDumpAutoload('path/to/my/composer.phar')
 * `noAnsi()`  adds `no-ansi` option to composer
 * `ansi()`  adds `ansi` option to composer
 * `optimizeAutoloader()`  adds `optimize-autoloader` option to composer
+* `ignorePlatformRequirements()`  adds `ignore-platform-reqs` option to composer
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
 * `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
-* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
-* `optionList($option, $value = null)`  Pass multiple options to executable. Value can be a string or array.
+* `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
+* `optionList($option, $value = null, $separator = null)`  Pass multiple options to executable. Value can be a string or array.
 
 ## Install
 
@@ -70,12 +71,13 @@ $this->taskComposerInstall('path/to/my/composer.phar')
 * `noAnsi()`  adds `no-ansi` option to composer
 * `ansi()`  adds `ansi` option to composer
 * `optimizeAutoloader()`  adds `optimize-autoloader` option to composer
+* `ignorePlatformRequirements()`  adds `ignore-platform-reqs` option to composer
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
 * `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
-* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
-* `optionList($option, $value = null)`  Pass multiple options to executable. Value can be a string or array.
+* `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
+* `optionList($option, $value = null, $separator = null)`  Pass multiple options to executable. Value can be a string or array.
 
 ## Remove
 
@@ -100,12 +102,13 @@ $this->taskComposerValidate()->run();
 * `noAnsi()`  adds `no-ansi` option to composer
 * `ansi()`  adds `ansi` option to composer
 * `optimizeAutoloader()`  adds `optimize-autoloader` option to composer
+* `ignorePlatformRequirements()`  adds `ignore-platform-reqs` option to composer
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
 * `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
-* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
-* `optionList($option, $value = null)`  Pass multiple options to executable. Value can be a string or array.
+* `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
+* `optionList($option, $value = null, $separator = null)`  Pass multiple options to executable. Value can be a string or array.
 
 ## Update
 
@@ -135,12 +138,13 @@ $this->taskComposerUpdate('path/to/my/composer.phar')
 * `noAnsi()`  adds `no-ansi` option to composer
 * `ansi()`  adds `ansi` option to composer
 * `optimizeAutoloader()`  adds `optimize-autoloader` option to composer
+* `ignorePlatformRequirements()`  adds `ignore-platform-reqs` option to composer
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
 * `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
-* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
-* `optionList($option, $value = null)`  Pass multiple options to executable. Value can be a string or array.
+* `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
+* `optionList($option, $value = null, $separator = null)`  Pass multiple options to executable. Value can be a string or array.
 
 ## Validate
 
@@ -165,10 +169,11 @@ $this->taskComposerValidate()->run();
 * `noAnsi()`  adds `no-ansi` option to composer
 * `ansi()`  adds `ansi` option to composer
 * `optimizeAutoloader()`  adds `optimize-autoloader` option to composer
+* `ignorePlatformRequirements()`  adds `ignore-platform-reqs` option to composer
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
 * `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
-* `option($option, $value = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
-* `optionList($option, $value = null)`  Pass multiple options to executable. Value can be a string or array.
+* `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
+* `optionList($option, $value = null, $separator = null)`  Pass multiple options to executable. Value can be a string or array.
 

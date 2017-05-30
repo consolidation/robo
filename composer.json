@@ -57,7 +57,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.x-dev"
+            "dev-master": "1.x-dev",
+            "dev-state": "1.x-dev"
         }
     },
     "suggest": {

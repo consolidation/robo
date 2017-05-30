@@ -3,18 +3,14 @@ namespace Robo;
 
 use Consolidation\AnnotatedCommand\ExitCodeInterface;
 use Consolidation\AnnotatedCommand\OutputDataInterface;
+use Robo\State\Data;
 
-class ResultData extends \ArrayObject implements ExitCodeInterface, OutputDataInterface
+class ResultData extends Data implements ExitCodeInterface, OutputDataInterface
 {
     /**
      * @var int
      */
     protected $exitCode;
-
-    /**
-     * @var string
-     */
-    protected $message;
 
     const EXITCODE_OK = 0;
     const EXITCODE_ERROR = 1;
@@ -37,9 +33,7 @@ class ResultData extends \ArrayObject implements ExitCodeInterface, OutputDataIn
     public function __construct($exitCode = self::EXITCODE_OK, $message = '', $data = [])
     {
         $this->exitCode = $exitCode;
-        $this->message = $message;
-
-        parent::__construct($data);
+        parent::__construct($message, $data);
     }
 
     /**
@@ -65,14 +59,6 @@ class ResultData extends \ArrayObject implements ExitCodeInterface, OutputDataIn
     }
 
     /**
-     * @return array
-     */
-    public function getData()
-    {
-        return $this->getArrayCopy();
-    }
-
-    /**
      * @return int
      */
     public function getExitCode()
@@ -91,14 +77,6 @@ class ResultData extends \ArrayObject implements ExitCodeInterface, OutputDataIn
     }
 
     /**
-     * @return string
-     */
-    public function getMessage()
-    {
-        return $this->message;
-    }
-
-    /**
      * @return bool
      */
     public function wasSuccessful()
@@ -112,84 +90,5 @@ class ResultData extends \ArrayObject implements ExitCodeInterface, OutputDataIn
     public function wasCancelled()
     {
         return $this->exitCode == self::EXITCODE_USER_CANCEL;
-    }
-
-    /**
-     * Merge another result into this result.  Data already
-     * existing in this result takes precedence over the
-     * data in the Result being merged.
-     *
-     * @param \Robo\ResultData $result
-     *
-     * @return $this
-     */
-    public function merge(ResultData $result)
-    {
-        $mergedData = $this->getArrayCopy() + $result->getArrayCopy();
-        $this->exchangeArray($mergedData);
-        return $this;
-    }
-
-    /**
-     * Merge another result into this result.  Data already
-     * existing in this result takes precedence over the
-     * data in the Result being merged.
-     *
-     * $data['message'] is handled specially, and is appended
-     * to $this->message if set.
-     *
-     * @param array $data
-     *
-     * @return array
-     */
-    public function mergeData(array $data)
-    {
-        $mergedData = $this->getArrayCopy() + $data;
-        $this->exchangeArray($mergedData);
-        return $mergedData;
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasExecutionTime()
-    {
-        return isset($this['time']);
-    }
-
-    /**
-     * @return null|float
-     */
-    public function getExecutionTime()
-    {
-        if (!$this->hasExecutionTime()) {
-            return null;
-        }
-        return $this['time'];
-    }
-
-    /**
-     * Accumulate execution time
-     */
-    public function accumulateExecutionTime($duration)
-    {
-        // Convert data arrays to scalar
-        if (is_array($duration)) {
-            $duration = isset($duration['time']) ? $duration['time'] : 0;
-        }
-        $this['time'] = $this->getExecutionTime() + $duration;
-        return $this->getExecutionTime();
-    }
-
-    /**
-     * Accumulate the message.
-     */
-    public function accumulateMessage($message)
-    {
-        if (!empty($this->message)) {
-            $this->message .= "\n";
-        }
-        $this->message .= $message;
-        return $this->getMessage();
     }
 }

@@ -89,7 +89,7 @@ class RoboFile extends \Robo\Tasks
 ```
 
 If you execute `robo` you will see this task added to list of available task with name: `test:acceptance`.
-To execute it you shoud run `robo test:acceptance`. You may change path to selenium server by passing new path as a argument:
+To execute it you should run `robo test:acceptance`. You may change path to selenium server by passing new path as a argument:
 
 ```
 robo test:acceptance "C:\Downloads\selenium.jar"

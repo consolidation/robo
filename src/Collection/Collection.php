@@ -2,6 +2,7 @@
 namespace Robo\Collection;
 
 use Robo\Result;
+use Robo\State\Data;
 use Psr\Log\LogLevel;
 use Robo\Contract\TaskInterface;
 use Robo\Task\StackBasedTask;
@@ -13,6 +14,8 @@ use Robo\Exception\TaskExitException;
 use Robo\Contract\CommandInterface;
 
 use Robo\Contract\InflectionInterface;
+use Robo\State\StateAwareInterface;
+use Robo\State\StateAwareTrait;
 
 /**
  * Group tasks into a collection that run together. Supports
@@ -28,8 +31,10 @@ use Robo\Contract\InflectionInterface;
  * called. Here, taskDeleteDir is used to remove partial results
  * of an unfinished task.
  */
-class Collection extends BaseTask implements CollectionInterface, CommandInterface
+class Collection extends BaseTask implements CollectionInterface, CommandInterface, StateAwareInterface
 {
+    use StateAwareTrait;
+
     /**
      * @var \Robo\Collection\Element[]
      */
@@ -51,10 +56,21 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
     protected $parentCollection;
 
     /**
+     * @var callable[]
+     */
+    protected $deferredCallbacks = [];
+
+    /**
+     * @var string[]
+     */
+    protected $messageStoreKeys = [];
+
+    /**
      * Constructor.
      */
     public function __construct()
     {
+        $this->resetState();
     }
 
     public function setProgressBarAutoDisplayInterval($interval)
@@ -163,6 +179,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
         $context += TaskInfo::getTaskContext($this);
         return $this->addCode(
             function () use ($level, $text, $context) {
+                $context += $this->getState()->getData();
                 $this->printTaskOutput($level, $text, $context);
             }
         );
@@ -630,8 +647,76 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
         if ($original instanceof InflectionInterface) {
             $original->inflect($this);
         }
+        if ($original instanceof StateAwareInterface) {
+            $original->setState($this->getState());
+        }
+        $this->doDeferredInitialization($original);
         $taskResult = $task->run();
+        $this->doStateUpdates($original, $taskResult);
         return $taskResult;
+    }
+
+    protected function doStateUpdates($task, Data $taskResult)
+    {
+        $this->updateState($taskResult);
+        $key = spl_object_hash($task);
+        if (array_key_exists($key, $this->messageStoreKeys)) {
+            $state = $this->getState();
+            list($stateKey, $sourceKey) = $this->messageStoreKeys[$key];
+            $value = empty($sourceKey) ? $taskResult->getMessage() : $taskResult[$sourceKey];
+            $state[$stateKey] = $value;
+        }
+    }
+
+    public function storeState($task, $key, $source = '')
+    {
+        $this->messageStoreKeys[spl_object_hash($task)] = [$key, $source];
+
+        return $this;
+    }
+
+    public function deferTaskConfiguration($task, $functionName, $stateKey)
+    {
+        return $this->defer(
+            $task,
+            function ($task, $state) use ($functionName, $stateKey) {
+                $fn = [$task, $functionName];
+                $value = $state[$stateKey];
+                $fn($value);
+            }
+        );
+    }
+
+    /**
+     * Defer execution of a callback function until just before a task
+     * runs. Use this time to provide more settings for the task, e.g. from
+     * the collection's shared state, which is populated with the results
+     * of previous test runs.
+     */
+    public function defer($task, $callback)
+    {
+        $this->deferredCallbacks[spl_object_hash($task)][] = $callback;
+
+        return $this;
+    }
+
+    protected function doDeferredInitialization($task)
+    {
+        // If the task is a state consumer, then call its receiveState method
+        if ($task instanceof \Robo\State\Consumer) {
+            $task->receiveState($this->getState());
+        }
+
+        // Check and see if there are any deferred callbacks for this task.
+        $key = spl_object_hash($task);
+        if (!array_key_exists($key, $this->deferredCallbacks)) {
+            return;
+        }
+
+        // Call all of the deferred callbacks
+        foreach ($this->deferredCallbacks[$key] as $fn) {
+            $fn($task, $this->getState());
+        }
     }
 
     /**

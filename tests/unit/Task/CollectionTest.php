@@ -6,9 +6,14 @@ namespace unit;
 // as we have a couple of private test classes that appear in this file
 // rather than in their own file.
 
+use Robo\Robo;
 use Robo\Result;
+use Robo\State\Data;
 use Robo\Task\BaseTask;
 use Robo\Collection\Collection;
+use Robo\Task\ValueProviderTask;
+use Robo\Task\CollectionTestTask;
+use Robo\Task\CountingTask;
 
 class CollectionTest extends \Codeception\TestCase\Test
 {
@@ -20,6 +25,7 @@ class CollectionTest extends \Codeception\TestCase\Test
     public function testAfterFilters()
     {
         $collection = new Collection();
+        $collection->setLogger(Robo::logger());
 
         $taskA = new CollectionTestTask('a', 'value-a');
         $taskB = new CollectionTestTask('b', 'value-b');
@@ -59,6 +65,7 @@ class CollectionTest extends \Codeception\TestCase\Test
     public function testBeforeFilters()
     {
         $collection = new Collection();
+        $collection->setLogger(Robo::logger());
 
         $taskA = new CollectionTestTask('a', 'value-a');
         $taskB = new CollectionTestTask('b', 'value-b');
@@ -90,6 +97,8 @@ class CollectionTest extends \Codeception\TestCase\Test
     public function testAddCodeRollbackAndCompletion()
     {
         $collection = new Collection();
+        $collection->setLogger(Robo::logger());
+
         $rollback1 = new CountingTask();
         $rollback2 = new CountingTask();
         $completion1 = new CountingTask();
@@ -120,62 +129,155 @@ class CollectionTest extends \Codeception\TestCase\Test
         $this->guy->seeInOutput('start collection tasks');
         $this->guy->doNotSeeInOutput('not reached');
     }
+
+    public function testStateWithAddCode()
+    {
+        $collection = new Collection();
+        $collection->setLogger(Robo::logger());
+
+        $result = $collection
+            ->addCode(
+                function (Data $state) {
+                    $state['one'] = 'first';
+                })
+            ->addCode(
+                function (Data $state) {
+                    $state['two'] = 'second';
+                })
+            ->addCode(
+                function (Data $state) {
+                    $state['three'] = "{$state['one']} and {$state['two']}";
+                })
+            ->run();
+
+        $state = $collection->getState();
+        verify($state['three'])->equals('first and second');
+    }
+
+    public function testStateWithTaskResult()
+    {
+        $collection = new Collection();
+        $collection->setLogger(Robo::logger());
+
+        $first = new ValueProviderTask();
+        $first->provideData('one', 'First');
+
+        $second = new ValueProviderTask();
+        $second->provideData('two', 'Second');
+
+        $result = $collection
+            ->add($first)
+            ->add($second)
+            ->addCode(
+                function (Data $state) {
+                    $state['three'] = "{$state['one']} and {$state['two']}";
+                })
+            ->run();
+
+        $state = $collection->getState();
+        verify($state['one'])->equals('First');
+        verify($state['three'])->equals('First and Second');
+    }
+
+    public function testDeferredInitialization()
+    {
+        $collection = new Collection();
+        $collection->setLogger(Robo::logger());
+
+        $first = new ValueProviderTask();
+        $first->provideData('one', 'First');
+
+        $second = new ValueProviderTask();
+        $second->provideData('two', 'Second');
+
+        $third = new ValueProviderTask();
+
+        $result = $collection
+            ->add($first)
+            ->add($second)
+            ->add($third)
+                ->defer(
+                    $third,
+                    function ($task, $state) {
+                        $task->provideData('three', "{$state['one']} and {$state['two']}");
+                    }
+                )
+            ->run();
+
+        $state = $collection->getState();
+        verify($state['one'])->equals('First');
+        verify($state['three'])->equals('First and Second');
+    }
+
+    public function testDeferredInitializationWithMessageStorage()
+    {
+        $collection = new Collection();
+        $collection->setLogger(Robo::logger());
+
+        $first = new ValueProviderTask();
+        $first->provideMessage('1st');
+
+        $second = new ValueProviderTask();
+        $second->provideData('other', '2nd');
+
+        $third = new ValueProviderTask();
+
+        $result = $collection
+            ->add($first)
+                ->storeState($first, 'one')
+            ->add($second)
+                ->storeState($second, 'two', 'other')
+            ->add($third)
+                ->defer(
+                    $third,
+                    function ($task, $state) {
+                        $task->provideData('three', "{$state['one']} and {$state['two']}");
+                    }
+                )
+            ->run();
+
+        $state = $collection->getState();
+        verify($state['one'])->equals('1st');
+        verify($state['three'])->equals('1st and 2nd');
+    }
+    public function testDeferredInitializationWithChainedInitialization()
+    {
+        $collection = new Collection();
+        $collection->setLogger(Robo::logger());
+
+        // This task sets the Result message to '1st'
+        $first = new ValueProviderTask();
+        $first->provideMessage('1st');
+
+        $second = new ValueProviderTask();
+        $second->provideMessage('2nd');
+
+        $third = new ValueProviderTask();
+
+        $result = $collection
+            // $first will set its Result's message to '1st' at `run()` time
+            ->add($first)
+                // This will copy the message from $first's result to $state['one'] after $first runs.
+                // Note that it does not matter what order the `storeState` messages are called in;
+                // their first parameter determines when they run. This differs from CollectionBuilder,
+                // which manages order.
+                ->storeState($first, 'one')
+            ->add($second)
+                // This will copy the message from $second's result to $state['two']
+                ->storeState($second, 'two')
+            ->add($third)
+                ->deferTaskConfiguration($third, 'provideItem', 'one')
+                ->deferTaskConfiguration($third, 'provideMessage', 'two')
+                ->storeState($third, 'final')
+            ->progressMessage('The final result is {final}')
+            ->run();
+
+        $state = $collection->getState();
+        verify($state['one'])->equals('1st');
+        verify($state['item'])->equals('1st');
+        verify($state['final'])->equals('2nd');
+
+        $this->guy->seeInOutput("The final result is 2nd");
+    }
 }
 
-class CountingTask extends BaseTask
-{
-    protected $count = 0;
-
-    public function run()
-    {
-        $this->count++;
-        return Result::success($this);
-    }
-
-    public function getCount()
-    {
-        return $this->count;
-    }
-}
-
-class CollectionTestTask extends BaseTask
-{
-    protected $key;
-    protected $value;
-
-    public function __construct($key, $value)
-    {
-        $this->key = $key;
-        $this->value = $value;
-    }
-
-    public function run()
-    {
-        return $this->getValue();
-    }
-
-    protected function getValue()
-    {
-        $result = Result::success($this);
-        $result[$this->key] = $this->value;
-
-        return $result;
-    }
-
-    // Note that by returning a value with the same
-    // key as the result, we overwrite the value generated
-    // by the primary task method ('run()').  If we returned
-    // a result with a different key, then both values
-    // would appear in the result.
-    public function parenthesizer()
-    {
-        $this->value = "({$this->value})";
-        return $this->getValue();
-    }
-
-    public function emphasizer()
-    {
-        $this->value = "*{$this->value}*";
-        return $this->getValue();
-    }
-}

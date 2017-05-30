@@ -28,17 +28,7 @@ use Symfony\Component\Process\Process;
 class Codecept extends BaseTask implements CommandInterface, PrintedInterface
 {
     use \Robo\Common\ExecOneCommand;
-
-    /**
-     * @var string
-     */
-    protected $suite = '';
-
-    /**
-     * @var string
-     */
-    protected $test = '';
-
+    
     /**
      * @var string
      */
@@ -68,7 +58,7 @@ class Codecept extends BaseTask implements CommandInterface, PrintedInterface
      */
     public function suite($suite)
     {
-        $this->suite = $suite;
+        $this->option(null, $suite);
         return $this;
     }
 
@@ -79,7 +69,7 @@ class Codecept extends BaseTask implements CommandInterface, PrintedInterface
      */
     public function test($testName)
     {
-        $this->test = $testName;
+        $this->option(null, $testName);
         return $this;
     }
 
@@ -247,8 +237,6 @@ class Codecept extends BaseTask implements CommandInterface, PrintedInterface
      */
     public function getCommand()
     {
-        $this->option(null, $this->suite)
-            ->option(null, $this->test);
         return $this->command . $this->arguments;
     }
 

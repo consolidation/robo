@@ -159,7 +159,7 @@ class Run extends Base
      */
     public function envVars(array $env)
     {
-        foreach($env as $variable => $value) {
+        foreach ($env as $variable => $value) {
             $this->setDockerEnv($variable, $value);
         }
         return $this;

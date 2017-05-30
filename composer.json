@@ -34,8 +34,7 @@
         "symfony/console": "~2.8|~3.0",
         "symfony/process": "~2.5|~3.0",
         "symfony/filesystem": "~2.5|~3.0",
-        "symfony/event-dispatcher": "~2.5|~3.0",
-        "squizlabs/php_codesniffer": "^2.8"
+        "symfony/event-dispatcher": "~2.5|~3.0"
     },
     "require-dev": {
         "patchwork/jsqueeze": "~2",
@@ -46,7 +45,8 @@
         "codeception/verify": "^0.3.2",
         "codeception/aspect-mock": "~1",
         "satooshi/php-coveralls": "~1",
-        "phpunit/php-code-coverage": "~2|~4"
+        "phpunit/php-code-coverage": "~2|~4",
+        "squizlabs/php_codesniffer": "^2.8"
     },
     "scripts": {
         "pre-install-cmd": [
@@ -57,14 +57,15 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.x-dev"
+            "dev-master": "1.x-dev",
+            "dev-state": "1.x-dev"
         }
     },
     "suggest": {
         "pear/archive_tar": "Allows tar archives to be created and extracted in taskPack and taskExtract, respectively.",
         "henrikbjorn/lurker": "For monitoring filesystem changes in taskWatch",
         "patchwork/jsqueeze": "For minifying JS files in taskMinify",
-        "natxet/CssMin": "For minifying JS files in taskMinify"
+        "natxet/CssMin": "For minifying CSS files in taskMinify"
     },
     "replace": {
         "codegyre/robo": "< 1.0"

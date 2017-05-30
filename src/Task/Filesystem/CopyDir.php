@@ -33,6 +33,11 @@ class CopyDir extends BaseDir
     protected $exclude = [];
 
     /**
+     * Overwrite destination files newer than source files.
+     */
+    protected $overwrite = true;
+
+    /**
      * {@inheritdoc}
      */
     public function run()
@@ -78,6 +83,19 @@ class CopyDir extends BaseDir
     }
 
     /**
+     * Destination files newer than source files are overwritten.
+     *
+     * @param bool $overwrite
+     *
+     * @return $this
+     */
+    public function overwrite($overwrite)
+    {
+        $this->overwrite = $overwrite;
+        return $this;
+    }
+
+    /**
      * Copies a directory to another location.
      *
      * @param string $src Source directory
@@ -104,7 +122,7 @@ class CopyDir extends BaseDir
                 if (is_dir($srcFile)) {
                     $this->copyDir($srcFile, $destFile);
                 } else {
-                    copy($srcFile, $destFile);
+                    $this->fs->copy($srcFile, $destFile, $this->overwrite);
                 }
             }
         }

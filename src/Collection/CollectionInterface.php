@@ -141,7 +141,8 @@ interface CollectionInterface extends NestedCollectionInterface
      * message will not be printed.
      *
      * @param string $text Message to print.
-     * @param array $context Extra context data for use by the logger.
+     * @param array $context Extra context data for use by the logger. Note
+     *   that the data from the collection state is merged with the provided context.
      * @param \Psr\Log\LogLevel|string $level The log level to print the information at. Default is NOTICE.
      *
      * @return $this

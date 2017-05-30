@@ -29,7 +29,7 @@ before_script:
 
 script:
   - ./robo test --coverage
-  - ./robo sniff
+  - ./robo sniff -n
 
 after_success:
   - travis_retry php vendor/bin/coveralls -v

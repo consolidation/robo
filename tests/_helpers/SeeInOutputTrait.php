@@ -44,18 +44,33 @@ trait SeeInOutputTrait
     public function seeInOutput($value)
     {
         $output = $this->accumulate();
+        $output = $this->simplify($output);
         $this->assertContains($value, $output);
     }
 
     public function doNotSeeInOutput($value)
     {
         $output = $this->accumulate();
+        $output = $this->simplify($output);
         $this->assertNotContains($value, $output);
     }
 
     public function seeOutputEquals($value)
     {
         $output = $this->accumulate();
+        $output = $this->simplify($output);
         $this->assertEquals($value, $output);
+    }
+
+    /**
+     * Make our output comparisons more platform-agnostic by converting
+     * CRLF (Windows) or raw CR (confused output) to a LF (unix/Mac).
+     */
+    protected function simplify($output)
+    {
+        $output = str_replace("\r\n", "\n", $output);
+        $output = str_replace("\r", "\n", $output);
+
+        return $output;
     }
 }

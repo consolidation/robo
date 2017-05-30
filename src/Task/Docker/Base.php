@@ -20,7 +20,6 @@ abstract class Base extends BaseTask implements PrintedInterface
     public function run()
     {
         $command = $this->getCommand();
-        $this->printTaskInfo('Running {command}', ['command' => $command]);
         return $this->executeCommand($command);
     }
 

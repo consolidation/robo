@@ -1,19 +1,27 @@
 # Changelog
 
-#### 1.0.6
+#### 1.0.7 05/30/2017
+
+* Add a state system for collections to allow tasks to pass state to later tasks.
+* Ensure that task results are returned when in stopOnFail() mode.
+* Make rawArg() and detectInteractive chainable. By Matthew Grasmick #553 #558
+* [CopyDir] Use Symfony Filesystem. By malikkotob #555
+* [Composer] Implement CommandInterface. By Ivan Borzenkov #561
+
+#### 1.0.6 03/31/2017
 
 * Add configuration features to inject values into commandline option and task setter methods. Experimental; incompatible changes may be introduced prior to the stable release of configuration in version 1.1.0.
 
-#### 1.0.5
+#### 1.0.5 11/23/2016
 
 * Incorporate word-wrapping from output-formatters 3.1.5
 * Incorporate custom event handlers from annotated-command 2.2.0
 
-#### 1.0.4
+#### 1.0.4 11/15/2016
 
 * Updated to latest changes in `master` branch. Phar and tag issues.
 
-#### 1.0.0
+#### 1.0.0 10/10/2016
 
 * [Collection] Add tasks to a collection, and implement them as a group with rollback
    * Tasks may be added to a collection via `$collection->add($task);`
@@ -54,7 +62,7 @@
 * Rename 'FileSystem' to 'Filesystem' wherever it occurs.
 * Current directory is changed with `chdir` only if specified via the `--load-from` option (RC2)
 
-#### 0.6.0
+#### 0.6.0 10/30/2015
 
 * Added `--load-from` option to make Robo start RoboFiles from other directories. Use it like `robo --load-from /path/to/where/RobFile/located`.
 * Robo will not ask to create RoboFile if it does not exist, `init` command should be used.
@@ -63,7 +71,7 @@
 * [FlattenDir] task added by @gabor-udvari
 * Robo Runner can easily extended for custom runner by passing RoboClass and RoboFile parameters to constructor. By @rdeutz See #232
 
-#### 0.5.4
+#### 0.5.4 08/31/2015
 
 * [WriteToFile] Fixed by @gabor-udvari: always writing to file regardless whether any changes were made or not. This can bring the taskrunner into an inifinite loop if a replaced file is being watched.
 * [Scss] task added, requires `leafo/scssphp` library to compile by @gabor-udvari
@@ -72,7 +80,7 @@
 * [Less] fixed passing closure as compiler by @pr0nbaer
 * [Sass] task added by *2015-08-31*
 
-#### 0.5.3
+#### 0.5.3 07/15/2015
 
  * [Rsync] Ability to use remote shell with identity file by @Mihailoff
  * [Less] Task added by @burzum
@@ -84,7 +92,7 @@
  * [Minify] Making it possible to pass options to the JS minification @burzum *2015-03-05*
  * [CopyDir] Create destination recursively @boedah *2015-02-28*
 
-#### 0.5.2
+#### 0.5.2 02/24/2015
 
 * [Phar] do not compress phar if more than 1000 files included (causes internal PHP error) *2015-02-24*
 * _copyDir and _mirrorDir shortcuts fixed by @boedah *2015-02-24*
@@ -94,14 +102,14 @@
 * [PhpServer] fixed passing arguments to server *2015-02-24*
 
 
-#### 0.5.1
+#### 0.5.1 01/27/2015
 
 * [Exec] fixed execution of background jobs, processes persist till the end of PHP script *2015-01-27*
 * [Ssh] Fixed SSH task by @Butochnikov *2015-01-27*
 * [CopyDir] fixed shortcut usage by @boedah *2015-01-27*
 * Added default value options for Configuration trait by @TamasBarta *2015-01-27*
 
-#### 0.5.0
+#### 0.5.0 01/22/2015
 
 Refactored core
 
@@ -121,7 +129,7 @@ Refactored core
 * [Docker] Tasks added
 * [Gulp] Task added by @schorsch3000
 
-#### 0.4.7
+#### 0.4.7 12/26/2014
 
 * [Minify] Task added by @Rarst. Requires additional dependencies installed *2014-12-26*
 * [Help command is populated from annotation](https://github.com/consolidation-org/Robo/pull/71) by @jonsa *2014-12-26*
@@ -138,7 +146,7 @@ Refactored core
 * [Rsync] Shell escape rsync exclude pattern by @boedah. Fixes #77 (BC break) *2014-12-26*
 * [Npm] Task added by @AAlakkad *2014-12-26*
 
-#### 0.4.6
+#### 0.4.6 10/17/2014
 
 * [Exec] Output from buffer is not spoiled by special chars *2014-10-17*
 * [PHPUnit] detect PHPUnit on Windows or when is globally installed with Composer *2014-10-17*
@@ -148,7 +156,7 @@ Refactored core
 * [ExecTask] now uses Executable trait with printed, dir, arg, option methods added *2014-08-12*
 
 
-#### 0.4.5
+#### 0.4.5 08/05/2014
 
 * [Watch] bugfix: Watch only tracks last file if given array of files #46 *2014-08-05*
 * All executable tasks can configure working directory with `dir` option

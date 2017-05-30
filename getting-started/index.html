@@ -219,7 +219,7 @@ class RoboFile extends \Robo\Tasks
 
 <p>Method names should be camelCased. In CLI <code>camelCased</code> method will be available as <code>camel:cased</code> command.
 <code>longCamelCased</code> method will be transformed to <code>long:camel-cased</code> command.</p>
-<p><strong>Note:</strong> This assumes you have installed Robo by downloading the <a href="http://robo.li/robo.phar">robo.phar</a> file and copied it to a directory in your $PATH. For example, <code>cp robo.phar ~/bin/robo</code>.</p>
+<p><strong>Note:</strong> This assumes you have installed Robo by downloading the <a href="http://robo.li/robo.phar">robo.phar</a> file and copied it to a directory in your <code>$PATH</code>. For example, <code>cp robo.phar ~/bin/robo</code>.</p>
 <h3 id="arguments">Arguments</h3>
 <p>All method parameters without default values are treated as required arguments. In our example command <code>hello</code> requires one argument.
 If you pass a default value to parameter the argument becomes optional:</p>
@@ -547,8 +547,10 @@ class MyTask extends BaseTask
 </code></pre>
 
 <p>There are also <code>askDefault</code>, <code>askHidden</code>, and <code>confirm</code> methods.</p>
-<p>In addition, Robo makes all of the methods of Symfony Style available throgh the <code>io()</code> method:</p>
-<p>$this-&gt;io()-&gt;title("Build all site assets");</p>
+<p>In addition, Robo makes all of the methods of Symfony Style available through the <code>io()</code> method:</p>
+<pre><code>$this-&gt;io()-&gt;title(&quot;Build all site assets&quot;);
+</code></pre>
+
 <p>This allows Robo scripts to follow the <a href="http://symfony.com/blog/new-in-symfony-2-8-console-style-guide">Symfony Console Style Guide</a> if desired.</p>
 <h3 id="formatters">Formatters</h3>
 <p>It is preferable for commands that look up and display information should avoid doing IO directly, and should instead return the data they wish to display as an array. This data can then be converted into different data formats, such as "table" and "json". The user may select which formatter to use via the --format option. For details on formatters, see the <a href="https://github.com/consolidation/output-formatters">consolidation/output-formatters</a> project.</p>
@@ -560,7 +562,7 @@ $ composer require consolidation/Robo:~1
 $ ./vendor/bin/robo mycommand
 </code></pre>
 
-<p>If you do not want to type the whole path to Robo, you may add <code>./vendor/bin</code> to your $PATH (relative paths work), or use <code>composer exec</code> to find and run Robo:</p>
+<p>If you do not want to type the whole path to Robo, you may add <code>./vendor/bin</code> to your <code>$PATH</code> (relative paths work), or use <code>composer exec</code> to find and run Robo:</p>
 <pre><code>$ composer exec robo mycommand
 </code></pre>
 
@@ -580,7 +582,7 @@ $ ./vendor/bin/robo mycommand
 </code></pre>
 
 <p><em>Note</em>: When you include Robo as a library like this, some external projects used by certain core Robo tasks are not automatically included in your project.  See the <code>"suggest":</code> section of Robo's composer.json for a list of external projects you might also want to require in your project.</p>
-<p>Once you have set up your composer.json file (and ran <code>composer update</code> if you manually changed the <code>require</code> or <code>require-dev</code> sections), Composer will ensure that your project-local copy of Robo in the <code>vendor/bin</code> dir is in your $PATH when you run the additional Composer scripts that you declared:</p>
+<p>Once you have set up your composer.json file (and ran <code>composer update</code> if you manually changed the <code>require</code> or <code>require-dev</code> sections), Composer will ensure that your project-local copy of Robo in the <code>vendor/bin</code> dir is in your <code>$PATH</code> when you run the additional Composer scripts that you declared:</p>
 <pre><code>$ cd myproject
 $ composer test
 $ composer phar

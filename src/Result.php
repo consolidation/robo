@@ -3,6 +3,7 @@ namespace Robo;
 
 use Robo\Contract\TaskInterface;
 use Robo\Exception\TaskExitException;
+use Robo\State\Data;
 
 class Result extends ResultData
 {
@@ -31,6 +32,30 @@ class Result extends ResultData
         if (self::$stopOnFail) {
             $this->stopOnFail();
         }
+    }
+
+    /**
+     * Tasks should always return a Result. However, they are also
+     * allowed to return NULL or an array to indicate success.
+     */
+    public static function ensureResult($task, $result)
+    {
+        if ($result instanceof Result) {
+            return $result;
+        }
+        if (!isset($result)) {
+            return static::success($task);
+        }
+        if ($result instanceof Data) {
+            return static::success($task, $result->getMessage(), $result->getData());
+        }
+        if ($result instanceof ResultData) {
+            return new Result($task, $result->getExitCode(), $result->getMessage(), $result->getData());
+        }
+        if (is_array($result)) {
+            return static::success($task, '', $result);
+        }
+        throw new \Exception(sprintf('Task %s returned a %s instead of a \Robo\Result.', get_class($task), get_class($result)));
     }
 
     protected function printResult()

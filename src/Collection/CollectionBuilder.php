@@ -15,6 +15,7 @@ use Robo\Contract\CommandInterface;
 use Robo\Contract\VerbosityThresholdInterface;
 use Robo\State\StateAwareInterface;
 use Robo\State\StateAwareTrait;
+use Robo\Result;
 
 /**
  * Creates a collection, and adds tasks to it.  The collection builder
@@ -531,7 +532,8 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
     protected function runTasks()
     {
         if (!$this->collection && $this->currentTask) {
-            return $this->currentTask->run();
+            $result = $this->currentTask->run();
+            return Result::ensureResult($this->currentTask, $result);
         }
         return $this->getCollection()->run();
     }

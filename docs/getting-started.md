@@ -254,6 +254,8 @@ $this->_copy('config/env.example.yml','config/env.yml');
 
 Each task must return an instance of `Robo\Result`. A Robo Result contains the task instance, exit code, message, and any variable data that the task may wish to return.
 
+*Note*: A task may also return `NULL` or an array as a shortcut for a successful result. In this instance, Robo will convert the value into a `Robo\Result`, and will apply the provided array values, if any, to the result's variable data. This practice is supported, but not recommended.
+
 The `run` method of `CompileAssets` class may look like this:
 
 ```

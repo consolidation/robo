@@ -652,6 +652,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
         }
         $this->doDeferredInitialization($original);
         $taskResult = $task->run();
+        $taskResult = Result::ensureResult($task, $taskResult);
         $this->doStateUpdates($original, $taskResult);
         return $taskResult;
     }

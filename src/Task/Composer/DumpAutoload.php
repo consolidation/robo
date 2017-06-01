@@ -44,17 +44,8 @@ class DumpAutoload extends Base
      */
     public function optimize()
     {
-        $this->optimize = "--optimize";
+        $this->option("--optimize");
         return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getCommand()
-    {
-        $this->option($this->optimize);
-        return parent::getCommand();
     }
 
     /**

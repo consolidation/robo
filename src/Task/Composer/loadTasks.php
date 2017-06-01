@@ -36,6 +36,26 @@ trait loadTasks
     /**
      * @param null|string $pathToComposer
      *
+     * @return Init
+     */
+    protected function taskComposerInit($pathToComposer = null)
+    {
+        return $this->task(Init::class, $pathToComposer);
+    }
+
+    /**
+     * @param null|string $pathToComposer
+     *
+     * @return Init
+     */
+    protected function taskComposerConfig($pathToComposer = null)
+    {
+        return $this->task(Config::class, $pathToComposer);
+    }
+
+    /**
+     * @param null|string $pathToComposer
+     *
      * @return Validate
      */
     protected function taskComposerValidate($pathToComposer = null)
@@ -51,5 +71,25 @@ trait loadTasks
     protected function taskComposerRemove($pathToComposer = null)
     {
         return $this->task(Remove::class, $pathToComposer);
+    }
+
+    /**
+     * @param null|string $pathToComposer
+     *
+     * @return Remove
+     */
+    protected function taskComposerRequire($pathToComposer = null)
+    {
+        return $this->task(RequireDependency::class, $pathToComposer);
+    }
+
+    /**
+     * @param null|string $pathToComposer
+     *
+     * @return Remove
+     */
+    protected function taskComposerCreateProject($pathToComposer = null)
+    {
+        return $this->task(CreateProject::class, $pathToComposer);
     }
 }

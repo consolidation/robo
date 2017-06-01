@@ -19,36 +19,11 @@ class Validate extends Base
     protected $action = 'validate';
 
     /**
-     * @var string
-     */
-    protected $noCheckAll;
-
-    /**
-     * @var string
-     */
-    protected $noCheckLock;
-
-    /**
-     * @var string
-     */
-    protected $noCheckPublish;
-
-    /**
-     * @var string
-     */
-    protected $withDependencies;
-
-    /**
-     * @var string
-     */
-    protected $strict;
-
-    /**
      * @return $this
      */
     public function noCheckAll()
     {
-        $this->noCheckAll = '--no-check-all';
+        $this->option('--no-check-all');
         return $this;
     }
 
@@ -57,7 +32,7 @@ class Validate extends Base
      */
     public function noCheckLock()
     {
-        $this->noCheckLock = '--no-check-lock';
+        $this->option('--no-check-lock');
         return $this;
     }
 
@@ -66,7 +41,7 @@ class Validate extends Base
      */
     public function noCheckPublish()
     {
-        $this->noCheckPublish = '--no-check-publish';
+        $this->option('--no-check-publish');
         return $this;
     }
 
@@ -75,7 +50,7 @@ class Validate extends Base
      */
     public function withDependencies()
     {
-        $this->withDependencies = '--with-dependencies';
+        $this->option('--with-dependencies');
         return $this;
     }
 
@@ -84,22 +59,8 @@ class Validate extends Base
      */
     public function strict()
     {
-        $this->strict = '--strict';
+        $this->option('--strict');
         return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getCommand()
-    {
-        $this->option($this->noCheckAll);
-        $this->option($this->noCheckLock);
-        $this->option($this->noCheckPublish);
-        $this->option($this->withDependencies);
-        $this->option($this->strict);
-
-        return parent::getCommand();
     }
 
     /**

@@ -2,12 +2,12 @@
 namespace Robo\Task\Composer;
 
 /**
- * Composer Validate
+ * Composer Remove
  *
  * ``` php
  * <?php
  * // simple execution
- * $this->taskComposerValidate()->run();
+ * $this->taskComposerRemove()->run();
  * ?>
  * ```
  */

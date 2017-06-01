@@ -15,6 +15,11 @@ abstract class Base extends BaseTask implements CommandInterface
     protected $command = '';
 
     /**
+     * @var boolena
+     */
+    protected $built = false;
+
+    /**
      * @var string
      */
     protected $prefer;
@@ -27,22 +32,12 @@ abstract class Base extends BaseTask implements CommandInterface
     /**
      * @var string
      */
-    protected $optimizeAutoloader;
-
-    /**
-     * @var string
-     */
-    protected $ignorePlatformReqs;
-
-    /**
-     * @var string
-     */
     protected $ansi;
 
     /**
      * @var string
      */
-    protected $dir;
+    protected $nointeraction;
 
     /**
      * Action to use
@@ -85,6 +80,17 @@ abstract class Base extends BaseTask implements CommandInterface
     }
 
     /**
+     * adds `dev` option to composer
+     *
+     * @return $this
+     */
+    public function dev()
+    {
+        $this->dev = '--dev';
+        return $this;
+    }
+
+    /**
      * adds `no-ansi` option to composer
      *
      * @return $this
@@ -107,13 +113,23 @@ abstract class Base extends BaseTask implements CommandInterface
     }
 
     /**
+     * adds `no-interaction` option to composer
+     *
+     * @return $this
+     */
+    public function noInteraction()
+    {
+        $this->nointeraction = '--no-interaction';
+    }
+
+    /**
      * adds `optimize-autoloader` option to composer
      *
      * @return $this
      */
     public function optimizeAutoloader()
     {
-        $this->optimizeAutoloader = '--optimize-autoloader';
+        $this->option('--optimize-autoloader');
         return $this;
     }
 
@@ -124,7 +140,29 @@ abstract class Base extends BaseTask implements CommandInterface
      */
     public function ignorePlatformRequirements()
     {
-        $this->ignorePlatformReqs = '--ignore-platform-reqs';
+        $this->option('--ignore-platform-reqs');
+        return $this;
+    }
+
+    /**
+     * disable plugins
+     *
+     * @return $this
+     */
+    public function disablePlugins()
+    {
+        $this->option('--no-plugins');
+        return $this;
+    }
+
+    /**
+     * adds `--working-dir $dir` option to composer
+     *
+     * @return $this
+     */
+    public function workingDir($dir)
+    {
+        $this->option("--working-dir", $dir);
         return $this;
     }
 
@@ -145,18 +183,31 @@ abstract class Base extends BaseTask implements CommandInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Copy class fields into command options as directed.
      */
-    public function getCommand()
+    public function buildCommand()
     {
         if (!isset($this->ansi) && $this->getConfig()->isDecorated()) {
             $this->ansi();
         }
+        if (!isset($this->nointeraction) && !$this->getConfig()->isInteractive()) {
+            $this->noInteraction();
+        }
         $this->option($this->prefer)
             ->option($this->dev)
-            ->option($this->optimizeAutoloader)
-            ->option($this->ignorePlatformReqs)
+            ->option($this->nointeraction)
             ->option($this->ansi);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCommand()
+    {
+        if (!$this->built) {
+            $this->buildCommand();
+            $this->built = true;
+        }
         return "{$this->command} {$this->action}{$this->arguments}";
     }
 }

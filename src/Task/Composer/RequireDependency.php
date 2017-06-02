@@ -24,10 +24,17 @@ class RequireDependency extends Base
      */
     public function dependency($project, $version = null)
     {
+        $project = (array)$project;
+
         if (isset($version)) {
-            $project .= ":$version";
+            $project = array_map(
+                function ($item) use ($version) {
+                    return "$item:$version";
+                },
+                $project
+            );
         }
-        $this->arg($project);
+        $this->args($project);
         return $this;
     }
 

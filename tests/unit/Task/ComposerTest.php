@@ -323,6 +323,13 @@ class ComposerTest extends \Codeception\TestCase\Test
                 ->dependency('foo/bar', '^2.4.8')
                 ->getCommand()
         )->equals($this->adjustQuotes("composer require 'foo/bar:^2.4.8' --no-interaction"));
+
+        verify(
+            (new \Robo\Task\Composer\RequireDependency('composer'))
+                ->setConfig(new \Robo\Config())
+                ->dependency(['a/b', 'x/y:^1'])
+                ->getCommand()
+        )->equals($this->adjustQuotes("composer require a/b 'x/y:^1' --no-interaction"));
     }
 
     public function testComposerCreateProjectCommand()

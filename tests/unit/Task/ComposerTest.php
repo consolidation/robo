@@ -1,8 +1,12 @@
 <?php
 use AspectMock\Test as test;
 
+use Robo\Traits\Common\AdjustQuotes;
+
 class ComposerTest extends \Codeception\TestCase\Test
 {
+    use AdjustQuotes;
+
     protected $container;
 
     /**
@@ -282,7 +286,7 @@ class ComposerTest extends \Codeception\TestCase\Test
                 ->license('MIT')
                 ->repository('https://packages.drupal.org/8')
                 ->getCommand()
-        )->equals("composer init --name foo/bar --description 'A test project' --require 'baz/boz:^2.4.8' --type project --homepage 'https://foo.bar.com' --stability beta --license MIT --repository 'https://packages.drupal.org/8' --no-interaction");
+        )->equals($this->adjustQuotes("composer init --name foo/bar --description 'A test project' --require 'baz/boz:^2.4.8' --type project --homepage 'https://foo.bar.com' --stability beta --license MIT --repository 'https://packages.drupal.org/8' --no-interaction"));
 
     }
 
@@ -308,7 +312,7 @@ class ComposerTest extends \Codeception\TestCase\Test
                 ->setConfig(new \Robo\Config())
                 ->repository('drupalorg', 'https://packages.drupal.org/8', 'composer')
                 ->getCommand()
-        )->equals("composer config repositories.drupalorg composer 'https://packages.drupal.org/8' --no-interaction");
+        )->equals($this->adjustQuotes("composer config repositories.drupalorg composer 'https://packages.drupal.org/8' --no-interaction"));
     }
 
     public function testComposerRequireCommand()
@@ -318,7 +322,7 @@ class ComposerTest extends \Codeception\TestCase\Test
                 ->setConfig(new \Robo\Config())
                 ->dependency('foo/bar', '^2.4.8')
                 ->getCommand()
-        )->equals("composer require 'foo/bar:^2.4.8' --no-interaction");
+        )->equals($this->adjustQuotes("composer require 'foo/bar:^2.4.8' --no-interaction"));
     }
 
     public function testComposerCreateProjectCommand()
@@ -333,6 +337,6 @@ class ComposerTest extends \Codeception\TestCase\Test
                 ->keepVcs()
                 ->noInstall()
                 ->getCommand()
-        )->equals("composer create-project --repository 'https://packages.drupal.org/8' --keep-vcs --no-install foo/bar mybar '^2.4.8' --no-interaction");
+        )->equals($this->adjustQuotes("composer create-project --repository 'https://packages.drupal.org/8' --keep-vcs --no-install foo/bar mybar '^2.4.8' --no-interaction"));
     }
 }

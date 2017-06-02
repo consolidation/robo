@@ -57,17 +57,11 @@ class CreateProject extends Base
         return $this;
     }
 
-    public function install($install = true)
+    public function noInstall($noInstall = true)
     {
-        if (!$install) {
-            return $this->noInstall();
+        if ($noInstall) {
+            $this->option('--no-install');
         }
-        return $this;
-    }
-
-    public function noInstall()
-    {
-        $this->option('--no-install');
         return $this;
     }
 

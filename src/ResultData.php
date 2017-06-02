@@ -71,9 +71,25 @@ class ResultData extends Data implements ExitCodeInterface, OutputDataInterface
      */
     public function getOutputData()
     {
-        if (!empty($this->message) && !isset($this['already-printed'])) {
+        if (!empty($this->message) && !isset($this['already-printed']) && isset($this['provide-outputdata'])) {
             return $this->message;
         }
+    }
+
+    /**
+     * Indicate that the message in this data has already been displayed.
+     */
+    public function alreadyPrinted()
+    {
+        $this['already-printed'] = true;
+    }
+
+    /**
+     * Opt-in to providing the result message as the output data
+     */
+    public function provideOutputdata()
+    {
+        $this['provide-outputdata'] = true;
     }
 
     /**

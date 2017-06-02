@@ -52,7 +52,7 @@
         "pre-install-cmd": [
           "Robo\\composer\\ScriptHandler::checkDependencies"
         ],
-        "cs": "/robo sniff",
+        "cs": "./robo sniff",
         "test": "./robo test"
     },
     "extra": {

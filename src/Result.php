@@ -69,7 +69,7 @@ class Result extends ResultData
         $resultPrinter = Robo::resultPrinter();
         if ($resultPrinter) {
             if ($resultPrinter->printResult($this)) {
-                $this->data['already-printed'] = true;
+                $this->alreadyPrinted();
             }
         }
     }

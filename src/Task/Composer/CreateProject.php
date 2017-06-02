@@ -74,11 +74,24 @@ class CreateProject extends Base
         return $this;
     }
 
+    /**
+     * @return $this
+     */
+    public function stability($stability)
+    {
+        $this->option('stability', $stability);
+        return $this;
+    }
+
     public function buildCommand()
     {
         $this->arg($this->source);
-        $this->arg($this->target);
-        $this->arg($this->version);
+        if (!empty($this->target)) {
+            $this->arg($this->target);
+        }
+        if (!empty($this->version)) {
+            $this->arg($this->version);
+        }
 
         return parent::buildCommand();
     }

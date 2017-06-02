@@ -29,7 +29,10 @@ $this->_copyDir('dist/config', 'config');
 ```
 
 * `dirPermissions($value)`  Sets the default folder permissions for the destination if it doesn't exist
-* `exclude($exclude = null)`  List files to exclude.
+* `exclude($exclude = null)`  List files to exclude. Supported path values: 
+  - file/directory basename
+  - file/directory path relative to execution directory
+  - file/directory path relative to source directory
 * `overwrite($overwrite)`  Destination files newer than source files are overwritten.
 
 ## DeleteDir

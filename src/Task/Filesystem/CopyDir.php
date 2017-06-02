@@ -100,10 +100,11 @@ class CopyDir extends BaseDir
      *
      * @param string $src Source directory
      * @param string $dst Destination directory
+     * @param string $parent Parent directory
      *
      * @throws \Robo\Exception\TaskException
      */
-    protected function copyDir($src, $dst)
+    protected function copyDir($src, $dst, $parent = '')
     {
         $dir = @opendir($src);
         if (false === $dir) {
@@ -113,14 +114,15 @@ class CopyDir extends BaseDir
             mkdir($dst, $this->chmod, true);
         }
         while (false !== ($file = readdir($dir))) {
-            if (in_array($file, $this->exclude)) {
-                 continue;
+            // Support basename and full path exclusion.
+            if (in_array($file, $this->exclude) || in_array($parent . $file, $this->exclude) || in_array($src . DIRECTORY_SEPARATOR . $file, $this->exclude)) {
+                continue;
             }
             if (($file !== '.') && ($file !== '..')) {
                 $srcFile = $src . '/' . $file;
                 $destFile = $dst . '/' . $file;
                 if (is_dir($srcFile)) {
-                    $this->copyDir($srcFile, $destFile);
+                    $this->copyDir($srcFile, $destFile, $parent . $file . DIRECTORY_SEPARATOR);
                 } else {
                     $this->fs->copy($srcFile, $destFile, $this->overwrite);
                 }

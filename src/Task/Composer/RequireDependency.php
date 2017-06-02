@@ -44,7 +44,7 @@ class RequireDependency extends Base
     public function run()
     {
         $command = $this->getCommand();
-        $this->printTaskInfo('Removing packages: {command}', ['command' => $command]);
+        $this->printTaskInfo('Requiring packages: {command}', ['command' => $command]);
         return $this->executeCommand($command);
     }
 }

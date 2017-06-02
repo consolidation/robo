@@ -47,12 +47,31 @@ abstract class Base extends BaseTask implements CommandInterface
     protected $action = '';
 
     /**
+     * @param null|string $pathToComposer
+     *
+     * @throws \Robo\Exception\TaskException
+     */
+    public function __construct($pathToComposer = null)
+    {
+        $this->command = $pathToComposer;
+        if (!$this->command) {
+            $this->command = $this->findExecutablePhar('composer');
+        }
+        if (!$this->command) {
+            throw new TaskException(__CLASS__, "Neither local composer.phar nor global composer installation could be found.");
+        }
+    }
+
+    /**
      * adds `prefer-dist` option to composer
      *
      * @return $this
      */
-    public function preferDist()
+    public function preferDist($preferDist = true)
     {
+        if (!$preferDist) {
+            return $this->preferSource();
+        }
         $this->prefer = '--prefer-dist';
         return $this;
     }
@@ -69,6 +88,20 @@ abstract class Base extends BaseTask implements CommandInterface
     }
 
     /**
+     * adds `dev` option to composer
+     *
+     * @return $this
+     */
+    public function dev($dev = true)
+    {
+        if (!$dev) {
+            return $this->noDev();
+        }
+        $this->dev = '--dev';
+        return $this;
+    }
+
+    /**
      * adds `no-dev` option to composer
      *
      * @return $this
@@ -80,13 +113,16 @@ abstract class Base extends BaseTask implements CommandInterface
     }
 
     /**
-     * adds `dev` option to composer
+     * adds `ansi` option to composer
      *
      * @return $this
      */
-    public function dev()
+    public function ansi($ansi = true)
     {
-        $this->dev = '--dev';
+        if (!$ansi) {
+            return $this->noAnsi();
+        }
+        $this->ansi = '--ansi';
         return $this;
     }
 
@@ -101,14 +137,11 @@ abstract class Base extends BaseTask implements CommandInterface
         return $this;
     }
 
-    /**
-     * adds `ansi` option to composer
-     *
-     * @return $this
-     */
-    public function ansi()
+    public function interaction($interaction = true)
     {
-        $this->ansi = '--ansi';
+        if (!$interaction) {
+            return $this->noInteraction();
+        }
         return $this;
     }
 
@@ -120,6 +153,7 @@ abstract class Base extends BaseTask implements CommandInterface
     public function noInteraction()
     {
         $this->nointeraction = '--no-interaction';
+        return $this;
     }
 
     /**
@@ -127,9 +161,11 @@ abstract class Base extends BaseTask implements CommandInterface
      *
      * @return $this
      */
-    public function optimizeAutoloader()
+    public function optimizeAutoloader($optimize = true)
     {
-        $this->option('--optimize-autoloader');
+        if ($optimize) {
+            $this->option('--optimize-autoloader');
+        }
         return $this;
     }
 
@@ -138,7 +174,7 @@ abstract class Base extends BaseTask implements CommandInterface
      *
      * @return $this
      */
-    public function ignorePlatformRequirements()
+    public function ignorePlatformRequirements($ignore = true)
     {
         $this->option('--ignore-platform-reqs');
         return $this;
@@ -149,9 +185,11 @@ abstract class Base extends BaseTask implements CommandInterface
      *
      * @return $this
      */
-    public function disablePlugins()
+    public function disablePlugins($disable = true)
     {
-        $this->option('--no-plugins');
+        if ($disable) {
+            $this->option('--no-plugins');
+        }
         return $this;
     }
 
@@ -164,22 +202,6 @@ abstract class Base extends BaseTask implements CommandInterface
     {
         $this->option("--working-dir", $dir);
         return $this;
-    }
-
-    /**
-     * @param null|string $pathToComposer
-     *
-     * @throws \Robo\Exception\TaskException
-     */
-    public function __construct($pathToComposer = null)
-    {
-        $this->command = $pathToComposer;
-        if (!$this->command) {
-            $this->command = $this->findExecutablePhar('composer');
-        }
-        if (!$this->command) {
-            throw new TaskException(__CLASS__, "Neither local composer.phar nor global composer installation could be found.");
-        }
     }
 
     /**

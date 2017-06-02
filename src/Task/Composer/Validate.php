@@ -21,45 +21,55 @@ class Validate extends Base
     /**
      * @return $this
      */
-    public function noCheckAll()
+    public function noCheckAll($noCheckAll = true)
     {
-        $this->option('--no-check-all');
+        if ($noCheckAll) {
+            $this->option('--no-check-all');
+        }
         return $this;
     }
 
     /**
      * @return $this
      */
-    public function noCheckLock()
+    public function noCheckLock($noCheckLock = true)
     {
-        $this->option('--no-check-lock');
+        if ($noCheckLock) {
+            $this->option('--no-check-lock');
+        }
         return $this;
     }
 
     /**
      * @return $this
      */
-    public function noCheckPublish()
+    public function noCheckPublish($noCheckPublish = true)
     {
-        $this->option('--no-check-publish');
+        if ($noCheckPublish) {
+            $this->option('--no-check-publish');
+        }
         return $this;
     }
 
     /**
      * @return $this
      */
-    public function withDependencies()
+    public function withDependencies($withDependencies = true)
     {
-        $this->option('--with-dependencies');
+        if ($withDependencies) {
+            $this->option('--with-dependencies');
+        }
         return $this;
     }
 
     /**
      * @return $this
      */
-    public function strict()
+    public function strict($strict = true)
     {
-        $this->option('--strict');
+        if ($strict) {
+            $this->option('--strict');
+        }
         return $this;
     }
 

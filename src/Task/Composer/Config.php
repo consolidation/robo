@@ -33,9 +33,11 @@ class Config extends Base
      * Operate on the global repository
      * @return $this
      */
-    public function useGlobal()
+    public function useGlobal($useGlobal = true)
     {
-        $this->option('global');
+        if ($useGlobal) {
+            $this->option('global');
+        }
         return $this;
     }
 

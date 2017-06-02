@@ -49,9 +49,19 @@ class CreateProject extends Base
         return $this;
     }
 
-    public function keepVcs()
+    public function keepVcs($keep = true)
     {
-        $this->option('--keep-vcs');
+        if ($keep) {
+            $this->option('--keep-vcs');
+        }
+        return $this;
+    }
+
+    public function install($install = true)
+    {
+        if (!$install) {
+            return $this->noInstall();
+        }
         return $this;
     }
 

@@ -52,7 +52,7 @@ trait CommandArguments
     public function rawArg($arg)
     {
         $this->arguments .= " $arg";
-        
+
         return $this;
     }
 
@@ -93,7 +93,20 @@ trait CommandArguments
     }
 
     /**
-     * Pass multiple options to executable. Value can be a string or array.
+     * Pass multiple options to executable. The associative array contains
+     * the key:value pairs that become `--key value`, for each item in the array.
+     * Values are automatically escaped.
+     */
+    public function options(array $options, $separator = ' ')
+    {
+        foreach ($options as $option => $value) {
+            $this->option($option, $value, $separator);
+        }
+        return $this;
+    }
+
+    /**
+     * Pass an option with multiple values to executable. Value can be a string or array.
      * Option values are automatically escaped.
      *
      * @param string $option

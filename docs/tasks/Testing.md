@@ -27,7 +27,8 @@ $this->taskAtoum()
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
 * `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
 * `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
-* `optionList($option, $value = null, $separator = null)`  Pass multiple options to executable. Value can be a string or array.
+* `options(array $options, $separator = null)`  Pass multiple options to executable. The associative array contains
+* `optionList($option, $value = null, $separator = null)`  Pass an option with multiple values to executable. Value can be a string or array.
 
 ## Behat
 
@@ -57,7 +58,8 @@ $this->taskBehat()
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
 * `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
 * `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
-* `optionList($option, $value = null, $separator = null)`  Pass multiple options to executable. Value can be a string or array.
+* `options(array $options, $separator = null)`  Pass multiple options to executable. The associative array contains
+* `optionList($option, $value = null, $separator = null)`  Pass an option with multiple values to executable. Value can be a string or array.
 
 ## Codecept
 
@@ -97,7 +99,8 @@ $this->taskCodecept()
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
 * `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
 * `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
-* `optionList($option, $value = null, $separator = null)`  Pass multiple options to executable. Value can be a string or array.
+* `options(array $options, $separator = null)`  Pass multiple options to executable. The associative array contains
+* `optionList($option, $value = null, $separator = null)`  Pass an option with multiple values to executable. Value can be a string or array.
 
 ## PHPUnit
 
@@ -130,7 +133,8 @@ $this->taskPHPUnit()
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
 * `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
 * `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
-* `optionList($option, $value = null, $separator = null)`  Pass multiple options to executable. Value can be a string or array.
+* `options(array $options, $separator = null)`  Pass multiple options to executable. The associative array contains
+* `optionList($option, $value = null, $separator = null)`  Pass an option with multiple values to executable. Value can be a string or array.
 
 ## Phpspec
 
@@ -160,5 +164,6 @@ $this->taskPhpspec()
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
 * `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
 * `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
-* `optionList($option, $value = null, $separator = null)`  Pass multiple options to executable. Value can be a string or array.
+* `options(array $options, $separator = null)`  Pass multiple options to executable. The associative array contains
+* `optionList($option, $value = null, $separator = null)`  Pass an option with multiple values to executable. Value can be a string or array.
 

@@ -188,6 +188,7 @@ class Robo
             $output = new \Symfony\Component\Console\Output\ConsoleOutput();
         }
         $config->setDecorated($output->isDecorated());
+        $config->setInteractive($input->isInteractive());
 
         $container->share('application', $app);
         $container->share('config', $config);

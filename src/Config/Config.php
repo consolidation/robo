@@ -8,6 +8,7 @@ class Config
     const PROGRESS_BAR_AUTO_DISPLAY_INTERVAL = 'progress-delay';
     const DEFAULT_PROGRESS_DELAY = 2;
     const SIMULATE = 'simulate';
+    const INTERACTIVE = 'interactive';
     const DECORATED = 'decorated';
 
     /**
@@ -178,6 +179,24 @@ class Config
     public function setSimulated($simulated = true)
     {
         return $this->set(self::SIMULATE, $simulated);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isInteractive()
+    {
+        return $this->get(self::INTERACTIVE);
+    }
+
+    /**
+     * @param bool $simulated
+     *
+     * @return $this
+     */
+    public function setInteractive($interactive = true)
+    {
+        return $this->set(self::INTERACTIVE, $interactive);
     }
 
     /**

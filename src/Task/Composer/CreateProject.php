@@ -70,7 +70,9 @@ class CreateProject extends Base
      */
     public function repository($repository)
     {
-        $this->option('repository', $repository);
+        if (!empty($repository)) {
+            $this->option('repository', $repository);
+        }
         return $this;
     }
 
@@ -79,7 +81,9 @@ class CreateProject extends Base
      */
     public function stability($stability)
     {
-        $this->option('stability', $stability);
+        if (!empty($stability)) {
+            $this->option('stability', $stability);
+        }
         return $this;
     }
 

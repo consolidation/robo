@@ -45,9 +45,13 @@ class GitStack extends CommandStack
      *
      * @return $this
      */
-    public function cloneRepo($repo, $to = "")
+    public function cloneRepo($repo, $to = "", $branch = "")
     {
-        return $this->exec(['clone', $repo, $to]);
+        $cmd = ['clone', $repo, $to];
+        if (!empty($branch)) {
+            $cmd[] = "--branch $branch";
+        }
+        return $this->exec($cmd);
     }
 
     /**

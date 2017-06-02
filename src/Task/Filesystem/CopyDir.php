@@ -78,7 +78,7 @@ class CopyDir extends BaseDir
      */
     public function exclude($exclude = [])
     {
-        $this->exclude = $exclude;
+        $this->exclude = $this->simplifyForCompare($exclude);
         return $this;
     }
 
@@ -115,7 +115,7 @@ class CopyDir extends BaseDir
         }
         while (false !== ($file = readdir($dir))) {
             // Support basename and full path exclusion.
-            if (in_array($file, $this->exclude) || in_array($parent . $file, $this->exclude) || in_array($src . DIRECTORY_SEPARATOR . $file, $this->exclude)) {
+            if (in_array($file, $this->exclude) || in_array($this->simplifyForCompare($parent . $file), $this->exclude) || in_array($this->simplifyForCompare($src . DIRECTORY_SEPARATOR . $file), $this->exclude)) {
                 continue;
             }
             if (($file !== '.') && ($file !== '..')) {
@@ -129,5 +129,14 @@ class CopyDir extends BaseDir
             }
         }
         closedir($dir);
+    }
+
+    /**
+     * Avoid problems comparing paths on Windows that may have a
+     * combination of DIRECTORY_SEPARATOR and /.
+     */
+    protected function simplifyForCompare($item)
+    {
+        return str_replace(DIRECTORY_SEPARATOR, '/', $item);
     }
 }

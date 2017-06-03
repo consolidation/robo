@@ -21,6 +21,15 @@ class CopyDir extends BaseDir
     use ResourceExistenceChecker;
 
     /**
+     * Explicitly declare our consturctor, so that
+     * our copyDir() method does not look like a php4 constructor.
+     */
+    public function __construct($dirs)
+    {
+        parent::__construct($dirs);
+    }
+
+    /**
      * @var int
      */
     protected $chmod = 0755;
@@ -115,20 +124,31 @@ class CopyDir extends BaseDir
         }
         while (false !== ($file = readdir($dir))) {
             // Support basename and full path exclusion.
-            if (in_array($file, $this->exclude) || in_array($this->simplifyForCompare($parent . $file), $this->exclude) || in_array($this->simplifyForCompare($src . DIRECTORY_SEPARATOR . $file), $this->exclude)) {
+            if ($this->excluded($file, $src, $parent)) {
                 continue;
             }
-            if (($file !== '.') && ($file !== '..')) {
-                $srcFile = $src . '/' . $file;
-                $destFile = $dst . '/' . $file;
-                if (is_dir($srcFile)) {
-                    $this->copyDir($srcFile, $destFile, $parent . $file . DIRECTORY_SEPARATOR);
-                } else {
-                    $this->fs->copy($srcFile, $destFile, $this->overwrite);
-                }
+            $srcFile = $src . '/' . $file;
+            $destFile = $dst . '/' . $file;
+            if (is_dir($srcFile)) {
+                $this->copyDir($srcFile, $destFile, $parent . $file . DIRECTORY_SEPARATOR);
+            } else {
+                $this->fs->copy($srcFile, $destFile, $this->overwrite);
             }
         }
         closedir($dir);
+    }
+
+    /**
+     * Check to see if the current item is excluded.
+     */
+    protected function excluded($file, $src, $parent)
+    {
+        return
+            ($file == '.') ||
+            ($file == '..') ||
+            in_array($file, $this->exclude) ||
+            in_array($this->simplifyForCompare($parent . $file), $this->exclude) ||
+            in_array($this->simplifyForCompare($src . DIRECTORY_SEPARATOR . $file), $this->exclude);
     }
 
     /**

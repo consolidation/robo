@@ -388,6 +388,7 @@ $this-&gt;_copy('config/env.example.yml','config/env.yml');
 
 <h3 id="result">Result</h3>
 <p>Each task must return an instance of <code>Robo\Result</code>. A Robo Result contains the task instance, exit code, message, and any variable data that the task may wish to return.</p>
+<p><em>Note</em>: A task may also return <code>NULL</code> or an array as a shortcut for a successful result. In this instance, Robo will convert the value into a <code>Robo\Result</code>, and will apply the provided array values, if any, to the result's variable data. This practice is supported, but not recommended.</p>
 <p>The <code>run</code> method of <code>CompileAssets</code> class may look like this:</p>
 <pre><code>return new Robo\Result($this, $exitCode, &quot;Assets compiled&quot;);
 </code></pre>

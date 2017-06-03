@@ -210,7 +210,8 @@ $this-&gt;taskDockerBuild('path/to/dir')
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
 <li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
 <li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass multiple options to executable. Value can be a string or array.</li>
+<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
+<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
 </ul>
 <h2 id="commit">Commit</h2>
 <p>Commits docker container to an image</p>
@@ -236,7 +237,8 @@ $task-&gt;dockerCommit($result)
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
 <li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
 <li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass multiple options to executable. Value can be a string or array.</li>
+<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
+<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
 </ul>
 <h2 id="exec">Exec</h2>
 <p>Executes command inside running Docker container</p>
@@ -267,7 +269,8 @@ $this-&gt;taskDockerExec($test)
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
 <li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
 <li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass multiple options to executable. Value can be a string or array.</li>
+<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
+<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
 </ul>
 <h2 id="pull">Pull</h2>
 <p>Pulls an image from DockerHub</p>
@@ -284,7 +287,8 @@ $this-&gt;taskDockerPull('wordpress')
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
 <li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
 <li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass multiple options to executable. Value can be a string or array.</li>
+<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
+<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
 </ul>
 <h2 id="remove">Remove</h2>
 <p>Remove docker container</p>
@@ -300,7 +304,8 @@ $this-&gt;taskDockerRemove($container)
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
 <li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
 <li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass multiple options to executable. Value can be a string or array.</li>
+<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
+<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
 </ul>
 <h2 id="run">Run</h2>
 <p>Performs <code>docker run</code> on a container.</p>
@@ -360,7 +365,8 @@ $this-&gt;taskDockerRun('wordpress')
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
 <li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
 <li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass multiple options to executable. Value can be a string or array.</li>
+<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
+<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
 </ul>
 <h2 id="start">Start</h2>
 <p>Starts Docker container</p>
@@ -376,7 +382,8 @@ $this-&gt;taskDockerStart($cidOrResult)
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
 <li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
 <li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass multiple options to executable. Value can be a string or array.</li>
+<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
+<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
 </ul>
 <h2 id="stop">Stop</h2>
 <p>Stops Docker container</p>
@@ -392,7 +399,8 @@ $this-&gt;taskDockerStop($cidOrResult)
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
 <li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
 <li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass multiple options to executable. Value can be a string or array.</li>
+<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
+<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
 </ul></div>
             
 

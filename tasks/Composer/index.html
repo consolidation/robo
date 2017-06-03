@@ -175,9 +175,13 @@
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
         <li class="main active"><a href="#composer-tasks">Composer Tasks</a></li>
+            <li><a href="#config">Config</a></li>
+            <li><a href="#createproject">CreateProject</a></li>
             <li><a href="#dumpautoload">DumpAutoload</a></li>
+            <li><a href="#init">Init</a></li>
             <li><a href="#install">Install</a></li>
             <li><a href="#remove">Remove</a></li>
+            <li><a href="#requiredependency">RequireDependency</a></li>
             <li><a href="#update">Update</a></li>
             <li><a href="#validate">Validate</a></li>
     </ul>
@@ -185,6 +189,79 @@
                 <div class="col-md-9" role="main">
 
 <h1 id="composer-tasks">Composer Tasks</h1>
+<h2 id="config">Config</h2>
+<p>Composer Config</p>
+<pre><code class="php">&lt;?php
+// simple execution
+$this-&gt;taskComposerConfig()-&gt;set('bin-dir', 'bin/')-&gt;run();
+?&gt;
+</code></pre>
+
+<ul>
+<li><code>set($key, $value)</code>  Set a configuration value</li>
+<li><code>useGlobal($useGlobal = null)</code>  Operate on the global repository</li>
+<li><code>repository($id, $uri, $repoType = null)</code>   * <code>return</code> $this</li>
+<li><code>removeRepository($id)</code>   * <code>return</code> $this</li>
+<li><code>disableRepository($id)</code>   * <code>return</code> $this</li>
+<li><code>enableRepository($id)</code>   * <code>return</code> $this</li>
+<li><code>preferDist($preferDist = null)</code>  adds <code>prefer-dist</code> option to composer</li>
+<li><code>preferSource()</code>  adds <code>prefer-source</code> option to composer</li>
+<li><code>dev($dev = null)</code>  adds <code>dev</code> option to composer</li>
+<li><code>noDev()</code>  adds <code>no-dev</code> option to composer</li>
+<li><code>ansi($ansi = null)</code>  adds <code>ansi</code> option to composer</li>
+<li><code>noAnsi()</code>  adds <code>no-ansi</code> option to composer</li>
+<li><code>interaction($interaction = null)</code> </li>
+<li><code>noInteraction()</code>  adds <code>no-interaction</code> option to composer</li>
+<li><code>optimizeAutoloader($optimize = null)</code>  adds <code>optimize-autoloader</code> option to composer</li>
+<li><code>ignorePlatformRequirements($ignore = null)</code>  adds <code>ignore-platform-reqs</code> option to composer</li>
+<li><code>disablePlugins($disable = null)</code>  disable plugins</li>
+<li><code>workingDir($dir)</code>  adds <code>--working-dir $dir</code> option to composer</li>
+<li><code>buildCommand()</code>  Copy class fields into command options as directed.</li>
+<li><code>dir($dir)</code>  Changes working directory of command</li>
+<li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
+<li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
+<li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
+<li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
+<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
+<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
+</ul>
+<h2 id="createproject">CreateProject</h2>
+<p>Composer CreateProject</p>
+<pre><code class="php">&lt;?php
+// simple execution
+$this-&gt;taskComposerCreateProject()-&gt;source('foo/bar')-&gt;target('myBar')-&gt;run();
+?&gt;
+</code></pre>
+
+<ul>
+<li><code>source($source)</code>   * <code>return</code> $this</li>
+<li><code>target($target)</code>   * <code>return</code> $this</li>
+<li><code>version($version)</code>   * <code>return</code> $this</li>
+<li><code>keepVcs($keep = null)</code> </li>
+<li><code>noInstall($noInstall = null)</code> </li>
+<li><code>repository($repository)</code>   * <code>return</code> $this</li>
+<li><code>stability($stability)</code>   * <code>return</code> $this</li>
+<li><code>buildCommand()</code>  Copy class fields into command options as directed.</li>
+<li><code>preferDist($preferDist = null)</code>  adds <code>prefer-dist</code> option to composer</li>
+<li><code>preferSource()</code>  adds <code>prefer-source</code> option to composer</li>
+<li><code>dev($dev = null)</code>  adds <code>dev</code> option to composer</li>
+<li><code>noDev()</code>  adds <code>no-dev</code> option to composer</li>
+<li><code>ansi($ansi = null)</code>  adds <code>ansi</code> option to composer</li>
+<li><code>noAnsi()</code>  adds <code>no-ansi</code> option to composer</li>
+<li><code>interaction($interaction = null)</code> </li>
+<li><code>noInteraction()</code>  adds <code>no-interaction</code> option to composer</li>
+<li><code>optimizeAutoloader($optimize = null)</code>  adds <code>optimize-autoloader</code> option to composer</li>
+<li><code>ignorePlatformRequirements($ignore = null)</code>  adds <code>ignore-platform-reqs</code> option to composer</li>
+<li><code>disablePlugins($disable = null)</code>  disable plugins</li>
+<li><code>workingDir($dir)</code>  adds <code>--working-dir $dir</code> option to composer</li>
+<li><code>dir($dir)</code>  Changes working directory of command</li>
+<li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
+<li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
+<li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
+<li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
+<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
+<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
+</ul>
 <h2 id="dumpautoload">DumpAutoload</h2>
 <p>Composer Dump Autoload</p>
 <pre><code class="php">&lt;?php
@@ -210,20 +287,66 @@ $this-&gt;taskComposerDumpAutoload('path/to/my/composer.phar')
 </code></pre>
 
 <ul>
-<li><code>optimize()</code>   * <code>return</code> $this</li>
-<li><code>preferDist()</code>  adds <code>prefer-dist</code> option to composer</li>
+<li><code>optimize($optimize = null)</code>   * <code>return</code> $this</li>
+<li><code>preferDist($preferDist = null)</code>  adds <code>prefer-dist</code> option to composer</li>
 <li><code>preferSource()</code>  adds <code>prefer-source</code> option to composer</li>
+<li><code>dev($dev = null)</code>  adds <code>dev</code> option to composer</li>
 <li><code>noDev()</code>  adds <code>no-dev</code> option to composer</li>
+<li><code>ansi($ansi = null)</code>  adds <code>ansi</code> option to composer</li>
 <li><code>noAnsi()</code>  adds <code>no-ansi</code> option to composer</li>
-<li><code>ansi()</code>  adds <code>ansi</code> option to composer</li>
-<li><code>optimizeAutoloader()</code>  adds <code>optimize-autoloader</code> option to composer</li>
-<li><code>ignorePlatformRequirements()</code>  adds <code>ignore-platform-reqs</code> option to composer</li>
+<li><code>interaction($interaction = null)</code> </li>
+<li><code>noInteraction()</code>  adds <code>no-interaction</code> option to composer</li>
+<li><code>optimizeAutoloader($optimize = null)</code>  adds <code>optimize-autoloader</code> option to composer</li>
+<li><code>ignorePlatformRequirements($ignore = null)</code>  adds <code>ignore-platform-reqs</code> option to composer</li>
+<li><code>disablePlugins($disable = null)</code>  disable plugins</li>
+<li><code>workingDir($dir)</code>  adds <code>--working-dir $dir</code> option to composer</li>
+<li><code>buildCommand()</code>  Copy class fields into command options as directed.</li>
 <li><code>dir($dir)</code>  Changes working directory of command</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
 <li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
 <li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass multiple options to executable. Value can be a string or array.</li>
+<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
+<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
+</ul>
+<h2 id="init">Init</h2>
+<p>Composer Init</p>
+<pre><code class="php">&lt;?php
+// simple execution
+$this-&gt;taskComposerInit()-&gt;run();
+?&gt;
+</code></pre>
+
+<ul>
+<li><code>projectName($projectName)</code>   * <code>return</code> $this</li>
+<li><code>description($description)</code>   * <code>return</code> $this</li>
+<li><code>author($author)</code>   * <code>return</code> $this</li>
+<li><code>projectType($type)</code>   * <code>return</code> $this</li>
+<li><code>homepage($homepage)</code>   * <code>return</code> $this</li>
+<li><code>dependency($project, $version = null)</code>  'require' is a keyword, so it cannot be a method name.</li>
+<li><code>stability($stability)</code>   * <code>return</code> $this</li>
+<li><code>license($license)</code>   * <code>return</code> $this</li>
+<li><code>repository($repository)</code>   * <code>return</code> $this</li>
+<li><code>preferDist($preferDist = null)</code>  adds <code>prefer-dist</code> option to composer</li>
+<li><code>preferSource()</code>  adds <code>prefer-source</code> option to composer</li>
+<li><code>dev($dev = null)</code>  adds <code>dev</code> option to composer</li>
+<li><code>noDev()</code>  adds <code>no-dev</code> option to composer</li>
+<li><code>ansi($ansi = null)</code>  adds <code>ansi</code> option to composer</li>
+<li><code>noAnsi()</code>  adds <code>no-ansi</code> option to composer</li>
+<li><code>interaction($interaction = null)</code> </li>
+<li><code>noInteraction()</code>  adds <code>no-interaction</code> option to composer</li>
+<li><code>optimizeAutoloader($optimize = null)</code>  adds <code>optimize-autoloader</code> option to composer</li>
+<li><code>ignorePlatformRequirements($ignore = null)</code>  adds <code>ignore-platform-reqs</code> option to composer</li>
+<li><code>disablePlugins($disable = null)</code>  disable plugins</li>
+<li><code>workingDir($dir)</code>  adds <code>--working-dir $dir</code> option to composer</li>
+<li><code>buildCommand()</code>  Copy class fields into command options as directed.</li>
+<li><code>dir($dir)</code>  Changes working directory of command</li>
+<li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
+<li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
+<li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
+<li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
+<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
+<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
 </ul>
 <h2 id="install">Install</h2>
 <p>Composer Install</p>
@@ -244,47 +367,91 @@ $this-&gt;taskComposerInstall('path/to/my/composer.phar')
 </code></pre>
 
 <ul>
-<li><code>preferDist()</code>  adds <code>prefer-dist</code> option to composer</li>
+<li><code>preferDist($preferDist = null)</code>  adds <code>prefer-dist</code> option to composer</li>
 <li><code>preferSource()</code>  adds <code>prefer-source</code> option to composer</li>
+<li><code>dev($dev = null)</code>  adds <code>dev</code> option to composer</li>
 <li><code>noDev()</code>  adds <code>no-dev</code> option to composer</li>
+<li><code>ansi($ansi = null)</code>  adds <code>ansi</code> option to composer</li>
 <li><code>noAnsi()</code>  adds <code>no-ansi</code> option to composer</li>
-<li><code>ansi()</code>  adds <code>ansi</code> option to composer</li>
-<li><code>optimizeAutoloader()</code>  adds <code>optimize-autoloader</code> option to composer</li>
-<li><code>ignorePlatformRequirements()</code>  adds <code>ignore-platform-reqs</code> option to composer</li>
+<li><code>interaction($interaction = null)</code> </li>
+<li><code>noInteraction()</code>  adds <code>no-interaction</code> option to composer</li>
+<li><code>optimizeAutoloader($optimize = null)</code>  adds <code>optimize-autoloader</code> option to composer</li>
+<li><code>ignorePlatformRequirements($ignore = null)</code>  adds <code>ignore-platform-reqs</code> option to composer</li>
+<li><code>disablePlugins($disable = null)</code>  disable plugins</li>
+<li><code>workingDir($dir)</code>  adds <code>--working-dir $dir</code> option to composer</li>
+<li><code>buildCommand()</code>  Copy class fields into command options as directed.</li>
 <li><code>dir($dir)</code>  Changes working directory of command</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
 <li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
 <li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass multiple options to executable. Value can be a string or array.</li>
+<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
+<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
 </ul>
 <h2 id="remove">Remove</h2>
-<p>Composer Validate</p>
+<p>Composer Remove</p>
 <pre><code class="php">&lt;?php
 // simple execution
-$this-&gt;taskComposerValidate()-&gt;run();
+$this-&gt;taskComposerRemove()-&gt;run();
 ?&gt;
 </code></pre>
 
 <ul>
-<li><code>dev()</code>   * <code>return</code> $this</li>
-<li><code>noProgress()</code>   * <code>return</code> $this</li>
-<li><code>noUpdate()</code>   * <code>return</code> $this</li>
-<li><code>updateNoDev()</code>   * <code>return</code> $this</li>
-<li><code>noUpdateWithDependencies()</code>   * <code>return</code> $this</li>
-<li><code>preferDist()</code>  adds <code>prefer-dist</code> option to composer</li>
+<li><code>dev($dev = null)</code>   * <code>return</code> $this</li>
+<li><code>noProgress($noProgress = null)</code>   * <code>return</code> $this</li>
+<li><code>noUpdate($noUpdate = null)</code>   * <code>return</code> $this</li>
+<li><code>updateNoDev($updateNoDev = null)</code>   * <code>return</code> $this</li>
+<li><code>noUpdateWithDependencies($updateWithDependencies = null)</code>   * <code>return</code> $this</li>
+<li><code>preferDist($preferDist = null)</code>  adds <code>prefer-dist</code> option to composer</li>
 <li><code>preferSource()</code>  adds <code>prefer-source</code> option to composer</li>
 <li><code>noDev()</code>  adds <code>no-dev</code> option to composer</li>
+<li><code>ansi($ansi = null)</code>  adds <code>ansi</code> option to composer</li>
 <li><code>noAnsi()</code>  adds <code>no-ansi</code> option to composer</li>
-<li><code>ansi()</code>  adds <code>ansi</code> option to composer</li>
-<li><code>optimizeAutoloader()</code>  adds <code>optimize-autoloader</code> option to composer</li>
-<li><code>ignorePlatformRequirements()</code>  adds <code>ignore-platform-reqs</code> option to composer</li>
+<li><code>interaction($interaction = null)</code> </li>
+<li><code>noInteraction()</code>  adds <code>no-interaction</code> option to composer</li>
+<li><code>optimizeAutoloader($optimize = null)</code>  adds <code>optimize-autoloader</code> option to composer</li>
+<li><code>ignorePlatformRequirements($ignore = null)</code>  adds <code>ignore-platform-reqs</code> option to composer</li>
+<li><code>disablePlugins($disable = null)</code>  disable plugins</li>
+<li><code>workingDir($dir)</code>  adds <code>--working-dir $dir</code> option to composer</li>
+<li><code>buildCommand()</code>  Copy class fields into command options as directed.</li>
 <li><code>dir($dir)</code>  Changes working directory of command</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
 <li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
 <li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass multiple options to executable. Value can be a string or array.</li>
+<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
+<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
+</ul>
+<h2 id="requiredependency">RequireDependency</h2>
+<p>Composer Require</p>
+<pre><code class="php">&lt;?php
+// simple execution
+$this-&gt;taskComposerRequire()-&gt;dependency('foo/bar', '^.2.4.8')-&gt;run();
+?&gt;
+</code></pre>
+
+<ul>
+<li><code>dependency($project, $version = null)</code>  'require' is a keyword, so it cannot be a method name.</li>
+<li><code>preferDist($preferDist = null)</code>  adds <code>prefer-dist</code> option to composer</li>
+<li><code>preferSource()</code>  adds <code>prefer-source</code> option to composer</li>
+<li><code>dev($dev = null)</code>  adds <code>dev</code> option to composer</li>
+<li><code>noDev()</code>  adds <code>no-dev</code> option to composer</li>
+<li><code>ansi($ansi = null)</code>  adds <code>ansi</code> option to composer</li>
+<li><code>noAnsi()</code>  adds <code>no-ansi</code> option to composer</li>
+<li><code>interaction($interaction = null)</code> </li>
+<li><code>noInteraction()</code>  adds <code>no-interaction</code> option to composer</li>
+<li><code>optimizeAutoloader($optimize = null)</code>  adds <code>optimize-autoloader</code> option to composer</li>
+<li><code>ignorePlatformRequirements($ignore = null)</code>  adds <code>ignore-platform-reqs</code> option to composer</li>
+<li><code>disablePlugins($disable = null)</code>  disable plugins</li>
+<li><code>workingDir($dir)</code>  adds <code>--working-dir $dir</code> option to composer</li>
+<li><code>buildCommand()</code>  Copy class fields into command options as directed.</li>
+<li><code>dir($dir)</code>  Changes working directory of command</li>
+<li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
+<li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
+<li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
+<li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
+<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
+<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
 </ul>
 <h2 id="update">Update</h2>
 <p>Composer Update</p>
@@ -305,19 +472,26 @@ $this-&gt;taskComposerUpdate('path/to/my/composer.phar')
 </code></pre>
 
 <ul>
-<li><code>preferDist()</code>  adds <code>prefer-dist</code> option to composer</li>
+<li><code>preferDist($preferDist = null)</code>  adds <code>prefer-dist</code> option to composer</li>
 <li><code>preferSource()</code>  adds <code>prefer-source</code> option to composer</li>
+<li><code>dev($dev = null)</code>  adds <code>dev</code> option to composer</li>
 <li><code>noDev()</code>  adds <code>no-dev</code> option to composer</li>
+<li><code>ansi($ansi = null)</code>  adds <code>ansi</code> option to composer</li>
 <li><code>noAnsi()</code>  adds <code>no-ansi</code> option to composer</li>
-<li><code>ansi()</code>  adds <code>ansi</code> option to composer</li>
-<li><code>optimizeAutoloader()</code>  adds <code>optimize-autoloader</code> option to composer</li>
-<li><code>ignorePlatformRequirements()</code>  adds <code>ignore-platform-reqs</code> option to composer</li>
+<li><code>interaction($interaction = null)</code> </li>
+<li><code>noInteraction()</code>  adds <code>no-interaction</code> option to composer</li>
+<li><code>optimizeAutoloader($optimize = null)</code>  adds <code>optimize-autoloader</code> option to composer</li>
+<li><code>ignorePlatformRequirements($ignore = null)</code>  adds <code>ignore-platform-reqs</code> option to composer</li>
+<li><code>disablePlugins($disable = null)</code>  disable plugins</li>
+<li><code>workingDir($dir)</code>  adds <code>--working-dir $dir</code> option to composer</li>
+<li><code>buildCommand()</code>  Copy class fields into command options as directed.</li>
 <li><code>dir($dir)</code>  Changes working directory of command</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
 <li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
 <li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass multiple options to executable. Value can be a string or array.</li>
+<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
+<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
 </ul>
 <h2 id="validate">Validate</h2>
 <p>Composer Validate</p>
@@ -328,24 +502,31 @@ $this-&gt;taskComposerValidate()-&gt;run();
 </code></pre>
 
 <ul>
-<li><code>noCheckAll()</code>   * <code>return</code> $this</li>
-<li><code>noCheckLock()</code>   * <code>return</code> $this</li>
-<li><code>noCheckPublish()</code>   * <code>return</code> $this</li>
-<li><code>withDependencies()</code>   * <code>return</code> $this</li>
-<li><code>strict()</code>   * <code>return</code> $this</li>
-<li><code>preferDist()</code>  adds <code>prefer-dist</code> option to composer</li>
+<li><code>noCheckAll($noCheckAll = null)</code>   * <code>return</code> $this</li>
+<li><code>noCheckLock($noCheckLock = null)</code>   * <code>return</code> $this</li>
+<li><code>noCheckPublish($noCheckPublish = null)</code>   * <code>return</code> $this</li>
+<li><code>withDependencies($withDependencies = null)</code>   * <code>return</code> $this</li>
+<li><code>strict($strict = null)</code>   * <code>return</code> $this</li>
+<li><code>preferDist($preferDist = null)</code>  adds <code>prefer-dist</code> option to composer</li>
 <li><code>preferSource()</code>  adds <code>prefer-source</code> option to composer</li>
+<li><code>dev($dev = null)</code>  adds <code>dev</code> option to composer</li>
 <li><code>noDev()</code>  adds <code>no-dev</code> option to composer</li>
+<li><code>ansi($ansi = null)</code>  adds <code>ansi</code> option to composer</li>
 <li><code>noAnsi()</code>  adds <code>no-ansi</code> option to composer</li>
-<li><code>ansi()</code>  adds <code>ansi</code> option to composer</li>
-<li><code>optimizeAutoloader()</code>  adds <code>optimize-autoloader</code> option to composer</li>
-<li><code>ignorePlatformRequirements()</code>  adds <code>ignore-platform-reqs</code> option to composer</li>
+<li><code>interaction($interaction = null)</code> </li>
+<li><code>noInteraction()</code>  adds <code>no-interaction</code> option to composer</li>
+<li><code>optimizeAutoloader($optimize = null)</code>  adds <code>optimize-autoloader</code> option to composer</li>
+<li><code>ignorePlatformRequirements($ignore = null)</code>  adds <code>ignore-platform-reqs</code> option to composer</li>
+<li><code>disablePlugins($disable = null)</code>  disable plugins</li>
+<li><code>workingDir($dir)</code>  adds <code>--working-dir $dir</code> option to composer</li>
+<li><code>buildCommand()</code>  Copy class fields into command options as directed.</li>
 <li><code>dir($dir)</code>  Changes working directory of command</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
 <li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
 <li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass multiple options to executable. Value can be a string or array.</li>
+<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
+<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
 </ul></div>
             
 

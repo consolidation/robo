@@ -386,7 +386,8 @@ $this-&gt;taskServer(8000)
 <li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
 <li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
 <li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass multiple options to executable. Value can be a string or array.</li>
+<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
+<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
 </ul>
 <h2 id="semver">SemVer</h2>
 <p>Helps to maintain <code>.semver</code> file.</p>
@@ -399,6 +400,7 @@ $this-&gt;taskSemVer('.semver')
 
 <ul>
 <li><code>__toString()</code>  @return string</li>
+<li><code>version($version)</code> </li>
 <li><code>setFormat($format)</code>   * <code>param string</code> $format</li>
 <li><code>setMetadataSeparator($separator)</code>   * <code>param string</code> $separator</li>
 <li><code>setPrereleaseSeparator($separator)</code>   * <code>param string</code> $separator</li>

@@ -2,12 +2,12 @@
 namespace Robo\Task\Composer;
 
 /**
- * Composer Validate
+ * Composer Remove
  *
  * ``` php
  * <?php
  * // simple execution
- * $this->taskComposerValidate()->run();
+ * $this->taskComposerRemove()->run();
  * ?>
  * ```
  */
@@ -21,45 +21,55 @@ class Remove extends Base
     /**
      * @return $this
      */
-    public function dev()
+    public function dev($dev = true)
     {
-        $this->option('--dev');
+        if ($dev) {
+            $this->option('--dev');
+        }
         return $this;
     }
 
     /**
      * @return $this
      */
-    public function noProgress()
+    public function noProgress($noProgress = true)
     {
-        $this->option('--no-progress');
+        if ($noProgress) {
+            $this->option('--no-progress');
+        }
         return $this;
     }
 
     /**
      * @return $this
      */
-    public function noUpdate()
+    public function noUpdate($noUpdate = true)
     {
-        $this->option('--no-update');
+        if ($noUpdate) {
+            $this->option('--no-update');
+        }
         return $this;
     }
 
     /**
      * @return $this
      */
-    public function updateNoDev()
+    public function updateNoDev($updateNoDev = true)
     {
-        $this->option('--update-no-dev');
+        if ($updateNoDev) {
+            $this->option('--update-no-dev');
+        }
         return $this;
     }
 
     /**
      * @return $this
      */
-    public function noUpdateWithDependencies()
+    public function noUpdateWithDependencies($updateWithDependencies = true)
     {
-        $this->option('--no-update-with-dependencies');
+        if ($updateWithDependencies) {
+            $this->option('--no-update-with-dependencies');
+        }
         return $this;
     }
 

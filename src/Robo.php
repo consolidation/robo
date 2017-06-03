@@ -18,7 +18,7 @@ use Symfony\Component\Process\Process;
 class Robo
 {
     const APPLICATION_NAME = 'Robo';
-    const VERSION = '1.0.7';
+    const VERSION = '1.0.8';
 
     /**
      * The currently active container object, or NULL if not initialized yet.
@@ -188,6 +188,7 @@ class Robo
             $output = new \Symfony\Component\Console\Output\ConsoleOutput();
         }
         $config->setDecorated($output->isDecorated());
+        $config->setInteractive($input->isInteractive());
 
         $container->share('application', $app);
         $container->share('config', $config);

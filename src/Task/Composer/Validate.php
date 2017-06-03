@@ -19,87 +19,58 @@ class Validate extends Base
     protected $action = 'validate';
 
     /**
-     * @var string
-     */
-    protected $noCheckAll;
-
-    /**
-     * @var string
-     */
-    protected $noCheckLock;
-
-    /**
-     * @var string
-     */
-    protected $noCheckPublish;
-
-    /**
-     * @var string
-     */
-    protected $withDependencies;
-
-    /**
-     * @var string
-     */
-    protected $strict;
-
-    /**
      * @return $this
      */
-    public function noCheckAll()
+    public function noCheckAll($noCheckAll = true)
     {
-        $this->noCheckAll = '--no-check-all';
+        if ($noCheckAll) {
+            $this->option('--no-check-all');
+        }
         return $this;
     }
 
     /**
      * @return $this
      */
-    public function noCheckLock()
+    public function noCheckLock($noCheckLock = true)
     {
-        $this->noCheckLock = '--no-check-lock';
+        if ($noCheckLock) {
+            $this->option('--no-check-lock');
+        }
         return $this;
     }
 
     /**
      * @return $this
      */
-    public function noCheckPublish()
+    public function noCheckPublish($noCheckPublish = true)
     {
-        $this->noCheckPublish = '--no-check-publish';
+        if ($noCheckPublish) {
+            $this->option('--no-check-publish');
+        }
         return $this;
     }
 
     /**
      * @return $this
      */
-    public function withDependencies()
+    public function withDependencies($withDependencies = true)
     {
-        $this->withDependencies = '--with-dependencies';
+        if ($withDependencies) {
+            $this->option('--with-dependencies');
+        }
         return $this;
     }
 
     /**
      * @return $this
      */
-    public function strict()
+    public function strict($strict = true)
     {
-        $this->strict = '--strict';
+        if ($strict) {
+            $this->option('--strict');
+        }
         return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getCommand()
-    {
-        $this->option($this->noCheckAll);
-        $this->option($this->noCheckLock);
-        $this->option($this->noCheckPublish);
-        $this->option($this->withDependencies);
-        $this->option($this->strict);
-
-        return parent::getCommand();
     }
 
     /**

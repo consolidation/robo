@@ -40,6 +40,14 @@ class Data extends \ArrayObject
     }
 
     /**
+     * @param string message
+     */
+    public function setMessage($message)
+    {
+        $this->message = $message;
+    }
+
+    /**
      * Merge another result into this result.  Data already
      * existing in this result takes precedence over the
      * data in the Result being merged.

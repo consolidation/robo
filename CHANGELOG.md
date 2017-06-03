@@ -1,5 +1,12 @@
 # Changelog
 
+### 1.0.8 06/02/2017
+
+* Fix regression in 1.0.7: Allow tasks to return results of types other than \Robo\Result. #585
+* Allow Copydir exclude method to specify subfolders by Alex Skrypnyk #590
+* Add composer init task, and general rounding out of composer tasks. #586
+* Enhance SemVer task so that it can be used with files or strings. #589
+
 #### 1.0.7 05/30/2017
 
 * Add a state system for collections to allow tasks to pass state to later tasks.

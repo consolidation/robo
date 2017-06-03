@@ -567,6 +567,8 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
                 // the incremental results, if they wish.
                 $key = Result::isUnnamed($taskName) ? $name : $taskName;
                 $result->accumulate($key, $taskResult);
+                // The result message will be the message of the last task executed.
+                $result->setMessage($taskResult->getMessage());
             }
         } catch (TaskExitException $exitException) {
             $this->fail();
@@ -652,6 +654,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
         }
         $this->doDeferredInitialization($original);
         $taskResult = $task->run();
+        $taskResult = Result::ensureResult($task, $taskResult);
         $this->doStateUpdates($original, $taskResult);
         return $taskResult;
     }

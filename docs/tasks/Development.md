@@ -247,6 +247,7 @@ $this->taskSemVer('.semver')
 
 
 * `__toString()`  @return string
+* `version($version)` 
 * `setFormat($format)`   * `param string` $format
 * `setMetadataSeparator($separator)`   * `param string` $separator
 * `setPrereleaseSeparator($separator)`   * `param string` $separator

@@ -55,9 +55,9 @@ $this->taskComposerCreateProject()->source('foo/bar')->target('myBar')->run();
 * `target($target)`   * `return` $this
 * `version($version)`   * `return` $this
 * `keepVcs($keep = null)` 
-* `install($install = null)` 
-* `noInstall()` 
+* `noInstall($noInstall = null)` 
 * `repository($repository)`   * `return` $this
+* `stability($stability)`   * `return` $this
 * `buildCommand()`  Copy class fields into command options as directed.
 * `preferDist($preferDist = null)`  adds `prefer-dist` option to composer
 * `preferSource()`  adds `prefer-source` option to composer

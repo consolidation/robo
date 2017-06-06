@@ -2,6 +2,7 @@
 namespace Robo\Task\Development;
 
 use Robo\Result;
+use Robo\Task\BaseTask;
 use Robo\Contract\TaskInterface;
 use Robo\Exception\TaskException;
 
@@ -17,7 +18,7 @@ use Robo\Exception\TaskException;
  * ```
  *
  */
-class SemVer implements TaskInterface
+class SemVer extends BaseTask
 {
     const SEMVER = "---\n:major: %d\n:minor: %d\n:patch: %d\n:special: '%s'\n:metadata: '%s'";
 

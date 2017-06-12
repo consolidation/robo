@@ -345,7 +345,10 @@ trait ExecTrait
                 $this->getResultData()
             );
         }
-        return new ResultData($this->process->getExitCode());
+        return new ResultData($this->process->getExitCode(), '', [
+            'stdout' => $process->getOutput(),
+            'stderr' => $process->getErrorOutput(),
+        ]);
     }
 
     /**

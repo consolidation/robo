@@ -246,7 +246,7 @@ class FlattenDir extends BaseDir
                 $files[$file->getRealpath()] = $this->getTarget($file->getRealPath(), $to);
             }
             $fileNoun = count($files) == 1 ? ' file' : ' files';
-            $this->printTaskInfo("Found {count} $fileNoun in {dir}", ['count' => count($files), 'dir' => $dir]);
+            $this->printTaskNotice("Found {count} $fileNoun in {dir}", ['count' => count($files), 'dir' => $dir]);
         }
 
         return $files;

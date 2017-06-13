@@ -56,7 +56,7 @@ class DumpAutoload extends Base
     public function run()
     {
         $command = $this->getCommand();
-        $this->printTaskInfo('Dumping Autoloader: {command}', ['command' => $command]);
+        $this->printTaskNotice('Dumping Autoloader: {command}', ['command' => $command]);
         return $this->executeCommand($command);
     }
 }

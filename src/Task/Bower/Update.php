@@ -28,7 +28,7 @@ class Update extends Base
      */
     public function run()
     {
-        $this->printTaskInfo('Update Bower packages: {arguments}', ['arguments' => $this->arguments]);
+        $this->printTaskNotice('Update Bower packages: {arguments}', ['arguments' => $this->arguments]);
         return $this->executeCommand($this->getCommand());
     }
 }

@@ -107,7 +107,7 @@ abstract class CommandStack extends BaseTask implements CommandInterface, Printe
         // If 'stopOnFail' is not set, or if there is only one command to run,
         // then execute the single command to run.
         if (!$this->stopOnFail || (count($this->exec) == 1)) {
-            $this->printTaskInfo('{command}', ['command' => $this->getCommand()]);
+            $this->printTaskNotice('{command}', ['command' => $this->getCommand()]);
             return $this->executeCommand($this->getCommand());
         }
 
@@ -119,7 +119,7 @@ abstract class CommandStack extends BaseTask implements CommandInterface, Printe
         $message = '';
         $result = null;
         foreach ($this->exec as $command) {
-            $this->printTaskInfo("Executing {command}", ['command' => $command]);
+            $this->printTaskNotice("Executing {command}", ['command' => $command]);
             $result = $this->executeCommand($command);
             $result->accumulateExecutionTime($data);
             $message = $result->accumulateMessage($message);

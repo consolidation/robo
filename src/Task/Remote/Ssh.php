@@ -239,7 +239,7 @@ class Ssh extends BaseTask implements CommandInterface, SimulatedInterface
     public function simulate($context)
     {
         $command = $this->getCommand();
-        $this->printTaskInfo("Running {command}", ['command' => $command] + $context);
+        $this->printTaskNotice("Running {command}", ['command' => $command] + $context);
     }
 
     protected function validateParameters()

@@ -30,7 +30,7 @@ class Install extends Base implements CommandInterface
      */
     public function run()
     {
-        $this->printTaskInfo('Install Npm packages: {arguments}', ['arguments' => $this->arguments]);
+        $this->printTaskNotice('Install Npm packages: {arguments}', ['arguments' => $this->arguments]);
         return $this->executeCommand($this->getCommand());
     }
 }

@@ -312,7 +312,7 @@ class Write extends BaseTask
      */
     public function run()
     {
-        $this->printTaskInfo("Writing to {filename}.", ['filename' => $this->filename]);
+        $this->printTaskNotice("Writing to {filename}.", ['filename' => $this->filename]);
         $contents = $this->getContentsToWrite();
         if (!file_exists(dirname($this->filename))) {
             mkdir(dirname($this->filename), 0777, true);

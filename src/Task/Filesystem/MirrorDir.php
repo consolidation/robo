@@ -33,7 +33,7 @@ class MirrorDir extends BaseDir
                     'delete' => true
                 ]
             );
-            $this->printTaskInfo("Mirrored from {source} to {destination}", ['source' => $src, 'destination' => $dst]);
+            $this->printTaskNotice("Mirrored from {source} to {destination}", ['source' => $src, 'destination' => $dst]);
         }
         return Result::success($this);
     }

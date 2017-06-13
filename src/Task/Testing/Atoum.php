@@ -177,7 +177,7 @@ class Atoum extends BaseTask implements CommandInterface, PrintedInterface
      */
     public function run()
     {
-        $this->printTaskInfo('Running atoum ' . $this->arguments);
+        $this->printTaskNotice('Running atoum ' . $this->arguments);
 
         return $this->executeCommand($this->getCommand());
     }

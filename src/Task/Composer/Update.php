@@ -34,7 +34,7 @@ class Update extends Base
     public function run()
     {
         $command = $this->getCommand();
-        $this->printTaskInfo('Updating Packages: {command}', ['command' => $command]);
+        $this->printTaskNotice('Updating Packages: {command}', ['command' => $command]);
         return $this->executeCommand($command);
     }
 }

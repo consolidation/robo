@@ -87,7 +87,7 @@ class Config extends Base
     public function run()
     {
         $command = $this->getCommand();
-        $this->printTaskInfo('Configuring composer.json: {command}', ['command' => $command]);
+        $this->printTaskNotice('Configuring composer.json: {command}', ['command' => $command]);
         return $this->executeCommand($command);
     }
 }

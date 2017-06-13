@@ -106,11 +106,11 @@ class Extract extends BaseTask implements BuilderAwareInterface
 
         $this->startTimer();
 
-        $this->printTaskInfo("Extracting {filename}", ['filename' => $this->filename]);
+        $this->printTaskNotice("Extracting {filename}", ['filename' => $this->filename]);
 
         $result = $this->extractAppropriateType($mimetype, $extractLocation);
         if ($result->wasSuccessful()) {
-            $this->printTaskInfo("{filename} extracted", ['filename' => $this->filename]);
+            $this->printTaskNotice("{filename} extracted", ['filename' => $this->filename]);
             // Now, we want to move the extracted files to $this->to. There
             // are two possibilities that we must consider:
             //

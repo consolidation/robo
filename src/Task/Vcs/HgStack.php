@@ -147,7 +147,7 @@ class HgStack extends CommandStack
      */
     public function run()
     {
-        $this->printTaskInfo('Running hg commands...');
+        $this->printTaskNotice('Running hg commands...');
         return parent::run();
     }
 }

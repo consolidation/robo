@@ -106,7 +106,7 @@ class CreateProject extends Base
     public function run()
     {
         $command = $this->getCommand();
-        $this->printTaskInfo('Creating project: {command}', ['command' => $command]);
+        $this->printTaskNotice('Creating project: {command}', ['command' => $command]);
         return $this->executeCommand($command);
     }
 }

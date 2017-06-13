@@ -439,12 +439,12 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
     public function run()
     {
         foreach ($this->docClass as $class) {
-            $this->printTaskInfo("Processing {class}", ['class' => $class]);
+            $this->printTaskNotice("Processing {class}", ['class' => $class]);
             $this->textForClass[$class] = $this->documentClass($class);
         }
 
         if (is_callable($this->reorder)) {
-            $this->printTaskInfo("Applying reorder function");
+            $this->printTaskNotice("Applying reorder function");
             call_user_func_array($this->reorder, [$this->textForClass]);
         }
 

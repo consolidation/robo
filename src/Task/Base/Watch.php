@@ -78,7 +78,7 @@ class Watch extends BaseTask
             $closure->bindTo($this->bindTo);
             foreach ($monitor[0] as $i => $dir) {
                 $watcher->track("fs.$k.$i", $dir, FilesystemEvent::MODIFY);
-                $this->printTaskInfo('Watching {dir} for changes...', ['dir' => $dir]);
+                $this->printTaskNotice('Watching {dir} for changes...', ['dir' => $dir]);
                 $watcher->addListener("fs.$k.$i", $closure);
             }
         }

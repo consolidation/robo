@@ -158,7 +158,7 @@ class Changelog extends BaseTask implements BuilderAwareInterface
         $text = $ver . $text;
 
         if (!file_exists($this->filename)) {
-            $this->printTaskInfo('Creating {filename}', ['filename' => $this->filename]);
+            $this->printTaskNotice('Creating {filename}', ['filename' => $this->filename]);
             $res = file_put_contents($this->filename, $this->anchor);
             if ($res === false) {
                 return Result::error($this, "File {filename} cant be created", ['filename' => $this->filename]);

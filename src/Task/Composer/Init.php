@@ -109,7 +109,7 @@ class Init extends Base
     public function run()
     {
         $command = $this->getCommand();
-        $this->printTaskInfo('Creating composer.json: {command}', ['command' => $command]);
+        $this->printTaskNotice('Creating composer.json: {command}', ['command' => $command]);
         return $this->executeCommand($command);
     }
 }

@@ -73,7 +73,7 @@ class Simulator extends BaseTask implements CommandInterface
         );
 
         // RoboLogLevel::SIMULATED_ACTION
-        $this->printTaskInfo(
+        $this->printTaskNotice(
             "Simulating {simulated}({parameters})$callchain",
             $context
         );

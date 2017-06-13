@@ -305,7 +305,7 @@ class ImageMinify extends BaseTask
                 $files[$file->getRealpath()] = $this->getTarget($file->getRealPath(), $to);
             }
             $fileNoun = count($finder) == 1 ? ' file' : ' files';
-            $this->printTaskInfo("Found {filecount} $fileNoun in {dir}", ['filecount' => count($finder), 'dir' => $dir]);
+            $this->printTaskNotice("Found {filecount} $fileNoun in {dir}", ['filecount' => count($finder), 'dir' => $dir]);
         }
 
         return $files;
@@ -385,7 +385,7 @@ class ImageMinify extends BaseTask
             }
 
             // launch the command
-            $this->printTaskInfo('Minifying {filepath} with {minifier}', ['filepath' => $from, 'minifier' => $minifier]);
+            $this->printTaskNotice('Minifying {filepath} with {minifier}', ['filepath' => $from, 'minifier' => $minifier]);
             $result = $this->executeCommand($command);
 
             // check the return code
@@ -404,7 +404,7 @@ class ImageMinify extends BaseTask
                                 $command = $this->{$minifier}($from, $to);
                             }
                             // launch the command
-                            $this->printTaskInfo('Minifying {filepath} with {minifier}', ['filepath' => $from, 'minifier' => $minifier]);
+                            $this->printTaskNotice('Minifying {filepath} with {minifier}', ['filepath' => $from, 'minifier' => $minifier]);
                             $result = $this->executeCommand($command);
                         } else {
                             $this->printTaskError($result->getMessage());
@@ -489,7 +489,7 @@ class ImageMinify extends BaseTask
 
             return Result::error($this, $message);
         }
-        $this->printTaskInfo('Downloading the {executable} executable from the imagemin repository', ['executable' => $executable]);
+        $this->printTaskNotice('Downloading the {executable} executable from the imagemin repository', ['executable' => $executable]);
 
         $os = $this->getOS();
         $url = $this->imageminRepos[$executable].'/blob/master/vendor/'.$os.'/'.$executable.'?raw=true';

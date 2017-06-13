@@ -512,7 +512,7 @@ class ApiGen extends BaseTask implements CommandInterface
      */
     public function run()
     {
-        $this->printTaskInfo('Running ApiGen {args}', ['args' => $this->arguments]);
+        $this->printTaskNotice('Running ApiGen {args}', ['args' => $this->arguments]);
         return $this->executeCommand($this->getCommand());
     }
 }

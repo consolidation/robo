@@ -137,11 +137,11 @@ EOF;
      */
     public function run()
     {
-        $this->printTaskInfo('Creating {filename}', ['filename' => $this->filename]);
+        $this->printTaskNotice('Creating {filename}', ['filename' => $this->filename]);
         $this->phar->setSignatureAlgorithm(\Phar::SHA1);
         $this->phar->startBuffering();
 
-        $this->printTaskInfo('Packing {file-count} files into phar', ['file-count' => count($this->files)]);
+        $this->printTaskNotice('Packing {file-count} files into phar', ['file-count' => count($this->files)]);
 
         $this->startProgressIndicator();
         foreach ($this->files as $path => $content) {
@@ -153,9 +153,9 @@ EOF;
 
         if ($this->compress and in_array('GZ', \Phar::getSupportedCompression())) {
             if (count($this->files) > 1000) {
-                $this->printTaskInfo('Too many files. Compression DISABLED');
+                $this->printTaskNotice('Too many files. Compression DISABLED');
             } else {
-                $this->printTaskInfo('{filename} compressed', ['filename' => $this->filename]);
+                $this->printTaskNotice('{filename} compressed', ['filename' => $this->filename]);
                 $this->phar = $this->phar->compressFiles(\Phar::GZ);
             }
         }

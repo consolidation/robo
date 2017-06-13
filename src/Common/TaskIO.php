@@ -46,7 +46,7 @@ trait TaskIO
     }
 
     /**
-     * Print information about a task in progress.
+     * Print ordinary output about a task in progress.
      *
      * With the Symfony Console logger, NOTICE is displayed at VERBOSITY_VERBOSE
      * and INFO is displayed at VERBOSITY_VERY_VERBOSE.
@@ -54,8 +54,31 @@ trait TaskIO
      * Robo overrides the default such that NOTICE is displayed at
      * VERBOSITY_NORMAL and INFO is displayed at VERBOSITY_VERBOSE.
      *
-     * n.b. We should probably have printTaskNotice for our ordinary
-     * output, and use printTaskInfo for less interesting messages.
+     * Use printTaskNotice for ordinary output, and printTaskInfo for less
+     * interesting messages.
+     *
+     * @param string $text
+     * @param null|array $context
+     */
+    protected function printTaskNotice($text, $context = null)
+    {
+        // The 'note' style is used for both 'notice' and 'info' log levels;
+        // However, 'notice' is printed at VERBOSITY_NORMAL, whereas 'info'
+        // is only printed at VERBOSITY_VERBOSE.
+        $this->printTaskOutput(LogLevel::NOTICE, $text, $this->getTaskContext($context));
+    }
+
+    /**
+     * Print more detailed information about a task in progress.
+     *
+     * With the Symfony Console logger, NOTICE is displayed at VERBOSITY_VERBOSE
+     * and INFO is displayed at VERBOSITY_VERY_VERBOSE.
+     *
+     * Robo overrides the default such that NOTICE is displayed at
+     * VERBOSITY_NORMAL and INFO is displayed at VERBOSITY_VERBOSE.
+     *
+     * Use printTaskNotice for ordinary output, and printTaskInfo for less
+     * interesting messages.
      *
      * @param string $text
      * @param null|array $context
@@ -65,7 +88,7 @@ trait TaskIO
         // The 'note' style is used for both 'notice' and 'info' log levels;
         // However, 'notice' is printed at VERBOSITY_NORMAL, whereas 'info'
         // is only printed at VERBOSITY_VERBOSE.
-        $this->printTaskOutput(LogLevel::NOTICE, $text, $this->getTaskContext($context));
+        $this->printTaskOutput(LogLevel::INFO, $text, $this->getTaskContext($context));
     }
 
     /**

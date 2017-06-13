@@ -426,7 +426,7 @@ class Rsync extends BaseTask implements CommandInterface
     public function run()
     {
         $command = $this->getCommand();
-        $this->printTaskInfo("Running {command}", ['command' => $command]);
+        $this->printTaskNotice("Running {command}", ['command' => $command]);
 
         return $this->executeCommand($command);
     }

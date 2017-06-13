@@ -30,7 +30,7 @@ class Install extends Base implements CommandInterface
      */
     public function run()
     {
-        $this->printTaskInfo('Install Bower packages: {arguments}', ['arguments' => $this->arguments]);
+        $this->printTaskNotice('Install Bower packages: {arguments}', ['arguments' => $this->arguments]);
         return $this->executeCommand($this->getCommand());
     }
 }

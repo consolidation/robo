@@ -56,7 +56,7 @@ class CopyDir extends BaseDir
         }
         foreach ($this->dirs as $src => $dst) {
             $this->copyDir($src, $dst);
-            $this->printTaskInfo('Copied from {source} to {destination}', ['source' => $src, 'destination' => $dst]);
+            $this->printTaskNotice('Copied from {source} to {destination}', ['source' => $src, 'destination' => $dst]);
         }
         return Result::success($this);
     }

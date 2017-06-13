@@ -151,7 +151,7 @@ class GitStack extends CommandStack
      */
     public function run()
     {
-        $this->printTaskInfo("Running git commands...");
+        $this->printTaskNotice("Running git commands...");
         return parent::run();
     }
 }

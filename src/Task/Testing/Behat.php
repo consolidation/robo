@@ -157,7 +157,7 @@ class Behat extends BaseTask implements CommandInterface, PrintedInterface
      */
     public function run()
     {
-        $this->printTaskInfo('Running behat {arguments}', ['arguments' => $this->arguments]);
+        $this->printTaskNotice('Running behat {arguments}', ['arguments' => $this->arguments]);
         return $this->executeCommand($this->getCommand());
     }
 }

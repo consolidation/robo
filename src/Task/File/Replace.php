@@ -134,7 +134,7 @@ class Replace extends BaseTask
             }
             $this->printTaskSuccess("{filename} updated. {count} items replaced", ['filename' => $this->filename, 'count' => $count]);
         } else {
-            $this->printTaskInfo("{filename} unchanged. {count} items replaced", ['filename' => $this->filename, 'count' => $count]);
+            $this->printTaskNotice("{filename} unchanged. {count} items replaced", ['filename' => $this->filename, 'count' => $count]);
         }
         return Result::success($this, '', ['replaced' => $count]);
     }

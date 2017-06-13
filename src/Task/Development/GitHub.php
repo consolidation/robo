@@ -108,8 +108,8 @@ abstract class GitHub extends BaseTask
 
         $ch = curl_init();
         $url = sprintf('%s/repos/%s/%s', self::GITHUB_URL, $this->getUri(), $uri);
-        $this->printTaskInfo($url);
-        $this->printTaskInfo('{method} {url}', ['method' => $method, 'url' => $url]);
+        $this->printTaskNotice($url);
+        $this->printTaskNotice('{method} {url}', ['method' => $method, 'url' => $url]);
 
         if (!empty($this->user)) {
             curl_setopt($ch, CURLOPT_USERPWD, $this->user . ':' . $this->password);
@@ -131,7 +131,7 @@ abstract class GitHub extends BaseTask
         $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $response = json_decode($output);
 
-        $this->printTaskInfo($output);
+        $this->printTaskNotice($output);
         return [$code, $response];
     }
 }

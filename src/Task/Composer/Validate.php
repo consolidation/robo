@@ -79,7 +79,7 @@ class Validate extends Base
     public function run()
     {
         $command = $this->getCommand();
-        $this->printTaskInfo('Validating composer.json: {command}', ['command' => $command]);
+        $this->printTaskNotice('Validating composer.json: {command}', ['command' => $command]);
         return $this->executeCommand($command);
     }
 }

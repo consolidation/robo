@@ -74,7 +74,7 @@ class TaskForEach extends BaseTask implements NestedCollectionInterface, Builder
             $context = ['key' => $key, 'value' => $value];
             $context += $this->context;
             $context += TaskInfo::getTaskContext($this);
-            $this->printTaskInfo($this->message, $context);
+            $this->printTaskNotice($this->message, $context);
         }
     }
 

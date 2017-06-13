@@ -183,7 +183,7 @@ class GitHubRelease extends GitHub
      */
     public function run()
     {
-        $this->printTaskInfo('Releasing {tag}', ['tag' => $this->tag]);
+        $this->printTaskNotice('Releasing {tag}', ['tag' => $this->tag]);
         $this->startTimer();
         list($code, $data) = $this->sendRequest(
             'releases',

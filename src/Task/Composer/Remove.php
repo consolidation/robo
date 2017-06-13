@@ -79,7 +79,7 @@ class Remove extends Base
     public function run()
     {
         $command = $this->getCommand();
-        $this->printTaskInfo('Removing packages: {command}', ['command' => $command]);
+        $this->printTaskNotice('Removing packages: {command}', ['command' => $command]);
         return $this->executeCommand($command);
     }
 }

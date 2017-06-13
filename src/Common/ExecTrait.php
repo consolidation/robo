@@ -76,6 +76,7 @@ trait ExecTrait
      */
     abstract public function hideTaskProgress();
     abstract public function showTaskProgress($inProgress);
+    abstract public function printTaskNotice($text, $context = null);
     abstract public function printTaskInfo($text, $context = null);
 
     /**
@@ -355,7 +356,7 @@ trait ExecTrait
     {
         if ($this->background && isset($this->process) && $this->process->isRunning()) {
             $this->process->stop();
-            $this->printTaskInfo(
+            $this->printTaskNotice(
                 "Stopped {command}",
                 ['command' => $this->getCommandDescription()]
             );
@@ -369,7 +370,7 @@ trait ExecTrait
     {
         $command = $this->getCommandDescription();
         $dir = $this->workingDirectory ? " in {dir}" : "";
-        $this->printTaskInfo("Running {command}$dir", [
+        $this->printTaskNotice("Running {command}$dir", [
                 'command' => $command,
                 'dir' => $this->workingDirectory
             ] + $context);

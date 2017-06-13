@@ -84,7 +84,7 @@ class Concat extends BaseTask
             }
         }
 
-        $this->printTaskInfo('Writing {destination}', ['destination' => $this->dst]);
+        $this->printTaskNotice('Writing {destination}', ['destination' => $this->dst]);
 
         $dst = $this->dst . '.part';
         $write_result = file_put_contents($dst, $dump);

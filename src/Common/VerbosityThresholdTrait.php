@@ -14,8 +14,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Task input/output methods.  TaskIO is 'used' in BaseTask, so any
  * task that extends this class has access to all of the methods here.
- * printTaskInfo, printTaskSuccess, and printTaskError are the three
- * primary output methods that tasks are encouraged to use.  Tasks should
+ * printTaskNotice, printTaskInfo, printTaskSuccess, and printTaskError are the
+ * four primary output methods that tasks are encouraged to use.  Tasks should
  * avoid using the IO trait output methods.
  */
 trait VerbosityThresholdTrait

@@ -135,9 +135,9 @@ To use the tasks you define in a RoboFile, use its `loadTasks` trait as explaine
 
 To allow tasks access IO, use the `Robo\Common\TaskIO` trait, or inherit your task class from `Robo\Task\BaseTask` (recommended).
 
-Inside tasks you should print process details with `printTaskInfo`, `printTaskSuccess`, and `printTaskError`.
+Inside tasks you should print process details with `printTaskNotice`, `printTaskInfo`, `printTaskSuccess`, and `printTaskError`.
 ```
-$this->printTaskInfo('Processing...');
+$this->printTaskNotice('Processing...');
 ```
 The Task IO methods send all output through a PSR-3 logger. Tasks should use task IO exclusively; methods such as 'say' and 'ask' should reside in the command method. This allows tasks to be usable in any context that has a PSR-3 logger, including background or server processes where it is not possible to directly query the user.
 

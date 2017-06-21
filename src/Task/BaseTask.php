@@ -22,11 +22,21 @@ abstract class BaseTask implements TaskInterface, LoggerAwareInterface, Verbosit
     /**
      * ConfigAwareInterface uses this to decide where configuration
      * items come from. Default is this prefix + class name + key,
-     * e.g. `task.Ssh.remoteDir`.
+     * e.g. `task.Remote.Ssh.remoteDir`.
      */
     protected static function configPrefix()
     {
         return 'task.';
+    }
+
+    /**
+     * ConfigAwareInterface uses this to decide where configuration
+     * items come from. Default is this prefix + class name + key,
+     * e.g. `task.Ssh.remoteDir`.
+     */
+    protected static function configPostfix()
+    {
+        return '.settings';
     }
 
     /**

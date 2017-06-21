@@ -130,7 +130,7 @@ class ConfigurationInjectionTest extends \Codeception\TestCase\Test
         $argv = ['placeholder', 'test:exec', '--simulate'];
         $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
 
-        // `task.Exec.settings.dir` is defined in loaded robo.yml configuration file.
+        // `task.Base.Exec.settings.dir` is defined in loaded robo.yml configuration file.
         $this->guy->seeInOutput("->dir('/some/dir')");
     }
 }

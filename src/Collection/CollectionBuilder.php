@@ -481,7 +481,7 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
      */
     protected function configureTask($taskClass, $task)
     {
-        $taskClass = $this->classNameWithoutNamespace($taskClass);
+        $taskClass = static::configClassIdentifier($taskClass);
         $configurationKey = "task.{$taskClass}.settings";
         $this->getConfig()->applyConfiguration($task, $configurationKey);
 
@@ -492,20 +492,6 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
         // TODO: If the builder knew what the current command name was,
         // then we could also search for task configuration under
         // command-specific keys such as "command.{$commandname}.task.{$taskClass}.settings".
-    }
-
-    /**
-     * Strip the namespace off of the fully-qualified classname
-     * @param string $classname
-     * @return string
-     */
-    protected function classNameWithoutNamespace($classname)
-    {
-        $pos = strrpos($classname, '\\');
-        if ($pos === false) {
-            return $classname;
-        }
-        return substr($classname, $pos + 1);
     }
 
     /**

@@ -400,19 +400,22 @@ You could instead remove the setter methods and move the parameter values to a c
 $this->taskComposerInstall()
   ->run();
 ```
-The corresponding configuration file would appear as follows:
+Then, presuming that `taskMyOperation` was implemented in a class \MyOrg\Task\TaskGroup\MyOperation`, then the corresponding configuration file would appear as follows:
 ```
 task:
-  MyOperation:
-    settings:
-      dir: /my/path
-      extrapolated: false
+  TaskGroup:
+    MyOperation:
+      settings:
+        dir: /my/path
+        extrapolated: false
 ```
-The key for configuration-injected settings is `task.CLASSNAME.settings.key`.
+The key for configuration-injected settings is `task.PARTIAL_NAMESPACE.CLASSNAME.settings.key`. PARTIAL_NAMESPACE is the namespace for the class, with each `\` replaced with a `.`, and with each component of the namespace up to and including `Task` removed.
 
 ### Accessing Configuration Directly
 
-In a RoboFile, use `Robo::Config()->get('task.MyOperation.settings.dir');` to fetch the `dir` configuration option from the previous example.
+In a RoboFile, use `Robo::Config()->get('task.TaskGroup.MyOperation.settings.dir');` to fetch the `dir` configuration option from the previous example.
+
+In the implementation of `taskMyOperation()` itself, it is in general not necessary to access configuration values directly, as it is preferable to allow Robo to inject configuration as described above. However, if desired, configuration may be accessed from within the method of any task that extends `\Robo\Task\BaseTask` (or otherwise uses `ConfigAwareTrait`) may do so via `static::getConfigValue('key', 'default');`.
 
 ### Providing Default Configuration
 
@@ -426,7 +429,7 @@ class RoboFile
     }
 }
 ```
-If `task.Ssh.remoteDir` is set to some other value in the robo.yml configuration file in the current directory, then the value from the configuration file will take precedence.
+If `task.Remote.Ssh.remoteDir` is set to some other value in the robo.yml configuration file in the current directory, then the value from the configuration file will take precedence.
 
 ### Loading Configuration From Another Source
 

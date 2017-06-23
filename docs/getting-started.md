@@ -386,6 +386,18 @@ command:
 
 If you run this command, then it will print `Hello, world`. If the `--who` option is provided on the command line, that value will take precidence over the value stored in configuration. Thus, `hello --who=everyone` will print `Hello, everyone`.
 
+Command groups may also share configuration options. For example, if you have commands `foo:bar`, `foo:baz` and `foo:boz`, all of which share a common option `color`, then the following configuration will provide the value `blue` to `foo:bar` and `foo:baz`, and the value `green` to `foo:boz`:
+
+```
+command:
+  foo:
+    options:
+      color: blue
+    boz:
+      options:
+        color: green
+```
+
 ### Configuration for Task Settings
 
 Robo will automatically configure tasks with values from configuration. For example, given the following task definition:
@@ -400,7 +412,7 @@ You could instead remove the setter methods and move the parameter values to a c
 $this->taskComposerInstall()
   ->run();
 ```
-Then, presuming that `taskMyOperation` was implemented in a class \MyOrg\Task\TaskGroup\MyOperation`, then the corresponding configuration file would appear as follows:
+Then, presuming that `taskMyOperation` was implemented in a class `\MyOrg\Task\TaskGroup\MyOperation`, then the corresponding configuration file would appear as follows:
 ```
 task:
   TaskGroup:
@@ -411,13 +423,22 @@ task:
 ```
 The key for configuration-injected settings is `task.PARTIAL_NAMESPACE.CLASSNAME.settings.key`. PARTIAL_NAMESPACE is the namespace for the class, with each `\` replaced with a `.`, and with each component of the namespace up to and including `Task` removed.
 
+Tasks in the same namespace may also share configuration-injected settings. For example, the configuration below will set the `dir` option of any task implemented by a class in the `*\TaskGroup\MyOperation` namespace, unless the task has a more specific configuration value stored with its classname:
+```
+task:
+  TaskGroup:
+    settings:
+      dir: /my/path
+      extrapolated: false
+```
+
 ### Accessing Configuration Directly
 
 In a RoboFile, use `Robo::Config()->get('task.TaskGroup.MyOperation.settings.dir');` to fetch the `dir` configuration option from the previous example.
 
 In the implementation of `taskMyOperation()` itself, it is in general not necessary to access configuration values directly, as it is preferable to allow Robo to inject configuration as described above. However, if desired, configuration may be accessed from within the method of any task that extends `\Robo\Task\BaseTask` (or otherwise uses `ConfigAwareTrait`) may do so via `static::getConfigValue('key', 'default');`.
 
-### Providing Default Configuration
+### Providing Default Configuration in Code
 
 RoboFiles that wish to provide default configuration values that can be overridden via robo.yml values or commandline options may do so in the class' constructor method.  The example below demonstrates how to set up a default value for the `task.Ssh.remoteDir` configuration property in code:
 ```

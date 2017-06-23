@@ -29,7 +29,6 @@ class InjectConfigEventListener implements EventSubscriberInterface, ConfigAware
     public function injectConfiguration(ConsoleCommandEvent $event)
     {
         $config = $this->getConfig();
-
         $command = $event->getCommand();
         $commandName = $command->getName();
         $commandName = str_replace(':', '.', $commandName);
@@ -37,9 +36,9 @@ class InjectConfigEventListener implements EventSubscriberInterface, ConfigAware
         $options = $definition->getOptions();
         foreach ($options as $option => $inputOption) {
             $key = str_replace('.', '-', $option);
-            $configKey = "command.{$commandName}.options.{$key}";
-            if ($config->has($configKey)) {
-                $inputOption->setDefault($config->get($configKey));
+            $value = $config->getWithFallback($key, $commandName, 'command.', '.options.');
+            if ($value !== null) {
+                $inputOption->setDefault($value);
             }
         }
     }

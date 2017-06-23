@@ -1,5 +1,10 @@
 # Changelog
 
+### 1.0.9 tbd
+
+* Configuration for multiple commands or multiple tasks may now be shared by attaching the configuration values to the task namespace or the command group. #597
+* *Breaking* Task configuration taken from property `task.PARTIAL_NAMESPACE.CLASSNAME.settings` instead of `task.CLASSNAME.settings`. Breaks backwards compatibility only with experimental configuration features introduced in version 1.0.6. Config will be stable in 1.1.0. #596
+
 ### 1.0.8 06/02/2017
 
 * Fix regression in 1.0.7: Allow tasks to return results of types other than \Robo\Result. #585

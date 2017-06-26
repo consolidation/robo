@@ -56,6 +56,60 @@ class Config
     }
 
     /**
+     * Fetch an option value from a given key, or, if that specific key does
+     * not contain a value, then consult various fallback options until a
+     * value is found.
+     *
+     * Given the following inputs:
+     *   - $prefix  = "command."
+     *   - $group   = "foo.bar.baz"
+     *   - $postfix = ".options."
+     * This method will then consider, in order:
+     *   - command.foo.bar.baz.options
+     *   - command.foo.bar.options
+     *   - command.foo.options
+     * If any of these contain an option for "$key", then return its value.
+     */
+    public function getWithFallback($key, $group, $prefix = '', $postfix = '.')
+    {
+        $configKey = "{$prefix}{$group}${postfix}{$key}";
+        if ($this->has($configKey)) {
+            return $this->get($configKey);
+        }
+        if ($this->hasDefault($configKey)) {
+            return $this->getDefault($configKey);
+        }
+        $moreGeneralGroupname = preg_replace('#\.[^.]*$#', '', $group);
+        if ($moreGeneralGroupname != $group) {
+            return $this->getWithFallback($key, $moreGeneralGroupname, $prefix, $postfix);
+        }
+        return null;
+    }
+
+    /**
+     * Works like 'getWithFallback', but merges results from all applicable
+     * groups. Settings from most specific group take precedence.
+     */
+    public function getWithMerge($key, $group, $prefix = '', $postfix = '.')
+    {
+        $configKey = "{$prefix}{$group}${postfix}{$key}";
+        $result = [];
+        if ($this->has($configKey)) {
+            $result = $this->get($configKey);
+        } elseif ($this->hasDefault($configKey)) {
+            $result = $this->getDefault($configKey);
+        }
+        if (!is_array($result)) {
+            throw new \UnexpectedValueException($configKey . ' must be a list of settings to apply.');
+        }
+        $moreGeneralGroupname = preg_replace('#\.[^.]*$#', '', $group);
+        if ($moreGeneralGroupname != $group) {
+            $result += $this->getWithMerge($key, $moreGeneralGroupname, $prefix, $postfix);
+        }
+        return $result;
+    }
+
+    /**
      * Set a config value
      *
      * @param string $key
@@ -104,16 +158,20 @@ class Config
      * TODO: We could use reflection to test to see if the return type
      * of the provided object is a reference to the object itself. All
      * setter methods should do this. This test is insufficient to guarentee
-     * that the method is valid, but it would be a good start.
+     * that the method is valid, but it would catch almost every misuse.
      */
-    public function applyConfiguration($object, $configurationKey)
+    public function applyConfiguration($object, $configurationKey, $group = '', $prefix = '', $postfix = '')
     {
-        if ($this->has($configurationKey)) {
-            $settings = $this->get($configurationKey);
-            foreach ($settings as $setterMethod => $args) {
-                // TODO: Should it be possible to make $args a nested array
-                // to make this code call the setter method multiple times?
-                call_user_func_array([$object, $setterMethod], (array)$args);
+        if (!empty($group) && empty($postfix)) {
+            $postfix = '.';
+        }
+        $settings = $this->getWithMerge($configurationKey, $group, $prefix, $postfix);
+        foreach ($settings as $setterMethod => $args) {
+            // TODO: Should it be possible to make $args a nested array
+            // to make this code call the setter method multiple times?
+            $fn = [$object, $setterMethod];
+            if (is_callable($fn)) {
+                call_user_func_array($fn, (array)$args);
             }
         }
     }
@@ -139,13 +197,25 @@ class Config
      * Return the default value for a given configuration item.
      *
      * @param string $key
+     *
+     * @return mixed
+     */
+    public function hasDefault($key)
+    {
+        return isset($this->defaults[$key]);
+    }
+
+    /**
+     * Return the default value for a given configuration item.
+     *
+     * @param string $key
      * @param mixed $defaultOverride
      *
      * @return mixed
      */
     public function getDefault($key, $defaultOverride = null)
     {
-        return isset($this->defaults[$key]) ? $this->defaults[$key] : $defaultOverride;
+        return $this->hasDefault($key) ? $this->defaults[$key] : $defaultOverride;
     }
 
     /**

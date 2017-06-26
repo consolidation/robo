@@ -1,0 +1,4 @@
+task:
+  Base:
+    settings:
+      dir: /some/other/dir

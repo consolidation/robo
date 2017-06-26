@@ -482,8 +482,7 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
     protected function configureTask($taskClass, $task)
     {
         $taskClass = static::configClassIdentifier($taskClass);
-        $configurationKey = "task.{$taskClass}.settings";
-        $this->getConfig()->applyConfiguration($task, $configurationKey);
+        $this->getConfig()->applyConfiguration($task, 'settings', $taskClass, 'task.');
 
         // TODO: If we counted each instance of $taskClass that was called from
         // this builder, then we could also apply configuration from

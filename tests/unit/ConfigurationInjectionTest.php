@@ -1,8 +1,8 @@
 <?php
 use Robo\Robo;
 
-use Robo\Config\ConfigProcessor;
-use Robo\Config\YamlConfigLoader;
+use Consolidation\Config\ConfigProcessor;
+use Consolidation\Config\YamlConfigLoader;
 
 class ConfigurationInjectionTest extends \Codeception\TestCase\Test
 {

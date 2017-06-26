@@ -4,8 +4,8 @@ namespace unit;
 
 use Robo\Robo;
 use Robo\Task\BaseTask;
-use Robo\Config\ConfigProcessor;
-use Robo\Config\YamlConfigLoader;
+use Consolidation\Config\ConfigProcessor;
+use Consolidation\Config\YamlConfigLoader;
 
 class ConfigurationTest extends \Codeception\TestCase\Test
 {

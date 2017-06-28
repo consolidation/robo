@@ -41,6 +41,11 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
     protected $idleTimeout = null;
 
     /**
+     * @var null|int
+     */
+    protected $waitInterval = null;
+
+    /**
      * @var bool
      */
     protected $isPrinted = false;
@@ -102,6 +107,20 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
     }
 
     /**
+     * Parallel processing will wait `$waitInterval` seconds after launching each process and before
+     * the next one.
+     *
+     * @param int $waitInterval
+     *
+     * @return $this
+     */
+    public function waitInterval($waitInterval)
+    {
+        $this->waitInterval = $waitInterval;
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getCommand()
@@ -127,6 +146,9 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
             $process->setTimeout($this->timeout);
             $process->start();
             $this->printTaskInfo($process->getCommandLine());
+            if ($this->waitInterval) {
+                sleep($this->waitInterval);
+            }
         }
 
         $this->startProgressIndicator();

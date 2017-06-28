@@ -209,7 +209,7 @@ class Robo
         $container->share('resultPrinter', \Robo\Log\ResultPrinter::class);
         $container->add('simulator', \Robo\Task\Simulator::class);
         $container->share('globalOptionsEventListener', \Robo\GlobalOptionsEventListener::class);
-        $container->share('injectConfigEventListener', \Consolidation\Config\Command\InjectConfigForCommand::class)
+        $container->share('injectConfigEventListener', \Consolidation\Config\Inject\ConfigForCommand::class)
             ->withArgument('config');
         $container->share('collectionProcessHook', \Robo\Collection\CollectionProcessHook::class);
         $container->share('hookManager', \Consolidation\AnnotatedCommand\Hooks\HookManager::class)

@@ -1,7 +1,7 @@
 <?php
 namespace Robo\Collection;
 
-use Consolidation\Config\Util\ApplyConfig;
+use Consolidation\Config\Inject\ConfigForSetters;
 use Robo\Config\Config;
 use Psr\Log\LogLevel;
 use Robo\Contract\InflectionInterface;
@@ -483,7 +483,7 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
     protected function configureTask($taskClass, $task)
     {
         $taskClass = static::configClassIdentifier($taskClass);
-        $configurationApplier = new ApplyConfig($this->getConfig(), $taskClass, 'task.');
+        $configurationApplier = new ConfigForSetters($this->getConfig(), $taskClass, 'task.');
         $configurationApplier->apply($task, 'settings');
 
         // TODO: If we counted each instance of $taskClass that was called from

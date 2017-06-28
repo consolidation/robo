@@ -64,12 +64,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/config.git",
-                "reference": "5c7a3f107c6eca2dc0b2c75bfbf648f4c3386c81"
+                "reference": "4f1c5691c2126ad60a0d6dcb83831b8a184155a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/config/zipball/5c7a3f107c6eca2dc0b2c75bfbf648f4c3386c81",
-                "reference": "5c7a3f107c6eca2dc0b2c75bfbf648f4c3386c81",
+                "url": "https://api.github.com/repos/consolidation/config/zipball/4f1c5691c2126ad60a0d6dcb83831b8a184155a6",
+                "reference": "4f1c5691c2126ad60a0d6dcb83831b8a184155a6",
                 "shasum": ""
             },
             "require": {
@@ -105,7 +105,7 @@
                 }
             ],
             "description": "Provide configuration services for a commandline tool.",
-            "time": "2017-06-28 00:50:46"
+            "time": "2017-06-28 03:35:39"
         },
         {
             "name": "consolidation/log",

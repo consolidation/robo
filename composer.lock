@@ -64,24 +64,24 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/config.git",
-                "reference": "594cacf3c5ef4bb7d1659857caa650a12f78e8fd"
+                "reference": "5c7a3f107c6eca2dc0b2c75bfbf648f4c3386c81"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/config/zipball/594cacf3c5ef4bb7d1659857caa650a12f78e8fd",
-                "reference": "594cacf3c5ef4bb7d1659857caa650a12f78e8fd",
+                "url": "https://api.github.com/repos/consolidation/config/zipball/5c7a3f107c6eca2dc0b2c75bfbf648f4c3386c81",
+                "reference": "5c7a3f107c6eca2dc0b2c75bfbf648f4c3386c81",
                 "shasum": ""
             },
             "require": {
                 "dflydev/dot-access-data": "^1.1.0",
                 "grasmash/yaml-expander": "^1.1",
-                "php": ">=5.4.0",
-                "symfony/console": "~2.5|~3.0"
+                "php": ">=5.4.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "4.*",
+                "phpunit/phpunit": "^4",
                 "satooshi/php-coveralls": "^1.0",
-                "squizlabs/php_codesniffer": "2.*"
+                "squizlabs/php_codesniffer": "2.*",
+                "symfony/console": "^2.5|^3"
             },
             "type": "library",
             "extra": {
@@ -105,7 +105,7 @@
                 }
             ],
             "description": "Provide configuration services for a commandline tool.",
-            "time": "2017-06-26 23:04:34"
+            "time": "2017-06-28 00:50:46"
         },
         {
             "name": "consolidation/log",

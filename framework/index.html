@@ -317,8 +317,8 @@ class MyApplication {
 <h2 id="using-a-custom-configuration-loader">Using a Custom Configuration Loader</h2>
 <p>Robo provides a very simple configuration loader. If you wish to use more capable loader, you may opt to do so. Replace the call to <code>Robo::createConfiguration()</code> with code similar to the following:</p>
 <pre><code>use Robo\Config\Config;
-use Robo\Config\YamlConfigLoader;
-use Robo\Config\ConfigProcessor;
+use Consolidation\Config\Loader\YamlConfigLoader;
+use Consolidation\Config\Loader\ConfigProcessor;
 
 $config = new Config();
 $loader = new YamlConfigLoader();

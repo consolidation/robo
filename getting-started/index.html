@@ -489,6 +489,16 @@ class MyTask extends BaseTask
 </code></pre>
 
 <p>If you run this command, then it will print <code>Hello, world</code>. If the <code>--who</code> option is provided on the command line, that value will take precidence over the value stored in configuration. Thus, <code>hello --who=everyone</code> will print <code>Hello, everyone</code>.</p>
+<p>Command groups may also share configuration options. For example, if you have commands <code>foo:bar</code>, <code>foo:baz</code> and <code>foo:boz</code>, all of which share a common option <code>color</code>, then the following configuration will provide the value <code>blue</code> to <code>foo:bar</code> and <code>foo:baz</code>, and the value <code>green</code> to <code>foo:boz</code>:</p>
+<pre><code>command:
+  foo:
+    options:
+      color: blue
+    boz:
+      options:
+        color: green
+</code></pre>
+
 <h3 id="configuration-for-task-settings">Configuration for Task Settings</h3>
 <p>Robo will automatically configure tasks with values from configuration. For example, given the following task definition:</p>
 <pre><code>$this-&gt;taskMyOperation()
@@ -502,18 +512,28 @@ class MyTask extends BaseTask
   -&gt;run();
 </code></pre>
 
-<p>The corresponding configuration file would appear as follows:</p>
+<p>Then, presuming that <code>taskMyOperation</code> was implemented in a class <code>\MyOrg\Task\TaskGroup\MyOperation</code>, then the corresponding configuration file would appear as follows:</p>
 <pre><code>task:
-  MyOperation:
+  TaskGroup:
+    MyOperation:
+      settings:
+        dir: /my/path
+        extrapolated: false
+</code></pre>
+
+<p>The key for configuration-injected settings is <code>task.PARTIAL_NAMESPACE.CLASSNAME.settings.key</code>. PARTIAL_NAMESPACE is the namespace for the class, with each <code>\</code> replaced with a <code>.</code>, and with each component of the namespace up to and including <code>Task</code> removed.</p>
+<p>Tasks in the same namespace may also share configuration-injected settings. For example, the configuration below will set the <code>dir</code> option of any task implemented by a class in the <code>*\TaskGroup\MyOperation</code> namespace, unless the task has a more specific configuration value stored with its classname:</p>
+<pre><code>task:
+  TaskGroup:
     settings:
       dir: /my/path
       extrapolated: false
 </code></pre>
 
-<p>The key for configuration-injected settings is <code>task.CLASSNAME.settings.key</code>.</p>
 <h3 id="accessing-configuration-directly">Accessing Configuration Directly</h3>
-<p>In a RoboFile, use <code>Robo::Config()-&gt;get('task.MyOperation.settings.dir');</code> to fetch the <code>dir</code> configuration option from the previous example.</p>
-<h3 id="providing-default-configuration">Providing Default Configuration</h3>
+<p>In a RoboFile, use <code>Robo::Config()-&gt;get('task.TaskGroup.MyOperation.settings.dir');</code> to fetch the <code>dir</code> configuration option from the previous example.</p>
+<p>In the implementation of <code>taskMyOperation()</code> itself, it is in general not necessary to access configuration values directly, as it is preferable to allow Robo to inject configuration as described above. However, if desired, configuration may be accessed from within the method of any task that extends <code>\Robo\Task\BaseTask</code> (or otherwise uses <code>ConfigAwareTrait</code>) may do so via <code>static::getConfigValue('key', 'default');</code>.</p>
+<h3 id="providing-default-configuration-in-code">Providing Default Configuration in Code</h3>
 <p>RoboFiles that wish to provide default configuration values that can be overridden via robo.yml values or commandline options may do so in the class' constructor method.  The example below demonstrates how to set up a default value for the <code>task.Ssh.remoteDir</code> configuration property in code:</p>
 <pre><code>class RoboFile
 {
@@ -524,7 +544,7 @@ class MyTask extends BaseTask
 }
 </code></pre>
 
-<p>If <code>task.Ssh.remoteDir</code> is set to some other value in the robo.yml configuration file in the current directory, then the value from the configuration file will take precedence.</p>
+<p>If <code>task.Remote.Ssh.remoteDir</code> is set to some other value in the robo.yml configuration file in the current directory, then the value from the configuration file will take precedence.</p>
 <h3 id="loading-configuration-from-another-source">Loading Configuration From Another Source</h3>
 <p>Sometimes, a RoboFile might want to define its own private configuration file to use in addition to the standard <code>robo.yml</code> file. This can also be done in the constructor.</p>
 <pre><code>class RoboFile

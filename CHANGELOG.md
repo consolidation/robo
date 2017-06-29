@@ -1,9 +1,9 @@
 # Changelog
 
-### 1.0.9 tbd
+### 1.1.0 06/29/2017
 
 * Configuration for multiple commands or multiple tasks may now be shared by attaching the configuration values to the task namespace or the command group. #597
-* *Breaking* Task configuration taken from property `task.PARTIAL_NAMESPACE.CLASSNAME.settings` instead of `task.CLASSNAME.settings`. Breaks backwards compatibility only with experimental configuration features introduced in version 1.0.6. Config will be stable in 1.1.0. #596
+* *Breaking* Task configuration taken from property `task.PARTIAL_NAMESPACE.CLASSNAME.settings` instead of `task.CLASSNAME.settings`. Breaks backwards compatibility only with experimental configuration features introduced in version 1.0.6. Config is now stable, as of this release; there will be no more breaking changes until Robo 2.0. #596
 
 ### 1.0.8 06/02/2017
 

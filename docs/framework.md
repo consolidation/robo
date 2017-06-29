@@ -150,8 +150,8 @@ If you are using League\Container (recommended), then you may simply add and sha
 Robo provides a very simple configuration loader. If you wish to use more capable loader, you may opt to do so. Replace the call to `Robo::createConfiguration()` with code similar to the following:
 ```
 use Robo\Config\Config;
-use Robo\Config\YamlConfigLoader;
-use Robo\Config\ConfigProcessor;
+use Consolidation\Config\Loader\YamlConfigLoader;
+use Consolidation\Config\Loader\ConfigProcessor;
 
 $config = new Config();
 $loader = new YamlConfigLoader();

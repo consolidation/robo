@@ -1,6 +1,7 @@
 <?php
 namespace Robo\Collection;
 
+use Consolidation\Config\Inject\ConfigForSetters;
 use Robo\Config\Config;
 use Psr\Log\LogLevel;
 use Robo\Contract\InflectionInterface;
@@ -481,9 +482,9 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
      */
     protected function configureTask($taskClass, $task)
     {
-        $taskClass = $this->classNameWithoutNamespace($taskClass);
-        $configurationKey = "task.{$taskClass}.settings";
-        $this->getConfig()->applyConfiguration($task, $configurationKey);
+        $taskClass = static::configClassIdentifier($taskClass);
+        $configurationApplier = new ConfigForSetters($this->getConfig(), $taskClass, 'task.');
+        $configurationApplier->apply($task, 'settings');
 
         // TODO: If we counted each instance of $taskClass that was called from
         // this builder, then we could also apply configuration from
@@ -492,20 +493,6 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
         // TODO: If the builder knew what the current command name was,
         // then we could also search for task configuration under
         // command-specific keys such as "command.{$commandname}.task.{$taskClass}.settings".
-    }
-
-    /**
-     * Strip the namespace off of the fully-qualified classname
-     * @param string $classname
-     * @return string
-     */
-    protected function classNameWithoutNamespace($classname)
-    {
-        $pos = strrpos($classname, '\\');
-        if ($pos === false) {
-            return $classname;
-        }
-        return substr($classname, $pos + 1);
     }
 
     /**

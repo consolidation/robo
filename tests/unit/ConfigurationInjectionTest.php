@@ -1,8 +1,8 @@
 <?php
 use Robo\Robo;
 
-use Robo\Config\ConfigProcessor;
-use Robo\Config\YamlConfigLoader;
+use Consolidation\Config\Loader\ConfigProcessor;
+use Consolidation\Config\Loader\YamlConfigLoader;
 
 class ConfigurationInjectionTest extends \Codeception\TestCase\Test
 {
@@ -63,6 +63,18 @@ class ConfigurationInjectionTest extends \Codeception\TestCase\Test
 
         $this->guy->seeInOutput("a: '4'");
         $this->guy->seeInOutput("b: '6'");
+    }
+
+    public function testWithConfigurationFallbacks()
+    {
+        \Robo\Robo::config()->set('command.test.simple-list.options.a', '4');
+        \Robo\Robo::config()->set('command.test.options.b', '7');
+
+        $argv = ['placeholder', 'test:simple-list'];
+        $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
+
+        $this->guy->seeInOutput("a: '4'");
+        $this->guy->seeInOutput("b: '7'");
     }
 
     public function testSettingConfigurationFromCommandOptions()
@@ -130,7 +142,21 @@ class ConfigurationInjectionTest extends \Codeception\TestCase\Test
         $argv = ['placeholder', 'test:exec', '--simulate'];
         $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
 
-        // `task.Exec.settings.dir` is defined in loaded robo.yml configuration file.
+        // `task.Base.Exec.settings.dir` is defined in loaded robo.yml configuration file.
         $this->guy->seeInOutput("->dir('/some/dir')");
+    }
+
+    public function testCommandWithFallbackTaskConfiguration()
+    {
+        $loader = new YamlConfigLoader();
+        $loader->load(dirname(__DIR__) . '/_data/falback-task-config-robo.yml');
+
+        \Robo\Robo::config()->import($loader->export());
+
+        $argv = ['placeholder', 'test:exec', '--simulate'];
+        $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
+
+        // `task.Base.settings.dir` is defined in loaded robo.yml configuration file.
+        $this->guy->seeInOutput("->dir('/some/other/dir')");
     }
 }

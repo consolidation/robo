@@ -5,6 +5,7 @@ command:
         a: '12'
         b: '13'
 task:
-  Exec:
-    settings:
-      dir: /some/dir
+  Base:
+    Exec:
+      settings:
+        dir: /some/dir

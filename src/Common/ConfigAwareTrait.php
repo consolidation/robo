@@ -43,13 +43,25 @@ trait ConfigAwareTrait
     /**
      * Any class that uses ConfigAwareTrait SHOULD override this method
      * , and define a prefix for its configuration items. This is usually
-     * done in a base class; see BaseTask::configPrefix(). It is not
-     * necessary to override this method for classes that have no configuration
-     * items of their own.
+     * done in a base class. When used, this method should return a string
+     * that ends with a "."; see BaseTask::configPrefix().
      *
      * @return string
      */
     protected static function configPrefix()
+    {
+        return '';
+    }
+
+    protected static function configClassIdentifier($classname)
+    {
+        $configIdentifier = strtr($classname, '\\', '.');
+        $configIdentifier = preg_replace('#^(.*\.Task\.|\.)#', '', $configIdentifier);
+
+        return $configIdentifier;
+    }
+
+    protected static function configPostfix()
     {
         return '';
     }
@@ -61,7 +73,11 @@ trait ConfigAwareTrait
      */
     private static function getClassKey($key)
     {
-        return sprintf('%s%s.%s', static::configPrefix(), get_called_class(), $key);
+        $configPrefix = static::configPrefix();                            // task.
+        $configClass = static::configClassIdentifier(get_called_class());  // PARTIAL_NAMESPACE.CLASSNAME
+        $configPostFix = static::configPostfix();                          // .settings
+
+        return sprintf('%s%s%s.%s', $configPrefix, $configClass, $configPostFix, $key);
     }
 
     /**

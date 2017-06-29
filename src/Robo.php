@@ -4,8 +4,8 @@ namespace Robo;
 use League\Container\Container;
 use League\Container\ContainerInterface;
 use Robo\Common\ProcessExecutor;
-use Robo\Config\ConfigProcessor;
-use Robo\Config\YamlConfigLoader;
+use Consolidation\Config\Loader\ConfigProcessor;
+use Consolidation\Config\Loader\YamlConfigLoader;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Process\Process;
@@ -209,7 +209,8 @@ class Robo
         $container->share('resultPrinter', \Robo\Log\ResultPrinter::class);
         $container->add('simulator', \Robo\Task\Simulator::class);
         $container->share('globalOptionsEventListener', \Robo\GlobalOptionsEventListener::class);
-        $container->share('injectConfigEventListener', \Robo\InjectConfigEventListener::class);
+        $container->share('injectConfigEventListener', \Consolidation\Config\Inject\ConfigForCommand::class)
+            ->withArgument('config');
         $container->share('collectionProcessHook', \Robo\Collection\CollectionProcessHook::class);
         $container->share('hookManager', \Consolidation\AnnotatedCommand\Hooks\HookManager::class)
             ->withMethodCall('addResultProcessor', ['collectionProcessHook', '*']);

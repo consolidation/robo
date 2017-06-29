@@ -1,9 +1,6 @@
 <?php
 use Robo\Robo;
 
-use Robo\Config\ConfigProcessor;
-use Robo\Config\YamlConfigLoader;
-
 class RunnerTest extends \Codeception\TestCase\Test
 {
     /**

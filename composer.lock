@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d3b3a1efc951f085b325276e2d01ec35",
+    "content-hash": "7e4d35357a63b1af9009facbe31142dc",
     "packages": [
         {
             "name": "consolidation/annotated-command",
@@ -60,16 +60,16 @@
         },
         {
             "name": "consolidation/config",
-            "version": "dev-master",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/config.git",
-                "reference": "4f1c5691c2126ad60a0d6dcb83831b8a184155a6"
+                "reference": "b30571aa8f0eae40581ae8b8aeaa26706b444781"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/config/zipball/4f1c5691c2126ad60a0d6dcb83831b8a184155a6",
-                "reference": "4f1c5691c2126ad60a0d6dcb83831b8a184155a6",
+                "url": "https://api.github.com/repos/consolidation/config/zipball/b30571aa8f0eae40581ae8b8aeaa26706b444781",
+                "reference": "b30571aa8f0eae40581ae8b8aeaa26706b444781",
                 "shasum": ""
             },
             "require": {
@@ -105,7 +105,7 @@
                 }
             ],
             "description": "Provide configuration services for a commandline tool.",
-            "time": "2017-06-28 03:35:39"
+            "time": "2017-06-28T18:24:02+00:00"
         },
         {
             "name": "consolidation/log",
@@ -3757,9 +3757,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "consolidation/config": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

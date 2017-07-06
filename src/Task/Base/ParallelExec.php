@@ -43,7 +43,7 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
     /**
      * @var null|int
      */
-    protected $waitInterval = null;
+    protected $waitInterval = 0;
 
     /**
      * @var bool
@@ -141,19 +141,20 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
      */
     public function run()
     {
-        foreach ($this->processes as $process) {
-            $process->setIdleTimeout($this->idleTimeout);
-            $process->setTimeout($this->timeout);
-            $process->start();
-            $this->printTaskInfo($process->getCommandLine());
-            if ($this->waitInterval) {
-                sleep($this->waitInterval);
-            }
-        }
-
         $this->startProgressIndicator();
-        $running = $this->processes;
+        $running = [];
+        $queue = $this->processes;
+        $nextTime = time();
         while (true) {
+            if (($nextTime <= time()) && !empty($queue)) {
+                $process = array_shift($queue);
+                $process->setIdleTimeout($this->idleTimeout);
+                $process->setTimeout($this->timeout);
+                $process->start();
+                $this->printTaskInfo($process->getCommandLine());
+                $running[] = $process;
+                $nextTime = time() + $this->waitInterval;
+            }
             foreach ($running as $k => $process) {
                 try {
                     $process->checkTimeout();
@@ -172,7 +173,7 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
                     unset($running[$k]);
                 }
             }
-            if (empty($running)) {
+            if (empty($running) && empty($queue)) {
                 break;
             }
             usleep(1000);

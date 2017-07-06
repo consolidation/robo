@@ -39,4 +39,20 @@ class ParallelExecTest extends \Codeception\TestCase\Test
         verify($result->getExitCode())->equals(0);
         $this->guy->seeInOutput("3 processes finished");
     }
+
+    public function testParallelExecWithWaitInterval()
+    {
+        $task = new \Robo\Task\Base\ParallelExec();
+        $task->setLogger($this->guy->logger());
+
+        $result = $task
+            ->process('ls 1')
+            ->process('ls 2')
+            ->process('ls 3')
+            ->waitInterval(1)
+            ->run();
+        $this->process->verifyInvokedMultipleTimes('start', 3);
+        verify($result->getExitCode())->equals(0);
+        $this->guy->seeInOutput("3 processes finished");
+    }
 }

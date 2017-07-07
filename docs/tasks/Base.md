@@ -67,6 +67,7 @@ $this->taskParallelExec()
 ```
 
 * `process($command)`   * `param string|\Robo\Contract\CommandInterface` $command
+* `waitInterval($waitInterval)`  Parallel processing will wait `$waitInterval` seconds after launching each process and before
 
 ## SymfonyCommand
 

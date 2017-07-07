@@ -1,5 +1,10 @@
 # Changelog
 
+### 1.1.1 07/07/2017
+
+* Add an option to wait an interval of time between parallel processes. By Gemma Pou #601
+* Do not print dire messages about Robo bootstrap problems when a valid command (e.g. help, list, init, --version) runs. #502
+
 ### 1.1.0 06/29/2017
 
 * Configuration for multiple commands or multiple tasks may now be shared by attaching the configuration values to the task namespace or the command group. #597

@@ -41,6 +41,11 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
     protected $idleTimeout = null;
 
     /**
+     * @var null|int
+     */
+    protected $waitInterval = 0;
+
+    /**
      * @var bool
      */
     protected $isPrinted = false;
@@ -102,6 +107,20 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
     }
 
     /**
+     * Parallel processing will wait `$waitInterval` seconds after launching each process and before
+     * the next one.
+     *
+     * @param int $waitInterval
+     *
+     * @return $this
+     */
+    public function waitInterval($waitInterval)
+    {
+        $this->waitInterval = $waitInterval;
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getCommand()
@@ -122,16 +141,20 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
      */
     public function run()
     {
-        foreach ($this->processes as $process) {
-            $process->setIdleTimeout($this->idleTimeout);
-            $process->setTimeout($this->timeout);
-            $process->start();
-            $this->printTaskInfo($process->getCommandLine());
-        }
-
         $this->startProgressIndicator();
-        $running = $this->processes;
+        $running = [];
+        $queue = $this->processes;
+        $nextTime = time();
         while (true) {
+            if (($nextTime <= time()) && !empty($queue)) {
+                $process = array_shift($queue);
+                $process->setIdleTimeout($this->idleTimeout);
+                $process->setTimeout($this->timeout);
+                $process->start();
+                $this->printTaskInfo($process->getCommandLine());
+                $running[] = $process;
+                $nextTime = time() + $this->waitInterval;
+            }
             foreach ($running as $k => $process) {
                 try {
                     $process->checkTimeout();
@@ -150,7 +173,7 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
                     unset($running[$k]);
                 }
             }
-            if (empty($running)) {
+            if (empty($running) && empty($queue)) {
                 break;
             }
             usleep(1000);

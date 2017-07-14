@@ -233,6 +233,15 @@ class Codecept extends BaseTask implements CommandInterface, PrintedInterface
     }
 
     /**
+     * @return $this
+     */
+    public function noRebuild()
+    {
+        $this->option("no-rebuild");
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getCommand()

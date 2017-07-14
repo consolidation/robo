@@ -1,4 +1,6 @@
 <?php
+namespace Robo\Example\RoboPlugin;
+
 use Robo\Result;
 
 use Consolidation\AnnotatedCommand\CommandData;
@@ -8,19 +10,39 @@ use Consolidation\OutputFormatters\StructuredData\PropertyList;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
- * Example RoboFile.
+ * Example Robo plugin commands.
  *
- * To test:
+ * Commandfiles from any Composer project may be registered to load with Robo.
+ * To use, follow the steps below:
  *
- * $ cd ROBO_PROJECT/examples
- * $ ../robo try:success
+ * 1. Add an entry to the 'psr-4' section of the 'autoload' section in
+ *    your composer.json file. The namespace must end with `RoboPlugin\\`
  *
- *   - or -
+ *     "autoload":{
+ *         "psr-4":{
+ *             "MyProject\\":"src",
+ *             "MyProject\\RoboPlugin\\":"plugin"
+ *         }
+ *     },
  *
- * $ cd ROBO_PROJECT
- * $ ./robo -f examples try:formatters
+ * 2. Add command files to the specified directory. The command files must
+ *    have names ending `Commands.php`. They must either be immediately
+ *    inside the directory specified in the psr-4 autoload section, or they
+ *    may be anywhere inside a directory named `Commands`.
+ *
+ * 3. The command file must have the correct namespace, per regular psr-4 rules.
+ *    For example, a command file `plugin/Commands/PowerTools/AmazingCommands.php`
+ *    must be in the namespace `MyProject\RoboPlugin\Commands\PowerTools\`,
+ *    given the psr-4 autoloader entry shown in 1., above.
+ *
+ * Note that Robo will only search for plugins in psr-4 autoload entries that
+ * end with `RoboPlugin\\`. The namespace `MyProject\RoboPlugin` in the `src`
+ * directory will *not* be discovered.
+ *
+ * Use `composer require myorg/myproject` inside the directory where Robo is
+ * installed to add plugins. Plugins cannot be used with the Robo phar.
  */
-class RoboFile extends \Robo\Tasks
+class ExampleCommands extends \Robo\Tasks
 {
     /**
      * Watch a file.

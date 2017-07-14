@@ -18,7 +18,8 @@
     },
     "autoload-dev":{
         "psr-4":{
-            "Robo\\":"tests/src"
+            "Robo\\":"tests/src",
+            "Robo\\Example\\RoboPlugin\\":"examples"
         }
     },
     "bin":["robo"],
@@ -27,7 +28,7 @@
         "league/container": "^2.2",
         "consolidation/log": "~1",
         "consolidation/config": "^1.0.1",
-        "consolidation/annotated-command": "^2.2",
+        "consolidation/annotated-command": "^2.4.8",
         "consolidation/output-formatters": "^3.1.5",
         "symfony/finder": "~2.5|~3.0",
         "symfony/console": "~2.8|~3.0",

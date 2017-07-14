@@ -9,6 +9,8 @@ use Robo\Common\IO;
 use Robo\Exception\TaskExitException;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
+use Composer\Autoload\ClassLoader;
+use Consolidation\AnnotatedCommand\CommandFileDiscovery;
 
 class Runner implements ContainerAwareInterface
 {
@@ -44,6 +46,16 @@ class Runner implements ContainerAwareInterface
     protected $selfUpdateRepository = null;
 
     /**
+     * @var string[]
+     */
+    protected $commandFilePluginPrefixes;
+
+    /**
+     * @var string
+     */
+    protected $namespacePattern = '';
+
+    /**
      * Class Constructor
      *
      * @param null|string $roboClass
@@ -67,13 +79,8 @@ class Runner implements ContainerAwareInterface
      *
      * @return bool
      */
-    protected function loadRoboFile($output)
+    protected function loadRoboFile()
     {
-        // If we have not been provided an output object, make a temporary one.
-        if (!$output) {
-            $output = new \Symfony\Component\Console\Output\ConsoleOutput();
-        }
-
         // If $this->roboClass is a single class that has not already
         // been loaded, then we will try to obtain it from $this->roboFile.
         // If $this->roboClass is an array, we presume all classes requested
@@ -119,7 +126,7 @@ class Runner implements ContainerAwareInterface
         if ($appName && $appVersion) {
             $app = Robo::createDefaultApplication($appName, $appVersion);
         }
-        $commandFiles = $this->getRoboFileCommands($output);
+        $commandFiles = $this->getRoboFileCommands();
         return $this->run($argv, $output, $app, $commandFiles);
     }
 
@@ -188,17 +195,63 @@ class Runner implements ContainerAwareInterface
         return $statusCode;
     }
 
+    public function setLoader(ClassLoader $loader)
+    {
+        return $this->setCommandFilePluginPrefixes($loader->getPrefixesPsr4());
+    }
+
+    public function setCommandFilePluginPrefixes($prefixes)
+    {
+        $this->commandFilePluginPrefixes = $prefixes;
+        return $this;
+    }
+
+    public function setCommandFilePluginPattern($namespacePattern)
+    {
+        $this->namespacePattern = $namespacePattern;
+        return $this;
+    }
+
+    protected function getPluginCommandClasses()
+    {
+        $commandClasses = [];
+        if ((!$this->commandFilePluginPrefixes) || empty($this->namespacePattern)) {
+            return [];
+        }
+        $pattern = '#' . $this->namespacePattern . '#';
+        $commandSearchPaths = [];
+        foreach ($this->commandFilePluginPrefixes as $baseNamespace => $paths) {
+            if (preg_match($pattern, $baseNamespace)) {
+                $commandSearchPaths[$baseNamespace] = $paths;
+            }
+        }
+
+        $discovery = new CommandFileDiscovery();
+        $discovery->setSearchLocations(['Commands']);
+
+        foreach ($commandSearchPaths as $baseNamespace => $paths) {
+            foreach ($paths as $path) {
+                $discoveredCommandClasses = $discovery->discover($path, $baseNamespace);
+                $commandClasses = array_merge($commandClasses, $discoveredCommandClasses);
+            }
+        }
+
+        return $commandClasses;
+    }
+
     /**
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      *
      * @return null|string
      */
-    protected function getRoboFileCommands($output)
+    protected function getRoboFileCommands()
     {
-        if (!$this->loadRoboFile($output)) {
-            return;
+        $commandClasses = $this->getPluginCommandClasses();
+        if (!$this->loadRoboFile()) {
+            return $commandClasses;
         }
-        return $this->roboClass;
+        $commandClasses = array_merge($commandClasses, (array)$this->roboClass);
+        return $commandClasses;
     }
 
     /**

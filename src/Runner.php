@@ -92,7 +92,6 @@ class Runner implements ContainerAwareInterface
         require_once $roboFilePath;
 
         if (!class_exists($this->roboClass)) {
-            $output->writeln("<error>Class ".$this->roboClass." was not loaded</error>");
             $this->errorCondtion("Class {$this->roboClass} was not loaded.", 'red');
             return false;
         }

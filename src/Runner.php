@@ -75,8 +75,6 @@ class Runner implements ContainerAwareInterface
     }
 
     /**
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
      * @return bool
      */
     protected function loadRoboFile()
@@ -215,7 +213,7 @@ class Runner implements ContainerAwareInterface
     protected function getPluginCommandClasses()
     {
         $commandClasses = [];
-        if ((!$this->commandFilePluginPrefixes) || empty($this->namespacePattern)) {
+        if ((empty($this->commandFilePluginPrefixes)) || empty($this->namespacePattern)) {
             return [];
         }
         $pattern = '#' . $this->namespacePattern . '#';
@@ -240,8 +238,6 @@ class Runner implements ContainerAwareInterface
     }
 
     /**
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
      * @return null|string
      */
     protected function getRoboFileCommands()

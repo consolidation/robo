@@ -362,7 +362,7 @@ On startup, Robo will load a configuration file, `robo.yml`, if it exists in the
 
 ### Configuration for Command Options
 
-The preferred method for commands to use to read configuration is to simply define commandline options for each configuration value. Configuration may be provided for any command option in the robl.yml configuration file.
+The preferred method for commands to use to read configuration is to simply define commandline options for each configuration value. Configuration may be provided for any command option in the `robo.yml` configuration file.
 
 For example, given the following Robo command:
 

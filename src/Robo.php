@@ -4,6 +4,7 @@ namespace Robo;
 use League\Container\Container;
 use League\Container\ContainerInterface;
 use Robo\Common\ProcessExecutor;
+use Consolidation\Config\ConfigInterface;
 use Consolidation\Config\Loader\ConfigProcessor;
 use Consolidation\Config\Loader\YamlConfigLoader;
 use Symfony\Component\Console\Input\StringInput;
@@ -124,7 +125,7 @@ class Robo
      * @param null|\Symfony\Component\Console\Input\InputInterface $input
      * @param null|\Symfony\Component\Console\Output\OutputInterface $output
      * @param null|\Robo\Application $app
-     * @param null|\Robo\Config\Config $config
+     * @param null|ConfigInterface $config
      *
      * @return \League\Container\Container|\League\Container\ContainerInterface
      */
@@ -170,11 +171,11 @@ class Robo
      *
      * @param \League\Container\ContainerInterface $container
      * @param \Symfony\Component\Console\Application $app
-     * @param \Robo\Config\Config $config
+     * @param ConfigInterface $config
      * @param null|\Symfony\Component\Console\Input\InputInterface $input
      * @param null|\Symfony\Component\Console\Output\OutputInterface $output
      */
-    public static function configureContainer(ContainerInterface $container, SymfonyApplication $app, \Robo\Config\Config $config, $input = null, $output = null)
+    public static function configureContainer(ContainerInterface $container, SymfonyApplication $app, ConfigInterface $config, $input = null, $output = null)
     {
         // Self-referential container refernce for the inflector
         $container->add('container', $container);
@@ -187,8 +188,8 @@ class Robo
         if (!$output) {
             $output = new \Symfony\Component\Console\Output\ConsoleOutput();
         }
-        $config->setDecorated($output->isDecorated());
-        $config->setInteractive($input->isInteractive());
+        $config->set(Config::DECORATED, $output->isDecorated());
+        $config->set(Config::INTERACTIVE, $input->isInteractive());
 
         $container->share('application', $app);
         $container->share('config', $config);
@@ -210,7 +211,8 @@ class Robo
         $container->add('simulator', \Robo\Task\Simulator::class);
         $container->share('globalOptionsEventListener', \Robo\GlobalOptionsEventListener::class);
         $container->share('injectConfigEventListener', \Consolidation\Config\Inject\ConfigForCommand::class)
-            ->withArgument('config');
+            ->withArgument('config')
+            ->withMethodCall('setApplication', ['application']);
         $container->share('collectionProcessHook', \Robo\Collection\CollectionProcessHook::class);
         $container->share('hookManager', \Consolidation\AnnotatedCommand\Hooks\HookManager::class)
             ->withMethodCall('addResultProcessor', ['collectionProcessHook', '*']);
@@ -340,7 +342,7 @@ class Robo
     }
 
     /**
-     * @return \Robo\Config\Config
+     * @return ConfigInterface
      */
     public static function config()
     {

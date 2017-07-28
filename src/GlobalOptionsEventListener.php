@@ -6,6 +6,7 @@ use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Robo\Contract\ConfigAwareInterface;
 use Robo\Common\ConfigAwareTrait;
+use Robo\Config\GlobalOptionDefaultValuesInterface;
 
 class GlobalOptionsEventListener implements EventSubscriberInterface, ConfigAwareInterface
 {
@@ -39,7 +40,11 @@ class GlobalOptionsEventListener implements EventSubscriberInterface, ConfigAwar
     {
         $config = $this->getConfig();
         $input = $event->getInput();
-        $globalOptions = $config->getGlobalOptionDefaultValues();
+
+        $globalOptions = $config->get('options', []);
+        if ($config instanceof GlobalOptionDefaultValuesInterface) {
+            $globalOptions += $config->getGlobalOptionDefaultValues();
+        }
 
         // Set any config value that has a defined global option (e.g. --simulate)
         foreach ($globalOptions as $option => $default) {

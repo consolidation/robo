@@ -3,25 +3,25 @@
 namespace Robo\Common;
 
 use Robo\Robo;
-use Robo\Config\Config;
+use Consolidation\Config\ConfigInterface;
 
 trait ConfigAwareTrait
 {
     /**
-     * @var \Robo\Config\Config
+     * @var ConfigInterface
      */
     protected $config;
 
     /**
      * Set the config management object.
      *
-     * @param \Robo\Config\Config $config
+     * @param ConfigInterface $config
      *
      * @return $this
      *
      * @see \Robo\Contract\ConfigAwareInterface::setConfig()
      */
-    public function setConfig(Config $config)
+    public function setConfig(ConfigInterface $config)
     {
         $this->config = $config;
 
@@ -31,7 +31,7 @@ trait ConfigAwareTrait
     /**
      * Get the config management object.
      *
-     * @return \Robo\Config\Config
+     * @return ConfigInterface
      *
      * @see \Robo\Contract\ConfigAwareInterface::getConfig()
      */

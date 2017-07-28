@@ -175,6 +175,7 @@
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
         <li class="main active"><a href="#changelog">Changelog</a></li>
+            <li><a href="#112-07282017">1.1.2 07/28/2017</a></li>
             <li><a href="#111-07072017">1.1.1 07/07/2017</a></li>
             <li><a href="#110-06292017">1.1.0 06/29/2017</a></li>
             <li><a href="#108-06022017">1.0.8 06/02/2017</a></li>
@@ -183,6 +184,11 @@
                 <div class="col-md-9" role="main">
 
 <h1 id="changelog">Changelog</h1>
+<h3 id="112-07282017">1.1.2 07/28/2017</h3>
+<ul>
+<li>Inject option default values in help (#607)</li>
+<li>Add noRebuild() method for Codeception run command. By Max Gorovenko (#603)</li>
+</ul>
 <h3 id="111-07072017">1.1.1 07/07/2017</h3>
 <ul>
 <li>Add an option to wait an interval of time between parallel processes. By Gemma Pou #601</li>
@@ -191,7 +197,7 @@
 <h3 id="110-06292017">1.1.0 06/29/2017</h3>
 <ul>
 <li>Configuration for multiple commands or multiple tasks may now be shared by attaching the configuration values to the task namespace or the command group. #597</li>
-<li><em>Breaking</em> Task configuration taken from property <code>task.PARTIAL_NAMESPACE.CLASSNAME.settings</code> instead of <code>task.CLASSNAME.settings</code>. Breaks backwards compatibility only with experimental configuration features introduced in version 1.0.6. Config is now stable, as of this release; there will be no more breaking changes until Robo 2.0. #596</li>
+<li><em>Breaking</em> Task configuration taken from property <code>task.PARTIAL_NAMESPACE.CLASSNAME.settings</code> instead of <code>task.CLASSNAME.settings</code>. Breaks backwards compatibility only with experimental configuration features introduced in version 1.0.6. Config is now stable, as of this release; there will be no more breaking config changes until Robo 2.0. #596</li>
 </ul>
 <h3 id="108-06022017">1.0.8 06/02/2017</h3>
 <ul>

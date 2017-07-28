@@ -1,5 +1,10 @@
 # Changelog
 
+### 1.1.2 07/28/2017
+
+* Inject option default values in help (#607)
+* Add noRebuild() method for Codeception run command. By Max Gorovenko (#603)
+
 ### 1.1.1 07/07/2017
 
 * Add an option to wait an interval of time between parallel processes. By Gemma Pou #601
@@ -8,7 +13,7 @@
 ### 1.1.0 06/29/2017
 
 * Configuration for multiple commands or multiple tasks may now be shared by attaching the configuration values to the task namespace or the command group. #597
-* *Breaking* Task configuration taken from property `task.PARTIAL_NAMESPACE.CLASSNAME.settings` instead of `task.CLASSNAME.settings`. Breaks backwards compatibility only with experimental configuration features introduced in version 1.0.6. Config is now stable, as of this release; there will be no more breaking changes until Robo 2.0. #596
+* *Breaking* Task configuration taken from property `task.PARTIAL_NAMESPACE.CLASSNAME.settings` instead of `task.CLASSNAME.settings`. Breaks backwards compatibility only with experimental configuration features introduced in version 1.0.6. Config is now stable, as of this release; there will be no more breaking config changes until Robo 2.0. #596
 
 ### 1.0.8 06/02/2017
 

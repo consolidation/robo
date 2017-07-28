@@ -1,0 +1,5 @@
+options:
+  progress-delay: 2
+  simulate: false
+  interactive: false
+  decorated: false

@@ -4,6 +4,7 @@ namespace Robo;
 use League\Container\Container;
 use League\Container\ContainerInterface;
 use Robo\Common\ProcessExecutor;
+use Consolidation\Config\ConfigInterface;
 use Consolidation\Config\Loader\ConfigProcessor;
 use Consolidation\Config\Loader\YamlConfigLoader;
 use Symfony\Component\Console\Input\StringInput;
@@ -124,7 +125,7 @@ class Robo
      * @param null|\Symfony\Component\Console\Input\InputInterface $input
      * @param null|\Symfony\Component\Console\Output\OutputInterface $output
      * @param null|\Robo\Application $app
-     * @param null|\Robo\Config\Config $config
+     * @param null|ConfigInterface $config
      *
      * @return \League\Container\Container|\League\Container\ContainerInterface
      */
@@ -170,11 +171,11 @@ class Robo
      *
      * @param \League\Container\ContainerInterface $container
      * @param \Symfony\Component\Console\Application $app
-     * @param \Robo\Config\Config $config
+     * @param ConfigInterface $config
      * @param null|\Symfony\Component\Console\Input\InputInterface $input
      * @param null|\Symfony\Component\Console\Output\OutputInterface $output
      */
-    public static function configureContainer(ContainerInterface $container, SymfonyApplication $app, \Robo\Config\Config $config, $input = null, $output = null)
+    public static function configureContainer(ContainerInterface $container, SymfonyApplication $app, ConfigInterface $config, $input = null, $output = null)
     {
         // Self-referential container refernce for the inflector
         $container->add('container', $container);
@@ -340,7 +341,7 @@ class Robo
     }
 
     /**
-     * @return \Robo\Config\Config
+     * @return ConfigInterface
      */
     public static function config()
     {

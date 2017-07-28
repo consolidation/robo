@@ -1,7 +1,7 @@
 <?php
 namespace Robo\Config;
 
-class Config extends \Consolidation\Config\Config
+class Config extends \Consolidation\Config\Config implements GlobalOptionDefaultValuesInterface
 {
     const PROGRESS_BAR_AUTO_DISPLAY_INTERVAL = 'progress-delay';
     const DEFAULT_PROGRESS_DELAY = 2;
@@ -37,6 +37,8 @@ class Config extends \Consolidation\Config\Config
     }
 
     /**
+     * @deprecated Use $config->get(Config::SIMULATE)
+     *
      * @return bool
      */
     public function isSimulated()
@@ -45,6 +47,8 @@ class Config extends \Consolidation\Config\Config
     }
 
     /**
+     * @deprecated Use $config->set(Config::SIMULATE, true)
+     *
      * @param bool $simulated
      *
      * @return $this
@@ -55,6 +59,8 @@ class Config extends \Consolidation\Config\Config
     }
 
     /**
+     * @deprecated Use $config->get(Config::INTERACTIVE)
+     *
      * @return bool
      */
     public function isInteractive()
@@ -63,6 +69,8 @@ class Config extends \Consolidation\Config\Config
     }
 
     /**
+     * @deprecated Use $config->set(Config::INTERACTIVE, true)
+     *
      * @param bool $simulated
      *
      * @return $this
@@ -73,6 +81,8 @@ class Config extends \Consolidation\Config\Config
     }
 
     /**
+     * @deprecated Use $config->get(Config::DECORATED)
+     *
      * @return bool
      */
     public function isDecorated()
@@ -81,6 +91,8 @@ class Config extends \Consolidation\Config\Config
     }
 
     /**
+     * @deprecated Use $config->set(Config::DECORATED, true)
+     *
      * @param bool $decorated
      *
      * @return $this
@@ -91,6 +103,8 @@ class Config extends \Consolidation\Config\Config
     }
 
     /**
+     * @deprecated Use $config->set(Config::PROGRESS_BAR_AUTO_DISPLAY_INTERVAL, $interval)
+     *
      * @param int $interval
      *
      * @return $this

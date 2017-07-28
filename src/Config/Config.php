@@ -6,6 +6,8 @@ class Config extends \Consolidation\Config\Config implements GlobalOptionDefault
     const PROGRESS_BAR_AUTO_DISPLAY_INTERVAL = 'progress-delay';
     const DEFAULT_PROGRESS_DELAY = 2;
     const SIMULATE = 'simulate';
+
+    // Read-only configuration properties; changing these has no effect.
     const INTERACTIVE = 'interactive';
     const DECORATED = 'decorated';
 
@@ -71,7 +73,7 @@ class Config extends \Consolidation\Config\Config implements GlobalOptionDefault
     /**
      * @deprecated Use $config->set(Config::INTERACTIVE, true)
      *
-     * @param bool $simulated
+     * @param bool $interactive
      *
      * @return $this
      */

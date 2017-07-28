@@ -2,23 +2,23 @@
 
 namespace Robo\Contract;
 
-use Robo\Config\Config;
+use Consolidation\Config\ConfigInterface;
 
 interface ConfigAwareInterface
 {
     /**
      * Set the config reference
      *
-     * @param \Robo\Config\Config $config
+     * @param ConfigInterface $config
      *
      * @return $this
      */
-    public function setConfig(Config $config);
+    public function setConfig(ConfigInterface $config);
 
     /**
      * Get the config reference
      *
-     * @return \Robo\Config\Config
+     * @return ConfigInterface
      */
     public function getConfig();
 }

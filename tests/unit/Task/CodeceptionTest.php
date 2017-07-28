@@ -49,14 +49,16 @@ class CodeceptionTest extends \Codeception\TestCase\Test
             ->configFile('~/Codeception')
             ->xml('result.xml')
             ->html()
+            ->noRebuild()
             ->getCommand()
-        )->equals('codecept run tests/unit/Codeception -c ~/Codeception --xml result.xml --html');
+        )->equals('codecept run tests/unit/Codeception -c ~/Codeception --xml result.xml --html --no-rebuild');
 
         verify((new \Robo\Task\Testing\Codecept('codecept.phar'))->debug()->getCommand())->contains(' --debug');
         verify((new \Robo\Task\Testing\Codecept('codecept.phar'))->silent()->getCommand())->contains(' --silent');
         verify((new \Robo\Task\Testing\Codecept('codecept.phar'))->excludeGroup('g')->getCommand())->contains(' --skip-group g');
         verify((new \Robo\Task\Testing\Codecept('codecept.phar'))->tap()->getCommand())->contains('--tap');
         verify((new \Robo\Task\Testing\Codecept('codecept.phar'))->json()->getCommand())->contains('--json');
+        verify((new \Robo\Task\Testing\Codecept('codecept.phar'))->noRebuild()->getCommand())->contains('--no-rebuild');
     }
 
 }

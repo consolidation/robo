@@ -171,7 +171,7 @@ EOT;
     {
         $runnerWithNoRoboFile = new \Robo\Runner();
 
-        $argv = ['placeholder', 'list', '-f', dirname(__DIR__) . '/src/RoboFileFixture.php'];
+        $argv = ['placeholder', 'help', 'test:custom-event', '-f', dirname(__DIR__) . '/src/RoboFileFixture.php'];
         $result = $runnerWithNoRoboFile->execute($argv, null, null, $this->guy->capturedOutputStream());
 
         // We cannot load RoboFileFixture.php via -f / --load-from because

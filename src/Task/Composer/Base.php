@@ -209,10 +209,10 @@ abstract class Base extends BaseTask implements CommandInterface
      */
     public function buildCommand()
     {
-        if (!isset($this->ansi) && $this->getConfig()->isDecorated()) {
+        if (!isset($this->ansi) && $this->getConfig()->get(\Robo\Config\Config::DECORATED)) {
             $this->ansi();
         }
-        if (!isset($this->nointeraction) && !$this->getConfig()->isInteractive()) {
+        if (!isset($this->nointeraction) && !$this->getConfig()->get(\Robo\Config\Config::INTERACTIVE)) {
             $this->noInteraction();
         }
         $this->option($this->prefer)

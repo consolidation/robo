@@ -1,0 +1,3 @@
+options:
+  progress-delay: 2
+  simulate: false

@@ -53,6 +53,27 @@ class ConfigurationInjectionTest extends \Codeception\TestCase\Test
         $this->guy->seeInOutput("b: '5'");
     }
 
+    public function testHelpWithoutConfiguration()
+    {
+        $argv = ['placeholder', 'help', 'test:simple-list'];
+        $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
+
+        $this->guy->seeInOutput('[default: "1"]');
+        $this->guy->seeInOutput('[default: "2"]');
+    }
+
+    public function testHelpWithConfigurationButNoOptions()
+    {
+        \Robo\Robo::config()->set('command.test.simple-list.options.a', '4');
+        \Robo\Robo::config()->set('command.test.simple-list.options.b', '5');
+
+        $argv = ['placeholder', 'help', 'test:simple-list'];
+        $result = $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
+
+        $this->guy->seeInOutput('[default: "4"]');
+        $this->guy->seeInOutput('[default: "5"]');
+    }
+
     public function testWithConfigurationAndOptionOverride()
     {
         \Robo\Robo::config()->set('command.test.simple-list.options.a', '4');

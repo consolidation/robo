@@ -211,7 +211,8 @@ class Robo
         $container->add('simulator', \Robo\Task\Simulator::class);
         $container->share('globalOptionsEventListener', \Robo\GlobalOptionsEventListener::class);
         $container->share('injectConfigEventListener', \Consolidation\Config\Inject\ConfigForCommand::class)
-            ->withArgument('config');
+            ->withArgument('config')
+            ->withMethodCall('setApplication', ['application']);
         $container->share('collectionProcessHook', \Robo\Collection\CollectionProcessHook::class);
         $container->share('hookManager', \Consolidation\AnnotatedCommand\Hooks\HookManager::class)
             ->withMethodCall('addResultProcessor', ['collectionProcessHook', '*']);

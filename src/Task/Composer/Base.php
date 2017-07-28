@@ -4,7 +4,6 @@ namespace Robo\Task\Composer;
 use Robo\Contract\CommandInterface;
 use Robo\Exception\TaskException;
 use Robo\Task\BaseTask;
-use Robo\Config;
 
 abstract class Base extends BaseTask implements CommandInterface
 {
@@ -210,10 +209,10 @@ abstract class Base extends BaseTask implements CommandInterface
      */
     public function buildCommand()
     {
-        if (!isset($this->ansi) && $this->getConfig()->get(Config::DECORATED)) {
+        if (!isset($this->ansi) && $this->getConfig()->get(\Robo\Config\Config::DECORATED)) {
             $this->ansi();
         }
-        if (!isset($this->nointeraction) && !$this->getConfig()->get(Config::INTERACTIVE)) {
+        if (!isset($this->nointeraction) && !$this->getConfig()->get(\Robo\Config\Config::INTERACTIVE)) {
             $this->noInteraction();
         }
         $this->option($this->prefer)

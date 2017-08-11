@@ -114,7 +114,7 @@ class Robo
         foreach ($paths as $path) {
             $processor->extend($loader->load($path));
         }
-        $config->import($loader->export());
+        $config->import($processor->export());
     }
 
     /**

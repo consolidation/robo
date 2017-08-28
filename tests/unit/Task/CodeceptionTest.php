@@ -50,8 +50,9 @@ class CodeceptionTest extends \Codeception\TestCase\Test
             ->xml('result.xml')
             ->html()
             ->noRebuild()
+            ->failGroup('failed1')
             ->getCommand()
-        )->equals('codecept run tests/unit/Codeception -c ~/Codeception --xml result.xml --html --no-rebuild');
+        )->equals('codecept run tests/unit/Codeception -c ~/Codeception --xml result.xml --html --no-rebuild --fail-group failed1');
 
         verify((new \Robo\Task\Testing\Codecept('codecept.phar'))->debug()->getCommand())->contains(' --debug');
         verify((new \Robo\Task\Testing\Codecept('codecept.phar'))->silent()->getCommand())->contains(' --silent');
@@ -59,6 +60,7 @@ class CodeceptionTest extends \Codeception\TestCase\Test
         verify((new \Robo\Task\Testing\Codecept('codecept.phar'))->tap()->getCommand())->contains('--tap');
         verify((new \Robo\Task\Testing\Codecept('codecept.phar'))->json()->getCommand())->contains('--json');
         verify((new \Robo\Task\Testing\Codecept('codecept.phar'))->noRebuild()->getCommand())->contains('--no-rebuild');
+        verify((new \Robo\Task\Testing\Codecept('codecept.phar'))->failGroup('failed2')->getCommand())->contains('--fail-group failed2');
     }
 
 }

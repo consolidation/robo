@@ -96,6 +96,7 @@ EOT
 
         if (Robo::VERSION == $latest) {
             $output->writeln('No update available');
+            return;
         }
 
         $fs = new sfFilesystem();
@@ -116,6 +117,7 @@ EOT
             unset($phar);
             @rename($tempFilename, $localFilename);
             $output->writeln('<info>Successfully updated ' . $programName . '</info>');
+            $this->_exit();
         } catch (\Exception $e) {
             @unlink($tempFilename);
             if (! $e instanceof \UnexpectedValueException && ! $e instanceof \PharException) {
@@ -124,5 +126,18 @@ EOT
             $output->writeln('<error>The download is corrupted (' . $e->getMessage() . ').</error>');
             $output->writeln('<error>Please re-run the self-update command to try again.</error>');
         }
+    }
+
+    /**
+     * Stop execution
+     *
+     * This is a workaround to prevent warning of dispatcher after replacing
+     * the phar file.
+     *
+     * @return void
+     */
+    protected function _exit()
+    {
+        exit;
     }
 }

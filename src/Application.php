@@ -28,6 +28,9 @@ class Application extends SymfonyApplication
             ->addOption(
                 new InputOption('--define', '-D', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Define a configuration item value.', [])
             );
+
+        $selfUpdateCommand = new SelfUpdateCommand('self:update');
+        $this->add($selfUpdateCommand);
     }
 
     /**

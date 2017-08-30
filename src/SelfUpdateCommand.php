@@ -98,7 +98,7 @@ EOT
 
         if (! is_writable($localFilename)) {
             throw new \Exception(
-                $programName . ' update failed: the "' . $localFilename . '" file could not be written'
+                $programName . ' update failed: the "' . $localFilename . '" file could not be written (execute with sudo)'
             );
         }
 

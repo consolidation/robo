@@ -79,11 +79,17 @@ EOT
         return [ $version, $url ];
     }
 
+    public function isEnabled() {
+        return !empty(\Phar::running());
+    }
+
+
     /**
      * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+
         $localFilename = realpath($_SERVER['argv'][0]) ?: $_SERVER['argv'][0];
         $programName   = basename($localFilename);
         $tempFilename  = dirname($localFilename) . '/' . basename($localFilename, '.phar') . '-temp.phar';

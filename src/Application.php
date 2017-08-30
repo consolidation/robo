@@ -59,8 +59,9 @@ class Application extends SymfonyApplication
         $this->add($createRoboFile);
     }
 
-    protected function addSelfUpdateCommand() {
-        $selfUpdateCommand = new SelfUpdateCommand( 'self:update', Robo::VERSION, 'consolidation/robo' );
-        $this->add( $selfUpdateCommand );
+    protected function addSelfUpdateCommand()
+    {
+        $selfUpdateCommand = new SelfUpdateCommand('self:update', Robo::VERSION, 'consolidation/robo');
+        $this->add($selfUpdateCommand);
     }
 }

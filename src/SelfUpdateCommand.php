@@ -29,8 +29,9 @@ class SelfUpdateCommand extends Command
 
     protected $currentVersion;
 
-    public function __construct( $name = null, $currentVersion = null, $gitHubRepository = null) {
-        parent::__construct( $name );
+    public function __construct($name = null, $currentVersion = null, $gitHubRepository = null)
+    {
+        parent::__construct($name);
         $this->currentVersion = $currentVersion;
         $this->gitHubRepository = $gitHubRepository;
     }
@@ -79,7 +80,8 @@ EOT
         return [ $version, $url ];
     }
 
-    public function isEnabled() {
+    public function isEnabled()
+    {
         return !empty(\Phar::running());
     }
 

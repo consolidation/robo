@@ -25,6 +25,17 @@ class SelfUpdateCommand extends Command
 {
     private $command;
 
+    protected $gitHubRepository;
+
+    protected $currentVersion;
+
+    public function __construct( $name = null, $currentVersion = null, $gitHubRepository = null) {
+        parent::__construct( $name );
+        $this->currentVersion = $currentVersion;
+        $this->gitHubRepository = $gitHubRepository;
+    }
+
+
     /**
      * {@inheritdoc}
      */
@@ -42,7 +53,7 @@ EOT
             );
     }
 
-    protected function getLatestReleaseFromGithub($repository)
+    protected function getLatestReleaseFromGithub()
     {
         $opts = [
             'http' => [
@@ -55,11 +66,11 @@ EOT
 
         $context = stream_context_create($opts);
 
-        $releases = file_get_contents('https://api.github.com/repos/' . $repository . '/releases', false, $context);
+        $releases = file_get_contents('https://api.github.com/repos/' . $this->gitHubRepository . '/releases', false, $context);
         $releases = json_decode($releases);
 
         if (! isset($releases[0])) {
-            throw new \Exception('API error - no release found at GitHub repository ' . $repository);
+            throw new \Exception('API error - no release found at GitHub repository ' . $this->gitHubRepository);
         }
 
         $version = $releases[0]->tag_name;
@@ -91,10 +102,10 @@ EOT
             );
         }
 
-        list( $latest, $downloadUrl ) = $this->getLatestReleaseFromGithub('consolidation/robo');
+        list( $latest, $downloadUrl ) = $this->getLatestReleaseFromGithub();
 
 
-        if (Robo::VERSION == $latest) {
+        if ($this->currentVersion == $latest) {
             $output->writeln('No update available');
             return;
         }

@@ -29,8 +29,7 @@ class Application extends SymfonyApplication
                 new InputOption('--define', '-D', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Define a configuration item value.', [])
             );
 
-        $selfUpdateCommand = new SelfUpdateCommand('self:update');
-        $this->add($selfUpdateCommand);
+        $this->addSelfUpdateCommand();
     }
 
     /**
@@ -58,5 +57,10 @@ class Application extends SymfonyApplication
             $output->writeln("<comment>  Edit this file to add your commands! </comment>");
         });
         $this->add($createRoboFile);
+    }
+
+    protected function addSelfUpdateCommand() {
+        $selfUpdateCommand = new SelfUpdateCommand( 'self:update', Robo::VERSION, 'consolidation/robo' );
+        $this->add( $selfUpdateCommand );
     }
 }

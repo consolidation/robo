@@ -60,7 +60,7 @@ EOT
             'http' => [
                 'method' => 'GET',
                 'header' => [
-                    'User-Agent: ' . Robo::APPLICATION_NAME . ' Self-Update (PHP)'
+                    'User-Agent: ' . Robo::APPLICATION_NAME  . ' (' . $this->gitHubRepository . ')' . ' Self-Update (PHP)'
                 ]
             ]
         ];
@@ -120,7 +120,7 @@ EOT
 
         $fs = new sfFilesystem();
 
-        $output->writeln('Downloading ' . Robo::APPLICATION_NAME . ' ' . $latest);
+        $output->writeln('Downloading ' . Robo::APPLICATION_NAME . ' (' . $this->gitHubRepository . ')' . $latest);
 
         $fs->copy($downloadUrl, $tempFilename);
 

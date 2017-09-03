@@ -120,7 +120,7 @@ EOT
 
         $fs = new sfFilesystem();
 
-        $output->writeln('Downloading ' . Robo::APPLICATION_NAME . ' (' . $this->gitHubRepository . ')' . $latest);
+        $output->writeln('Downloading ' . Robo::APPLICATION_NAME . ' (' . $this->gitHubRepository . ') ' . $latest);
 
         $fs->copy($downloadUrl, $tempFilename);
 

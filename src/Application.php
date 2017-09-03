@@ -28,8 +28,6 @@ class Application extends SymfonyApplication
             ->addOption(
                 new InputOption('--define', '-D', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Define a configuration item value.', [])
             );
-
-        $this->addSelfUpdateCommand();
     }
 
     /**
@@ -59,9 +57,17 @@ class Application extends SymfonyApplication
         $this->add($createRoboFile);
     }
 
-    protected function addSelfUpdateCommand()
+    /**
+     * Add self update command, do nothing if null is provided
+     *
+     * @param string $repository GitHub Repository for self update
+     */
+    public function addSelfUpdateCommand($repository = null)
     {
-        $selfUpdateCommand = new SelfUpdateCommand('self:update', Robo::VERSION, 'consolidation/robo');
+        if ($repository == null) {
+            return;
+        }
+        $selfUpdateCommand = new SelfUpdateCommand('self:update', Robo::VERSION, $repository);
         $this->add($selfUpdateCommand);
     }
 }

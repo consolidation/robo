@@ -39,6 +39,11 @@ class Runner implements ContainerAwareInterface
     protected $errorConditions = [];
 
     /**
+     * @var string GitHub Repo for SelfUpdate
+     */
+    protected $selfUpdateRepository = null;
+
+    /**
      * Class Constructor
      *
      * @param null|string $roboClass
@@ -155,6 +160,7 @@ class Runner implements ContainerAwareInterface
 
         if (!$app) {
             $app = Robo::application();
+            $app->addSelfUpdateCommand($this->getSelfUpdateRepository());
         }
         if (!isset($commandFiles)) {
             $this->errorCondtion("Robo is not initialized here. Please run `robo init` to create a new RoboFile.", 'yellow');
@@ -437,5 +443,21 @@ class Runner implements ContainerAwareInterface
             return true;
         }
         return false;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSelfUpdateRepository()
+    {
+        return $this->selfUpdateRepository;
+    }
+
+    /**
+     * @param string $selfUpdateRepository
+     */
+    public function setSelfUpdateRepository($selfUpdateRepository)
+    {
+        $this->selfUpdateRepository = $selfUpdateRepository;
     }
 }

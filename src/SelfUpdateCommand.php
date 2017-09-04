@@ -29,9 +29,13 @@ class SelfUpdateCommand extends Command
 
     protected $currentVersion;
 
-    public function __construct($name = null, $currentVersion = null, $gitHubRepository = null)
+    protected $applicationName;
+
+    public function __construct($name = null, $applicationName = null, $currentVersion = null, $gitHubRepository = null)
     {
         parent::__construct($name);
+
+        $this->applicationName = $applicationName;
         $this->currentVersion = $currentVersion;
         $this->gitHubRepository = $gitHubRepository;
     }

@@ -67,7 +67,7 @@ class Application extends SymfonyApplication
         if ($repository == null) {
             return;
         }
-        $selfUpdateCommand = new SelfUpdateCommand('self:update', Robo::VERSION, $repository);
+        $selfUpdateCommand = new SelfUpdateCommand('self:update', $this->getName(), $this->getVersion(), $repository);
         $this->add($selfUpdateCommand);
     }
 }

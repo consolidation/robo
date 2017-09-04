@@ -125,6 +125,11 @@ class Runner implements ContainerAwareInterface
             $app = Robo::createDefaultApplication($appName, $appVersion);
         }
         $commandFiles = $this->getRoboFileCommands();
+        if (!isset($commandFiles)) {
+            $this->errorCondtion("Robo is not initialized here. Please run `robo init` to create a new RoboFile.", 'yellow');
+            $app->addInitRoboFileCommand($this->roboFile, $this->roboClass);
+            $commandFiles = [];
+        }
         return $this->run($argv, $output, $app, $commandFiles);
     }
 
@@ -225,7 +230,7 @@ class Runner implements ContainerAwareInterface
         }
 
         $discovery = new CommandFileDiscovery();
-        $discovery->setSearchLocations(['Commands']);
+        $discovery->setSearchLocations(['Commands', 'Hooks']);
 
         foreach ($commandSearchPaths as $baseNamespace => $paths) {
             foreach ($paths as $path) {

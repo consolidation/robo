@@ -39,9 +39,10 @@ class Robo
      *
      * @return int
      */
-    public static function run($argv, $commandClasses, $appName = null, $appVersion = null, $output = null)
+    public static function run($argv, $commandClasses, $appName = null, $appVersion = null, $output = null, $repository = null)
     {
         $runner = new \Robo\Runner($commandClasses);
+        $runner->setSelfUpdateRepository($repository);
         $statusCode = $runner->execute($argv, $appName, $appVersion, $output);
         return $statusCode;
     }

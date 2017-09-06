@@ -12,6 +12,7 @@ matrix:
       env: dependencies=highest
     - php: 7.0
     - php: 5.6
+      env: check_dependencies=1
     - php: 5.5
     - php: 5.5
       env: dependencies=lowest
@@ -23,9 +24,12 @@ cache:
     - $HOME/.composer/cache
 
 before_script:
+  # Do highest/lowest testing by installing dependencies per the 'dependencies' setting
   - if [ -z "$dependencies" ]; then composer install --prefer-dist; fi;
   - if [ "$dependencies" = "lowest" ]; then composer update --prefer-dist --prefer-lowest -n; fi;
   - if [ "$dependencies" = "highest" ]; then composer update --prefer-dist -n; fi;
+  # Create a separate pull request for out-of-date dependency updates, but only if we are called from 'cron'
+  - if [ "$TRAVIS_EVENT_TYPE" = "cron" ] && [ -n "$GITHUB_TOKEN" ] && [ -n "$check_dependencies" ]; then ./vendor/bin/clu; fi;
 
 script:
   - ./robo test --coverage

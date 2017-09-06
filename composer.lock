@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "04d8e43697c3caed565fe592f81020a6",
+    "content-hash": "12538b93ea90d96459d6d500cc24b0f5",
     "packages": [
         {
             "name": "consolidation/annotated-command",
@@ -1426,6 +1426,42 @@
             ],
             "description": "BDD assertion library for PHPUnit",
             "time": "2017-01-09T10:58:51+00:00"
+        },
+        {
+            "name": "danielbachhuber/composer-lock-updater",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/danielbachhuber/composer-lock-updater.git",
+                "reference": "c47b90e4b35e1a536873fa540051d7e854ea2196"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/danielbachhuber/composer-lock-updater/zipball/c47b90e4b35e1a536873fa540051d7e854ea2196",
+                "reference": "c47b90e4b35e1a536873fa540051d7e854ea2196",
+                "shasum": ""
+            },
+            "bin": [
+                "bin/clu"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "CLU\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel Bachhuber",
+                    "email": "daniel@handbuilt.co"
+                }
+            ],
+            "description": "Run composer-lock-updater in your CI system for bot-powered composer.lock pull requests.",
+            "time": "2017-06-09T19:59:44+00:00"
         },
         {
             "name": "doctrine/annotations",

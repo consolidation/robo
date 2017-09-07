@@ -34,6 +34,7 @@ script:
   - ./robo test --coverage
   - ./robo sniff -n
 
+
 after_success:
   - travis_retry php vendor/bin/coveralls -v
   - |

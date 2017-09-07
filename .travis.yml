@@ -55,7 +55,7 @@ after_success:
       echo "Changed files: $changed_files"
       if [[ "$changed_files" == "M composer.lock" ]] ; then
         echo "Only composer.lock was modified: auto-merging to $TRAVIS_BRANCH."
-        git reset --hard .
+        git reset --hard
         git checkout -B "test-$TRAVIS_BRANCH" master
         git merge "$TRAVIS_PULL_REQUEST_BRANCH"
         git push origin "test-$TRAVIS_BRANCH"

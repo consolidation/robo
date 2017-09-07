@@ -12,8 +12,8 @@ matrix:
       env: dependencies=highest
     - php: 7.0
     - php: 5.6
-      env: check_dependencies=1
     - php: 5.5
+      env: COMPOSER_LOCK_UPDATE=1
     - php: 5.5
       env: dependencies=lowest
 
@@ -28,8 +28,6 @@ before_script:
   - if [ -z "$dependencies" ]; then composer install --prefer-dist; fi;
   - if [ "$dependencies" = "lowest" ]; then composer update --prefer-dist --prefer-lowest -n; fi;
   - if [ "$dependencies" = "highest" ]; then composer update --prefer-dist -n; fi;
-  # Create a separate pull request for out-of-date dependency updates, but only if we are called from 'cron'
-  - if [ "$TRAVIS_EVENT_TYPE" = "cron" ] && [ -n "$GITHUB_TOKEN" ] && [ -n "$check_dependencies" ]; then ./vendor/bin/clu; fi;
 
 script:
   - ./robo test --coverage
@@ -37,6 +35,43 @@ script:
 
 after_success:
   - travis_retry php vendor/bin/coveralls -v
+  - |
+    ###
+    # Run composer lock update on cron jobs.
+    # See: https://github.com/danielbachhuber/composer-lock-updater
+    ###
+    if [ "$TRAVIS_EVENT_TYPE" != "cron" ; then
+      return
+    fi
+    ###
+    # Only run on one job of a master branch build
+    ###
+    if [ -z "$COMPOSER_LOCK_UPDATE" ] || [ "master" != "$TRAVIS_BRANCH"] ; then
+      echo "composer.lock update disabled for this build"
+      return
+    fi
+    ###
+    # Make sure that a GitHub token is set
+    ###
+    if [ -z "$GITHUB_TOKEN" ] ; then
+      echo "No GITHUB_TOKEN set for this build"
+      return
+    fi
+    ###
+    # Install composer-lock-updater
+    ###
+    export PATH="$HOME/.composer/vendor/bin:$PATH"
+    composer global require danielbachhuber/composer-lock-updater
+    ###
+    # Install hub for creating GitHub pull requests
+    ###
+    wget -O hub.tgz https://github.com/github/hub/releases/download/v2.2.9/hub-linux-amd64-2.2.9.tgz
+    tar -zxvf hub.tgz
+    export PATH=$PATH:$PWD/hub-linux-amd64-2.2.9/bin/
+    ###
+    # Run composer-lock-updater
+    ###
+    clu
 
 # Prior to a deploy, build a fresh robo.phar
 before_deploy:

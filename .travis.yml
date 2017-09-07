@@ -45,7 +45,7 @@ after_success:
     # Inject GITHUB_TOKEN into remote so that we have push access
     remote=$(git config --get remote.origin.url)
     echo "remote is $remote"
-    git remote set-url origin "${remote/git@github.com/https://$GITHUB_TOKEN:x-oauth-basic@github.com/}"
+    git remote set-url origin "${remote/github.com/$GITHUB_TOKEN:x-oauth-basic@github.com/}"
     # If this is a PR that merges into the master branch, then try to merge it if it contains only composer.lock
     # n.b. TRAVIS_BRANCH is the branch the pull request will merge into. TRAVIS_PULL_REQUEST_BRANCH
     # is the branch that holds the commits for the pull request.
@@ -54,11 +54,18 @@ after_success:
       changed_files=$(git diff --name-status "$TRAVIS_COMMIT_RANGE" | grep -v '.travis.yml' | tr '\t' ' ')
       echo "Changed files: $changed_files"
       if [[ "$changed_files" == "M composer.lock" ]] ; then
-        echo "Only composer.lock was modified: auto-merging to $TRAVIS_BRANCH."
-        git reset --hard
-        git checkout -B "test-$TRAVIS_BRANCH" master
-        git merge "$TRAVIS_PULL_REQUEST_BRANCH"
-        git push origin "test-$TRAVIS_BRANCH"
+        (
+          echo "Only composer.lock was modified: auto-merging to $TRAVIS_BRANCH in repository $remote."
+          git status
+          git reset "$TRAVIS_BRANCH"
+          git add composer.lock
+          git commit -m "Auto-update dependencies."
+          update_sha=$(git rev-parse HEAD)
+          git reset --hard
+          git checkout -B "test-$TRAVIS_BRANCH" master
+          git cherry-pick $update_sha
+          git push origin "test-$TRAVIS_BRANCH"
+        ) 2>&1 | sed -e "s/$GITHUB_TOKEN/REDACTED/g"
       fi
     fi
     ###

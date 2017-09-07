@@ -37,8 +37,8 @@ script:
 after_success:
   - travis_retry php vendor/bin/coveralls -v
   - |
-    # Only do post-build actions in one environment
-    if [ -z "$DO_POST_BUILD_ACTIONS" ] ; then
+    # Only do post-build actions in one environment, and only if there is a GITHUB token.
+    if [ -z "$DO_POST_BUILD_ACTIONS" ] || [ -z "$GITHUB_TOKEN" ]; then
       return
     fi
     # If this is not the master branch, then try to merge the PR if it contains only composer.lock
@@ -49,9 +49,11 @@ after_success:
       changed_files=$(git diff --name-status "$TRAVIS_COMMIT_RANGE" | grep -v '.travis.yml' | tr '\t' ' ')
       echo "Changed files: $changed_files"
       if [[ "$changed_files" == "M composer.lock" ]] ; then
-        echo 'Only composer.lock was modified'
+        echo "Only composer.lock was modified: auto-merging to $TRAVIS_BRANCH."
+        git checkout -b "test-$TRAVIS_BRANCH"
+        git merge "$TRAVIS_PULL_REQUEST_BRANCH"
+        git push origin "test-$TRAVIS_BRANCH"
       fi
-      printenv
     fi
     ###
     # Run composer lock update on cron jobs.
@@ -65,13 +67,6 @@ after_success:
     ###
     if [ "master" != "$TRAVIS_BRANCH" ] ; then
       echo "composer.lock update disabled for this build"
-      return
-    fi
-    ###
-    # Make sure that a GitHub token is set
-    ###
-    if [ -z "$GITHUB_TOKEN" ] ; then
-      echo "No GITHUB_TOKEN set for this build"
       return
     fi
     ###

@@ -44,7 +44,7 @@ after_success:
     # If this is not the master branch, then try to merge the PR if it contains only composer.lock
     # n.b. TRAVIS_BRANCH is the branch the pull request will merge into. TRAVIS_PULL_REQUEST_BRANCH
     # is the branch that holds the commits for the pull request.
-    if [ -n "$TRAVIS_COMMIT_RANGE" ] && [ "master" != "$TRAVIS_BRANCH" ]; then
+    if [ -n "$TRAVIS_COMMIT_RANGE" ] && [ "master" == "$TRAVIS_BRANCH" ]; then
       echo "The commit range is: $TRAVIS_COMMIT_RANGE"
       changed_files=$(git diff --name-status "$TRAVIS_COMMIT_RANGE" | grep -v '.travis.yml' | tr '\t' ' ')
       echo "Changed files: $changed_files"

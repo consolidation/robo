@@ -260,4 +260,24 @@ EOT;
         $this->guy->seeInOutput(' [debug] This is a debug log message.');
         $this->assertEquals(0, $result);
     }
+
+    public function testRunnerCommandPlugins()
+    {
+        // Simulate an autoloader with the following entry in its `autoload` section:
+        //     "Robo\\RoboPlugin\\":"tests/robo-command-plugin"
+        $path = dirname(__DIR__) . '/robo-command-plugin';
+        $prefixes = [
+            'Robo\\RoboPlugin\\' => [ $path ],
+        ];
+        include("$path/Commands/RoboTestPluginCommands.php");
+
+        $pluginRunner = new \Robo\Runner();
+        $pluginRunner->setCommandFilePluginPrefixes($prefixes);
+        $pluginRunner->setCommandFilePluginPattern('.*\\\\RoboPlugin\\\\');
+
+        $argv = ['placeholder', 'test:hello', 'a', 'b', 'c'];
+        $result = $pluginRunner->execute($argv, null, null, $this->guy->capturedOutputStream());
+
+        $this->guy->seeInOutput('Hello to: a,b,c');
+    }
 }

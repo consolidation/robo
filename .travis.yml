@@ -37,6 +37,7 @@ script:
 after_success:
   - travis_retry php vendor/bin/coveralls -v
   - |
+    echo "The commit range is: $TRAVIS_COMMIT_RANGE"
     ###
     # Run composer lock update on cron jobs.
     # See: https://github.com/danielbachhuber/composer-lock-updater

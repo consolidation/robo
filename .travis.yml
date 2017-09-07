@@ -14,7 +14,7 @@ matrix:
     - php: 7.0.11
     - php: 5.6
     - php: 5.5
-      env: COMPOSER_LOCK_UPDATE=1
+      env: DO_POST_BUILD_ACTIONS=1
     - php: 5.5
       env: dependencies=lowest
 
@@ -37,18 +37,31 @@ script:
 after_success:
   - travis_retry php vendor/bin/coveralls -v
   - |
+    # Only do post-build actions in one environment
+    if [ -z "$DO_POST_BUILD_ACTIONS" ] ; then
+      return
+    fi
+    # If this is not the master branch, then try to merge the PR if it contains only composer.lock
+    if [ -n "$TRAVIS_COMMIT_RANGE" ] && [ "master" != "$TRAVIS_BRANCH" ] ; then
+      changed_files=$(git diff --name-status "$TRAVIS_COMMIT_RANGE" | grep -v '.travis.yml')
+      echo "Changed files: $changed_files"
+      if [[ "$changed_files" == "M       composer.lock" ]] ; then
+        echo 'Only composer.lock was modified'
+      fi
+      printenv
+    fi
     echo "The commit range is: $TRAVIS_COMMIT_RANGE"
     ###
     # Run composer lock update on cron jobs.
     # See: https://github.com/danielbachhuber/composer-lock-updater
     ###
-    if [ "$TRAVIS_EVENT_TYPE" != "cron" ; then
+    if [ "$TRAVIS_EVENT_TYPE" != "cron" ] ; then
       return
     fi
     ###
     # Only run on one job of a master branch build
     ###
-    if [ -z "$COMPOSER_LOCK_UPDATE" ] || [ "master" != "$TRAVIS_BRANCH"] ; then
+    if [ "master" != "$TRAVIS_BRANCH" ] ; then
       echo "composer.lock update disabled for this build"
       return
     fi

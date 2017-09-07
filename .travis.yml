@@ -41,16 +41,20 @@ after_success:
     if [ -z "$DO_POST_BUILD_ACTIONS" ] || [ -z "$GITHUB_TOKEN" ]; then
       return
     fi
-    # If this is not the master branch, then try to merge the PR if it contains only composer.lock
+    # Inject GITHUB_TOKEN into remote so that we have push access
+    remote=$(git config --get remote.origin.url)
+    echo "remote is $remote"
+    git remote set-url origin "${remote/git@github.com/https://$GITHUB_TOKEN:x-oauth-basic@github.com/}"
+    # If this is a PR that merges into the master branch, then try to merge it if it contains only composer.lock
     # n.b. TRAVIS_BRANCH is the branch the pull request will merge into. TRAVIS_PULL_REQUEST_BRANCH
     # is the branch that holds the commits for the pull request.
-    if [ -n "$TRAVIS_COMMIT_RANGE" ] && [ "master" == "$TRAVIS_BRANCH" ]; then
+    if [ -n "$TRAVIS_COMMIT_RANGE" ] && [ -n "$TRAVIS_PULL_REQUEST_BRANCH" ] && [ "master" == "$TRAVIS_BRANCH" ]; then
       echo "The commit range is: $TRAVIS_COMMIT_RANGE"
       changed_files=$(git diff --name-status "$TRAVIS_COMMIT_RANGE" | grep -v '.travis.yml' | tr '\t' ' ')
       echo "Changed files: $changed_files"
       if [[ "$changed_files" == "M composer.lock" ]] ; then
         echo "Only composer.lock was modified: auto-merging to $TRAVIS_BRANCH."
-        git checkout -b "test-$TRAVIS_BRANCH"
+        git checkout -B "test-$TRAVIS_BRANCH" master
         git merge "$TRAVIS_PULL_REQUEST_BRANCH"
         git push origin "test-$TRAVIS_BRANCH"
       fi

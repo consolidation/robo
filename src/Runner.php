@@ -515,5 +515,6 @@ class Runner implements ContainerAwareInterface
     public function setSelfUpdateRepository($selfUpdateRepository)
     {
         $this->selfUpdateRepository = $selfUpdateRepository;
+        return $this;
     }
 }

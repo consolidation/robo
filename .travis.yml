@@ -1,3 +1,4 @@
+dist: trusty
 language: php
 
 branches:
@@ -10,9 +11,10 @@ matrix:
   include:
     - php: 7.1
       env: dependencies=highest
-    - php: 7.0
+    - php: 7.0.11
     - php: 5.6
     - php: 5.5
+      env: DO_POST_BUILD_ACTIONS=1
     - php: 5.5
       env: dependencies=lowest
 
@@ -23,6 +25,7 @@ cache:
     - $HOME/.composer/cache
 
 before_script:
+  # Do highest/lowest testing by installing dependencies per the 'dependencies' setting
   - if [ -z "$dependencies" ]; then composer install --prefer-dist; fi;
   - if [ "$dependencies" = "lowest" ]; then composer update --prefer-dist --prefer-lowest -n; fi;
   - if [ "$dependencies" = "highest" ]; then composer update --prefer-dist -n; fi;
@@ -31,8 +34,68 @@ script:
   - ./robo test --coverage
   - ./robo sniff -n
 
+
 after_success:
   - travis_retry php vendor/bin/coveralls -v
+  - |
+    # Only do post-build actions in one environment, and only if there is a GITHUB token.
+    if [ -z "$DO_POST_BUILD_ACTIONS" ] || [ -z "$GITHUB_TOKEN" ]; then
+      return
+    fi
+    # Inject GITHUB_TOKEN into remote origin so that we have push access
+    # to merge or create a pull request
+    remote=$(git config --get remote.origin.url)
+    git remote set-url origin "${remote/github.com/$GITHUB_TOKEN:x-oauth-basic@github.com}"
+    # If this is a PR that merges into the master branch, then try to merge it if it contains only composer.lock
+    # n.b. TRAVIS_BRANCH is the branch the pull request will merge into. TRAVIS_PULL_REQUEST_BRANCH
+    # is the branch that holds the commits for the pull request.
+    if [ -n "$TRAVIS_COMMIT_RANGE" ] && [ -n "$TRAVIS_PULL_REQUEST_BRANCH" ] && [ "master" == "$TRAVIS_BRANCH" ]; then
+      changed_files=$(git diff --name-status "$TRAVIS_COMMIT_RANGE" | tr '\t' ' ')
+      if [[ "$changed_files" == "M composer.lock" ]] ; then
+        (
+          echo "Only composer.lock was modified: auto-merging to $TRAVIS_BRANCH in repository $remote."
+          git status
+          git reset "$TRAVIS_BRANCH"
+          git stash
+          git checkout "$TRAVIS_BRANCH"
+          git stash pop
+          git add composer.lock
+          git commit -m "Auto-update dependencies in composer.lock from PR #$TRAVIS_PULL_REQUEST (https://github.com/$TRAVIS_REPO_SLUG/pull/$TRAVIS_PULL_REQUEST)."
+          git push origin "$TRAVIS_BRANCH"
+        ) 2>&1 | sed -e "s/$GITHUB_TOKEN/REDACTED/g"
+      fi
+    fi
+    ###
+    # Run composer lock update on cron jobs.
+    # See: https://github.com/danielbachhuber/composer-lock-updater
+    ###
+    if [ "$TRAVIS_EVENT_TYPE" != "cron" ] ; then
+      return
+    fi
+    ###
+    # Only run on one job of a master branch build
+    ###
+    if [ "master" != "$TRAVIS_BRANCH" ] ; then
+      echo "composer.lock update disabled for this build"
+      return
+    fi
+    ###
+    # Install composer-lock-updater
+    # TODO: Remove temporary installation of dev-reuse-pr once it is merged.
+    ###
+    export PATH="$HOME/.composer/vendor/bin:$PATH"
+    composer global config repositories.greg vcs https://github.com/greg-1-anderson/composer-lock-updater
+    composer global require danielbachhuber/composer-lock-updater:dev-reuse-pr
+    ###
+    # Install hub for creating GitHub pull requests
+    ###
+    wget -O hub.tgz https://github.com/github/hub/releases/download/v2.2.9/hub-linux-amd64-2.2.9.tgz
+    tar -zxvf hub.tgz
+    export PATH=$PATH:$PWD/hub-linux-amd64-2.2.9/bin/
+    ###
+    # Run composer-lock-updater
+    ###
+    clu
 
 # Prior to a deploy, build a fresh robo.phar
 before_deploy:

@@ -53,7 +53,7 @@ class CodeceptionTest extends \Codeception\TestCase\Test
             ->noRebuild()
             ->failGroup($failGroupName)
             ->getCommand()
-        )->equals("codecept run tests/unit/Codeception -c ~/Codeception --xml result.xml --html --no-rebuild --override 'settings: fail-group: {$failGroupName}'");
+        )->equals("codecept run tests/unit/Codeception -c ~/Codeception --xml result.xml --html --no-rebuild --override 'extensions: config: Codeception\\Extension\\RunFailed: fail-group: {$failGroupName}'");
 
         verify((new \Robo\Task\Testing\Codecept('codecept.phar'))->debug()->getCommand())->contains(' --debug');
         verify((new \Robo\Task\Testing\Codecept('codecept.phar'))->silent()->getCommand())->contains(' --silent');
@@ -62,7 +62,8 @@ class CodeceptionTest extends \Codeception\TestCase\Test
         verify((new \Robo\Task\Testing\Codecept('codecept.phar'))->json()->getCommand())->contains('--json');
         verify((new \Robo\Task\Testing\Codecept('codecept.phar'))->noRebuild()->getCommand())->contains('--no-rebuild');
         $failGroupName = 'failed2';
-        verify((new \Robo\Task\Testing\Codecept('codecept.phar'))->failGroup($failGroupName)->getCommand())->contains("--override 'settings: fail-group: {$failGroupName}'");
+        verify((new \Robo\Task\Testing\Codecept('codecept.phar'))->failGroup($failGroupName)->getCommand())
+            ->contains("--override 'extensions: config: Codeception\\Extension\\RunFailed: fail-group: {$failGroupName}'");
     }
 
 }

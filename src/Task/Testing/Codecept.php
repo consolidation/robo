@@ -247,7 +247,7 @@ class Codecept extends BaseTask implements CommandInterface, PrintedInterface
      */
     public function failGroup($failGroup)
     {
-        $this->option('override', "settings: fail-group: {$failGroup}");
+        $this->option('override', "extensions: config: Codeception\\Extension\\RunFailed: fail-group: {$failGroup}");
         return $this;
     }
 

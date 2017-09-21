@@ -38,7 +38,11 @@ after_success:
   - travis_retry php vendor/bin/coveralls -v
   - |
     # Only do post-build actions in one environment, and only if there is a GITHUB token.
-    if [ -z "$DO_POST_BUILD_ACTIONS" ] || [ -z "$GITHUB_TOKEN" ]; then
+    if [ -z "$DO_POST_BUILD_ACTIONS" ] ; then
+      return
+    fi
+    if [ -z "$GITHUB_TOKEN" ]; then
+      echo "No GITHUB_TOKEN defined; exiting."
       return
     fi
     # Inject GITHUB_TOKEN into remote origin so that we have push access
@@ -62,6 +66,8 @@ after_success:
           git commit -m "Auto-update dependencies in composer.lock from PR #$TRAVIS_PULL_REQUEST (https://github.com/$TRAVIS_REPO_SLUG/pull/$TRAVIS_PULL_REQUEST)."
           git push origin "$TRAVIS_BRANCH"
         ) 2>&1 | sed -e "s/$GITHUB_TOKEN/REDACTED/g"
+      else
+        echo "Not auto-merging, because multiple files were changed"
       fi
     fi
     ###
@@ -69,13 +75,14 @@ after_success:
     # See: https://github.com/danielbachhuber/composer-lock-updater
     ###
     if [ "$TRAVIS_EVENT_TYPE" != "cron" ] ; then
+      echo "Not a cron job; exiting."
       return
     fi
     ###
     # Only run on one job of a master branch build
     ###
     if [ "master" != "$TRAVIS_BRANCH" ] ; then
-      echo "composer.lock update disabled for this build"
+      echo "composer.lock update only runs on the master branch."
       return
     fi
     ###

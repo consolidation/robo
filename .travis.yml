@@ -11,9 +11,9 @@ matrix:
   include:
     - php: 7.1
       env: dependencies=highest
+      env: DO_POST_BUILD_ACTIONS=1
     - php: 7.0.11
     - php: 5.6
-      env: DO_POST_BUILD_ACTIONS=1
     - php: 5.5
       env: dependencies=lowest
 

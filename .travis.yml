@@ -96,6 +96,7 @@ after_success:
     mkdir -p $HOME/bin
     wget -O $HOME/bin/security-checker.phar http://get.sensiolabs.org/security-checker.phar
     chmod +x $HOME/bin/security-checker.phar
+    export PATH="$HOME/bin:$PATH"
     ###
     # Install hub for creating GitHub pull requests
     ###

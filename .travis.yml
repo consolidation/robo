@@ -90,8 +90,7 @@ after_success:
     # TODO: Remove temporary installation of dev-reuse-pr once it is merged.
     ###
     export PATH="$HOME/.composer/vendor/bin:$PATH"
-    composer global config repositories.greg vcs https://github.com/greg-1-anderson/composer-lock-updater
-    composer global require danielbachhuber/composer-lock-updater:dev-reuse-pr
+    composer global require danielbachhuber/composer-lock-updater
     ###
     # Install hub for creating GitHub pull requests
     ###

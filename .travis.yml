@@ -87,10 +87,15 @@ after_success:
     fi
     ###
     # Install composer-lock-updater
-    # TODO: Remove temporary installation of dev-reuse-pr once it is merged.
     ###
     export PATH="$HOME/.composer/vendor/bin:$PATH"
     composer global require danielbachhuber/composer-lock-updater
+    ###
+    # Optional: install Sensio Labs security checker to include security advisories in PR comments
+    ###
+    mkdir -p $HOME/bin
+    wget -O $HOME/bin/security-checker.phar http://get.sensiolabs.org/security-checker.phar
+    chmod +x $HOME/bin/security-checker.phar
     ###
     # Install hub for creating GitHub pull requests
     ###

@@ -220,18 +220,22 @@ if ($pharPath) {
     }
 }
 
+$output = new \Symfony\Component\Console\Output\ConsoleOutput();
+
 $commandClasses = [ \MyProject\Commands\RoboFile::class ];
 $statusCode = \Robo\Robo::run(
     $_SERVER['argv'], 
     $commandClasses, 
     'MyAppName', 
-    '0.0.0-alpha0'
+    '0.0.0-alpha0',
+    $output,
+    'org/project'
 );
 exit($statusCode);
 </code></pre>
 
 <p>When using Robo as a framework, the Robo file should be included in the autoloader, as Robo does not include a <code>RoboFile.php</code> file when used in this mode. Instead, specify the class or classes to load as a parameter to the Robo::run() method. By default, all output will be sent to a Symfony ConsoleOutput() that Robo will create for you. If you would like to use some other OutputInterface to capture the output, it may be specified via an optional fifth parameter.</p>
-<p>Use <a href="https://github.com/box-project/box2">box-project/box2</a> to create a phar for your application.  Note that if you use Robo's taskPackPhar to create your phar, then <code>\Phar::running()</code> will always return an empty string due to a bug in this phar builder. If you encounter any problems with this, then hardcode the path to your autoload file.  See the <a href="https://github.com/consolidation-org/Robo/blob/master/robo">robo</a> script for details.</p>
+<p>Use <a href="https://github.com/box-project/box2">box-project/box2</a> or Robo's taskPackPhar to create a phar for your application. If your application's repository is hosted on GitHub, then passing the appropriate GitHub <code>org/project</code> to the <code>\Robo\Robo::run()</code> method, as shown above, will enable the <code>self:update</code> command to automatically update to the latest available version. Note that <code>self:update</code> only works with phar distributions.</p>
 <h2 id="using-multiple-robofiles-in-a-standalone-application">Using Multiple RoboFiles in a Standalone Application</h2>
 <p>It is possible to provide as many command classes as you wish to the Robo <code>Runner()</code> constructor. You might wish to separate your Robo command implementations into separate Robo files if you have a lot of commands, or if you wish to group similar commands together in the same source file. If you do this, you can simply add more class references to the <code>$commandClasses</code> variable shown above.</p>
 <pre><code>$commandClasses = [ 
@@ -276,6 +280,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class MyApplication {
 
+  const APPLICATION_NAME = 'My Application';
+  const REPOSITORY = 'org/project';
+
   use ConfigAwareTrait;
 
   private $runner;
@@ -288,7 +295,7 @@ class MyApplication {
 
     // Create applicaton.
     $this-&gt;setConfig($config);
-    $application = new Application('My Application', $config-&gt;get('version'));
+    $application = new Application(self::APPLICATION_NAME, $config-&gt;get('version'));
 
     // Create and configure container.
     $container = Robo::createDefaultContainer($input, $output, $application,
@@ -301,6 +308,7 @@ class MyApplication {
       My\Custom\Command::class
     ]);
     $this-&gt;runner-&gt;setContainer($container);
+    $this-&gt;runner-&gt;setSelfUpdateRepository(self::REPOSITORY);
   }
 
   public function run(InputInterface $input, OutputInterface $output) {
@@ -310,7 +318,6 @@ class MyApplication {
   }
 
 }
-
 </code></pre>
 
 <p>If you are using League\Container (recommended), then you may simply add and share your own classes to the same container.  If you are using some other DI container, then you should use <a href="https://github.com/container-interop/fig-standards/blob/master/proposed/container.md#14-additional-feature-delegate-lookup">delegate lookup</a> to combine them.</p>

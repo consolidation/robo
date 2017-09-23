@@ -19,7 +19,7 @@ use Symfony\Component\Process\Process;
 class Robo
 {
     const APPLICATION_NAME = 'Robo';
-    const VERSION = '1.1.2';
+    const VERSION = '1.1.3';
 
     /**
      * The currently active container object, or NULL if not initialized yet.
@@ -39,9 +39,10 @@ class Robo
      *
      * @return int
      */
-    public static function run($argv, $commandClasses, $appName = null, $appVersion = null, $output = null)
+    public static function run($argv, $commandClasses, $appName = null, $appVersion = null, $output = null, $repository = null)
     {
         $runner = new \Robo\Runner($commandClasses);
+        $runner->setSelfUpdateRepository($repository);
         $statusCode = $runner->execute($argv, $appName, $appVersion, $output);
         return $statusCode;
     }
@@ -114,7 +115,7 @@ class Robo
         foreach ($paths as $path) {
             $processor->extend($loader->load($path));
         }
-        $config->import($loader->export());
+        $config->import($processor->export());
     }
 
     /**

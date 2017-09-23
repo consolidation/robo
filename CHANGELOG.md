@@ -1,5 +1,14 @@
 # Changelog
 
+#### 1.1.3 09/23/2017
+
+* Add self:update command to update Robo phar distributions to the latest available version on GitHub. by Alexander Menk
+* Fix Robo\Task\Docker\Base to implement CommandInterface. by Alexei Gorobet (#625)
+* Add overwrite argument to Robo\Task\Filesystem\loadShortcuts.php::_rename by Alexei Gorobets (#624)
+* Add failGroup() method for Codeception run command. by Max Gorovenko (#622)
+* Set up composer-lock-updater on cron. (#618)
+* Fix robo.yml loader by exporting processor instead of loader. By thomscode (#612)
+
 ### 1.1.2 07/28/2017
 
 * Inject option default values in help (#607)

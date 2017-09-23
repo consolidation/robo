@@ -48,12 +48,13 @@ trait loadShortcuts
     /**
      * @param string $from
      * @param string $to
+     * @param bool $overwrite
      *
      * @return \Robo\Result
      */
-    protected function _rename($from, $to)
+    protected function _rename($from, $to, $overwrite = false)
     {
-        return $this->taskFilesystemStack()->rename($from, $to)->run();
+        return $this->taskFilesystemStack()->rename($from, $to, $overwrite)->run();
     }
 
     /**

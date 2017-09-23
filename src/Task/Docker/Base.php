@@ -2,10 +2,11 @@
 namespace Robo\Task\Docker;
 
 use Robo\Common\ExecOneCommand;
+use Robo\Contract\CommandInterface;
 use Robo\Contract\PrintedInterface;
 use Robo\Task\BaseTask;
 
-abstract class Base extends BaseTask implements PrintedInterface
+abstract class Base extends BaseTask implements CommandInterface, PrintedInterface
 {
     use ExecOneCommand;
 

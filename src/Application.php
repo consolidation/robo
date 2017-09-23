@@ -56,4 +56,18 @@ class Application extends SymfonyApplication
         });
         $this->add($createRoboFile);
     }
+
+    /**
+     * Add self update command, do nothing if null is provided
+     *
+     * @param string $repository GitHub Repository for self update
+     */
+    public function addSelfUpdateCommand($repository = null)
+    {
+        if (!$repository) {
+            return;
+        }
+        $selfUpdateCommand = new SelfUpdateCommand($this->getName(), $this->getVersion(), $repository);
+        $this->add($selfUpdateCommand);
+    }
 }

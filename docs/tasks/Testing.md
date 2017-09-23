@@ -95,6 +95,7 @@ $this->taskCodecept()
 * `coverageHtml($html = null)`  collect code coverage and generate html report. You may pass
 * `debug()`   * `return` $this
 * `noRebuild()`   * `return` $this
+* `failGroup($failGroup)`   * `param string` $failGroup
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values

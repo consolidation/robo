@@ -1,6 +1,8 @@
 <?php
 namespace Robo\Task\Development;
 
+use Robo\Common\BuilderAwareTrait;
+use Robo\Contract\BuilderAwareInterface;
 use Robo\Result;
 
 /**
@@ -17,8 +19,10 @@ use Robo\Result;
  * ?>
  * ```
  */
-class GitHubRelease extends GitHub
+class GitHubRelease extends GitHub implements BuilderAwareInterface
 {
+    use BuilderAwareTrait;
+
     /**
      * @var string
      */
@@ -48,6 +52,11 @@ class GitHubRelease extends GitHub
      * @var bool
      */
     protected $prerelease = false;
+
+    /**
+     * @var bool
+     */
+    protected $openBrowser = false;
 
     /**
      * @var string
@@ -179,6 +188,20 @@ class GitHubRelease extends GitHub
     }
 
     /**
+     *
+     * If true, a browser will open the new release after it is made.
+     *
+     * @param $open bool
+     *
+     * @return self
+     */
+    public function openBrowser($open = true)
+    {
+        $this->openBrowser = $open;
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function run()
@@ -196,11 +219,17 @@ class GitHubRelease extends GitHub
                 "prerelease" => $this->prerelease
             ]
         );
+
+        $exit_code = in_array($code, [200, 201]) ? 0 : 1;
+        if (!$exit_code && $this->openBrowser) {
+            $this->collectionBuilder()->taskOpenBrowser($data->html_url)->run();
+        }
+
         $this->stopTimer();
 
         return new Result(
             $this,
-            in_array($code, [200, 201]) ? 0 : 1,
+            $exit_code,
             isset($data->message) ? $data->message : '',
             ['response' => $data, 'time' => $this->getExecutionTime()]
         );

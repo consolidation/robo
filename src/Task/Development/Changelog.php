@@ -243,5 +243,4 @@ class Changelog extends BaseTask implements BuilderAwareInterface
     {
         return "* $i *" . date('Y-m-d') . "*";
     }
-
 }

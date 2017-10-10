@@ -5,33 +5,46 @@
 Helps to manage changelog file.
 Creates or updates `changelog.md` file with recent changes in current version.
 
+Specify individual changes and allow Robo to format the changelog entry:
 ``` php
 <?php
 $version = "0.1.0";
-$this->taskChangelog()
+$this->taskChangelog('CHANGELOG.md')
  ->version($version)
- ->change("released to github")
+ ->change("Added .gitignore file.")
+ ->change("Removed tmp directory.")
  ->run();
 ?>
 ```
 
-Changes can be asked from Console
+Specify exact changelog entry text:
+``` php
+<?php
+$this->taskChangelog('CHANGELOG.md')
+  ->setHeader("#### 9.0.0 (" . date("Y-m-d") . ")\n\n")
+  ->setBody("- Added .gitignore file.\n- Removed tmp directory.\n")
+  ->run();
+```
+
+Prompt user for changes from Console:
 
 ``` php
 <?php
-$this->taskChangelog()
+$this->taskChangelog('CHANGELOG.md')
  ->version($version)
  ->askForChanges()
  ->run();
 ?>
 ```
 
-* `filename($filename)`   * `param string` $filename
-* `log($item)`   * `param string` $item
-* `anchor($anchor)`   * `param string` $anchor
-* `version($version)`   * `param string` $version
-* `changes(array $data)`   * `param array` $data
-* `change($change)`   * `param string` $change
+* `filename($filename)`   * `param string` $filename. Set filename of changelog.
+* `log($item)`   * `param string` $item. Add a single line to the log. Alias of change().
+* `anchor($anchor)`   * `param string` $anchor. Set anchor point for text updates. Defaults to "# Changelog".
+* `version($version)`   * `param string` $version. Sets version name for new changes.
+* `changes(array $data)`   * `param array` $data. Sets an array of log entries.
+* `change($change)`   * `param string` $change. Add a single line to the log.
+* `setHeader($text)` * `param string` $text. Sets changelog header for next version. Defaults to "#### {$this->version}\n\n".
+* `setBody($text)` * `param string` $text. Sets changelog body text. If used, values passed into `change()`, `log()`, and `changes()` will be ignored.
 * `getChanges()`  @return array
 
 ## GenerateMarkdownDoc
@@ -128,7 +141,7 @@ $this->taskGitHubRelease('0.1.0')
 * `prerelease($prerelease)`   * `param bool` $prerelease
 * `comittish($comittish)`   * `param string` $comittish
 * `appendDescription($description)`   * `param string` $description
-* `changes(array $changes)` 
+* `changes(array $changes)`
 * `change($change)`   * `param string` $change
 * `repo($repo)`   * `param string` $repo
 * `owner($owner)`   * `param string` $owner
@@ -247,7 +260,7 @@ $this->taskSemVer('.semver')
 
 
 * `__toString()`  @return string
-* `version($version)` 
+* `version($version)`
 * `setFormat($format)`   * `param string` $format
 * `setMetadataSeparator($separator)`   * `param string` $separator
 * `setPrereleaseSeparator($separator)`   * `param string` $separator

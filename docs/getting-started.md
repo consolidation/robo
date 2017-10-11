@@ -43,7 +43,7 @@ robo hello davert
 Method names should be camelCased. In CLI `camelCased` method will be available as `camel:cased` command.
 `longCamelCased` method will be transformed to `long:camel-cased` command.
 
-**Note:** This assumes you have installed Robo by downloading the [robo.phar](http://robo.li/robo.phar) file and copied it to a directory in your $PATH. For example, `cp robo.phar ~/bin/robo`.
+**Note:** This assumes you have installed Robo by downloading the [robo.phar](http://robo.li/robo.phar) file and copied it to a directory in your `$PATH`. For example, `cp robo.phar ~/bin/robo`.
 
 ### Arguments
 
@@ -254,6 +254,8 @@ $this->_copy('config/env.example.yml','config/env.yml');
 
 Each task must return an instance of `Robo\Result`. A Robo Result contains the task instance, exit code, message, and any variable data that the task may wish to return.
 
+*Note*: A task may also return `NULL` or an array as a shortcut for a successful result. In this instance, Robo will convert the value into a `Robo\Result`, and will apply the provided array values, if any, to the result's variable data. This practice is supported, but not recommended.
+
 The `run` method of `CompileAssets` class may look like this:
 
 ```
@@ -360,7 +362,7 @@ On startup, Robo will load a configuration file, `robo.yml`, if it exists in the
 
 ### Configuration for Command Options
 
-The preferred method for commands to use to read configuration is to simply define commandline options for each configuration value. Configuration may be provided for any command option in the robl.yml configuration file.
+The preferred method for commands to use to read configuration is to simply define commandline options for each configuration value. Configuration may be provided for any command option in the `robo.yml` configuration file.
 
 For example, given the following Robo command:
 
@@ -384,6 +386,18 @@ command:
 
 If you run this command, then it will print `Hello, world`. If the `--who` option is provided on the command line, that value will take precidence over the value stored in configuration. Thus, `hello --who=everyone` will print `Hello, everyone`.
 
+Command groups may also share configuration options. For example, if you have commands `foo:bar`, `foo:baz` and `foo:boz`, all of which share a common option `color`, then the following configuration will provide the value `blue` to `foo:bar` and `foo:baz`, and the value `green` to `foo:boz`:
+
+```
+command:
+  foo:
+    options:
+      color: blue
+    boz:
+      options:
+        color: green
+```
+
 ### Configuration for Task Settings
 
 Robo will automatically configure tasks with values from configuration. For example, given the following task definition:
@@ -398,21 +412,33 @@ You could instead remove the setter methods and move the parameter values to a c
 $this->taskComposerInstall()
   ->run();
 ```
-The corresponding configuration file would appear as follows:
+Then, presuming that `taskMyOperation` was implemented in a class `\MyOrg\Task\TaskGroup\MyOperation`, then the corresponding configuration file would appear as follows:
 ```
 task:
-  MyOperation:
+  TaskGroup:
+    MyOperation:
+      settings:
+        dir: /my/path
+        extrapolated: false
+```
+The key for configuration-injected settings is `task.PARTIAL_NAMESPACE.CLASSNAME.settings.key`. PARTIAL_NAMESPACE is the namespace for the class, with each `\` replaced with a `.`, and with each component of the namespace up to and including `Task` removed.
+
+Tasks in the same namespace may also share configuration-injected settings. For example, the configuration below will set the `dir` option of any task implemented by a class in the `*\TaskGroup\MyOperation` namespace, unless the task has a more specific configuration value stored with its classname:
+```
+task:
+  TaskGroup:
     settings:
       dir: /my/path
       extrapolated: false
 ```
-The key for configuration-injected settings is `task.CLASSNAME.settings.key`.
 
 ### Accessing Configuration Directly
 
-In a RoboFile, use `Robo::Config()->get('task.MyOperation.settings.dir');` to fetch the `dir` configuration option from the previous example.
+In a RoboFile, use `Robo::Config()->get('task.TaskGroup.MyOperation.settings.dir');` to fetch the `dir` configuration option from the previous example.
 
-### Providing Default Configuration
+In the implementation of `taskMyOperation()` itself, it is in general not necessary to access configuration values directly, as it is preferable to allow Robo to inject configuration as described above. However, if desired, configuration may be accessed from within the method of any task that extends `\Robo\Task\BaseTask` (or otherwise uses `ConfigAwareTrait`) may do so via `static::getConfigValue('key', 'default');`.
+
+### Providing Default Configuration in Code
 
 RoboFiles that wish to provide default configuration values that can be overridden via robo.yml values or commandline options may do so in the class' constructor method.  The example below demonstrates how to set up a default value for the `task.Ssh.remoteDir` configuration property in code:
 ```
@@ -424,7 +450,7 @@ class RoboFile
     }
 }
 ```
-If `task.Ssh.remoteDir` is set to some other value in the robo.yml configuration file in the current directory, then the value from the configuration file will take precedence.
+If `task.Remote.Ssh.remoteDir` is set to some other value in the robo.yml configuration file in the current directory, then the value from the configuration file will take precedence.
 
 ### Loading Configuration From Another Source
 
@@ -458,9 +484,10 @@ $name = $this->ask("What is your name?");
 
 There are also `askDefault`, `askHidden`, and `confirm` methods.
 
-In addition, Robo makes all of the methods of Symfony Style available throgh the `io()` method:
-
+In addition, Robo makes all of the methods of Symfony Style available through the `io()` method:
+```
 $this->io()->title("Build all site assets");
+```
 
 This allows Robo scripts to follow the [Symfony Console Style Guide](http://symfony.com/blog/new-in-symfony-2-8-console-style-guide) if desired.
 
@@ -478,7 +505,7 @@ $ cd myproject
 $ composer require consolidation/Robo:~1
 $ ./vendor/bin/robo mycommand
 ```
-If you do not want to type the whole path to Robo, you may add `./vendor/bin` to your $PATH (relative paths work), or use `composer exec` to find and run Robo:
+If you do not want to type the whole path to Robo, you may add `./vendor/bin` to your `$PATH` (relative paths work), or use `composer exec` to find and run Robo:
 ```
 $ composer exec robo mycommand
 ```
@@ -501,7 +528,7 @@ When using Robo in your project, it is convenient to define Composer scripts tha
 ```
 *Note*: When you include Robo as a library like this, some external projects used by certain core Robo tasks are not automatically included in your project.  See the `"suggest":` section of Robo's composer.json for a list of external projects you might also want to require in your project.
 
-Once you have set up your composer.json file (and ran `composer update` if you manually changed the `require` or `require-dev` sections), Composer will ensure that your project-local copy of Robo in the `vendor/bin` dir is in your $PATH when you run the additional Composer scripts that you declared:
+Once you have set up your composer.json file (and ran `composer update` if you manually changed the `require` or `require-dev` sections), Composer will ensure that your project-local copy of Robo in the `vendor/bin` dir is in your `$PATH` when you run the additional Composer scripts that you declared:
 ```
 $ cd myproject
 $ composer test

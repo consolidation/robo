@@ -3,6 +3,8 @@ namespace Codeception\Module;
 
 use Robo\Robo;
 use Robo\Collection\CollectionBuilder;
+use Robo\Task\ValueProviderTask;
+
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 use League\Container\ContainerAwareInterface;
@@ -34,13 +36,15 @@ class CliHelper extends \Codeception\Module implements ContainerAwareInterface
         _tmpDir as public shortcutTmpDir;
         taskPack as public;
         taskExtract as public;
+        setBuilder as public;
     }
 
     public function collectionBuilder()
     {
-        $tasks = new \Robo\Tasks();
+        $tasks = new CliHelperTasks();
         $builder = CollectionBuilder::create($this->getContainer(), $tasks);
         $tasks->setBuilder($builder);
+
         return $builder;
     }
 

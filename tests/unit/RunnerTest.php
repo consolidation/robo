@@ -1,9 +1,6 @@
 <?php
 use Robo\Robo;
 
-use Robo\Config\ConfigProcessor;
-use Robo\Config\YamlConfigLoader;
-
 class RunnerTest extends \Codeception\TestCase\Test
 {
     /**
@@ -164,7 +161,7 @@ EOT;
     {
         $runnerWithNoRoboFile = new \Robo\Runner();
 
-        $argv = ['placeholder', 'list', '-f', 'no-such-directory'];
+        $argv = ['placeholder', 'no-such-command', '-f', 'no-such-directory'];
         $result = $runnerWithNoRoboFile->execute($argv, null, null, $this->guy->capturedOutputStream());
 
         $this->guy->seeInOutput('Path `no-such-directory` is invalid; please provide a valid absolute path to the Robofile to load.');
@@ -174,7 +171,7 @@ EOT;
     {
         $runnerWithNoRoboFile = new \Robo\Runner();
 
-        $argv = ['placeholder', 'list', '-f', dirname(__DIR__) . '/src/RoboFileFixture.php'];
+        $argv = ['placeholder', 'help', 'test:custom-event', '-f', dirname(__DIR__) . '/src/RoboFileFixture.php'];
         $result = $runnerWithNoRoboFile->execute($argv, null, null, $this->guy->capturedOutputStream());
 
         // We cannot load RoboFileFixture.php via -f / --load-from because

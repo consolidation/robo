@@ -45,14 +45,34 @@ class GitStack extends CommandStack
      *
      * @return $this
      */
-    public function cloneRepo($repo, $to = '')
+    public function cloneRepo($repo, $to = "", $branch = "")
     {
-        return $this->exec(['clone', $repo, $to]);
+        $cmd = ['clone', $repo, $to];
+        if (!empty($branch)) {
+            $cmd[] = "--branch $branch";
+        }
+        return $this->exec($cmd);
     }
 
-    public function cloneShallow($repo, $to = '', $depth = 1)
+    /**
+     * Executes `git clone` with depth 1 as default
+     *
+     * @param string $repo
+     * @param string $to
+     *
+     * @param string $branch
+     * @param int    $depth
+     *
+     * @return $this
+     */
+    public function cloneShallow($repo, $to = '', $branch = "", $depth = 1)
     {
-        return $this->exec(["clone --depth $depth", $repo, $to]);
+        $cmd = ["clone --depth $depth", $repo, $to];
+        if (!empty($branch)) {
+            $cmd[] = "--branch $branch";
+        }
+
+        return $this->exec($cmd);
     }
 
     /**
@@ -75,7 +95,7 @@ class GitStack extends CommandStack
      *
      * @return $this
      */
-    public function commit($message, $options = '')
+    public function commit($message, $options = "")
     {
         $message = ProcessUtils::escapeArgument($message);
         return $this->exec([__FUNCTION__, "-m $message", $options]);
@@ -139,7 +159,7 @@ class GitStack extends CommandStack
      *
      * @return $this
      */
-    public function tag($tag_name, $message = '')
+    public function tag($tag_name, $message = "")
     {
         if ($message != "") {
             $message = "-m '$message'";
@@ -152,7 +172,7 @@ class GitStack extends CommandStack
      */
     public function run()
     {
-        $this->printTaskInfo('Running git commands...');
+        $this->printTaskInfo("Running git commands...");
         return parent::run();
     }
 }

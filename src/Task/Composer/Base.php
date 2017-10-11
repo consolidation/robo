@@ -1,10 +1,11 @@
 <?php
 namespace Robo\Task\Composer;
 
-use Robo\Task\BaseTask;
+use Robo\Contract\CommandInterface;
 use Robo\Exception\TaskException;
+use Robo\Task\BaseTask;
 
-abstract class Base extends BaseTask
+abstract class Base extends BaseTask implements CommandInterface
 {
     use \Robo\Common\ExecOneCommand;
 
@@ -12,6 +13,11 @@ abstract class Base extends BaseTask
      * @var string
      */
     protected $command = '';
+
+    /**
+     * @var boolena
+     */
+    protected $built = false;
 
     /**
      * @var string
@@ -26,17 +32,12 @@ abstract class Base extends BaseTask
     /**
      * @var string
      */
-    protected $optimizeAutoloader;
-
-    /**
-     * @var string
-     */
     protected $ansi;
 
     /**
      * @var string
      */
-    protected $dir;
+    protected $nointeraction;
 
     /**
      * Action to use
@@ -44,72 +45,6 @@ abstract class Base extends BaseTask
      * @var string
      */
     protected $action = '';
-
-    /**
-     * adds `prefer-dist` option to composer
-     *
-     * @return $this
-     */
-    public function preferDist()
-    {
-        $this->prefer = '--prefer-dist';
-        return $this;
-    }
-
-    /**
-     * adds `prefer-source` option to composer
-     *
-     * @return $this
-     */
-    public function preferSource()
-    {
-        $this->prefer = '--prefer-source';
-        return $this;
-    }
-
-    /**
-     * adds `no-dev` option to composer
-     *
-     * @return $this
-     */
-    public function noDev()
-    {
-        $this->dev = '--no-dev';
-        return $this;
-    }
-
-    /**
-     * adds `no-ansi` option to composer
-     *
-     * @return $this
-     */
-    public function noAnsi()
-    {
-        $this->ansi = '--no-ansi';
-        return $this;
-    }
-
-    /**
-     * adds `ansi` option to composer
-     *
-     * @return $this
-     */
-    public function ansi()
-    {
-        $this->ansi = '--ansi';
-        return $this;
-    }
-
-    /**
-     * adds `optimize-autoloader` option to composer
-     *
-     * @return $this
-     */
-    public function optimizeAutoloader()
-    {
-        $this->optimizeAutoloader = '--optimize-autoloader';
-        return $this;
-    }
 
     /**
      * @param null|string $pathToComposer
@@ -128,17 +63,173 @@ abstract class Base extends BaseTask
     }
 
     /**
+     * adds `prefer-dist` option to composer
+     *
+     * @return $this
+     */
+    public function preferDist($preferDist = true)
+    {
+        if (!$preferDist) {
+            return $this->preferSource();
+        }
+        $this->prefer = '--prefer-dist';
+        return $this;
+    }
+
+    /**
+     * adds `prefer-source` option to composer
+     *
+     * @return $this
+     */
+    public function preferSource()
+    {
+        $this->prefer = '--prefer-source';
+        return $this;
+    }
+
+    /**
+     * adds `dev` option to composer
+     *
+     * @return $this
+     */
+    public function dev($dev = true)
+    {
+        if (!$dev) {
+            return $this->noDev();
+        }
+        $this->dev = '--dev';
+        return $this;
+    }
+
+    /**
+     * adds `no-dev` option to composer
+     *
+     * @return $this
+     */
+    public function noDev()
+    {
+        $this->dev = '--no-dev';
+        return $this;
+    }
+
+    /**
+     * adds `ansi` option to composer
+     *
+     * @return $this
+     */
+    public function ansi($ansi = true)
+    {
+        if (!$ansi) {
+            return $this->noAnsi();
+        }
+        $this->ansi = '--ansi';
+        return $this;
+    }
+
+    /**
+     * adds `no-ansi` option to composer
+     *
+     * @return $this
+     */
+    public function noAnsi()
+    {
+        $this->ansi = '--no-ansi';
+        return $this;
+    }
+
+    public function interaction($interaction = true)
+    {
+        if (!$interaction) {
+            return $this->noInteraction();
+        }
+        return $this;
+    }
+
+    /**
+     * adds `no-interaction` option to composer
+     *
+     * @return $this
+     */
+    public function noInteraction()
+    {
+        $this->nointeraction = '--no-interaction';
+        return $this;
+    }
+
+    /**
+     * adds `optimize-autoloader` option to composer
+     *
+     * @return $this
+     */
+    public function optimizeAutoloader($optimize = true)
+    {
+        if ($optimize) {
+            $this->option('--optimize-autoloader');
+        }
+        return $this;
+    }
+
+    /**
+     * adds `ignore-platform-reqs` option to composer
+     *
+     * @return $this
+     */
+    public function ignorePlatformRequirements($ignore = true)
+    {
+        $this->option('--ignore-platform-reqs');
+        return $this;
+    }
+
+    /**
+     * disable plugins
+     *
+     * @return $this
+     */
+    public function disablePlugins($disable = true)
+    {
+        if ($disable) {
+            $this->option('--no-plugins');
+        }
+        return $this;
+    }
+
+    /**
+     * adds `--working-dir $dir` option to composer
+     *
+     * @return $this
+     */
+    public function workingDir($dir)
+    {
+        $this->option("--working-dir", $dir);
+        return $this;
+    }
+
+    /**
+     * Copy class fields into command options as directed.
+     */
+    public function buildCommand()
+    {
+        if (!isset($this->ansi) && $this->getConfig()->get(\Robo\Config\Config::DECORATED)) {
+            $this->ansi();
+        }
+        if (!isset($this->nointeraction) && !$this->getConfig()->get(\Robo\Config\Config::INTERACTIVE)) {
+            $this->noInteraction();
+        }
+        $this->option($this->prefer)
+            ->option($this->dev)
+            ->option($this->nointeraction)
+            ->option($this->ansi);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getCommand()
     {
-        if (!isset($this->ansi) && $this->getConfig()->isDecorated()) {
-            $this->ansi();
+        if (!$this->built) {
+            $this->buildCommand();
+            $this->built = true;
         }
-        $this->option($this->prefer)
-            ->option($this->dev)
-            ->option($this->optimizeAutoloader)
-            ->option($this->ansi);
         return "{$this->command} {$this->action}{$this->arguments}";
     }
 }

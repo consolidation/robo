@@ -42,21 +42,28 @@ class CodeceptionTest extends \Codeception\TestCase\Test
             ->env('process1')
             ->coverage()
             ->getCommand()
-        )->equals('codecept run --group core --env process1 --coverage unit Codeception/Command');
+        )->equals('codecept run unit Codeception/Command --group core --env process1 --coverage');
 
+        $failGroupName = 'failed1';
         verify((new \Robo\Task\Testing\Codecept('codecept'))
             ->test('tests/unit/Codeception')
             ->configFile('~/Codeception')
             ->xml('result.xml')
             ->html()
+            ->noRebuild()
+            ->failGroup($failGroupName)
             ->getCommand()
-        )->equals('codecept run -c ~/Codeception --xml result.xml --html tests/unit/Codeception');
+        )->regExp("|^codecept run tests/unit/Codeception -c ~/Codeception --xml result\\.xml --html --no-rebuild --override ['\"]extensions: config: Codeception\\\\Extension\\\\RunFailed: fail-group: {$failGroupName}['\"]$|");
 
         verify((new \Robo\Task\Testing\Codecept('codecept.phar'))->debug()->getCommand())->contains(' --debug');
         verify((new \Robo\Task\Testing\Codecept('codecept.phar'))->silent()->getCommand())->contains(' --silent');
         verify((new \Robo\Task\Testing\Codecept('codecept.phar'))->excludeGroup('g')->getCommand())->contains(' --skip-group g');
         verify((new \Robo\Task\Testing\Codecept('codecept.phar'))->tap()->getCommand())->contains('--tap');
         verify((new \Robo\Task\Testing\Codecept('codecept.phar'))->json()->getCommand())->contains('--json');
+        verify((new \Robo\Task\Testing\Codecept('codecept.phar'))->noRebuild()->getCommand())->contains('--no-rebuild');
+        $failGroupName = 'failed2';
+        verify((new \Robo\Task\Testing\Codecept('codecept.phar'))->failGroup($failGroupName)->getCommand())
+            ->regExp("|--override ['\"]extensions: config: Codeception\\\\Extension\\\\RunFailed: fail-group: {$failGroupName}['\"]|");
     }
 
 }

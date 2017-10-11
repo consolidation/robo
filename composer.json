@@ -26,16 +26,14 @@
         "php": ">=5.5.0",
         "league/container": "^2.2",
         "consolidation/log": "~1",
+        "consolidation/config": "^1.0.1",
         "consolidation/annotated-command": "^2.2",
         "consolidation/output-formatters": "^3.1.5",
-        "dflydev/dot-access-data": "^1.1.0",
-        "grasmash/yaml-expander": "^1.1",
         "symfony/finder": "~2.5|~3.0",
         "symfony/console": "~2.8|~3.0",
         "symfony/process": "~2.5|~3.0",
         "symfony/filesystem": "~2.5|~3.0",
-        "symfony/event-dispatcher": "~2.5|~3.0",
-        "squizlabs/php_codesniffer": "^2.8"
+        "symfony/event-dispatcher": "~2.5|~3.0"
     },
     "require-dev": {
         "patchwork/jsqueeze": "~2",
@@ -46,25 +44,35 @@
         "codeception/verify": "^0.3.2",
         "codeception/aspect-mock": "~1",
         "satooshi/php-coveralls": "~1",
-        "phpunit/php-code-coverage": "~2|~4"
+        "phpunit/php-code-coverage": "~2|~4",
+        "squizlabs/php_codesniffer": "^2.8"
     },
     "scripts": {
         "pre-install-cmd": [
           "Robo\\composer\\ScriptHandler::checkDependencies"
         ],
-        "cs": "/robo sniff",
+        "cs": "./robo sniff",
         "test": "./robo test"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "platform": {
+            "php": "5.6"
+        }
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.x-dev"
+            "dev-master": "1.x-dev",
+            "dev-state": "1.x-dev"
         }
     },
     "suggest": {
         "pear/archive_tar": "Allows tar archives to be created and extracted in taskPack and taskExtract, respectively.",
         "henrikbjorn/lurker": "For monitoring filesystem changes in taskWatch",
         "patchwork/jsqueeze": "For minifying JS files in taskMinify",
-        "natxet/CssMin": "For minifying JS files in taskMinify"
+        "natxet/CssMin": "For minifying CSS files in taskMinify"
     },
     "replace": {
         "codegyre/robo": "< 1.0"

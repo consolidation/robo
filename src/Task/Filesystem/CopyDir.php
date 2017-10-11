@@ -21,6 +21,15 @@ class CopyDir extends BaseDir
     use ResourceExistenceChecker;
 
     /**
+     * Explicitly declare our consturctor, so that
+     * our copyDir() method does not look like a php4 constructor.
+     */
+    public function __construct($dirs)
+    {
+        parent::__construct($dirs);
+    }
+
+    /**
      * @var int
      */
     protected $chmod = 0755;
@@ -31,6 +40,11 @@ class CopyDir extends BaseDir
      * @var string[]
      */
     protected $exclude = [];
+
+    /**
+     * Overwrite destination files newer than source files.
+     */
+    protected $overwrite = true;
 
     /**
      * {@inheritdoc}
@@ -73,7 +87,20 @@ class CopyDir extends BaseDir
      */
     public function exclude($exclude = [])
     {
-        $this->exclude = $exclude;
+        $this->exclude = $this->simplifyForCompare($exclude);
+        return $this;
+    }
+
+    /**
+     * Destination files newer than source files are overwritten.
+     *
+     * @param bool $overwrite
+     *
+     * @return $this
+     */
+    public function overwrite($overwrite)
+    {
+        $this->overwrite = $overwrite;
         return $this;
     }
 
@@ -82,10 +109,11 @@ class CopyDir extends BaseDir
      *
      * @param string $src Source directory
      * @param string $dst Destination directory
+     * @param string $parent Parent directory
      *
      * @throws \Robo\Exception\TaskException
      */
-    protected function copyDir($src, $dst)
+    protected function copyDir($src, $dst, $parent = '')
     {
         $dir = @opendir($src);
         if (false === $dir) {
@@ -95,19 +123,40 @@ class CopyDir extends BaseDir
             mkdir($dst, $this->chmod, true);
         }
         while (false !== ($file = readdir($dir))) {
-            if (in_array($file, $this->exclude)) {
-                 continue;
+            // Support basename and full path exclusion.
+            if ($this->excluded($file, $src, $parent)) {
+                continue;
             }
-            if (($file !== '.') && ($file !== '..')) {
-                $srcFile = $src . '/' . $file;
-                $destFile = $dst . '/' . $file;
-                if (is_dir($srcFile)) {
-                    $this->copyDir($srcFile, $destFile);
-                } else {
-                    copy($srcFile, $destFile);
-                }
+            $srcFile = $src . '/' . $file;
+            $destFile = $dst . '/' . $file;
+            if (is_dir($srcFile)) {
+                $this->copyDir($srcFile, $destFile, $parent . $file . DIRECTORY_SEPARATOR);
+            } else {
+                $this->fs->copy($srcFile, $destFile, $this->overwrite);
             }
         }
         closedir($dir);
+    }
+
+    /**
+     * Check to see if the current item is excluded.
+     */
+    protected function excluded($file, $src, $parent)
+    {
+        return
+            ($file == '.') ||
+            ($file == '..') ||
+            in_array($file, $this->exclude) ||
+            in_array($this->simplifyForCompare($parent . $file), $this->exclude) ||
+            in_array($this->simplifyForCompare($src . DIRECTORY_SEPARATOR . $file), $this->exclude);
+    }
+
+    /**
+     * Avoid problems comparing paths on Windows that may have a
+     * combination of DIRECTORY_SEPARATOR and /.
+     */
+    protected function simplifyForCompare($item)
+    {
+        return str_replace(DIRECTORY_SEPARATOR, '/', $item);
     }
 }

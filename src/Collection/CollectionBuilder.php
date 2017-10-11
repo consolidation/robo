@@ -1,6 +1,7 @@
 <?php
 namespace Robo\Collection;
 
+use Consolidation\Config\Inject\ConfigForSetters;
 use Robo\Config\Config;
 use Psr\Log\LogLevel;
 use Robo\Contract\InflectionInterface;
@@ -13,6 +14,9 @@ use Robo\Task\BaseTask;
 use Robo\Contract\BuilderAwareInterface;
 use Robo\Contract\CommandInterface;
 use Robo\Contract\VerbosityThresholdInterface;
+use Robo\State\StateAwareInterface;
+use Robo\State\StateAwareTrait;
+use Robo\Result;
 
 /**
  * Creates a collection, and adds tasks to it.  The collection builder
@@ -41,8 +45,9 @@ use Robo\Contract\VerbosityThresholdInterface;
  * In the example above, the `taskDeleteDir` will be called if
  * ```
  */
-class CollectionBuilder extends BaseTask implements NestedCollectionInterface, WrappedTaskInterface, CommandInterface
+class CollectionBuilder extends BaseTask implements NestedCollectionInterface, WrappedTaskInterface, CommandInterface, StateAwareInterface
 {
+    use StateAwareTrait;
 
     /**
      * @var \Robo\Tasks
@@ -70,6 +75,7 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
     public function __construct($commandFile)
     {
         $this->commandFile = $commandFile;
+        $this->resetState();
     }
 
     public static function create($container, $commandFile)
@@ -259,6 +265,39 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
         return $this;
     }
 
+    public function getState()
+    {
+        $collection = $this->getCollection();
+        return $collection->getState();
+    }
+
+    public function storeState($key, $source = '')
+    {
+        return $this->callCollectionStateFuntion(__FUNCTION__, func_get_args());
+    }
+
+    public function deferTaskConfiguration($functionName, $stateKey)
+    {
+        return $this->callCollectionStateFuntion(__FUNCTION__, func_get_args());
+    }
+
+    public function defer($callback)
+    {
+        return $this->callCollectionStateFuntion(__FUNCTION__, func_get_args());
+    }
+
+    protected function callCollectionStateFuntion($functionName, $args)
+    {
+        $currentTask = ($this->currentTask instanceof WrappedTaskInterface) ? $this->currentTask->original() : $this->currentTask;
+
+        array_unshift($args, $currentTask);
+        $collection = $this->getCollection();
+        $fn = [$collection, $functionName];
+
+        call_user_func_array($fn, $args);
+        return $this;
+    }
+
     public function setVerbosityThreshold($verbosityThreshold)
     {
         $currentTask = ($this->currentTask instanceof WrappedTaskInterface) ? $this->currentTask->original() : $this->currentTask;
@@ -293,6 +332,7 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
         $collectionBuilder->inflect($this);
         $collectionBuilder->simulated($this->isSimulated());
         $collectionBuilder->setVerbosityThreshold($this->verbosityThreshold());
+        $collectionBuilder->setState($this->getState());
 
         return $collectionBuilder;
     }
@@ -442,9 +482,9 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
      */
     protected function configureTask($taskClass, $task)
     {
-        $taskClass = $this->classNameWithoutNamespace($taskClass);
-        $configurationKey = "task.{$taskClass}.settings";
-        $this->getConfig()->applyConfiguration($task, $configurationKey);
+        $taskClass = static::configClassIdentifier($taskClass);
+        $configurationApplier = new ConfigForSetters($this->getConfig(), $taskClass, 'task.');
+        $configurationApplier->apply($task, 'settings');
 
         // TODO: If we counted each instance of $taskClass that was called from
         // this builder, then we could also apply configuration from
@@ -453,20 +493,6 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
         // TODO: If the builder knew what the current command name was,
         // then we could also search for task configuration under
         // command-specific keys such as "command.{$commandname}.task.{$taskClass}.settings".
-    }
-
-    /**
-     * Strip the namespace off of the fully-qualified classname
-     * @param string $classname
-     * @return string
-     */
-    protected function classNameWithoutNamespace($classname)
-    {
-        $pos = strrpos($classname, '\\');
-        if ($pos === false) {
-            return $classname;
-        }
-        return substr($classname, $pos + 1);
     }
 
     /**
@@ -480,6 +506,7 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
         $result = $this->runTasks();
         $this->stopTimer();
         $result['time'] = $this->getExecutionTime();
+        $result->mergeData($this->getState()->getData());
         return $result;
     }
 
@@ -492,7 +519,8 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
     protected function runTasks()
     {
         if (!$this->collection && $this->currentTask) {
-            return $this->currentTask->run();
+            $result = $this->currentTask->run();
+            return Result::ensureResult($this->currentTask, $result);
         }
         return $this->getCollection()->run();
     }
@@ -531,6 +559,7 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
         if (!isset($this->collection)) {
             $this->collection = new Collection();
             $this->collection->inflect($this);
+            $this->collection->setState($this->getState());
             $this->collection->setProgressBarAutoDisplayInterval($this->getConfig()->get(Config::PROGRESS_BAR_AUTO_DISPLAY_INTERVAL));
 
             if (isset($this->currentTask)) {

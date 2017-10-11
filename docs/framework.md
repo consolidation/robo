@@ -42,18 +42,22 @@ if ($pharPath) {
     }
 }
 
+$output = new \Symfony\Component\Console\Output\ConsoleOutput();
+
 $commandClasses = [ \MyProject\Commands\RoboFile::class ];
 $statusCode = \Robo\Robo::run(
     $_SERVER['argv'], 
     $commandClasses, 
     'MyAppName', 
-    '0.0.0-alpha0'
+    '0.0.0-alpha0',
+    $output,
+    'org/project'
 );
 exit($statusCode);
 ```
 When using Robo as a framework, the Robo file should be included in the autoloader, as Robo does not include a `RoboFile.php` file when used in this mode. Instead, specify the class or classes to load as a parameter to the Robo::run() method. By default, all output will be sent to a Symfony ConsoleOutput() that Robo will create for you. If you would like to use some other OutputInterface to capture the output, it may be specified via an optional fifth parameter.
 
-Use [box-project/box2](https://github.com/box-project/box2) to create a phar for your application.  Note that if you use Robo's taskPackPhar to create your phar, then `\Phar::running()` will always return an empty string due to a bug in this phar builder. If you encounter any problems with this, then hardcode the path to your autoload file.  See the [robo](https://github.com/consolidation-org/Robo/blob/master/robo) script for details.
+Use [box-project/box2](https://github.com/box-project/box2) or Robo's taskPackPhar to create a phar for your application. If your application's repository is hosted on GitHub, then passing the appropriate GitHub `org/project` to the `\Robo\Robo::run()` method, as shown above, will enable the `self:update` command to automatically update to the latest available version. Note that `self:update` only works with phar distributions.
 
 ## Using Multiple RoboFiles in a Standalone Application
 
@@ -106,6 +110,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class MyApplication {
 
+  const APPLICATION_NAME = 'My Application';
+  const REPOSITORY = 'org/project';
+
   use ConfigAwareTrait;
 
   private $runner;
@@ -118,7 +125,7 @@ class MyApplication {
 
     // Create applicaton.
     $this->setConfig($config);
-    $application = new Application('My Application', $config->get('version'));
+    $application = new Application(self::APPLICATION_NAME, $config->get('version'));
 
     // Create and configure container.
     $container = Robo::createDefaultContainer($input, $output, $application,
@@ -131,6 +138,7 @@ class MyApplication {
       My\Custom\Command::class
     ]);
     $this->runner->setContainer($container);
+    $this->runner->setSelfUpdateRepository(self::REPOSITORY);
   }
 
   public function run(InputInterface $input, OutputInterface $output) {
@@ -140,7 +148,6 @@ class MyApplication {
   }
 
 }
-
 ```
 
 If you are using League\Container (recommended), then you may simply add and share your own classes to the same container.  If you are using some other DI container, then you should use [delegate lookup](https://github.com/container-interop/fig-standards/blob/master/proposed/container.md#14-additional-feature-delegate-lookup) to combine them.
@@ -150,8 +157,8 @@ If you are using League\Container (recommended), then you may simply add and sha
 Robo provides a very simple configuration loader. If you wish to use more capable loader, you may opt to do so. Replace the call to `Robo::createConfiguration()` with code similar to the following:
 ```
 use Robo\Config\Config;
-use Robo\Config\YamlConfigLoader;
-use Robo\Config\ConfigProcessor;
+use Consolidation\Config\Loader\YamlConfigLoader;
+use Consolidation\Config\Loader\ConfigProcessor;
 
 $config = new Config();
 $loader = new YamlConfigLoader();

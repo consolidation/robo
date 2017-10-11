@@ -45,9 +45,14 @@ class GitStack extends CommandStack
      *
      * @return $this
      */
-    public function cloneRepo($repo, $to = "")
+    public function cloneRepo($repo, $to = '')
     {
         return $this->exec(['clone', $repo, $to]);
+    }
+
+    public function cloneShallow($repo, $to = '', $depth = 1)
+    {
+        return $this->exec(["clone --depth $depth", $repo, $to]);
     }
 
     /**
@@ -70,7 +75,7 @@ class GitStack extends CommandStack
      *
      * @return $this
      */
-    public function commit($message, $options = "")
+    public function commit($message, $options = '')
     {
         $message = ProcessUtils::escapeArgument($message);
         return $this->exec([__FUNCTION__, "-m $message", $options]);
@@ -134,7 +139,7 @@ class GitStack extends CommandStack
      *
      * @return $this
      */
-    public function tag($tag_name, $message = "")
+    public function tag($tag_name, $message = '')
     {
         if ($message != "") {
             $message = "-m '$message'";
@@ -147,7 +152,7 @@ class GitStack extends CommandStack
      */
     public function run()
     {
-        $this->printTaskInfo("Running git commands...");
+        $this->printTaskInfo('Running git commands...');
         return parent::run();
     }
 }

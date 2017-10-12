@@ -16,8 +16,6 @@ class SelfUpdateCommand extends Command
 {
     const SELF_UPDATE_COMMAND_NAME = 'self:update';
 
-    private $command;
-
     protected $gitHubRepository;
 
     protected $currentVersion;

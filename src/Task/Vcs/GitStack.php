@@ -55,6 +55,26 @@ class GitStack extends CommandStack
     }
 
     /**
+     * Executes `git clone` with depth 1 as default
+     *
+     * @param string $repo
+     * @param string $to
+     * @param string $branch
+     * @param int    $depth
+     *
+     * @return $this
+     */
+    public function cloneShallow($repo, $to = '', $branch = "", $depth = 1)
+    {
+        $cmd = ["clone --depth $depth", $repo, $to];
+        if (!empty($branch)) {
+            $cmd[] = "--branch $branch";
+        }
+
+        return $this->exec($cmd);
+    }
+
+    /**
      * Executes `git add` command with files to add pattern
      *
      * @param string $pattern

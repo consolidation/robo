@@ -29,6 +29,11 @@ abstract class GitHub extends BaseTask
     protected $owner;
 
     /**
+     * @var string
+     */
+    protected $accessToken;
+
+    /**
      * @param string $repo
      *
      * @return $this
@@ -92,6 +97,17 @@ abstract class GitHub extends BaseTask
     }
 
     /**
+     * @param $accessToken
+     *
+     * @return $this
+     */
+    public function accessToken($token)
+    {
+        $this->accessToken = $token;
+        return $this;
+    }
+
+    /**
      * @param string $uri
      * @param array $params
      * @param string $method
@@ -113,6 +129,10 @@ abstract class GitHub extends BaseTask
 
         if (!empty($this->user)) {
             curl_setopt($ch, CURLOPT_USERPWD, $this->user . ':' . $this->password);
+        }
+
+        if (!empty($this->accessToken)) {
+            $url .= "?access_token=" . $this->accessToken;
         }
 
         curl_setopt_array(

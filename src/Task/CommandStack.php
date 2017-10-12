@@ -59,8 +59,8 @@ abstract class CommandStack extends BaseTask implements CommandInterface, Printe
             $command = implode(' ', array_filter($command));
         }
 
-        $command = $this->executable . ' ' . $this->stripExecutableFromCommand($command);
-        array_push($this->exec, trim($command));
+        $command      = $this->executable . ' ' . $this->stripExecutableFromCommand($command);
+        $this->exec[] = trim($command);
         return $this;
     }
 

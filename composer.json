@@ -24,16 +24,16 @@
     "bin":["robo"],
     "require": {
         "php": ">=5.5.0",
-        "league/container": "^2.2",
-        "consolidation/log": "~1",
+        "consolidation/annotated-command": "dev-bespoke-parser",
         "consolidation/config": "^1.0.1",
-        "consolidation/annotated-command": "^2.2",
-        "consolidation/output-formatters": "^3.1.5",
-        "symfony/finder": "~2.5|~3.0",
+        "consolidation/log": "~1",
+        "consolidation/output-formatters": "^3.1.12",
+        "league/container": "^2.2",
         "symfony/console": "~2.8|~3.0",
-        "symfony/process": "~2.5|~3.0",
+        "symfony/event-dispatcher": "~2.5|~3.0",
         "symfony/filesystem": "~2.5|~3.0",
-        "symfony/event-dispatcher": "~2.5|~3.0"
+        "symfony/finder": "~2.5|~3.0",
+        "symfony/process": "~2.5|~3.0"
     },
     "require-dev": {
         "patchwork/jsqueeze": "~2",

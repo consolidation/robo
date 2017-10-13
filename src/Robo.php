@@ -219,6 +219,7 @@ class Robo
             ->withMethodCall('addResultProcessor', ['collectionProcessHook', '*']);
         $container->share('alterOptionsCommandEvent', \Consolidation\AnnotatedCommand\Options\AlterOptionsCommandEvent::class)
             ->withArgument('application');
+        // TODO: only add hook manager to event dispatcher. Add other event listeners to hook manager.
         $container->share('eventDispatcher', \Symfony\Component\EventDispatcher\EventDispatcher::class)
             ->withMethodCall('addSubscriber', ['injectConfigEventListener'])
             ->withMethodCall('addSubscriber', ['globalOptionsEventListener'])

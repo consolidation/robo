@@ -1,6 +1,13 @@
 # Changelog
 
-#### 1.1.3 09/23/2017
+### 1.1.4 10/16/2017
+
+* Update order of command event hooks so that the option settings are injected prior to configuration being injected, so that dynamic options are available for config injection. (#636)
+* Add shallow clone method to GithubStack task. by Stefan Lange (#633)
+* Make Changelog task more flexible. by Matthew Grasmick(#631)
+* Adding accessToken() to GitHub task. by Matthew Grasmick (#630)
+
+### 1.1.3 09/23/2017
 
 * Add self:update command to update Robo phar distributions to the latest available version on GitHub. by Alexander Menk
 * Fix Robo\Task\Docker\Base to implement CommandInterface. by Alexei Gorobet (#625)

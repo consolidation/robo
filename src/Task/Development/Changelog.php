@@ -56,6 +56,16 @@ class Changelog extends BaseTask implements BuilderAwareInterface
     protected $version = "";
 
     /**
+     * @var string
+     */
+    protected $body = "";
+
+    /**
+     * @var string
+     */
+    protected $header = "";
+
+    /**
      * @param string $filename
      *
      * @return $this
@@ -63,6 +73,32 @@ class Changelog extends BaseTask implements BuilderAwareInterface
     public function filename($filename)
     {
         $this->filename = $filename;
+        return $this;
+    }
+
+    /**
+     * Sets the changelog body text.
+     *
+     * This method permits the raw changelog text to be set directly If this is set, $this->log changes will be ignored.
+     *
+     * @param string $body
+     *
+     * @return $this
+     */
+    public function setBody($body)
+    {
+        $this->body = $body;
+        return $this;
+    }
+
+    /**
+     * @param string $header
+     *
+     * @return $this
+     */
+    public function setHeader($header)
+    {
+        $this->header = $header;
         return $this;
     }
 
@@ -142,20 +178,17 @@ class Changelog extends BaseTask implements BuilderAwareInterface
      */
     public function run()
     {
-        if (empty($this->log)) {
-            return Result::error($this, "Changelog is empty");
+        if (empty($this->body)) {
+            if (empty($this->log)) {
+                return Result::error($this, "Changelog is empty");
+            }
+            $this->body = $this->generateBody();
         }
-        $text = implode(
-            "\n",
-            array_map(
-                function ($i) {
-                        return "* $i *" . date('Y-m-d') . "*";
-                },
-                $this->log
-            )
-        ) . "\n";
-        $ver = "#### {$this->version}\n\n";
-        $text = $ver . $text;
+        if (empty($this->header)) {
+            $this->header = $this->generateHeader();
+        }
+
+        $text = $this->header . $this->body;
 
         if (!file_exists($this->filename)) {
             $this->printTaskInfo('Creating {filename}', ['filename' => $this->filename]);
@@ -168,7 +201,7 @@ class Changelog extends BaseTask implements BuilderAwareInterface
         /** @var \Robo\Result $result */
         // trying to append to changelog for today
         $result = $this->collectionBuilder()->taskReplaceInFile($this->filename)
-            ->from($ver)
+            ->from($this->header)
             ->to($text)
             ->run();
 
@@ -180,5 +213,34 @@ class Changelog extends BaseTask implements BuilderAwareInterface
         }
 
         return new Result($this, $result->getExitCode(), $result->getMessage(), $this->log);
+    }
+
+    /**
+     * @return \Robo\Result|string
+     */
+    protected function generateBody()
+    {
+        $text = implode("\n", array_map([$this, 'processLogRow'], $this->log));
+        $text .= "\n";
+
+        return $text;
+    }
+
+    /**
+     * @return string
+     */
+    protected function generateHeader()
+    {
+        return "#### {$this->version}\n\n";
+    }
+
+    /**
+     * @param $i
+     *
+     * @return string
+     */
+    public function processLogRow($i)
+    {
+        return "* $i *" . date('Y-m-d') . "*";
     }
 }

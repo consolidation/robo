@@ -27,12 +27,15 @@ $this->taskChangelog()
 ```
 
 * `filename($filename)`   * `param string` $filename
+* `setBody($body)`  Sets the changelog body text.
+* `setHeader($header)`   * `param string` $header
 * `log($item)`   * `param string` $item
 * `anchor($anchor)`   * `param string` $anchor
 * `version($version)`   * `param string` $version
 * `changes(array $data)`   * `param array` $data
 * `change($change)`   * `param string` $change
 * `getChanges()`  @return array
+* `processLogRow($i)`   * `param` $i
 
 ## GenerateMarkdownDoc
 
@@ -135,6 +138,7 @@ $this->taskGitHubRelease('0.1.0')
 * `uri($uri)`   * `param string` $uri
 * `user($user)`   * `param string` $user
 * `password($password)`   * `param` $password
+* `accessToken($token)`   * `param` $accessToken
 
 ## OpenBrowser
 

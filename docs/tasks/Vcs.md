@@ -25,6 +25,7 @@ $this->taskGitStack()
 ```
 
 * `cloneRepo($repo, $to = null, $branch = null)`  Executes `git clone`
+* `cloneShallow($repo, $to = null, $branch = null, $depth = null)`  Executes `git clone` with depth 1 as default
 * `add($pattern)`  Executes `git add` command with files to add pattern
 * `commit($message, $options = null)`  Executes `git commit` command with a message
 * `pull($origin = null, $branch = null)`  Executes `git pull` command.

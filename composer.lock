@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "994ad7989ff056b0f0f1ba2e9335fd27",
+    "content-hash": "7eb09938b728d1a7e94c08d89cfbb072",
     "packages": [
         {
             "name": "consolidation/annotated-command",
-            "version": "dev-add-command-event",
+            "version": "2.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/annotated-command.git",
-                "reference": "3e75dac4522abb0d7c0fdade6f6ceb993b5b0490"
+                "reference": "7f94009d732922d61408536f9228aca8f22e9135"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/annotated-command/zipball/3e75dac4522abb0d7c0fdade6f6ceb993b5b0490",
-                "reference": "3e75dac4522abb0d7c0fdade6f6ceb993b5b0490",
+                "url": "https://api.github.com/repos/consolidation/annotated-command/zipball/7f94009d732922d61408536f9228aca8f22e9135",
+                "reference": "7f94009d732922d61408536f9228aca8f22e9135",
                 "shasum": ""
             },
             "require": {
@@ -55,7 +55,7 @@
                 }
             ],
             "description": "Initialize Symfony Console commands from annotated command class methods.",
-            "time": "2017-10-16T23:22:03+00:00"
+            "time": "2017-10-17T01:48:51+00:00"
         },
         {
             "name": "consolidation/config",
@@ -3755,18 +3755,9 @@
             "time": "2016-11-23T20:04:58+00:00"
         }
     ],
-    "aliases": [
-        {
-            "alias": "2.8.1",
-            "alias_normalized": "2.8.1.0",
-            "version": "dev-add-command-event",
-            "package": "consolidation/annotated-command"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "consolidation/annotated-command": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

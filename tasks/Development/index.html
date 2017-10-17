@@ -211,12 +211,15 @@ $this-&gt;taskChangelog()
 
 <ul>
 <li><code>filename($filename)</code>   * <code>param string</code> $filename</li>
+<li><code>setBody($body)</code>  Sets the changelog body text.</li>
+<li><code>setHeader($header)</code>   * <code>param string</code> $header</li>
 <li><code>log($item)</code>   * <code>param string</code> $item</li>
 <li><code>anchor($anchor)</code>   * <code>param string</code> $anchor</li>
 <li><code>version($version)</code>   * <code>param string</code> $version</li>
 <li><code>changes(array $data)</code>   * <code>param array</code> $data</li>
 <li><code>change($change)</code>   * <code>param string</code> $change</li>
 <li><code>getChanges()</code>  @return array</li>
+<li><code>processLogRow($i)</code>   * <code>param</code> $i</li>
 </ul>
 <h2 id="generatemarkdowndoc">GenerateMarkdownDoc</h2>
 <p>Simple documentation generator from source files.
@@ -304,6 +307,7 @@ $this-&gt;taskGitHubRelease('0.1.0')
 <li><code>uri($uri)</code>   * <code>param string</code> $uri</li>
 <li><code>user($user)</code>   * <code>param string</code> $user</li>
 <li><code>password($password)</code>   * <code>param</code> $password</li>
+<li><code>accessToken($token)</code>   * <code>param</code> $accessToken</li>
 </ul>
 <h2 id="openbrowser">OpenBrowser</h2>
 <p>Opens the default's user browser

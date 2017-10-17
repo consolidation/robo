@@ -206,6 +206,7 @@ $this-&gt;taskGitStack()
 
 <ul>
 <li><code>cloneRepo($repo, $to = null, $branch = null)</code>  Executes <code>git clone</code></li>
+<li><code>cloneShallow($repo, $to = null, $branch = null, $depth = null)</code>  Executes <code>git clone</code> with depth 1 as default</li>
 <li><code>add($pattern)</code>  Executes <code>git add</code> command with files to add pattern</li>
 <li><code>commit($message, $options = null)</code>  Executes <code>git commit</code> command with a message</li>
 <li><code>pull($origin = null, $branch = null)</code>  Executes <code>git pull</code> command.</li>

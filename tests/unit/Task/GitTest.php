@@ -73,18 +73,23 @@ class GitTest extends \Codeception\TestCase\Test
 
     public function testGitStackShallowCloneCommand()
     {
-        $string = 'git clone --depth 1 http://github.com/consolidation-org/Robo ./deployment-path';
+        $cmd = 'git clone --depth 1 http://github.com/consolidation-org/Robo ./deployment-path';
 
-        verify((new \Robo\Task\Vcs\GitStack())->cloneShallow('http://github.com/consolidation-org/Robo',
-            './deployment-path')->getCommand())->equals($string);
+        verify(
+            (new \Robo\Task\Vcs\GitStack())
+                ->cloneShallow('http://github.com/consolidation-org/Robo', './deployment-path')
+                ->getCommand()
+        )->equals($cmd);
     }
 
     public function testGitStackShallowCloneCommandWithDifferentDepth()
     {
-        $string = 'git clone --depth 3 http://github.com/consolidation-org/Robo . --branch feature';
+        $cmd = 'git clone --depth 3 http://github.com/consolidation-org/Robo . --branch feature';
 
-        verify((new \Robo\Task\Vcs\GitStack())->cloneShallow('http://github.com/consolidation-org/Robo',
-            '.', 'feature', 3)->getCommand())->equals($string);
+        verify(
+            (new \Robo\Task\Vcs\GitStack())
+                ->cloneShallow('http://github.com/consolidation-org/Robo', '.', 'feature', 3)
+                ->getCommand()
+        )->equals($cmd);
     }
-
 }

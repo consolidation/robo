@@ -78,4 +78,13 @@ class GitTest extends \Codeception\TestCase\Test
         verify((new \Robo\Task\Vcs\GitStack())->cloneShallow('http://github.com/consolidation-org/Robo',
             './deployment-path')->getCommand())->equals($string);
     }
+
+    public function testGitStackShallowCloneCommandWithDifferentDepth()
+    {
+        $string = 'git clone --depth 3 http://github.com/consolidation-org/Robo . --branch feature';
+
+        verify((new \Robo\Task\Vcs\GitStack())->cloneShallow('http://github.com/consolidation-org/Robo',
+            '.', 'feature', 3)->getCommand())->equals($string);
+    }
+
 }

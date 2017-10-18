@@ -41,18 +41,13 @@ class PHPServerTest extends \Codeception\TestCase\Test
 
     public function testServerCommand()
     {
-        if (strtolower(PHP_OS) === 'linux') {
-            $expectedCommand = 'exec php -S 127.0.0.1:8000 -t web';
-        } else {
-            $expectedCommand = 'php -S 127.0.0.1:8000 -t web';
-        }
+        $cmd = stripos(PHP_OS, 'WIN') === 0 ? 'php -S 127.0.0.1:8000 -t web' : 'exec php -S 127.0.0.1:8000 -t web';
 
         verify(
             (new \Robo\Task\Development\PhpServer('8000'))
                 ->host('127.0.0.1')
                 ->dir('web')
                 ->getCommand()
-        )->equals($expectedCommand);
+        )->equals($cmd);
     }
-
 }

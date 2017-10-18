@@ -35,7 +35,7 @@ class GitTest extends \Codeception\TestCase\Test
 
         $winCmd = 'git clone http://github.com/consolidation-org/Robo && git pull && git add -A && git commit -m "changed" && git push && git tag 0.6.0 && git push origin 0.6.0';
 
-        $cmd = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? $winCmd : $linuxCmd;
+        $cmd = stripos(PHP_OS, 'WIN') === 0 ? $winCmd : $linuxCmd;
 
         verify(
             (new \Robo\Task\Vcs\GitStack())
@@ -56,7 +56,7 @@ class GitTest extends \Codeception\TestCase\Test
 
         $winCmd = 'git clone http://github.com/consolidation-org/Robo && git pull && git add -A && git commit -m "changed" && git push && git tag -m \'message\' 0.6.0 && git push origin 0.6.0';
 
-        $cmd = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? $winCmd : $linuxCmd;
+        $cmd = stripos(PHP_OS, 'WIN') === 0 ? $winCmd : $linuxCmd;
 
         verify(
             (new \Robo\Task\Vcs\GitStack())
@@ -67,6 +67,28 @@ class GitTest extends \Codeception\TestCase\Test
                 ->push()
                 ->tag('0.6.0', 'message')
                 ->push('origin', '0.6.0')
+                ->getCommand()
+        )->equals($cmd);
+    }
+
+    public function testGitStackShallowCloneCommand()
+    {
+        $cmd = 'git clone --depth 1 http://github.com/consolidation-org/Robo ./deployment-path';
+
+        verify(
+            (new \Robo\Task\Vcs\GitStack())
+                ->cloneShallow('http://github.com/consolidation-org/Robo', './deployment-path')
+                ->getCommand()
+        )->equals($cmd);
+    }
+
+    public function testGitStackShallowCloneCommandWithDifferentDepth()
+    {
+        $cmd = 'git clone --depth 3 http://github.com/consolidation-org/Robo . --branch feature';
+
+        verify(
+            (new \Robo\Task\Vcs\GitStack())
+                ->cloneShallow('http://github.com/consolidation-org/Robo', '.', 'feature', 3)
                 ->getCommand()
         )->equals($cmd);
     }

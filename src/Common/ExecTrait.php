@@ -2,9 +2,7 @@
 
 namespace Robo\Common;
 
-use function explode;
 use Robo\ResultData;
-use function str_replace;
 use Symfony\Component\Process\Process;
 
 /**

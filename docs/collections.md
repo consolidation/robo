@@ -65,7 +65,7 @@ Examples of adding different kinds of tasks to a collection are provided below.
 
 ## Using a Collection Builder
 
-To manage a collection of tasks, a collection builder. Collection builders allow tasks to be created via chained methods.  All of the tasks created by the same builder are added to a collection; when the `run()` method is called, all of the tasks in the collection run. 
+To manage a collection of tasks, use a collection builder. Collection builders allow tasks to be created via chained methods.  All of the tasks created by the same builder are added to a collection; when the `run()` method is called, all of the tasks in the collection run. 
 
 The 'publish' command from Robo's own RoboFile is shown below.  It uses a collection builder to run some git and filesystem operations. The "completion" tasks are run after all other tasks complete, or during rollback processing when an operation fails.
 

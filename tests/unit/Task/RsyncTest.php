@@ -14,7 +14,7 @@ class RsyncTest extends \Codeception\TestCase\Test
 
         $winCmd = 'rsync --recursive --exclude .git --exclude .svn --exclude .hg --checksum --whole-file --verbose --progress --human-readable --stats src/ "dev@localhost:/var/www/html/app/"';
 
-        $cmd = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? $winCmd : $linuxCmd;
+        $cmd = stripos(PHP_OS, 'WIN') === 0 ? $winCmd : $linuxCmd;
 
         verify(
             (new \Robo\Task\Remote\Rsync())
@@ -37,7 +37,7 @@ class RsyncTest extends \Codeception\TestCase\Test
 
         $winCmd = 'rsync "src/foo bar/baz" "dev@localhost:/var/path/with/a space"';
 
-        $cmd = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? $winCmd : $linuxCmd;
+        $cmd = stripos(PHP_OS, 'WIN') === 0 ? $winCmd : $linuxCmd;
 
         // From the folder 'foo bar' (with space) in 'src' directory
         verify(
@@ -53,7 +53,7 @@ class RsyncTest extends \Codeception\TestCase\Test
 
         $winCmd = 'rsync src/foo src/bar "dev@localhost:/var/path/with/a space"';
 
-        $cmd = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? $winCmd : $linuxCmd;
+        $cmd = stripos(PHP_OS, 'WIN') === 0 ? $winCmd : $linuxCmd;
 
         // Copy two folders, 'src/foo' and 'src/bar'
         verify(

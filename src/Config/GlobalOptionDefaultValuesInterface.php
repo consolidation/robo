@@ -12,10 +12,6 @@ namespace Robo\Config;
  *
  * etc.
  */
-interface GlobalOptionDefaultValuesInterface
+interface GlobalOptionDefaultValuesInterface extends \Consolidation\Config\GlobalOptionDefaultValuesInterface
 {
-    /**
-     * Return an associative array of option-key => default-value
-     */
-    public function getGlobalOptionDefaultValues();
 }

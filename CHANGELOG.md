@@ -1,5 +1,10 @@
 # Changelog
 
+### 1.1.5 10/25/2017
+
+* Load option default values from $input for all options defined in the Application's input definition (#642)
+* BUGFIX: Store global options in 'options' namespace rather than at the top level of config.
+
 ### 1.1.4 10/16/2017
 
 * Update order of command event hooks so that the option settings are injected prior to configuration being injected, so that dynamic options are available for config injection. (#636)

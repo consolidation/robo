@@ -19,7 +19,7 @@ use Symfony\Component\Process\Process;
 class Robo
 {
     const APPLICATION_NAME = 'Robo';
-    const VERSION = '1.1.4';
+    const VERSION = '1.1.5';
 
     /**
      * The currently active container object, or NULL if not initialized yet.
@@ -210,7 +210,8 @@ class Robo
             ->withArgument('output');
         $container->share('resultPrinter', \Robo\Log\ResultPrinter::class);
         $container->add('simulator', \Robo\Task\Simulator::class);
-        $container->share('globalOptionsEventListener', \Robo\GlobalOptionsEventListener::class);
+        $container->share('globalOptionsEventListener', \Robo\GlobalOptionsEventListener::class)
+            ->withMethodCall('setApplication', ['application']);
         $container->share('injectConfigEventListener', \Consolidation\Config\Inject\ConfigForCommand::class)
             ->withArgument('config')
             ->withMethodCall('setApplication', ['application']);

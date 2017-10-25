@@ -3,13 +3,13 @@ namespace Robo\Config;
 
 class Config extends \Consolidation\Config\Config implements GlobalOptionDefaultValuesInterface
 {
-    const PROGRESS_BAR_AUTO_DISPLAY_INTERVAL = 'progress-delay';
+    const PROGRESS_BAR_AUTO_DISPLAY_INTERVAL = 'options.progress-delay';
     const DEFAULT_PROGRESS_DELAY = 2;
-    const SIMULATE = 'simulate';
+    const SIMULATE = 'options.simulate';
 
     // Read-only configuration properties; changing these has no effect.
-    const INTERACTIVE = 'interactive';
-    const DECORATED = 'decorated';
+    const INTERACTIVE = 'options.interactive';
+    const DECORATED = 'options.decorated';
 
     /**
      * Create a new configuration object, and initialize it with
@@ -34,8 +34,20 @@ class Config extends \Consolidation\Config\Config implements GlobalOptionDefault
             self::PROGRESS_BAR_AUTO_DISPLAY_INTERVAL => self::DEFAULT_PROGRESS_DELAY,
             self::SIMULATE => false,
         ];
+        return $this->trimPrefixFromGlobalOptions($globalOptions);
+    }
 
-        return $globalOptions;
+    /**
+     * Remove the 'options.' prefix from the global options list.
+     */
+    protected function trimPrefixFromGlobalOptions($globalOptions)
+    {
+        $result = [];
+        foreach ($globalOptions as $option => $value) {
+            $option = str_replace('options.', '', $option);
+            $result[$option] = $value;
+        }
+        return $result;
     }
 
     /**

@@ -84,7 +84,7 @@ class CommandArgumentsTest extends \Codeception\Test\Unit
      */
     public function testArgs($expectedLinux, $expectedWindows, $args)
     {
-        $expected = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? $expectedWindows : $expectedLinux;
+        $expected = stripos(PHP_OS, 'WIN') === 0 ? $expectedWindows : $expectedLinux;
         $commandArguments = new CommandArgumentsHost();
         $commandArguments->args($args);
         $this->guy->assertEquals($expected, $commandArguments->getArguments());

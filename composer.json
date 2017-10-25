@@ -38,7 +38,7 @@
     "require-dev": {
         "patchwork/jsqueeze": "~2",
         "henrikbjorn/lurker": "~1",
-        "natxet/CssMin": "~3",
+        "natxet/CssMin": "3.0.4",
         "pear/archive_tar": "^1.4.2",
         "codeception/base": "^2.2.6",
         "codeception/verify": "^0.3.2",

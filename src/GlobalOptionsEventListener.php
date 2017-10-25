@@ -12,6 +12,39 @@ class GlobalOptionsEventListener implements EventSubscriberInterface, ConfigAwar
 {
     use ConfigAwareTrait;
 
+    /** @var Application */
+    protected $application;
+
+    /** @var string */
+    protected $prefix;
+
+    /**
+     * GlobalOptionsEventListener listener
+     */
+    public function __construct()
+    {
+        $this->prefix = 'options';
+    }
+
+    /**
+     * Add a reference to the Symfony Console application object.
+     */
+    public function setApplication($application)
+    {
+        $this->application = $application;
+        return $this;
+    }
+
+    /**
+     * Stipulate the prefix to use for option injection.
+     * @param string $prefix
+     */
+    public function setGlobalOptionsPrefix($prefix)
+    {
+        $this->prefix = $prefix;
+        return $this;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -41,10 +74,12 @@ class GlobalOptionsEventListener implements EventSubscriberInterface, ConfigAwar
         $config = $this->getConfig();
         $input = $event->getInput();
 
-        $globalOptions = $config->get('options', []);
-        if ($config instanceof GlobalOptionDefaultValuesInterface) {
+        $globalOptions = $config->get($this->prefix, []);
+        if ($config instanceof \Consolidation\Config\GlobalOptionDefaultValuesInterface) {
             $globalOptions += $config->getGlobalOptionDefaultValues();
         }
+
+        $globalOptions += $this->applicationOptionDefaultValues();
 
         // Set any config value that has a defined global option (e.g. --simulate)
         foreach ($globalOptions as $option => $default) {
@@ -53,7 +88,7 @@ class GlobalOptionsEventListener implements EventSubscriberInterface, ConfigAwar
             if (!isset($value)) {
                 $value = $default;
             }
-            $config->set($option, $value);
+            $config->set($this->prefix . '.' . $option, $value);
         }
     }
 
@@ -90,5 +125,22 @@ class GlobalOptionsEventListener implements EventSubscriberInterface, ConfigAwar
         $parts = explode('=', $value, 2);
         $parts[] = true;
         return $parts;
+    }
+
+    /**
+     * Get default option values from the Symfony Console application, if
+     * it is available.
+     */
+    protected function applicationOptionDefaultValues()
+    {
+        if (!$this->application) {
+            return [];
+        }
+
+        $result = [];
+        foreach ($this->application->getDefinition()->getOptions() as $key => $option) {
+            $result[$key] = $option->acceptValue() ? $option->getDefault() : null;
+        }
+        return $result;
     }
 }

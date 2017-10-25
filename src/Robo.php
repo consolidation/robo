@@ -210,7 +210,8 @@ class Robo
             ->withArgument('output');
         $container->share('resultPrinter', \Robo\Log\ResultPrinter::class);
         $container->add('simulator', \Robo\Task\Simulator::class);
-        $container->share('globalOptionsEventListener', \Robo\GlobalOptionsEventListener::class);
+        $container->share('globalOptionsEventListener', \Robo\GlobalOptionsEventListener::class)
+            ->withMethodCall('setApplication', ['application']);
         $container->share('injectConfigEventListener', \Consolidation\Config\Inject\ConfigForCommand::class)
             ->withArgument('config')
             ->withMethodCall('setApplication', ['application']);

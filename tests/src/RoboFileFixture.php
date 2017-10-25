@@ -117,6 +117,7 @@ class RoboFileFixture extends \Robo\Tasks implements LoggerAwareInterface, Custo
      */
     public function testError()
     {
+        $this->io()->text(var_export(\Robo\Robo::config()->export(), true));
         return $this->taskExec('ls xyzzy' . date('U'))->dir('/tmp')->run();
     }
 

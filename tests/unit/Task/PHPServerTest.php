@@ -41,7 +41,10 @@ class PHPServerTest extends \Codeception\TestCase\Test
 
     public function testServerCommand()
     {
-        $cmd = stripos(PHP_OS, 'WIN') === 0 ? 'php -S 127.0.0.1:8000 -t web' : 'exec php -S 127.0.0.1:8000 -t web';
+        // There is an 'exec ' at the beginning of the command here when
+        // running on Linux. Windows and MacOS do not have this prefix.
+        $cmd = stripos(PHP_OS, 'linux') === false ? '' : 'exec ';
+        $cmd .= 'php -S 127.0.0.1:8000 -t web';
 
         verify(
             (new \Robo\Task\Development\PhpServer('8000'))

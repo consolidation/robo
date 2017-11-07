@@ -438,20 +438,6 @@ In a RoboFile, use `Robo::Config()->get('task.TaskGroup.MyOperation.settings.dir
 
 In the implementation of `taskMyOperation()` itself, it is in general not necessary to access configuration values directly, as it is preferable to allow Robo to inject configuration as described above. However, if desired, configuration may be accessed from within the method of any task that extends `\Robo\Task\BaseTask` (or otherwise uses `ConfigAwareTrait`) may do so via `static::getConfigValue('key', 'default');`.
 
-### Providing Default Configuration in Code
-
-RoboFiles that wish to provide default configuration values that can be overridden via robo.yml values or commandline options may do so in the class' constructor method.  The example below demonstrates how to set up a default value for the `task.Ssh.remoteDir` configuration property in code:
-```
-class RoboFile
-{
-    public function __construct()
-    {    
-        Robo\Task\Remote\Ssh::configure('remoteDir', '/srv/www');
-    }
-}
-```
-If `task.Remote.Ssh.remoteDir` is set to some other value in the robo.yml configuration file in the current directory, then the value from the configuration file will take precedence.
-
 ### Loading Configuration From Another Source
 
 Sometimes, a RoboFile might want to define its own private configuration file to use in addition to the standard `robo.yml` file. This can also be done in the constructor.

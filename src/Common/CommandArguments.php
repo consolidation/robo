@@ -1,7 +1,7 @@
 <?php
 namespace Robo\Common;
 
-use Symfony\Component\Process\ProcessUtils;
+use Robo\Common\ProcessUtils;
 
 /**
  * Use this to add arguments and options to the $arguments property.

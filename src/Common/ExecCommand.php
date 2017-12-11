@@ -136,7 +136,8 @@ trait ExecCommand
      */
     protected function executeCommand($command)
     {
-        $result_data = $this->execute(new Process($command));
+        // TODO: Symfony 4 requires that we supply the working directory.
+        $result_data = $this->execute(new Process($command, getcwd()));
         return new Result(
             $this,
             $result_data->getExitCode(),

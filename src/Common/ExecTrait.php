@@ -299,8 +299,9 @@ trait ExecTrait
         }
         $this->process->setTimeout($this->timeout);
         $this->process->setIdleTimeout($this->idleTimeout);
-        $this->process->setWorkingDirectory($this->workingDirectory);
-
+        if ($this->workingDirectory) {
+            $this->process->setWorkingDirectory($this->workingDirectory);
+        }
         if ($this->input) {
             $this->process->setInput($this->input);
         }

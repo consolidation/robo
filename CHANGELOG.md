@@ -1,5 +1,10 @@
 # Changelog
 
+### 1.2.0 12/12/2017
+
+* Support Symfony 4 Components (#651)
+* Test multiple composer dependency permutations with https://github.com/greg-1-anderson/composer-test-scenarios
+
 ### 1.1.5 10/25/2017
 
 * Load option default values from $input for all options defined in the Application's input definition (#642)

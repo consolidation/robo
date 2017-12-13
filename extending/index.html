@@ -183,8 +183,9 @@
 
 <h1 id="extending">Extending</h1>
 <p>Robo tasks can be added to your Robo application by using Composer to suppliment the set of built-in tasks that Robo provides by default. To find existing Robo task extensions, search in Packagist for projects of type <a href="https://packagist.org/search/?type=robo-tasks">robo-tasks</a>.</p>
-<p>The convention used to add new tasks for use in your RoboFiles is to create a wrapper trait named <code>loadTasks</code> that instantiates the implementation class for each task. Each task method in the trait should start with the prefix <code>task</code>, and should use <strong>chained method calls</strong> for configuration. Task execution should be triggered by the method <code>run</code>. </p>
-<p>To include additional tasks in your RoboFile, you must <code>use</code> the appropriate <code>loadTasks</code> in your RoboFile. See the section <a href="#including-additional-tasks">Including Additional Tasks</a> below. To create your own Robo extension that provides tasks for use in RoboFiles, then you must write your own class that implements TaskInterface, and create a <code>loadTasks</code> trait for it as described in the section <a href="#creating-a-robo-extension">Creating a Robo Extension</a>.</p>
+<p>The convention used to add new tasks for use in your RoboFiles is to create a wrapper trait named <code>Tasks</code> in your namespace that instantiates the implementation class for each task. Each task method in the trait should start with the prefix <code>task</code>, and should use <strong>chained method calls</strong> for configuration. Task execution should be triggered by the method <code>run</code>. </p>
+<p>To include additional tasks in your RoboFile, you must <code>use</code> the appropriate <code>Tasks</code> in your RoboFile. See the section <a href="#including-additional-tasks">Including Additional Tasks</a> below. To create your own Robo extension that provides tasks for use in RoboFiles, then you must write your own class that implements TaskInterface, and create a <code>Tasks</code> trait for it as described in the section <a href="#creating-a-robo-extension">Creating a Robo Extension</a>.</p>
+<p>Note: The <code>Tasks</code> traits are called <code>loadTasks</code> in Robo core. This is a legacy name, preserved for backwards compatibility purposes. These traits will all be renamed to <code>Tasks</code> in Robo 2.0.</p>
 <h2 id="including-additional-tasks">Including Additional Tasks</h2>
 <p>Additional tasks may be installed into projects that have included Robo via Composer. For example:</p>
 <pre><code>$ cd myproject
@@ -195,7 +196,7 @@ $ composer require boedah/robo-drush
 <p>Once the extension you wish to use has been added to your vendor directory, you may then include it from your RoboFile:</p>
 <pre><code class="php">class RoboFile extends \Robo\Tasks
 {
-  use \Boedah\Robo\Task\Drush\loadTasks;
+  use \Boedah\Robo\Task\Drush\Tasks;
 
   public function test()
   {
@@ -227,13 +228,11 @@ $ composer require boedah/robo-drush
 </code></pre>
 
 <p>Customize the name and autoload paths as necessary, and add any additional required projects needed by the tasks that your extensions will provide.  The type of your project should always be <code>robo-tasks</code>.  Robo only supports php &gt;= 5.5.0; you may require a higher version of php if necessary.</p>
-<h3 id="create-the-loadtasksphp-trait">Create the loadTasks.php Trait</h3>
-<p>It is recommended to place your trait-loading task in a <code>loadTasks</code> file in the same namespace as the task implementation.</p>
+<h3 id="create-the-tasksphp-trait">Create the Tasks.php Trait</h3>
+<p>It is recommended to place your trait-loading task in a <code>Tasks</code> file in the same namespace as the task implementation.</p>
 <pre><code>namespace Boedah\Robo\Task\Drush;
 
-use Robo\Container\SimpleServiceProvider;
-
-trait loadTasks
+trait Tasks
 {
     /**
      * @param string $pathToDrush
@@ -253,7 +252,7 @@ trait loadTasks
 <pre><code class="php">&lt;?php
 namespace MyAssetTasks;
 
-trait loadTasks
+trait Tasks
 {
     /**
      * Example task to compile assets
@@ -294,7 +293,7 @@ class CompileAssets implements \Robo\Contract\TaskInterface
 ?&gt;
 </code></pre>
 
-<p>To use the tasks you define in a RoboFile, use its <code>loadTasks</code> trait as explained in the section <a href="#including-additional-tasks">Including Additional Tasks</a>, above.</p>
+<p>To use the tasks you define in a RoboFile, use its <code>Tasks</code> trait as explained in the section <a href="#including-additional-tasks">Including Additional Tasks</a>, above.</p>
 <h3 id="taskio">TaskIO</h3>
 <p>To allow tasks access IO, use the <code>Robo\Common\TaskIO</code> trait, or inherit your task class from <code>Robo\Task\BaseTask</code> (recommended).</p>
 <p>Inside tasks you should print process details with <code>printTaskInfo</code>, <code>printTaskSuccess</code>, and <code>printTaskError</code>.</p>
@@ -306,7 +305,7 @@ class CompileAssets implements \Robo\Contract\TaskInterface
 <p>If one task implementation needs to use other tasks while it is running, it should do so via a <code>CollectionBuilder</code> object, as explained in the <a href="../collections/">Collections</a> documentation.</p>
 <p>To obtain access to a <code>CollectionBuilder</code>, a task should implement <code>BuilderAwareInterface</code> and use <code>BuilderAwareTrait</code>.  It will then have access to a collection builder via the <code>$this-&gt;collectionBuilder()</code> method.</p>
 <h3 id="testing-extensions">Testing Extensions</h3>
-<p>If you wish to use the <code>task()</code> methods from your <code>loadTasks</code> trait in your unit tests, it is necessary to also use the Robo <code>TaskAccessor</code> trait, and define a <code>collectionBuilder()</code> method to provide a builder.  Collection builders are used to initialize all Robo tasks.  The easiest way to get a usable collection builder in your tests is to initialize Robo's default dependency injection container, and use it to request a new builder.</p>
+<p>If you wish to use the <code>task()</code> methods from your <code>Tasks</code> trait in your unit tests, it is necessary to also use the Robo <code>TaskAccessor</code> trait, and define a <code>collectionBuilder()</code> method to provide a builder.  Collection builders are used to initialize all Robo tasks.  The easiest way to get a usable collection builder in your tests is to initialize Robo's default dependency injection container, and use it to request a new builder.</p>
 <p>An example of how to do this in a PHPUnit test is shown below.</p>
 <pre><code>use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
@@ -317,7 +316,7 @@ use Robo\Collection\CollectionBuilder;
 
 class DrushStackTest extends \PHPUnit_Framework_TestCase implements ContainerAwareInterface
 {
-    use \Boedah\Robo\Task\Drush\loadTasks;
+    use \Boedah\Robo\Task\Drush\Tasks;
     use TaskAccessor;
     use ContainerAwareTrait;
 

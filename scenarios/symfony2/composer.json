@@ -28,22 +28,22 @@
         "consolidation/output-formatters": "^3.1.13",
         "grasmash/yaml-expander": "^1.3",
         "symfony/finder": "^2.5|^3|^4",
-        "symfony/console": "^2.8|^3|^4",
         "symfony/process": "^2.5|^3|^4",
         "symfony/filesystem": "^2.5|^3|^4",
         "symfony/event-dispatcher": "^2.5|^3|^4"
     },
     "require-dev": {
-        "patchwork/jsqueeze": "~2",
-        "natxet/CssMin": "3.0.4",
-        "pear/archive_tar": "^1.4.2",
+        "codeception/aspect-mock": "^1|^2.1.1",
         "codeception/base": "^2.3.7",
         "codeception/verify": "^0.3.2",
-        "codeception/aspect-mock": "^1|^2.1.1",
         "greg-1-anderson/composer-test-scenarios": "^1",
-        "satooshi/php-coveralls": "^2",
+        "natxet/CssMin": "3.0.4",
+        "patchwork/jsqueeze": "~2",
+        "pear/archive_tar": "^1.4.2",
         "phpunit/php-code-coverage": "~2|~4",
-        "squizlabs/php_codesniffer": "^2.8"
+        "satooshi/php-coveralls": "^2",
+        "squizlabs/php_codesniffer": "^2.8",
+        "symfony/console": "^2.8"
     },
     "scripts": {
         "cs": "./robo sniff",
@@ -67,8 +67,9 @@
         "optimize-autoloader": true,
         "sort-packages": true,
         "platform": {
-            "php": "5.5.9"
-        }
+
+        },
+        "vendor-dir": "../../vendor"
     },
     "extra": {
         "branch-alias": {
@@ -84,5 +85,6 @@
     },
     "replace": {
         "codegyre/robo": "< 1.0"
-    }
+    },
+    "minimum-stability": "stable"
 }

@@ -40,9 +40,9 @@
         "patchwork/jsqueeze": "~2",
         "natxet/CssMin": "3.0.4",
         "pear/archive_tar": "^1.4.2",
-        "codeception/codeception": "2.3.x-dev",
+        "codeception/base": "^2.3.7",
         "codeception/verify": "^0.3.2",
-        "codeception/aspect-mock": "dev-master",
+        "codeception/aspect-mock": "^2.1.1",
         "satooshi/php-coveralls": "^2",
         "phpunit/php-code-coverage": "~2|~4",
         "squizlabs/php_codesniffer": "^2.8"

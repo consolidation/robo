@@ -215,6 +215,7 @@ $this-&gt;taskComposerConfig()-&gt;set('bin-dir', 'bin/')-&gt;run();
 <li><code>optimizeAutoloader($optimize = null)</code>  adds <code>optimize-autoloader</code> option to composer</li>
 <li><code>ignorePlatformRequirements($ignore = null)</code>  adds <code>ignore-platform-reqs</code> option to composer</li>
 <li><code>disablePlugins($disable = null)</code>  disable plugins</li>
+<li><code>noScripts($disable = null)</code>  skip scripts</li>
 <li><code>workingDir($dir)</code>  adds <code>--working-dir $dir</code> option to composer</li>
 <li><code>buildCommand()</code>  Copy class fields into command options as directed.</li>
 <li><code>dir($dir)</code>  Changes working directory of command</li>
@@ -253,6 +254,7 @@ $this-&gt;taskComposerCreateProject()-&gt;source('foo/bar')-&gt;target('myBar')-
 <li><code>optimizeAutoloader($optimize = null)</code>  adds <code>optimize-autoloader</code> option to composer</li>
 <li><code>ignorePlatformRequirements($ignore = null)</code>  adds <code>ignore-platform-reqs</code> option to composer</li>
 <li><code>disablePlugins($disable = null)</code>  disable plugins</li>
+<li><code>noScripts($disable = null)</code>  skip scripts</li>
 <li><code>workingDir($dir)</code>  adds <code>--working-dir $dir</code> option to composer</li>
 <li><code>dir($dir)</code>  Changes working directory of command</li>
 <li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
@@ -299,6 +301,7 @@ $this-&gt;taskComposerDumpAutoload('path/to/my/composer.phar')
 <li><code>optimizeAutoloader($optimize = null)</code>  adds <code>optimize-autoloader</code> option to composer</li>
 <li><code>ignorePlatformRequirements($ignore = null)</code>  adds <code>ignore-platform-reqs</code> option to composer</li>
 <li><code>disablePlugins($disable = null)</code>  disable plugins</li>
+<li><code>noScripts($disable = null)</code>  skip scripts</li>
 <li><code>workingDir($dir)</code>  adds <code>--working-dir $dir</code> option to composer</li>
 <li><code>buildCommand()</code>  Copy class fields into command options as directed.</li>
 <li><code>dir($dir)</code>  Changes working directory of command</li>
@@ -338,6 +341,7 @@ $this-&gt;taskComposerInit()-&gt;run();
 <li><code>optimizeAutoloader($optimize = null)</code>  adds <code>optimize-autoloader</code> option to composer</li>
 <li><code>ignorePlatformRequirements($ignore = null)</code>  adds <code>ignore-platform-reqs</code> option to composer</li>
 <li><code>disablePlugins($disable = null)</code>  disable plugins</li>
+<li><code>noScripts($disable = null)</code>  skip scripts</li>
 <li><code>workingDir($dir)</code>  adds <code>--working-dir $dir</code> option to composer</li>
 <li><code>buildCommand()</code>  Copy class fields into command options as directed.</li>
 <li><code>dir($dir)</code>  Changes working directory of command</li>
@@ -378,6 +382,7 @@ $this-&gt;taskComposerInstall('path/to/my/composer.phar')
 <li><code>optimizeAutoloader($optimize = null)</code>  adds <code>optimize-autoloader</code> option to composer</li>
 <li><code>ignorePlatformRequirements($ignore = null)</code>  adds <code>ignore-platform-reqs</code> option to composer</li>
 <li><code>disablePlugins($disable = null)</code>  disable plugins</li>
+<li><code>noScripts($disable = null)</code>  skip scripts</li>
 <li><code>workingDir($dir)</code>  adds <code>--working-dir $dir</code> option to composer</li>
 <li><code>buildCommand()</code>  Copy class fields into command options as directed.</li>
 <li><code>dir($dir)</code>  Changes working directory of command</li>
@@ -412,6 +417,7 @@ $this-&gt;taskComposerRemove()-&gt;run();
 <li><code>optimizeAutoloader($optimize = null)</code>  adds <code>optimize-autoloader</code> option to composer</li>
 <li><code>ignorePlatformRequirements($ignore = null)</code>  adds <code>ignore-platform-reqs</code> option to composer</li>
 <li><code>disablePlugins($disable = null)</code>  disable plugins</li>
+<li><code>noScripts($disable = null)</code>  skip scripts</li>
 <li><code>workingDir($dir)</code>  adds <code>--working-dir $dir</code> option to composer</li>
 <li><code>buildCommand()</code>  Copy class fields into command options as directed.</li>
 <li><code>dir($dir)</code>  Changes working directory of command</li>
@@ -443,6 +449,7 @@ $this-&gt;taskComposerRequire()-&gt;dependency('foo/bar', '^.2.4.8')-&gt;run();
 <li><code>optimizeAutoloader($optimize = null)</code>  adds <code>optimize-autoloader</code> option to composer</li>
 <li><code>ignorePlatformRequirements($ignore = null)</code>  adds <code>ignore-platform-reqs</code> option to composer</li>
 <li><code>disablePlugins($disable = null)</code>  disable plugins</li>
+<li><code>noScripts($disable = null)</code>  skip scripts</li>
 <li><code>workingDir($dir)</code>  adds <code>--working-dir $dir</code> option to composer</li>
 <li><code>buildCommand()</code>  Copy class fields into command options as directed.</li>
 <li><code>dir($dir)</code>  Changes working directory of command</li>
@@ -483,6 +490,7 @@ $this-&gt;taskComposerUpdate('path/to/my/composer.phar')
 <li><code>optimizeAutoloader($optimize = null)</code>  adds <code>optimize-autoloader</code> option to composer</li>
 <li><code>ignorePlatformRequirements($ignore = null)</code>  adds <code>ignore-platform-reqs</code> option to composer</li>
 <li><code>disablePlugins($disable = null)</code>  disable plugins</li>
+<li><code>noScripts($disable = null)</code>  skip scripts</li>
 <li><code>workingDir($dir)</code>  adds <code>--working-dir $dir</code> option to composer</li>
 <li><code>buildCommand()</code>  Copy class fields into command options as directed.</li>
 <li><code>dir($dir)</code>  Changes working directory of command</li>
@@ -518,6 +526,7 @@ $this-&gt;taskComposerValidate()-&gt;run();
 <li><code>optimizeAutoloader($optimize = null)</code>  adds <code>optimize-autoloader</code> option to composer</li>
 <li><code>ignorePlatformRequirements($ignore = null)</code>  adds <code>ignore-platform-reqs</code> option to composer</li>
 <li><code>disablePlugins($disable = null)</code>  disable plugins</li>
+<li><code>noScripts($disable = null)</code>  skip scripts</li>
 <li><code>workingDir($dir)</code>  adds <code>--working-dir $dir</code> option to composer</li>
 <li><code>buildCommand()</code>  Copy class fields into command options as directed.</li>
 <li><code>dir($dir)</code>  Changes working directory of command</li>

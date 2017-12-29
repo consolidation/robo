@@ -373,7 +373,8 @@ class RoboFile extends \Robo\Tasks
                 ->args($devProjectsToRemove)
             ->taskComposerInstall()
                 ->dir($roboBuildDir)
-                ->printed(false)
+                ->noScripts()
+                ->printed(true)
                 ->run();
 
         // Exit if the preparation step failed

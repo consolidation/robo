@@ -58,16 +58,19 @@
             "@cs"
         ],
         "scenario": "scenarios/install",
+        "pre-install-cmd": [
+            "Robo\\composer\\ScriptHandler::checkDependencies"
+        ],
         "post-update-cmd": [
             "create-scenario symfony4 'symfony/console:^4.0' --platform-php '7.1.3'",
-            "create-scenario symfony2 'symfony/console:^2.8' --no-lockfile"
+            "create-scenario symfony2 'symfony/console:^2.8' --platform-php '5.5.9' --no-lockfile"
         ]
     },
     "config": {
         "optimize-autoloader": true,
         "sort-packages": true,
         "platform": {
-
+            "php": "5.5.9"
         },
         "vendor-dir": "../../vendor"
     },

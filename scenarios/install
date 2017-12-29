@@ -15,9 +15,14 @@ if [ ! -d "$dir" ] ; then
   exit 1
 fi
 
-echo "Switch to ${SCENARIO} scenario"
+echo
+echo "::"
+echo ":: Switch to ${SCENARIO} scenario"
+echo "::"
+echo
 
 set -ex
 
+composer -n validate --working-dir=$dir --no-check-all --ansi
 composer -n --working-dir=$dir ${ACTION} --prefer-dist --no-scripts
 composer -n --working-dir=$dir info

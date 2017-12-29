@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.2.1 12/28/2017
+
+* Fixes to tests / build only.
+
 ### 1.2.0 12/12/2017
 
 * Support Symfony 4 Components (#651)

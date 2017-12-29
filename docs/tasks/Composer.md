@@ -29,6 +29,7 @@ $this->taskComposerConfig()->set('bin-dir', 'bin/')->run();
 * `optimizeAutoloader($optimize = null)`  adds `optimize-autoloader` option to composer
 * `ignorePlatformRequirements($ignore = null)`  adds `ignore-platform-reqs` option to composer
 * `disablePlugins($disable = null)`  disable plugins
+* `noScripts($disable = null)`  skip scripts
 * `workingDir($dir)`  adds `--working-dir $dir` option to composer
 * `buildCommand()`  Copy class fields into command options as directed.
 * `dir($dir)`  Changes working directory of command
@@ -70,6 +71,7 @@ $this->taskComposerCreateProject()->source('foo/bar')->target('myBar')->run();
 * `optimizeAutoloader($optimize = null)`  adds `optimize-autoloader` option to composer
 * `ignorePlatformRequirements($ignore = null)`  adds `ignore-platform-reqs` option to composer
 * `disablePlugins($disable = null)`  disable plugins
+* `noScripts($disable = null)`  skip scripts
 * `workingDir($dir)`  adds `--working-dir $dir` option to composer
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
@@ -119,6 +121,7 @@ $this->taskComposerDumpAutoload('path/to/my/composer.phar')
 * `optimizeAutoloader($optimize = null)`  adds `optimize-autoloader` option to composer
 * `ignorePlatformRequirements($ignore = null)`  adds `ignore-platform-reqs` option to composer
 * `disablePlugins($disable = null)`  disable plugins
+* `noScripts($disable = null)`  skip scripts
 * `workingDir($dir)`  adds `--working-dir $dir` option to composer
 * `buildCommand()`  Copy class fields into command options as directed.
 * `dir($dir)`  Changes working directory of command
@@ -161,6 +164,7 @@ $this->taskComposerInit()->run();
 * `optimizeAutoloader($optimize = null)`  adds `optimize-autoloader` option to composer
 * `ignorePlatformRequirements($ignore = null)`  adds `ignore-platform-reqs` option to composer
 * `disablePlugins($disable = null)`  disable plugins
+* `noScripts($disable = null)`  skip scripts
 * `workingDir($dir)`  adds `--working-dir $dir` option to composer
 * `buildCommand()`  Copy class fields into command options as directed.
 * `dir($dir)`  Changes working directory of command
@@ -204,6 +208,7 @@ $this->taskComposerInstall('path/to/my/composer.phar')
 * `optimizeAutoloader($optimize = null)`  adds `optimize-autoloader` option to composer
 * `ignorePlatformRequirements($ignore = null)`  adds `ignore-platform-reqs` option to composer
 * `disablePlugins($disable = null)`  disable plugins
+* `noScripts($disable = null)`  skip scripts
 * `workingDir($dir)`  adds `--working-dir $dir` option to composer
 * `buildCommand()`  Copy class fields into command options as directed.
 * `dir($dir)`  Changes working directory of command
@@ -241,6 +246,7 @@ $this->taskComposerRemove()->run();
 * `optimizeAutoloader($optimize = null)`  adds `optimize-autoloader` option to composer
 * `ignorePlatformRequirements($ignore = null)`  adds `ignore-platform-reqs` option to composer
 * `disablePlugins($disable = null)`  disable plugins
+* `noScripts($disable = null)`  skip scripts
 * `workingDir($dir)`  adds `--working-dir $dir` option to composer
 * `buildCommand()`  Copy class fields into command options as directed.
 * `dir($dir)`  Changes working directory of command
@@ -275,6 +281,7 @@ $this->taskComposerRequire()->dependency('foo/bar', '^.2.4.8')->run();
 * `optimizeAutoloader($optimize = null)`  adds `optimize-autoloader` option to composer
 * `ignorePlatformRequirements($ignore = null)`  adds `ignore-platform-reqs` option to composer
 * `disablePlugins($disable = null)`  disable plugins
+* `noScripts($disable = null)`  skip scripts
 * `workingDir($dir)`  adds `--working-dir $dir` option to composer
 * `buildCommand()`  Copy class fields into command options as directed.
 * `dir($dir)`  Changes working directory of command
@@ -318,6 +325,7 @@ $this->taskComposerUpdate('path/to/my/composer.phar')
 * `optimizeAutoloader($optimize = null)`  adds `optimize-autoloader` option to composer
 * `ignorePlatformRequirements($ignore = null)`  adds `ignore-platform-reqs` option to composer
 * `disablePlugins($disable = null)`  disable plugins
+* `noScripts($disable = null)`  skip scripts
 * `workingDir($dir)`  adds `--working-dir $dir` option to composer
 * `buildCommand()`  Copy class fields into command options as directed.
 * `dir($dir)`  Changes working directory of command
@@ -356,6 +364,7 @@ $this->taskComposerValidate()->run();
 * `optimizeAutoloader($optimize = null)`  adds `optimize-autoloader` option to composer
 * `ignorePlatformRequirements($ignore = null)`  adds `ignore-platform-reqs` option to composer
 * `disablePlugins($disable = null)`  disable plugins
+* `noScripts($disable = null)`  skip scripts
 * `workingDir($dir)`  adds `--working-dir $dir` option to composer
 * `buildCommand()`  Copy class fields into command options as directed.
 * `dir($dir)`  Changes working directory of command

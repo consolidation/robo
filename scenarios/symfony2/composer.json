@@ -37,6 +37,7 @@
         "codeception/base": "^2.3.7",
         "codeception/verify": "^0.3.2",
         "greg-1-anderson/composer-test-scenarios": "^1",
+        "jakub-onderka/php-parallel-lint": "~0.9.2",
         "natxet/CssMin": "3.0.4",
         "patchwork/jsqueeze": "~2",
         "pear/archive_tar": "^1.4.2",
@@ -49,8 +50,7 @@
         "cs": "./robo sniff",
         "unit": "./robo test",
         "lint": [
-            "find src -name '*.php' -print0 | xargs -0 -n1 php -l",
-            "find tests/src -name '*.php' -print0 | xargs -0 -n1 php -l"
+            "vendor/bin/parallel-lint src tests/src"
         ],
         "test": [
             "@lint",

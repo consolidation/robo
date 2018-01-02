@@ -37,7 +37,7 @@ script:
   - composer test
 
 after_success:
-  - travis_retry php vendor/bin/coveralls -v
+  - travis_retry php vendor/bin/php-coveralls -v
   - |
     # Only do post-build actions in one environment, and only if there is a GITHUB token.
     if [ -z "$DO_POST_BUILD_ACTIONS" ] ; then

@@ -22,7 +22,7 @@ use Robo\Common\BuilderAwareTrait;
  *      })->run();
  * ```
  *
- * By default this task generates a documentation for each public method of a class.
+ * By default this task generates a documentation for each public method of a class, interface or trait.
  * It combines method signature with a docblock. Both can be post-processed.
  *
  * ``` php
@@ -469,7 +469,7 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
      */
     protected function documentClass($class)
     {
-        if (!class_exists($class)) {
+        if (!class_exists($class) && !trait_exists($class)) {
             return "";
         }
         $refl = new \ReflectionClass($class);

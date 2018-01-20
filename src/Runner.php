@@ -1,6 +1,7 @@
 <?php
 namespace Robo;
 
+use Composer\Autoload\ClassLoader;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\StringInput;
 use Robo\Contract\BuilderAwareInterface;
@@ -42,6 +43,11 @@ class Runner implements ContainerAwareInterface
      * @var string GitHub Repo for SelfUpdate
      */
     protected $selfUpdateRepository = null;
+
+    /**
+     * @var \Composer\Autoload\ClassLoader
+     */
+    protected $classLoader = null;
 
     /**
      * Class Constructor
@@ -120,7 +126,7 @@ class Runner implements ContainerAwareInterface
             $app = Robo::createDefaultApplication($appName, $appVersion);
         }
         $commandFiles = $this->getRoboFileCommands($output);
-        return $this->run($argv, $output, $app, $commandFiles);
+        return $this->run($argv, $output, $app, $commandFiles, $this->classLoader);
     }
 
     /**
@@ -128,10 +134,11 @@ class Runner implements ContainerAwareInterface
      * @param null|\Symfony\Component\Console\Output\OutputInterface $output
      * @param null|\Robo\Application $app
      * @param array[] $commandFiles
+     * @param null|ClassLoader $classLoader
      *
      * @return int
      */
-    public function run($input = null, $output = null, $app = null, $commandFiles = [])
+    public function run($input = null, $output = null, $app = null, $commandFiles = [], $classLoader = null)
     {
         // Create default input and output objects if they were not provided
         if (!$input) {
@@ -151,7 +158,7 @@ class Runner implements ContainerAwareInterface
             $userConfig = 'robo.yml';
             $roboAppConfig = dirname(__DIR__) . '/robo.yml';
             $config = Robo::createConfiguration([$userConfig, $roboAppConfig]);
-            $container = Robo::createDefaultContainer($input, $output, $app, $config);
+            $container = Robo::createDefaultContainer($input, $output, $app, $config, $classLoader);
             $this->setContainer($container);
             // Automatically register a shutdown function and
             // an error handler when we provide the container.
@@ -456,10 +463,24 @@ class Runner implements ContainerAwareInterface
     }
 
     /**
-     * @param string $selfUpdateRepository
+     * @param $selfUpdateRepository
+     *
+     * @return $this
      */
     public function setSelfUpdateRepository($selfUpdateRepository)
     {
         $this->selfUpdateRepository = $selfUpdateRepository;
+        return $this;
+    }
+
+    /**
+     * @param \Composer\Autoload\ClassLoader $classLoader
+     *
+     * @return $this
+     */
+    public function setClassLoader(ClassLoader $classLoader)
+    {
+        $this->classLoader = $classLoader;
+        return $this;
     }
 }

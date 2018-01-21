@@ -50,6 +50,11 @@ class Runner implements ContainerAwareInterface
     protected $classLoader = null;
 
     /**
+     * @var string
+     */
+    protected $commandFileRelativeNamespace = 'Robo\Commands';
+
+    /**
      * Class Constructor
      *
      * @param null|string $roboClass
@@ -176,6 +181,12 @@ class Runner implements ContainerAwareInterface
                 $commandFiles = [];
             }
         }
+
+        /** @var \Robo\ClassDiscovery\RelativeNamespaceDiscovery $discovery */
+        $discovery = Robo::service('relativeNamespaceDiscovery');
+        $discovery->setRelativeNamespace($this->commandFileRelativeNamespace);
+        $commandFiles = array_merge((array)$commandFiles, $discovery->getClasses());
+
         $this->registerCommandClasses($app, $commandFiles);
 
         try {
@@ -481,6 +492,17 @@ class Runner implements ContainerAwareInterface
     public function setClassLoader(ClassLoader $classLoader)
     {
         $this->classLoader = $classLoader;
+        return $this;
+    }
+
+    /**
+     * @param string $relativeNamespace
+     *
+     * @return $this
+     */
+    public function setCommandFileRelativeNamespace($relativeNamespace)
+    {
+        $this->commandFileRelativeNamespace = $relativeNamespace;
         return $this;
     }
 }

@@ -18,24 +18,18 @@ class RelativeNamespaceDiscovery extends AbstractClassDiscovery implements Class
     /**
      * @var string
      */
-    protected $relativeNamespace;
+    protected $relativeNamespace = '';
 
     /**
-     * Psr4Discovery constructor.
+     * @param string $relativeNamespace
      *
-     * @param $relativeNamespace
+     * @return RelativeNamespaceDiscovery
      */
-    public function __construct($relativeNamespace)
+    public function setRelativeNamespace($relativeNamespace)
     {
         $this->relativeNamespace = $relativeNamespace;
-    }
 
-    /**
-     * @return string
-     */
-    public function getRelativeNamespace()
-    {
-        return $this->relativeNamespace;
+        return $this;
     }
 
     /**
@@ -55,9 +49,11 @@ class RelativeNamespaceDiscovery extends AbstractClassDiscovery implements Class
                 return is_dir($path);
             });
 
-            foreach ($this->search($directories, $this->searchPattern) as $file) {
-                $relativePathName = $file->getRelativePathname();
-                $classes[] = $baseNamespace.$this->convertPathToNamespace($relativePath.DIRECTORY_SEPARATOR.$relativePathName);
+            if ($directories) {
+                foreach ($this->search($directories, $this->searchPattern) as $file) {
+                    $relativePathName = $file->getRelativePathname();
+                    $classes[] = $baseNamespace.$this->convertPathToNamespace($relativePath.DIRECTORY_SEPARATOR.$relativePathName);
+                }
             }
         }
 

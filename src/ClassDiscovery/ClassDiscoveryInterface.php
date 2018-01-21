@@ -12,7 +12,7 @@ interface ClassDiscoveryInterface
     /**
      * @param $searchPattern
      *
-     * @return mixed
+     * @return $this
      */
     public function setSearchPattern($searchPattern);
 
@@ -24,7 +24,7 @@ interface ClassDiscoveryInterface
     /**
      * @param $class
      *
-     * @return mixed
+     * @return string|null
      */
     public function getFile($class);
 }

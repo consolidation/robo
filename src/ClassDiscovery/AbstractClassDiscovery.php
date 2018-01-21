@@ -20,5 +20,7 @@ abstract class AbstractClassDiscovery implements ClassDiscoveryInterface
     public function setSearchPattern($searchPattern)
     {
         $this->searchPattern = $searchPattern;
+
+        return $this;
     }
 }

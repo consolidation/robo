@@ -83,10 +83,9 @@ class RelativeNamespaceDiscoveryTest extends \Codeception\Test\Unit
      */
     protected function getServiceInstance($relativeNamespace)
     {
-        $classLoader = new ClassLoader();
-        $discovery = new RelativeNamespaceDiscovery($relativeNamespace);
-        $discovery->setClassLoader($classLoader);
-        return $discovery;
+        return (new RelativeNamespaceDiscovery())
+            ->setRelativeNamespace($relativeNamespace)
+            ->setClassLoader(new ClassLoader());
     }
 
     protected function callProtected($object, $method, $args = [])

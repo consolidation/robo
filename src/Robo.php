@@ -252,6 +252,7 @@ class Robo
             );
         $container->share('commandFactory', \Consolidation\AnnotatedCommand\AnnotatedCommandFactory::class)
             ->withMethodCall('setCommandProcessor', ['commandProcessor']);
+        $container->share('relativeNamespaceDiscovery', \Robo\ClassDiscovery\RelativeNamespaceDiscovery::class);
 
         // Deprecated: favor using collection builders to direct use of collections.
         $container->add('collection', \Robo\Collection\Collection::class);

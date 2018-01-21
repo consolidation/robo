@@ -39,25 +39,16 @@ class RelativeNamespaceDiscovery extends AbstractClassDiscovery implements Class
     }
 
     /**
-     * @return string
-     */
-    public function getRelativeNamespacePath()
-    {
-        return str_replace("\\", '/', $this->getRelativeNamespace());
-    }
-
-    /**
      * @inheritDoc
      */
     public function getClasses()
     {
         $classes = [];
+        $relativePath = $this->convertNamespaceToPath($this->relativeNamespace);
 
         foreach ($this->getClassLoader()->getPrefixesPsr4() as $baseNamespace => $directories) {
-            $path = $this->getRelativeNamespacePath();
-
-            $directories = array_map(function ($directory) use ($path) {
-                return $directory.$path;
+            $directories = array_map(function ($directory) use ($relativePath) {
+                return $directory.$relativePath;
             }, $directories);
 
             $directories = array_filter($directories, function ($path) {
@@ -66,11 +57,11 @@ class RelativeNamespaceDiscovery extends AbstractClassDiscovery implements Class
 
             foreach ($this->search($directories, $this->searchPattern) as $file) {
                 $relativePathName = $file->getRelativePathname();
-                $classes[] = $baseNamespace.str_replace(['/', '.php'], ['\\', ''], $relativePathName);
+                $classes[] = $baseNamespace.$this->convertPathToNamespace($relativePathName);
             }
-
-            return $classes;
         }
+
+        return $classes;
     }
 
     /**
@@ -95,5 +86,23 @@ class RelativeNamespaceDiscovery extends AbstractClassDiscovery implements Class
           ->in($directories);
 
         return $finder;
+    }
+
+    /**
+     * @param $path
+     *
+     * @return mixed
+     */
+    protected function convertPathToNamespace($path)
+    {
+        return str_replace([DIRECTORY_SEPARATOR, '.php'], ['\\', ''], trim($path, DIRECTORY_SEPARATOR));
+    }
+
+    /**
+     * @return string
+     */
+    public function convertNamespaceToPath($namespace)
+    {
+        return DIRECTORY_SEPARATOR.str_replace("\\", DIRECTORY_SEPARATOR, trim($namespace, '\\'));
     }
 }

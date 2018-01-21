@@ -10,16 +10,25 @@ class RelativeNamespaceDiscoveryTest extends \Codeception\Test\Unit
 {
     public function testGetClasses()
     {
-        $classLoader = new ClassLoader();
-        $classLoader->addPsr4('\\Robo\\', [realpath(__DIR__.'/../../src')]);
+        $service = $this->getServiceInstance('\Commands');
+        $service->getClassLoader()->addPsr4('\\Robo\\', [realpath(__DIR__.'/../../src')]);
 
-        $discovery = new RelativeNamespaceDiscovery('\Commands');
-        $discovery->setClassLoader($classLoader);
+        $classes = $service->getClasses();
 
-        $classes = $discovery->getClasses();
+        $this->assertContains('\Robo\Commands\FirstCustomCommands', $classes);
+        $this->assertContains('\Robo\Commands\SecondCustomCommands', $classes);
+    }
 
-        $this->assertContains('\Robo\FirstCustomCommands', $classes);
-        $this->assertContains('\Robo\SecondCustomCommands', $classes);
+    public function testGetFile()
+    {
+        $service = $this->getServiceInstance('\Commands');
+        $service->getClassLoader()->addPsr4('\\Robo\\', [realpath(__DIR__.'/../../src')]);
+
+        $actual = $service->getFile('\Robo\Commands\FirstCustomCommands');
+        $this->assertStringEndsWith('tests/src/Commands/FirstCustomCommands.php', $actual);
+
+        $actual = $service->getFile('\Robo\Commands\SecondCustomCommands');
+        $this->assertStringEndsWith('tests/src/Commands/SecondCustomCommands.php', $actual);
     }
 
     /**
@@ -67,7 +76,20 @@ class RelativeNamespaceDiscoveryTest extends \Codeception\Test\Unit
         ];
     }
 
-    function callProtected($object, $method, $args = [])
+    /**
+     * @param $relativeNamespace
+     *
+     * @return \Robo\ClassDiscovery\RelativeNamespaceDiscovery
+     */
+    protected function getServiceInstance($relativeNamespace)
+    {
+        $classLoader = new ClassLoader();
+        $discovery = new RelativeNamespaceDiscovery($relativeNamespace);
+        $discovery->setClassLoader($classLoader);
+        return $discovery;
+    }
+
+    protected function callProtected($object, $method, $args = [])
     {
         $r = new \ReflectionMethod($object, $method);
         $r->setAccessible(true);

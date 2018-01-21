@@ -57,7 +57,7 @@ class RelativeNamespaceDiscovery extends AbstractClassDiscovery implements Class
 
             foreach ($this->search($directories, $this->searchPattern) as $file) {
                 $relativePathName = $file->getRelativePathname();
-                $classes[] = $baseNamespace.$this->convertPathToNamespace($relativePathName);
+                $classes[] = $baseNamespace.$this->convertPathToNamespace($relativePath.DIRECTORY_SEPARATOR.$relativePathName);
             }
         }
 

@@ -64,7 +64,7 @@ class RelativeNamespaceDiscovery extends AbstractClassDiscovery implements Class
                 return is_dir($path);
             });
 
-            foreach ($this->serach($directories, $this->searchPattern) as $file) {
+            foreach ($this->search($directories, $this->searchPattern) as $file) {
                 $relativePathName = $file->getRelativePathname();
                 $classes[] = $baseNamespace.str_replace(['/', '.php'], ['\\', ''], $relativePathName);
             }
@@ -87,7 +87,7 @@ class RelativeNamespaceDiscovery extends AbstractClassDiscovery implements Class
      *
      * @return \Symfony\Component\Finder\Finder
      */
-    protected function serach($directories, $pattern)
+    protected function search($directories, $pattern)
     {
         $finder = new Finder();
         $finder->files()

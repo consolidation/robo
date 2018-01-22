@@ -8,8 +8,6 @@ use Composer\Autoload\ClassLoader;
  */
 class RelativeNamespaceDiscoveryTest extends \Codeception\Test\Unit
 {
-    protected $separator = DIRECTORY_SEPARATOR;
-
     public function testGetClasses()
     {
         $service = $this->getServiceInstance('\Commands');
@@ -27,10 +25,10 @@ class RelativeNamespaceDiscoveryTest extends \Codeception\Test\Unit
         $service->getClassLoader()->addPsr4('\\Robo\\', [realpath(__DIR__.'/../../src')]);
 
         $actual = $service->getFile('\Robo\Commands\FirstCustomCommands');
-        $this->assertStringEndsWith('tests/src/Commands/FirstCustomCommands.php', $actual);
+        $this->assertStringEndsWith($this->normalizePath('tests/src/Commands/FirstCustomCommands.php'), $actual);
 
         $actual = $service->getFile('\Robo\Commands\SecondCustomCommands');
-        $this->assertStringEndsWith('tests/src/Commands/SecondCustomCommands.php', $actual);
+        $this->assertStringEndsWith($this->normalizePath('tests/src/Commands/SecondCustomCommands.php'), $actual);
     }
 
     /**
@@ -49,10 +47,10 @@ class RelativeNamespaceDiscoveryTest extends \Codeception\Test\Unit
     public function testConvertPathToNamespaceData()
     {
         return [
-          ["{$this->separator}A{$this->separator}B{$this->separator}C", 'A\B\C'],
-          ["A{$this->separator}B{$this->separator}C", 'A\B\C'],
-          ["A{$this->separator}B{$this->separator}C", 'A\B\C'],
-          ["A{$this->separator}B{$this->separator}C.php", 'A\B\C'],
+          ['/A/B/C', $this->normalizePath('A\B\C')],
+          ['A/B/C', $this->normalizePath('A\B\C')],
+          ['A/B/C', $this->normalizePath('A\B\C')],
+          ['A/B/C.php', $this->normalizePath('A\B\C')],
         ];
     }
 
@@ -72,9 +70,9 @@ class RelativeNamespaceDiscoveryTest extends \Codeception\Test\Unit
     public function testConvertNamespaceToPathData()
     {
         return [
-          ['A\B\C', "{$this->separator}A{$this->separator}B{$this->separator}C"],
-          ['\A\B\C\\', "{$this->separator}A{$this->separator}B{$this->separator}C"],
-          ['A\B\C\\', "{$this->separator}A{$this->separator}B{$this->separator}C"],
+          ['A\B\C', $this->normalizePath('/A/B/C')],
+          ['\A\B\C\\', $this->normalizePath('/A/B/C')],
+          ['A\B\C\\', $this->normalizePath('/A/B/C')],
         ];
     }
 
@@ -95,5 +93,10 @@ class RelativeNamespaceDiscoveryTest extends \Codeception\Test\Unit
         $r = new \ReflectionMethod($object, $method);
         $r->setAccessible(true);
         return $r->invokeArgs($object, $args);
+    }
+
+    protected function normalizePath($path)
+    {
+        return str_replace('/', DIRECTORY_SEPARATOR, $path);
     }
 }

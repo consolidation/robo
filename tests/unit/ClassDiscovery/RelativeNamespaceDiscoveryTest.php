@@ -8,6 +8,8 @@ use Composer\Autoload\ClassLoader;
  */
 class RelativeNamespaceDiscoveryTest extends \Codeception\Test\Unit
 {
+    protected $separator = DIRECTORY_SEPARATOR;
+
     public function testGetClasses()
     {
         $service = $this->getServiceInstance('\Commands');
@@ -39,7 +41,7 @@ class RelativeNamespaceDiscoveryTest extends \Codeception\Test\Unit
      */
     public function testConvertPathToNamespace($path, $expected)
     {
-        $discovery = new RelativeNamespaceDiscovery('');
+        $discovery = new RelativeNamespaceDiscovery();
         $actual = $this->callProtected($discovery, 'convertPathToNamespace', [$path]);
         $this->assertEquals($expected, $actual);
     }
@@ -47,10 +49,10 @@ class RelativeNamespaceDiscoveryTest extends \Codeception\Test\Unit
     public function testConvertPathToNamespaceData()
     {
         return [
-          ['/A/B/C', 'A\B\C'],
-          ['A/B/C', 'A\B\C'],
-          ['A/B/C', 'A\B\C'],
-          ['A/B/C.php', 'A\B\C'],
+          ["{$this->separator}A{$this->separator}B{$this->separator}C", 'A\B\C'],
+          ["A{$this->separator}B{$this->separator}C", 'A\B\C'],
+          ["A{$this->separator}B{$this->separator}C", 'A\B\C'],
+          ["A{$this->separator}B{$this->separator}C.php", 'A\B\C'],
         ];
     }
 
@@ -62,7 +64,7 @@ class RelativeNamespaceDiscoveryTest extends \Codeception\Test\Unit
      */
     public function testConvertNamespaceToPath($namespace, $expected)
     {
-        $discovery = new RelativeNamespaceDiscovery('');
+        $discovery = new RelativeNamespaceDiscovery();
         $actual = $this->callProtected($discovery, 'convertNamespaceToPath', [$namespace]);
         $this->assertEquals($expected, $actual);
     }
@@ -70,9 +72,9 @@ class RelativeNamespaceDiscoveryTest extends \Codeception\Test\Unit
     public function testConvertNamespaceToPathData()
     {
         return [
-          ['A\B\C', '/A/B/C'],
-          ['\A\B\C\\', '/A/B/C'],
-          ['A\B\C\\', '/A/B/C'],
+          ['A\B\C', "{$this->separator}A{$this->separator}B{$this->separator}C"],
+          ['\A\B\C\\', "{$this->separator}A{$this->separator}B{$this->separator}C"],
+          ['A\B\C\\', "{$this->separator}A{$this->separator}B{$this->separator}C"],
         ];
     }
 

@@ -30,10 +30,10 @@ class RelativeNamespaceDiscoveryTest extends \Codeception\Test\Unit
         $service->setRelativeNamespace('Robo\Plugin');
 
         $actual = $service->getFile('\Robo\PluginTest\Robo\Plugin\Commands\FirstCustomCommands');
-        $this->assertStringEndsWith($this->getPath('tests/plugins/Robo/Plugin/Commands/FirstCustomCommands.php'), $actual);
+        $this->assertStringEndsWith('FirstCustomCommands.php', $actual);
 
         $actual = $service->getFile('\Robo\PluginTest\Robo\Plugin\Commands\SecondCustomCommands');
-        $this->assertStringEndsWith($this->getPath('tests/plugins/Robo/Plugin/Commands/SecondCustomCommands.php'), $actual);
+        $this->assertStringEndsWith('SecondCustomCommands.php', $actual);
     }
 
     /**
@@ -53,10 +53,10 @@ class RelativeNamespaceDiscoveryTest extends \Codeception\Test\Unit
     public function testConvertPathToNamespaceData()
     {
         return [
-          ['/A/B/C', $this->getPath('A\B\C')],
-          ['A/B/C', $this->getPath('A\B\C')],
-          ['A/B/C', $this->getPath('A\B\C')],
-          ['A/B/C.php', $this->getPath('A\B\C')],
+          ['/A/B/C', 'A\B\C'],
+          ['A/B/C', 'A\B\C'],
+          ['A/B/C', 'A\B\C'],
+          ['A/B/C.php', 'A\B\C'],
         ];
     }
 
@@ -77,9 +77,9 @@ class RelativeNamespaceDiscoveryTest extends \Codeception\Test\Unit
     public function testConvertNamespaceToPathData()
     {
         return [
-          ['A\B\C', $this->getPath('/A/B/C')],
-          ['\A\B\C\\', $this->getPath('/A/B/C')],
-          ['A\B\C\\', $this->getPath('/A/B/C')],
+          ['A\B\C', '/A/B/C'],
+          ['\A\B\C\\', '/A/B/C'],
+          ['A\B\C\\', '/A/B/C'],
         ];
     }
 
@@ -88,10 +88,5 @@ class RelativeNamespaceDiscoveryTest extends \Codeception\Test\Unit
         $r = new \ReflectionMethod($object, $method);
         $r->setAccessible(true);
         return $r->invokeArgs($object, $args);
-    }
-
-    protected function getPath($path)
-    {
-        return str_replace('/', $this->ds, $path);
     }
 }

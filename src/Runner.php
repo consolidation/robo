@@ -182,10 +182,8 @@ class Runner implements ContainerAwareInterface
             }
         }
 
-        /** @var \Robo\ClassDiscovery\RelativeNamespaceDiscovery $discovery */
-        $discovery = Robo::service('relativeNamespaceDiscovery');
-        $discovery->setRelativeNamespace($this->commandFileRelativeNamespace);
-        $commandFiles = array_merge((array)$commandFiles, $discovery->getClasses());
+        $commandClasses = $this->discoverCommandClasses($this->commandFileRelativeNamespace);
+        $commandFiles = array_merge((array)$commandFiles, $commandClasses);
 
         $this->registerCommandClasses($app, $commandFiles);
 
@@ -228,6 +226,19 @@ class Runner implements ContainerAwareInterface
         foreach ((array)$commandClasses as $commandClass) {
             $this->registerCommandClass($app, $commandClass);
         }
+    }
+
+    /**
+     * @param $relativeNamespace
+     *
+     * @return array|string[]
+     */
+    protected function discoverCommandClasses($relativeNamespace)
+    {
+        /** @var \Robo\ClassDiscovery\RelativeNamespaceDiscovery $discovery */
+        $discovery = Robo::service('relativeNamespaceDiscovery');
+        $discovery->setRelativeNamespace($relativeNamespace);
+        return $discovery->getClasses();
     }
 
     /**

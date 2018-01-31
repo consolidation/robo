@@ -33,9 +33,9 @@ Once you have done this, all of the tasks defined in the extension you selected 
 
 Note that at the moment, it is not possible to extend Robo when using the robo.phar. This capability may be added in the future via [embedded composer](https://github.com/dflydev/dflydev-embedded-composer).
 
-## Expose discoverable command classes
+## Register command files via PSR-4 autoloading
 
-You can have your project expose extra Robo command files by creating them within your project's PSR-4 namespace.
+You can have your project expose extra Robo command files by providing them within your project's PSR-4 namespace.
 
 For example, given the following PSR-4 namespace in your `composer.json`:
 
@@ -43,7 +43,7 @@ For example, given the following PSR-4 namespace in your `composer.json`:
 {
     "autoload": {
         "psr-4": {
-            "My\\Project\\": "./src/"
+            "MyProject\\": "./src/"
         }
     }
 }
@@ -71,6 +71,9 @@ class MyCustomCommands extends \Robo\Tasks
 }
 ```
 
+Please note: command files classes must be placed under `Robo/Plugin/Commands` relative namepsace and their name
+must end in `Commands.php`.
+
 You can now access your new commands via Robo:
 
 ```
@@ -90,8 +93,6 @@ Available commands:
   my-project:command-two        
 ```
 
-Note: remember to run `composer dump-autoload` after adding new command classes.
- 
 ## Creating a Robo Extension
 
 A Robo tasks extension is created by advertising a Composer package of type `robo-tasks` on [Packagist](https://packagist.org/).  For an overview on how this is done, see the article [Creating your very own Composer Package](https://knpuniversity.com/screencast/question-answer-day/create-composer-package).  Specific instructions for creating Robo task extensions are provided below.

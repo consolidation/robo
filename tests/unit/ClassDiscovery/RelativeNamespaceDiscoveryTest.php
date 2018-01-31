@@ -8,18 +8,18 @@ use Composer\Autoload\ClassLoader;
  */
 class RelativeNamespaceDiscoveryTest extends \Codeception\Test\Unit
 {
-    private $ds = DIRECTORY_SEPARATOR;
-
     public function testGetClasses()
     {
         $classLoader = new ClassLoader();
         $classLoader->addPsr4('\\Robo\\PluginTest\\', [realpath(__DIR__.'/../../plugins')]);
         $service = new RelativeNamespaceDiscovery($classLoader);
         $service->setRelativeNamespace('Robo\Plugin');
+        $service->setSearchPattern('*Commands.php');
         $classes = $service->getClasses();
 
         $this->assertContains('\Robo\PluginTest\Robo\Plugin\Commands\FirstCustomCommands', $classes);
         $this->assertContains('\Robo\PluginTest\Robo\Plugin\Commands\SecondCustomCommands', $classes);
+        $this->assertNotContains('\Robo\PluginTest\Robo\Plugin\Commands\NotValidClassName', $classes);
     }
 
     public function testGetFile()

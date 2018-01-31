@@ -1,6 +1,6 @@
 <?php
 
-namespace Robo\Commands;
+namespace Robo\PluginTest\Robo\Plugin\Commands;
 
 /**
  * Class FirstCustomCommands

@@ -17,6 +17,7 @@ if (!strpos(basename(__FILE__), 'phar')) {
 $classLoader = require $autoloaderPath;
 $runner = new \Robo\Runner();
 $runner
+  ->setRelativePluginNamespace('Robo\Plugin')
   ->setSelfUpdateRepository('consolidation/robo')
   ->setClassLoader($classLoader);
 $statusCode = $runner->execute($_SERVER['argv']);

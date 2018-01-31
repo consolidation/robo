@@ -52,7 +52,7 @@ class Runner implements ContainerAwareInterface
     /**
      * @var string
      */
-    protected $commandFileRelativeNamespace = 'Robo\Commands';
+    protected $relativePluginNamespace;
 
     /**
      * Class Constructor
@@ -182,8 +182,10 @@ class Runner implements ContainerAwareInterface
             }
         }
 
-        $commandClasses = $this->discoverCommandClasses($this->commandFileRelativeNamespace);
-        $commandFiles = array_merge((array)$commandFiles, $commandClasses);
+        if (!empty($this->relativePluginNamespace)) {
+            $commandClasses = $this->discoverCommandClasses($this->relativePluginNamespace);
+            $commandFiles = array_merge((array)$commandFiles, $commandClasses);
+        }
 
         $this->registerCommandClasses($app, $commandFiles);
 
@@ -237,7 +239,7 @@ class Runner implements ContainerAwareInterface
     {
         /** @var \Robo\ClassDiscovery\RelativeNamespaceDiscovery $discovery */
         $discovery = Robo::service('relativeNamespaceDiscovery');
-        $discovery->setRelativeNamespace($relativeNamespace);
+        $discovery->setRelativeNamespace($relativeNamespace.'\Commands');
         return $discovery->getClasses();
     }
 
@@ -511,9 +513,9 @@ class Runner implements ContainerAwareInterface
      *
      * @return $this
      */
-    public function setCommandFileRelativeNamespace($relativeNamespace)
+    public function setRelativePluginNamespace($relativeNamespace)
     {
-        $this->commandFileRelativeNamespace = $relativeNamespace;
+        $this->relativePluginNamespace = $relativeNamespace;
         return $this;
     }
 }

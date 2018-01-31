@@ -13,27 +13,27 @@ class RelativeNamespaceDiscoveryTest extends \Codeception\Test\Unit
     public function testGetClasses()
     {
         $classLoader = new ClassLoader();
-        $classLoader->addPsr4('\\Robo\\', [realpath(__DIR__.'/../../src')]);
+        $classLoader->addPsr4('\\Robo\\PluginTest\\', [realpath(__DIR__.'/../../plugins')]);
         $service = new RelativeNamespaceDiscovery($classLoader);
-        $service->setRelativeNamespace('\Commands');
+        $service->setRelativeNamespace('Robo\Plugin');
         $classes = $service->getClasses();
 
-        $this->assertContains('\Robo\Commands\FirstCustomCommands', $classes);
-        $this->assertContains('\Robo\Commands\SecondCustomCommands', $classes);
+        $this->assertContains('\Robo\PluginTest\Robo\Plugin\Commands\FirstCustomCommands', $classes);
+        $this->assertContains('\Robo\PluginTest\Robo\Plugin\Commands\SecondCustomCommands', $classes);
     }
 
     public function testGetFile()
     {
         $classLoader = new ClassLoader();
-        $classLoader->addPsr4('\\Robo\\', [realpath(__DIR__.'/../../src')]);
+        $classLoader->addPsr4('\\Robo\\PluginTest\\', [realpath(__DIR__.'/../../plugins')]);
         $service = new RelativeNamespaceDiscovery($classLoader);
-        $service->setRelativeNamespace('\Commands');
+        $service->setRelativeNamespace('Robo\Plugin');
 
-        $actual = $service->getFile('\Robo\Commands\FirstCustomCommands');
-        $this->assertStringEndsWith($this->normalizePath('tests/src/Commands/FirstCustomCommands.php'), $actual);
+        $actual = $service->getFile('\Robo\PluginTest\Robo\Plugin\Commands\FirstCustomCommands');
+        $this->assertStringEndsWith($this->getPath('tests/plugins/Robo/Plugin/Commands/FirstCustomCommands.php'), $actual);
 
-        $actual = $service->getFile('\Robo\Commands\SecondCustomCommands');
-        $this->assertStringEndsWith($this->normalizePath('tests/src/Commands/SecondCustomCommands.php'), $actual);
+        $actual = $service->getFile('\Robo\PluginTest\Robo\Plugin\Commands\SecondCustomCommands');
+        $this->assertStringEndsWith($this->getPath('tests/plugins/Robo/Plugin/Commands/SecondCustomCommands.php'), $actual);
     }
 
     /**
@@ -53,10 +53,10 @@ class RelativeNamespaceDiscoveryTest extends \Codeception\Test\Unit
     public function testConvertPathToNamespaceData()
     {
         return [
-          ['/A/B/C', $this->normalizePath('A\B\C')],
-          ['A/B/C', $this->normalizePath('A\B\C')],
-          ['A/B/C', $this->normalizePath('A\B\C')],
-          ['A/B/C.php', $this->normalizePath('A\B\C')],
+          ['/A/B/C', $this->getPath('A\B\C')],
+          ['A/B/C', $this->getPath('A\B\C')],
+          ['A/B/C', $this->getPath('A\B\C')],
+          ['A/B/C.php', $this->getPath('A\B\C')],
         ];
     }
 
@@ -77,9 +77,9 @@ class RelativeNamespaceDiscoveryTest extends \Codeception\Test\Unit
     public function testConvertNamespaceToPathData()
     {
         return [
-          ['A\B\C', $this->normalizePath('/A/B/C')],
-          ['\A\B\C\\', $this->normalizePath('/A/B/C')],
-          ['A\B\C\\', $this->normalizePath('/A/B/C')],
+          ['A\B\C', $this->getPath('/A/B/C')],
+          ['\A\B\C\\', $this->getPath('/A/B/C')],
+          ['A\B\C\\', $this->getPath('/A/B/C')],
         ];
     }
 
@@ -90,7 +90,7 @@ class RelativeNamespaceDiscoveryTest extends \Codeception\Test\Unit
         return $r->invokeArgs($object, $args);
     }
 
-    protected function normalizePath($path)
+    protected function getPath($path)
     {
         return str_replace('/', $this->ds, $path);
     }

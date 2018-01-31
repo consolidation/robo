@@ -68,7 +68,7 @@ class Runner implements ContainerAwareInterface
         $this->dir = getcwd();
     }
 
-    protected function errorCondtion($msg, $errorType)
+    protected function errorCondition($msg, $errorType)
     {
         $this->errorConditions[$msg] = $errorType;
     }
@@ -93,7 +93,7 @@ class Runner implements ContainerAwareInterface
             return true;
         }
         if (!file_exists($this->dir)) {
-            $this->errorCondtion("Path `{$this->dir}` is invalid; please provide a valid absolute path to the Robofile to load.", 'red');
+            $this->errorCondition("Path `{$this->dir}` is invalid; please provide a valid absolute path to the Robofile to load.", 'red');
             return false;
         }
 
@@ -102,13 +102,13 @@ class Runner implements ContainerAwareInterface
         $roboFilePath = $realDir . DIRECTORY_SEPARATOR . $this->roboFile;
         if (!file_exists($roboFilePath)) {
             $requestedRoboFilePath = $this->dir . DIRECTORY_SEPARATOR . $this->roboFile;
-            $this->errorCondtion("Requested RoboFile `$requestedRoboFilePath` is invalid, please provide valid absolute path to load Robofile.", 'red');
+            $this->errorCondition("Requested RoboFile `$requestedRoboFilePath` is invalid, please provide valid absolute path to load Robofile.", 'red');
             return false;
         }
         require_once $roboFilePath;
 
         if (!class_exists($this->roboClass)) {
-            $this->errorCondtion("Class {$this->roboClass} was not loaded.", 'red');
+            $this->errorCondition("Class {$this->roboClass} was not loaded.", 'red');
             return false;
         }
         return true;
@@ -176,7 +176,7 @@ class Runner implements ContainerAwareInterface
         if ($app instanceof \Robo\Application) {
             $app->addSelfUpdateCommand($this->getSelfUpdateRepository());
             if (!isset($commandFiles)) {
-                $this->errorCondtion("Robo is not initialized here. Please run `robo init` to create a new RoboFile.", 'yellow');
+                $this->errorCondition("Robo is not initialized here. Please run `robo init` to create a new RoboFile.", 'yellow');
                 $app->addInitRoboFileCommand($this->roboFile, $this->roboClass);
                 $commandFiles = [];
             }

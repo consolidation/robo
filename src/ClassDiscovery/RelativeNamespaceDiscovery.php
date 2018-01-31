@@ -60,7 +60,7 @@ class RelativeNamespaceDiscovery extends AbstractClassDiscovery
             if ($directories) {
                 foreach ($this->search($directories, $this->searchPattern) as $file) {
                     $relativePathName = $file->getRelativePathname();
-                    $classes[] = $baseNamespace.$this->convertPathToNamespace($relativePath.DIRECTORY_SEPARATOR.$relativePathName);
+                    $classes[] = $baseNamespace.$this->convertPathToNamespace($relativePath.'/'.$relativePathName);
                 }
             }
         }
@@ -99,7 +99,7 @@ class RelativeNamespaceDiscovery extends AbstractClassDiscovery
      */
     protected function convertPathToNamespace($path)
     {
-        return str_replace([DIRECTORY_SEPARATOR, '.php'], ['\\', ''], trim($path, DIRECTORY_SEPARATOR));
+        return str_replace(['/', '.php'], ['\\', ''], trim($path, '/'));
     }
 
     /**
@@ -107,6 +107,6 @@ class RelativeNamespaceDiscovery extends AbstractClassDiscovery
      */
     public function convertNamespaceToPath($namespace)
     {
-        return DIRECTORY_SEPARATOR.str_replace("\\", DIRECTORY_SEPARATOR, trim($namespace, '\\'));
+        return '/'.str_replace("\\", '/', trim($namespace, '\\'));
     }
 }

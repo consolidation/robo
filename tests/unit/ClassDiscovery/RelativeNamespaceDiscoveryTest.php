@@ -8,11 +8,14 @@ use Composer\Autoload\ClassLoader;
  */
 class RelativeNamespaceDiscoveryTest extends \Codeception\Test\Unit
 {
+    private $ds = DIRECTORY_SEPARATOR;
+
     public function testGetClasses()
     {
-        $service = $this->getServiceInstance('\Commands');
-        $service->getClassLoader()->addPsr4('\\Robo\\', [realpath(__DIR__.'/../../src')]);
-
+        $classLoader = new ClassLoader();
+        $classLoader->addPsr4('\\Robo\\', [realpath(__DIR__.'/../../src')]);
+        $service = new RelativeNamespaceDiscovery($classLoader);
+        $service->setRelativeNamespace('\Commands');
         $classes = $service->getClasses();
 
         $this->assertContains('\Robo\Commands\FirstCustomCommands', $classes);
@@ -21,8 +24,10 @@ class RelativeNamespaceDiscoveryTest extends \Codeception\Test\Unit
 
     public function testGetFile()
     {
-        $service = $this->getServiceInstance('\Commands');
-        $service->getClassLoader()->addPsr4('\\Robo\\', [realpath(__DIR__.'/../../src')]);
+        $classLoader = new ClassLoader();
+        $classLoader->addPsr4('\\Robo\\', [realpath(__DIR__.'/../../src')]);
+        $service = new RelativeNamespaceDiscovery($classLoader);
+        $service->setRelativeNamespace('\Commands');
 
         $actual = $service->getFile('\Robo\Commands\FirstCustomCommands');
         $this->assertStringEndsWith($this->normalizePath('tests/src/Commands/FirstCustomCommands.php'), $actual);
@@ -39,7 +44,8 @@ class RelativeNamespaceDiscoveryTest extends \Codeception\Test\Unit
      */
     public function testConvertPathToNamespace($path, $expected)
     {
-        $discovery = new RelativeNamespaceDiscovery();
+        $classLoader = new ClassLoader();
+        $discovery = new RelativeNamespaceDiscovery($classLoader);
         $actual = $this->callProtected($discovery, 'convertPathToNamespace', [$path]);
         $this->assertEquals($expected, $actual);
     }
@@ -62,7 +68,8 @@ class RelativeNamespaceDiscoveryTest extends \Codeception\Test\Unit
      */
     public function testConvertNamespaceToPath($namespace, $expected)
     {
-        $discovery = new RelativeNamespaceDiscovery();
+        $classLoader = new ClassLoader();
+        $discovery = new RelativeNamespaceDiscovery($classLoader);
         $actual = $this->callProtected($discovery, 'convertNamespaceToPath', [$namespace]);
         $this->assertEquals($expected, $actual);
     }
@@ -76,18 +83,6 @@ class RelativeNamespaceDiscoveryTest extends \Codeception\Test\Unit
         ];
     }
 
-    /**
-     * @param $relativeNamespace
-     *
-     * @return \Robo\ClassDiscovery\RelativeNamespaceDiscovery
-     */
-    protected function getServiceInstance($relativeNamespace)
-    {
-        return (new RelativeNamespaceDiscovery())
-            ->setRelativeNamespace($relativeNamespace)
-            ->setClassLoader(new ClassLoader());
-    }
-
     protected function callProtected($object, $method, $args = [])
     {
         $r = new \ReflectionMethod($object, $method);
@@ -97,6 +92,6 @@ class RelativeNamespaceDiscoveryTest extends \Codeception\Test\Unit
 
     protected function normalizePath($path)
     {
-        return str_replace('/', DIRECTORY_SEPARATOR, $path);
+        return str_replace('/', $this->ds, $path);
     }
 }

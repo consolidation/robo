@@ -2,23 +2,35 @@
 
 namespace Robo\ClassDiscovery;
 
-use Robo\Common\ClassLoaderAwareTrait;
-use Robo\Contract\ClassLoaderAwareInterface;
 use Symfony\Component\Finder\Finder;
+use Composer\Autoload\ClassLoader;
 
 /**
  * Class RelativeNamespaceDiscovery
  *
  * @package Robo\Plugin\ClassDiscovery
  */
-class RelativeNamespaceDiscovery extends AbstractClassDiscovery implements ClassLoaderAwareInterface
+class RelativeNamespaceDiscovery extends AbstractClassDiscovery
 {
-    use ClassLoaderAwareTrait;
+    /**
+     * @var \Composer\Autoload\ClassLoader
+     */
+    protected $classLoader;
 
     /**
      * @var string
      */
     protected $relativeNamespace = '';
+
+    /**
+     * RelativeNamespaceDiscovery constructor.
+     *
+     * @param \Composer\Autoload\ClassLoader $classLoader
+     */
+    public function __construct(ClassLoader $classLoader)
+    {
+        $this->classLoader = $classLoader;
+    }
 
     /**
      * @param string $relativeNamespace
@@ -40,7 +52,7 @@ class RelativeNamespaceDiscovery extends AbstractClassDiscovery implements Class
         $classes = [];
         $relativePath = $this->convertNamespaceToPath($this->relativeNamespace);
 
-        foreach ($this->getClassLoader()->getPrefixesPsr4() as $baseNamespace => $directories) {
+        foreach ($this->classLoader->getPrefixesPsr4() as $baseNamespace => $directories) {
             $directories = array_filter(array_map(function ($directory) use ($relativePath) {
                 return $directory.$relativePath;
             }, $directories), 'is_dir');
@@ -61,7 +73,7 @@ class RelativeNamespaceDiscovery extends AbstractClassDiscovery implements Class
      */
     public function getFile($class)
     {
-        return $this->getClassLoader()->findFile($class);
+        return $this->classLoader->findFile($class);
     }
 
     /**

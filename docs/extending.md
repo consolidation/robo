@@ -55,7 +55,7 @@ example below:
 ```php
 <?php
 
-namespace My\Project\Robo\Plugin\Commands;
+namespace MyProject\Robo\Plugin\Commands;
 
 class MyCustomCommands extends \Robo\Tasks
 {
@@ -71,7 +71,7 @@ class MyCustomCommands extends \Robo\Tasks
 }
 ```
 
-Please note: command files classes must be placed under `Robo/Plugin/Commands` relative namepsace and their name
+Please note: command files classes must be placed under `Robo/Plugin/Commands` relative namespace and their name
 must end in `Commands.php`.
 
 You can now access your new commands via Robo:

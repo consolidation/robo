@@ -249,17 +249,10 @@ class Runner implements ContainerAwareInterface
         // If the command class is already an instantiated object, then
         // just use it exactly as it was provided to us.
         if (is_string($commandClass)) {
-            if (!class_exists($commandClass)) {
+            $commandClass = Robo::storeCommandInstance($commandClass);
+            if (!$commandClass) {
                 return;
             }
-            $reflectionClass = new \ReflectionClass($commandClass);
-            if ($reflectionClass->isAbstract()) {
-                return;
-            }
-
-            $commandFileName = "{$commandClass}Commands";
-            $container->share($commandFileName, $commandClass);
-            $commandClass = $container->get($commandFileName);
         }
         // If the command class is a Builder Aware Interface, then
         // ensure that it has a builder.  Every command class needs

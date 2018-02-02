@@ -301,6 +301,49 @@ class Robo
     }
 
     /**
+     * Given the fully qualified namespace and classname of a command instance,
+     * instantiate it and store it in our container.
+     *
+     * @param string $commandClass
+     *
+     * @return null|object
+     */
+    public static function storeCommandInstance($commandClass)
+    {
+        $container = Robo::getContainer();
+
+        if (!class_exists($commandClass)) {
+            return;
+        }
+        $reflectionClass = new \ReflectionClass($commandClass);
+        if ($reflectionClass->isAbstract()) {
+            return;
+        }
+
+        $commandFileName = static::commandInstanceContainerName($commandClass);
+        $container->share($commandFileName, $commandClass);
+        return static::getCommandInstance($commandClass);
+    }
+
+    /**
+     * Given the fully qualified namespace and classname of a command instance,
+     * look it up from our container.
+     *
+     * @param string $commandClass
+     * @return object
+     */
+    public static function getCommandInstance($commandClass)
+    {
+        $commandFileName = static::commandInstanceContainerName($commandClass);
+        return static::service($commandFileName);
+    }
+
+    protected static function commandInstanceContainerName($commandClass)
+    {
+        return "{$commandClass}Commands";
+    }
+
+    /**
      * Retrieves a service from the container.
      *
      * Use this method if the desired service is not one of those with a dedicated

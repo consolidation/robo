@@ -29,6 +29,7 @@ class CliHelper extends \Codeception\Module implements ContainerAwareInterface
         taskDeleteDir as public;
         taskFlattenDir as public;
         taskFilesystemStack as public;
+        taskForEach as public;
         taskTmpDir as public;
         taskMinify as public;
         _copyDir as public shortcutCopyDir;

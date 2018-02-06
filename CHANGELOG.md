@@ -1,5 +1,9 @@
 # Changelog
 
+### Unreleased
+
+* *Breaking* Typo in `\Robo\Runner:errorCondtion()` fixed as `\Robo\Runner:errorCondition()`.
+
 ### 1.2.1 12/28/2017
 
 * Fixes to tests / build only.

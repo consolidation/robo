@@ -15,7 +15,8 @@
     },
     "autoload-dev":{
         "psr-4":{
-            "Robo\\":"tests/src"
+            "Robo\\":"tests/src",
+            "RoboExample\\":"examples/src"
         }
     },
     "bin":["robo"],

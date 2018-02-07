@@ -1,4 +1,6 @@
 <?php
+namespace RoboExample\Robo\Plugin\Commands;
+
 use Robo\Result;
 
 use Consolidation\AnnotatedCommand\CommandData;
@@ -8,19 +10,25 @@ use Consolidation\OutputFormatters\StructuredData\PropertyList;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
- * Example RoboFile.
+ * Example Robo Plugin Commands.
  *
- * To test:
+ * To create a Robo Plugin, create a standard Composer project. The
+ * namespace for your commands must end Robo\Plugin\Commands, and
+ * this suffix must immediately follow some namespace in your composer.json
+ * file's autoload section.
  *
- * $ cd ROBO_PROJECT/examples
- * $ ../robo try:success
+ * For example:
  *
- *   - or -
+ * "autoload": {
+ *         "psr-4": {
+ *             "RoboExample\\": "src"
+ *         }
+ *     },
  *
- * $ cd ROBO_PROJECT
- * $ ./robo -f examples try:formatters
+ * In this instance, the namespace for your plugin commands must be
+ * RoboExample\Robo\Plugin\Commands.
  */
-class RoboFile extends \Robo\Tasks
+class ExampleCommands extends \Robo\Tasks
 {
     /**
      * Watch a file.

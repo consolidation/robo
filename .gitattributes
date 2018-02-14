@@ -8,3 +8,5 @@
 /.travis.yml        export-ignore
 /.scrutinizer.yml   export-ignore
 /appveyor.yml       export-ignore
+/scenarios/symfony2/tests export-ignore
+/scenarios/symfony4/tests export-ignore

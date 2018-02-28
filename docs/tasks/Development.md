@@ -55,7 +55,7 @@ $this->taskGenDoc('models.md')
      })->run();
 ```
 
-By default this task generates a documentation for each public method of a class.
+By default this task generates a documentation for each public method of a class, interface or trait.
 It combines method signature with a docblock. Both can be post-processed.
 
 ``` php

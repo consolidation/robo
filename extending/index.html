@@ -7,9 +7,9 @@
         
         
         <link rel="canonical" href="http://robo.li/extending/">
-        <link rel="shortcut icon" href="../../img/favicon.png">
+        <link rel="shortcut icon" href="../img/favicon.png">
         
-        <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 
 	<title>Extending - Robo</title>
 
@@ -35,7 +35,6 @@
 
         <!-- Collapsed navigation -->
         <div class="navbar-header">
-            
             <!-- Expander button -->
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
@@ -43,164 +42,106 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            
-
-            <!-- Main title -->
             <a class="navbar-brand" href="..">Robo</a>
         </div>
 
         <!-- Expanded navigation -->
         <div class="navbar-collapse collapse">
-            
                 <!-- Main navigation -->
                 <ul class="nav navbar-nav">
-                
-                
                     <li >
                         <a href="..">Index</a>
                     </li>
-                
-                
-                
                     <li class="dropdown active">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Guides <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                        
                             
 <li >
     <a href="../getting-started/">Getting Started</a>
 </li>
-
-                        
                             
 <li >
     <a href="../collections/">Collections</a>
 </li>
-
-                        
                             
 <li class="active">
     <a href="./">Extending</a>
 </li>
-
-                        
                             
 <li >
     <a href="../framework/">Robo as Framework</a>
 </li>
-
-                        
                         </ul>
                     </li>
-                
-                
-                
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tasks <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                        
                             
 <li >
     <a href="../tasks/Base/">Base Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Filesystem/">FileSystem Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/File/">File Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Composer/">Composer Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Vcs/">VCS Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Development/">Development Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Assets/">Assets Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Archive/">Archive Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Remote/">SSH, Rsync Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Testing/">Testing Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Npm/">NPM Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Bower/">Bower Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Gulp/">Gulp Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/Docker/">Docker Tasks</a>
 </li>
-
-                        
                             
 <li >
     <a href="../tasks/ApiGen/">ApiGen Tasks</a>
 </li>
-
-                        
                         </ul>
                     </li>
-                
-                
-                
                     <li >
                         <a href="../changelog/">Releases</a>
                     </li>
-                
-                
                 </ul>
-            
 
             <ul class="nav navbar-nav navbar-right">
                 <li>
@@ -208,7 +149,6 @@
                         <i class="fa fa-search"></i> Search
                     </a>
                 </li>
-                
                     <li >
                         <a rel="next" href="../collections/">
                             <i class="fa fa-arrow-left"></i> Previous
@@ -219,17 +159,11 @@
                             Next <i class="fa fa-arrow-right"></i>
                         </a>
                     </li>
-                
-                
                     <li>
                         <a href="https://github.com/consolidation/Robo/">
-                            
-                                <i class="fa fa-github"></i>
-                            
-                            GitHub
+                                <i class="fa fa-github"></i>GitHub
                         </a>
                     </li>
-                
             </ul>
         </div>
     </div>
@@ -240,14 +174,10 @@
             
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-    
         <li class="main active"><a href="#extending">Extending</a></li>
-        
             <li><a href="#including-additional-tasks">Including Additional Tasks</a></li>
-        
+            <li><a href="#register-command-files-via-psr-4-autoloading">Register command files via PSR-4 autoloading</a></li>
             <li><a href="#creating-a-robo-extension">Creating a Robo Extension</a></li>
-        
-    
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
@@ -278,6 +208,57 @@ $ composer require boedah/robo-drush
 
 <p>Once you have done this, all of the tasks defined in the extension you selected will be available for use in your commands.</p>
 <p>Note that at the moment, it is not possible to extend Robo when using the robo.phar. This capability may be added in the future via <a href="https://github.com/dflydev/dflydev-embedded-composer">embedded composer</a>.</p>
+<h2 id="register-command-files-via-psr-4-autoloading">Register command files via PSR-4 autoloading</h2>
+<p>You can have your project expose extra Robo command files by providing them within your project's PSR-4 namespace.</p>
+<p>For example, given the following PSR-4 namespace in your <code>composer.json</code>:</p>
+<pre><code class="json">{
+    &quot;autoload&quot;: {
+        &quot;psr-4&quot;: {
+            &quot;MyProject\\&quot;: &quot;./src/&quot;
+        }
+    }
+}
+</code></pre>
+
+<p>Extra command files can be exposed by creating one or more classes under <code>./src/Robo/Plugin/Commands</code>, as shown in the
+example below:</p>
+<pre><code class="php">&lt;?php
+
+namespace MyProject\Robo\Plugin\Commands;
+
+class MyCustomCommands extends \Robo\Tasks
+{
+    /**
+     * @command my-project:command-one
+     */
+    public function commandOne() { }
+
+    /**
+     * @command my-project:command-two
+     */
+    public function commandTwo() { }
+}
+</code></pre>
+
+<p>Please note: command files classes must be placed under <code>Robo/Plugin/Commands</code> relative namespace and their name
+must end in <code>Commands.php</code>.</p>
+<p>You can now access your new commands via Robo:</p>
+<pre><code>$ ./vendor/bin/robo 
+$ ./robo 
+Robo 1.2.2-dev
+
+Usage:
+  command [options] [arguments]
+...
+
+Available commands:
+  help                  Displays help for a command
+  list                  Lists commands
+ my-project
+  my-project:command-one       
+  my-project:command-two        
+</code></pre>
+
 <h2 id="creating-a-robo-extension">Creating a Robo Extension</h2>
 <p>A Robo tasks extension is created by advertising a Composer package of type <code>robo-tasks</code> on <a href="https://packagist.org/">Packagist</a>.  For an overview on how this is done, see the article <a href="https://knpuniversity.com/screencast/question-answer-day/create-composer-package">Creating your very own Composer Package</a>.  Specific instructions for creating Robo task extensions are provided below.</p>
 <h3 id="create-your-composerjson-file">Create your composer.json File</h3>
@@ -426,12 +407,12 @@ class DrushStackTest extends \PHPUnit_Framework_TestCase implements ContainerAwa
 
 </p>
 <p>
-Robo is on <a href="https://twitter.com/robo_php">Twitter</a> and on <a href="https://github.com/consolidation/robo">GitHub</a>
+Robo is on <a href="http://twitter.com/robo_php">Twitter</a> and on <a href="https://github.com/consolidation/robo">GitHub</a>
 </p>
 
             <p>
                 Projects Using It:
-                <a href="https://codeception.com">Codeception</a> |
+                <a href="http://codeception.com">Codeception</a> |
                 <a href="http://www.drush.org">Drush</a> |
                 <a href="https://github.com/Codeception/AspectMock">AspectMock</a> |
                 <a href="https://github.com/pantheon-systems/terminus">Pantheon Terminus</a> |

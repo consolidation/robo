@@ -15,7 +15,8 @@
     },
     "autoload-dev":{
         "psr-4":{
-            "Robo\\":"tests/src"
+            "Robo\\":"tests/src",
+            "RoboExample\\":"examples/src"
         }
     },
     "bin":["robo"],
@@ -63,7 +64,7 @@
         ],
         "post-update-cmd": [
             "create-scenario symfony4 'symfony/console:^4.0' --platform-php '7.1.3'",
-            "create-scenario symfony2 'symfony/console:^2.8' --platform-php '5.5.9' --no-lockfile"
+            "create-scenario symfony2 'symfony/console:^2.8' --platform-php '5.5.9' --no-lockfile --remove 'goaop/framework'"
         ]
     },
     "config": {

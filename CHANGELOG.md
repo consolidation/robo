@@ -1,5 +1,12 @@
 # Changelog
 
+### 1.2.2 2/27/2018
+
+* Experimental robo plugin mechanism (backwards compatibility not yet guarenteed)
+* Allow traits to be documented
+* Do not export scenarios directory
+* *Breaking* Typo in `\Robo\Runner:errorCondtion()` fixed as `\Robo\Runner:errorCondition()`.
+
 ### 1.2.1 12/28/2017
 
 * Fixes to tests / build only.

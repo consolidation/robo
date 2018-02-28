@@ -8,9 +8,9 @@ trait loadTasks
      *
      * @param array $collection
      *
-     * @return \Robo\Collection\TaskForEach
+     * @return \Robo\Collection\TaskForEach|\Robo\Collection\CollectionBuilder
      */
-    protected function taskForEach($collection)
+    protected function taskForEach($collection = [])
     {
         return $this->task(TaskForEach::class, $collection);
     }

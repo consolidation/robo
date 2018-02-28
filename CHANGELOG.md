@@ -1,6 +1,6 @@
 # Changelog
 
-### Unreleased
+### 1.2.2 2/27/2018
 
 * Experimental robo plugin mechanism (backwards compatibility not yet guarenteed)
 * Allow traits to be documented

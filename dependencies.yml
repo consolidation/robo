@@ -6,17 +6,3 @@ collectors:
   # pull requests for all major, minor, and patch updates
   - type: php-composer
     versions: "Y.Y.Y"
-
-- type: php-composer
-  path: scenarios/symfony4
-  actors:
-  # pull requests for all major, minor, and patch updates
-  - type: php-composer
-    versions: "Y.Y.Y"
-
-- type: php-composer
-  path: scenarios/symfony2
-  actors:
-  # pull requests for all major, minor, and patch updates
-  - type: php-composer
-    versions: "Y.Y.Y"

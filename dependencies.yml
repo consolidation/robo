@@ -5,4 +5,4 @@ collectors:
   actors:
   # pull requests for all major, minor, and patch updates
   - type: php-composer
-    versions: "Y.Y.Y"
+    versions: "L.Y.Y"

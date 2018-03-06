@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "27eda046ef343bce7c37d7bdf0fe5064",
+    "content-hash": "243a0de6a5f69c616e87855f28f48766",
     "packages": [
         {
             "name": "consolidation/annotated-command",
@@ -1628,6 +1628,7 @@
                 }
             ],
             "description": "Useful scripts for testing multiple sets of Composer dependencies.",
+            "abandoned": "g-1-a/composer-test-scenarios",
             "time": "2018-01-17T20:25:16+00:00"
         },
         {
@@ -1913,16 +1914,16 @@
         },
         {
             "name": "natxet/CssMin",
-            "version": "v3.0.4",
+            "version": "v3.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/natxet/CssMin.git",
-                "reference": "92de3fe3ccb4f8298d31952490ef7d5395855c39"
+                "reference": "d5d9f4c3e5cedb1ae96a95a21731f8790e38f1dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/natxet/CssMin/zipball/92de3fe3ccb4f8298d31952490ef7d5395855c39",
-                "reference": "92de3fe3ccb4f8298d31952490ef7d5395855c39",
+                "url": "https://api.github.com/repos/natxet/CssMin/zipball/d5d9f4c3e5cedb1ae96a95a21731f8790e38f1dd",
+                "reference": "d5d9f4c3e5cedb1ae96a95a21731f8790e38f1dd",
                 "shasum": ""
             },
             "require": {
@@ -1956,7 +1957,7 @@
                 "css",
                 "minify"
             ],
-            "time": "2015-09-25T11:13:11+00:00"
+            "time": "2018-01-09T11:15:01+00:00"
         },
         {
             "name": "nikic/php-parser",

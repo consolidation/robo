@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "27eda046ef343bce7c37d7bdf0fe5064",
+    "content-hash": "3630c9d17e3a7184441660c0753cfd8a",
     "packages": [
         {
             "name": "consolidation/annotated-command",
@@ -1274,16 +1274,16 @@
         },
         {
             "name": "codeception/verify",
-            "version": "0.3.3",
+            "version": "0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/Verify.git",
-                "reference": "5d649dda453cd814dadc4bb053060cd2c6bb4b4c"
+                "reference": "8a17273017e23a866df3fa2ad2b4182b7ce354f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Verify/zipball/5d649dda453cd814dadc4bb053060cd2c6bb4b4c",
-                "reference": "5d649dda453cd814dadc4bb053060cd2c6bb4b4c",
+                "url": "https://api.github.com/repos/Codeception/Verify/zipball/8a17273017e23a866df3fa2ad2b4182b7ce354f0",
+                "reference": "8a17273017e23a866df3fa2ad2b4182b7ce354f0",
                 "shasum": ""
             },
             "require-dev": {
@@ -1306,7 +1306,7 @@
                 }
             ],
             "description": "BDD assertion library for PHPUnit",
-            "time": "2017-01-09T10:58:51+00:00"
+            "time": "2017-07-12T16:50:18+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -1628,6 +1628,7 @@
                 }
             ],
             "description": "Useful scripts for testing multiple sets of Composer dependencies.",
+            "abandoned": "g-1-a/composer-test-scenarios",
             "time": "2018-01-17T20:25:16+00:00"
         },
         {

@@ -1,8 +1,10 @@
-collectors:
-
-- type: php-composer
+version: 2
+dependencies:
+- type: php
   path: /
-  actors:
-  # pull requests for all major, minor, and patch updates
-  - type: php-composer
-    versions: "L.Y.Y"
+  settings:
+    composer_options: "--no-progress --no-suggest"
+  manifest_updates:
+    filters:
+    - name: ".*"
+      versions: "L.Y.Y"

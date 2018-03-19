@@ -70,7 +70,7 @@ class ExampleCommands extends \Robo\Tasks
      */
     public function tryPara($options = ['printed' => false, 'error' => false])
     {
-        $dir = dirname(__DIR__);
+        $dir = dirname(dirname(dirname(dirname(dirname(__DIR__)))));
         $para = $this->taskParallelExec()
             ->printed($options['printed'])
             ->process("php $dir/tests/_data/parascript.php hey 4")

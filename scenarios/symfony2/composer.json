@@ -38,7 +38,7 @@
         "codeception/base": "^2.3.7",
         "codeception/verify": "^0.3.2",
         "greg-1-anderson/composer-test-scenarios": "^1",
-        "natxet/CssMin": "3.0.4",
+        "natxet/CssMin": "v3.0.6",
         "patchwork/jsqueeze": "~2",
         "pear/archive_tar": "^1.4.2",
         "phpunit/php-code-coverage": "~2|~4",

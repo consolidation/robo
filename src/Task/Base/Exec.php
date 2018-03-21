@@ -4,7 +4,6 @@ namespace Robo\Task\Base;
 use Robo\Common\ExecTrait;
 use Robo\Contract\CommandInterface;
 use Robo\Contract\PrintedInterface;
-use Robo\Contract\ProgressIndicatorAwareInterface;
 use Robo\Contract\SimulatedInterface;
 use Robo\Task\BaseTask;
 use Symfony\Component\Process\Process;
@@ -28,11 +27,10 @@ use Robo\Result;
  * ?>
  * ```
  */
-class Exec extends BaseTask implements CommandInterface, PrintedInterface, SimulatedInterface, ProgressIndicatorAwareInterface
+class Exec extends BaseTask implements CommandInterface, PrintedInterface, SimulatedInterface
 {
     use \Robo\Common\CommandReceiver;
     use \Robo\Common\ExecOneCommand;
-    use \Robo\Common\ProgressIndicatorAwareTrait;
 
     /**
      * @var static[]

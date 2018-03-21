@@ -1,15 +1,31 @@
 #!/bin/bash
 
 SCENARIO=$1
-ACTION=${2-install}
+DEPENDENCIES=${2-install}
 
+# Convert the aliases 'highest', 'lowest' and 'lock' to
+# the corresponding composer command to run.
+case $DEPENDENCIES in
+  highest)
+    DEPENDENCIES=update
+    ;;
+  lowest)
+    DEPENDENCIES='update --prefer-lowest'
+    ;;
+  lock|default|"")
+    DEPENDENCIES=install
+    ;;
+esac
+
+# If scenario is not specified, install the lockfile at
+# the root of the project.
 dir=scenarios/${SCENARIO}
-if [ -z "$SCENARIO" ] ; then
+if [ -z "$SCENARIO" ] || [ "$SCENARIO" == "default" ] ; then
   SCENARIO=default
   dir=.
 fi
 
-
+# Test to make sure that the selected scenario exists.
 if [ ! -d "$dir" ] ; then
   echo "Requested scenario '${SCENARIO}' does not exist."
   exit 1
@@ -24,5 +40,5 @@ echo
 set -ex
 
 composer -n validate --working-dir=$dir --no-check-all --ansi
-composer -n --working-dir=$dir ${ACTION} --prefer-dist --no-scripts
+composer -n --working-dir=$dir ${DEPENDENCIES} --prefer-dist --no-scripts
 composer -n --working-dir=$dir info

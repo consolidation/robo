@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "aebdeb882406a52a236e502aca02fcc3",
+    "content-hash": "202af2bb27a5b2419d4bb0a916ebb1e6",
     "packages": [
         {
             "name": "consolidation/annotated-command",

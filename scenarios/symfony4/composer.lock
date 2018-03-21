@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d37d5196859b1238669e4f84acd1e949",
+    "content-hash": "202af2bb27a5b2419d4bb0a916ebb1e6",
     "packages": [
         {
             "name": "consolidation/annotated-command",
@@ -162,16 +162,16 @@
         },
         {
             "name": "consolidation/output-formatters",
-            "version": "3.1.13",
+            "version": "3.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/output-formatters.git",
-                "reference": "3188461e965b32148c8fb85261833b2b72d34b8c"
+                "reference": "da889e4bce19f145ca4ec5b1725a946f4eb625a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/output-formatters/zipball/3188461e965b32148c8fb85261833b2b72d34b8c",
-                "reference": "3188461e965b32148c8fb85261833b2b72d34b8c",
+                "url": "https://api.github.com/repos/consolidation/output-formatters/zipball/da889e4bce19f145ca4ec5b1725a946f4eb625a9",
+                "reference": "da889e4bce19f145ca4ec5b1725a946f4eb625a9",
                 "shasum": ""
             },
             "require": {
@@ -180,10 +180,16 @@
                 "symfony/finder": "^2.5|^3|^4"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8",
-                "satooshi/php-coveralls": "^1.0.2 | dev-master",
+                "g-1-a/composer-test-scenarios": "^2",
+                "phpunit/phpunit": "^5.7.27",
+                "satooshi/php-coveralls": "^2",
                 "squizlabs/php_codesniffer": "^2.7",
+                "symfony/console": "3.2.3",
+                "symfony/var-dumper": "^2.8|^3|^4",
                 "victorjonsson/markdowndocs": "^1.3"
+            },
+            "suggest": {
+                "symfony/var-dumper": "For using the var_dump formatter"
             },
             "type": "library",
             "extra": {
@@ -207,7 +213,7 @@
                 }
             ],
             "description": "Format text by applying transformations provided by plug-in formatters.",
-            "time": "2017-11-29T15:25:38+00:00"
+            "time": "2018-03-20T15:18:32+00:00"
         },
         {
             "name": "container-interop/container-interop",
@@ -1435,6 +1441,39 @@
             "time": "2014-09-09T13:34:57+00:00"
         },
         {
+            "name": "g-1-a/composer-test-scenarios",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/g-1-a/composer-test-scenarios.git",
+                "reference": "ed9e89e0fa1b4503a05921e0ee97119bd5621f40"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/g-1-a/composer-test-scenarios/zipball/ed9e89e0fa1b4503a05921e0ee97119bd5621f40",
+                "reference": "ed9e89e0fa1b4503a05921e0ee97119bd5621f40",
+                "shasum": ""
+            },
+            "bin": [
+                "scripts/create-scenario",
+                "scripts/dependency-licenses",
+                "scripts/install-scenario"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Greg Anderson",
+                    "email": "greg.1.anderson@greenknowe.org"
+                }
+            ],
+            "description": "Useful scripts for testing multiple sets of Composer dependencies.",
+            "time": "2018-03-19T05:31:48+00:00"
+        },
+        {
             "name": "goaop/framework",
             "version": "2.1.2",
             "source": {
@@ -1547,39 +1586,6 @@
             ],
             "description": "Provides reflection information, based on raw source",
             "time": "2017-09-03T14:59:13+00:00"
-        },
-        {
-            "name": "greg-1-anderson/composer-test-scenarios",
-            "version": "1.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/greg-1-anderson/composer-test-scenarios.git",
-                "reference": "78733a4a8dea12d51aafada30932e666f68c13e7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/greg-1-anderson/composer-test-scenarios/zipball/78733a4a8dea12d51aafada30932e666f68c13e7",
-                "reference": "78733a4a8dea12d51aafada30932e666f68c13e7",
-                "shasum": ""
-            },
-            "bin": [
-                "scripts/create-scenario",
-                "scripts/install-scenario"
-            ],
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Greg Anderson",
-                    "email": "greg.1.anderson@greenknowe.org"
-                }
-            ],
-            "description": "Useful scripts for testing multiple sets of Composer dependencies.",
-            "abandoned": "g-1-a/composer-test-scenarios",
-            "time": "2018-01-17T20:25:16+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",

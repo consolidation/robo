@@ -4,6 +4,7 @@ namespace Robo\Task\Base;
 use Robo\Common\ExecTrait;
 use Robo\Contract\CommandInterface;
 use Robo\Contract\PrintedInterface;
+use Robo\Contract\ProgressIndicatorAwareInterface;
 use Robo\Contract\SimulatedInterface;
 use Robo\Task\BaseTask;
 use Symfony\Component\Process\Process;
@@ -27,10 +28,11 @@ use Robo\Result;
  * ?>
  * ```
  */
-class Exec extends BaseTask implements CommandInterface, PrintedInterface, SimulatedInterface
+class Exec extends BaseTask implements CommandInterface, PrintedInterface, SimulatedInterface, ProgressIndicatorAwareInterface
 {
     use \Robo\Common\CommandReceiver;
     use \Robo\Common\ExecOneCommand;
+    use \Robo\Common\ProgressIndicatorAwareTrait;
 
     /**
      * @var static[]
@@ -107,6 +109,7 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
      */
     public function run()
     {
+        $this->hideProgressIndicator();
         // TODO: Symfony 4 requires that we supply the working directory.
         $result_data = $this->execute(new Process($this->getCommand(), getcwd()));
         return new Result(
@@ -115,6 +118,7 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
             $result_data->getMessage(),
             $result_data->getData()
         );
+        $this->showProgressIndicator();
     }
 }
 

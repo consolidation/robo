@@ -63,12 +63,36 @@ class ExampleCommands extends \Robo\Tasks
     }
 
     /**
+     * Demonstrates serial execution.
+     *
+     * @option $printed Print the output of each process.
+     * @option $error Include an extra process that fails.
+     */
+    public function tryExec($options = ['printed' => true, 'error' => false])
+    {
+        $dir = dirname(dirname(dirname(dirname(dirname(__DIR__)))));
+        $tasks = $this
+            ->taskExec('php')
+                ->args(["$dir/tests/_data/parascript.php", "hey", "4"])
+            ->taskExec('php')
+                ->args(["$dir/tests/_data/parascript.php", "hoy", "3"])
+            ->taskExec('php')
+                ->args(["$dir/tests/_data/parascript.php", "gou", "2"])
+            ->taskExec('php')
+                ->args(["$dir/tests/_data/parascript.php", "die", "1"]);
+        if ($options['error']) {
+            $tasks->taskExec('ls')->arg("$dir/tests/_data/filenotfound");
+        }
+        return $tasks->run();
+    }
+
+    /**
      * Demonstrates parallel execution.
      *
      * @option $printed Print the output of each process.
      * @option $error Include an extra process that fails.
      */
-    public function tryPara($options = ['printed' => false, 'error' => false])
+    public function tryPara($options = ['printed' => true, 'error' => false])
     {
         $dir = dirname(dirname(dirname(dirname(dirname(__DIR__)))));
         $para = $this->taskParallelExec()

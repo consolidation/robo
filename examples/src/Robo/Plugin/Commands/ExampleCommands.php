@@ -1,4 +1,6 @@
 <?php
+namespace RoboExample\Robo\Plugin\Commands;
+
 use Robo\Result;
 
 use Consolidation\AnnotatedCommand\CommandData;
@@ -8,19 +10,25 @@ use Consolidation\OutputFormatters\StructuredData\PropertyList;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
- * Example RoboFile.
+ * Example Robo Plugin Commands.
  *
- * To test:
+ * To create a Robo Plugin, create a standard Composer project. The
+ * namespace for your commands must end Robo\Plugin\Commands, and
+ * this suffix must immediately follow some namespace in your composer.json
+ * file's autoload section.
  *
- * $ cd ROBO_PROJECT/examples
- * $ ../robo try:success
+ * For example:
  *
- *   - or -
+ * "autoload": {
+ *         "psr-4": {
+ *             "RoboExample\\": "src"
+ *         }
+ *     },
  *
- * $ cd ROBO_PROJECT
- * $ ./robo -f examples try:formatters
+ * In this instance, the namespace for your plugin commands must be
+ * RoboExample\Robo\Plugin\Commands.
  */
-class RoboFile extends \Robo\Tasks
+class ExampleCommands extends \Robo\Tasks
 {
     /**
      * Watch a file.
@@ -55,14 +63,38 @@ class RoboFile extends \Robo\Tasks
     }
 
     /**
+     * Demonstrates serial execution.
+     *
+     * @option $printed Print the output of each process.
+     * @option $error Include an extra process that fails.
+     */
+    public function tryExec($options = ['printed' => true, 'error' => false])
+    {
+        $dir = dirname(dirname(dirname(dirname(dirname(__DIR__)))));
+        $tasks = $this
+            ->taskExec('php')
+                ->args(["$dir/tests/_data/parascript.php", "hey", "4"])
+            ->taskExec('php')
+                ->args(["$dir/tests/_data/parascript.php", "hoy", "3"])
+            ->taskExec('php')
+                ->args(["$dir/tests/_data/parascript.php", "gou", "2"])
+            ->taskExec('php')
+                ->args(["$dir/tests/_data/parascript.php", "die", "1"]);
+        if ($options['error']) {
+            $tasks->taskExec('ls')->arg("$dir/tests/_data/filenotfound");
+        }
+        return $tasks->run();
+    }
+
+    /**
      * Demonstrates parallel execution.
      *
      * @option $printed Print the output of each process.
      * @option $error Include an extra process that fails.
      */
-    public function tryPara($options = ['printed' => false, 'error' => false])
+    public function tryPara($options = ['printed' => true, 'error' => false])
     {
-        $dir = dirname(__DIR__);
+        $dir = dirname(dirname(dirname(dirname(dirname(__DIR__)))));
         $para = $this->taskParallelExec()
             ->printed($options['printed'])
             ->process("php $dir/tests/_data/parascript.php hey 4")

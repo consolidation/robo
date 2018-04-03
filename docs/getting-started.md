@@ -434,7 +434,7 @@ task:
 
 ### Accessing Configuration Directly
 
-In a RoboFile, use `Robo::Config()->get('task.TaskGroup.MyOperation.settings.dir');` to fetch the `dir` configuration option from the previous example.
+In a RoboFile, use `\Robo\Robo::Config()->get('task.TaskGroup.MyOperation.settings.dir');` to fetch the `dir` configuration option from the previous example.
 
 In the implementation of `taskMyOperation()` itself, it is in general not necessary to access configuration values directly, as it is preferable to allow Robo to inject configuration as described above. However, if desired, configuration may be accessed from within the method of any task that extends `\Robo\Task\BaseTask` (or otherwise uses `ConfigAwareTrait`) may do so via `static::getConfigValue('key', 'default');`.
 

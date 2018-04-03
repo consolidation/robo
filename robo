@@ -1,22 +1,24 @@
 #!/usr/bin/env php
 <?php
-
 /**
  * if we're running from phar load the phar autoload,
- * else let the script 'robo' search for the autoloader
+ * else let the script 'robo' search for the autoloader.
+ * If we cannot find a vendor/autoload.php file, then
+ * we will go ahead and try the phar.
  */
-if (strpos(basename(__FILE__), 'phar')) {
-    require_once 'phar://robo.phar/vendor/autoload.php';
-} else {
+$autoloaderPath = 'phar://robo.phar/vendor/autoload.php';
+if (!strpos(basename(__FILE__), 'phar')) {
     if (file_exists(__DIR__.'/vendor/autoload.php')) {
-        require_once __DIR__.'/vendor/autoload.php';
+        $autoloaderPath = __DIR__.'/vendor/autoload.php';
     } elseif (file_exists(__DIR__.'/../../autoload.php')) {
-        require_once __DIR__ . '/../../autoload.php';
-    } else {
-        require_once 'phar://robo.phar/vendor/autoload.php';
+        $autoloaderPath = __DIR__ . '/../../autoload.php';
     }
 }
+$classLoader = require $autoloaderPath;
 $runner = new \Robo\Runner();
-$runner->setSelfUpdateRepository('consolidation/robo');
+$runner
+  ->setRelativePluginNamespace('Robo\Plugin')
+  ->setSelfUpdateRepository('consolidation/robo')
+  ->setClassLoader($classLoader);
 $statusCode = $runner->execute($_SERVER['argv']);
 exit($statusCode);

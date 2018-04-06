@@ -1,0 +1,10 @@
+version: 2
+dependencies:
+- type: php
+  path: /
+  settings:
+    composer_options: "--no-progress --no-suggest"
+  manifest_updates:
+    filters:
+    - name: ".*"
+      versions: "L.Y.Y"

@@ -415,7 +415,7 @@ class Rsync extends BaseTask implements CommandInterface
      */
     public function remoteShell($command)
     {
-        $this->option('rsh', "'$command'");
+        $this->option('rsh', "$command");
 
         return $this;
     }

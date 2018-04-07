@@ -64,5 +64,22 @@ class RsyncTest extends \Codeception\TestCase\Test
                 ->toPath('/var/path/with/a space')
                 ->getCommand()
         )->equals($cmd);
+
+        $linuxCmd = 'rsync --rsh \'ssh -i ~/.ssh/id_rsa\' src/foo \'dev@localhost:/var/path\'';
+
+        $winCmd = 'rsync --rsh "ssh -i ~/.ssh/id_rsa" src/foo "dev@localhost:/var/path"';
+
+        $cmd = stripos(PHP_OS, 'WIN') === 0 ? $winCmd : $linuxCmd;
+
+        // rsync with a remoteShell specified
+        verify(
+            (new \Robo\Task\Remote\Rsync())
+                ->fromPath('src/foo')
+                ->toHost('localhost')
+                ->toUser('dev')
+                ->toPath('/var/path')
+                ->remoteShell('ssh -i ~/.ssh/id_rsa')
+                ->getCommand()
+        )->equals($cmd);
     }
 }

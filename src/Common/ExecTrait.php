@@ -60,6 +60,11 @@ trait ExecTrait
      * @var string
      */
     protected $workingDirectory;
+    
+    /**
+     * @var string
+     */
+    protected $output = '';
 
     /**
      * @return string
@@ -286,6 +291,7 @@ trait ExecTrait
 
         if (!$output_callback) {
             $output_callback = function ($type, $buffer) {
+                $this->output .=  $buffer;
                 $progressWasVisible = $this->hideTaskProgress();
                 $this->writeMessage($buffer);
                 $this->showTaskProgress($progressWasVisible);
@@ -332,7 +338,7 @@ trait ExecTrait
             $this->stopTimer();
             return new ResultData(
                 $this->process->getExitCode(),
-                $this->process->getOutput(),
+                $this->output,
                 $this->getResultData()
             );
         }

@@ -27,7 +27,7 @@ class Result extends ResultData
     {
         parent::__construct($exitCode, $message, $data);
         $this->task = $task;
-        $this->printResult();
+        // $this->printResult();
 
         if (self::$stopOnFail) {
             $this->stopOnFail();

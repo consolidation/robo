@@ -30,7 +30,7 @@ class ResultData extends Data implements ExitCodeInterface, OutputDataInterface
      * @param string $message
      * @param array $data
      */
-    public function __construct($exitCode = self::EXITCODE_OK, $message = '', $data = [])
+    public function __construct($exitCode = self::EXITCODE_OK, $message = '', $data = [], $printResult = TRUE)
     {
         $this->exitCode = $exitCode;
         parent::__construct($message, $data);

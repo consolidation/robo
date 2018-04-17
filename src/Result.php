@@ -22,12 +22,14 @@ class Result extends ResultData
      * @param string $exitCode
      * @param string $message
      * @param array $data
+     * @param bool $printResult
      */
-    public function __construct(TaskInterface $task, $exitCode, $message = '', $data = [])
+    public function __construct(TaskInterface $task, $exitCode, $message = '', $data = [], $printResult = TRUE)
     {
-        parent::__construct($exitCode, $message, $data);
+        parent::__construct($exitCode, $message, $data, $printResult);
         $this->task = $task;
-        $this->printResult();
+
+        $this->printResult($printResult);
 
         if (self::$stopOnFail) {
             $this->stopOnFail();
@@ -58,7 +60,7 @@ class Result extends ResultData
         throw new \Exception(sprintf('Task %s returned a %s instead of a \Robo\Result.', get_class($task), get_class($result)));
     }
 
-    protected function printResult()
+    protected function printResult($printResult = TRUE)
     {
         // For historic reasons, the Result constructor is responsible
         // for printing task results.
@@ -67,7 +69,7 @@ class Result extends ResultData
         // in the long run, though, as it can result in unwanted repeated input
         // in task collections et. al.
         $resultPrinter = Robo::resultPrinter();
-        if ($resultPrinter) {
+        if ($printResult && $resultPrinter) {
             if ($resultPrinter->printResult($this)) {
                 $this->alreadyPrinted();
             }
@@ -111,9 +113,9 @@ class Result extends ResultData
      *
      * @return \Robo\Result
      */
-    public static function error(TaskInterface $task, $message, $data = [])
+    public static function error(TaskInterface $task, $message, $data = [], $printResult = TRUE)
     {
-        return new self($task, self::EXITCODE_ERROR, $message, $data);
+        return new self($task, self::EXITCODE_ERROR, $message, $data, $printResult);
     }
 
     /**
@@ -123,13 +125,13 @@ class Result extends ResultData
      *
      * @return \Robo\Result
      */
-    public static function fromException(TaskInterface $task, \Exception $e, $data = [])
+    public static function fromException(TaskInterface $task, \Exception $e, $data = [], $printResult = TRUE)
     {
         $exitCode = $e->getCode();
         if (!$exitCode) {
             $exitCode = self::EXITCODE_ERROR;
         }
-        return new self($task, $exitCode, $e->getMessage(), $data);
+        return new self($task, $exitCode, $e->getMessage(), $data, $printResult);
     }
 
     /**
@@ -139,9 +141,9 @@ class Result extends ResultData
      *
      * @return \Robo\Result
      */
-    public static function success(TaskInterface $task, $message = '', $data = [])
+    public static function success(TaskInterface $task, $message = '', $data = [], $printResult = TRUE)
     {
-        return new self($task, self::EXITCODE_OK, $message, $data);
+        return new self($task, self::EXITCODE_OK, $message, $data, $printResult);
     }
 
     /**

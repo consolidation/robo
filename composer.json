@@ -51,14 +51,14 @@
     },
     "scripts": {
         "cs": "./robo sniff",
-        "unit": "./robo test",
+        "unit": "./robo test --coverage",
         "lint": [
             "find src -name '*.php' -print0 | xargs -0 -n1 php -l",
             "find tests/src -name '*.php' -print0 | xargs -0 -n1 php -l"
         ],
         "test": [
             "@lint",
-            "@unit --coverage",
+            "@unit",
             "@cs"
         ],
         "scenario": "scenarios/install",

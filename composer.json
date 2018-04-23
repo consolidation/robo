@@ -58,7 +58,7 @@
         ],
         "test": [
             "@lint",
-            "@unit",
+            "@unit --coverage",
             "@cs"
         ],
         "scenario": "scenarios/install",

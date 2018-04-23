@@ -36,7 +36,7 @@ script:
   - composer test
 
 after_success:
-  - travis_retry php vendor/bin/coveralls -v
+  - travis_retry php vendor/bin/php-coveralls -v
 
 # Prior to a deploy, build a fresh robo.phar
 before_deploy:

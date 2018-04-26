@@ -69,4 +69,13 @@ class ExecTaskTest extends \Codeception\TestCase\Test
             ->getCommand()
         )->equals('ls && cd / && cd home');
     }
+
+    public function testExecStackCommandInterface()
+    {
+        verify((new \Robo\Task\Base\ExecStack())
+            ->exec('ls')
+            ->exec((new \Robo\Task\Vcs\GitStack('git'))->add('-A')->pull())
+            ->getCommand()
+        )->equals('ls && git add -A && git pull');
+    }
 };

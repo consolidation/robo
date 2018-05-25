@@ -215,7 +215,7 @@ $this-&gt;taskGitStack()
 <li><code>checkout($branch)</code>  Executes <code>git checkout</code> command</li>
 <li><code>tag($tag_name, $message = null)</code>  Executes <code>git tag</code> command</li>
 <li><code>executable($executable)</code>   * <code>param string</code> $executable</li>
-<li><code>exec($command)</code>   * <code>param string|string[]</code> $command</li>
+<li><code>exec($command)</code>   * <code>param string|string[]|CommandInterface</code> $command</li>
 <li><code>stopOnFail($stopOnFail = null)</code>   * <code>param bool</code> $stopOnFail</li>
 <li><code>result($result)</code> </li>
 <li><code>dir($dir)</code>  Changes working directory of command</li>
@@ -244,7 +244,7 @@ $this-&gt;hgStack
 <li><code>merge($revision = null)</code>  Performs hg merge</li>
 <li><code>tag($tag_name, $message = null)</code>  Executes <code>hg tag</code> command</li>
 <li><code>executable($executable)</code>   * <code>param string</code> $executable</li>
-<li><code>exec($command)</code>   * <code>param string|string[]</code> $command</li>
+<li><code>exec($command)</code>   * <code>param string|string[]|CommandInterface</code> $command</li>
 <li><code>stopOnFail($stopOnFail = null)</code>   * <code>param bool</code> $stopOnFail</li>
 <li><code>result($result)</code> </li>
 <li><code>dir($dir)</code>  Changes working directory of command</li>
@@ -274,7 +274,7 @@ $this-&gt;taskSvnStack('username', 'password')
 <li><code>commit($message, $options = null)</code>  Executes <code>svn commit</code> command with a message</li>
 <li><code>checkout($branch)</code>  Executes <code>svn checkout</code> command</li>
 <li><code>executable($executable)</code>   * <code>param string</code> $executable</li>
-<li><code>exec($command)</code>   * <code>param string|string[]</code> $command</li>
+<li><code>exec($command)</code>   * <code>param string|string[]|CommandInterface</code> $command</li>
 <li><code>stopOnFail($stopOnFail = null)</code>   * <code>param bool</code> $stopOnFail</li>
 <li><code>result($result)</code> </li>
 <li><code>dir($dir)</code>  Changes working directory of command</li>

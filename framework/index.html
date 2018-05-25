@@ -184,6 +184,7 @@
                 <div class="col-md-9" role="main">
 
 <h1 id="robo-as-a-framework">Robo as a Framework</h1>
+<p>For a faster and better start to creating your own commandline application, please see the documentation in the <a href="https://g1a/starter">g1a/starter</a> project.</p>
 <p>There are multiple ways to use and package Robo scripts; a few of the alternatives are presented below.</p>
 <h2 id="creating-a-standalone-phar-with-robo">Creating a Standalone Phar with Robo</h2>
 <p>It is possible to create a standalone phar that is implemented with Robo; doing this does not require the RoboFile to be located in the current working directory, or any particular location within your project. To achieve this, first set up your project as shown in the section <a href="../getting-started/#implementing-composer-scripts-with-robo">Implementing Composer Scripts with Robo</a>. Use of the "scripts" section is optional.</p>
@@ -206,35 +207,43 @@
 <pre><code class="php">#!/usr/bin/env php
 &lt;?php
 
-/**
- * If we're running from phar load the phar autoload file.
- */
+// If we're running from phar load the phar autoload file.
 $pharPath = \Phar::running(true);
 if ($pharPath) {
-    require_once &quot;$pharPath/vendor/autoload.php&quot;;
+    $autoloaderPath = &quot;$pharPath/vendor/autoload.php&quot;;
 } else {
     if (file_exists(__DIR__.'/vendor/autoload.php')) {
-        require_once __DIR__.'/vendor/autoload.php';
+        $autoloaderPath = __DIR__.'/vendor/autoload.php';
     } elseif (file_exists(__DIR__.'/../../autoload.php')) {
-        require_once __DIR__ . '/../../autoload.php';
+        $autoloaderPath = __DIR__ . '/../../autoload.php';
+    } else {
+        die(&quot;Could not find autoloader. Run 'composer install'.&quot;);
     }
 }
+$classLoader = require $autoloaderPath;
 
-$output = new \Symfony\Component\Console\Output\ConsoleOutput();
-
+// Customization variables
+$appName = &quot;MyAppName&quot;;
+$appVersion = trim(file_get_contents(__DIR__ . '/VERSION'));
 $commandClasses = [ \MyProject\Commands\RoboFile::class ];
-$statusCode = \Robo\Robo::run(
-    $_SERVER['argv'], 
-    $commandClasses, 
-    'MyAppName', 
-    '0.0.0-alpha0',
-    $output,
-    'org/project'
-);
+$selfUpdateRepository = 'myorg/myproject';
+$configurationFilename = 'myconfig.yml';
+
+// Define our Runner, and pass it the command classes we provide.
+$runner = new \Robo\Runner($commandClasses);
+$runner
+  -&gt;setSelfUpdateRepository($selfUpdateRepository)
+  -&gt;setConfigurationFilename($configurationFilename)
+  -&gt;setClassLoader($classLoader);
+
+// Execute the command and return the result.
+$argv = $_SERVER['argv'];
+$output = new \Symfony\Component\Console\Output\ConsoleOutput();
+$statusCode = $runner-&gt;execute($argv, $appName, $appVersion, $output);
 exit($statusCode);
 </code></pre>
 
-<p>When using Robo as a framework, the Robo file should be included in the autoloader, as Robo does not include a <code>RoboFile.php</code> file when used in this mode. Instead, specify the class or classes to load as a parameter to the Robo::run() method. By default, all output will be sent to a Symfony ConsoleOutput() that Robo will create for you. If you would like to use some other OutputInterface to capture the output, it may be specified via an optional fifth parameter.</p>
+<p>When using Robo as a framework, the Robo file should be included in the autoloader, as Robo does not include a <code>RoboFile.php</code> file when used in this mode. Instead, specify the class or classes to load as a parameter to the Robo\Runner constructor.</p>
 <p>Use <a href="https://github.com/box-project/box2">box-project/box2</a> or Robo's taskPackPhar to create a phar for your application. If your application's repository is hosted on GitHub, then passing the appropriate GitHub <code>org/project</code> to the <code>\Robo\Robo::run()</code> method, as shown above, will enable the <code>self:update</code> command to automatically update to the latest available version. Note that <code>self:update</code> only works with phar distributions.</p>
 <h2 id="using-multiple-robofiles-in-a-standalone-application">Using Multiple RoboFiles in a Standalone Application</h2>
 <p>It is possible to provide as many command classes as you wish to the Robo <code>Runner()</code> constructor. You might wish to separate your Robo command implementations into separate Robo files if you have a lot of commands, or if you wish to group similar commands together in the same source file. If you do this, you can simply add more class references to the <code>$commandClasses</code> variable shown above.</p>

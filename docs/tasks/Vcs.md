@@ -34,7 +34,7 @@ $this->taskGitStack()
 * `checkout($branch)`  Executes `git checkout` command
 * `tag($tag_name, $message = null)`  Executes `git tag` command
 * `executable($executable)`   * `param string` $executable
-* `exec($command)`   * `param string|string[]` $command
+* `exec($command)`   * `param string|string[]|CommandInterface` $command
 * `stopOnFail($stopOnFail = null)`   * `param bool` $stopOnFail
 * `result($result)` 
 * `dir($dir)`  Changes working directory of command
@@ -66,7 +66,7 @@ $this->hgStack
 * `merge($revision = null)`  Performs hg merge
 * `tag($tag_name, $message = null)`  Executes `hg tag` command
 * `executable($executable)`   * `param string` $executable
-* `exec($command)`   * `param string|string[]` $command
+* `exec($command)`   * `param string|string[]|CommandInterface` $command
 * `stopOnFail($stopOnFail = null)`   * `param bool` $stopOnFail
 * `result($result)` 
 * `dir($dir)`  Changes working directory of command
@@ -99,7 +99,7 @@ $this->taskSvnStack('username', 'password')
 * `commit($message, $options = null)`  Executes `svn commit` command with a message
 * `checkout($branch)`  Executes `svn checkout` command
 * `executable($executable)`   * `param string` $executable
-* `exec($command)`   * `param string|string[]` $command
+* `exec($command)`   * `param string|string[]|CommandInterface` $command
 * `stopOnFail($stopOnFail = null)`   * `param bool` $stopOnFail
 * `result($result)` 
 * `dir($dir)`  Changes working directory of command

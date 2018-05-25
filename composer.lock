@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "63b0660bfeefd46abb79cacfdaf257f5",
+    "content-hash": "916c180f0a2958ce5deea87bce12ee77",
     "packages": [
         {
             "name": "consolidation/annotated-command",
@@ -563,7 +563,7 @@
         },
         {
             "name": "symfony/console",
-            "version": "v3.4.10",
+            "version": "v3.4.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
@@ -632,7 +632,7 @@
         },
         {
             "name": "symfony/debug",
-            "version": "v3.4.10",
+            "version": "v3.4.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug.git",
@@ -688,7 +688,7 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v3.4.10",
+            "version": "v3.4.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
@@ -751,7 +751,7 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v3.4.10",
+            "version": "v3.4.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
@@ -801,7 +801,7 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v3.4.10",
+            "version": "v3.4.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
@@ -964,7 +964,7 @@
         },
         {
             "name": "symfony/process",
-            "version": "v3.4.10",
+            "version": "v3.4.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
@@ -1013,7 +1013,7 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v3.4.10",
+            "version": "v3.4.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
@@ -1555,17 +1555,17 @@
             "time": "2014-09-09T13:34:57+00:00"
         },
         {
-            "name": "g-1-a/composer-test-scenarios",
-            "version": "2.0.0",
+            "name": "g1a/composer-test-scenarios",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/g-1-a/composer-test-scenarios.git",
-                "reference": "ed9e89e0fa1b4503a05921e0ee97119bd5621f40"
+                "url": "https://github.com/g1a/composer-test-scenarios.git",
+                "reference": "d9a7619f6e1c01498fad19c34539bd5b0d2506ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/g-1-a/composer-test-scenarios/zipball/ed9e89e0fa1b4503a05921e0ee97119bd5621f40",
-                "reference": "ed9e89e0fa1b4503a05921e0ee97119bd5621f40",
+                "url": "https://api.github.com/repos/g1a/composer-test-scenarios/zipball/d9a7619f6e1c01498fad19c34539bd5b0d2506ef",
+                "reference": "d9a7619f6e1c01498fad19c34539bd5b0d2506ef",
                 "shasum": ""
             },
             "bin": [
@@ -1585,7 +1585,7 @@
                 }
             ],
             "description": "Useful scripts for testing multiple sets of Composer dependencies.",
-            "time": "2018-03-19T05:31:48+00:00"
+            "time": "2018-05-25T16:45:48+00:00"
         },
         {
             "name": "goaop/framework",
@@ -3665,7 +3665,7 @@
         },
         {
             "name": "symfony/browser-kit",
-            "version": "v3.4.10",
+            "version": "v3.4.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/browser-kit.git",
@@ -3722,7 +3722,7 @@
         },
         {
             "name": "symfony/config",
-            "version": "v3.4.10",
+            "version": "v3.4.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/config.git",
@@ -3786,7 +3786,7 @@
         },
         {
             "name": "symfony/css-selector",
-            "version": "v3.4.10",
+            "version": "v3.4.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/css-selector.git",
@@ -3839,7 +3839,7 @@
         },
         {
             "name": "symfony/dom-crawler",
-            "version": "v3.4.10",
+            "version": "v3.4.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dom-crawler.git",
@@ -3896,7 +3896,7 @@
         },
         {
             "name": "symfony/stopwatch",
-            "version": "v3.4.10",
+            "version": "v3.4.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/stopwatch.git",

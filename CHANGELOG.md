@@ -1,5 +1,11 @@
 # Changelog
 
+### 1.2.4 5/25/2018
+
+* Update 'Robo as a Framework' documentation to recommend https://github.com/g1a/starter
+* Allow CommandStack to exec other tasks by Scott Falkingham (#726)
+* Fix double escape when specifying a remoteShell with rsync by Rob Peck (#715)
+
 ### 1.2.3 4/5/2018
 
 * Hide progress indicator prior to 'exec'. (#707)

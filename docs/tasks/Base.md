@@ -46,7 +46,7 @@ $this->taskExecStack()
 ```
 
 * `executable($executable)`   * `param string` $executable
-* `exec($command)`   * `param string|string[]` $command
+* `exec($command)`   * `param string|string[]|CommandInterface` $command
 * `stopOnFail($stopOnFail = null)`   * `param bool` $stopOnFail
 * `result($result)` 
 * `dir($dir)`  Changes working directory of command

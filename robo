@@ -19,6 +19,7 @@ $runner = new \Robo\Runner();
 $runner
   ->setRelativePluginNamespace('Robo\Plugin')
   ->setSelfUpdateRepository('consolidation/robo')
+  ->setConfigurationFilename('robo.yml')
   ->setClassLoader($classLoader);
 $statusCode = $runner->execute($_SERVER['argv']);
 exit($statusCode);

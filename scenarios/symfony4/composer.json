@@ -37,7 +37,7 @@
         "codeception/aspect-mock": "^1|^2.1.1",
         "codeception/base": "^2.3.7",
         "codeception/verify": "^0.3.2",
-        "g-1-a/composer-test-scenarios": "^2",
+        "g1a/composer-test-scenarios": "^2",
         "goaop/framework": "~2.1.2",
         "goaop/parser-reflection": "^1.1.0",
         "natxet/CssMin": "3.0.4",
@@ -51,7 +51,7 @@
     },
     "scripts": {
         "cs": "./robo sniff",
-        "unit": "./robo test",
+        "unit": "./robo test --coverage",
         "lint": [
             "find src -name '*.php' -print0 | xargs -0 -n1 php -l",
             "find tests/src -name '*.php' -print0 | xargs -0 -n1 php -l"

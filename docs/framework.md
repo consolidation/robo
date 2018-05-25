@@ -1,5 +1,7 @@
 # Robo as a Framework
 
+For a faster and better start to creating your own commandline application, please see the documentation in the [g1a/starter](https://g1a/starter) project.
+
 There are multiple ways to use and package Robo scripts; a few of the alternatives are presented below.
 
 ## Creating a Standalone Phar with Robo
@@ -28,34 +30,42 @@ Create a startup script similar to the one below, and add it to the root of your
 #!/usr/bin/env php
 <?php
 
-/**
- * If we're running from phar load the phar autoload file.
- */
+// If we're running from phar load the phar autoload file.
 $pharPath = \Phar::running(true);
 if ($pharPath) {
-    require_once "$pharPath/vendor/autoload.php";
+    $autoloaderPath = "$pharPath/vendor/autoload.php";
 } else {
     if (file_exists(__DIR__.'/vendor/autoload.php')) {
-        require_once __DIR__.'/vendor/autoload.php';
+        $autoloaderPath = __DIR__.'/vendor/autoload.php';
     } elseif (file_exists(__DIR__.'/../../autoload.php')) {
-        require_once __DIR__ . '/../../autoload.php';
+        $autoloaderPath = __DIR__ . '/../../autoload.php';
+    } else {
+        die("Could not find autoloader. Run 'composer install'.");
     }
 }
+$classLoader = require $autoloaderPath;
 
-$output = new \Symfony\Component\Console\Output\ConsoleOutput();
-
+// Customization variables
+$appName = "MyAppName";
+$appVersion = trim(file_get_contents(__DIR__ . '/VERSION'));
 $commandClasses = [ \MyProject\Commands\RoboFile::class ];
-$statusCode = \Robo\Robo::run(
-    $_SERVER['argv'], 
-    $commandClasses, 
-    'MyAppName', 
-    '0.0.0-alpha0',
-    $output,
-    'org/project'
-);
+$selfUpdateRepository = 'myorg/myproject';
+$configurationFilename = 'myconfig.yml';
+
+// Define our Runner, and pass it the command classes we provide.
+$runner = new \Robo\Runner($commandClasses);
+$runner
+  ->setSelfUpdateRepository($selfUpdateRepository)
+  ->setConfigurationFilename($configurationFilename)
+  ->setClassLoader($classLoader);
+
+// Execute the command and return the result.
+$argv = $_SERVER['argv'];
+$output = new \Symfony\Component\Console\Output\ConsoleOutput();
+$statusCode = $runner->execute($argv, $appName, $appVersion, $output);
 exit($statusCode);
 ```
-When using Robo as a framework, the Robo file should be included in the autoloader, as Robo does not include a `RoboFile.php` file when used in this mode. Instead, specify the class or classes to load as a parameter to the Robo::run() method. By default, all output will be sent to a Symfony ConsoleOutput() that Robo will create for you. If you would like to use some other OutputInterface to capture the output, it may be specified via an optional fifth parameter.
+When using Robo as a framework, the Robo file should be included in the autoloader, as Robo does not include a `RoboFile.php` file when used in this mode. Instead, specify the class or classes to load as a parameter to the Robo\Runner constructor.
 
 Use [box-project/box2](https://github.com/box-project/box2) or Robo's taskPackPhar to create a phar for your application. If your application's repository is hosted on GitHub, then passing the appropriate GitHub `org/project` to the `\Robo\Robo::run()` method, as shown above, will enable the `self:update` command to automatically update to the latest available version. Note that `self:update` only works with phar distributions.
 

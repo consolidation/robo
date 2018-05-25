@@ -45,6 +45,11 @@ class Runner implements ContainerAwareInterface
     protected $selfUpdateRepository = null;
 
     /**
+     * @var string filename to load configuration from (set to 'robo.yml' for RoboFiles)
+     */
+    protected $configFilename = 'conf.yml';
+
+    /**
      * @var \Composer\Autoload\ClassLoader
      */
     protected $classLoader = null;
@@ -160,8 +165,8 @@ class Runner implements ContainerAwareInterface
 
         // If we were not provided a container, then create one
         if (!$this->getContainer()) {
-            $userConfig = 'robo.yml';
-            $roboAppConfig = dirname(__DIR__) . '/robo.yml';
+            $userConfig = $this->configFilename;
+            $roboAppConfig = dirname(__DIR__) . '/' . $this->configFilename;
             $config = Robo::createConfiguration([$userConfig, $roboAppConfig]);
             $container = Robo::createDefaultContainer($input, $output, $app, $config, $classLoader);
             $this->setContainer($container);
@@ -495,6 +500,17 @@ class Runner implements ContainerAwareInterface
     public function setSelfUpdateRepository($selfUpdateRepository)
     {
         $this->selfUpdateRepository = $selfUpdateRepository;
+        return $this;
+    }
+
+    /**
+     * @param string $configFilename
+     *
+     * @return $this
+     */
+    public function setConfigurationFilename($configFilename)
+    {
+        $this->configFilename = $configFilename;
         return $this;
     }
 

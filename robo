@@ -15,11 +15,13 @@ if (!strpos(basename(__FILE__), 'phar')) {
     }
 }
 $classLoader = require $autoloaderPath;
+$configFilePath = getenv('ROBO_CONFIG') ?: getenv('HOME') . '/.robo/robo.yml';
 $runner = new \Robo\Runner();
 $runner
   ->setRelativePluginNamespace('Robo\Plugin')
   ->setSelfUpdateRepository('consolidation/robo')
-  ->setConfigurationFilename('robo.yml')
+  ->setConfigurationFilename($configFilePath)
+  ->setEnvConfigPrefix('ROBO')
   ->setClassLoader($classLoader);
 $statusCode = $runner->execute($_SERVER['argv']);
 exit($statusCode);

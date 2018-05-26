@@ -145,6 +145,7 @@ class RoboFile extends \Robo\Tasks
         if (empty($version)) {
             $version = $this->incrementVersion(\Robo\Robo::VERSION, $options['stage']);
         }
+        $this->say('Updated Robo version to ' . $version);
         return $this->writeVersion($version);
     }
 
@@ -165,7 +166,8 @@ class RoboFile extends \Robo\Tasks
      * Advance to the next SemVer version.
      *
      * The behavior depends on the parameter $stage.
-     *   - If $stage is empty, then the patch or minor version of $version is incremented
+     *   - If $stage is 'major', 'minor' or 'patch', then increment that
+     *     portion of the version string.
      *   - If $stage matches the current stage in the current version, then add one
      *     to the stage (e.g. alpha3 -> alpha4)
      *   - If $stage does not match the current stage in the current version, then
@@ -177,19 +179,40 @@ class RoboFile extends \Robo\Tasks
      */
     protected function incrementVersion($version, $stage = '')
     {
-        $stable = empty($stage);
+        // We expect $version to always end with '-dev'.
+        $version = preg_replace('#-dev$#', '', $version);
+        $stable = ($stage == 'minor') || ($stage == 'major') || ($stage == 'patch');
         $versionStageNumber = '0';
         preg_match('/-([a-zA-Z]*)([0-9]*)/', $version, $match);
         $match += ['', '', ''];
         $versionStage = $match[1];
         $versionStageNumber = $match[2];
+
+        // Increment the default part of the version if nothing specified
+        if (empty($stage)) {
+            $stage = empty($versionStage) ? 'patch' : $versionStage;
+        }
+
         if ($versionStage != $stage) {
             $versionStageNumber = 0;
         }
         $version = preg_replace('/-.*/', '', $version);
         $versionParts = explode('.', $version);
         if ($stable) {
-            $versionParts[count($versionParts)-1]++;
+            switch ($stage) {
+                case 'major':
+                    $versionParts[0]++;
+                    $versionParts[1] = '0';
+                    $versionParts[2] = '0';
+                    break;
+                case 'minor':
+                    $versionParts[1]++;
+                    $versionParts[2] = '0';
+                    break;
+                case 'patch':
+                    $versionParts[2]++;
+                    break;
+            }
         }
         $version = implode('.', $versionParts);
         if (!$stable) {
@@ -199,6 +222,7 @@ class RoboFile extends \Robo\Tasks
                 $version .= $versionStageNumber;
             }
         }
+        $version .= '-dev';
         return $version;
     }
 

@@ -23,7 +23,6 @@ class Config extends ConfigOverlay implements GlobalOptionDefaultValuesInterface
         parent::__construct();
 
         $this->import($data);
-        unset($this->contexts[ConfigOverlay::PROCESS_CONTEXT]);
         $this->defaults = $this->getGlobalOptionDefaultValues();
     }
 
@@ -33,24 +32,6 @@ class Config extends ConfigOverlay implements GlobalOptionDefaultValuesInterface
     public function import($data)
     {
         return $this->replace($data);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function set($key, $value)
-    {
-        $this->contexts[self::DEFAULT_CONTEXT]->set($key, $value);
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function addContext($name, ConfigInterface $config)
-    {
-        $this->contexts[$name] = $config;
-        return $this;
     }
 
     /**

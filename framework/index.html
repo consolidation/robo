@@ -184,7 +184,7 @@
                 <div class="col-md-9" role="main">
 
 <h1 id="robo-as-a-framework">Robo as a Framework</h1>
-<p>For a faster and better start to creating your own commandline application, please see the documentation in the <a href="https://g1a/starter">g1a/starter</a> project.</p>
+<p>For a faster and better start to creating your own commandline application, please see the documentation in the <a href="https://github.com/g1a/starter">g1a/starter</a> project.</p>
 <p>There are multiple ways to use and package Robo scripts; a few of the alternatives are presented below.</p>
 <h2 id="creating-a-standalone-phar-with-robo">Creating a Standalone Phar with Robo</h2>
 <p>It is possible to create a standalone phar that is implemented with Robo; doing this does not require the RoboFile to be located in the current working directory, or any particular location within your project. To achieve this, first set up your project as shown in the section <a href="../getting-started/#implementing-composer-scripts-with-robo">Implementing Composer Scripts with Robo</a>. Use of the "scripts" section is optional.</p>
@@ -192,7 +192,7 @@
 <pre><code class="json">{
     &quot;name&quot;: &quot;myorg/myproject&quot;,
     &quot;require&quot;: {
-        &quot;consolidation/Robo&quot;: &quot;~1&quot;
+        &quot;consolidation/Robo&quot;: &quot;^1&quot;
     },
     &quot;autoload&quot;:{
         &quot;psr-4&quot;:{

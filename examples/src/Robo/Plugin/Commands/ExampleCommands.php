@@ -63,6 +63,34 @@ class ExampleCommands extends \Robo\Tasks
     }
 
     /**
+     * Demonstrate Robo configuration.
+     *
+     * Config values are loaded from the followig locations:
+     *
+     *  - [Robo Project]/robo.yml
+     *  - $HOME/.robo/robo.yml
+     *  - $CWD/robo.yml
+     *  - Environment variables ROBO_CONFIG_KEY (e.g. ROBO_OPTIONS_PROGRESS_DELAY)
+     *  - Overridden on the commandline via -Doptions.progress-delay=value
+     *
+     * @param string $key Name of the option to read (e.g. options.progress-delay)
+     * @option opt An option whose value is printed. Can be overridden in
+     *   configuration via the configuration key command.try.config.options.opt.
+     * @option show-all Also print out the value of all configuration options
+     */
+    public function tryConfig($key = 'options.progress-delay', $options = ['opt' => '0', 'show-all' => false])
+    {
+        $value = \Robo\Robo::config()->get($key);
+
+        $this->say("The value of $key is " . var_export($value, true));
+        $this->say("The value of --opt (command.try.config.options.opt) is " . var_export($options['opt'], true));
+
+        if ($options['show-all']) {
+            $this->say(var_export(\Robo\Robo::config()->export(), true) . "\n");
+        }
+    }
+
+    /**
      * Demonstrates serial execution.
      *
      * @option $printed Print the output of each process.

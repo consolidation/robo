@@ -1,6 +1,6 @@
 # Robo as a Framework
 
-For a faster and better start to creating your own commandline application, please see the documentation in the [g1a/starter](https://g1a/starter) project.
+For a faster and better start to creating your own commandline application, please see the documentation in the [g1a/starter](https://github.com/g1a/starter) project.
 
 There are multiple ways to use and package Robo scripts; a few of the alternatives are presented below.
 
@@ -13,7 +13,7 @@ Next, add an "autoload" section to your composer.json to provide a namespace for
 {
     "name": "myorg/myproject",
     "require": {
-        "consolidation/Robo": "~1"
+        "consolidation/Robo": "^1"
     },
     "autoload":{
         "psr-4":{

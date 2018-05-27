@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.3.0 5/26/2018
+
+* Add EnvConfig to Robo: set configuration values via environment variables (#737)
+
 ### 1.2.4 5/25/2018
 
 * Update 'Robo as a Framework' documentation to recommend https://github.com/g1a/starter

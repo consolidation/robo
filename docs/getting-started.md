@@ -356,9 +356,13 @@ Note that when using [Collections](collections.md), the progress bar will automa
 
 ## Configuration
 
-On startup, Robo will load a configuration file, `robo.yml`, if it exists in the current working directory.
+On startup, Robo will load a configuration file, `robo.yml`, if it exists in the current working directory, or in the directory $HOME/.robo/robo.yml, or at the path set by the `ROBO_CONFIG` environment variable. If both the user's `robo.yml` file and a `robo.yml` in the current working directory exist, then both will be loaded, with values from the configuration file in the current working directory taking precedence over the values in the user's configuration file.
 
-**Note:** The configuration features below are experimental. Changes that break compatibility may be introduced until it is declared stable in the 1.1.0 release.
+Environment variables can also be used to set individual configuration values. The environment variable key should start with the string `ROBO_`, and should be followed by an all-uppercase version of the configuration key, with spaces, dashes and dots converted to underscores. For example, to set the progress bar delay to 999999 seconds:
+```
+export ROBO_OPTIONS_PROGRESS_DELAY=999999
+```
+Configuration values may also be set via the `-D` commandline switch. The above effect can also be achieved by adding `-Doptions.progress-delay=999999` to any Robo command.
 
 ### Configuration for Command Options
 

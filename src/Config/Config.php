@@ -1,7 +1,10 @@
 <?php
 namespace Robo\Config;
 
-class Config extends \Consolidation\Config\Config implements GlobalOptionDefaultValuesInterface
+use Consolidation\Config\Util\ConfigOverlay;
+use Consolidation\Config\ConfigInterface;
+
+class Config extends ConfigOverlay implements GlobalOptionDefaultValuesInterface
 {
     const PROGRESS_BAR_AUTO_DISPLAY_INTERVAL = 'options.progress-delay';
     const DEFAULT_PROGRESS_DELAY = 2;
@@ -17,8 +20,36 @@ class Config extends \Consolidation\Config\Config implements GlobalOptionDefault
      */
     public function __construct(array $data = null)
     {
-        parent::__construct($data);
+        parent::__construct();
+
+        $this->import($data);
         $this->defaults = $this->getGlobalOptionDefaultValues();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function import($data)
+    {
+        return $this->replace($data);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function replace($data)
+    {
+        $this->getContext(ConfigOverlay::DEFAULT_CONTEXT)->replace($data);
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function combine($data)
+    {
+        $this->getContext(ConfigOverlay::DEFAULT_CONTEXT)->combine($data);
+        return $this;
     }
 
     /**

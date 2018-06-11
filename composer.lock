@@ -1557,16 +1557,16 @@
         },
         {
             "name": "g1a/composer-test-scenarios",
-            "version": "2.0.1",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/g1a/composer-test-scenarios.git",
-                "reference": "d9a7619f6e1c01498fad19c34539bd5b0d2506ef"
+                "reference": "4c2b990712dbcb87a0ab618e46f908c731c3a0bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/g1a/composer-test-scenarios/zipball/d9a7619f6e1c01498fad19c34539bd5b0d2506ef",
-                "reference": "d9a7619f6e1c01498fad19c34539bd5b0d2506ef",
+                "url": "https://api.github.com/repos/g1a/composer-test-scenarios/zipball/4c2b990712dbcb87a0ab618e46f908c731c3a0bb",
+                "reference": "4c2b990712dbcb87a0ab618e46f908c731c3a0bb",
                 "shasum": ""
             },
             "bin": [
@@ -1586,7 +1586,7 @@
                 }
             ],
             "description": "Useful scripts for testing multiple sets of Composer dependencies.",
-            "time": "2018-05-25T16:45:48+00:00"
+            "time": "2018-06-10T21:56:28+00:00"
         },
         {
             "name": "goaop/framework",

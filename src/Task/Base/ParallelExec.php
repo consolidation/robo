@@ -184,8 +184,8 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
                     }
                     unset($running[$k]);
                 }
-                elseif ($this->isPrinted && !$this->isWaitToFinishPrinted) {
-                    $this->printTaskInfo("Output for {command}:\n\n{output}", ['command' => $process->getCommandLine(), 'output' => $process->getIncrementalOutput(), '_style' => ['command' => 'fg=white;bg=magenta']]);
+                elseif ($this->isPrinted && !$this->isWaitToFinishPrinted && $output = $process->getIncrementalOutput()) {
+                    $this->printTaskInfo("Output for {command}:\n\n{output}", ['command' => $process->getCommandLine(), 'output' => $output, '_style' => ['command' => 'fg=white;bg=magenta']]);
                 }
             }
             if (empty($running) && empty($queue)) {

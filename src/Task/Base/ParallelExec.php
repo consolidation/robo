@@ -51,6 +51,11 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
     protected $isPrinted = false;
 
     /**
+     * @var bool
+     */
+    protected $isWaitToFinishPrinted = true;
+
+    /**
      * {@inheritdoc}
      */
     public function getPrinted()
@@ -61,11 +66,16 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
     /**
      * @param bool $isPrinted
      *
+     * @param bool $waitTofinish (optional) Set to false to print messages from
+     *   each process as they are received, instead of batching them for the
+     *   end.
+     *
      * @return $this
      */
-    public function printed($isPrinted = true)
+    public function printed($isPrinted = true, $waitTofinish = true)
     {
         $this->isPrinted = $isPrinted;
+        $this->isWaitToFinishPrinted = $waitTofinish;
         return $this;
     }
 
@@ -156,6 +166,7 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
                 $running[] = $process;
                 $nextTime = time() + $this->waitInterval;
             }
+            /** @var \Symfony\Component\Process\Process $process */
             foreach ($running as $k => $process) {
                 try {
                     $process->checkTimeout();
@@ -164,7 +175,7 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
                 }
                 if (!$process->isRunning()) {
                     $this->advanceProgressIndicator();
-                    if ($this->isPrinted) {
+                    if ($this->isPrinted && $this->isWaitToFinishPrinted) {
                         $this->printTaskInfo("Output for {command}:\n\n{output}", ['command' => $process->getCommandLine(), 'output' => $process->getOutput(), '_style' => ['command' => 'fg=white;bg=magenta']]);
                         $errorOutput = $process->getErrorOutput();
                         if ($errorOutput) {
@@ -172,6 +183,9 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
                         }
                     }
                     unset($running[$k]);
+                }
+                elseif ($this->isPrinted && !$this->isWaitToFinishPrinted) {
+                    $this->printTaskInfo("Output for {command}:\n\n{output}", ['command' => $process->getCommandLine(), 'output' => $process->getIncrementalOutput(), '_style' => ['command' => 'fg=white;bg=magenta']]);
                 }
             }
             if (empty($running) && empty($queue)) {

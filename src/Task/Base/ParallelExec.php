@@ -175,17 +175,32 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
                 }
                 if (!$process->isRunning()) {
                     $this->advanceProgressIndicator();
-                    if ($this->isPrinted && $this->isWaitToFinishPrinted) {
-                        $this->printTaskInfo("Output for {command}:\n\n{output}", ['command' => $process->getCommandLine(), 'output' => $process->getOutput(), '_style' => ['command' => 'fg=white;bg=magenta']]);
-                        $errorOutput = $process->getErrorOutput();
-                        if ($errorOutput) {
-                            $this->printTaskError(rtrim($errorOutput));
+                    if ($this->isPrinted) {
+                        if ($this->isWaitToFinishPrinted) {
+                            $this->printTaskInfo("Output for {command}:\n\n{output}", ['command' => $process->getCommandLine(), 'output' => $process->getOutput(), '_style' => ['command' => 'fg=white;bg=magenta']]);
+                            $errorOutput = $process->getErrorOutput();
+                            if ($errorOutput) {
+                                $this->printTaskError(rtrim($errorOutput));
+                            }
+                        }
+                        else {
+                            if ($output = $process->getIncrementalOutput()) {
+                                $this->printTaskInfo("Output for {command}:\n\n{output}", ['command' => $process->getCommandLine(), 'output' => $output, '_style' => ['command' => 'fg=white;bg=magenta']]);
+                            }
+                            if ($error = $process->getIncrementalErrorOutput()) {
+                                $this->printTaskInfo("Error for {command}:\n\n{error}", ['command' => $process->getCommandLine(), 'error' => $output, '_style' => ['command' => 'fg=white;bg=magenta']]);
+                            }
                         }
                     }
                     unset($running[$k]);
                 }
-                elseif ($this->isPrinted && !$this->isWaitToFinishPrinted && $output = $process->getIncrementalOutput()) {
-                    $this->printTaskInfo("Output for {command}:\n\n{output}", ['command' => $process->getCommandLine(), 'output' => $output, '_style' => ['command' => 'fg=white;bg=magenta']]);
+                elseif ($this->isPrinted && !$this->isWaitToFinishPrinted) {
+                    if ($output = $process->getIncrementalOutput()) {
+                        $this->printTaskInfo("Output for {command}:\n\n{output}", ['command' => $process->getCommandLine(), 'output' => $output, '_style' => ['command' => 'fg=white;bg=magenta']]);
+                    }
+                    if ($error = $process->getIncrementalErrorOutput()) {
+                        $this->printTaskInfo("Error for {command}:\n\n{error}", ['command' => $process->getCommandLine(), 'error' => $output, '_style' => ['command' => 'fg=white;bg=magenta']]);
+                    }
                 }
             }
             if (empty($running) && empty($queue)) {

@@ -184,22 +184,22 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
                             }
                         }
                         else {
-                            if ($output = $process->getIncrementalOutput()) {
+                            if ($output = rtrim($process->getIncrementalOutput())) {
                                 $this->printTaskInfo("Output for {command}:\n\n{output}", ['command' => $process->getCommandLine(), 'output' => $output, '_style' => ['command' => 'fg=white;bg=magenta']]);
                             }
-                            if ($error = $process->getIncrementalErrorOutput()) {
-                                $this->printTaskInfo("Error for {command}:\n\n{error}", ['command' => $process->getCommandLine(), 'error' => $output, '_style' => ['command' => 'fg=white;bg=magenta']]);
+                            if ($error = rtrim($process->getIncrementalErrorOutput())) {
+                                $this->printTaskInfo("Error for {command}:\n\n{error}", ['command' => $process->getCommandLine(), 'error' => $error, '_style' => ['command' => 'fg=white;bg=magenta']]);
                             }
                         }
                     }
                     unset($running[$k]);
                 }
                 elseif ($this->isPrinted && !$this->isWaitToFinishPrinted) {
-                    if ($output = $process->getIncrementalOutput()) {
+                    if ($output = rtrim($process->getIncrementalOutput())) {
                         $this->printTaskInfo("Output for {command}:\n\n{output}", ['command' => $process->getCommandLine(), 'output' => $output, '_style' => ['command' => 'fg=white;bg=magenta']]);
                     }
-                    if ($error = $process->getIncrementalErrorOutput()) {
-                        $this->printTaskInfo("Error for {command}:\n\n{error}", ['command' => $process->getCommandLine(), 'error' => $output, '_style' => ['command' => 'fg=white;bg=magenta']]);
+                    if ($error = rtrim($process->getIncrementalErrorOutput())) {
+                        $this->printTaskInfo("Error for {command}:\n\n{error}", ['command' => $process->getCommandLine(), 'error' => $error, '_style' => ['command' => 'fg=white;bg=magenta']]);
                     }
                 }
             }

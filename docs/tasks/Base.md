@@ -97,7 +97,7 @@ $this->taskSymfonyCommand(new ModelGeneratorCommand())
 
 Runs task when specified file or dir was changed.
 Uses Lurker library.
-Third parameter takes Lurker filesystem events constants to watch.
+Monitor third parameter takes Lurker filesystem events types to watch.
 By default its set to MODIFY event.
 
 

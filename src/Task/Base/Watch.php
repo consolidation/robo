@@ -49,15 +49,21 @@ class Watch extends BaseTask
     /**
      * @param string|string[] $paths
      * @param \Closure $callable
+     * @param int|int[] $events
      *
      * @return $this
      */
-    public function monitor($paths, \Closure $callable)
+    public function monitor($paths, \Closure $callable, $events = FilesystemEvent::MODIFY)
     {
         if (!is_array($paths)) {
             $paths = [$paths];
         }
-        $this->monitor[] = [$paths, $callable];
+
+        if (!is_array($events)) {
+            $events = [$events];
+        }
+
+        $this->monitor[] = [$paths, $callable, $events];
         return $this;
     }
 
@@ -77,9 +83,11 @@ class Watch extends BaseTask
             $closure = $monitor[1];
             $closure->bindTo($this->bindTo);
             foreach ($monitor[0] as $i => $dir) {
-                $watcher->track("fs.$k.$i", $dir, FilesystemEvent::MODIFY);
+                foreach ($monitor[2] as $j => $event) {
+                    $watcher->track("fs.$k.$i.$j", $dir, $event);
+                    $watcher->addListener("fs.$k.$i.$j", $closure);
+                }
                 $this->printTaskInfo('Watching {dir} for changes...', ['dir' => $dir]);
-                $watcher->addListener("fs.$k.$i", $closure);
             }
         }
 

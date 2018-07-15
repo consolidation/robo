@@ -115,8 +115,7 @@ $this->taskWatch()
         $this->taskExec('phpunit')->run();
     },
     \Lurker\Event\FilesystemEvent::ALL
-)
-->monitor(
+)->monitor(
     'migrations',
     function() {
         //do something
@@ -125,8 +124,7 @@ $this->taskWatch()
         \Lurker\Event\FilesystemEvent::CREATE,
         \Lurker\Event\FilesystemEvent::DELETE
     ]
-)
-->run();
+)->run();
 ?>
 ```
 

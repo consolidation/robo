@@ -9,15 +9,33 @@ use Robo\Task\BaseTask;
 /**
  * Runs task when specified file or dir was changed.
  * Uses Lurker library.
+ * Monitor third parameter takes Lurker filesystem events types to watch.
+ * By default its set to MODIFY event.
  *
  * ``` php
  * <?php
  * $this->taskWatch()
- *  ->monitor('composer.json', function() {
- *      $this->taskComposerUpdate()->run();
- * })->monitor('src', function() {
- *      $this->taskExec('phpunit')->run();
- * })->run();
+ *      ->monitor(
+ *          'composer.json',
+ *          function() {
+ *              $this->taskComposerUpdate()->run();
+ *          }
+ *      )->monitor(
+ *          'src',
+ *          function() {
+ *              $this->taskExec('phpunit')->run();
+ *          },
+ *          \Lurker\Event\FilesystemEvent::ALL
+ *      )->monitor(
+ *          'migrations',
+ *          function() {
+ *              //do something
+ *          },
+ *          [
+ *              \Lurker\Event\FilesystemEvent::CREATE,
+ *              \Lurker\Event\FilesystemEvent::DELETE
+ *          ]
+ *      )->run();
  * ?>
  * ```
  */

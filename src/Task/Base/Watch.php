@@ -55,15 +55,7 @@ class Watch extends BaseTask
      */
     public function monitor($paths, \Closure $callable, $events = FilesystemEvent::MODIFY)
     {
-        if (!is_array($paths)) {
-            $paths = [$paths];
-        }
-
-        if (!is_array($events)) {
-            $events = [$events];
-        }
-
-        $this->monitor[] = [$paths, $callable, $events];
+        $this->monitor[] = [(array)$paths, $callable, (array)$events];
         return $this;
     }
 

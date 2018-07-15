@@ -97,17 +97,41 @@ $this->taskSymfonyCommand(new ModelGeneratorCommand())
 
 Runs task when specified file or dir was changed.
 Uses Lurker library.
+Third parameter takes Lurker filesystem events constants to watch.
+By default its set to MODIFY event.
+
 
 ``` php
 <?php
 $this->taskWatch()
- ->monitor('composer.json', function() {
-     $this->taskComposerUpdate()->run();
-})->monitor('src', function() {
-     $this->taskExec('phpunit')->run();
-})->run();
+    ->monitor(
+    'composer.json',
+    function() {
+        $this->taskComposerUpdate()->run();
+    }
+)->monitor(
+    'src',
+    function() {
+        $this->taskExec('phpunit')->run();
+    },
+    \Lurker\Event\FilesystemEvent::ALL
+)
+->monitor(
+    'migrations',
+    function() {
+        //do something
+    },
+    [
+        \Lurker\Event\FilesystemEvent::CREATE,
+        \Lurker\Event\FilesystemEvent::DELETE
+    ]
+)
+->run();
 ?>
 ```
 
-* `monitor($paths, $callable)`   * `param string|string[]` $paths
+* `monitor($paths, $callable, $event = \Lurker\Event\FilesystemEvent::MODIFY)`
+    * `param string|string[]` $paths
+    * `param \Closure` $callable
+    * `param int|int[]` $events - Lurker filesystem events (CREATE, DELETE, MODIFY, ALL)
 

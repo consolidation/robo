@@ -1,7 +1,6 @@
 <?php
 namespace Robo\Task\Base;
 
-use Lurker\Event\FilesystemEvent;
 use Lurker\ResourceWatcher;
 use Robo\Result;
 use Robo\Task\BaseTask;
@@ -71,7 +70,7 @@ class Watch extends BaseTask
      *
      * @return $this
      */
-    public function monitor($paths, \Closure $callable, $events = FilesystemEvent::MODIFY)
+    public function monitor($paths, \Closure $callable, $events = 2)
     {
         $this->monitor[] = [(array)$paths, $callable, (array)$events];
         return $this;

@@ -1,11 +1,13 @@
 <?php
 
+namespace Tests\Unit\Task;
+
 use AspectMock\Test as test;
 
 class WatchTest extends \Codeception\TestCase\Test
 {
     /**
-     * @var AspectMock\Proxy\AnythingClassProxy
+     * @var \AspectMock\Proxy\AnythingClassProxy
      */
     protected $resourceWatcher;
 
@@ -34,7 +36,7 @@ class WatchTest extends \Codeception\TestCase\Test
 
     public function testMonitorWithOneEvent()
     {
-        $task = new Robo\Task\Base\Watch($this);
+        $task = new \Robo\Task\Base\Watch($this);
 
         $task->monitor(
             'src',
@@ -49,7 +51,7 @@ class WatchTest extends \Codeception\TestCase\Test
 
     public function testMonitorWithTwoEvents()
     {
-        $task = new Robo\Task\Base\Watch($this);
+        $task = new \Robo\Task\Base\Watch($this);
 
         $task->monitor(
             'src',

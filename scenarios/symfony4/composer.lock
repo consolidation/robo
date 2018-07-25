@@ -1288,19 +1288,22 @@
         },
         {
             "name": "codeception/stub",
-            "version": "2.0.2",
+            "version": "2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/Stub.git",
-                "reference": "a914637e3a4339349259eaa5abb9cae0e4d8d3f7"
+                "reference": "5fe83b0a22dc1f28b811c517862e747bdb1a4139"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Stub/zipball/a914637e3a4339349259eaa5abb9cae0e4d8d3f7",
-                "reference": "a914637e3a4339349259eaa5abb9cae0e4d8d3f7",
+                "url": "https://api.github.com/repos/Codeception/Stub/zipball/5fe83b0a22dc1f28b811c517862e747bdb1a4139",
+                "reference": "5fe83b0a22dc1f28b811c517862e747bdb1a4139",
                 "shasum": ""
             },
             "require": {
+                "phpunit/phpunit-mock-objects": ">2.3 <7.0"
+            },
+            "require-dev": {
                 "phpunit/phpunit": ">=4.8 <8.0"
             },
             "type": "library",
@@ -1314,7 +1317,7 @@
                 "MIT"
             ],
             "description": "Flexible Stub wrapper for PHPUnit's Mock Builder",
-            "time": "2018-07-24T15:52:11+00:00"
+            "time": "2018-07-24T17:06:30+00:00"
         },
         {
             "name": "codeception/verify",

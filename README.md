@@ -167,7 +167,7 @@ function buildPhar()
 
 ## We need more tasks!
 
-Create your own tasks and send them as Pull Requests or create packages prefixed with `robo-` on Packagist.
+Create your own tasks and send them as Pull Requests or create packages [with `"type": "robo-tasks"` in `composer.json` on Packagist](https://packagist.org/?type=robo-tasks).
 
 ## Credits
 

@@ -377,6 +377,10 @@ class Runner implements ContainerAwareInterface
      */
     protected function isShebangFile($filepath)
     {
+        // Avoid trying to call $filepath on remote URLs
+        if ((strpos($filepath, '://') !== false) && (substr($filepath, 0, 7) != 'file://')) {
+            return false;
+        }
         if (!is_file($filepath)) {
             return false;
         }

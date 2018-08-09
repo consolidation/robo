@@ -49,4 +49,9 @@ set -ex
 
 composer -n validate --working-dir=$dir --no-check-all --ansi
 composer -n --working-dir=$dir ${DEPENDENCIES} --prefer-dist --no-scripts
-composer -n --working-dir=$dir info
+
+# If called from a CI context, print out some extra information about
+# what we just installed.
+if [[ -n "$CI" ]] ; then
+  composer -n --working-dir=$dir info
+fi

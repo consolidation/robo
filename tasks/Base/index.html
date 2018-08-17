@@ -268,19 +268,37 @@ $this-&gt;taskSymfonyCommand(new ModelGeneratorCommand())
 </ul>
 <h2 id="watch">Watch</h2>
 <p>Runs task when specified file or dir was changed.
-Uses Lurker library.</p>
+Uses Lurker library.
+Monitor third parameter takes Lurker filesystem events types to watch.
+By default its set to MODIFY event.</p>
 <pre><code class="php">&lt;?php
 $this-&gt;taskWatch()
- -&gt;monitor('composer.json', function() {
-     $this-&gt;taskComposerUpdate()-&gt;run();
-})-&gt;monitor('src', function() {
-     $this-&gt;taskExec('phpunit')-&gt;run();
-})-&gt;run();
+     -&gt;monitor(
+         'composer.json',
+         function() {
+             $this-&gt;taskComposerUpdate()-&gt;run();
+         }
+     )-&gt;monitor(
+         'src',
+         function() {
+             $this-&gt;taskExec('phpunit')-&gt;run();
+         },
+         \Lurker\Event\FilesystemEvent::ALL
+     )-&gt;monitor(
+         'migrations',
+         function() {
+             //do something
+         },
+         [
+             \Lurker\Event\FilesystemEvent::CREATE,
+             \Lurker\Event\FilesystemEvent::DELETE
+         ]
+     )-&gt;run();
 ?&gt;
 </code></pre>
 
 <ul>
-<li><code>monitor($paths, $callable)</code>   * <code>param string|string[]</code> $paths</li>
+<li><code>monitor($paths, $callable, $events = null)</code>   * <code>param string|string[]</code> $paths</li>
 </ul></div>
             
 

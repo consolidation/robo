@@ -8,5 +8,6 @@ $kernel->init([
         __DIR__.'/../src',
         __DIR__.'/../vendor/symfony/process',
         __DIR__.'/../vendor/symfony/console',
+        __DIR__.'/../vendor/henrikbjorn/lurker/src',
     ]
 ]);

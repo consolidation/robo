@@ -27,6 +27,8 @@
         "consolidation/config": "^1.0.10",
         "consolidation/annotated-command": "^2.8.2",
         "consolidation/output-formatters": "^3.1.13",
+        "consolidation/self-update": "^1",
+        "g1a/composer-test-scenarios": "^2",
         "grasmash/yaml-expander": "^1.3",
         "symfony/finder": "^2.5|^3|^4",
         "symfony/console": "^2.8|^3|^4",
@@ -44,7 +46,6 @@
         "codeception/aspect-mock": "^1|^2.1.1",
         "goaop/parser-reflection": "^1.1.0",
         "nikic/php-parser": "^3.1.5",
-        "g1a/composer-test-scenarios": "^2",
         "satooshi/php-coveralls": "^2",
         "phpunit/php-code-coverage": "~2|~4",
         "squizlabs/php_codesniffer": "^2.8"

@@ -17,9 +17,17 @@ case $DEPENDENCIES in
     ;;
 esac
 
+original_name=scenarios
+recommended_name=".scenarios.lock"
+
+base="$original_name"
+if [ -d "$recommended_name" ] ; then
+  base="$recommended_name"
+fi
+
 # If scenario is not specified, install the lockfile at
 # the root of the project.
-dir=scenarios/${SCENARIO}
+dir="$base/${SCENARIO}"
 if [ -z "$SCENARIO" ] || [ "$SCENARIO" == "default" ] ; then
   SCENARIO=default
   dir=.
@@ -41,4 +49,9 @@ set -ex
 
 composer -n validate --working-dir=$dir --no-check-all --ansi
 composer -n --working-dir=$dir ${DEPENDENCIES} --prefer-dist --no-scripts
-composer -n --working-dir=$dir info
+
+# If called from a CI context, print out some extra information about
+# what we just installed.
+if [[ -n "$CI" ]] ; then
+  composer -n --working-dir=$dir info
+fi

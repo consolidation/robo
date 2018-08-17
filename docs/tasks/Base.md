@@ -100,36 +100,32 @@ Uses Lurker library.
 Monitor third parameter takes Lurker filesystem events types to watch.
 By default its set to MODIFY event.
 
-
 ``` php
 <?php
 $this->taskWatch()
-    ->monitor(
-    'composer.json',
-    function() {
-        $this->taskComposerUpdate()->run();
-    }
-)->monitor(
-    'src',
-    function() {
-        $this->taskExec('phpunit')->run();
-    },
-    \Lurker\Event\FilesystemEvent::ALL
-)->monitor(
-    'migrations',
-    function() {
-        //do something
-    },
-    [
-        \Lurker\Event\FilesystemEvent::CREATE,
-        \Lurker\Event\FilesystemEvent::DELETE
-    ]
-)->run();
+     ->monitor(
+         'composer.json',
+         function() {
+             $this->taskComposerUpdate()->run();
+         }
+     )->monitor(
+         'src',
+         function() {
+             $this->taskExec('phpunit')->run();
+         },
+         \Lurker\Event\FilesystemEvent::ALL
+     )->monitor(
+         'migrations',
+         function() {
+             //do something
+         },
+         [
+             \Lurker\Event\FilesystemEvent::CREATE,
+             \Lurker\Event\FilesystemEvent::DELETE
+         ]
+     )->run();
 ?>
 ```
 
-* `monitor($paths, $callable, $event = \Lurker\Event\FilesystemEvent::MODIFY)`
-    * `param string|string[]` $paths
-    * `param \Closure` $callable
-    * `param int|int[]` $events - Lurker filesystem events (CREATE, DELETE, MODIFY, ALL)
+* `monitor($paths, $callable, $events = null)`   * `param string|string[]` $paths
 

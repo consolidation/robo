@@ -159,7 +159,7 @@ trait ExecTrait
      */
     public function envVars(array $env)
     {
-        $this->env = $env;
+        $this->env = $this->env ? $env + $this->env : $env;
         return $this;
     }
 

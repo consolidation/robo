@@ -311,6 +311,9 @@ trait ExecTrait
         }
 
         if (isset($this->env)) {
+            // Symfony 4 will inherit environment variables by default, but until
+            // then, manually ensure they are inherited.
+            $this->process->inheritEnvironmentVariables();
             $this->process->setEnv($this->env);
         }
 

@@ -109,11 +109,7 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
     {
         $this->hideProgressIndicator();
         // TODO: Symfony 4 requires that we supply the working directory.
-        $process = new Process($this->getCommand(), getcwd());
-        // Symfony 4 will inherit environment variables by default, but until
-        // then, manually ensure they are inherited.
-        $process->inheritEnvironmentVariables();
-        $result_data = $this->execute($process);
+        $result_data = $this->execute(new Process($this->getCommand(), getcwd()));
         return new Result(
             $this,
             $result_data->getExitCode(),

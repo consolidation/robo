@@ -32,17 +32,24 @@ class ExecCest
 
     public function testInheritEnv(CliGuy $I)
     {
-        // With no environment variables set, test that we have a known variable
-        // such as PATH.
-        $task = $I->taskExec('env | grep -E "^PATH="')->interactive(false);
+        // With no environment variables set, count how many environment
+        // variables are present.
+        $task = $I->taskExec('env | wc -l')->interactive(false);
         $result = $task->run();
-        verify($result->getExitCode())->equals(\Robo\Result::EXITCODE_OK);
+        $start_count = (int) $result->getMessage();
+        verify($start_count)->greaterThan(0);
 
-        // Now run the same command, but this time set an environment variable
-        // on the task using ->env().
-        $task = $I->taskExec('env | grep -E "^PATH="')->interactive(false);
+        // Verify that we get the same amount of environment variables with
+        // another exec call.
+        $task = $I->taskExec('env | wc -l')->interactive(false);
+        $result = $task->run();
+        verify((int) $result->getMessage())->equals($start_count);
+
+        // Now run the same command, but this time add another environment
+        // variable, and see if our count increases by one.
+        $task = $I->taskExec('env | wc -l')->interactive(false);
         $task->env('FOO', 'BAR');
         $result = $task->run();
-        verify($result->getExitCode())->equals(\Robo\Result::EXITCODE_OK);
+        verify((int) $result->getMessage())->equals($start_count + 1);
     }
 }

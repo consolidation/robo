@@ -20,6 +20,14 @@ class ExecCest
         // Verify that the text contains our environment variable.
         verify($result->getMessage())->contains('FOO=BAR');
         verify($result->getMessage())->contains('BAR=BAZ');
+
+        // Now verify that we can reset a value that was previously set.
+        $task = $I->taskExec('env')->interactive(false);
+        $task->env('FOO', 'BAR');
+        $task->env('FOO', 'BAZ');
+        $result = $task->run();
+        // Verify that the text contains the most recent environment variable.
+        verify($result->getMessage())->contains('FOO=BAZ');
     }
 
     public function testInheritEnv(CliGuy $I)

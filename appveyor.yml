@@ -16,8 +16,7 @@ init:
 
 # Inspired by https://github.com/Codeception/base/blob/master/appveyor.yml and https://github.com/phpmd/phpmd/blob/master/appveyor.yml
 install:
-  - cinst -y curl
-  - SET PATH=C:\Program Files\curl;%PATH%
+  - set PATH=C:\Program Files\Git\mingw64\bin;%PATH%
   #which is only needed by the test suite.
   - cinst -y which
   - SET PATH=C:\Program Files\which;%PATH%

@@ -134,6 +134,18 @@ trait IO
     }
 
     /**
+     * @param string $question
+     * @param bool $default
+     *
+     * @return string
+     */
+    protected function confirmDefault($question, $default)
+    {
+        $formatted_question = $this->formatQuestion(sprintf('%s (y/n) [%s]', $question, $default ? 'y' : 'n'));
+        return $this->doAsk(new ConfirmationQuestion($formatted_question, $default));
+    }
+
+    /**
      * @param \Symfony\Component\Console\Question\Question $question
      *
      * @return string

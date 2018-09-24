@@ -32,6 +32,13 @@ class ExecCest
 
     public function testInheritEnv(CliGuy $I)
     {
+        // Symfony < 3.2.1 does not inherit environment variables, so there's
+        // nothing to test if the function doesn't exist.
+        if (!method_exists('Symfony\Component\Process\Process', 'inheritEnvironmentVariables')) {
+            throw new \PHPUnit_Framework_SkippedTestError(
+                'Inheriting of environment variables is not supported.'
+            );
+        }
         // With no environment variables set, count how many environment
         // variables are present.
         $task = $I->taskExec('env | wc -l')->interactive(false);

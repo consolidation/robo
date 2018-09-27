@@ -6,8 +6,10 @@
  * If we cannot find a vendor/autoload.php file, then
  * we will go ahead and try the phar.
  */
-$autoloaderPath = 'phar://robo.phar/vendor/autoload.php';
-if (!strpos(basename(__FILE__), 'phar')) {
+$pharPath = \Phar::running(true);
+if ($pharPath) {
+    $autoloaderPath = "$pharPath/vendor/autoload.php";
+} else {
     if (file_exists(__DIR__.'/vendor/autoload.php')) {
         $autoloaderPath = __DIR__.'/vendor/autoload.php';
     } elseif (file_exists(__DIR__.'/../../autoload.php')) {

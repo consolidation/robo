@@ -30,7 +30,7 @@ cache:
     - $HOME/.composer/cache
 
 install:
-  - 'composer scenario "${SCENARIO}" "${DEPENDENCIES}"'
+  - '.scenarios.lock/install "${SCENARIO}" "${DEPENDENCIES}"'
 
 script:
   - composer test

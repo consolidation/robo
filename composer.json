@@ -28,7 +28,6 @@
         "consolidation/annotated-command": "^2.8.2",
         "consolidation/output-formatters": "^3.1.13",
         "consolidation/self-update": "^1",
-        "g1a/composer-test-scenarios": "^2",
         "grasmash/yaml-expander": "^1.3",
         "symfony/finder": "^2.5|^3|^4",
         "symfony/console": "^2.8|^3|^4",
@@ -37,6 +36,7 @@
         "symfony/event-dispatcher": "^2.5|^3|^4"
     },
     "require-dev": {
+        "g1a/composer-test-scenarios": "^3",
         "patchwork/jsqueeze": "~2",
         "natxet/CssMin": "3.0.4",
         "pear/archive_tar": "^1.4.2",
@@ -46,7 +46,7 @@
         "codeception/aspect-mock": "^1|^2.1.1",
         "goaop/parser-reflection": "^1.1.0",
         "nikic/php-parser": "^3.1.5",
-        "satooshi/php-coveralls": "^2",
+        "php-coveralls/php-coveralls": "^1",
         "phpunit/php-code-coverage": "~2|~4",
         "squizlabs/php_codesniffer": "^2.8"
     },
@@ -62,13 +62,8 @@
             "@unit",
             "@cs"
         ],
-        "scenario": "scenarios/install",
         "pre-install-cmd": [
             "Robo\\composer\\ScriptHandler::checkDependencies"
-        ],
-        "post-update-cmd": [
-            "create-scenario symfony4 'symfony/console:^4.0' --platform-php '7.1.3'",
-            "create-scenario symfony2 'symfony/console:^2.8' --platform-php '5.5.9' --no-lockfile --remove 'goaop/framework'"
         ]
     },
     "config": {
@@ -79,9 +74,36 @@
         }
     },
     "extra": {
+        "scenarios": {
+            "symfony4": {
+                "require": {
+                    "symfony/console": "^4"
+                },
+                "config": {
+                    "platform": {
+                        "php": "7.1.3"
+                    }
+                }
+            },
+            "symfony2": {
+                "require": {
+                    "symfony/console": "^2.8"
+                },
+                "remove": [
+                    "goaop/framework"
+                ],
+                "config": {
+                    "platform": {
+                        "php": "5.5.9"
+                    }
+                },
+                "scenario-options": {
+                    "create-lockfile": "false"
+                }
+            }
+        },
         "branch-alias": {
-            "dev-master": "1.x-dev",
-            "dev-state": "1.x-dev"
+            "dev-master": "1.x-dev"
         }
     },
     "suggest": {

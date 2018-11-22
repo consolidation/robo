@@ -1,5 +1,23 @@
 # Changelog
 
+### 1.3.2 11/21/2018
+
+* Update to Composer Test Scenarios 3 (#803)
+* Support Windows line endings in ".semver" file by Cédric Belin (#788)
+* Ensure that environment variables are preserved in Exec by James Sansbury (#769)
+* Correct Doxygen in \Robo\Task\Composer\loadTasks. (#772)
+
+### 1.3.1 8/17/2018
+
+* Move self:update command to consolidation/self-update project.
+* Fix overzealous shebang function (#759)
+* Actualize RoboFile of Codeception project link url in RADME.php by Valerij Ivashchenko (#756)
+* Workaround - Move g1a/composer-test-scenarios from require-dev to require.
+* Add --no-progress --no-suggest back in.
+* Tell dependencies.io to use --no-dev when determining if a PR should be made.
+* Omit --no-dev when the PR is actually being composed.
+* Add `Events` as third parameter in watch function (#751)
+
 ### 1.3.0 5/26/2018
 
 * Add EnvConfig to Robo: set configuration values via environment variables (#737)

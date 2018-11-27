@@ -282,7 +282,19 @@ More complex task configuration may be done via the `defer()` method. `defer()` 
         ->run();
 ?>
 ```
-In general, it is preferable to collect all of the information needed first, and then use that data to configure the necessary tasks. For example, the previous example could be implemented more simply by calling `$system_name = exec('uname -n');` and `taskFilesystemStack->mkdir($system_name);`. Chained state can be helpful in instances where there is a more complex relationship between the tasks.
+
+In general, it is preferable to collect all of the information needed first, and then use that data to configure the necessary tasks. For example, the previous example could be implemented insead by using Symfony Process component directly.
+
+```
+    $process = new Symfony\Component\Process\Process('uname -n');
+    $process->start();
+    $process->wait();
+    $system_name = $process->getOutput();
+    taskFileSystemStack->mkdir($system_name);
+    
+```
+
+Chained state can be helpful in instances where there is a more complex relationship between the tasks.
 
 ## Named Tasks
 

@@ -205,7 +205,7 @@ class CollectionCest
 
     public function toRollbackInCorrectOrder(CliGuy $I)
     {
-        $expected_order = [4,3,2,1];
+        $expected_order = [6,5,4,3,2,1];
         $actual_order = [];
         $collection = $I->collectionBuilder();
         $collection->rollbackCode(function () use (&$actual_order) {
@@ -217,8 +217,18 @@ class CollectionCest
         $collection->rollbackCode(function () use (&$actual_order) {
             $actual_order[] = 3;
         });
-        $collection->rollbackCode(function () use (&$actual_order) {
+        // Add a nested collection with rollbacks.
+        $nested_collection = $I->collectionBuilder();
+        $nested_collection->rollbackCode(function () use (&$actual_order) {
             $actual_order[] = 4;
+        });
+        $nested_collection->rollbackCode(function () use (&$actual_order) {
+            $actual_order[] = 5;
+        });
+        $collection->addTask($nested_collection);
+
+        $collection->rollbackCode(function () use (&$actual_order) {
+            $actual_order[] = 6;
         });
         $collection->addCode(function () {
             return Result::EXITCODE_ERROR;

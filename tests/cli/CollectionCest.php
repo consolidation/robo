@@ -203,6 +203,30 @@ class CollectionCest
         $I->dontSeeFileFound('j/k/m/m.txt');
     }
 
+    public function toRollbackInCorrectOrder(CliGuy $I)
+    {
+        $expected_order = [4,3,2,1];
+        $actual_order = [];
+        $collection = $I->collectionBuilder();
+        $collection->rollbackCode(function () use (&$actual_order) {
+            $actual_order[] = 1;
+        });
+        $collection->rollbackCode(function () use (&$actual_order) {
+            $actual_order[] = 2;
+        });
+        $collection->rollbackCode(function () use (&$actual_order) {
+            $actual_order[] = 3;
+        });
+        $collection->rollbackCode(function () use (&$actual_order) {
+            $actual_order[] = 4;
+        });
+        $collection->addCode(function () {
+            return Result::EXITCODE_ERROR;
+        });
+        $result = $collection->run();
+        $I->assertEquals($expected_order, $actual_order);
+    }
+
     public function toCreateDirViaCollection(CliGuy $I)
     {
         // Set up a collection to add tasks to

@@ -1,5 +1,11 @@
 # Changelog
 
+### 1.3.3 12/13/2018
+
+* Add StdinHandler to the standard Robo DI container (#814)
+* Add test to ensure rollback order is in reverse by James Sansbury (#812)
+* Fix the main Robo script entrypoint to work as a phar. (#811)
+
 ### 1.3.2 11/21/2018
 
 * Update to Composer Test Scenarios 3 (#803)

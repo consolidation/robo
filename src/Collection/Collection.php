@@ -419,7 +419,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
             return $this->parentCollection->registerRollback($rollbackTask);
         }
         if ($rollbackTask) {
-            $this->rollbackStack[] = $rollbackTask;
+            array_unshift($this->rollbackStack, $rollbackTask);
         }
     }
 

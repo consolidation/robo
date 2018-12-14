@@ -48,6 +48,18 @@ class SemVerTest extends \Codeception\TestCase\Test
         $semver->verifyInvoked('dump');
     }
 
+    public function testSemverParseFileWithWindowsLineEndings()
+    {
+        $fixturePath = tempnam(sys_get_temp_dir(), 'semver');
+        $semverFile = str_replace("\n", "\r\n", file_get_contents(codecept_data_dir().'.semver'));
+        file_put_contents($fixturePath, $semverFile);
+
+        $res = (new \Robo\Task\Development\SemVer($fixturePath))
+            ->run();
+        verify($res->getMessage())->equals('v1.0.1-RC.1');
+        @unlink($fixturePath);
+    }
+
     public function testThrowsExceptionWhenIncrementWithWrongParameter()
     {
         \PHPUnit_Framework_TestCase::setExpectedExceptionRegExp(

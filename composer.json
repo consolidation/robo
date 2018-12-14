@@ -25,7 +25,7 @@
         "league/container": "^2.2",
         "consolidation/log": "~1",
         "consolidation/config": "^1.0.10",
-        "consolidation/annotated-command": "^2.8.2",
+        "consolidation/annotated-command": "^2.10.1",
         "consolidation/output-formatters": "^3.1.13",
         "consolidation/self-update": "^1",
         "grasmash/yaml-expander": "^1.3",

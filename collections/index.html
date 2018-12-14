@@ -284,7 +284,7 @@ class RoboFile extends \Robo\Tasks
 <h2 id="temporary-objects">Temporary Objects</h2>
 <p>Since the concept of temporary objects that are cleaned up  on failure is a common pattern, Robo provides built-in support for them. Temporary directories and files are provided out of the box; other kinds of temporary objects can be easily created using the Temporary global collection.</p>
 <h3 id="temporary-directories">Temporary Directories</h3>
-<p>It is recommended that operations that perform multiple filesystem operations should, whenever possible, do most of their work in a temporary directory. Temporary directories are created by <code>$this-&gt;taskTmpDir()</code>, and are automatically be removed when the collection completes or rolls back. As an added convenience, the CollectionBuilder class has a <code>tmpDir()</code> method that creates a temporary directory via <code>taskTmpDir()</code>, and then returns the path to the temporary directory.</p>
+<p>It is recommended that operations that perform multiple filesystem operations should, whenever possible, do most of their work in a temporary directory. Temporary directories are created by <code>$this-&gt;taskTmpDir()</code>, and are automatically removed when the collection completes or rolls back. As an added convenience, the CollectionBuilder class has a <code>tmpDir()</code> method that creates a temporary directory via <code>taskTmpDir()</code>, and then returns the path to the temporary directory.</p>
 <pre><code class="php">&lt;?php
 class RoboFile extends \Robo\Tasks
 {

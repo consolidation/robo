@@ -175,6 +175,9 @@
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
         <li class="main active"><a href="#changelog">Changelog</a></li>
+            <li><a href="#133-12132018">1.3.3 12/13/2018</a></li>
+            <li><a href="#132-11212018">1.3.2 11/21/2018</a></li>
+            <li><a href="#131-8172018">1.3.1 8/17/2018</a></li>
             <li><a href="#130-5262018">1.3.0 5/26/2018</a></li>
             <li><a href="#124-5252018">1.2.4 5/25/2018</a></li>
             <li><a href="#123-452018">1.2.3 4/5/2018</a></li>
@@ -193,6 +196,30 @@
                 <div class="col-md-9" role="main">
 
 <h1 id="changelog">Changelog</h1>
+<h3 id="133-12132018">1.3.3 12/13/2018</h3>
+<ul>
+<li>Add StdinHandler to the standard Robo DI container (#814)</li>
+<li>Add test to ensure rollback order is in reverse by James Sansbury (#812)</li>
+<li>Fix the main Robo script entrypoint to work as a phar. (#811)</li>
+</ul>
+<h3 id="132-11212018">1.3.2 11/21/2018</h3>
+<ul>
+<li>Update to Composer Test Scenarios 3 (#803)</li>
+<li>Support Windows line endings in ".semver" file by Cédric Belin (#788)</li>
+<li>Ensure that environment variables are preserved in Exec by James Sansbury (#769)</li>
+<li>Correct Doxygen in \Robo\Task\Composer\loadTasks. (#772)</li>
+</ul>
+<h3 id="131-8172018">1.3.1 8/17/2018</h3>
+<ul>
+<li>Move self:update command to consolidation/self-update project.</li>
+<li>Fix overzealous shebang function (#759)</li>
+<li>Actualize RoboFile of Codeception project link url in RADME.php by Valerij Ivashchenko (#756)</li>
+<li>Workaround - Move g1a/composer-test-scenarios from require-dev to require.</li>
+<li>Add --no-progress --no-suggest back in.</li>
+<li>Tell dependencies.io to use --no-dev when determining if a PR should be made.</li>
+<li>Omit --no-dev when the PR is actually being composed.</li>
+<li>Add <code>Events</code> as third parameter in watch function (#751)</li>
+</ul>
 <h3 id="130-5262018">1.3.0 5/26/2018</h3>
 <ul>
 <li>Add EnvConfig to Robo: set configuration values via environment variables (#737)</li>

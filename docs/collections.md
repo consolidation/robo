@@ -113,7 +113,7 @@ Any task may also implement \Robo\Contract\RollbackInterface; if this is done, t
 
 Use `addAsCompletion($collection)` in place of `addAsRollback($collection)`, or implement \Robo\Contract\CompletionInterface. Completions otherwise work exactly like rollbacks.
 
-By default, rollbacks and completions tasks or callbacks continue even if errors occur. If you would like to explicitly cancel or abort the rollback or completion, you may throw the `\Robo\Exception\ForcedException` exception.
+By default, rollbacks and completions tasks or callbacks continue even if errors occur. If you would like to explicitly cancel or abort the rollback or completion, you may throw the `\Robo\Exception\AbortTasksException` exception.
 
 ### Rollback and Completion Callbacks
 

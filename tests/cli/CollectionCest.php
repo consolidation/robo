@@ -4,7 +4,7 @@ namespace Robo;
 use \CliGuy;
 
 use Robo\Collection\Temporary;
-use Robo\Exception\ForcedException;
+use Robo\Exception\AbortTasksException;
 
 class CollectionCest
 {
@@ -123,7 +123,7 @@ class CollectionCest
                 $I->taskDeleteDir('j')
             )
             ->rollbackCode(function () {
-                throw new ForcedException('Aborting rollback.');
+                throw new AbortTasksException('Aborting rollback.');
             })
             ->taskFilesystemStack()
             ->mkdir('j/k')

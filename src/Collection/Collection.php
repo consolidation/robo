@@ -1,7 +1,7 @@
 <?php
 namespace Robo\Collection;
 
-use Robo\Exception\ForcedException;
+use Robo\Exception\AbortTasksException;
 use Robo\Result;
 use Robo\State\Data;
 use Psr\Log\LogLevel;
@@ -255,8 +255,8 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
                 $message = $result->getMessage();
                 $data = $result->getData();
                 $data['exitcode'] = $result->getExitCode();
-            } catch (ForcedException $forcedException) {
-                throw $forcedException;
+            } catch (AbortTasksException $abortTasksException) {
+                throw $abortTasksException;
             } catch (\Exception $e) {
                 $message = $e->getMessage();
             }
@@ -751,9 +751,9 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
         foreach ($taskList as $task) {
             try {
                 $this->runSubtask($task);
-            } catch (ForcedException $forcedException) {
+            } catch (AbortTasksException $abortTasksException) {
                 // If there's a forced exception, end the loop of tasks.
-                if ($message = $forcedException->getMessage()) {
+                if ($message = $abortTasksException->getMessage()) {
                     $this->logger()->notice($message);
                 }
                 break;

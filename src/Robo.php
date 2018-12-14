@@ -250,6 +250,7 @@ class Robo
                     }
                 ]
             );
+        $container->share('stdinHandler', \Consolidation\AnnotatedCommand\Input\StdinHandler::class);
         $container->share('commandFactory', \Consolidation\AnnotatedCommand\AnnotatedCommandFactory::class)
             ->withMethodCall('setCommandProcessor', ['commandProcessor']);
         $container->share('relativeNamespaceDiscovery', \Robo\ClassDiscovery\RelativeNamespaceDiscovery::class)
@@ -307,6 +308,8 @@ class Robo
             ->invokeMethod('setHookManager', ['hookManager']);
         $container->inflector(\Robo\Contract\VerbosityThresholdInterface::class)
             ->invokeMethod('setOutputAdapter', ['outputAdapter']);
+        $container->inflector(\Consolidation\AnnotatedCommand\Input\StdinAwareInterface::class)
+            ->invokeMethod('setStdinHandler', ['stdinHandler']);
     }
 
     /**

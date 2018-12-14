@@ -22,7 +22,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 DEPENDENCY LICENSES:
 
 Name                                 Version  License
-consolidation/annotated-command      2.10.0   MIT
+consolidation/annotated-command      2.10.1   MIT
 consolidation/config                 1.1.1    MIT
 consolidation/log                    1.0.6    MIT
 consolidation/output-formatters      3.4.0    MIT
@@ -34,11 +34,11 @@ grasmash/yaml-expander               1.4.0    MIT
 league/container                     2.4.1    MIT
 psr/container                        1.0.0    MIT
 psr/log                              1.1.0    MIT
-symfony/console                      v4.1.7   MIT
-symfony/event-dispatcher             v4.1.7   MIT
-symfony/filesystem                   v4.1.7   MIT
-symfony/finder                       v3.4.18  MIT
+symfony/console                      v4.2.1   MIT
+symfony/event-dispatcher             v4.2.1   MIT
+symfony/filesystem                   v4.2.1   MIT
+symfony/finder                       v3.4.20  MIT
 symfony/polyfill-ctype               v1.10.0  MIT
 symfony/polyfill-mbstring            v1.10.0  MIT
-symfony/process                      v4.1.7   MIT
-symfony/yaml                         v4.1.7   MIT
+symfony/process                      v4.2.1   MIT
+symfony/yaml                         v4.2.1   MIT

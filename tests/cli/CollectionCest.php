@@ -4,6 +4,7 @@ namespace Robo;
 use \CliGuy;
 
 use Robo\Collection\Temporary;
+use Robo\Exception\ForcedException;
 
 class CollectionCest
 {
@@ -108,6 +109,38 @@ class CollectionCest
         $I->dontSeeFileFound('j/j.txt');
         $I->dontSeeFileFound('j/k/k.txt');
         $I->dontSeeFileFound('j/k/m/m.txt');
+    }
+
+    public function toAbortRollbackOrCompletion(CliGuy $I)
+    {
+        // This is like the previous test, except we throw a ForcedException()
+        // inside the rollback to abort the rollback.
+        $collection = $I->collectionBuilder();
+        $result = $collection->taskFilesystemStack()
+            ->mkdir('j')
+            ->touch('j/j.txt')
+            ->rollback(
+                $I->taskDeleteDir('j')
+            )
+            ->rollbackCode(function () {
+                throw new ForcedException('Aborting rollback.');
+            })
+            ->taskFilesystemStack()
+            ->mkdir('j/k')
+            ->touch('j/k/k.txt')
+            ->taskFilesystemStack()
+            ->mkdir('j/k/m')
+            ->touch('j/k/m/m.txt')
+            ->taskCopyDir(['doesNotExist' => 'copied'])
+            ->run();
+
+        $I->assertEquals(1, $result->getExitCode(), $result->getMessage());
+
+        // All of the tasks created by the builder should be added
+        // to a collection, and `run()` should run them all.
+        $I->seeFileFound('j/j.txt');
+        $I->seeFileFound('j/k/k.txt');
+        $I->seeFileFound('j/k/m/m.txt');
     }
 
     public function toRollbackAWorkingDir(CliGuy $I)

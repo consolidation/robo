@@ -1,6 +1,7 @@
 <?php
 namespace Robo\Collection;
 
+use Robo\Exception\ForcedException;
 use Robo\Result;
 use Robo\State\Data;
 use Psr\Log\LogLevel;
@@ -254,6 +255,8 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
                 $message = $result->getMessage();
                 $data = $result->getData();
                 $data['exitcode'] = $result->getExitCode();
+            } catch (ForcedException $forcedException) {
+                throw $forcedException;
             } catch (\Exception $e) {
                 $message = $e->getMessage();
             }
@@ -735,6 +738,10 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
 
     /**
      * Run all of the tasks in a provided list, ignoring failures.
+     *
+     * You may force a failure by throwing a ForcedException in your rollback or
+     * completion task or callback.
+     *
      * This is used to roll back or complete.
      *
      * @param TaskInterface[] $taskList
@@ -744,6 +751,12 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
         foreach ($taskList as $task) {
             try {
                 $this->runSubtask($task);
+            } catch (ForcedException $forcedException) {
+                // If there's a forced exception, end the loop of tasks.
+                if ($message = $forcedException->getMessage()) {
+                    $this->logger()->notice($message);
+                }
+                break;
             } catch (\Exception $e) {
                 // Ignore rollback failures.
             }

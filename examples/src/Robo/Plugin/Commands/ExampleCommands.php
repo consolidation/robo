@@ -159,9 +159,12 @@ class ExampleCommands extends \Robo\Tasks
      *
      * @param $a A list of commandline parameters.
      */
-    public function tryArrayArgs(array $a)
+    public function tryArrayArgs(array $a, array $options = ['foo' => []])
     {
         $this->say("The parameters passed are:\n" . var_export($a, true));
+        if (!empty($options['foo'])) {
+            $this->say("The options passed via --foo are:\n" . var_export($options['foo'], true));
+        }
     }
 
     /**

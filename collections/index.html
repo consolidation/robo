@@ -273,6 +273,7 @@ class RoboFile extends \Robo\Tasks
 <h3 id="rollback-and-completion-methods">Rollback and Completion Methods</h3>
 <p>Any task may also implement \Robo\Contract\RollbackInterface; if this is done, then its <code>rollback()</code> method will be called if the task is <code>run()</code> on a collection that later fails.</p>
 <p>Use <code>addAsCompletion($collection)</code> in place of <code>addAsRollback($collection)</code>, or implement \Robo\Contract\CompletionInterface. Completions otherwise work exactly like rollbacks.</p>
+<p>By default, rollbacks and completions tasks or callbacks continue even if errors occur. If you would like to explicitly cancel or abort the rollback or completion, you may throw the <code>\Robo\Exception\AbortTasksException</code> exception.</p>
 <h3 id="rollback-and-completion-callbacks">Rollback and Completion Callbacks</h3>
 <p>You may also provide arbitrary methods as <code>callable</code>s to serve as rollback or completion functions, as shown below:</p>
 <pre><code class="php">&lt;?php

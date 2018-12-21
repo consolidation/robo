@@ -66,6 +66,28 @@ EOT;
         $this->guy->seeInOutput('Some text in section one.');
     }
 
+    public function testSymfony()
+    {
+        $argv = ['placeholder', 'test:symfony', 'a', 'b', 'c', '--foo=bar', '--foo=baz', '--foo=boz'];
+        $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
+        $expected = <<<EOT
+>  The parameters passed are:
+array (
+  0 => 'a',
+  1 => 'b',
+  2 => 'c',
+)
+>  The options passed via --foo are:
+array (
+  0 => 'bar',
+  1 => 'baz',
+  2 => 'boz',
+)
+
+EOT;
+        $this->guy->seeOutputEquals($expected);
+    }
+
     public function testCommandEventHook()
     {
         $argv = ['placeholder', 'test:command-event'];

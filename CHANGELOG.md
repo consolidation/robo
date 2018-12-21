@@ -1,10 +1,15 @@
 # Changelog
 
+### 1.3.4 12/20/2018
+
+* Allow for aborting completions or rollbacks by James Sansbury (#815)
+* BUGFIX: Allow commands to declare '@param InputInterface' to satisfy code style checks
+
 ### 1.3.3 12/13/2018
 
 * Add StdinHandler to the standard Robo DI container (#814)
-* Add test to ensure rollback order is in reverse by James Sansbury (#812)
-* Fix the main Robo script entrypoint to work as a phar. (#811)
+* BUGFIX: Add test to ensure rollback order is in reverse by James Sansbury (#812)
+* BUGFIX: Fix the main Robo script entrypoint to work as a phar. (#811)
 
 ### 1.3.2 11/21/2018
 

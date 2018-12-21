@@ -8,6 +8,7 @@ use Consolidation\OutputFormatters\Options\FormatterOptions;
 use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
 use Consolidation\OutputFormatters\StructuredData\PropertyList;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputInterface;
 
 /**
  * Example Robo Plugin Commands.
@@ -157,13 +158,33 @@ class ExampleCommands extends \Robo\Tasks
     /**
      * Demonstrate Robo variable argument passing.
      *
-     * @param $a A list of commandline parameters.
+     * @param array $a A list of commandline parameters.
+     * @param array $options
      */
     public function tryArrayArgs(array $a, array $options = ['foo' => []])
     {
         $this->say("The parameters passed are:\n" . var_export($a, true));
         if (!empty($options['foo'])) {
             $this->say("The options passed via --foo are:\n" . var_export($options['foo'], true));
+        }
+    }
+
+    /**
+     * Demonstrate use of Symfony $input object in Robo in place of
+     * the usual "parameter arguments".
+     *
+     * @arg array $a A list of commandline parameters.
+     * @option foo
+     * @default a []
+     * @default foo []
+     */
+    public function trySymfony(InputInterface $input)
+    {
+        $a = $input->getArgument('a');
+        $this->say("The parameters passed are:\n" . var_export($a, true));
+        $foo = $input->getOption('foo');
+        if (!empty($foo)) {
+            $this->say("The options passed via --foo are:\n" . var_export($foo, true));
         }
     }
 

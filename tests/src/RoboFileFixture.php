@@ -9,6 +9,7 @@ use Consolidation\AnnotatedCommand\Events\CustomEventAwareInterface;
 use Consolidation\AnnotatedCommand\Events\CustomEventAwareTrait;
 use Consolidation\OutputFormatters\StructuredData\PropertyList;
 use Robo\Contract\VerbosityThresholdInterface;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -193,5 +194,25 @@ class RoboFileFixture extends \Robo\Tasks implements LoggerAwareInterface, Custo
             ->remoteDir('/var/www/somesite')
             ->exec($gitTask)
             ->run();
+    }
+
+    /**
+     * Demonstrate use of Symfony $input object in Robo in place of
+     * the usual "parameter arguments".
+     *
+     * @param InputInterface $input
+     * @arg array $a A list of commandline parameters.
+     * @option foo
+     * @default a []
+     * @default foo []
+     */
+    public function testSymfony(InputInterface $input)
+    {
+        $a = $input->getArgument('a');
+        $this->say("The parameters passed are:\n" . var_export($a, true));
+        $foo = $input->getOption('foo');
+        if (!empty($foo)) {
+            $this->say("The options passed via --foo are:\n" . var_export($foo, true));
+        }
     }
 }

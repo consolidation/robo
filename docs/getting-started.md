@@ -493,7 +493,7 @@ In addition, Robo makes all of the methods of Symfony Style available through th
 $this->io()->title("Build all site assets");
 ```
 
-This allows Robo scripts to follow the [Symfony Console Style Guide](http://symfony.com/blog/new-in-symfony-2-8-console-style-guide) if desired.
+This allows Robo scripts to follow the documentation on [How to Style a Console Command](https://symfony.com/doc/current/console/style.html) if desired.
 
 ### Formatters
 

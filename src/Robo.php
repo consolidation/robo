@@ -237,10 +237,14 @@ class Robo
             ->withMethodCall('addDefaultSimplifiers', []);
         $container->share('prepareTerminalWidthOption', \Consolidation\AnnotatedCommand\Options\PrepareTerminalWidthOption::class)
             ->withMethodCall('setApplication', ['application']);
+        $container->share('symfonyStyleInjector', \Robo\Symfony\SymfonyStyleInjector::class);
+        $container->share('parameterInjection', \Consolidation\AnnotatedCommand\ParameterInjection::class)
+            ->withMethodCall('register', ['Symfony\Component\Console\Style\SymfonyStyle', 'symfonyStyleInjector']);
         $container->share('commandProcessor', \Consolidation\AnnotatedCommand\CommandProcessor::class)
             ->withArgument('hookManager')
             ->withMethodCall('setFormatterManager', ['formatterManager'])
             ->withMethodCall('addPrepareFormatter', ['prepareTerminalWidthOption'])
+            ->withMethodCall('setParameterInjection', ['parameterInjection'])
             ->withMethodCall(
                 'setDisplayErrorFunction',
                 [

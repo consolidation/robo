@@ -9,6 +9,7 @@ use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
 use Consolidation\OutputFormatters\StructuredData\PropertyList;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * Example Robo Plugin Commands.
@@ -170,18 +171,19 @@ class ExampleCommands extends \Robo\Tasks
     }
 
     /**
-     * Demonstrate use of Symfony $input object in Robo in place of
-     * the usual "parameter arguments".
+     * Demonstrate use of SymfonyStyle $io object and Symfony $input object in
+     * Robo in place of the usual "parameter arguments".
      *
      * @arg array $a A list of commandline parameters.
      * @option foo
      * @default a []
      * @default foo []
      */
-    public function trySymfony(InputInterface $input)
+    public function trySymfony(SymfonyStyle $io, InputInterface $input)
     {
+        $io->title('Symfony Style demo');
         $a = $input->getArgument('a');
-        $this->say("The parameters passed are:\n" . var_export($a, true));
+        $io->writeln("The parameters passed are:\n" . var_export($a, true));
         $foo = $input->getOption('foo');
         if (!empty($foo)) {
             $this->say("The options passed via --foo are:\n" . var_export($foo, true));

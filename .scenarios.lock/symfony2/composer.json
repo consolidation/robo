@@ -25,17 +25,17 @@
     "require": {
         "symfony/console": "^2.8",
         "php": ">=5.5.0",
-        "league/container": "^2.2",
-        "consolidation/log": "~1",
+        "consolidation/annotated-command": "dev-improved-param-injection",
         "consolidation/config": "^1.0.10",
-        "consolidation/annotated-command": "^2.10.2",
+        "consolidation/log": "~1",
         "consolidation/output-formatters": "^3.1.13",
         "consolidation/self-update": "^1",
         "grasmash/yaml-expander": "^1.3",
-        "symfony/finder": "^2.5|^3|^4",
-        "symfony/process": "^2.5|^3|^4",
+        "league/container": "^2.2",
+        "symfony/event-dispatcher": "^2.5|^3|^4",
         "symfony/filesystem": "^2.5|^3|^4",
-        "symfony/event-dispatcher": "^2.5|^3|^4"
+        "symfony/finder": "^2.5|^3|^4",
+        "symfony/process": "^2.5|^3|^4"
     },
     "require-dev": {
         "g1a/composer-test-scenarios": "^3",

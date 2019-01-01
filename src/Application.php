@@ -1,13 +1,19 @@
 <?php
 namespace Robo;
 
+use Robo\Contract\IOAwareInterface;
+use Robo\Common\IO;
 use SelfUpdate\SelfUpdateCommand;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class Application extends SymfonyApplication
+class Application extends SymfonyApplication implements IOAwareInterface
 {
+    use IO;
+
     /**
      * @param string $name
      * @param string $version
@@ -70,5 +76,11 @@ class Application extends SymfonyApplication
         }
         $selfUpdateCommand = new SelfUpdateCommand($this->getName(), $this->getVersion(), $repository);
         $this->add($selfUpdateCommand);
+    }
+
+    protected function configureIO(InputInterface $input, OutputInterface $output)
+    {
+        parent::configureIO($input, $output);
+        $this->resetIO($input, $output);
     }
 }

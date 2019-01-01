@@ -190,6 +190,13 @@ class ExampleCommands extends \Robo\Tasks
         }
     }
 
+    public function tryText()
+    {
+        $this->io()->text('This is some text');
+        $this->io()->text('This is some more text');
+        $this->io()->text('This is the last text');
+    }
+
     /**
      * Demonstrate Robo boolean options.
      *

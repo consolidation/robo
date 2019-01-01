@@ -150,19 +150,26 @@ class Robo
         // Set up our dependency injection container.
         $container = new Container();
         static::configureContainer($container, $app, $config, $input, $output, $classLoader);
+        static::configureApplication($app, $container);
 
+        return $container;
+    }
+
+    public static function configureApplication($app, $container)
+    {
         // Set the application dispatcher
         $app->setDispatcher($container->get('eventDispatcher'));
 
-        return $container;
+        if ($app instanceof \Robo\Contract\IOAwareInterface) {
+            $app->setIOStorage($container->get('ioStorage'));
+        }
     }
 
     /**
      * Initialize a container with all of the default Robo services.
      * IMPORTANT:  after calling this method, clients MUST call:
      *
-     * $dispatcher = $container->get('eventDispatcher');
-     * $app->setDispatcher($dispatcher);
+     *   \Robo\Robo::configureApplication($app, $container);
      *
      * Any modification to the container should be done prior to fetching
      * objects from it.
@@ -254,6 +261,7 @@ class Robo
                     }
                 ]
             );
+        $container->share('ioStorage', \Robo\Symfony\IOStorage::class);
         $container->share('stdinHandler', \Consolidation\AnnotatedCommand\Input\StdinHandler::class);
         $container->share('commandFactory', \Consolidation\AnnotatedCommand\AnnotatedCommandFactory::class)
             ->withMethodCall('setCommandProcessor', ['commandProcessor']);
@@ -302,6 +310,8 @@ class Robo
             ->invokeMethod('setLogger', ['logger']);
         $container->inflector(\League\Container\ContainerAwareInterface::class)
             ->invokeMethod('setContainer', ['container']);
+        $container->inflector(\Robo\Symfony\IOAwareInterface::class)
+            ->invokeMethod('setIOStorage', ['ioStorage']);
         $container->inflector(\Symfony\Component\Console\Input\InputAwareInterface::class)
             ->invokeMethod('setInput', ['input']);
         $container->inflector(\Robo\Contract\OutputAwareInterface::class)

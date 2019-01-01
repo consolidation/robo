@@ -19,7 +19,7 @@ trait IO
     }
 
     /**
-     * @var \Symfony\Component\Console\Style\SymfonyStyle
+     * @var Robo\Symfony\IOStorage
      */
     protected $ioStorage;
 

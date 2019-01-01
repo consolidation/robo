@@ -150,19 +150,29 @@ class Robo
         // Set up our dependency injection container.
         $container = new Container();
         static::configureContainer($container, $app, $config, $input, $output, $classLoader);
+        static::configureApplication($app, $container);
 
+        return $container;
+    }
+
+    public static function configureApplication($app, $container)
+    {
         // Set the application dispatcher
         $app->setDispatcher($container->get('eventDispatcher'));
 
-        return $container;
+        if ($app instanceof \Robo\Contract\IOAwareInterface) {
+            $app->setIOStorage($container->get('ioStorage'));
+        }
+        if ($app instanceof \Psr\Log\LoggerAwareInterface) {
+            $app->setLogger($container->get('logger'));
+        }
     }
 
     /**
      * Initialize a container with all of the default Robo services.
      * IMPORTANT:  after calling this method, clients MUST call:
      *
-     * $dispatcher = $container->get('eventDispatcher');
-     * $app->setDispatcher($dispatcher);
+     *   \Robo\Robo::configureApplication($app, $container);
      *
      * Any modification to the container should be done prior to fetching
      * objects from it.
@@ -207,9 +217,12 @@ class Robo
 
         // Register logging and related services.
         $container->share('logStyler', \Robo\Log\RoboLogStyle::class);
-        $container->share('logger', \Robo\Log\RoboLogger::class)
-            ->withArgument('output')
-            ->withMethodCall('setLogOutputStyler', ['logStyler']);
+        $container->share('roboLogger', \Robo\Log\RoboLogger::class)
+            ->withMethodCall('setLogOutputStyler', ['logStyler'])
+            ->withArgument('output');
+        $container->share('logger', \Consolidation\Log\LoggerManager::class)
+            ->withMethodCall('setLogOutputStyler', ['logStyler'])
+            ->withMethodCall('fallbackLogger', ['roboLogger']);
         $container->add('progressBar', \Symfony\Component\Console\Helper\ProgressBar::class)
             ->withArgument('output');
         $container->share('progressIndicator', \Robo\Common\ProgressIndicator::class)
@@ -237,10 +250,14 @@ class Robo
             ->withMethodCall('addDefaultSimplifiers', []);
         $container->share('prepareTerminalWidthOption', \Consolidation\AnnotatedCommand\Options\PrepareTerminalWidthOption::class)
             ->withMethodCall('setApplication', ['application']);
+        $container->share('symfonyStyleInjector', \Robo\Symfony\SymfonyStyleInjector::class);
+        $container->share('parameterInjection', \Consolidation\AnnotatedCommand\ParameterInjection::class)
+            ->withMethodCall('register', ['Symfony\Component\Console\Style\SymfonyStyle', 'symfonyStyleInjector']);
         $container->share('commandProcessor', \Consolidation\AnnotatedCommand\CommandProcessor::class)
             ->withArgument('hookManager')
             ->withMethodCall('setFormatterManager', ['formatterManager'])
             ->withMethodCall('addPrepareFormatter', ['prepareTerminalWidthOption'])
+            ->withMethodCall('setParameterInjection', ['parameterInjection'])
             ->withMethodCall(
                 'setDisplayErrorFunction',
                 [
@@ -250,6 +267,7 @@ class Robo
                     }
                 ]
             );
+        $container->share('ioStorage', \Robo\Symfony\IOStorage::class);
         $container->share('stdinHandler', \Consolidation\AnnotatedCommand\Input\StdinHandler::class);
         $container->share('commandFactory', \Consolidation\AnnotatedCommand\AnnotatedCommandFactory::class)
             ->withMethodCall('setCommandProcessor', ['commandProcessor']);
@@ -298,6 +316,8 @@ class Robo
             ->invokeMethod('setLogger', ['logger']);
         $container->inflector(\League\Container\ContainerAwareInterface::class)
             ->invokeMethod('setContainer', ['container']);
+        $container->inflector(\Robo\Symfony\IOAwareInterface::class)
+            ->invokeMethod('setIOStorage', ['ioStorage']);
         $container->inflector(\Symfony\Component\Console\Input\InputAwareInterface::class)
             ->invokeMethod('setInput', ['input']);
         $container->inflector(\Robo\Contract\OutputAwareInterface::class)

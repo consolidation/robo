@@ -1,20 +1,58 @@
 <?php
 namespace Robo\Common;
 
+use Robo\Symfony\IOStorage;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 trait IO
 {
-    use InputAwareTrait;
-    use OutputAwareTrait;
+    use InputAwareTrait {
+        input as parentInput;
+    }
+    use OutputAwareTrait {
+        output as parentOutput;
+    }
 
     /**
-     * @var \Symfony\Component\Console\Style\SymfonyStyle
+     * @var Robo\Symfony\IOStorage
      */
-    protected $io;
+    protected $ioStorage;
+
+    public function setIOStorage(IOStorage $ioStorage)
+    {
+        $this->ioStorage = $ioStorage;
+    }
+
+    public function resetIO(InputInterface $input, OutputInterface $output)
+    {
+        if (!$this->ioStorage) {
+            $this->ioStorage = new IOStorage();
+        }
+        $this->ioStorage->create($input, $output);
+    }
+
+    protected function output()
+    {
+        $result = null;
+        if ($this->ioStorage) {
+            $result = $this->ioStorage->output();
+        }
+        return $result ?: $this->parentOutput();
+    }
+
+    protected function input()
+    {
+        $result = null;
+        if ($this->ioStorage) {
+            $result = $this->ioStorage->input();
+        }
+        return $result ?: $this->parentInput();
+    }
 
     /**
      * Provide access to SymfonyStyle object.
@@ -25,10 +63,10 @@ trait IO
      */
     protected function io()
     {
-        if (!$this->io) {
-            $this->io = new SymfonyStyle($this->input(), $this->output());
+        if (!$this->ioStorage) {
+            $this->ioStorage = new IOStorage();
         }
-        return $this->io;
+        return $this->ioStorage->get($this->input, $this->output);
     }
 
     /**

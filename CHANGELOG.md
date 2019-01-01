@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.3.5 1/1/2019
+
+* Improved paramameter injection (#822)
+
 ### 1.3.4 12/20/2018
 
 * Allow for aborting completions or rollbacks by James Sansbury (#815)

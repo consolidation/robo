@@ -163,6 +163,9 @@ class Robo
         if ($app instanceof \Robo\Contract\IOAwareInterface) {
             $app->setIOStorage($container->get('ioStorage'));
         }
+        if ($app instanceof \Psr\Log\LoggerAwareInterface) {
+            $app->setLogger($container->get('logger'));
+        }
     }
 
     /**
@@ -214,9 +217,12 @@ class Robo
 
         // Register logging and related services.
         $container->share('logStyler', \Robo\Log\RoboLogStyle::class);
-        $container->share('logger', \Robo\Log\RoboLogger::class)
-            ->withArgument('output')
-            ->withMethodCall('setLogOutputStyler', ['logStyler']);
+        $container->share('roboLogger', \Robo\Log\RoboLogger::class)
+            ->withMethodCall('setLogOutputStyler', ['logStyler'])
+            ->withArgument('output');
+        $container->share('logger', \Consolidation\Log\LoggerManager::class)
+            ->withMethodCall('setLogOutputStyler', ['logStyler'])
+            ->withMethodCall('fallbackLogger', ['roboLogger']);
         $container->add('progressBar', \Symfony\Component\Console\Helper\ProgressBar::class)
             ->withArgument('output');
         $container->share('progressIndicator', \Robo\Common\ProgressIndicator::class)

@@ -43,7 +43,7 @@ install:
   - echo extension=php_pdo_sqlite.dll >> php.ini
   - echo extension=php_pgsql.dll >> php.ini
   - echo extension=php_gd2.dll >> php.ini
-  - SET PATH=C:\tools\php70;%PATH%
+  - SET PATH=C:\tools\php72;%PATH%
   #Install Composer
   - cd %APPVEYOR_BUILD_FOLDER%
   #- appveyor DownloadFile https://getcomposer.org/composer.phar

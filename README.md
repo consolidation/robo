@@ -1,8 +1,10 @@
 # RoboTask
 
+_This is the 1.x (stable) branch of the Robo task runner. Development for Robo 2.x (future) is happening on the [master](https://github.com/consolidation/Robo/tree/master) branch._
+
 **Modern and simple PHP task runner** inspired by Gulp and Rake aimed to automate common tasks:
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/consolidation-org/Robo?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/consolidation/Robo?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) 
 [![Latest Stable Version](https://poser.pugx.org/consolidation/robo/v/stable.png)](https://packagist.org/packages/consolidation/robo) 
 [![Latest Unstable Version](https://poser.pugx.org/consolidation/robo/v/unstable.png)](https://packagist.org/packages/consolidation/robo) 
 [![Total Downloads](https://poser.pugx.org/consolidation/robo/downloads.png)](https://packagist.org/packages/consolidation/robo) 
@@ -56,7 +58,7 @@ All protected methods in traits that start with `task` prefix are tasks and can 
 
 ## Examples
 
-The best way to learn Robo by example is to take a look into [its own RoboFile](https://github.com/consolidation-org/Robo/blob/master/RoboFile.php)
+The best way to learn Robo by example is to take a look into [its own RoboFile](https://github.com/consolidation/Robo/blob/master/RoboFile.php)
  or [RoboFile of Codeception project](https://github.com/Codeception/Codeception/blob/2.4/RoboFile.php). There are also some basic example commands in examples/RoboFile.php.
 
 Here are some snippets from them:

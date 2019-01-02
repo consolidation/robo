@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.4.0 - 1.4.2 1/2/2019
+
+* BUGFIX: Back out 1.3.5, which contained breaking changes. Create a 1.x branch for continuation of compatible versions, and move breaking code to 2.x development (on master branch).
+
 ### 1.3.4 12/20/2018
 
 * Allow for aborting completions or rollbacks by James Sansbury (#815)

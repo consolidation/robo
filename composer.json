@@ -75,6 +75,11 @@
             "symfony3": {
                 "require": {
                     "symfony/console": "^3"
+                },
+                "config": {
+                    "platform": {
+                        "php": "7.0.11"
+                    }
                 }
             }
         },

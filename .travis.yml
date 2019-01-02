@@ -14,7 +14,6 @@ matrix:
       env: 'DEPENDENCIES=highest'
     - php: 7.1
     - php: 7.0.11
-    - php: 7.0.11
       env: 'SCENARIO=symfony3 DEPENDENCIES=lowest'
 
 sudo: false

@@ -1,6 +1,6 @@
 # Changelog
 
-### 1.3.5 1/1/2019
+### 2.0.0-alpha1 1/1/2019
 
 * Improved paramameter injection (#822)
 

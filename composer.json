@@ -21,7 +21,7 @@
     },
     "bin":["robo"],
     "require": {
-        "php": ">=5.5.0",
+        "php": ">=7",
         "consolidation/annotated-command": "^2.11.0",
         "consolidation/config": "^1.0.10",
         "consolidation/log": "^1.1.1",
@@ -29,15 +29,15 @@
         "consolidation/self-update": "^1",
         "grasmash/yaml-expander": "^1.3",
         "league/container": "^2.2",
-        "symfony/console": "^2.8|^3|^4",
-        "symfony/event-dispatcher": "^2.5|^3|^4",
-        "symfony/filesystem": "^2.5|^3|^4",
-        "symfony/finder": "^2.5|^3|^4",
-        "symfony/process": "^2.5|^3|^4"
+        "symfony/console": "^3.4|^4",
+        "symfony/event-dispatcher": "^3.4|^4",
+        "symfony/filesystem": "^3|^4",
+        "symfony/finder": "^3|^4",
+        "symfony/process": "^3|^4"
     },
     "require-dev": {
         "g1a/composer-test-scenarios": "^3",
-        "patchwork/jsqueeze": "~2",
+        "patchwork/jsqueeze": "^2",
         "natxet/CssMin": "3.0.4",
         "pear/archive_tar": "^1.4.2",
         "codeception/base": "^2.3.7",
@@ -61,44 +61,20 @@
             "@lint",
             "@unit",
             "@cs"
-        ],
-        "pre-install-cmd": [
-            "Robo\\composer\\ScriptHandler::checkDependencies"
         ]
     },
     "config": {
         "optimize-autoloader": true,
         "sort-packages": true,
         "platform": {
-            "php": "5.6.3"
+            "php": "7.1.3"
         }
     },
     "extra": {
         "scenarios": {
-            "symfony4": {
+            "symfony3": {
                 "require": {
-                    "symfony/console": "^4"
-                },
-                "config": {
-                    "platform": {
-                        "php": "7.1.3"
-                    }
-                }
-            },
-            "symfony2": {
-                "require": {
-                    "symfony/console": "^2.8"
-                },
-                "remove": [
-                    "goaop/framework"
-                ],
-                "config": {
-                    "platform": {
-                        "php": "5.5.9"
-                    }
-                },
-                "scenario-options": {
-                    "create-lockfile": "false"
+                    "symfony/console": "^3"
                 }
             }
         },

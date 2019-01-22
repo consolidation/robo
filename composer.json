@@ -39,7 +39,7 @@
         "g1a/composer-test-scenarios": "^3",
         "patchwork/jsqueeze": "~2",
         "natxet/CssMin": "3.0.4",
-        "pear/archive_tar": "^1.4.2",
+        "pear/archive_tar": "^1.4.4",
         "codeception/base": "^2.3.7",
         "goaop/framework": "~2.1.2",
         "codeception/verify": "^0.3.2",

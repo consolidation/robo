@@ -22,7 +22,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 DEPENDENCY LICENSES:
 
 Name                                 Version  License
-consolidation/annotated-command      2.11.0   MIT
+consolidation/annotated-command      2.11.1   MIT
 consolidation/config                 1.1.1    MIT
 consolidation/log                    1.1.1    MIT
 consolidation/output-formatters      3.4.0    MIT

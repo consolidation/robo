@@ -3,12 +3,11 @@ namespace Robo\Common;
 
 use Robo\Symfony\IOStorage;
 use Symfony\Component\Console\Helper\QuestionHelper;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\ConsoleOutputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 trait IO
 {
@@ -44,15 +43,6 @@ trait IO
             $result = $this->ioStorage->output();
         }
         return $result ?: $this->parentOutput();
-    }
-
-    protected function stderr()
-    {
-        $output = $this->output();
-        if ($output instanceof ConsoleOutputInterface) {
-            $output = $output->getErrorOutput();
-        }
-        return $output;
     }
 
     protected function input()

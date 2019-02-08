@@ -2,6 +2,7 @@
 
 namespace Robo\Common;
 
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -35,6 +36,18 @@ trait OutputAwareTrait
             $this->setOutput(new NullOutput());
         }
         return $this->output;
+    }
+
+    /**
+     * @return \Symfony\Component\Console\Output\OutputInterface
+     */
+    protected function stderr()
+    {
+        $output = $this->output();
+        if ($output instanceof ConsoleOutputInterface) {
+            $output = $output->getErrorOutput();
+        }
+        return $output;
     }
 
     /**

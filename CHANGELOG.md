@@ -2,6 +2,13 @@
 
 ### 2.0.0-alpha1 1/1/2019
 
+
+### 1.4.6 2/16/2019
+
+* Simplify ConfigAwareTrait to avoid probem with downstream clients.
+
+### 1.4.5 2/15/2019
+
 * Improved paramameter injection (#822)
 
 ### 1.3.4 12/20/2018

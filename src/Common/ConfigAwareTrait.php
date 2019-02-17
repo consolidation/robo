@@ -18,8 +18,6 @@ trait ConfigAwareTrait
      * @param ConfigInterface $config
      *
      * @return $this
-     *
-     * @see \Robo\Contract\ConfigAwareInterface::setConfig()
      */
     public function setConfig(ConfigInterface $config)
     {
@@ -31,9 +29,7 @@ trait ConfigAwareTrait
     /**
      * Get the config management object.
      *
-     * @return ConfigInterface
-     *
-     * @see \Robo\Contract\ConfigAwareInterface::getConfig()
+     * @return \Robo\Config\Config
      */
     public function getConfig()
     {

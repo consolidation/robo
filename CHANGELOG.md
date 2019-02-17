@@ -1,5 +1,17 @@
 # Changelog
 
+### 1.4.6 2/16/2019
+
+* Simplify ConfigAwareTrait to avoid probem with downstream clients.
+
+### 1.4.5 2/15/2019
+
+* Extend ConfigAwareTrait from consolidation config (#838)
+
+### 1.4.4 2/8/2019
+
+* Add stderr() convenience method to Robo\Common\OutputAwareTrait.
+
 ### 1.4.0 - 1.4.3 1/2/2019
 
 * BUGFIX: Back out 1.3.5, which contained breaking changes. Create a 1.x branch for continuation of compatible versions, and move breaking code to 2.x development (on master branch).

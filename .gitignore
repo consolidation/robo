@@ -4,9 +4,4 @@ build
 site/
 tests/_log/*
 tests/_helpers/_generated/*
-<<<<<<< HEAD
-composer.phar
-/robo.phar
-=======
 *.phar
->>>>>>> 1.x

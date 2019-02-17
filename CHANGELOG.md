@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.4.6 2/16/2019
+
+* Simplify ConfigAwareTrait to avoid probem with downstream clients.
+
 ### 1.4.5 2/15/2019
 
 * Extend ConfigAwareTrait from consolidation config (#838)

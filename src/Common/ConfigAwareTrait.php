@@ -7,21 +7,33 @@ use Consolidation\Config\ConfigInterface;
 
 trait ConfigAwareTrait
 {
-    use \Consolidation\Config\ConfigAwareTrait {
-        \Consolidation\Config\ConfigAwareTrait::getConfig as parentGetConfig;
+    /**
+     * @var ConfigInterface
+     */
+    protected $config;
+
+    /**
+     * Set the config management object.
+     *
+     * @param ConfigInterface $config
+     *
+     * @return $this
+     */
+    public function setConfig(ConfigInterface $config)
+    {
+        $this->config = $config;
+
+        return $this;
     }
 
     /**
-     * Replaces same method in ConfigAwareTrait in order to provide a
-     * \Robo\Config\Config as return type. Helps with IDE completion.
-     *
-     * @see https://stackoverflow.com/a/37687295.
+     * Get the config management object.
      *
      * @return \Robo\Config\Config
      */
     public function getConfig()
     {
-        return $this->parentGetConfig();
+        return $this->config;
     }
 
     /**

@@ -60,7 +60,6 @@ $runner
   ->setClassLoader($classLoader);
 
 // Execute the command and return the result.
-$argv = $_SERVER['argv'];
 $output = new \Symfony\Component\Console\Output\ConsoleOutput();
 $statusCode = $runner->execute($argv, $appName, $appVersion, $output);
 exit($statusCode);

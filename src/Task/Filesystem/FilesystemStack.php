@@ -36,6 +36,7 @@ use Robo\Common\BuilderAwareTrait;
  * @method $this remove(string|array|\Traversable $file)
  * @method $this rename(string $from, string $to, bool $force = false)
  * @method $this symlink(string $from, string $to, bool $copyOnWindows = false)
+ * @method $this exists(string|iterable $files)
  * @method $this mirror(string $from, string $to, \Traversable $iterator = null, array $options = [])
  */
 class FilesystemStack extends StackBasedTask implements BuilderAwareInterface
@@ -122,6 +123,17 @@ class FilesystemStack extends StackBasedTask implements BuilderAwareInterface
         }
         return true;
     }
+
+    /**
+     * @param string|iterable $files
+     *
+     * @return bool
+     */
+    protected function _exists($files)
+    {
+        $this->fs->exists($files);
+    }
+
 
     /**
      * @param string $origin

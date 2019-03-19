@@ -1,6 +1,6 @@
 # Changelog
 
-### 1.4.7 2/19/2019
+### 1.4.7 - 1.4.8 2/19/2019
 
 * Re-release 1.4.6 to remove artifacts inadvertantly added to tagged release.
 

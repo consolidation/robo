@@ -94,17 +94,14 @@ class RoboFile extends \Robo\Tasks
             ->push()
             ->run();
 
-        if ($stable) {
-            $this->pharPublish();
-        }
         $this->publish();
-
         $this->taskGitStack()
             ->tag($version)
             ->push('origin master --tags')
             ->run();
 
         if ($stable) {
+            $this->pharPublish();
             $version = $this->incrementVersion($version) . '-dev';
             $this->writeVersion($version);
 

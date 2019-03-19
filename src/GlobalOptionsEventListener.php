@@ -103,7 +103,7 @@ class GlobalOptionsEventListener implements EventSubscriberInterface, ConfigAwar
         $config = $this->getConfig();
         $input = $event->getInput();
 
-        // Also set any `-D config.key=value` options from the commandline.
+        // Also set any `-Dconfig.key=value` options from the commandline.
         if ($input->hasOption('define')) {
             $configDefinitions = $input->getOption('define');
             foreach ($configDefinitions as $value) {

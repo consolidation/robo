@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.4.7 2/19/2019
+
+* Re-release 1.4.6 to remove artifacts inadvertantly added to tagged release.
+
 ### 1.4.6 2/16/2019
 
 * Simplify ConfigAwareTrait to avoid probem with downstream clients.

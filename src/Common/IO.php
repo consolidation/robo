@@ -125,12 +125,13 @@ trait IO
 
     /**
      * @param string $question
+     * @param bool $default
      *
      * @return string
      */
-    protected function confirm($question)
+    protected function confirm($question, $default = false)
     {
-        return $this->doAsk(new ConfirmationQuestion($this->formatQuestion($question . ' (y/n)'), false));
+        return $this->doAsk(new ConfirmationQuestion($this->formatQuestion($question . ' (y/n)'), $default));
     }
 
     /**

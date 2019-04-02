@@ -273,20 +273,20 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
 
     public function storeState($key, $source = '')
     {
-        return $this->callCollectionStateFuntion(__FUNCTION__, func_get_args());
+        return $this->callCollectionStateFunction(__FUNCTION__, func_get_args());
     }
 
     public function deferTaskConfiguration($functionName, $stateKey)
     {
-        return $this->callCollectionStateFuntion(__FUNCTION__, func_get_args());
+        return $this->callCollectionStateFunction(__FUNCTION__, func_get_args());
     }
 
     public function defer($callback)
     {
-        return $this->callCollectionStateFuntion(__FUNCTION__, func_get_args());
+        return $this->callCollectionStateFunction(__FUNCTION__, func_get_args());
     }
 
-    protected function callCollectionStateFuntion($functionName, $args)
+    protected function callCollectionStateFunction($functionName, $args)
     {
         $currentTask = ($this->currentTask instanceof WrappedTaskInterface) ? $this->currentTask->original() : $this->currentTask;
 

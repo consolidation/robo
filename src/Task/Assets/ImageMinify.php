@@ -339,6 +339,8 @@ class ImageMinify extends BaseTask
 
         // loop through the files
         foreach ($files as $from => $to) {
+            $minifier = '';
+
             if (!isset($this->minifier)) {
                 // check filetype based on the extension
                 $extension = strtolower(pathinfo($from, PATHINFO_EXTENSION));

@@ -294,7 +294,9 @@ Some tasks may also attach data to the Result object.  If this is done, the data
 
 Commands should return a Result object obtained from a task; this will ensure that the command exit code is set correctly.  If a command does not have a Result object available, then it may use a ResultData object.  ResultData objects are just like Result objects, except the do not contain a reference to a task.
 
+```
 return new Robo\ResultData($exitcode, 'Error message.');
+```
 
 If the command returns a TaskInterface instead of a result, then the task will be executed, and the result from that task will be used as the final result of the command. See also `Formatters`, below.
 

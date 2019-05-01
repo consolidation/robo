@@ -5,6 +5,7 @@ This pull request:
 - [ ] Adds a feature
 - [ ] Breaks backwards compatibility
 - [ ] Has tests that cover changes
+- [ ] Adds or fixes documentation
 
 ### Summary
 Short overview of what changed.

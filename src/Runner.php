@@ -21,7 +21,7 @@ class Runner implements ContainerAwareInterface
     use ContainerAwareTrait;
 
     /**
-     * @var string
+     * @var string|array
      */
     protected $roboClass;
 
@@ -68,8 +68,8 @@ class Runner implements ContainerAwareInterface
     /**
      * Class Constructor
      *
-     * @param null|string $roboClass
-     * @param null|string $roboFile
+     * @param null|string|array $roboClass
+     * @param null|string       $roboFile
      */
     public function __construct($roboClass = null, $roboFile = null)
     {

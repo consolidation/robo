@@ -41,7 +41,7 @@
         "natxet/CssMin": "3.0.4",
         "pear/archive_tar": "^1.4.4",
         "codeception/base": "^2.3.7",
-        "goaop/framework": "~2.1.2",
+        "goaop/framework": "~2.2.0",
         "codeception/verify": "^0.3.2",
         "codeception/aspect-mock": "^1|^2.1.1",
         "goaop/parser-reflection": "^1.1.0",

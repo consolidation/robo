@@ -53,7 +53,7 @@ Now you can use it just like `robo`.
 
 ## Usage
 
-All tasks are defined as **public methods** in `RoboFile.php`. It can be created by running `robo`.
+All tasks are defined as **public methods** in `RoboFile.php`. It can be created by running `robo init`.
 All protected methods in traits that start with `task` prefix are tasks and can be configured and executed in your tasks.
 
 ## Examples

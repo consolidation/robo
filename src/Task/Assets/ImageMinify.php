@@ -534,7 +534,7 @@ class ImageMinify extends BaseTask
         }
         $result = file_put_contents($path, $data);
         if ($result === false) {
-            $message = sprintf('Could not copy the executable <info>%s</info> to %s', $executable, $target_dir);
+            $message = sprintf('Could not copy the executable <info>%s</info> to %s', $executable, $path);
 
             return Result::error($this, $message);
         }

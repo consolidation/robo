@@ -14,11 +14,12 @@ class RelativeNamespaceDiscoveryTest extends \Codeception\Test\Unit
         $classLoader->addPsr4('\\Robo\\PluginTest\\', [realpath(__DIR__.'/../../plugins')]);
         $service = new RelativeNamespaceDiscovery($classLoader);
         $service->setRelativeNamespace('Robo\Plugin');
-        $service->setSearchPattern('*Commands.php');
+        $service->setSearchPattern('/.*Commands?\.php$/');
         $classes = $service->getClasses();
 
         $this->assertContains('\Robo\PluginTest\Robo\Plugin\Commands\FirstCustomCommands', $classes);
         $this->assertContains('\Robo\PluginTest\Robo\Plugin\Commands\SecondCustomCommands', $classes);
+        $this->assertContains('\Robo\PluginTest\Robo\Plugin\Commands\ThirdCustomCommand', $classes);
         $this->assertNotContains('\Robo\PluginTest\Robo\Plugin\Commands\NotValidClassName', $classes);
     }
 
@@ -34,6 +35,10 @@ class RelativeNamespaceDiscoveryTest extends \Codeception\Test\Unit
 
         $actual = $service->getFile('\Robo\PluginTest\Robo\Plugin\Commands\SecondCustomCommands');
         $this->assertStringEndsWith('SecondCustomCommands.php', $actual);
+
+
+        $actual = $service->getFile('\Robo\PluginTest\Robo\Plugin\Commands\ThirdCustomCommand');
+        $this->assertStringEndsWith('ThirdCustomCommand.php', $actual);
     }
 
     /**

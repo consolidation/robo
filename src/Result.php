@@ -19,7 +19,7 @@ class Result extends ResultData
 
     /**
      * @param \Robo\Contract\TaskInterface $task
-     * @param string $exitCode
+     * @param int $exitCode
      * @param string $message
      * @param array $data
      */

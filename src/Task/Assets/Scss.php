@@ -63,6 +63,10 @@ class Scss extends CssPreprocessor
             $scss->setFormatter($this->compilerOptions['formatter']);
         }
 
+        if (isset($this->compilerOptions['sourceMap'])) {
+            $scss->setSourceMap($this->compilerOptions['sourceMap']);
+        }
+
         return $scss->compile($scssCode);
     }
 

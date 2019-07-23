@@ -40,6 +40,8 @@ class DumpAutoload extends Base
     protected $optimize;
 
     /**
+     * @param bool $optimize
+     *
      * @return $this
      */
     public function optimize($optimize = true)

@@ -32,7 +32,7 @@ class CallableTask implements TaskInterface
     }
 
     /**
-     * @return \Robo\Result
+     * {@inheritdoc}
      */
     public function run()
     {
@@ -52,6 +52,9 @@ class CallableTask implements TaskInterface
         return $result;
     }
 
+    /**
+     * @return \Robo\State\Data
+     */
     public function getState()
     {
         if ($this->reference instanceof StateAwareInterface) {

@@ -150,7 +150,7 @@ class ImageMinify extends BaseTask
      *
      * @link https://github.com/imagemin
      *
-     * @var array
+     * @var string[]
      */
     protected $imageminRepos = [
         // PNG
@@ -171,6 +171,9 @@ class ImageMinify extends BaseTask
         'cwebp' => 'https://github.com/imagemin/cwebp-bin', // note: we do not support this minifier because it creates WebP from non-WebP files
     ];
 
+    /**
+     * @param string|string[] $dirs
+     */
     public function __construct($dirs)
     {
         is_array($dirs)
@@ -257,7 +260,7 @@ class ImageMinify extends BaseTask
     }
 
     /**
-     * @param array $dirs
+     * @param string[] $dirs
      *
      * @return array|\Robo\Result
      *
@@ -325,7 +328,7 @@ class ImageMinify extends BaseTask
     }
 
     /**
-     * @param array $files
+     * @param string[] $files
      *
      * @return \Robo\Result
      */
@@ -584,6 +587,12 @@ class ImageMinify extends BaseTask
         return $command;
     }
 
+    /**
+     * @param string $from
+     * @param string $to
+     *
+     * @return string
+     */
     protected function gifsicle($from, $to)
     {
         $command = sprintf('gifsicle -o "%s" "%s"', $to, $from);

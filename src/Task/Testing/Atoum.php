@@ -48,7 +48,7 @@ class Atoum extends BaseTask implements CommandInterface, PrintedInterface
     /**
      * Tag or Tags to filter.
      *
-     * @param string|array $tags
+     * @param string|string[] $tags
      *
      * @return $this
      */
@@ -124,7 +124,7 @@ class Atoum extends BaseTask implements CommandInterface, PrintedInterface
     /**
      * Test file or test files to run.
      *
-     * @param string|array
+     * @param string|string[]
      *
      * @return $this
      */
@@ -136,7 +136,8 @@ class Atoum extends BaseTask implements CommandInterface, PrintedInterface
     /**
      * Test directory or directories to run.
      *
-     * @param string|array A single directory or a list of directories.
+     * @param string|string[]
+     *   A single directory or a list of directories.
      *
      * @return $this
      */
@@ -147,7 +148,7 @@ class Atoum extends BaseTask implements CommandInterface, PrintedInterface
 
     /**
      * @param string $option
-     * @param string|array $values
+     * @param string|string[] $values
      *
      * @return $this
      */

@@ -64,7 +64,7 @@ class Exec extends Base
     }
 
     /**
-     * {@inheritdoc)}
+     * {@inheritdoc}
      */
     public function interactive($interactive = true)
     {

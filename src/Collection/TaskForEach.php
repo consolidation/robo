@@ -110,7 +110,7 @@ class TaskForEach extends BaseTask implements NestedCollectionInterface, Builder
     /**
      * @param callable $fn
      *
-     * @return \Robo\Collection\TaskForEach
+     * @return $this
      */
     public function call(callable $fn)
     {
@@ -124,7 +124,7 @@ class TaskForEach extends BaseTask implements NestedCollectionInterface, Builder
     /**
      * @param callable $fn
      *
-     * @return \Robo\Collection\TaskForEach
+     * @return $this
      */
     public function withBuilder(callable $fn)
     {

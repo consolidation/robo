@@ -4,10 +4,10 @@ namespace Robo\Task\Assets;
 trait loadTasks
 {
     /**
-    * @param string $input
-    *
-     * @return \Robo\Task\Assets\Minify
-    */
+     * @param string $input
+     *
+     * @return \Robo\Task\Assets\Minify|\Robo\Collection\CollectionBuilder
+     */
     protected function taskMinify($input)
     {
         return $this->task(Minify::class, $input);
@@ -16,7 +16,7 @@ trait loadTasks
     /**
      * @param string|string[] $input
      *
-     * @return \Robo\Task\Assets\ImageMinify
+     * @return \Robo\Task\Assets\ImageMinify|\Robo\Collection\CollectionBuilder
      */
     protected function taskImageMinify($input)
     {
@@ -26,7 +26,7 @@ trait loadTasks
    /**
     * @param array $input
     *
-    * @return \Robo\Task\Assets\Less
+    * @return \Robo\Task\Assets\Less|\Robo\Collection\CollectionBuilder
     */
     protected function taskLess($input)
     {
@@ -36,7 +36,7 @@ trait loadTasks
     /**
      * @param array $input
      *
-     * @return \Robo\Task\Assets\Scss
+     * @return \Robo\Task\Assets\Scss|\Robo\Collection\CollectionBuilder
      */
     protected function taskScss($input)
     {

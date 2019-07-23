@@ -23,20 +23,21 @@ interface CollectionInterface extends NestedCollectionInterface
      * method ONLY if its 'run()' method completes successfully, and some
      * task added after it fails.
      *
-     * @param TaskInterface $task
+     * @param \Robo\Contract\TaskInterface $task
      *   The task to add to our collection.
      * @param int|string $name
      *   An optional name for the task -- missing or UNNAMEDTASK for unnamed tasks.
      *   Names are used for positioning before and after tasks.
      *
-     * @return CollectionInterface
+     * @return $this
      */
     public function add(TaskInterface $task, $name = self::UNNAMEDTASK);
 
     /**
      * Add arbitrary code to execute as a task.
      *
-     * @param callable $code Code to execute as a task
+     * @param callable $code
+     *   Code to execute as a task
      * @param int|string $name
      *   An optional name for the task -- missing or UNNAMEDTASK for unnamed tasks.
      *   Names are used for positioning before and after tasks.
@@ -51,8 +52,10 @@ interface CollectionInterface extends NestedCollectionInterface
      * provided callback is a TaskInterface or Collection, then it will be
      * executed.
      *
-     * @param CollectionInterface|array $iterable A collection of things to iterate
-     * @param $code $code A callback function to call for each item in the collection.
+     * @param static|array $iterable
+     *   A collection of things to iterate.
+     * @param callable $code
+     *   A callback function to call for each item in the collection.
      *
      * @return $this
      */
@@ -63,7 +66,7 @@ interface CollectionInterface extends NestedCollectionInterface
      * will execute ONLY if all of the tasks added before it complete
      * successfully, AND some task added after it fails.
      *
-     * @param TaskInterface $rollbackTask
+     * @param \Robo\Contract\TaskInterface $rollbackTask
      *   The rollback task to add.  Note that the 'run()' method of the
      *   task executes, not its 'rollback()' method.  To use the 'rollback()'
      *   method, add the task via 'Collection::add()' instead.
@@ -75,7 +78,8 @@ interface CollectionInterface extends NestedCollectionInterface
     /**
      * Add arbitrary code to execute as a rollback.
      *
-     * @param callable $rollbackTask Code to execute during rollback processing
+     * @param callable $rollbackTask
+     *   Code to execute during rollback processing.
      *
      * @return $this
      */
@@ -87,7 +91,7 @@ interface CollectionInterface extends NestedCollectionInterface
      * any task fails.  Completion tasks never cause errors to be returned
      * from Collection::run(), even if they fail.
      *
-     * @param TaskInterface $completionTask
+     * @param \Robo\Contract\TaskInterface $completionTask
      *   The completion task to add.  Note that the 'run()' method of the
      *   task executes, just as if the task was added normally.
      *
@@ -98,7 +102,8 @@ interface CollectionInterface extends NestedCollectionInterface
     /**
      * Add arbitrary code to execute as a completion.
      *
-     * @param callable $completionTask Code to execute after collection completes
+     * @param callable $completionTask
+     *   Code to execute after collection completes
      *
      * @return $this
      */
@@ -109,7 +114,7 @@ interface CollectionInterface extends NestedCollectionInterface
      *
      * @param string $name
      *   The name of the task to insert before.  The named task MUST exist.
-     * @param callable|TaskInterface $task
+     * @param callable|\Robo\Contract\TaskInterface $task
      *   The task to add.
      * @param int|string $nameOfTaskToAdd
      *   The name of the task to add. If not provided, will be associated
@@ -124,7 +129,7 @@ interface CollectionInterface extends NestedCollectionInterface
      *
      * @param string $name
      *   The name of the task to insert before.  The named task MUST exist.
-     * @param callable|TaskInterface $task
+     * @param callable|\Robo\Contract\TaskInterface $task
      *   The task to add.
      * @param int|string $nameOfTaskToAdd
      *   The name of the task to add. If not provided, will be associated
@@ -140,10 +145,13 @@ interface CollectionInterface extends NestedCollectionInterface
      * method was called. If one of the previous tasks fail, then this
      * message will not be printed.
      *
-     * @param string $text Message to print.
-     * @param array $context Extra context data for use by the logger. Note
+     * @param string $text
+     *   Message to print.
+     * @param array $context
+     *   Extra context data for use by the logger. Note
      *   that the data from the collection state is merged with the provided context.
-     * @param \Psr\Log\LogLevel|string $level The log level to print the information at. Default is NOTICE.
+     * @param \Psr\Log\LogLevel|string $level
+     *   The log level to print the information at. Default is NOTICE.
      *
      * @return $this
      */

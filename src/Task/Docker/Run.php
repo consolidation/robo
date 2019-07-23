@@ -115,7 +115,7 @@ class Run extends Base
     }
 
     /**
-     * {@inheritdoc)}
+     * {@inheritdoc}
      */
     public function interactive($interactive = true)
     {
@@ -155,7 +155,8 @@ class Run extends Base
      * inherited from ExecTrait.
      *
      * @param array $env
-     * @return type
+     *
+     * @return $this
      */
     public function envVars(array $env)
     {

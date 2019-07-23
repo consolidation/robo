@@ -19,7 +19,7 @@ trait IO
     /**
      * Provide access to SymfonyStyle object.
      *
-     * @return SymfonyStyle
+     * @return \Symfony\Component\Console\Style\SymfonyStyle
      *
      * @see http://symfony.com/blog/new-in-symfony-2-8-console-style-guide
      */

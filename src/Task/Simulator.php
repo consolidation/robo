@@ -43,7 +43,7 @@ class Simulator extends BaseTask implements CommandInterface
      * @param string $function
      * @param array $args
      *
-     * @return \Robo\Result|\Robo\Task\Simulator
+     * @return \Robo\Result|$this
      */
     public function __call($function, $args)
     {
@@ -109,7 +109,7 @@ class Simulator extends BaseTask implements CommandInterface
     }
 
     /**
-     * @param string $action
+     * @param array $action
      *
      * @return string
      */

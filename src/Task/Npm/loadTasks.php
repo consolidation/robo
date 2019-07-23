@@ -6,7 +6,7 @@ trait loadTasks
     /**
      * @param null|string $pathToNpm
      *
-     * @return \Robo\Task\Npm\Install
+     * @return \Robo\Task\Npm\Install|\Robo\Collection\CollectionBuilder
      */
     protected function taskNpmInstall($pathToNpm = null)
     {
@@ -16,7 +16,7 @@ trait loadTasks
     /**
      * @param null|string $pathToNpm
      *
-     * @return \Robo\Task\Npm\Update
+     * @return \Robo\Task\Npm\Update|\Robo\Collection\CollectionBuilder
      */
     protected function taskNpmUpdate($pathToNpm = null)
     {

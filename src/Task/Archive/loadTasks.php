@@ -4,9 +4,9 @@ namespace Robo\Task\Archive;
 trait loadTasks
 {
     /**
-     * @param $filename
+     * @param string $filename
      *
-     * @return Pack
+     * @return \Robo\Task\Archive\Pack|\Robo\Collection\CollectionBuilder
      */
     protected function taskPack($filename)
     {
@@ -14,9 +14,9 @@ trait loadTasks
     }
 
     /**
-     * @param $filename
+     * @param string $filename
      *
-     * @return Extract
+     * @return \Robo\Task\Archive\Extract|\Robo\Collection\CollectionBuilder
      */
     protected function taskExtract($filename)
     {

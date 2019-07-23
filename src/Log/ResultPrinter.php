@@ -27,7 +27,7 @@ class ResultPrinter implements LoggerAwareInterface, ProgressIndicatorAwareInter
      *
      * @param \Robo\Result $result
      *
-     * @return bool
+     * @return null|bool
      */
     public function printResult(Result $result)
     {

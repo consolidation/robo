@@ -28,15 +28,24 @@ class Phpspec extends BaseTask implements CommandInterface, PrintedInterface
     protected $command;
 
     /**
-     * @var string[] $formaters available formaters for format option
+     * @var string[] $formaters
+     *   Available formaters for format option.
      */
     protected $formaters = ['progress', 'html', 'pretty', 'junit', 'dot', 'tap'];
 
     /**
-     * @var array $verbose_levels available verbose levels
+     * @var array $verbose_levels
+     *   Available verbose levels.
      */
     protected $verbose_levels = ['v', 'vv', 'vvv'];
 
+    /**
+     * Phpspec constructor.
+     *
+     * @param null|string $pathToPhpspec
+     *
+     * @throws \Robo\Exception\TaskException
+     */
     public function __construct($pathToPhpspec = null)
     {
         $this->command = $pathToPhpspec;
@@ -67,6 +76,11 @@ class Phpspec extends BaseTask implements CommandInterface, PrintedInterface
         return $this;
     }
 
+    /**
+     * @param string $level
+     *
+     * @return $this
+     */
     public function verbose($level = 'v')
     {
         if (!in_array($level, $this->verbose_levels)) {
@@ -76,24 +90,40 @@ class Phpspec extends BaseTask implements CommandInterface, PrintedInterface
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function noAnsi()
     {
         $this->option('no-ansi');
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function noInteraction()
     {
         $this->option('no-interaction');
         return $this;
     }
 
+    /**
+     * @param string $config_file
+     *
+     * @return $this
+     */
     public function config($config_file)
     {
         $this->option('config', $config_file);
         return $this;
     }
 
+    /**
+     * @param string $formater
+     *
+     * @return $this
+     */
     public function format($formater)
     {
         if (!in_array($formater, $this->formaters)) {
@@ -103,11 +133,17 @@ class Phpspec extends BaseTask implements CommandInterface, PrintedInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getCommand()
     {
         return $this->command . $this->arguments;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function run()
     {
         $this->printTaskInfo('Running phpspec {arguments}', ['arguments' => $this->arguments]);

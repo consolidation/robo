@@ -4,7 +4,7 @@ namespace Robo\Task\Remote;
 trait loadTasks
 {
     /**
-     * @return \Robo\Task\Remote\Rsync
+     * @return \Robo\Task\Remote\Rsync|\Robo\Collection\CollectionBuilder
      */
     protected function taskRsync()
     {
@@ -15,7 +15,7 @@ trait loadTasks
      * @param null|string $hostname
      * @param null|string $user
      *
-     * @return \Robo\Task\Remote\Ssh
+     * @return \Robo\Task\Remote\Ssh|\Robo\Collection\CollectionBuilder
      */
     protected function taskSshExec($hostname = null, $user = null)
     {

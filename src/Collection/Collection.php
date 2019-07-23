@@ -42,17 +42,17 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
     protected $taskList = [];
 
     /**
-     * @var TaskInterface[]
+     * @var \Robo\Contract\TaskInterface[]
      */
     protected $rollbackStack = [];
 
     /**
-     * @var TaskInterface[]
+     * @var \Robo\Contract\TaskInterface[]
      */
     protected $completionStack = [];
 
     /**
-     * @var CollectionInterface
+     * @var \Robo\Collection\CollectionInterface
      */
     protected $parentCollection;
 
@@ -74,6 +74,9 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
         $this->resetState();
     }
 
+    /**
+     * @param int $interval
+     */
     public function setProgressBarAutoDisplayInterval($interval)
     {
         if (!$this->progressIndicator) {
@@ -209,7 +212,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
      *
      * @param string $method
      * @param string $name
-     * @param callable|TaskInterface $task
+     * @param callable|\Robo\Contract\TaskInterface $task
      * @param string $nameOfTaskToAdd
      *
      * @return $this
@@ -280,7 +283,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
     /**
      * Return the list of task names added to this collection.
      *
-     * @return array
+     * @return string[]
      */
     public function taskNames()
     {
@@ -308,7 +311,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
      * @param string $name
      *   The name of the task to insert before.  The named task MUST exist.
      *
-     * @return Element
+     * @return \Robo\Collection\Element
      *   The task group for the named task. Generally this is only
      *   used to call 'before()' and 'after()'.
      */
@@ -323,7 +326,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
     /**
      * Add a list of tasks to our task collection.
      *
-     * @param TaskInterface[] $tasks
+     * @param \Robo\Contract\TaskInterface[] $tasks
      *   An array of tasks to run with rollback protection
      *
      * @return $this
@@ -342,7 +345,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
      * @param string $name
      * @param \Robo\Contract\TaskInterface $task
      *
-     * @return \Robo\Collection\Collection
+     * @return $this
      */
     protected function addToTaskList($name, TaskInterface $task)
     {
@@ -392,7 +395,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
     /**
      * Get the appropriate parent collection to use
      *
-     * @return CollectionInterface
+     * @return \Robo\Collection\CollectionInterface|$this
      */
     public function getParentCollection()
     {
@@ -413,8 +416,10 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
      * function directly is to add a task that sends notification
      * when a task fails.
      *
-     * @param TaskInterface $rollbackTask
+     * @param \Robo\Contract\TaskInterface $rollbackTask
      *   The rollback task to run on failure.
+     *
+     * @return null
      */
     public function registerRollback(TaskInterface $rollbackTask)
     {
@@ -441,8 +446,10 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
      * the nested task completes; they are not deferred to the end of
      * the containing collection's execution.
      *
-     * @param TaskInterface $completionTask
+     * @param \Robo\Contract\TaskInterface $completionTask
      *   The completion task to run at the end of all other operations.
+     *
+     * @return null
      */
     public function registerCompletion(TaskInterface $completionTask)
     {
@@ -547,7 +554,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
      * Return the failing result, or success if all tasks run.
      *
      * @param string $name
-     * @param TaskInterface[] $taskList
+     * @param \Robo\Contract\TaskInterface[] $taskList
      * @param \Robo\Result $result
      *
      * @return \Robo\Result
@@ -641,7 +648,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
     }
 
     /**
-     * @param TaskInterface|NestedCollectionInterface|WrappedTaskInterface $task
+     * @param \Robo\Contract\TaskInterface|\Robo\Collection\NestedCollectionInterface|\Robo\Contract\WrappedTaskInterface $task
      *
      * @return \Robo\Result
      */
@@ -662,6 +669,10 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
         return $taskResult;
     }
 
+    /**
+     * @param \Robo\Contract\TaskInterface $task
+     * @param \Robo\State\Data $taskResult
+     */
     protected function doStateUpdates($task, Data $taskResult)
     {
         $this->updateState($taskResult);
@@ -674,6 +685,13 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
         }
     }
 
+    /**
+     * @param \Robo\Contract\TaskInterface $task
+     * @param string $key
+     * @param string $source
+     *
+     * @return $this
+     */
     public function storeState($task, $key, $source = '')
     {
         $this->messageStoreKeys[spl_object_hash($task)] = [$key, $source];
@@ -681,6 +699,13 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
         return $this;
     }
 
+    /**
+     * @param \Robo\Contract\TaskInterface $task
+     * @param string $functionName
+     * @param string $stateKey
+     *
+     * @return $this
+     */
     public function deferTaskConfiguration($task, $functionName, $stateKey)
     {
         return $this->defer(
@@ -698,6 +723,11 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
      * runs. Use this time to provide more settings for the task, e.g. from
      * the collection's shared state, which is populated with the results
      * of previous test runs.
+     *
+     * @param \Robo\Contract\TaskInterface $task
+     * @param callable $callback
+     *
+     * @return $this
      */
     public function defer($task, $callback)
     {
@@ -706,6 +736,9 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
         return $this;
     }
 
+    /**
+     * @param \Robo\Contract\TaskInterface $task
+     */
     protected function doDeferredInitialization($task)
     {
         // If the task is a state consumer, then call its receiveState method
@@ -727,7 +760,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
 
     /**
      * @param TaskInterface|NestedCollectionInterface|WrappedTaskInterface $task
-     * @param $parentCollection
+     * @param \Robo\Collection\CollectionInterface $parentCollection
      */
     protected function setParentCollectionForTask($task, $parentCollection)
     {
@@ -744,7 +777,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
      *
      * This is used to roll back or complete.
      *
-     * @param TaskInterface[] $taskList
+     * @param \Robo\Contract\TaskInterface[] $taskList
      */
     protected function runTaskListIgnoringFailures(array $taskList)
     {
@@ -766,7 +799,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
     /**
      * Give all of our tasks to the provided collection builder.
      *
-     * @param CollectionBuilder $builder
+     * @param \Robo\Collection\CollectionBuilder $builder
      */
     public function transferTasks($builder)
     {

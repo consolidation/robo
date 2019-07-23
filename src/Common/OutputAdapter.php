@@ -13,6 +13,9 @@ class OutputAdapter implements OutputAdapterInterface, OutputAwareInterface
 {
     use OutputAwareTrait;
 
+    /**
+     * @var int[]
+     */
     protected $verbosityMap = [
         VerbosityThresholdInterface::VERBOSITY_NORMAL => OutputInterface::VERBOSITY_NORMAL,
         VerbosityThresholdInterface::VERBOSITY_VERBOSE => OutputInterface::VERBOSITY_VERBOSE,
@@ -20,6 +23,9 @@ class OutputAdapter implements OutputAdapterInterface, OutputAwareInterface
         VerbosityThresholdInterface::VERBOSITY_DEBUG => OutputInterface::VERBOSITY_DEBUG,
     ];
 
+    /**
+     * {@inheritdoc}
+     */
     public function verbosityMeetsThreshold($verbosityThreshold)
     {
         if (!isset($this->verbosityMap[$verbosityThreshold])) {
@@ -31,6 +37,9 @@ class OutputAdapter implements OutputAdapterInterface, OutputAwareInterface
         return $verbosity >= $verbosityThreshold;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function writeMessage($message)
     {
         $this->output()->write($message);

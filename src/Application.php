@@ -70,7 +70,8 @@ class Application extends SymfonyApplication implements IOAwareInterface, Logger
     /**
      * Add self update command, do nothing if null is provided
      *
-     * @param string $repository GitHub Repository for self update
+     * @param string $repository
+     *   GitHub Repository for self update.
      */
     public function addSelfUpdateCommand($repository = null)
     {

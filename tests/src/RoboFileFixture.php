@@ -23,7 +23,8 @@ class RoboFileFixture extends \Robo\Tasks implements LoggerAwareInterface, Custo
     /**
      * Demonstrate Robo variable argument passing.
      *
-     * @param $a A list of commandline parameters.
+     * @param array $a
+     *   A list of commandline parameters.
      */
     public function testArrayArgs(array $a)
     {

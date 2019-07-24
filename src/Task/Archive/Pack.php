@@ -245,10 +245,20 @@ class Pack extends BaseTask implements PrintedInterface
                     if (!$zip->addFile($file->getRealpath(), "{$placementLocation}/{$relativePathname}")) {
                         return Result::error($this, "Could not add directory $filesystemLocation to the archive; error adding {$file->getRealpath()}.");
                     }
+                    if (stripos(PHP_OS, 'WIN') !== 0)
+                    {
+                        $zip->setExternalAttributesName("{$placementLocation}/{$relativePathname}", \ZipArchive::OPSYS_UNIX,
+                            $file->getPerms() << 16);
+                    }
                 }
             } elseif (is_file($filesystemLocation)) {
                 if (!$zip->addFile($filesystemLocation, $placementLocation)) {
                     return Result::error($this, "Could not add file $filesystemLocation to the archive.");
+                }
+                if (stripos(PHP_OS, 'WIN') !== 0)
+                {
+                    $zip->setExternalAttributesName($placementLocation, \ZipArchive::OPSYS_UNIX,
+                        fileperms($filesystemLocation) << 16);
                 }
             } else {
                 return Result::error($this, "Could not find $filesystemLocation for the archive.");

@@ -127,14 +127,21 @@ The default value for options must be one of:
 
 No other values should be used for the default value. For example, `$options = ['a' => 1]` is **incorrect**; instead, use `$options = ['a' => '1']`. Similarly, `$options = ['a' => true]` is unsupported, or at least not useful, as this would indicate that the value of `--a` was always `true`, whether or not it appeared on the command line.
 
-### Load From Other Directories
+### Load From Other Robofile
 
-Robo can execute commands from a RoboFile located in different directory.
+Robo can execute commands from a different RoboFile, eg. located in different directory or with a different filename.  
 You can specify the path to another RoboFile by including the `--load-from` option:
 
 ```
-robo run --load-from /path/to/my/other/project
+robo run --load-from /path/to/my/other/robofile
 ```
+
+Additional notes:
+
+- The filename can be anything; it is not limited to `RoboFile.php`.
+- The class name inside the file has to be the same name as the file has.
+- The class has to be in the root namespace. Eg. `Foo.php => \Foo`
+- The internal current directory (cwd) of the PHP process will be switched to the directory where the provided RoboFile came from.
 
 ### Pass-Through Arguments
 

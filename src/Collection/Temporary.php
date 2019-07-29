@@ -25,10 +25,16 @@ namespace Robo\Collection;
  */
 class Temporary
 {
+
+    /**
+     * @var \Robo\Collection\Collection
+     */
     private static $collection;
 
     /**
      * Provides direct access to the collection of temporaries, if necessary.
+     *
+     * @return \Robo\Collection\Collection
      */
     public static function getCollection()
     {

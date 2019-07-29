@@ -16,14 +16,19 @@ class ProcessExecutor implements ConfigAwareInterface, LoggerAwareInterface, Out
     use OutputAwareTrait;
 
     /**
-     * @param Process $process
-     * @return type
+     * @param \Symfony\Component\Process\Process $process
      */
     public function __construct(Process $process)
     {
         $this->process = $process;
     }
 
+    /**
+     * @param \League\Container\ContainerInterface $container
+     * @param \Symfony\Component\Process\Process $process
+     *
+     * @return static
+     */
     public static function create($container, $process)
     {
         $processExecutor = new self($process);
@@ -37,7 +42,7 @@ class ProcessExecutor implements ConfigAwareInterface, LoggerAwareInterface, Out
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     protected function getCommandDescription()
     {

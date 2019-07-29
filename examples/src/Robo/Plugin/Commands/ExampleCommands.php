@@ -191,7 +191,7 @@ class ExampleCommands extends \Robo\Tasks
     /**
      * Demonstrate Robo boolean options.
      *
-     * @param $opts The options.
+     * @param array $opts The options.
      * @option boolean $silent Supress output.
      */
     public function tryOptbool($opts = ['silent|s' => false])

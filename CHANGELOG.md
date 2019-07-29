@@ -1,6 +1,16 @@
 # Changelog
 
-### 1.4.7 - 1.4.8 2/19/2019
+### 1.4.10 7/29/2019
+
+* Allow default argument for confirm() questions by Dane Powell (#850)
+* Allow command classes to end in Commands or Command by Jelle Sebreghts (#878)
+* ImageMinify: Prevent undefined variable error by Dan (#852) (#854)
+* Add sample with changed file handling to Base/Watch documentation by Patrick Kollitsch (#847)
+* Clearer explanation of --load-from option by Jordan Koplowicz (#872)
+* Fix PHPDoc @param and @return type hints by Andor (#886)
+* Update PHPDoc mismatch by Filippo Tessarotto (#883)
+
+### 1.4.7 - 1.4.9 2/19/2019
 
 * Re-release 1.4.6 to remove artifacts inadvertantly added to tagged release.
 

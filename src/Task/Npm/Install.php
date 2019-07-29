@@ -21,7 +21,7 @@ use Robo\Contract\CommandInterface;
 class Install extends Base implements CommandInterface
 {
     /**
-     * @var string
+     * {@inheritdoc}
      */
     protected $action = 'install';
 

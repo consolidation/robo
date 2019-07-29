@@ -3,6 +3,13 @@ namespace Robo\Exception;
 
 class TaskException extends \Exception
 {
+
+    /**
+     * TaskException constructor.
+     *
+     * @param string|object $class
+     * @param string $message
+     */
     public function __construct($class, $message)
     {
         if (is_object($class)) {

@@ -20,12 +20,12 @@ class Element
     protected $task;
 
     /**
-     * @var array
+     * @var \Robo\Contract\TaskInterface[]|callable[]
      */
     protected $before = [];
 
     /**
-     * @var array
+     * @var \Robo\Contract\TaskInterface[]|callable[]
      */
     protected $after = [];
 
@@ -35,7 +35,7 @@ class Element
     }
 
     /**
-     * @param mixed $before
+     * @param \Robo\Contract\TaskInterface|callable $before
      * @param string $name
      */
     public function before($before, $name)
@@ -48,7 +48,7 @@ class Element
     }
 
     /**
-     * @param mixed $after
+     * @param \Robo\Contract\TaskInterface|callable $after
      * @param string $name
      */
     public function after($after, $name)
@@ -61,7 +61,7 @@ class Element
     }
 
     /**
-     * @return array
+     * @return \Robo\Contract\TaskInterface[]|callable[]
      */
     public function getBefore()
     {
@@ -69,7 +69,7 @@ class Element
     }
 
     /**
-     * @return array
+     * @return \Robo\Contract\TaskInterface[]|callable[]
      */
     public function getAfter()
     {
@@ -85,7 +85,7 @@ class Element
     }
 
     /**
-     * @return array
+     * @return \Robo\Contract\TaskInterface[]|callable[]
      */
     public function getTaskList()
     {

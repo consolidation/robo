@@ -88,6 +88,11 @@ class SemVer implements TaskInterface
         return str_replace($search, $replace, $this->format);
     }
 
+    /**
+     * @param string $version
+     *
+     * @return $this
+     */
     public function version($version)
     {
         $this->parseString($version);
@@ -228,6 +233,11 @@ class SemVer implements TaskInterface
         return true;
     }
 
+    /**
+     * @param string $semverString
+     *
+     * @throws \Robo\Exception\TaskException
+     */
     protected function parseString($semverString)
     {
         if (!preg_match_all(self::REGEX_STRING, $semverString, $matches)) {
@@ -241,6 +251,8 @@ class SemVer implements TaskInterface
     }
 
     /**
+     * @param string $semverFileContents
+     *
      * @throws \Robo\Exception\TaskException
      */
     protected function parseFile($semverFileContents)

@@ -24,7 +24,7 @@ trait ProgressIndicatorAwareTrait
     /**
      * @param null|\Robo\Common\ProgressIndicator $progressIndicator
      *
-     * @return ProgressIndicatorAwareInterface
+     * @return $this
      */
     public function setProgressIndicator($progressIndicator)
     {

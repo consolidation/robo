@@ -35,7 +35,7 @@ $this->taskChangelog()
 * `changes(array $data)`   * `param array` $data
 * `change($change)`   * `param string` $change
 * `getChanges()`  @return array
-* `processLogRow($i)`   * `param` $i
+* `processLogRow($i)`   * `param string` $i
 
 ## GenerateMarkdownDoc
 
@@ -137,8 +137,8 @@ $this->taskGitHubRelease('0.1.0')
 * `owner($owner)`   * `param string` $owner
 * `uri($uri)`   * `param string` $uri
 * `user($user)`   * `param string` $user
-* `password($password)`   * `param` $password
-* `accessToken($token)`   * `param` $accessToken
+* `password($password)`   * `param string` $password
+* `accessToken($token)`   * `param string` $token
 
 ## OpenBrowser
 
@@ -251,7 +251,7 @@ $this->taskSemVer('.semver')
 
 
 * `__toString()`  @return string
-* `version($version)` 
+* `version($version)`   * `param string` $version
 * `setFormat($format)`   * `param string` $format
 * `setMetadataSeparator($separator)`   * `param string` $separator
 * `setPrereleaseSeparator($separator)`   * `param string` $separator

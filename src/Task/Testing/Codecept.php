@@ -28,7 +28,7 @@ use Symfony\Component\Process\Process;
 class Codecept extends BaseTask implements CommandInterface, PrintedInterface
 {
     use \Robo\Common\ExecOneCommand;
-    
+
     /**
      * @var string
      */

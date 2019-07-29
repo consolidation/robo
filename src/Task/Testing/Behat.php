@@ -74,7 +74,7 @@ class Behat extends BaseTask implements CommandInterface, PrintedInterface
     }
 
     /**
-     * @param $config_file
+     * @param string $config_file
      *
      * @return $this
      */
@@ -142,10 +142,7 @@ class Behat extends BaseTask implements CommandInterface, PrintedInterface
     }
 
     /**
-     * Returns command that can be executed.
-     * This method is used to pass generated command from one task to another.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getCommand()
     {

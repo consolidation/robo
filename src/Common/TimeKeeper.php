@@ -44,9 +44,10 @@ class TimeKeeper
     }
 
     /**
-     * Format a duration into a human-readable time
+     * Format a duration into a human-readable time.
      *
-     * @param float $duration Duration in seconds, with fractional component
+     * @param float $duration
+     *   Duration in seconds, with fractional component.
      *
      * @return string
      */

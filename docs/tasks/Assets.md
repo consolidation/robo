@@ -127,7 +127,7 @@ Please install additional dependencies to use:
 * `type($type)`  Sets type with validation.
 * `singleLine($singleLine)`  Single line option for the JS minimisation.
 * `keepImportantComments($keepImportantComments)`  keepImportantComments option for the JS minimisation.
-* `specialVarRx($specialVarRx)`  specialVarRx option for the JS minimisation.
+* `specialVarRx($specialVarRx)`  Set specialVarRx option for the JS minimisation.
 * `__toString()`  @return string
 
 ## Scss

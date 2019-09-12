@@ -59,8 +59,9 @@ class RoboFile extends \Robo\Tasks
     /**
      * Generate a new Robo task that wraps an existing utility class.
      *
-     * @param $className The name of the existing utility class to wrap.
-     * @param $wrapperClassName The name of the wrapper class to create. Optional.
+     * @param string $className The name of the existing utility class to wrap.
+     * @param string $wrapperClassName The name of the wrapper class to create. Optional.
+     *
      * @usage generate:task 'Symfony\Component\Filesystem\Filesystem' FilesystemStack
      */
     public function generateTask($className, $wrapperClassName = "")
@@ -94,17 +95,14 @@ class RoboFile extends \Robo\Tasks
             ->push()
             ->run();
 
-        if ($stable) {
-            $this->pharPublish();
-        }
         $this->publish();
-
         $this->taskGitStack()
             ->tag($version)
             ->push('origin master --tags')
             ->run();
 
         if ($stable) {
+            $this->pharPublish();
             $version = $this->incrementVersion($version) . '-dev';
             $this->writeVersion($version);
 

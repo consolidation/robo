@@ -66,22 +66,60 @@ trait ExecTrait
      */
     abstract public function getCommandDescription();
 
-    /** Typically provided by Timer trait via ProgressIndicatorAwareTrait. */
+    /**
+     * @see \Robo\Common\ProgressIndicatorAwareTrait
+     * @see \Robo\Common\Timer
+     */
     abstract public function startTimer();
+
+    /**
+     * @see \Robo\Common\ProgressIndicatorAwareTrait
+     * @see \Robo\Common\Timer
+     */
     abstract public function stopTimer();
+
+    /**
+     * @return null|float
+     *
+     * @see \Robo\Common\ProgressIndicatorAwareTrait
+     * @see \Robo\Common\Timer
+     */
     abstract public function getExecutionTime();
 
     /**
-     * Typically provided by TaskIO Trait.
+     * @return bool
+     *
+     * @see \Robo\Common\TaskIO
      */
     abstract public function hideTaskProgress();
+
+    /**
+     * @param bool $inProgress
+     *
+     * @see \Robo\Common\TaskIO
+     */
     abstract public function showTaskProgress($inProgress);
+
+    /**
+     * @param string $text
+     * @param null|array $context
+     *
+     * @see \Robo\Common\TaskIO
+     */
     abstract public function printTaskInfo($text, $context = null);
 
     /**
-     * Typically provided by VerbosityThresholdTrait.
+     * @return bool
+     *
+     * @see \Robo\Common\VerbosityThresholdTrait
      */
     abstract public function verbosityMeetsThreshold();
+
+    /**
+     * @param string $message
+     *
+     * @see \Robo\Common\VerbosityThresholdTrait
+     */
     abstract public function writeMessage($message);
 
     /**
@@ -104,6 +142,8 @@ trait ExecTrait
 
     /**
      * Executes command in background mode (asynchronously)
+     *
+     * @param bool $arg
      *
      * @return $this
      */
@@ -141,6 +181,11 @@ trait ExecTrait
 
     /**
      * Set a single environment variable, or multiple.
+     *
+     * @param string|array $env
+     * @param bool|string $value
+     *
+     * @return $this
      */
     public function env($env, $value = null)
     {
@@ -179,7 +224,7 @@ trait ExecTrait
     /**
      * Attach tty to process for interactive input
      *
-     * @param $interactive bool
+     * @param bool $interactive
      *
      * @return $this
      */
@@ -275,7 +320,7 @@ trait ExecTrait
     }
 
     /**
-     * @param Process $process
+     * @param \Symfony\Component\Process\Process $process
      * @param callable $output_callback
      *
      * @return \Robo\ResultData
@@ -354,9 +399,6 @@ trait ExecTrait
         return new ResultData($this->process->getExitCode());
     }
 
-    /**
-     *
-     */
     protected function stop()
     {
         if ($this->background && isset($this->process) && $this->process->isRunning()) {
@@ -384,9 +426,9 @@ trait ExecTrait
     }
 
     /**
-     * @param $command
+     * @param string $command
      *
-     * @return mixed
+     * @return string
      */
     protected function formatCommandDisplay($command)
     {

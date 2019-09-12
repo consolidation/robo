@@ -31,7 +31,7 @@ class OpenBrowser extends BaseTask
     protected $urls = [];
 
     /**
-     * @param string|array $url
+     * @param string|string[] $url
      */
     public function __construct($url)
     {

@@ -3,45 +3,43 @@ namespace Robo\State;
 
 use Robo\State\Data;
 
+/**
+ * @see \Robo\State\StateAwareInterface
+ */
 trait StateAwareTrait
 {
+    /**
+     * @var \Robo\State\Data
+     */
     protected $state;
 
     /**
-     * {@inheritdoc}
+     * @return \Robo\State\Data
      */
     public function getState()
     {
         return $this->state;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setState(Data $state)
     {
         $this->state = $state;
     }
 
     /**
-     * {@inheritdoc}
+     * @param int|string $key
+     * @param mixed $value
      */
     public function setStateValue($key, $value)
     {
         $this->state[$key] = $value;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function updateState(Data $update)
     {
         $this->state->update($update);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function resetState()
     {
         $this->state = new Data();

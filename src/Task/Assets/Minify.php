@@ -23,7 +23,7 @@ use Robo\Task\BaseTask;
 class Minify extends BaseTask
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected $types = ['css', 'js'];
 
@@ -43,7 +43,7 @@ class Minify extends BaseTask
     protected $type;
 
     /**
-     * @var array
+     * @var bool[]
      */
     protected $squeezeOptions = [
         'singleLine' => true,
@@ -87,7 +87,8 @@ class Minify extends BaseTask
     /**
      * Sets type with validation.
      *
-     * @param string $type css|js
+     * @param string $type
+     *   Allowed values: "css", "js".
      *
      * @return $this
      */
@@ -217,11 +218,11 @@ class Minify extends BaseTask
     }
 
     /**
-     * specialVarRx option for the JS minimisation.
+     * Set specialVarRx option for the JS minimisation.
      *
      * @param bool $specialVarRx
      *
-     * @return $this ;
+     * @return $this
      */
     public function specialVarRx($specialVarRx)
     {

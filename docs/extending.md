@@ -2,7 +2,7 @@
 
 Robo tasks can be added to your Robo application by using Composer to suppliment the set of built-in tasks that Robo provides by default. To find existing Robo task extensions, search in Packagist for projects of type [robo-tasks](https://packagist.org/search/?type=robo-tasks).
 
-The convention used to add new tasks for use in your RoboFiles is to create a wrapper trait named `Tasks` in your namespace that instantiates the implementation class for each task. Each task method in the trait should start with the prefix `task`, and should use **chained method calls** for configuration. Task execution should be triggered by the method `run`. 
+The convention used to add new tasks for use in your RoboFiles is to create a wrapper trait named `Tasks` in your namespace that instantiates the implementation class for each task. Each task method in the trait should start with the prefix `task`, and should use **chained method calls** for configuration. Task execution should be triggered by the method `run`.
 
 To include additional tasks in your RoboFile, you must `use` the appropriate `Tasks` in your RoboFile. See the section [Including Additional Tasks](#including-additional-tasks) below. To create your own Robo extension that provides tasks for use in RoboFiles, then you must write your own class that implements TaskInterface, and create a `Tasks` trait for it as described in the section [Creating a Robo Extension](#creating-a-robo-extension).
 
@@ -22,7 +22,7 @@ Once the extension you wish to use has been added to your vendor directory, you 
 class RoboFile extends \Robo\Tasks
 {
   use \Boedah\Robo\Task\Drush\Tasks;
-  
+
   public function test()
   {
     // ...
@@ -72,13 +72,13 @@ class MyCustomCommands extends \Robo\Tasks
 ```
 
 Please note: command files classes must be placed under `Robo/Plugin/Commands` relative namespace and their name
-must end in `Commands.php`.
+must end in `Command.php` or `Commands.php`.
 
 You can now access your new commands via Robo:
 
 ```
-$ ./vendor/bin/robo 
-$ ./robo 
+$ ./vendor/bin/robo
+$ ./robo
 Robo 1.2.2-dev
 
 Usage:
@@ -89,8 +89,8 @@ Available commands:
   help                  Displays help for a command
   list                  Lists commands
  my-project
-  my-project:command-one       
-  my-project:command-two        
+  my-project:command-one
+  my-project:command-two
 ```
 
 ## Creating a Robo Extension

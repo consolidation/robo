@@ -26,9 +26,11 @@ class ProcessUtils
     /**
      * Escapes a string to be used as a shell argument.
      *
-     * @param string $argument The argument that will be escaped
+     * @param string $argument
+     *   The argument that will be escaped.
      *
-     * @return string The escaped argument
+     * @return string
+     *   The escaped argument.
      *
      * @deprecated since version 3.3, to be removed in 4.0. Use a command line array or give env vars to the `Process::start/run()` method instead.
      */

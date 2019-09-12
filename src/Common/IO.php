@@ -57,7 +57,7 @@ trait IO
     /**
      * Provide access to SymfonyStyle object.
      *
-     * @return SymfonyStyle
+     * @return \Symfony\Component\Console\Style\SymfonyStyle
      *
      * @see http://symfony.com/blog/new-in-symfony-2-8-console-style-guide
      */
@@ -163,12 +163,13 @@ trait IO
 
     /**
      * @param string $question
+     * @param bool $default
      *
      * @return string
      */
-    protected function confirm($question)
+    protected function confirm($question, $default = false)
     {
-        return $this->doAsk(new ConfirmationQuestion($this->formatQuestion($question . ' (y/n)'), false));
+        return $this->doAsk(new ConfirmationQuestion($this->formatQuestion($question . ' (y/n)'), $default));
     }
 
     /**

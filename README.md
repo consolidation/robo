@@ -9,7 +9,6 @@ _This is the 1.x (stable) branch of the Robo task runner. Development for Robo 2
 [![Latest Unstable Version](https://poser.pugx.org/consolidation/robo/v/unstable.png)](https://packagist.org/packages/consolidation/robo) 
 [![Total Downloads](https://poser.pugx.org/consolidation/robo/downloads.png)](https://packagist.org/packages/consolidation/robo) 
 [![PHP 7 ready](http://php7ready.timesplinter.ch/consolidation/Robo/badge.svg)](https://travis-ci.org/consolidation/Robo)
-[![License](https://poser.pugx.org/consolidation/robo/license.png)](https://www.versioneye.com/user/projects/57c4a6fe968d64004d97620a?child=57c4a6fe968d64004d97620a#tab-licenses)
 
 [![Build Status](https://travis-ci.org/consolidation/Robo.svg?branch=master)](https://travis-ci.org/consolidation/Robo) 
 [![Windows CI](https://ci.appveyor.com/api/projects/status/0823hnh06pw8ir4d?svg=true)](https://ci.appveyor.com/project/greg-1-anderson/robo)

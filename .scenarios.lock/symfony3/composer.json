@@ -84,7 +84,7 @@
         "patchwork/jsqueeze": "For minifying JS files in taskMinify",
         "natxet/cssmin": "For minifying CSS files in taskMinify"
     },
-    "replace": {
-        "codegyre/robo": "< 1.0"
+    "conflict": {
+        "codegyre/robo": "*"
     }
 }

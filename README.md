@@ -8,7 +8,7 @@ _This is the 2.x (future development) version of Robo. See [#548](https://github
 [![Latest Stable Version](https://poser.pugx.org/consolidation/robo/v/stable.png)](https://packagist.org/packages/consolidation/robo) 
 [![Latest Unstable Version](https://poser.pugx.org/consolidation/robo/v/unstable.png)](https://packagist.org/packages/consolidation/robo) 
 [![Total Downloads](https://poser.pugx.org/consolidation/robo/downloads.png)](https://packagist.org/packages/consolidation/robo) 
-[![PHP 7 ready](http://php7ready.timesplinter.ch/consolidation/Robo/badge.svg)](https://travis-ci.org/consolidation/Robo)
+[![PHP 7 only](https://img.shields.io/badge/PHP%207-only-92a9ed)](https://travis-ci.org/consolidation/Robo)
 
 [![Build Status](https://travis-ci.org/consolidation/Robo.svg?branch=master)](https://travis-ci.org/consolidation/Robo) 
 [![Windows CI](https://ci.appveyor.com/api/projects/status/0823hnh06pw8ir4d?svg=true)](https://ci.appveyor.com/project/greg-1-anderson/robo)

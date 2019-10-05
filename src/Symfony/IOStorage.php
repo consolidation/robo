@@ -124,4 +124,24 @@ class IOStorage
     {
         return $this->io;
     }
+
+    /**
+     * Return our stored InputInterface object.
+     *
+     * @return InputInterface
+     */
+    public function input()
+    {
+        return $this->input;
+    }
+
+    /**
+     * Return our stored OutputInterface object.
+     *
+     * @return OutputInterface
+     */
+    public function output()
+    {
+        return $this->output;
+    }
 }

@@ -324,7 +324,7 @@ class Robo
             ->invokeMethod('setLogger', ['logger']);
         $container->inflector(\League\Container\ContainerAwareInterface::class)
             ->invokeMethod('setContainer', ['container']);
-        $container->inflector(\Robo\Symfony\IOAwareInterface::class)
+        $container->inflector(\Robo\Contract\IOAwareInterface::class)
             ->invokeMethod('setIOStorage', ['ioStorage']);
         $container->inflector(\Symfony\Component\Console\Input\InputAwareInterface::class)
             ->invokeMethod('setInput', ['input']);

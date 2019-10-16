@@ -404,7 +404,7 @@ class ImageMinify extends BaseTask
                             $this->printTaskSuccess($result->getMessage());
                             // retry the conversion with the downloaded executable
                             if (is_callable($minifier)) {
-                                $command = call_user_func($minifier, $from, $to, $minifierOptions);
+                                $command = call_user_func($minifier, $from, $to, $this->minifierOptions);
                             } elseif (method_exists($this, $minifier)) {
                                 $command = $this->{$minifier}($from, $to);
                             }
@@ -537,7 +537,7 @@ class ImageMinify extends BaseTask
         }
         $result = file_put_contents($path, $data);
         if ($result === false) {
-            $message = sprintf('Could not copy the executable <info>%s</info> to %s', $executable, $target_dir);
+            $message = sprintf('Could not copy the executable <info>%s</info> to %s', $executable, $path);
 
             return Result::error($this, $message);
         }

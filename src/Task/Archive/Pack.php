@@ -215,7 +215,7 @@ class Pack extends BaseTask implements PrintedInterface
             return Result::errorMissingExtension($this, 'zlib', 'zip packing');
         }
 
-        $zip = new \ZipArchive($archiveFile, \ZipArchive::CREATE);
+        $zip = new \ZipArchive();
         if (!$zip->open($archiveFile, \ZipArchive::CREATE)) {
             return Result::error($this, "Could not create zip archive {$archiveFile}");
         }

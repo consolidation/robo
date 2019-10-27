@@ -6,13 +6,8 @@
 
 namespace Robo\Contract;
 
-use Robo\Symfony\IOStorage;
-use Symfony\Component\Console\Input\InputAwareInterface;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use \Symfony\Component\Console\Input\InputAwareInterface;
 
 interface IOAwareInterface extends OutputAwareInterface, InputAwareInterface
 {
-    public function setIOStorage(IOStorage $ioStorage);
-    public function resetIO(InputInterface $input, OutputInterface $output);
 }

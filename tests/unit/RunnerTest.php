@@ -66,6 +66,13 @@ EOT;
         $this->guy->seeInOutput('Some text in section one.');
     }
 
+    public function testStyleInjector()
+    {
+        $argv = ['placeholder', 'test:style-injector'];
+        $this->runner->execute($argv, null, null, $this->guy->capturedOutputStream());
+        $this->guy->seeInOutput('Some text in section one printed via injected io object.');
+    }
+
     public function testSymfony()
     {
         $argv = ['placeholder', 'test:symfony', 'a', 'b', 'c', '--foo=bar', '--foo=baz', '--foo=boz'];

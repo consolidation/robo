@@ -11,6 +11,7 @@ use Consolidation\OutputFormatters\StructuredData\PropertyList;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * RoboFile under test: a fixture containing some commands to use with tests.
@@ -42,6 +43,19 @@ class RoboFileFixture extends \Robo\Tasks implements LoggerAwareInterface, Custo
         $this->io()->comment('This is just an example of different styles.');
         $this->io()->section('Section 2');
         $this->io()->text('Some text in section two.');
+    }
+
+    /**
+     * Demonstrate use of SymfonyStyle with a style injector
+     */
+    public function testStyleInjector(SymfonyStyle $io)
+    {
+        $io->title('My Title');
+        $io->section('Section 1');
+        $io->text('Some text in section one printed via injected io object.');
+        $io->comment('This is just an example of different styles.');
+        $io->section('Section 2');
+        $io->text('Some text in section two.');
     }
 
     /**

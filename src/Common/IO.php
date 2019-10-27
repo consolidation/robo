@@ -19,6 +19,8 @@ trait IO
     /**
      * Provide access to SymfonyStyle object.
      *
+     * @deprecated Use a style injector instead
+     *
      * @return \Symfony\Component\Console\Style\SymfonyStyle
      *
      * @see http://symfony.com/blog/new-in-symfony-2-8-console-style-guide

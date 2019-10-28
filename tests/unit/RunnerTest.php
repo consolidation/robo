@@ -20,8 +20,8 @@ class RunnerTest extends \Codeception\TestCase\Test
 
     public function testThrowsExceptionWhenNoContainerAvailable()
     {
-        $this->expectException('\RuntimeException');
-        $this->expectExceptionMessageRegExp(
+        \PHPUnit_Framework_TestCase::setExpectedExceptionRegExp(
+            '\RuntimeException',
             '/container is not initialized yet.*/'
         );
         Robo::unsetContainer();

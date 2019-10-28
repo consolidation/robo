@@ -4,7 +4,6 @@
 $kernel = \AspectMock\Kernel::getInstance();
 $kernel->init([
     'debug' => true,
-    'cacheDir' => '/tmp',
     'includePaths' => [
         __DIR__.'/../src',
         __DIR__.'/../vendor/symfony/process',

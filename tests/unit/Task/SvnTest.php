@@ -36,14 +36,15 @@ class SvnTest extends \Codeception\TestCase\Test
 
     public function testSvnStackCommands()
     {
-        verify(
+        $this->assertEquals(
+            "svn --username guest --password foo checkout svn://server/trunk && svn --username guest --password foo update && svn --username guest --password foo add && svn --username guest --password foo commit -m 'changed'",
             (new \Robo\Task\Vcs\SvnStack('guest', 'foo'))
                 ->checkout('svn://server/trunk')
                 ->update()
                 ->add()
                 ->commit('changed')
                 ->getCommand()
-        )->equals("svn --username guest --password foo checkout svn://server/trunk && svn --username guest --password foo update && svn --username guest --password foo add && svn --username guest --password foo commit -m 'changed'");
+        );
     }
 
 }

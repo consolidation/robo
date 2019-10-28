@@ -7,8 +7,12 @@ class ExecCest
     {
         $command = strncasecmp(PHP_OS, 'WIN', 3) == 0 ? 'dir' : 'ls';
         $res = $I->taskExec($command)->interactive(false)->run();
-        verify($res->getMessage())->contains('src');
-        verify($res->getMessage())->contains('codeception.yml');
+        $I->assertContains(
+            'src',
+            $res->getMessage());
+        $I->assertContains(
+            'codeception.yml',
+            $res->getMessage());
     }
 
     public function testMultipleEnvVars(CliGuy $I)
@@ -18,8 +22,12 @@ class ExecCest
         $task->env('BAR', 'BAZ');
         $result = $task->run();
         // Verify that the text contains our environment variable.
-        verify($result->getMessage())->contains('FOO=BAR');
-        verify($result->getMessage())->contains('BAR=BAZ');
+        $I->assertContains(
+            'FOO=BAR',
+            $result->getMessage());
+        $I->assertContains(
+            'BAR=BAZ',
+            $result->getMessage());
 
         // Now verify that we can reset a value that was previously set.
         $task = $I->taskExec('env')->interactive(false);
@@ -27,7 +35,9 @@ class ExecCest
         $task->env('FOO', 'BAZ');
         $result = $task->run();
         // Verify that the text contains the most recent environment variable.
-        verify($result->getMessage())->contains('FOO=BAZ');
+        $I->assertContains(
+            'FOO=BAZ',
+            $result->getMessage());
     }
 
     public function testInheritEnv(CliGuy $I)
@@ -44,19 +54,21 @@ class ExecCest
         $task = $I->taskExec('env | wc -l')->interactive(false);
         $result = $task->run();
         $start_count = (int) $result->getMessage();
-        verify($start_count)->greaterThan(0);
+        $I->assertGreaterThan(0, $start_count);
 
         // Verify that we get the same amount of environment variables with
         // another exec call.
         $task = $I->taskExec('env | wc -l')->interactive(false);
         $result = $task->run();
-        verify((int) $result->getMessage())->equals($start_count);
+        $I->assertEquals(
+            $start_count,
+            (int) $result->getMessage());
 
         // Now run the same command, but this time add another environment
         // variable, and see if our count increases by one.
         $task = $I->taskExec('env | wc -l')->interactive(false);
         $task->env('FOO', 'BAR');
         $result = $task->run();
-        verify((int) $result->getMessage())->equals($start_count + 1);
+        $I->assertEquals($start_count + 1, (int) $result->getMessage());
     }
 }

@@ -33,19 +33,17 @@ class NpmTest extends \Codeception\TestCase\Test
 
     public function testNpmInstallCommand()
     {
-        verify(
+        $this->assertEquals(
+            'npm install',
             (new \Robo\Task\Npm\Install('npm'))->getCommand()
-        )->equals('npm install');
+        );
 
-        verify(
-            (new \Robo\Task\Npm\Install('npm'))->getCommand()
-        )->equals('npm install');
-
-        verify(
+        $this->assertEquals(
+            'npm install --production',
             (new \Robo\Task\Npm\Install('npm'))
                 ->noDev()
                 ->getCommand()
-        )->equals('npm install --production');
+        );
     }
 
 }

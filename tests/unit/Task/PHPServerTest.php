@@ -46,11 +46,12 @@ class PHPServerTest extends \Codeception\TestCase\Test
         $cmd = stripos(PHP_OS, 'linux') === false ? '' : 'exec ';
         $cmd .= 'php -S 127.0.0.1:8000 -t web';
 
-        verify(
+        $this->assertEquals(
+            $cmd,
             (new \Robo\Task\Development\PhpServer('8000'))
                 ->host('127.0.0.1')
                 ->dir('web')
                 ->getCommand()
-        )->equals($cmd);
+        );
     }
 }

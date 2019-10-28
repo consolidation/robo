@@ -51,10 +51,16 @@ class ApplicationTest extends \Codeception\TestCase\Test
         $method = new ReflectionMethod($this->roboCommandFileInstance, 'task');
         $method->setAccessible(true);
         $collectionBuilder = $method->invoke($this->roboCommandFileInstance, 'Robo\Task\Base\Exec', 'ls');
-        verify(get_class($collectionBuilder))->equals('Robo\Collection\CollectionBuilder');
+        $this->assertEquals(
+            'Robo\Collection\CollectionBuilder',
+            get_class($collectionBuilder));
         $task = $collectionBuilder->getCollectionBuilderCurrentTask();
-        verify(get_class($task))->equals('Robo\Task\Base\Exec');
-        verify(get_class($task))->equals('Robo\Task\Base\Exec');
+        $this->assertEquals(
+            'Robo\Task\Base\Exec',
+            get_class($task));
+        $this->assertEquals(
+            'Robo\Task\Base\Exec',
+            get_class($task));
     }
 
     public function testAllowEmptyValuesAsDefaultsToOptionalOptions()
@@ -63,33 +69,31 @@ class ApplicationTest extends \Codeception\TestCase\Test
 
         $yell = $command->getDefinition()->getOption('yell');
 
-        verify($yell->isValueOptional())
-            ->equals(false);
-        verify($yell->getDefault())
-            ->equals(false);
+        $this->assertFalse($yell->isValueOptional());
+        $this->assertFalse($yell->getDefault());
 
         $to = $command->getDefinition()->getOption('to');
 
-        verify($to->isValueOptional())
-            ->equals(true);
-        verify($to->getDefault())
-            ->equals(null);
+        $this->assertTrue($to->isValueOptional());
+        $this->assertNull($to->getDefault());
     }
 
     public function testCommandDocumentation()
     {
         $command = $this->createCommand('fibonacci');
 
-        verify($command->getDescription())
-            ->equals('Calculate the fibonacci sequence between two numbers.');
+        $this->assertEquals(
+            'Calculate the fibonacci sequence between two numbers.',
+            $command->getDescription());
     }
 
     public function testCommandCompactDocumentation()
     {
         $command = $this->createCommand('compact');
 
-        verify($command->getDescription())
-            ->equals('Compact doc comment');
+        $this->assertEquals(
+            'Compact doc comment',
+            $command->getDescription());
     }
 
     public function testCommandArgumentDocumentation()
@@ -98,13 +102,15 @@ class ApplicationTest extends \Codeception\TestCase\Test
 
         $start = $command->getDefinition()->getArgument('start');
 
-        verify($start->getDescription())
-            ->equals('Number to start from');
+        $this->assertEquals(
+            'Number to start from',
+            $start->getDescription());
 
         $steps = $command->getDefinition()->getArgument('steps');
 
-        verify($steps->getDescription())
-            ->equals('Number of steps to perform');
+        $this->assertEquals(
+            'Number of steps to perform',
+            $steps->getDescription());
     }
 
     public function testCommandOptionDocumentation()
@@ -113,16 +119,18 @@ class ApplicationTest extends \Codeception\TestCase\Test
 
         $graphic = $command->getDefinition()->getOption('graphic');
 
-        verify($graphic->getDescription())
-            ->equals('Display the sequence graphically using cube representation');
+        $this->assertEquals(
+            'Display the sequence graphically using cube representation',
+            $graphic->getDescription());
     }
 
     public function testCommandHelpDocumentation()
     {
         $command = $this->createCommand('fibonacci');
 
-        verify($command->getHelp())
-            ->contains('+----+---+');
+        $this->assertContains(
+            '+----+---+',
+            $command->getHelp());
     }
 
     public function testCommandNaming()

@@ -34,7 +34,9 @@ class BehatTest extends \Codeception\TestCase\Test
             ->stopOnFail()
             ->noInteraction()
             ->colors();
-        verify($task->getCommand())->equals('behat --stop-on-failure --no-interaction --colors');
+        $this->assertEquals(
+            'behat --stop-on-failure --no-interaction --colors',
+            $task->getCommand());
         $task->run();
         $behat->verifyInvoked('executeCommand', ['behat --stop-on-failure --no-interaction --colors']);
     }

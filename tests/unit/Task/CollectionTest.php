@@ -46,20 +46,26 @@ class CollectionTest extends \Codeception\TestCase\Test
 
         $result = $collection->run();
 
-        // verify(var_export($result->getData(), true))->equals('');
-
         // Ensure that the results have the correct key values
-        verify(implode(',', array_keys($result->getData())))->equals('a-name,b-name,special-name,time');
+        $this->assertEquals(
+            'a-name,b-name,special-name,time',
+            implode(',', array_keys($result->getData())));
 
         // Verify that all of the after tasks ran in
         // the correct order.
-        verify($result['a-name']['a'])->equals('*(value-a)*');
-        verify($result['b-name']['b'])->equals('(*value-b*)');
+        $this->assertEquals(
+            '*(value-a)*',
+            $result['a-name']['a']);
+        $this->assertEquals(
+            '(*value-b*)',
+            $result['b-name']['b']);
 
         // Note that the last after task is added with a special name;
         // its results therefore show up under the name given, rather
         // than being stored under the name of the task it was added after.
-        verify($result['special-name']['b'])->equals('((*value-b*))');
+        $this->assertEquals(
+            '((*value-b*))',
+            $result['special-name']['b']);
     }
 
     public function testBeforeFilters()
@@ -84,14 +90,20 @@ class CollectionTest extends \Codeception\TestCase\Test
         $result = $collection->run();
 
         // Ensure that the results have the correct key values
-        verify(implode(',', array_keys($result->getData())))->equals('a-name,b-name,special-before-name,time');
+        $this->assertEquals(
+            'a-name,b-name,special-before-name,time',
+            implode(',', array_keys($result->getData())));
 
         // The result from the 'before' task is attached
         // to 'b-name', since it was called as before('b-name', ...)
-        verify($result['b-name']['a'])->equals('(value-a)');
+        $this->assertEquals(
+            '(value-a)',
+            $result['b-name']['a']);
         // When a 'before' task is given its own name, then
         // its results are attached under that name.
-        verify($result['special-before-name']['a'])->equals('*(value-a)*');
+        $this->assertEquals(
+            '*(value-a)*',
+            $result['special-before-name']['a']);
     }
 
     public function testAddCodeRollbackAndCompletion()
@@ -121,11 +133,11 @@ class CollectionTest extends \Codeception\TestCase\Test
         $result = $collection->run();
         // Execution stops on the first error.
         // Confirm that status code is converted to a Result object.
-        verify($result->getExitCode())->equals(42);
-        verify($rollback1->getCount())->equals(2);
-        verify($rollback2->getCount())->equals(0);
-        verify($completion1->getCount())->equals(2);
-        verify($completion2->getCount())->equals(0);
+        $this->assertEquals(42, $result->getExitCode());
+        $this->assertEquals(2, $rollback1->getCount());
+        $this->assertEquals(0, $rollback2->getCount());
+        $this->assertEquals(2, $completion1->getCount());
+        $this->assertEquals(0, $completion2->getCount());
         $this->guy->seeInOutput('start collection tasks');
         $this->guy->doNotSeeInOutput('not reached');
     }
@@ -151,7 +163,9 @@ class CollectionTest extends \Codeception\TestCase\Test
             ->run();
 
         $state = $collection->getState();
-        verify($state['three'])->equals('first and second');
+        $this->assertEquals(
+            'first and second',
+            $state['three']);
     }
 
     public function testStateWithTaskResult()
@@ -175,8 +189,12 @@ class CollectionTest extends \Codeception\TestCase\Test
             ->run();
 
         $state = $collection->getState();
-        verify($state['one'])->equals('First');
-        verify($state['three'])->equals('First and Second');
+        $this->assertEquals(
+            'First',
+            $state['one']);
+        $this->assertEquals(
+            'First and Second',
+            $state['three']);
     }
 
     public function testDeferredInitialization()
@@ -205,8 +223,12 @@ class CollectionTest extends \Codeception\TestCase\Test
             ->run();
 
         $state = $collection->getState();
-        verify($state['one'])->equals('First');
-        verify($state['three'])->equals('First and Second');
+        $this->assertEquals(
+            'First',
+            $state['one']);
+        $this->assertEquals(
+            'First and Second',
+            $state['three']);
     }
 
     public function testDeferredInitializationWithMessageStorage()
@@ -237,8 +259,12 @@ class CollectionTest extends \Codeception\TestCase\Test
             ->run();
 
         $state = $collection->getState();
-        verify($state['one'])->equals('1st');
-        verify($state['three'])->equals('1st and 2nd');
+        $this->assertEquals(
+            '1st',
+            $state['one']);
+        $this->assertEquals(
+            '1st and 2nd',
+            $state['three']);
     }
     public function testDeferredInitializationWithChainedInitialization()
     {
@@ -273,9 +299,15 @@ class CollectionTest extends \Codeception\TestCase\Test
             ->run();
 
         $state = $collection->getState();
-        verify($state['one'])->equals('1st');
-        verify($state['item'])->equals('1st');
-        verify($state['final'])->equals('2nd');
+        $this->assertEquals(
+            '1st',
+            $state['one']);
+        $this->assertEquals(
+            '1st',
+            $state['item']);
+        $this->assertEquals(
+            '2nd',
+            $state['final']);
 
         $this->guy->seeInOutput("The final result is 2nd");
     }

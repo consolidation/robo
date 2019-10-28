@@ -32,7 +32,9 @@ class PHPUnitTest extends \Codeception\TestCase\Test
             ->group('important')
             ->xml('result.xml')
             ->debug();
-        verify($task->getCommand())->equals('phpunit --bootstrap bootstrap.php --filter Model --group important --log-junit result.xml --debug');
+        $this->assertEquals(
+            'phpunit --bootstrap bootstrap.php --filter Model --group important --log-junit result.xml --debug',
+            $task->getCommand());
         $task->run();
         $this->phpunit->verifyInvoked('executeCommand', ['phpunit --bootstrap bootstrap.php --filter Model --group important --log-junit result.xml --debug']);
     }

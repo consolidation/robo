@@ -37,7 +37,8 @@ class GitTest extends \Codeception\TestCase\Test
 
         $cmd = stripos(PHP_OS, 'WIN') === 0 ? $winCmd : $linuxCmd;
 
-        verify(
+        $this->assertEquals(
+            $cmd,
             (new \Robo\Task\Vcs\GitStack())
                 ->cloneRepo('http://github.com/consolidation-org/Robo')
                 ->pull()
@@ -47,7 +48,7 @@ class GitTest extends \Codeception\TestCase\Test
                 ->tag('0.6.0')
                 ->push('origin', '0.6.0')
                 ->getCommand()
-        )->equals($cmd);
+        );
     }
 
     public function testGitStackCommandsWithTagMessage()
@@ -58,7 +59,8 @@ class GitTest extends \Codeception\TestCase\Test
 
         $cmd = stripos(PHP_OS, 'WIN') === 0 ? $winCmd : $linuxCmd;
 
-        verify(
+        $this->assertEquals(
+            $cmd,
             (new \Robo\Task\Vcs\GitStack())
                 ->cloneRepo('http://github.com/consolidation-org/Robo')
                 ->pull()
@@ -68,28 +70,30 @@ class GitTest extends \Codeception\TestCase\Test
                 ->tag('0.6.0', 'message')
                 ->push('origin', '0.6.0')
                 ->getCommand()
-        )->equals($cmd);
+        );
     }
 
     public function testGitStackShallowCloneCommand()
     {
         $cmd = 'git clone --depth 1 http://github.com/consolidation-org/Robo ./deployment-path';
 
-        verify(
+        $this->assertEquals(
+            $cmd,
             (new \Robo\Task\Vcs\GitStack())
                 ->cloneShallow('http://github.com/consolidation-org/Robo', './deployment-path')
                 ->getCommand()
-        )->equals($cmd);
+        );
     }
 
     public function testGitStackShallowCloneCommandWithDifferentDepth()
     {
         $cmd = 'git clone --depth 3 http://github.com/consolidation-org/Robo . --branch feature';
 
-        verify(
+        $this->assertEquals(
+            $cmd,
             (new \Robo\Task\Vcs\GitStack())
                 ->cloneShallow('http://github.com/consolidation-org/Robo', '.', 'feature', 3)
                 ->getCommand()
-        )->equals($cmd);
+        );
     }
 }

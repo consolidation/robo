@@ -133,130 +133,148 @@ class ComposerTest extends \Codeception\TestCase\Test
 
     public function testComposerInstallCommand()
     {
-        verify(
+        $this->assertEquals(
+            'composer install --no-interaction',
             (new \Robo\Task\Composer\Install('composer'))->setConfig(new \Robo\Config())->getCommand()
-        )->equals('composer install --no-interaction');
+        );
 
-        verify(
+        $this->assertEquals(
+            'composer install --optimize-autoloader --prefer-dist --no-dev --no-interaction',
             (new \Robo\Task\Composer\Install('composer'))
                 ->setConfig(new \Robo\Config())
                 ->noDev()
                 ->preferDist()
                 ->optimizeAutoloader()
                 ->getCommand()
-        )->equals('composer install --optimize-autoloader --prefer-dist --no-dev --no-interaction');
+        );
     }
 
     public function testComposerUpdateCommand()
     {
-        verify(
+        $this->assertEquals(
+            'composer update --no-interaction',
             (new \Robo\Task\Composer\Update('composer'))->setConfig(new \Robo\Config())->getCommand()
-        )->equals('composer update --no-interaction');
+        );
 
-        verify(
+        $this->assertEquals(
+            'composer update --prefer-dist --no-dev --no-interaction',
             (new \Robo\Task\Composer\Update('composer'))
                 ->setConfig(new \Robo\Config())
                 ->noDev()
                 ->preferDist()
                 ->getCommand()
-        )->equals('composer update --prefer-dist --no-dev --no-interaction');
+        );
 
-        verify(
+        $this->assertEquals(
+            'composer update --optimize-autoloader --prefer-dist --no-dev --no-interaction',
             (new \Robo\Task\Composer\Update('composer'))
                 ->setConfig(new \Robo\Config())
                 ->noDev()
                 ->preferDist()
                 ->optimizeAutoloader()
                 ->getCommand()
-        )->equals('composer update --optimize-autoloader --prefer-dist --no-dev --no-interaction');
+        );
     }
 
     public function testComposerDumpAutoloadCommand()
     {
-        verify(
+        $this->assertEquals(
+            'composer dump-autoload --no-interaction',
             (new \Robo\Task\Composer\DumpAutoload('composer'))->setConfig(new \Robo\Config())->getCommand()
-        )->equals('composer dump-autoload --no-interaction');
+        );
 
-        verify(
+        $this->assertEquals(
+            'composer dump-autoload --no-dev --no-interaction',
             (new \Robo\Task\Composer\DumpAutoload('composer'))
                 ->setConfig(new \Robo\Config())
                 ->noDev()
                 ->getCommand()
-        )->equals('composer dump-autoload --no-dev --no-interaction');
+        );
 
-        verify(
+        $this->assertEquals(
+            'composer dump-autoload --optimize --no-interaction',
             (new \Robo\Task\Composer\DumpAutoload('composer'))
                 ->setConfig(new \Robo\Config())
                 ->optimize()
                 ->getCommand()
-        )->equals('composer dump-autoload --optimize --no-interaction');
+        );
 
-        verify(
+        $this->assertEquals(
+            'composer dump-autoload --optimize --no-dev --no-interaction',
             (new \Robo\Task\Composer\DumpAutoload('composer'))
                 ->setConfig(new \Robo\Config())
                 ->optimize()
                 ->noDev()
                 ->getCommand()
-        )->equals('composer dump-autoload --optimize --no-dev --no-interaction');
+        );
     }
 
     public function testComposerRemove()
     {
-        verify(
+        $this->assertEquals(
+            'composer remove --no-interaction',
             (new \Robo\Task\Composer\Remove('composer'))->setConfig(new \Robo\Config())->getCommand()
-        )->equals('composer remove --no-interaction');
-        verify(
+        );
+        $this->assertEquals(
+            'composer remove --dev --no-progress --no-update --no-interaction',
             (new \Robo\Task\Composer\Remove('composer'))
                 ->setConfig(new \Robo\Config())
                 ->dev()
                 ->noProgress()
                 ->noUpdate()
                 ->getCommand()
-        )->equals('composer remove --dev --no-progress --no-update --no-interaction');
+        );
     }
 
     public function testComposerValidateCommand()
     {
-        verify(
+        $this->assertEquals(
+            'composer validate --no-interaction',
             (new \Robo\Task\Composer\Validate('composer'))->setConfig(new \Robo\Config())->getCommand()
-        )->equals('composer validate --no-interaction');
+        );
 
-        verify(
+        $this->assertEquals(
+            'composer validate --no-check-all --no-interaction',
             (new \Robo\Task\Composer\Validate('composer'))
                 ->setConfig(new \Robo\Config())
                 ->noCheckAll()
                 ->getCommand()
-        )->equals('composer validate --no-check-all --no-interaction');
+        );
 
-        verify(
+        $this->assertEquals(
+            'composer validate --no-check-lock --no-interaction',
             (new \Robo\Task\Composer\Validate('composer'))
                 ->setConfig(new \Robo\Config())
                 ->noCheckLock()
                 ->getCommand()
-        )->equals('composer validate --no-check-lock --no-interaction');
+        );
 
-        verify(
+        $this->assertEquals(
+            'composer validate --no-check-publish --no-interaction',
             (new \Robo\Task\Composer\Validate('composer'))
                 ->setConfig(new \Robo\Config())
                 ->noCheckPublish()
                 ->getCommand()
-        )->equals('composer validate --no-check-publish --no-interaction');
+        );
 
-        verify(
+        $this->assertEquals(
+            'composer validate --with-dependencies --no-interaction',
             (new \Robo\Task\Composer\Validate('composer'))
                 ->setConfig(new \Robo\Config())
                 ->withDependencies()
                 ->getCommand()
-        )->equals('composer validate --with-dependencies --no-interaction');
+        );
 
-        verify(
+        $this->assertEquals(
+            'composer validate --strict --no-interaction',
             (new \Robo\Task\Composer\Validate('composer'))
                 ->setConfig(new \Robo\Config())
                 ->strict()
                 ->getCommand()
-        )->equals('composer validate --strict --no-interaction');
+        );
 
-        verify(
+        $this->assertEquals(
+            'composer validate --no-check-all --no-check-lock --no-check-publish --with-dependencies --strict --no-interaction',
             (new \Robo\Task\Composer\Validate('composer'))
                 ->setConfig(new \Robo\Config())
                 ->noCheckAll()
@@ -265,16 +283,18 @@ class ComposerTest extends \Codeception\TestCase\Test
                 ->withDependencies()
                 ->strict()
                 ->getCommand()
-        )->equals('composer validate --no-check-all --no-check-lock --no-check-publish --with-dependencies --strict --no-interaction');
+        );
     }
 
     public function testComposerInitCommand()
     {
-        verify(
+        $this->assertEquals(
+            'composer init --no-interaction',
             (new \Robo\Task\Composer\Init('composer'))->setConfig(new \Robo\Config())->getCommand()
-        )->equals('composer init --no-interaction');
+        );
 
-        verify(
+        $this->assertEquals(
+            $this->adjustQuotes("composer init --name foo/bar --description 'A test project' --require 'baz/boz:^2.4.8' --type project --homepage 'https://foo.bar.com' --stability beta --license MIT --repository 'https://packages.drupal.org/8' --no-interaction"),
             (new \Robo\Task\Composer\Init('composer'))
                 ->setConfig(new \Robo\Config())
                 ->projectName('foo/bar')
@@ -286,55 +306,61 @@ class ComposerTest extends \Codeception\TestCase\Test
                 ->license('MIT')
                 ->repository('https://packages.drupal.org/8')
                 ->getCommand()
-        )->equals($this->adjustQuotes("composer init --name foo/bar --description 'A test project' --require 'baz/boz:^2.4.8' --type project --homepage 'https://foo.bar.com' --stability beta --license MIT --repository 'https://packages.drupal.org/8' --no-interaction"));
+        );
 
     }
 
     public function testComposerConfigCommand()
     {
-        verify(
+        $this->assertEquals(
+            "composer config bin-dir bin/ --no-interaction",
             (new \Robo\Task\Composer\Config('composer'))
                 ->setConfig(new \Robo\Config())
                 ->set('bin-dir', 'bin/')
                 ->getCommand()
-        )->equals("composer config bin-dir bin/ --no-interaction");
+        );
 
-        verify(
+        $this->assertEquals(
+            "composer config --global bin-dir bin/ --no-interaction",
             (new \Robo\Task\Composer\Config('composer'))
                 ->setConfig(new \Robo\Config())
                 ->useGlobal()
                 ->set('bin-dir', 'bin/')
                 ->getCommand()
-        )->equals("composer config --global bin-dir bin/ --no-interaction");
+        );
 
-        verify(
+        $this->assertEquals(
+            $this->adjustQuotes("composer config repositories.drupalorg composer 'https://packages.drupal.org/8' --no-interaction"),
             (new \Robo\Task\Composer\Config('composer'))
                 ->setConfig(new \Robo\Config())
                 ->repository('drupalorg', 'https://packages.drupal.org/8', 'composer')
                 ->getCommand()
-        )->equals($this->adjustQuotes("composer config repositories.drupalorg composer 'https://packages.drupal.org/8' --no-interaction"));
+        );
     }
 
     public function testComposerRequireCommand()
     {
-        verify(
+        $this->assertEquals(
+            $this->adjustQuotes("composer require 'foo/bar:^2.4.8' --no-interaction"),
             (new \Robo\Task\Composer\RequireDependency('composer'))
                 ->setConfig(new \Robo\Config())
                 ->dependency('foo/bar', '^2.4.8')
                 ->getCommand()
-        )->equals($this->adjustQuotes("composer require 'foo/bar:^2.4.8' --no-interaction"));
+        );
 
-        verify(
+        $this->assertEquals(
+            $this->adjustQuotes("composer require a/b 'x/y:^1' --no-interaction"),
             (new \Robo\Task\Composer\RequireDependency('composer'))
                 ->setConfig(new \Robo\Config())
                 ->dependency(['a/b', 'x/y:^1'])
                 ->getCommand()
-        )->equals($this->adjustQuotes("composer require a/b 'x/y:^1' --no-interaction"));
+        );
     }
 
     public function testComposerCreateProjectCommand()
     {
-        verify(
+        $this->assertEquals(
+            $this->adjustQuotes("composer create-project --repository 'https://packages.drupal.org/8' --keep-vcs --no-install foo/bar mybar '^2.4.8' --no-interaction"),
             (new \Robo\Task\Composer\CreateProject('composer'))
                 ->setConfig(new \Robo\Config())
                 ->source('foo/bar')
@@ -344,6 +370,6 @@ class ComposerTest extends \Codeception\TestCase\Test
                 ->keepVcs()
                 ->noInstall()
                 ->getCommand()
-        )->equals($this->adjustQuotes("composer create-project --repository 'https://packages.drupal.org/8' --keep-vcs --no-install foo/bar mybar '^2.4.8' --no-interaction"));
+        );
     }
 }

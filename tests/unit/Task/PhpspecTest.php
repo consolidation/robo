@@ -34,7 +34,9 @@ class PhpspecTest extends \Codeception\TestCase\Test
             ->noAnsi()
             ->noInteraction()
             ->format('pretty');
-        verify($task->getCommand())->equals('phpspec run --stop-on-failure --no-code-generation --quiet -vv --no-ansi --no-interaction --format pretty');
+        $this->assertEquals(
+            'phpspec run --stop-on-failure --no-code-generation --quiet -vv --no-ansi --no-interaction --format pretty',
+            $task->getCommand());
         $task->run();
         $this->phpspec->verifyInvoked('executeCommand', ['phpspec run --stop-on-failure --no-code-generation --quiet -vv --no-ansi --no-interaction --format pretty']);
     }

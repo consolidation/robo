@@ -16,7 +16,8 @@ class RsyncTest extends \Codeception\TestCase\Test
 
         $cmd = stripos(PHP_OS, 'WIN') === 0 ? $winCmd : $linuxCmd;
 
-        verify(
+        $this->assertEquals(
+            $cmd,
             (new \Robo\Task\Remote\Rsync())
                 ->fromPath('src/')
                 ->toHost('localhost')
@@ -31,7 +32,7 @@ class RsyncTest extends \Codeception\TestCase\Test
                 ->humanReadable()
                 ->stats()
                 ->getCommand()
-        )->equals($cmd);
+        );
 
         $linuxCmd = 'rsync \'src/foo bar/baz\' \'dev@localhost:/var/path/with/a space\'';
 
@@ -40,14 +41,15 @@ class RsyncTest extends \Codeception\TestCase\Test
         $cmd = stripos(PHP_OS, 'WIN') === 0 ? $winCmd : $linuxCmd;
 
         // From the folder 'foo bar' (with space) in 'src' directory
-        verify(
+        $this->assertEquals(
+            $cmd,
             (new \Robo\Task\Remote\Rsync())
                 ->fromPath('src/foo bar/baz')
                 ->toHost('localhost')
                 ->toUser('dev')
                 ->toPath('/var/path/with/a space')
                 ->getCommand()
-        )->equals($cmd);
+        );
 
         $linuxCmd = 'rsync src/foo src/bar \'dev@localhost:/var/path/with/a space\'';
 
@@ -56,14 +58,15 @@ class RsyncTest extends \Codeception\TestCase\Test
         $cmd = stripos(PHP_OS, 'WIN') === 0 ? $winCmd : $linuxCmd;
 
         // Copy two folders, 'src/foo' and 'src/bar'
-        verify(
+        $this->assertEquals(
+            $cmd,
             (new \Robo\Task\Remote\Rsync())
                 ->fromPath(['src/foo', 'src/bar'])
                 ->toHost('localhost')
                 ->toUser('dev')
                 ->toPath('/var/path/with/a space')
                 ->getCommand()
-        )->equals($cmd);
+        );
 
         $linuxCmd = 'rsync --rsh \'ssh -i ~/.ssh/id_rsa\' src/foo \'dev@localhost:/var/path\'';
 
@@ -72,7 +75,8 @@ class RsyncTest extends \Codeception\TestCase\Test
         $cmd = stripos(PHP_OS, 'WIN') === 0 ? $winCmd : $linuxCmd;
 
         // rsync with a remoteShell specified
-        verify(
+        $this->assertEquals(
+            $cmd,
             (new \Robo\Task\Remote\Rsync())
                 ->fromPath('src/foo')
                 ->toHost('localhost')
@@ -80,6 +84,6 @@ class RsyncTest extends \Codeception\TestCase\Test
                 ->toPath('/var/path')
                 ->remoteShell('ssh -i ~/.ssh/id_rsa')
                 ->getCommand()
-        )->equals($cmd);
+        );
     }
 }

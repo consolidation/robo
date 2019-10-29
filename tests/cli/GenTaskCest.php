@@ -6,6 +6,8 @@ class GenTaskCest
     public function toTestTaskGeneration(CliGuy $I)
     {
         $result = $I->taskGenTask('Symfony\Component\Filesystem\Filesystem', 'FilesystemStack')->run();
-        verify($result->getMessage())->contains('protected function _chgrp($files, $group, $recursive = false)');
+        $I->assertContains(
+          'protected function _chgrp($files, $group, $recursive = false)',
+          $result->getMessage());
     }
 }

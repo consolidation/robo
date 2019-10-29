@@ -37,25 +37,28 @@ class HgTest extends \Codeception\TestCase\Test
 
     public function testHgStackPull()
     {
-        verify(
+        $this->assertEquals(
+            'hg pull',
             $this->hgStack
                 ->pull()
                 ->getCommand()
-        )->equals('hg pull');
+        );
     }
 
     public function testHgStackAddFiles()
     {
-        verify(
+        $this->assertEquals(
+            'hg add -I *.php -X *.css',
             $this->hgStack
                 ->add('*.php', '*.css')
                 ->getCommand()
-        )->equals('hg add -I *.php -X *.css');
+        );
     }
 
     public function testHgStackCommands()
     {
-        verify(
+        $this->assertEquals(
+            "hg clone https://bitbucket.org/durin42/hgsubversion && hg pull && hg add && hg commit -m 'changed' && hg push && hg tag 0.6.0 && hg push -b '0.6.0'",
             $this->hgStack
                 ->cloneRepo('https://bitbucket.org/durin42/hgsubversion')
                 ->pull()
@@ -65,12 +68,13 @@ class HgTest extends \Codeception\TestCase\Test
                 ->tag('0.6.0')
                 ->push('0.6.0')
                 ->getCommand()
-        )->equals("hg clone https://bitbucket.org/durin42/hgsubversion && hg pull && hg add && hg commit -m 'changed' && hg push && hg tag 0.6.0 && hg push -b '0.6.0'");
+        );
     }
 
     public function testHgStackCommandsWithTagMessage()
     {
-        verify(
+        $this->assertEquals(
+            "hg clone https://bitbucket.org/durin42/hgsubversion && hg pull && hg add && hg commit -m 'changed' && hg push && hg tag -m 'message' 0.6.0 && hg push -b '0.6.0'",
             $this->hgStack
                 ->cloneRepo('https://bitbucket.org/durin42/hgsubversion')
                 ->pull()
@@ -80,6 +84,6 @@ class HgTest extends \Codeception\TestCase\Test
                 ->tag('0.6.0', 'message')
                 ->push('0.6.0')
                 ->getCommand()
-        )->equals("hg clone https://bitbucket.org/durin42/hgsubversion && hg pull && hg add && hg commit -m 'changed' && hg push && hg tag -m 'message' 0.6.0 && hg push -b '0.6.0'");
+        );
     }
 }

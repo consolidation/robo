@@ -28,7 +28,7 @@
         "league/container": "^2.2",
         "consolidation/log": "~1",
         "consolidation/config": "^1.2",
-        "consolidation/annotated-command": "^2.10.2",
+        "consolidation/annotated-command": "^2.11.0",
         "consolidation/output-formatters": "^3.1.13",
         "consolidation/self-update": "^1",
         "grasmash/yaml-expander": "^1.3",
@@ -40,7 +40,7 @@
     "require-dev": {
         "g1a/composer-test-scenarios": "^3",
         "patchwork/jsqueeze": "~2",
-        "natxet/CssMin": "3.0.4",
+        "natxet/cssmin": "3.0.4",
         "pear/archive_tar": "^1.4.4",
         "codeception/base": "^2.3.7",
         "goaop/framework": "~2.1.2",
@@ -50,6 +50,7 @@
         "nikic/php-parser": "^3.1.5",
         "php-coveralls/php-coveralls": "^1",
         "phpunit/php-code-coverage": "~2|~4",
+        "sebastian/comparator": "^1.2.4",
         "squizlabs/php_codesniffer": "^2.8"
     },
     "scripts": {

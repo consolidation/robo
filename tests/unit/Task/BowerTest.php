@@ -37,22 +37,25 @@ class BowerTest extends \Codeception\TestCase\Test
 
     public function testBowerInstallCommand()
     {
-        verify(
+        $this->assertEquals(
+            'bower install',
             (new \Robo\Task\Bower\Install('bower'))->getCommand()
-        )->equals('bower install');
+        );
 
-        verify(
+        $this->assertEquals(
+            'bower update',
             (new \Robo\Task\Bower\Update('bower'))->getCommand()
-        )->equals('bower update');
+        );
 
-        verify(
+        $this->assertEquals(
+            'bower install --allow-root --force-latest --offline --production',
             (new \Robo\Task\Bower\Install('bower'))
                 ->allowRoot()
                 ->forceLatest()
                 ->offline()
                 ->noDev()
                 ->getCommand()
-        )->equals('bower install --allow-root --force-latest --offline --production');
+        );
     }
 
 }

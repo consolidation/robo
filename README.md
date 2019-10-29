@@ -8,13 +8,12 @@ _This is the 1.x (stable) branch of the Robo task runner. Development for Robo 2
 [![Latest Stable Version](https://poser.pugx.org/consolidation/robo/v/stable.png)](https://packagist.org/packages/consolidation/robo) 
 [![Latest Unstable Version](https://poser.pugx.org/consolidation/robo/v/unstable.png)](https://packagist.org/packages/consolidation/robo) 
 [![Total Downloads](https://poser.pugx.org/consolidation/robo/downloads.png)](https://packagist.org/packages/consolidation/robo) 
-[![PHP 7 ready](http://php7ready.timesplinter.ch/consolidation/Robo/badge.svg)](https://travis-ci.org/consolidation/Robo)
-[![License](https://poser.pugx.org/consolidation/robo/license.png)](https://www.versioneye.com/user/projects/57c4a6fe968d64004d97620a?child=57c4a6fe968d64004d97620a#tab-licenses)
+[![PHP 5 supported](https://img.shields.io/badge/PHP%205-supported-92a9ed)](https://travis-ci.org/consolidation/Robo)
 
 [![Build Status](https://travis-ci.org/consolidation/Robo.svg?branch=master)](https://travis-ci.org/consolidation/Robo) 
 [![Windows CI](https://ci.appveyor.com/api/projects/status/0823hnh06pw8ir4d?svg=true)](https://ci.appveyor.com/project/greg-1-anderson/robo)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/consolidation/Robo/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/consolidation/Robo/?branch=master)
-[![Dependency Status](https://www.versioneye.com/user/projects/57c4a6fe968d64004d97620a/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/57c4a6fe968d64004d97620a)
+[![License](https://img.shields.io/badge/license-MIT-408677.svg)](LICENSE)
 
 * writing cross-platform scripts
 * processing assets (less, sass, minification)
@@ -53,13 +52,13 @@ Now you can use it just like `robo`.
 
 ## Usage
 
-All tasks are defined as **public methods** in `RoboFile.php`. It can be created by running `robo`.
+All tasks are defined as **public methods** in `RoboFile.php`. It can be created by running `robo init`.
 All protected methods in traits that start with `task` prefix are tasks and can be configured and executed in your tasks.
 
 ## Examples
 
 The best way to learn Robo by example is to take a look into [its own RoboFile](https://github.com/consolidation/Robo/blob/master/RoboFile.php)
- or [RoboFile of Codeception project](https://github.com/Codeception/Codeception/blob/2.4/RoboFile.php). There are also some basic example commands in examples/RoboFile.php.
+ or [RoboFile of Codeception project](https://github.com/Codeception/Codeception/blob/2.4/RoboFile.php). There are also some basic example commands in `examples/RoboFile.php`.
 
 Here are some snippets from them:
 

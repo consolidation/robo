@@ -20,7 +20,7 @@ use Symfony\Component\Process\Process;
 class Robo
 {
     const APPLICATION_NAME = 'Robo';
-    const VERSION = '1.4.11-dev';
+    const VERSION = '1.4.11';
 
     /**
      * The currently active container object, or NULL if not initialized yet.
@@ -245,10 +245,14 @@ class Robo
             ->withMethodCall('addDefaultSimplifiers', []);
         $container->share('prepareTerminalWidthOption', \Consolidation\AnnotatedCommand\Options\PrepareTerminalWidthOption::class)
             ->withMethodCall('setApplication', ['application']);
+        $container->share('symfonyStyleInjector', \Robo\Symfony\SymfonyStyleInjector::class);
+        $container->share('parameterInjection', \Consolidation\AnnotatedCommand\ParameterInjection::class)
+            ->withMethodCall('register', ['Symfony\Component\Console\Style\SymfonyStyle', 'symfonyStyleInjector']);
         $container->share('commandProcessor', \Consolidation\AnnotatedCommand\CommandProcessor::class)
             ->withArgument('hookManager')
             ->withMethodCall('setFormatterManager', ['formatterManager'])
             ->withMethodCall('addPrepareFormatter', ['prepareTerminalWidthOption'])
+            ->withMethodCall('setParameterInjection', ['parameterInjection'])
             ->withMethodCall(
                 'setDisplayErrorFunction',
                 [

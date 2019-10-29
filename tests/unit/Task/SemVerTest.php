@@ -12,7 +12,9 @@ class SemVerTest extends \Codeception\TestCase\Test
             ->prerelease('RC')
             ->increment('patch')
             ->run();
-        verify($res->getMessage())->equals('v1.0.1-RC.1');
+        $this->assertEquals(
+            'v1.0.1-RC.1',
+            $res->getMessage());
         $semver->verifyInvoked('dump');
     }
 
@@ -22,11 +24,15 @@ class SemVerTest extends \Codeception\TestCase\Test
         $res = (new \Robo\Task\Development\SemVer())
             ->increment('patch')
             ->run();
-        verify($res->getMessage())->equals('v0.0.1');
+        $this->assertEquals(
+            'v0.0.1',
+            $res->getMessage());
         $res = (new \Robo\Task\Development\SemVer())
             ->increment('minor')
             ->run();
-        verify($res->getMessage())->equals('v0.1.0');
+        $this->assertEquals(
+            'v0.1.0',
+            $res->getMessage());
         $semver->verifyInvoked('dump');
     }
 
@@ -36,15 +42,21 @@ class SemVerTest extends \Codeception\TestCase\Test
         $res = (new \Robo\Task\Development\SemVer())
             ->increment('patch')
             ->run();
-        verify($res->getMessage())->equals('v0.0.1');
+        $this->assertEquals(
+            'v0.0.1',
+            $res->getMessage());
         $res = (new \Robo\Task\Development\SemVer())
             ->increment('minor')
             ->run();
-        verify($res->getMessage())->equals('v0.1.0');
+        $this->assertEquals(
+            'v0.1.0',
+            $res->getMessage());
         $res = (new \Robo\Task\Development\SemVer())
             ->increment('major')
             ->run();
-        verify($res->getMessage())->equals('v1.0.0');
+        $this->assertEquals(
+            'v1.0.0',
+            $res->getMessage());
         $semver->verifyInvoked('dump');
     }
 
@@ -56,7 +68,9 @@ class SemVerTest extends \Codeception\TestCase\Test
 
         $res = (new \Robo\Task\Development\SemVer($fixturePath))
             ->run();
-        verify($res->getMessage())->equals('v1.0.1-RC.1');
+        $this->assertEquals(
+            'v1.0.1-RC.1',
+            $res->getMessage());
         @unlink($fixturePath);
     }
 

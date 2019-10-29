@@ -4,16 +4,16 @@ SCENARIO=$1
 DEPENDENCIES=${2-install}
 
 # Convert the aliases 'highest', 'lowest' and 'lock' to
-# the corresponding composer command to run.
+# the corresponding composer update command to run.
 case $DEPENDENCIES in
   highest)
-    DEPENDENCIES=update
+    UPDATE_COMMAND=update
     ;;
   lowest)
-    DEPENDENCIES='update --prefer-lowest'
+    UPDATE_COMMAND='update --prefer-lowest'
     ;;
   lock|default|"")
-    DEPENDENCIES=install
+    UPDATE_COMMAND=''
     ;;
 esac
 
@@ -48,7 +48,11 @@ echo
 set -ex
 
 composer -n validate --working-dir=$dir --no-check-all --ansi
-composer -n --working-dir=$dir ${DEPENDENCIES} --prefer-dist --no-scripts
+
+if [ ! -z "$UPDATE_COMMAND" ] ; then
+  composer -n --working-dir=$dir ${UPDATE_COMMAND} --prefer-dist --no-scripts
+fi
+composer -n --working-dir=$dir install --prefer-dist
 
 # If called from a CI context, print out some extra information about
 # what we just installed.

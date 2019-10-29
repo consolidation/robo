@@ -5,6 +5,7 @@ branches:
   # Only test the master branch and SemVer tags.
   only:
     - master
+    - 1.x
     - /^[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+.*$/
 
 matrix:

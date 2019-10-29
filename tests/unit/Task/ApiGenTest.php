@@ -49,7 +49,7 @@ class ApiGenTest extends \Codeception\TestCase\Test
 
         $cmd = stripos(PHP_OS, 'WIN') === 0 ? $winCmd : $linuxCmd;
 
-        verify($task->getCommand())->equals($cmd);
+        $this->assertEquals($cmd, $task->getCommand());
 
         $task->run();
         $this->apigen->verifyInvoked('executeCommand', [$cmd]);

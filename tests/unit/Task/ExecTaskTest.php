@@ -27,8 +27,10 @@ class ExecTaskTest extends \Codeception\TestCase\Test
 
         $result = $task->run();
         $this->process->verifyInvoked('run');
-        verify($result->getMessage())->equals('Hello world');
-        verify($result->getExitCode())->equals(0);
+        $this->assertEquals(
+            'Hello world',
+            $result->getMessage());
+        $this->assertEquals(0, $result->getExitCode());
     }
 
     public function testExecInBackground()
@@ -39,12 +41,14 @@ class ExecTaskTest extends \Codeception\TestCase\Test
         $result = $task->background()->run();
         $this->process->verifyInvoked('start');
         $this->process->verifyNeverInvoked('run');
-        verify('exit code was not received', $result->getExitCode())->notEquals(100);
+        $this->assertNotEquals(100, $result->getExitCode());
     }
 
     public function testGetCommand()
     {
-        verify((new \Robo\Task\Base\Exec('ls'))->getCommand())->equals('ls');
+        $this->assertEquals(
+            'ls',
+            (new \Robo\Task\Base\Exec('ls'))->getCommand());
     }
 
     public function testExecStack()
@@ -62,20 +66,24 @@ class ExecTaskTest extends \Codeception\TestCase\Test
 
     public function testExecStackCommand()
     {
-        verify((new \Robo\Task\Base\ExecStack())
+        $this->assertEquals(
+            'ls && cd / && cd home',
+            (new \Robo\Task\Base\ExecStack())
             ->exec('ls')
             ->exec('cd /')
             ->exec('cd home')
             ->getCommand()
-        )->equals('ls && cd / && cd home');
+        );
     }
 
     public function testExecStackCommandInterface()
     {
-        verify((new \Robo\Task\Base\ExecStack())
+        $this->assertEquals(
+            'ls && git add -A && git pull',
+            (new \Robo\Task\Base\ExecStack())
             ->exec('ls')
             ->exec((new \Robo\Task\Vcs\GitStack('git'))->add('-A')->pull())
             ->getCommand()
-        )->equals('ls && git add -A && git pull');
+        );
     }
 };

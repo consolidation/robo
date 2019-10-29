@@ -4,24 +4,24 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a0d8e211ca3ac75d96880eb11295c9ef",
+    "content-hash": "4c3eedf514ecc9c34a2589f1bd5f220a",
     "packages": [
         {
             "name": "consolidation/annotated-command",
-            "version": "dev-master",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/annotated-command.git",
-                "reference": "809fa27549b2d290e69363f1a9b1df7041f0a2ae"
+                "reference": "be011ba6314d76cabf78afbeb275694795c88360"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/annotated-command/zipball/809fa27549b2d290e69363f1a9b1df7041f0a2ae",
-                "reference": "809fa27549b2d290e69363f1a9b1df7041f0a2ae",
+                "url": "https://api.github.com/repos/consolidation/annotated-command/zipball/be011ba6314d76cabf78afbeb275694795c88360",
+                "reference": "be011ba6314d76cabf78afbeb275694795c88360",
                 "shasum": ""
             },
             "require": {
-                "consolidation/output-formatters": "^4@dev",
+                "consolidation/output-formatters": "^4",
                 "php": ">=7.1.3",
                 "psr/log": "^1",
                 "symfony/console": "^4",
@@ -56,7 +56,7 @@
                 }
             ],
             "description": "Initialize Symfony Console commands from annotated command class methods.",
-            "time": "2019-10-29T08:47:42+00:00"
+            "time": "2019-10-29T13:44:48+00:00"
         },
         {
             "name": "consolidation/config",
@@ -231,16 +231,16 @@
         },
         {
             "name": "consolidation/output-formatters",
-            "version": "dev-master",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/output-formatters.git",
-                "reference": "fa89f6fe2f71a112d02798e3e9c1627bf9e498b7"
+                "reference": "8e747762963ab48912fb75fc24dbe39175f47057"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/output-formatters/zipball/fa89f6fe2f71a112d02798e3e9c1627bf9e498b7",
-                "reference": "fa89f6fe2f71a112d02798e3e9c1627bf9e498b7",
+                "url": "https://api.github.com/repos/consolidation/output-formatters/zipball/8e747762963ab48912fb75fc24dbe39175f47057",
+                "reference": "8e747762963ab48912fb75fc24dbe39175f47057",
                 "shasum": ""
             },
             "require": {
@@ -282,7 +282,7 @@
                 }
             ],
             "description": "Format text by applying transformations provided by plug-in formatters.",
-            "time": "2019-10-29T08:34:46+00:00"
+            "time": "2019-10-29T13:39:04+00:00"
         },
         {
             "name": "consolidation/self-update",
@@ -4473,10 +4473,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "consolidation/annotated-command": 20,
-        "consolidation/output-formatters": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

@@ -1,13 +1,8 @@
 # Changelog
 
-### 2.0.0-alpha2 9/11/2019
+### 2.0.0 10/29/2019
 
-* Update for changes through 1.4.10
-
-### 2.0.0-alpha1 1/1/2019
-
-* Fork from 1.3.5
-* Remove support for PHP 5.x.
+* Compatible with the 1.x branch, but removes support for old versions of PHP and requires Symfony 4.x.
 
 ### 1.4.10 7/29/2019
  

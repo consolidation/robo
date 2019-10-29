@@ -148,7 +148,7 @@ $this->taskScss([
 Use the following scss compiler in your project:
 
 ```
-"leafo/scssphp": "~0.1",
+"scssphp/scssphp ": "~1.0.0",
 ```
 
 You can implement additional compilers by extending this task and adding a

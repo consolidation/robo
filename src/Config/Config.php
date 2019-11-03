@@ -15,11 +15,6 @@ class Config extends ConfigOverlay implements GlobalOptionDefaultValuesInterface
     const DECORATED = 'options.decorated';
 
     /**
-     * @var array
-     */
-    protected $defaults;
-
-    /**
      * Create a new configuration object, and initialize it with
      * the provided nested array containing configuration data.
      */
@@ -28,7 +23,6 @@ class Config extends ConfigOverlay implements GlobalOptionDefaultValuesInterface
         parent::__construct();
 
         $this->import($data);
-        $this->defaults = $this->getGlobalOptionDefaultValues();
     }
 
     /**

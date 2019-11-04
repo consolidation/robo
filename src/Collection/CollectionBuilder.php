@@ -485,7 +485,7 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
         $reflection = new ReflectionClass($name);
         $task = $reflection->newInstanceArgs($args);
         if (!$task) {
-            throw new RuntimeException("Can not construct task $name");
+            throw new \RuntimeException("Can not construct task $name");
         }
         $task = $this->fixTask($task, $args);
         $this->configureTask($name, $task);

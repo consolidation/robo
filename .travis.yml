@@ -35,6 +35,11 @@ install:
 
 script:
   - composer test
+  - |
+    if [ "$(phpenv version-name)" == "7.2" ]; then
+      composer require --dev "phpstan/phpstan-shim:^0.11.0"
+      vendor/bin/phpstan analyze
+    fi
 
 after_success:
   - travis_retry php vendor/bin/php-coveralls -v

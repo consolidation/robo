@@ -23,6 +23,7 @@ class Config extends ConfigOverlay implements GlobalOptionDefaultValuesInterface
         parent::__construct();
 
         $this->import($data);
+        $this->defaults = $this->getGlobalOptionDefaultValues();
     }
 
     /**

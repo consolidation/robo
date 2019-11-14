@@ -1,7 +1,5 @@
 # RoboTask
 
-_This is the 2.x (future development) version of Robo. See [#548](https://github.com/consolidation/Robo/issues/548) for details. For 1.x (stable), see the [1.x](https://github.com/consolidation/Robo) branch._
-
 **Modern and simple PHP task runner** inspired by Gulp and Rake aimed to automate common tasks:
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/consolidation/Robo?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) 

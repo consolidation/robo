@@ -1,7 +1,5 @@
 # RoboTask
 
-_This is the 1.x (stable) branch of the Robo task runner. Development for Robo 2.x (future) is happening on the [master](https://github.com/consolidation/Robo/tree/master) branch._
-
 **Modern and simple PHP task runner** inspired by Gulp and Rake aimed to automate common tasks:
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/consolidation/Robo?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) 
@@ -21,6 +19,15 @@ _This is the 1.x (stable) branch of the Robo task runner. Development for Robo 2
 * executing daemons (and workers)
 * watching filesystem changes
 * deployment with sftp/ssh/docker
+
+## Branches
+
+| Branch | Symfony Versions | PHP Versions |
+| ------ | ---------------- | ------------ |
+| [master](https://github.com/consolidation/robo)      | 4 only    | [![PHP 7 only](https://img.shields.io/badge/PHP%207-only-92a9ed)](https://travis-ci.org/consolidation/Robo) |
+| [1.x](https://github.com/consolidation/robotree/1.x) | 2, 3 or 4 | [![PHP 5 supported](https://img.shields.io/badge/PHP%205-supported-408677)](https://travis-ci.org/consolidation/Robo) |
+
+Robo versions 2.x and 1.x are largely compatible; however, Robo 2.x supports fewer versions of PHP and Symfony. This is to make ongoing maintenance easier; Robo 1.x will be supported less and less over time. Projects should update to Robo ^2 if possible.
 
 ## Installing
 

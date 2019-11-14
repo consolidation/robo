@@ -82,12 +82,12 @@ class RoboFile extends \Robo\Tasks
             ->run();
 
        // running Selenium server in background
-        $this->taskExec('java -jar ' . $seleniumPath)
+       $this->taskExec('java -jar ' . $seleniumPath)
             ->background()
             ->run();
 
-        // loading Symfony Command and running with passed argument
-        $this->taskSymfonyCommand(new \Codeception\Command\Run('run'))
+       // loading Symfony Command and running with passed argument
+       $this->taskSymfonyCommand(new \Codeception\Command\Run('run'))
             ->arg('suite','acceptance')
             ->run();
     }

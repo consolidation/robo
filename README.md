@@ -26,7 +26,7 @@ _This is the 2.x (future development) version of Robo. See [#548](https://github
 | Branch | Symfony Versions | PHP Versions |
 | ------ | ---------------- | ------------ |
 | [master](https://github.com/consolidation/robo)      | 4 only    | [![PHP 7 only](https://img.shields.io/badge/PHP%207-only-92a9ed)](https://travis-ci.org/consolidation/Robo) |
-| [1.x](https://github.com/consolidation/robotree/1.x) | 2, 3 or 4 | [![PHP 5 supported](https://img.shields.io/badge/PHP%205-supported-92a9ed)](https://travis-ci.org/consolidation/Robo) |
+| [1.x](https://github.com/consolidation/robotree/1.x) | 2, 3 or 4 | [![PHP 5 supported](https://img.shields.io/badge/PHP%205-supported-408677)](https://travis-ci.org/consolidation/Robo) |
 
 Robo versions 2.x and 1.x are largely compatible; however, Robo 2.x supports fewer versions of PHP and Symfony. This is to make ongoing maintenance easier; Robo 1.x will be supported less and less over time. Projects should update to Robo ^2 if possible.
 

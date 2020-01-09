@@ -73,8 +73,8 @@ class ResultPrinter implements LoggerAwareInterface, ProgressIndicatorAwareInter
         }
         if ($printOutput) {
             $this->printMessage(LogLevel::ERROR, "{message}", $context);
+            $this->printMessage(LogLevel::ERROR, 'Exit code {code}', $context);
         }
-        $this->printMessage(LogLevel::ERROR, 'Exit code {code}', $context);
         return true;
     }
 

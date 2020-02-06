@@ -33,6 +33,7 @@
         "symfony/event-dispatcher": "^4",
         "symfony/filesystem": "^4",
         "symfony/finder": "^4",
+        "symfony/console": "^4",
         "symfony/process": "^4"
     },
     "require-dev": {
@@ -44,7 +45,6 @@
         "codeception/aspect-mock": "^3.0.2",
         "codeception/stub": "^3",
         "codeception/phpunit-wrapper": "^7.7.1",
-        "nikic/php-parser": "^3.1.5",
         "php-coveralls/php-coveralls": "^1",
         "phpdocumentor/reflection-docblock": "^4.3.2",
         "doctrine/annotations": "^1.8.0",

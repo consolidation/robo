@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9427a6f5f0823d9fe36b99a0698b9644",
+    "content-hash": "e901757f4b5f356f2c37bd8d59f09c64",
     "packages": [
         {
             "name": "consolidation/annotated-command",
@@ -662,6 +662,57 @@
                 "object graph"
             ],
             "time": "2020-01-17T21:11:47+00:00"
+        },
+        {
+            "name": "nikic/php-parser",
+            "version": "v2.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nikic/PHP-Parser.git",
+                "reference": "4dd659edadffdc2143e4753df655d866dbfeedf0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/4dd659edadffdc2143e4753df655d866dbfeedf0",
+                "reference": "4dd659edadffdc2143e4753df655d866dbfeedf0",
+                "shasum": ""
+            },
+            "require": {
+                "ext-tokenizer": "*",
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "bin": [
+                "bin/php-parse"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PhpParser\\": "lib/PhpParser"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Nikita Popov"
+                }
+            ],
+            "description": "A PHP parser written in PHP",
+            "keywords": [
+                "parser",
+                "php"
+            ],
+            "time": "2016-09-16T12:04:44+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -3298,25 +3349,24 @@
         },
         {
             "name": "goaop/framework",
-            "version": "2.3.3",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/goaop/framework.git",
-                "reference": "f7fa0b3ddc0358a9f059f4709883323f0d0cc82f"
+                "reference": "152abbffffcba72d2d159b892deb40b0829d0f28"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/goaop/framework/zipball/f7fa0b3ddc0358a9f059f4709883323f0d0cc82f",
-                "reference": "f7fa0b3ddc0358a9f059f4709883323f0d0cc82f",
+                "url": "https://api.github.com/repos/goaop/framework/zipball/152abbffffcba72d2d159b892deb40b0829d0f28",
+                "reference": "152abbffffcba72d2d159b892deb40b0829d0f28",
                 "shasum": ""
             },
             "require": {
                 "doctrine/annotations": "^1.2.3",
                 "doctrine/cache": "^1.5",
-                "goaop/parser-reflection": "~2.0",
+                "goaop/parser-reflection": "~1.4",
                 "jakubledl/dissect": "~1.0",
-                "php": "~7.0",
-                "symfony/finder": "^3.4|^4.2"
+                "php": ">=5.6.0"
             },
             "require-dev": {
                 "adlawson/vfs": "^0.12",
@@ -3324,8 +3374,7 @@
                 "phpunit/phpunit": "^5.7",
                 "symfony/console": "^2.7|^3.0",
                 "symfony/filesystem": "^3.3",
-                "symfony/process": "^3.3",
-                "webmozart/glob": "^4.1"
+                "symfony/process": "^3.3"
             },
             "suggest": {
                 "symfony/console": "Enables the usage of the command-line tool."
@@ -3362,25 +3411,25 @@
                 "library",
                 "php"
             ],
-            "time": "2019-08-13T12:58:30+00:00"
+            "time": "2018-01-05T23:07:51+00:00"
         },
         {
             "name": "goaop/parser-reflection",
-            "version": "2.1.0",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/goaop/parser-reflection.git",
-                "reference": "6af734c8c9212d12317ae86e10dc22dd40c72f9a"
+                "reference": "d9c1dcc7ce4a5284fe3530e011faf9c9c10e1166"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/goaop/parser-reflection/zipball/6af734c8c9212d12317ae86e10dc22dd40c72f9a",
-                "reference": "6af734c8c9212d12317ae86e10dc22dd40c72f9a",
+                "url": "https://api.github.com/repos/goaop/parser-reflection/zipball/d9c1dcc7ce4a5284fe3530e011faf9c9c10e1166",
+                "reference": "d9c1dcc7ce4a5284fe3530e011faf9c9c10e1166",
                 "shasum": ""
             },
             "require": {
-                "nikic/php-parser": "^4.0",
-                "php": ">=7.1"
+                "nikic/php-parser": "^1.2|^2.0|^3.0",
+                "php": ">=5.6.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "~4.0"
@@ -3388,7 +3437,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.x-dev"
+                    "dev-master": "1.x-dev"
                 }
             },
             "autoload": {
@@ -3413,7 +3462,7 @@
                 }
             ],
             "description": "Provides reflection information, based on raw source",
-            "time": "2019-12-04T15:43:28+00:00"
+            "time": "2018-03-19T15:57:41+00:00"
         },
         {
             "name": "guzzle/guzzle",
@@ -3680,58 +3729,6 @@
                 "minify"
             ],
             "time": "2015-09-25T11:13:11+00:00"
-        },
-        {
-            "name": "nikic/php-parser",
-            "version": "v4.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "9a9981c347c5c49d6dfe5cf826bb882b824080dc"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/9a9981c347c5c49d6dfe5cf826bb882b824080dc",
-                "reference": "9a9981c347c5c49d6dfe5cf826bb882b824080dc",
-                "shasum": ""
-            },
-            "require": {
-                "ext-tokenizer": "*",
-                "php": ">=7.0"
-            },
-            "require-dev": {
-                "ircmaxell/php-yacc": "0.0.5",
-                "phpunit/phpunit": "^6.5 || ^7.0 || ^8.0"
-            },
-            "bin": [
-                "bin/php-parse"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.3-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "PhpParser\\": "lib/PhpParser"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Nikita Popov"
-                }
-            ],
-            "description": "A PHP parser written in PHP",
-            "keywords": [
-                "parser",
-                "php"
-            ],
-            "time": "2019-11-08T13:50:10+00:00"
         },
         {
             "name": "patchwork/jsqueeze",

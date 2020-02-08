@@ -17,7 +17,7 @@ matrix:
     - php: 7.3
     - php: 7.2
     - php: 7.1
-      env: 'DEPENDENCIES=lowest'
+      env: 'SCENARIO=php71 DEPENDENCIES=lowest'
 
 sudo: false
 

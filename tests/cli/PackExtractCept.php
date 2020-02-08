@@ -14,6 +14,15 @@ $windowsSupportedTypes = ['zip'];
 
 $supportedTypes = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? $windowsSupportedTypes : $linuxSupportedTypes;
 
+if (!class_exists(\ZipArchive::class)) {
+    unset($supportedTypes['zip']);
+}
+
+if (empty($supportedTypes)) {
+    $scenario->skip('No supported types available to test taskPack and taskExtract');
+}
+
+
 // Test a bunch of archive types that we support
 foreach ($supportedTypes as $archiveType) {
     // First, take everything from the folder 'some/deeply' and make

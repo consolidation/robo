@@ -3,7 +3,6 @@ namespace Robo\Traits;
 
 use Robo\Robo;
 use Robo\TaskAccessor;
-use Robo\Common\BuilderAwareTrait;
 use Robo\Collection\CollectionBuilder;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -11,7 +10,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 trait TestTasksTrait
 {
     use TaskAccessor;
-    use BuilderAwareTrait;
 
     protected $testPrinter;
     protected $capturedOutput;

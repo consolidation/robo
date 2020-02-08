@@ -12,8 +12,11 @@ class RoboFile extends \Robo\Tasks
             'coverage' => false
         ])
     {
-        $taskCodecept = $this->taskCodecept()
+        $collection = $this->collectionBuilder();
+
+        $taskCodecept = $collection->taskCodecept()
             ->args($args);
+        $taskPHPUnit = $collection->taskPHPUnit();
 
         if ($options['coverage']) {
             $taskCodecept->coverageXml('../../build/logs/clover.xml');
@@ -22,7 +25,8 @@ class RoboFile extends \Robo\Tasks
             $taskCodecept->coverageHtml('../../build/logs/coverage');
         }
 
-        return $taskCodecept->run();
+
+        return $collection;
      }
 
     /**

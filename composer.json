@@ -51,7 +51,7 @@
     },
     "scripts": {
         "cs": "./robo sniff",
-        "unit": "./robo test --coverage",
+        "unit": "phpunit",
         "lint": [
             "find src -name '*.php' -print0 | xargs -0 -n1 php -l",
             "find tests/src -name '*.php' -print0 | xargs -0 -n1 php -l"

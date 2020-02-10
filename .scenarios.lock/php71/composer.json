@@ -40,11 +40,8 @@
         "symfony/process": "^4"
     },
     "require-dev": {
-        "codeception/aspect-mock": "^3.0.2",
-        "codeception/base": "^3.1.2",
-        "codeception/stub": "^3",
-        "doctrine/annotations": "^1.8.0",
         "g1a/composer-test-scenarios": "^3",
+        "phpunit/phpunit": "^6",
         "natxet/cssmin": "3.0.4",
         "patchwork/jsqueeze": "^2",
         "pear/archive_tar": "^1.4.4",

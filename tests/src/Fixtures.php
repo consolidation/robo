@@ -61,6 +61,11 @@ class Fixtures
         return $targetSandbox;
     }
 
+    public function dataFile($filename)
+    {
+        return $this->fixturesDir() . '/' . $filename;
+    }
+
     protected function fixturesDir()
     {
         return dirname(__DIR__) . '/_data';

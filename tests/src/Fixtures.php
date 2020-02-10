@@ -25,17 +25,14 @@ class Fixtures
     {
         $fs = new Filesystem();
         foreach ($this->tmpDirs as $tmpDir) {
-            $fs->remove($tmpDir);
+            try {
+                $fs->remove($tmpDir);
+            }
+            catch (\Exception $e) {
+                // Ignore problems with removing fixtures.
+            }
         }
         $this->tmpDirs = [];
-    }
-
-    public function cloneRepo($url)
-    {
-        if (!isset($this->clonedRepos[$url])) {
-            $this->clonedRepos[$url] = $this->doCloneRepo($url);
-        }
-        return $this->clonedRepos[$url];
     }
 
     /**

@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo\Task\ApiGen;
 
 use Robo\Contract\CommandInterface;

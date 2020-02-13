@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo\Task\Assets;
 
 trait loadTasks

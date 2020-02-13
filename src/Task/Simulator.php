@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo\Task;
 
 use Robo\Contract\WrappedTaskInterface;
@@ -133,7 +134,7 @@ class Simulator extends BaseTask implements CommandInterface
             return $this->shortenParameter(var_export($item, true));
         }
         if (is_object($item)) {
-            return '[' . get_class($item). ' object]';
+            return '[' . get_class($item) . ' object]';
         }
         if (is_string($item)) {
             return $this->shortenParameter("'$item'");

@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo\Collection;
 
 interface NestedCollectionInterface

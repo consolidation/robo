@@ -176,7 +176,7 @@ class FlattenDir extends BaseDir
     {
         if (!$this->fs->isAbsolutePath($dir)) {
             // attach the relative path to current working directory
-            $dir = getcwd().'/'.$dir;
+            $dir = getcwd() . '/' . $dir;
         }
         $this->parentDir = $dir;
 
@@ -230,7 +230,7 @@ class FlattenDir extends BaseDir
             } catch (\InvalidArgumentException $e) {
                 // if finder cannot handle it, try with in()->name()
                 if (strpos($dir, '/') === false) {
-                    $dir = './'.$dir;
+                    $dir = './' . $dir;
                 }
                 $parts = explode('/', $dir);
                 $new_dir = implode('/', array_slice($parts, 0, -1));
@@ -260,7 +260,7 @@ class FlattenDir extends BaseDir
      */
     protected function getTarget($file, $to)
     {
-        $target = $to.'/'.basename($file);
+        $target = $to . '/' . basename($file);
         if ($this->parents !== array(0, 0)) {
             // if the parent is set, create additional directories inside target
             // get relative path to parentDir
@@ -268,10 +268,10 @@ class FlattenDir extends BaseDir
             // get top parents and bottom parents
             $parts = explode('/', rtrim($rel_path, '/'));
             $prefix_dir = '';
-            $prefix_dir .= ($this->parents[0] > 0 ? implode('/', array_slice($parts, 0, $this->parents[0])).'/' : '');
+            $prefix_dir .= ($this->parents[0] > 0 ? implode('/', array_slice($parts, 0, $this->parents[0])) . '/' : '');
             $prefix_dir .= ($this->parents[1] > 0 ? implode('/', array_slice($parts, (0 - $this->parents[1]), $this->parents[1])) : '');
             $prefix_dir = rtrim($prefix_dir, '/');
-            $target = $to.'/'.$prefix_dir.'/'.basename($file);
+            $target = $to . '/' . $prefix_dir . '/' . basename($file);
         }
 
         return $target;

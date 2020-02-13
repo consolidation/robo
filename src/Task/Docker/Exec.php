@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo\Task\Docker;
 
 use Robo\Common\CommandReceiver;
@@ -90,6 +91,6 @@ class Exec extends Base
      */
     public function getCommand()
     {
-        return $this->command . ' ' . $this->arguments . ' ' . $this->cid.' '.$this->run;
+        return $this->command . ' ' . $this->arguments . ' ' . $this->cid . ' ' . $this->run;
     }
 }

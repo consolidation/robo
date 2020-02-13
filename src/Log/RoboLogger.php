@@ -1,8 +1,8 @@
 <?php
+
 namespace Robo\Log;
 
 use Consolidation\Log\Logger;
-
 use Psr\Log\LogLevel;
 use Symfony\Component\Console\Output\OutputInterface;
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo\Task\Remote;
 
 use Robo\Contract\CommandInterface;

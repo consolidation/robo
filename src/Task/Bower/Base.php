@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo\Task\Bower;
 
 use Robo\Task\BaseTask;

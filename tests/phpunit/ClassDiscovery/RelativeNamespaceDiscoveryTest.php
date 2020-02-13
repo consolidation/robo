@@ -1,12 +1,13 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
 use Robo\ClassDiscovery\RelativeNamespaceDiscovery;
 use Composer\Autoload\ClassLoader;
 
 /**
  * Class RelativeNamespaceDiscoveryTest
  */
-class RelativeNamespaceDiscoveryTest extends \Codeception\Test\Unit
+class RelativeNamespaceDiscoveryTest extends TestCase
 {
     public function testGetClasses()
     {
@@ -42,7 +43,7 @@ class RelativeNamespaceDiscoveryTest extends \Codeception\Test\Unit
     }
 
     /**
-     * @dataProvider testConvertPathToNamespaceData
+     * @dataProvider convertPathToNamespaceData
      *
      * @param $path
      * @param $expected
@@ -55,7 +56,7 @@ class RelativeNamespaceDiscoveryTest extends \Codeception\Test\Unit
         $this->assertEquals($expected, $actual);
     }
 
-    public function testConvertPathToNamespaceData()
+    public function convertPathToNamespaceData()
     {
         return [
           ['/A/B/C', 'A\B\C'],
@@ -66,7 +67,7 @@ class RelativeNamespaceDiscoveryTest extends \Codeception\Test\Unit
     }
 
     /**
-     * @dataProvider testConvertNamespaceToPathData
+     * @dataProvider convertNamespaceToPathData
      *
      * @param $namespace
      * @param $expected
@@ -79,7 +80,7 @@ class RelativeNamespaceDiscoveryTest extends \Codeception\Test\Unit
         $this->assertEquals($expected, $actual);
     }
 
-    public function testConvertNamespaceToPathData()
+    public function convertNamespaceToPathData()
     {
         return [
           ['A\B\C', '/A/B/C'],

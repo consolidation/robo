@@ -211,7 +211,7 @@ class Pack extends BaseTask implements PrintedInterface
      */
     protected function archiveZip($archiveFile, $items)
     {
-        if (!extension_loaded('zlib')) {
+        if (!extension_loaded('zlib') || !class_exists(\ZipArchive::class)) {
             return Result::errorMissingExtension($this, 'zlib', 'zip packing');
         }
 

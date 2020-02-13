@@ -24,6 +24,15 @@
         <ini name="error_reporting" value="E_ALL" />
     </php>
 
+    <testsuites>
+        <testsuite name="integration">
+            <directory prefix="" suffix="Test.php">tests/integration</directory>
+        </testsuite>
+        <testsuite name="unit">
+            <directory prefix="" suffix="Test.php">tests/phpunit</directory>
+        </testsuite>
+    </testsuites>
+
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./src</directory>

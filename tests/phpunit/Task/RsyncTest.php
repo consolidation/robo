@@ -1,12 +1,9 @@
 <?php
 
-class RsyncTest extends \Codeception\TestCase\Test
-{
-    /**
-     * @var \CodeGuy
-     */
-    protected $guy;
+use PHPUnit\Framework\TestCase;
 
+class RsyncTest extends TestCase
+{
     // tests
     public function testRsync()
     {

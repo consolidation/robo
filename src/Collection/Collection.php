@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo\Collection;
 
 use Robo\Exception\AbortTasksException;
@@ -13,7 +14,6 @@ use Robo\Contract\WrappedTaskInterface;
 use Robo\Exception\TaskException;
 use Robo\Exception\TaskExitException;
 use Robo\Contract\CommandInterface;
-
 use Robo\Contract\InflectionInterface;
 use Robo\State\StateAwareInterface;
 use Robo\State\StateAwareTrait;

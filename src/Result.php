@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo;
 
 use Robo\Contract\TaskInterface;

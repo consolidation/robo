@@ -1,9 +1,9 @@
 <?php
+
 namespace Robo\Task;
 
 use Robo\Common\InflectionTrait;
 use Robo\Contract\InflectionInterface;
-
 use Robo\Common\TaskIO;
 use Robo\Contract\TaskInterface;
 use Robo\Contract\ProgressIndicatorAwareInterface;

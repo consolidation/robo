@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo\Exception;
 
 class TaskExitException extends \Exception

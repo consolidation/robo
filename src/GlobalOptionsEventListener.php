@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo;
 
 use Symfony\Component\Console\ConsoleEvents;

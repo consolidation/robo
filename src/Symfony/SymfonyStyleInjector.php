@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo\Symfony;
 
 use Consolidation\AnnotatedCommand\CommandData;

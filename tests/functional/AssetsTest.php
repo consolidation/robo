@@ -38,7 +38,7 @@ class AssetsTest extends TestCase
 				$result = $this->taskMinify($sampleCss)
 				  ->to('minifiedSample.css')
 				  ->run();
-        $this->assertTrue($result->wasSuccessful());
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
 
 				$this->assertFileExists($outputCss);
 				$minifiedFileSize = filesize($outputCss);

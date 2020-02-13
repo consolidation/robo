@@ -33,7 +33,7 @@ class ExecTest extends TestCase
         $task->env('FOO', 'BAR');
         $task->env('BAR', 'BAZ');
         $result = $task->run();
-        $this->assertTrue($result->wasSuccessful());
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
         // Verify that the text contains our environment variable.
         $this->assertContains(
             'FOO=BAR',

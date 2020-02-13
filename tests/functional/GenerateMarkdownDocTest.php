@@ -86,7 +86,7 @@ class GenerateMarkdownDocTest extends TestCase
         );
 
         $result = $collection->run();
-        $this->assertTrue($result->wasSuccessful());
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
 
         $this->assertFileExists('TestedRoboTask.md');
 

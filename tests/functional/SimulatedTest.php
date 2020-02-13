@@ -38,7 +38,7 @@ class SimulatedTest extends TestCase
         // Run the task collection; the files would be present were this
         // operation not simulated.
         $result = $collection->run();
-        $this->assertTrue($result->wasSuccessful());
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
         // Nothing should be created in simulated mode
         $this->assertFileNotExists('simulatedir/error.txt');
         $this->assertOutputContains('[Simulator] Simulating Filesystem\FilesystemStack()');

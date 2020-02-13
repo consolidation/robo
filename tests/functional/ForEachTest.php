@@ -67,7 +67,7 @@ class ForEachTest extends TestCase
                 });
             })
             ->run();
-        $this->assertTrue($result->wasSuccessful());
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
 
         $this->assertEquals($expected, $actual);
     }
@@ -100,7 +100,7 @@ class ForEachTest extends TestCase
                     })
             )
             ->run();
-        $this->assertTrue($result->wasSuccessful());
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
 
         $this->assertEquals($expected, $actual);
     }
@@ -119,7 +119,7 @@ class ForEachTest extends TestCase
                 });
             })
             ->run();
-        $this->assertTrue($result->wasSuccessful());
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
 
         $this->assertEquals(0, $actual);
     }

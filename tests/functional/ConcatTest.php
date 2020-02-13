@@ -29,7 +29,7 @@ class ConcatTest extends TestCase
         $result = $this->taskConcat(['a.txt', 'b.txt'])
             ->to('merged.txt')
             ->run();
-        $this->assertTrue($result->wasSuccessful());
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
         $this->assertFileExists('merged.txt');
         $expected = "A\nB\n";
         $actual = file_get_contents('merged.txt');

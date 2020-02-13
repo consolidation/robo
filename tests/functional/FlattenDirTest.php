@@ -31,7 +31,7 @@ class FlattenDirTest extends TestCase
             '*.txt' => 'flattened'
             ])
             ->run();
-        $this->assertTrue($result->wasSuccessful());
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
 
         $this->assertFileExists('flattened');
         $this->assertFileExists('flattened/structu.re');

@@ -57,7 +57,7 @@ class PackExtractTest extends TestCase
         $result = $this->taskPack("deeply.$archiveType")
             ->add(['deep' => 'some/deeply'])
             ->run();
-        $this->assertTrue($result->wasSuccessful());
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
         $this->assertFileExists("deeply.$archiveType");
         // We are next going to extract the archive we created, this time
         // putting it into a folder called "extracted-$archiveType" (different
@@ -68,7 +68,7 @@ class PackExtractTest extends TestCase
             ->to("extracted-$archiveType")
             ->preserveTopDirectory(false) // this is the default
             ->run();
-        $this->assertTrue($result->wasSuccessful());
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
         $this->assertDirectoryExists("extracted-$archiveType");
         $this->assertDirectoryExists("extracted-$archiveType/nested");
         $this->assertFileExists("extracted-$archiveType/nested/structu.re");
@@ -86,7 +86,7 @@ class PackExtractTest extends TestCase
             ->add(['a/b/existing_file' => 'some/deeply/existing_file'])
             ->add(['x/y/z/structu.re' => 'some/deeply/nested/structu.re'])
             ->run();
-        $this->assertTrue($result->wasSuccessful());
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
         $this->assertFileExists("composed.$archiveType");
         // Extract our composed archive, and see if the resulting file
         // structure matches expectations.
@@ -94,7 +94,7 @@ class PackExtractTest extends TestCase
             ->to("decomposed-$archiveType")
             ->preserveTopDirectory()
             ->run();
-        $this->assertTrue($result->wasSuccessful());
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
         $this->assertDirectoryExists("decomposed-$archiveType");
         $this->assertDirectoryExists("decomposed-$archiveType/x/y/z");
         $this->assertFileExists("decomposed-$archiveType/x/y/z/structu.re");

@@ -31,7 +31,7 @@ class WriteFileTest extends TestCase
            ->line('hello world')
            ->line('****')
            ->run();
-        $this->assertTrue($result->wasSuccessful());
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
         $this->assertFileExists('blogpost.md');
         $contents = file_get_contents('blogpost.md');
         $expreded = <<<HERE
@@ -49,7 +49,7 @@ HERE;
            ->append()
            ->line('hello world')
            ->run();
-        $this->assertTrue($result->wasSuccessful());
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
         $this->assertFileExists('a.txt');
         $contents = file_get_contents('a.txt');
         $expected = <<<HERE
@@ -75,7 +75,7 @@ HERE;
             ->textFromFile('b.txt')
             ->line("C")
             ->run();
-        $this->assertTrue($result->wasSuccessful());
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
         $this->assertFileExists('a.txt');
         $contents = file_get_contents('a.txt');
         $expected = <<<HERE
@@ -99,7 +99,7 @@ HERE;
            ->appendIfMatches('/goodbye/', ' but should not add this')
            ->appendIfMatches('/should/', '!')
            ->run();
-        $this->assertTrue($result->wasSuccessful());
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
         $this->assertFileExists('blogpost.md');
         $contents = file_get_contents('blogpost.md');
         $expected = <<<HERE
@@ -117,7 +117,7 @@ HERE;
             ->from('A')
             ->to('B')
             ->run();
-        $this->assertTrue($result->wasSuccessful());
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
         $this->assertFileExists('a.txt');
         $contents = file_get_contents('a.txt');
         $this->assertContains('B', $contents);
@@ -130,7 +130,7 @@ HERE;
             ->from(array('HELLO', 'ROBO'))
             ->to(array('Hello ', 'robo.li!'))
             ->run();
-        $this->assertTrue($result->wasSuccessful());
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
         $this->assertFileExists('box/robo.txt');
         $contents = file_get_contents('box/robo.txt');
         $this->assertContains('Hello robo.li!', $contents);

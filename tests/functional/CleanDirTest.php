@@ -29,7 +29,7 @@ class CleanDirTest extends TestCase
         $this->assertFileExists('box/robo.txt');
         $result = $this->taskCleanDir(['box'])
             ->run();
-        $this->assertTrue($result->wasSuccessful());
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
         $this->assertFileNotExists('box/robo.txt');
         $this->assertFileExists('a.txt');
     }

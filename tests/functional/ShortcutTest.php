@@ -28,7 +28,7 @@ class ShortcutTest extends TestCase
     {
         // copy dir with _copyDir shortcut
         $result = $this->_copyDir('box', 'bin');
-        $this->assertTrue($result->wasSuccessful());
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
         $this->assertFileExists('bin');
         $this->assertFileExists('bin/robo.txt');
     }
@@ -37,7 +37,7 @@ class ShortcutTest extends TestCase
     {
         // mirror dir with _mirrorDir shortcut
         $result = $this->_mirrorDir('box', 'bin');
-        $this->assertTrue($result->wasSuccessful());
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
         $this->assertFileExists('bin');
         $this->assertFileExists('bin/robo.txt');
     }

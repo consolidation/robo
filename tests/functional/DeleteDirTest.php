@@ -30,7 +30,7 @@ class DeleteDirTest extends TestCase
         $this->assertFileExists('box/robo.txt');
         $result = $this->taskDeleteDir(['box'])
             ->run();
-        $this->assertTrue($result->wasSuccessful());
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
         $this->assertFileNotExists('box');
         $this->assertFileNotExists('box/robo.txt');
     }

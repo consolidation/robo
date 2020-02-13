@@ -38,7 +38,7 @@ class FilesystemStackTest extends TestCase
 
         // Run the task collection; the files should be present afterwards
         $result = $collection->run();
-        $this->assertTrue($result->wasSuccessful());
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
         $this->assertFileExists('simulatedir/error.txt');
     }
 
@@ -49,7 +49,7 @@ class FilesystemStackTest extends TestCase
             ->mkdir('log')
             ->touch('log/error.txt')
             ->run();
-        $this->assertTrue($result->wasSuccessful());
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
         $this->assertFileExists('log/error.txt');
     }
 
@@ -60,7 +60,7 @@ class FilesystemStackTest extends TestCase
             ->stopOnFail()
             ->remove('a.txt')
             ->run();
-        $this->assertTrue($result->wasSuccessful());
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
         $this->assertFileNotExists('a.txt');
     }
 
@@ -70,7 +70,7 @@ class FilesystemStackTest extends TestCase
             ->mkdir('log')
             ->touch('log/error.txt');
         $result = $fsStack->run();
-        $this->assertTrue($result->wasSuccessful());
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
 
         // We can't force _rename to run the cross-volume
         // code path, so we will directly call the protected

@@ -28,7 +28,7 @@ class CopyDirTest extends TestCase
 
         $result = $this->taskCopyDir(['box' => 'bin'])
             ->run();
-        $this->assertTrue($result->wasSuccessful());
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
         $this->assertFileExists('bin');
         $this->assertFileExists('bin/robo.txt');
     }

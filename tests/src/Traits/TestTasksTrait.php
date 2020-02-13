@@ -31,9 +31,12 @@ trait TestTasksTrait
         $app->setDispatcher($container->get('eventDispatcher'));
         $this->logger = $container->get('logger');
 
-        // Make a command class if one was not provided
+        // Use test class as command class if a specific one is not provided
         if (!$commandClass) {
-            $commandClass = new \Robo\RoboFileFixture();
+            $commandClass = $this;
+        }
+
+        if ($commandClass instanceof Psr\Log\LoggerAwareInterface) {
             $commandClass->setLogger($this->logger);
         }
 

@@ -39,9 +39,9 @@ symfony/event-dispatcher             v4.4.4   MIT
 symfony/event-dispatcher-contracts   v1.1.7   MIT
 symfony/filesystem                   v4.4.4   MIT
 symfony/finder                       v4.4.4   MIT
-symfony/polyfill-ctype               v1.13.1  MIT
-symfony/polyfill-mbstring            v1.13.1  MIT
-symfony/polyfill-php73               v1.13.1  MIT
+symfony/polyfill-ctype               v1.14.0  MIT
+symfony/polyfill-mbstring            v1.14.0  MIT
+symfony/polyfill-php73               v1.14.0  MIT
 symfony/process                      v4.4.4   MIT
 symfony/service-contracts            v1.1.8   MIT
 symfony/yaml                         v4.4.4   MIT

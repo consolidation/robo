@@ -34,13 +34,13 @@ class WriteFileTest extends TestCase
         $this->assertTrue($result->wasSuccessful());
         $this->assertFileExists('blogpost.md');
         $contents = file_get_contents('blogpost.md');
-        $this->assertContains(<<<HERE
+        $expreded = <<<HERE
 ****
 hello world
 ****
 
-HERE, $contents
-        );
+HERE;
+        $this->assertContains($expected, $contents);
     }
 
     public function appendToFile()
@@ -52,11 +52,11 @@ HERE, $contents
         $this->assertTrue($result->wasSuccessful());
         $this->assertFileExists('a.txt');
         $contents = file_get_contents('a.txt');
-        $this->assertContains(<<<HERE
+        $expected = <<<HERE
 Ahello world
 
-HERE, $contents
-        );
+HERE;
+        $this->assertContains($expected, $contents);
     }
 
     public function testWouldChange()
@@ -78,12 +78,12 @@ HERE, $contents
         $this->assertTrue($result->wasSuccessful());
         $this->assertFileExists('a.txt');
         $contents = file_get_contents('a.txt');
-        $this->assertContains(<<<HERE
+        $expected = <<<HERE
 ****
 BC
 
-HERE, $contents
-        );
+HERE;
+        $this->assertContains($expected, $contents);
     }
 
     public function appendIfMatch()
@@ -102,13 +102,13 @@ HERE, $contents
         $this->assertTrue($result->wasSuccessful());
         $this->assertFileExists('blogpost.md');
         $contents = file_get_contents('blogpost.md');
-        $this->assertContains(<<<HERE
+        $expected = <<<HERE
 ****
 hello world
 ****
 Should add this and should also add this!
-HERE, $contents
-        );
+HERE;
+        $this->assertContains($expected, $contents);
     }
 
     public function replaceInFile()

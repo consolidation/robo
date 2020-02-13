@@ -18,6 +18,7 @@ class ExecTest extends TestCase
     {
         $command = strncasecmp(PHP_OS, 'WIN', 3) == 0 ? 'dir' : 'ls';
         $res = $this->taskExec($command)->interactive(false)->run();
+        $this->assertTrue($res->wasSuccessful());
         $this->assertContains(
             'src',
             $res->getMessage());
@@ -32,6 +33,7 @@ class ExecTest extends TestCase
         $task->env('FOO', 'BAR');
         $task->env('BAR', 'BAZ');
         $result = $task->run();
+        $this->assertTrue($result->wasSuccessful());
         // Verify that the text contains our environment variable.
         $this->assertContains(
             'FOO=BAR',
@@ -45,6 +47,7 @@ class ExecTest extends TestCase
         $task->env('FOO', 'BAR');
         $task->env('FOO', 'BAZ');
         $result = $task->run();
+        $this->assertTrue($result->wasSuccessful());
         // Verify that the text contains the most recent environment variable.
         $this->assertContains(
             'FOO=BAZ',
@@ -64,6 +67,7 @@ class ExecTest extends TestCase
         // variables are present.
         $task = $this->taskExec('env | wc -l')->interactive(false);
         $result = $task->run();
+        $this->assertTrue($result->wasSuccessful());
         $start_count = (int) $result->getMessage();
         $this->assertGreaterThan(0, $start_count);
 
@@ -71,6 +75,7 @@ class ExecTest extends TestCase
         // another exec call.
         $task = $this->taskExec('env | wc -l')->interactive(false);
         $result = $task->run();
+        $this->assertTrue($result->wasSuccessful());
         $this->assertEquals(
             $start_count,
             (int) $result->getMessage());
@@ -80,6 +85,7 @@ class ExecTest extends TestCase
         $task = $this->taskExec('env | wc -l')->interactive(false);
         $task->env('FOO', 'BAR');
         $result = $task->run();
+        $this->assertTrue($result->wasSuccessful());
         $this->assertEquals($start_count + 1, (int) $result->getMessage());
     }
 }

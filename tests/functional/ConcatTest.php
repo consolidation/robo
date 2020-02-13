@@ -26,9 +26,10 @@ class ConcatTest extends TestCase
     {
         $this->fixtures->createAndCdToSandbox();
 
-        $this->taskConcat(['a.txt', 'b.txt'])
+        $result = $this->taskConcat(['a.txt', 'b.txt'])
             ->to('merged.txt')
             ->run();
+        $this->assertTrue($result->wasSuccessful());
         $this->assertFileExists('merged.txt');
         $expected = "A\nB\n";
         $actual = file_get_contents('merged.txt');

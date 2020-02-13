@@ -4,7 +4,7 @@ namespace Robo;
 use PHPUnit\Framework\TestCase;
 use Robo\Traits\TestTasksTrait;
 
-class CleanDirTest extends TestCase
+class DeleteDirTest extends TestCase
 {
     use TestTasksTrait;
     use Task\Filesystem\loadTasks;
@@ -22,16 +22,17 @@ class CleanDirTest extends TestCase
         $this->fixtures->cleanup();
     }
 
-    public function testCleanDir()
+    public function testDeleteDir()
     {
         $this->fixtures->createAndCdToSandbox();
 
+        $this->assertFileExists('box');
         $this->assertFileExists('box/robo.txt');
-        $result = $this->taskCleanDir(['box'])
+        $result = $this->taskDeleteDir(['box'])
             ->run();
         $this->assertTrue($result->wasSuccessful());
+        $this->assertFileNotExists('box');
         $this->assertFileNotExists('box/robo.txt');
-        $this->assertFileExists('a.txt');
     }
 
 }

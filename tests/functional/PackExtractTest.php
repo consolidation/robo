@@ -54,19 +54,21 @@ class PackExtractTest extends TestCase
 
         // First, take everything from the folder 'some/deeply' and make
         // an archive for it located in 'deep'
-        $this->taskPack("deeply.$archiveType")
+        $result = $this->taskPack("deeply.$archiveType")
             ->add(['deep' => 'some/deeply'])
             ->run();
+        $this->assertTrue($result->wasSuccessful());
         $this->assertFileExists("deeply.$archiveType");
         // We are next going to extract the archive we created, this time
         // putting it into a folder called "extracted-$archiveType" (different
         // for each archive type we test).  We rely on the default behavior
         // of our extractor to remove the top-level directory in the archive
         // ("deeply").
-        $this->taskExtract("deeply.$archiveType")
+        $result = $this->taskExtract("deeply.$archiveType")
             ->to("extracted-$archiveType")
             ->preserveTopDirectory(false) // this is the default
             ->run();
+        $this->assertTrue($result->wasSuccessful());
         $this->assertDirectoryExists("extracted-$archiveType");
         $this->assertDirectoryExists("extracted-$archiveType/nested");
         $this->assertFileExists("extracted-$archiveType/nested/structu.re");
@@ -80,17 +82,19 @@ class PackExtractTest extends TestCase
         $this->assertDirectoryExists("preserved-$archiveType/deep/nested");
         $this->assertFileExists("preserved-$archiveType/deep/nested/structu.re");
         // Make another archive, this time composed of fanciful locations
-        $this->taskPack("composed.$archiveType")
+        $result = $this->taskPack("composed.$archiveType")
             ->add(['a/b/existing_file' => 'some/deeply/existing_file'])
             ->add(['x/y/z/structu.re' => 'some/deeply/nested/structu.re'])
             ->run();
+        $this->assertTrue($result->wasSuccessful());
         $this->assertFileExists("composed.$archiveType");
         // Extract our composed archive, and see if the resulting file
         // structure matches expectations.
-        $this->taskExtract("composed.$archiveType")
+        $result = $this->taskExtract("composed.$archiveType")
             ->to("decomposed-$archiveType")
             ->preserveTopDirectory()
             ->run();
+        $this->assertTrue($result->wasSuccessful());
         $this->assertDirectoryExists("decomposed-$archiveType");
         $this->assertDirectoryExists("decomposed-$archiveType/x/y/z");
         $this->assertFileExists("decomposed-$archiveType/x/y/z/structu.re");

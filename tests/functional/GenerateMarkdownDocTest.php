@@ -9,6 +9,7 @@ class GenerateMarkdownDocTest extends TestCase
     use TestTasksTrait;
     use Collection\loadTasks;
     use Task\Development\loadTasks;
+    use Task\File\loadTasks;
 
     protected $fixtures;
 

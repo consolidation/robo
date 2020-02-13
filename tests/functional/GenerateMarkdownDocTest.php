@@ -1,23 +1,37 @@
 <?php
 namespace Robo;
 
-use \CliGuy;
+use PHPUnit\Framework\TestCase;
+use Robo\Traits\TestTasksTrait;
 
-class GenerateMarkdownDocCest
+class GenerateMarkdownDocTest extends TestCase
 {
-    public function _before(CliGuy $I)
+    use TestTasksTrait;
+    use Collection\loadTasks;
+    use Task\Development\loadTasks;
+
+    protected $fixtures;
+
+    public function setUp()
     {
-        $I->amInPath(codecept_data_dir().'sandbox');
+        $this->fixtures = new Fixtures();
+        $this->initTestTasksTrait();
+        $this->fixtures->createAndCdToSandbox();
     }
 
-    public function toGenerateDocumentation(CliGuy $I)
+    public function tearDown()
     {
-        $sourceFile = codecept_data_dir() . 'TestedRoboTask.php';
-        $I->seeFileFound($sourceFile);
-        include $sourceFile;
-        $I->assertTrue(class_exists('TestedRoboTask'));
+        $this->fixtures->cleanup();
+    }
 
-        $collection = $I->collectionBuilder();
+    public function testGenerateDocumentation()
+    {
+        $sourceFile = $this->fixtures->dataFile('TestedRoboTask.php');
+        $this->assertFileExists($sourceFile);
+        include $sourceFile;
+        $this->assertTrue(class_exists('TestedRoboTask'));
+
+        $collection = $this->collectionBuilder();
         $taskGenerator = $collection->taskGenDoc("TestedRoboTask.md");
         $taskGenerator->filterClasses(function (\ReflectionClass $r) {
             return !($r->isAbstract() || $r->isTrait()) && $r->implementsInterface('Robo\Contract\TaskInterface');
@@ -71,12 +85,15 @@ class GenerateMarkdownDocCest
             }
         );
 
-        $collection->run();
-        $I->seeFileFound('TestedRoboTask.md');
+        $result = $collection->run();
+        $this->assertTrue($result->wasSuccessful());
+
+        $this->assertFileExists('TestedRoboTask.md');
 
         $contents = file_get_contents('TestedRoboTask.md');
-        $I->assertContains('A test task file. Used for testig documentation generation.', $contents);
-        $I->assertContains('taskTestedRoboTask', $contents);
-        $I->assertContains('Set the destination file', $contents);
+        $this->assertContains('A test task file. Used for testig documentation generation.', $contents);
+        $this->assertContains('taskTestedRoboTask', $contents);
+        $this->assertContains('Set the destination file', $contents);
     }
+
 }

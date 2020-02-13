@@ -1,16 +1,33 @@
 <?php
+namespace Robo;
 
-use Codeception\Example;
+use PHPUnit\Framework\TestCase;
 use Robo\Collection\CollectionBuilder;
 use Robo\State\Data;
+use Robo\Traits\TestTasksTrait;
 
-class ForEachCest
+class ForEachTest extends TestCase
 {
+    use TestTasksTrait;
+    use Collection\loadTasks;
+
+    protected $fixtures;
+
+    public function setUp()
+    {
+        $this->fixtures = new Fixtures();
+        $this->initTestTasksTrait();
+    }
+
+    public function tearDown()
+    {
+        $this->fixtures->cleanup();
+    }
 
     /**
      * @return array
      */
-    protected function examples()
+    public function examples()
     {
         return [
             'without items' => [
@@ -35,13 +52,13 @@ class ForEachCest
     /**
      * @dataProvider examples
      */
-    public function setIterableInConstructor(CliGuy $I, Example $example)
+    public function testSetIterableInConstructor($expected, $items)
     {
         $actual = [];
 
-        $I->wantTo('set iterable in the __constructor');
-        $I
-            ->taskForEach($example['items'])
+        // set iterable in the __constructor
+        $result = $this
+            ->taskForEach($items)
             ->withBuilder(function (CollectionBuilder $builder, $key, $value) use (&$actual) {
                 $builder->addCode(function () use ($key, $value, &$actual) {
                     $actual[] = "$key = $value";
@@ -50,27 +67,28 @@ class ForEachCest
                 });
             })
             ->run();
+        $this->assertTrue($result->wasSuccessful());
 
-        $I->assertEquals($example['expected'], $actual);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
      * @dataProvider examples
      */
-    public function setIterableWithDeferTaskConfiguration(CliGuy $I, Example $example)
+    public function testSetIterableWithDeferTaskConfiguration($expected, $items)
     {
         $actual = [];
 
-        $I->wantTo('set iterable with deferTaskConfiguration()');
-        $I
+        // set iterable with deferTaskConfiguration()
+        $result = $this
             ->collectionBuilder()
-            ->addCode(function (Data $data) use ($example) {
-                $data['items'] = $example['items'];
+            ->addCode(function (Data $data) use ($items) {
+                $data['items'] = $items;
 
                 return 0;
             })
             ->addTask(
-                $I
+                $this
                     ->taskForEach()
                     ->deferTaskConfiguration('setIterable', 'items')
                     ->withBuilder(function (CollectionBuilder $builder, $key, $value) use (&$actual) {
@@ -82,15 +100,16 @@ class ForEachCest
                     })
             )
             ->run();
+        $this->assertTrue($result->wasSuccessful());
 
-        $I->assertEquals($example['expected'], $actual);
+        $this->assertEquals($expected, $actual);
     }
 
-    public function uninitializedIterable(CliGuy $I)
+    public function testUninitializedIterable()
     {
         $actual = 0;
-        $I->wantTo('call the __constructor() without argument');
-        $I
+        // call the __constructor() without argument
+        $result = $this
             ->taskForEach()
             ->withBuilder(function (CollectionBuilder $builder, $key, $value) use (&$actual) {
                 $builder->addCode(function () use ($key, $value, &$actual) {
@@ -100,7 +119,8 @@ class ForEachCest
                 });
             })
             ->run();
+        $this->assertTrue($result->wasSuccessful());
 
-        $I->assertEquals(0, $actual);
+        $this->assertEquals(0, $actual);
     }
 }

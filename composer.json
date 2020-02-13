@@ -83,8 +83,11 @@
                 "require": {
                     "symfony/console": "^2.8"
                 },
+                "require-dev": {
+                    "phpunit/phpunit": "^4.8.36"
+                },
                 "remove": [
-                    "goaop/framework"
+                    "php-coveralls/php-coveralls"
                 ],
                 "config": {
                     "platform": {

@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo\Log;
 
 use Robo\Common\TimeKeeper;

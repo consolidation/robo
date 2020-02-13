@@ -36,7 +36,7 @@ class ProcessUtils
      */
     public static function escapeArgument($argument)
     {
-        @trigger_error('The '.__METHOD__.'() method is a copy of a method that was deprecated by Symfony 3.3 and removed in Symfony 4; it will be removed in Robo 2.0.', E_USER_DEPRECATED);
+        @trigger_error('The ' . __METHOD__ . '() method is a copy of a method that was deprecated by Symfony 3.3 and removed in Symfony 4; it will be removed in Robo 2.0.', E_USER_DEPRECATED);
 
         //Fix for PHP bug #43784 escapeshellarg removes % from given string
         //Fix for PHP bug #49446 escapeshellarg doesn't work on Windows
@@ -54,7 +54,7 @@ class ProcessUtils
                     $escapedArgument .= '\\"';
                 } elseif (self::isSurroundedBy($part, '%')) {
                     // Avoid environment variable expansion
-                    $escapedArgument .= '^%"'.substr($part, 1, -1).'"^%';
+                    $escapedArgument .= '^%"' . substr($part, 1, -1) . '"^%';
                 } else {
                     // escape trailing backslash
                     if ('\\' === substr($part, -1)) {
@@ -65,13 +65,13 @@ class ProcessUtils
                 }
             }
             if ($quote) {
-                $escapedArgument = '"'.$escapedArgument.'"';
+                $escapedArgument = '"' . $escapedArgument . '"';
             }
 
             return $escapedArgument;
         }
 
-        return "'".str_replace("'", "'\\''", $argument)."'";
+        return "'" . str_replace("'", "'\\''", $argument) . "'";
     }
 
     private static function isSurroundedBy($arg, $char)

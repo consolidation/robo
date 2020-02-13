@@ -5,6 +5,10 @@ class RoboFile extends \Robo\Tasks
 {
     /**
      * Run the Robo unit tests.
+     *
+     * n.b. The CI jobs use `composer unit` rather than this function
+     * to run the tests. This command also runs the remaining Codeception
+     * tests. You must re-add Codeception to the project to use this.
      */
     public function test(array $args, $options =
         [
@@ -12,7 +16,11 @@ class RoboFile extends \Robo\Tasks
             'coverage' => false
         ])
     {
-        $taskCodecept = $this->taskCodecept()
+        $collection = $this->collectionBuilder();
+
+        $taskPHPUnit = $collection->taskPHPUnit();
+
+        $taskCodecept = $collection->taskCodecept()
             ->args($args);
 
         if ($options['coverage']) {
@@ -22,7 +30,7 @@ class RoboFile extends \Robo\Tasks
             $taskCodecept->coverageHtml('../../build/logs/coverage');
         }
 
-        return $taskCodecept->run();
+        return $collection;
      }
 
     /**

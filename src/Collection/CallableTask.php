@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo\Collection;
 
 use Robo\Result;

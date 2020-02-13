@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo\Task\Filesystem;
 
 use Robo\Result;

@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo\Task\Base;
 
 use Robo\Common\ExecTrait;

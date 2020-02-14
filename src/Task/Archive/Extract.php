@@ -274,6 +274,6 @@ class Extract extends BaseTask implements BuilderAwareInterface
      */
     protected static function getTmpDir()
     {
-        return getcwd().'/tmp'.rand().time();
+        return getcwd() . '/tmp' . rand() . time();
     }
 }

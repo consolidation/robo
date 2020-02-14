@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo\Task\Vcs;
 
 trait loadTasks

@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo\Collection;
 
 trait loadTasks

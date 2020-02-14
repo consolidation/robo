@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
 use Robo\Traits\Common\CommandArgumentsHost;
 
 /**
@@ -7,13 +8,8 @@ use Robo\Traits\Common\CommandArgumentsHost;
  *
  * @coversDefaultClass \Robo\Common\CommandArguments
  */
-class CommandArgumentsTest extends \Codeception\Test\Unit
+class CommandArgumentsTest extends TestCase
 {
-    /**
-     * @var \CodeGuy
-     */
-    protected $guy;
-
     public function casesArgs() {
         return [
             'no arguments' => [
@@ -87,12 +83,12 @@ class CommandArgumentsTest extends \Codeception\Test\Unit
         $expected = stripos(PHP_OS, 'WIN') === 0 ? $expectedWindows : $expectedLinux;
         $commandArguments = new CommandArgumentsHost();
         $commandArguments->args($args);
-        $this->guy->assertEquals($expected, $commandArguments->getArguments());
+        $this->assertEquals($expected, $commandArguments->getArguments());
 
         if ($args) {
             $commandArguments = new CommandArgumentsHost();
             call_user_func_array([$commandArguments, 'args'], $args);
-            $this->guy->assertEquals($expected, $commandArguments->getArguments());
+            $this->assertEquals($expected, $commandArguments->getArguments());
         }
     }
 }

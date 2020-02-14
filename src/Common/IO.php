@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo\Common;
 
 use Symfony\Component\Console\Helper\QuestionHelper;

@@ -1,8 +1,9 @@
 <?php
 
 use Robo\Robo;
+use PHPUnit\Framework\TestCase;
 
-class SshTest extends \Codeception\TestCase\Test
+class SshTest extends TestCase
 {
     // tests
     public function testBasicCommand()
@@ -33,11 +34,12 @@ class SshTest extends \Codeception\TestCase\Test
      */
     public function testWorkingDirectoryStaticConfiguration()
     {
-        \Robo\Task\Remote\Ssh::configure('remoteDir', '/some-dir');
+        $config = new \Robo\Config\Config();
+        \Robo\Task\Remote\Ssh::configure('remoteDir', '/some-dir', $config);
         $this->assertEquals(
             "ssh user@remote.example.com 'cd \"/some-dir\" && echo test'",
             (new \Robo\Task\Remote\Ssh('remote.example.com', 'user'))
-                ->setConfig(Robo::config())
+                ->setConfig($config)
                 ->exec('echo test')
                 ->getCommand()
         );
@@ -51,11 +53,11 @@ class SshTest extends \Codeception\TestCase\Test
         $this->assertEquals(
             "ssh user@remote.example.com 'cd \"/some-dir\" && echo test'",
             (new \Robo\Task\Remote\Ssh('remote.example.com', 'user'))
-                ->setConfig(Robo::config())
+                ->setConfig($config)
                 ->exec('echo test')
                 ->getCommand()
         );
-        \Robo\Task\Remote\Ssh::configure('remoteDir', null);
+        \Robo\Task\Remote\Ssh::configure('remoteDir', null, $config);
         $this->assertEquals(
             "ssh user@remote.example.com 'echo test'",
             (new \Robo\Task\Remote\Ssh('remote.example.com', 'user'))

@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo\Config;
 
 use Consolidation\Config\Util\ConfigOverlay;

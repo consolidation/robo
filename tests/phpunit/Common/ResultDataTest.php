@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
 use Robo\ResultData;
 
 /**
@@ -7,25 +8,20 @@ use Robo\ResultData;
  *
  * @coversDefaultClass \Robo\ResultData
  */
-class ResultDataTest extends \Codeception\Test\Unit
+class ResultDataTest extends TestCase
 {
-    /**
-     * @var \CodeGuy
-     */
-    protected $guy;
-
     public function testResultDataUpdate()
     {
         $a = new ResultData(ResultData::EXITCODE_OK, '', ['one' => 'first', 'two' => 'second']);
         $b = new ResultData(ResultData::EXITCODE_OK, '', ['one' => 'First', 'three' => 'Third']);
 
         $expected = ['one' => 'first', 'two' => 'second'];
-        $this->guy->assertEquals($expected, $a->getData());
+        $this->assertEquals($expected, $a->getData());
 
         $a->update($b);
 
         $expected = ['one' => 'First', 'two' => 'second', 'three' => 'Third'];
-        $this->guy->assertEquals($expected, $a->getData());
+        $this->assertEquals($expected, $a->getData());
     }
 
     public function testResultDataMergeData()
@@ -42,6 +38,6 @@ class ResultDataTest extends \Codeception\Test\Unit
         }
 
         $expected = ['one' => 'first', 'two' => 'second', 'three' => 'new'];
-        $this->guy->assertEquals($expected, $a->getData());
+        $this->assertEquals($expected, $a->getData());
     }
 }

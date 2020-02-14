@@ -6,7 +6,7 @@
 
 namespace Robo\Contract;
 
-use \Symfony\Component\Console\Input\InputAwareInterface;
+use Symfony\Component\Console\Input\InputAwareInterface;
 
 interface IOAwareInterface extends OutputAwareInterface, InputAwareInterface
 {

@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo;
 
 use Composer\Autoload\ClassLoader;
@@ -14,11 +15,11 @@ use Consolidation\Config\Util\EnvConfig;
 
 class Runner implements ContainerAwareInterface
 {
-    const ROBOCLASS = 'RoboFile';
-    const ROBOFILE = 'RoboFile.php';
-
     use IO;
     use ContainerAwareTrait;
+
+    const ROBOCLASS = 'RoboFile';
+    const ROBOFILE = 'RoboFile.php';
 
     /**
      * @var string
@@ -279,7 +280,7 @@ class Runner implements ContainerAwareInterface
     {
         /** @var \Robo\ClassDiscovery\RelativeNamespaceDiscovery $discovery */
         $discovery = Robo::service('relativeNamespaceDiscovery');
-        $discovery->setRelativeNamespace($relativeNamespace.'\Commands')
+        $discovery->setRelativeNamespace($relativeNamespace . '\Commands')
             ->setSearchPattern('/.*Commands?\.php$/');
         return $discovery->getClasses();
     }
@@ -460,9 +461,9 @@ class Runner implements ContainerAwareInterface
 
         if (substr($argv[$pos], 0, 12) == '--load-from=') {
             $this->dir = substr($argv[$pos], 12);
-        } elseif (isset($argv[$pos +1])) {
-            $this->dir = $argv[$pos +1];
-            unset($argv[$pos +1]);
+        } elseif (isset($argv[$pos + 1])) {
+            $this->dir = $argv[$pos + 1];
+            unset($argv[$pos + 1]);
         }
         unset($argv[$pos]);
         // Make adjustments if '--load-from' points at a file.

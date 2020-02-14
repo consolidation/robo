@@ -1,6 +1,6 @@
 The MIT License (MIT)
 
-Copyright (c) 2014-2019 Codegyre Developers Team, Consolidation Team
+Copyright (c) 2014-2020 Codegyre Developers Team, Consolidation Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -22,10 +22,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 DEPENDENCY LICENSES:
 
 Name                                 Version  License
-consolidation/annotated-command      2.12.0   MIT
+consolidation/annotated-command      4.1.0    MIT
 consolidation/config                 1.2.1    MIT
-consolidation/log                    1.1.1    MIT
-consolidation/output-formatters      3.5.0    MIT
+consolidation/log                    2.0.0    MIT
+consolidation/output-formatters      4.1.0    MIT
 consolidation/self-update            1.1.5    MIT
 container-interop/container-interop  1.2.0    MIT
 dflydev/dot-access-data              v1.1.0   MIT
@@ -33,12 +33,12 @@ grasmash/expander                    1.0.0    MIT
 grasmash/yaml-expander               1.4.0    MIT
 league/container                     2.4.1    MIT
 psr/container                        1.0.0    MIT
-psr/log                              1.1.1    MIT
-symfony/console                      v4.3.5   MIT
-symfony/event-dispatcher             v4.3.5   MIT
-symfony/filesystem                   v4.3.5   MIT
-symfony/finder                       v3.4.32  MIT
-symfony/polyfill-ctype               v1.12.0  MIT
-symfony/polyfill-mbstring            v1.12.0  MIT
-symfony/process                      v4.3.5   MIT
-symfony/yaml                         v4.3.5   MIT
+psr/log                              1.1.2    MIT
+symfony/console                      v4.4.4   MIT
+symfony/event-dispatcher             v4.4.4   MIT
+symfony/filesystem                   v4.4.4   MIT
+symfony/finder                       v4.4.4   MIT
+symfony/polyfill-ctype               v1.14.0  MIT
+symfony/polyfill-mbstring            v1.14.0  MIT
+symfony/process                      v4.4.4   MIT
+symfony/yaml                         v4.4.4   MIT

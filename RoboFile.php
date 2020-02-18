@@ -367,7 +367,6 @@ class RoboFile extends \Robo\Tasks
                 ->fromPath(
                     [
                         __DIR__ . '/composer.json',
-                        __DIR__ . '/scripts',
                         __DIR__ . '/src',
                         __DIR__ . '/data'
                     ]

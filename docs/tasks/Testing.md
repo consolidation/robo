@@ -47,7 +47,7 @@ $this->taskBehat()
 
 * `stopOnFail()`   * `return` $this
 * `noInteraction()`   * `return` $this
-* `config($config_file)`   * `param` $config_file
+* `config($config_file)`   * `param string` $config_file
 * `colors()`   * `return` $this
 * `noColors()`   * `return` $this
 * `suite($suite)`   * `param string` $suite
@@ -156,11 +156,11 @@ $this->taskPhpspec()
 * `stopOnFail()` 
 * `noCodeGeneration()` 
 * `quiet()` 
-* `verbose($level = null)` 
-* `noAnsi()` 
-* `noInteraction()` 
-* `config($config_file)` 
-* `format($formater)` 
+* `verbose($level = null)`   * `param string` $level
+* `noAnsi()`   * `return` $this
+* `noInteraction()`   * `return` $this
+* `config($config_file)`   * `param string` $config_file
+* `format($formater)`   * `param string` $formater
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values

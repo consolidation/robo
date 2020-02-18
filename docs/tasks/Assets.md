@@ -108,26 +108,26 @@ inject the name there.
 ## Minify
 
 
-Minifies asset file (CSS or JS).
+Minifies an asset file (CSS or JS).
 
 ``` php
 <?php
-$this->taskMinify( 'web/assets/theme.css' )
+$this->taskMinify('web/assets/theme.css')
      ->run()
 ?>
 ```
-Please install additional dependencies to use:
+Please install additional packages to use this task:
 
 ```
-"patchwork/jsqueeze": "~1.0",
-"natxet/CssMin": "~3.0"
+composer require patchwork/jsqueeze:^2.0
+composer require natxet/cssmin:^3.0
 ```
 
 * `to($dst)`  Sets destination. Tries to guess type from it.
 * `type($type)`  Sets type with validation.
 * `singleLine($singleLine)`  Single line option for the JS minimisation.
 * `keepImportantComments($keepImportantComments)`  keepImportantComments option for the JS minimisation.
-* `specialVarRx($specialVarRx)`  specialVarRx option for the JS minimisation.
+* `specialVarRx($specialVarRx)`  Set specialVarRx option for the JS minimisation.
 * `__toString()`  @return string
 
 ## Scss
@@ -148,7 +148,7 @@ $this->taskScss([
 Use the following scss compiler in your project:
 
 ```
-"leafo/scssphp": "~0.1",
+"scssphp/scssphp ": "~1.0.0",
 ```
 
 You can implement additional compilers by extending this task and adding a

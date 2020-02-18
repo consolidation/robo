@@ -127,5 +127,23 @@ $this->taskWatch()
 ?>
 ```
 
+Pass through the changed file to the callable function
+
+```
+$this
+ ->taskWatch()
+ ->monitor(
+     'filename',
+     function ($event) {
+         $resource = $event->getResource();
+         ... do something with (string)$resource ...
+     },
+     FilesystemEvent::ALL
+ )
+ ->run();
+```
+
+The $event parameter is a [standard Symfony file resource object](https://api.symfony.com/3.1/Symfony/Component/Config/Resource/FileResource.html)
+
 * `monitor($paths, $callable, $events = null)`   * `param string|string[]` $paths
 

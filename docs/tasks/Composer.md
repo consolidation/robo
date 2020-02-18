@@ -12,19 +12,19 @@ $this->taskComposerConfig()->set('bin-dir', 'bin/')->run();
 ?>
 ```
 
-* `set($key, $value)`  Set a configuration value
+* `set($key, $value)`  Set a configuration value.
 * `useGlobal($useGlobal = null)`  Operate on the global repository
-* `repository($id, $uri, $repoType = null)`   * `return` $this
-* `removeRepository($id)`   * `return` $this
-* `disableRepository($id)`   * `return` $this
-* `enableRepository($id)`   * `return` $this
+* `repository($id, $uri, $repoType = null)`   * `param string` $id
+* `removeRepository($id)`   * `param string` $id
+* `disableRepository($id)`   * `param string` $id
+* `enableRepository($id)`   * `param string` $id
 * `preferDist($preferDist = null)`  adds `prefer-dist` option to composer
 * `preferSource()`  adds `prefer-source` option to composer
 * `dev($dev = null)`  adds `dev` option to composer
 * `noDev()`  adds `no-dev` option to composer
 * `ansi($ansi = null)`  adds `ansi` option to composer
 * `noAnsi()`  adds `no-ansi` option to composer
-* `interaction($interaction = null)` 
+* `interaction($interaction = null)`   * `param bool` $interaction
 * `noInteraction()`  adds `no-interaction` option to composer
 * `optimizeAutoloader($optimize = null)`  adds `optimize-autoloader` option to composer
 * `ignorePlatformRequirements($ignore = null)`  adds `ignore-platform-reqs` option to composer
@@ -52,21 +52,21 @@ $this->taskComposerCreateProject()->source('foo/bar')->target('myBar')->run();
 ?>
 ```
 
-* `source($source)`   * `return` $this
-* `target($target)`   * `return` $this
-* `version($version)`   * `return` $this
-* `keepVcs($keep = null)` 
-* `noInstall($noInstall = null)` 
-* `repository($repository)`   * `return` $this
-* `stability($stability)`   * `return` $this
-* `buildCommand()`  Copy class fields into command options as directed.
+* `source($source)`   * `param string` $source
+* `target($target)`   * `param string` $target
+* `version($version)`   * `param string` $version
+* `keepVcs($keep = null)`   * `param bool` $keep
+* `noInstall($noInstall = null)`   * `param bool` $noInstall
+* `repository($repository)`   * `param string` $repository
+* `stability($stability)`   * `param string` $stability
+* `buildCommand()`  {@inheritdoc}
 * `preferDist($preferDist = null)`  adds `prefer-dist` option to composer
 * `preferSource()`  adds `prefer-source` option to composer
 * `dev($dev = null)`  adds `dev` option to composer
 * `noDev()`  adds `no-dev` option to composer
 * `ansi($ansi = null)`  adds `ansi` option to composer
 * `noAnsi()`  adds `no-ansi` option to composer
-* `interaction($interaction = null)` 
+* `interaction($interaction = null)`   * `param bool` $interaction
 * `noInteraction()`  adds `no-interaction` option to composer
 * `optimizeAutoloader($optimize = null)`  adds `optimize-autoloader` option to composer
 * `ignorePlatformRequirements($ignore = null)`  adds `ignore-platform-reqs` option to composer
@@ -109,14 +109,14 @@ $this->taskComposerDumpAutoload('path/to/my/composer.phar')
 ?>
 ```
 
-* `optimize($optimize = null)`   * `return` $this
+* `optimize($optimize = null)`   * `param bool` $optimize
 * `preferDist($preferDist = null)`  adds `prefer-dist` option to composer
 * `preferSource()`  adds `prefer-source` option to composer
 * `dev($dev = null)`  adds `dev` option to composer
 * `noDev()`  adds `no-dev` option to composer
 * `ansi($ansi = null)`  adds `ansi` option to composer
 * `noAnsi()`  adds `no-ansi` option to composer
-* `interaction($interaction = null)` 
+* `interaction($interaction = null)`   * `param bool` $interaction
 * `noInteraction()`  adds `no-interaction` option to composer
 * `optimizeAutoloader($optimize = null)`  adds `optimize-autoloader` option to composer
 * `ignorePlatformRequirements($ignore = null)`  adds `ignore-platform-reqs` option to composer
@@ -144,22 +144,22 @@ $this->taskComposerInit()->run();
 ?>
 ```
 
-* `projectName($projectName)`   * `return` $this
-* `description($description)`   * `return` $this
-* `author($author)`   * `return` $this
-* `projectType($type)`   * `return` $this
-* `homepage($homepage)`   * `return` $this
+* `projectName($projectName)`   * `param string` $projectName
+* `description($description)`   * `param string` $description
+* `author($author)`   * `param string` $author
+* `projectType($type)`   * `param string` $type
+* `homepage($homepage)`   * `param string` $homepage
 * `dependency($project, $version = null)`  'require' is a keyword, so it cannot be a method name.
-* `stability($stability)`   * `return` $this
-* `license($license)`   * `return` $this
-* `repository($repository)`   * `return` $this
+* `stability($stability)`   * `param string` $stability
+* `license($license)`   * `param string` $license
+* `repository($repository)`   * `param string` $repository
 * `preferDist($preferDist = null)`  adds `prefer-dist` option to composer
 * `preferSource()`  adds `prefer-source` option to composer
 * `dev($dev = null)`  adds `dev` option to composer
 * `noDev()`  adds `no-dev` option to composer
 * `ansi($ansi = null)`  adds `ansi` option to composer
 * `noAnsi()`  adds `no-ansi` option to composer
-* `interaction($interaction = null)` 
+* `interaction($interaction = null)`   * `param bool` $interaction
 * `noInteraction()`  adds `no-interaction` option to composer
 * `optimizeAutoloader($optimize = null)`  adds `optimize-autoloader` option to composer
 * `ignorePlatformRequirements($ignore = null)`  adds `ignore-platform-reqs` option to composer
@@ -203,7 +203,7 @@ $this->taskComposerInstall('path/to/my/composer.phar')
 * `noDev()`  adds `no-dev` option to composer
 * `ansi($ansi = null)`  adds `ansi` option to composer
 * `noAnsi()`  adds `no-ansi` option to composer
-* `interaction($interaction = null)` 
+* `interaction($interaction = null)`   * `param bool` $interaction
 * `noInteraction()`  adds `no-interaction` option to composer
 * `optimizeAutoloader($optimize = null)`  adds `optimize-autoloader` option to composer
 * `ignorePlatformRequirements($ignore = null)`  adds `ignore-platform-reqs` option to composer
@@ -231,17 +231,17 @@ $this->taskComposerRemove()->run();
 ?>
 ```
 
-* `dev($dev = null)`   * `return` $this
-* `noProgress($noProgress = null)`   * `return` $this
-* `noUpdate($noUpdate = null)`   * `return` $this
-* `updateNoDev($updateNoDev = null)`   * `return` $this
-* `noUpdateWithDependencies($updateWithDependencies = null)`   * `return` $this
+* `dev($dev = null)`   * `param bool` $dev
+* `noProgress($noProgress = null)`   * `param bool` $noProgress
+* `noUpdate($noUpdate = null)`   * `param bool` $noUpdate
+* `updateNoDev($updateNoDev = null)`   * `param bool` $updateNoDev
+* `noUpdateWithDependencies($updateWithDependencies = null)`   * `param bool` $updateWithDependencies
 * `preferDist($preferDist = null)`  adds `prefer-dist` option to composer
 * `preferSource()`  adds `prefer-source` option to composer
 * `noDev()`  adds `no-dev` option to composer
 * `ansi($ansi = null)`  adds `ansi` option to composer
 * `noAnsi()`  adds `no-ansi` option to composer
-* `interaction($interaction = null)` 
+* `interaction($interaction = null)`   * `param bool` $interaction
 * `noInteraction()`  adds `no-interaction` option to composer
 * `optimizeAutoloader($optimize = null)`  adds `optimize-autoloader` option to composer
 * `ignorePlatformRequirements($ignore = null)`  adds `ignore-platform-reqs` option to composer
@@ -276,7 +276,7 @@ $this->taskComposerRequire()->dependency('foo/bar', '^.2.4.8')->run();
 * `noDev()`  adds `no-dev` option to composer
 * `ansi($ansi = null)`  adds `ansi` option to composer
 * `noAnsi()`  adds `no-ansi` option to composer
-* `interaction($interaction = null)` 
+* `interaction($interaction = null)`   * `param bool` $interaction
 * `noInteraction()`  adds `no-interaction` option to composer
 * `optimizeAutoloader($optimize = null)`  adds `optimize-autoloader` option to composer
 * `ignorePlatformRequirements($ignore = null)`  adds `ignore-platform-reqs` option to composer
@@ -320,7 +320,7 @@ $this->taskComposerUpdate('path/to/my/composer.phar')
 * `noDev()`  adds `no-dev` option to composer
 * `ansi($ansi = null)`  adds `ansi` option to composer
 * `noAnsi()`  adds `no-ansi` option to composer
-* `interaction($interaction = null)` 
+* `interaction($interaction = null)`   * `param bool` $interaction
 * `noInteraction()`  adds `no-interaction` option to composer
 * `optimizeAutoloader($optimize = null)`  adds `optimize-autoloader` option to composer
 * `ignorePlatformRequirements($ignore = null)`  adds `ignore-platform-reqs` option to composer
@@ -348,18 +348,18 @@ $this->taskComposerValidate()->run();
 ?>
 ```
 
-* `noCheckAll($noCheckAll = null)`   * `return` $this
-* `noCheckLock($noCheckLock = null)`   * `return` $this
-* `noCheckPublish($noCheckPublish = null)`   * `return` $this
-* `withDependencies($withDependencies = null)`   * `return` $this
-* `strict($strict = null)`   * `return` $this
+* `noCheckAll($noCheckAll = null)`   * `param bool` $noCheckAll
+* `noCheckLock($noCheckLock = null)`   * `param bool` $noCheckLock
+* `noCheckPublish($noCheckPublish = null)`   * `param bool` $noCheckPublish
+* `withDependencies($withDependencies = null)`   * `param bool` $withDependencies
+* `strict($strict = null)`   * `param bool` $strict
 * `preferDist($preferDist = null)`  adds `prefer-dist` option to composer
 * `preferSource()`  adds `prefer-source` option to composer
 * `dev($dev = null)`  adds `dev` option to composer
 * `noDev()`  adds `no-dev` option to composer
 * `ansi($ansi = null)`  adds `ansi` option to composer
 * `noAnsi()`  adds `no-ansi` option to composer
-* `interaction($interaction = null)` 
+* `interaction($interaction = null)`   * `param bool` $interaction
 * `noInteraction()`  adds `no-interaction` option to composer
 * `optimizeAutoloader($optimize = null)`  adds `optimize-autoloader` option to composer
 * `ignorePlatformRequirements($ignore = null)`  adds `ignore-platform-reqs` option to composer

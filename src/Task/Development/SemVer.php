@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo\Task\Development;
 
 use Robo\Result;
@@ -225,8 +226,14 @@ class SemVer implements TaskInterface
         if (empty($this->path)) {
             return true;
         }
-        extract($this->version);
-        $semver = sprintf(self::SEMVER, $major, $minor, $patch, $special, $metadata);
+        $semver = sprintf(
+            self::SEMVER,
+            $this->version['major'],
+            $this->version['minor'],
+            $this->version['patch'],
+            $this->version['special'],
+            $this->version['metadata']
+        );
         if (is_writeable($this->path) === false || file_put_contents($this->path, $semver) === false) {
             throw new TaskException($this, 'Failed to write semver file.');
         }

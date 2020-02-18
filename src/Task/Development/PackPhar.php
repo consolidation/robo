@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo\Task\Development;
 
 use Robo\Contract\ProgressIndicatorAwareInterface;
@@ -129,7 +130,7 @@ EOF;
     {
         // run() will call advanceProgressIndicator() once for each
         // file, one after calling stopBuffering, and again after compression.
-        return count($this->files)+2;
+        return count($this->files) + 2;
     }
 
     /**

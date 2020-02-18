@@ -8,7 +8,10 @@ _This is the 1.x (stable) branch of the Robo task runner. Development for Robo 2
 [![Latest Stable Version](https://poser.pugx.org/consolidation/robo/v/stable.png)](https://packagist.org/packages/consolidation/robo) 
 [![Latest Unstable Version](https://poser.pugx.org/consolidation/robo/v/unstable.png)](https://packagist.org/packages/consolidation/robo) 
 [![Total Downloads](https://poser.pugx.org/consolidation/robo/downloads.png)](https://packagist.org/packages/consolidation/robo) 
+<<<<<<< HEAD
 [![PHP 5 supported](https://img.shields.io/badge/PHP%205-supported-92a9ed)](https://travis-ci.org/consolidation/Robo)
+=======
+>>>>>>> master
 
 [![Build Status](https://travis-ci.org/consolidation/Robo.svg?branch=master)](https://travis-ci.org/consolidation/Robo) 
 [![Windows CI](https://ci.appveyor.com/api/projects/status/0823hnh06pw8ir4d?svg=true)](https://ci.appveyor.com/project/greg-1-anderson/robo)
@@ -21,6 +24,15 @@ _This is the 1.x (stable) branch of the Robo task runner. Development for Robo 2
 * executing daemons (and workers)
 * watching filesystem changes
 * deployment with sftp/ssh/docker
+
+## Branches
+
+| Branch | Symfony Versions | PHP Versions |
+| ------ | ---------------- | ------------ |
+| [master](https://github.com/consolidation/robo)      | 4 only    | [![PHP 7 only](https://img.shields.io/badge/PHP%207-only-92a9ed)](https://travis-ci.org/consolidation/Robo) |
+| [1.x](https://github.com/consolidation/robotree/1.x) | 2, 3 or 4 | [![PHP 5 supported](https://img.shields.io/badge/PHP%205-supported-408677)](https://travis-ci.org/consolidation/Robo) |
+
+Robo versions 2.x and 1.x are largely compatible; however, Robo 2.x supports fewer versions of PHP and Symfony. This is to make ongoing maintenance easier; Robo 1.x will be supported less and less over time. Projects should update to Robo ^2 if possible.
 
 ## Installing
 
@@ -82,12 +94,12 @@ class RoboFile extends \Robo\Tasks
             ->run();
 
        // running Selenium server in background
-        $this->taskExec('java -jar ' . $seleniumPath)
+       $this->taskExec('java -jar ' . $seleniumPath)
             ->background()
             ->run();
 
-        // loading Symfony Command and running with passed argument
-        $this->taskSymfonyCommand(new \Codeception\Command\Run('run'))
+       // loading Symfony Command and running with passed argument
+       $this->taskSymfonyCommand(new \Codeception\Command\Run('run'))
             ->arg('suite','acceptance')
             ->run();
     }

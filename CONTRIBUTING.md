@@ -12,4 +12,8 @@ robo sniff src/Foo.php --autofix
 ```
 The above will run the PHP Codesniffer on the `src/Foo.php` file and automatically correct variances from the PSR-2 standard. Please ensure all contributions are compliant _before_ submitting a pull request.
 
+## Tests
 
+Note that in the past, Robo used Codeception / Aspect Mock etc. in its unit tests. These components proved to be difficult to maintain when testing on mutiple PHP versions, so they were removed. The tests formerly in tests/cli were all ported to straight phpunit tests in the tests/integration directory. Some of the unit tests from tests/unit were ported to tests/phpunit; however, a number of tests that still use AspectMock still exist in tests/unit, although these are not currently being used.
+
+Pull requests that touch parts of the code formerly tested by these disabled tests must also convert the AspectMock test to Prophecy or some other mocking system. Alternately, getting AspectMock working again on the master and 1.x branches is another option, if someone wants to stand up to do that work.

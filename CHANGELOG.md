@@ -1,7 +1,16 @@
 # Changelog
 
+<<<<<<< HEAD
 ### 1.4.10 7/29/2019
 
+=======
+### 2.0.0 10/29/2019
+
+* Compatible with the 1.x branch, but removes support for old versions of PHP and requires Symfony 4.x.
+
+### 1.4.10 7/29/2019
+ 
+>>>>>>> master
 * Allow default argument for confirm() questions by Dane Powell (#850)
 * Allow command classes to end in Commands or Command by Jelle Sebreghts (#878)
 * ImageMinify: Prevent undefined variable error by Dan (#852) (#854)
@@ -13,6 +22,7 @@
 ### 1.4.7 - 1.4.9 2/19/2019
 
 * Re-release 1.4.6 to remove artifacts inadvertantly added to tagged release.
+<<<<<<< HEAD
 
 ### 1.4.6 2/16/2019
 
@@ -21,6 +31,16 @@
 ### 1.4.5 2/15/2019
 
 * Extend ConfigAwareTrait from consolidation config (#838)
+=======
+ 
+### 1.4.6 2/16/2019
+ 
+* Extend ConfigAwareTrait from consolidation config (#838)
+
+### 1.4.5 2/15/2019
+
+* Improved paramameter injection (#822)
+>>>>>>> master
 
 ### 1.4.4 2/8/2019
 

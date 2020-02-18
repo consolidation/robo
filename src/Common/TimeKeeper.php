@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo\Common;
 
 class TimeKeeper
@@ -65,6 +66,6 @@ class TimeKeeper
         if ($duration > self::MINUTE) {
             return gmdate("i:s", $duration);
         }
-        return round($duration, 3).'s';
+        return round($duration, 3) . 's';
     }
 }

@@ -143,7 +143,7 @@ class Write extends BaseTask
      */
     public function place($name, $val)
     {
-        $this->replace('{'.$name.'}', $val);
+        $this->replace('{' . $name . '}', $val);
 
         return $this;
     }

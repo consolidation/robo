@@ -70,13 +70,21 @@ trait ExecTrait
      * @see \Robo\Common\ProgressIndicatorAwareTrait
      * @see \Robo\Common\Timer
      */
+<<<<<<< HEAD
     abstract public function startTimer();
+=======
+    abstract protected function startTimer();
+>>>>>>> master
 
     /**
      * @see \Robo\Common\ProgressIndicatorAwareTrait
      * @see \Robo\Common\Timer
      */
+<<<<<<< HEAD
     abstract public function stopTimer();
+=======
+    abstract protected function stopTimer();
+>>>>>>> master
 
     /**
      * @return null|float
@@ -84,6 +92,7 @@ trait ExecTrait
      * @see \Robo\Common\ProgressIndicatorAwareTrait
      * @see \Robo\Common\Timer
      */
+<<<<<<< HEAD
     abstract public function getExecutionTime();
 
     /**
@@ -107,6 +116,31 @@ trait ExecTrait
      * @see \Robo\Common\TaskIO
      */
     abstract public function printTaskInfo($text, $context = null);
+=======
+    abstract protected function getExecutionTime();
+
+    /**
+     * @return bool
+     *
+     * @see \Robo\Common\TaskIO
+     */
+    abstract protected function hideTaskProgress();
+
+    /**
+     * @param bool $inProgress
+     *
+     * @see \Robo\Common\TaskIO
+     */
+    abstract protected function showTaskProgress($inProgress);
+
+    /**
+     * @param string $text
+     * @param null|array $context
+     *
+     * @see \Robo\Common\TaskIO
+     */
+    abstract protected function printTaskInfo($text, $context = null);
+>>>>>>> master
 
     /**
      * @return bool

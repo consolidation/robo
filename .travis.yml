@@ -11,18 +11,15 @@ branches:
 matrix:
   fast_finish: true
   include:
-    - php: 7.2
-      env: 'SCENARIO=symfony4 DEPENDENCIES=highest'
-    - php: 7.1
-      env: 'SCENARIO=symfony4'
-    - php: 7.0.11
+    - php: 7.4
       env: 'DEPENDENCIES=highest'
-    - php: 7.0.11
-    - php: 5.6
-    - php: 5.6
-      env: 'DEPENDENCIES=lowest'
-    - php: 5.5
-      env: 'SCENARIO=symfony2 DEPENDENCIES=lowest'
+    - php: 7.4
+    - php: 7.3
+    - php: 7.2
+    - php: 7.1
+      env: 'SCENARIO=php71'
+    - php: 7.1
+      env: 'SCENARIO=php71 DEPENDENCIES=lowest'
 
 sudo: false
 

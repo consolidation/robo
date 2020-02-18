@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo;
 
 use Composer\Autoload\ClassLoader;
@@ -20,7 +21,11 @@ use Symfony\Component\Process\Process;
 class Robo
 {
     const APPLICATION_NAME = 'Robo';
-    const VERSION = '1.4.11';
+<<<<<<< HEAD
+    const VERSION = '2.0.1-dev';
+=======
+    const VERSION = '2.0.1-dev';
+>>>>>>> master
 
     /**
      * The currently active container object, or NULL if not initialized yet.

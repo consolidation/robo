@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo\State;
 
 use Robo\State\Data;

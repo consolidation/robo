@@ -185,12 +185,12 @@ class ImageMinify extends BaseTask
         // guess the best path for the executables based on __DIR__
         if (($pos = strpos(__DIR__, 'consolidation/robo')) !== false) {
             // the executables should be stored in vendor/bin
-            $this->executableTargetDir = substr(__DIR__, 0, $pos).'bin';
+            $this->executableTargetDir = substr(__DIR__, 0, $pos) . 'bin';
         }
 
         // check if the executables are already available
         foreach ($this->imageminRepos as $exec => $url) {
-            $path = $this->executableTargetDir.'/'.$exec;
+            $path = $this->executableTargetDir . '/' . $exec;
             // if this is Windows add a .exe extension
             if (substr($this->getOS(), 0, 3) == 'win') {
                 $path .= '.exe';
@@ -292,7 +292,7 @@ class ImageMinify extends BaseTask
             } catch (\InvalidArgumentException $e) {
                 // if finder cannot handle it, try with in()->name()
                 if (strpos($dir, '/') === false) {
-                    $dir = './'.$dir;
+                    $dir = './' . $dir;
                 }
                 $parts = explode('/', $dir);
                 $new_dir = implode('/', array_slice($parts, 0, -1));
@@ -322,7 +322,7 @@ class ImageMinify extends BaseTask
      */
     protected function getTarget($file, $to)
     {
-        $target = $to.'/'.basename($file);
+        $target = $to . '/' . basename($file);
 
         return $target;
     }
@@ -404,7 +404,7 @@ class ImageMinify extends BaseTask
                             $this->printTaskSuccess($result->getMessage());
                             // retry the conversion with the downloaded executable
                             if (is_callable($minifier)) {
-                                $command = call_user_func($minifier, $from, $to, $minifierOptions);
+                                $command = call_user_func($minifier, $from, $to, $this->minifierOptions);
                             } elseif (method_exists($this, $minifier)) {
                                 $command = $this->{$minifier}($from, $to);
                             }
@@ -437,7 +437,7 @@ class ImageMinify extends BaseTask
     protected function getOS()
     {
         $os = php_uname('s');
-        $os .= '/'.php_uname('m');
+        $os .= '/' . php_uname('m');
         // replace x86_64 to x64, because the imagemin repo uses that
         $os = str_replace('x86_64', 'x64', $os);
         // replace i386, i686, etc to x86, because of imagemin
@@ -497,10 +497,10 @@ class ImageMinify extends BaseTask
         $this->printTaskInfo('Downloading the {executable} executable from the imagemin repository', ['executable' => $executable]);
 
         $os = $this->getOS();
-        $url = $this->imageminRepos[$executable].'/blob/master/vendor/'.$os.'/'.$executable.'?raw=true';
+        $url = $this->imageminRepos[$executable] . '/blob/master/vendor/' . $os . '/' . $executable . '?raw=true';
         if (substr($os, 0, 3) == 'win') {
             // if it is win, add a .exe extension
-            $url = $this->imageminRepos[$executable].'/blob/master/vendor/'.$os.'/'.$executable.'.exe?raw=true';
+            $url = $this->imageminRepos[$executable] . '/blob/master/vendor/' . $os . '/' . $executable . '.exe?raw=true';
         }
         $data = @file_get_contents($url, false, null);
         if ($data === false) {
@@ -530,14 +530,14 @@ class ImageMinify extends BaseTask
             mkdir($this->executableTargetDir);
         }
         // save the executable into the target dir
-        $path = $this->executableTargetDir.'/'.$executable;
+        $path = $this->executableTargetDir . '/' . $executable;
         if (substr($os, 0, 3) == 'win') {
             // if it is win, add a .exe extension
-            $path = $this->executableTargetDir.'/'.$executable.'.exe';
+            $path = $this->executableTargetDir . '/' . $executable . '.exe';
         }
         $result = file_put_contents($path, $data);
         if ($result === false) {
-            $message = sprintf('Could not copy the executable <info>%s</info> to %s', $executable, $target_dir);
+            $message = sprintf('Could not copy the executable <info>%s</info> to %s', $executable, $path);
 
             return Result::error($this, $message);
         }
@@ -545,7 +545,7 @@ class ImageMinify extends BaseTask
         chmod($path, 0755);
 
         // if everything successful, store the executable path
-        $this->executablePaths[$executable] = $this->executableTargetDir.'/'.$executable;
+        $this->executablePaths[$executable] = $this->executableTargetDir . '/' . $executable;
         // if it is win, add a .exe extension
         if (substr($os, 0, 3) == 'win') {
             $this->executablePaths[$executable] .= '.exe';

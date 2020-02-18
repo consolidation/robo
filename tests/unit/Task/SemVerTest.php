@@ -76,8 +76,8 @@ class SemVerTest extends \Codeception\TestCase\Test
 
     public function testThrowsExceptionWhenIncrementWithWrongParameter()
     {
-        \PHPUnit_Framework_TestCase::setExpectedExceptionRegExp(
-            'Robo\Exception\TaskException',
+        $this->expectException('Robo\Exception\TaskException');
+        $this->expectExceptionMessageRegExp(
             '/Bad argument, only one of the following is allowed: major, minor, patch/'
         );
         $res = (new \Robo\Task\Development\SemVer())
@@ -86,8 +86,8 @@ class SemVerTest extends \Codeception\TestCase\Test
 
     public function testThrowsExceptionWhenSemverFileNotWriteable()
     {
-        \PHPUnit_Framework_TestCase::setExpectedExceptionRegExp(
-            'Robo\Exception\TaskException',
+        $this->expectException('Robo\Exception\TaskException');
+        $this->expectExceptionMessageRegExp(
             '/Failed to write semver file./'
         );
         (new \Robo\Task\Development\SemVer('/.semver'))

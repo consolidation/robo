@@ -273,16 +273,16 @@ inject the name there.</p>
 <li><code>compiler($compiler, array $options = Array ( ) )</code>  Sets the compiler.</li>
 </ul>
 <h2 id="minify">Minify</h2>
-<p>Minifies asset file (CSS or JS).</p>
+<p>Minifies an asset file (CSS or JS).</p>
 <pre><code class="php">&lt;?php
-$this-&gt;taskMinify( 'web/assets/theme.css' )
+$this-&gt;taskMinify('web/assets/theme.css')
      -&gt;run()
 ?&gt;
 </code></pre>
 
-<p>Please install additional dependencies to use:</p>
-<pre><code>&quot;patchwork/jsqueeze&quot;: &quot;~1.0&quot;,
-&quot;natxet/CssMin&quot;: &quot;~3.0&quot;
+<p>Please install additional packages to use this task:</p>
+<pre><code>composer require patchwork/jsqueeze:^2.0
+composer require natxet/cssmin:^3.0
 </code></pre>
 
 <ul>

@@ -29,11 +29,11 @@
         "consolidation/self-update": "^1.1.5",
         "grasmash/yaml-expander": "^1.4",
         "league/container": "^2.4.1",
-        "symfony/console": "^4.4.4",
-        "symfony/event-dispatcher": "^4.4.4",
-        "symfony/filesystem": "^4.4.4",
-        "symfony/finder": "^4.4.4",
-        "symfony/process": "^4.4.4"
+        "symfony/console": "^4.4.3",
+        "symfony/event-dispatcher": "^4.4.3",
+        "symfony/filesystem": "^4.4.3",
+        "symfony/finder": "^4.4.3",
+        "symfony/process": "^4.4.3"
     },
     "require-dev": {
         "g1a/composer-test-scenarios": "^3",

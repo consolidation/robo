@@ -31,7 +31,7 @@ class Install extends Base
 
     /**
      * adds `no-suggest` option to composer
-     * 
+     *
      * @param bool $noSuggest
      *
      * @return $this

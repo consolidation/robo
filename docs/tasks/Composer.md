@@ -209,6 +209,7 @@ $this->taskComposerInstall('path/to/my/composer.phar')
 * `ignorePlatformRequirements($ignore = null)`  adds `ignore-platform-reqs` option to composer
 * `disablePlugins($disable = null)`  disable plugins
 * `noScripts($disable = null)`  skip scripts
+* `noSuggest($noSuggest = true)` skip suggestions
 * `workingDir($dir)`  adds `--working-dir $dir` option to composer
 * `buildCommand()`  Copy class fields into command options as directed.
 * `dir($dir)`  Changes working directory of command
@@ -282,6 +283,7 @@ $this->taskComposerRequire()->dependency('foo/bar', '^.2.4.8')->run();
 * `ignorePlatformRequirements($ignore = null)`  adds `ignore-platform-reqs` option to composer
 * `disablePlugins($disable = null)`  disable plugins
 * `noScripts($disable = null)`  skip scripts
+* `noSuggest($noSuggest = true)` skip suggestions
 * `workingDir($dir)`  adds `--working-dir $dir` option to composer
 * `buildCommand()`  Copy class fields into command options as directed.
 * `dir($dir)`  Changes working directory of command
@@ -326,6 +328,7 @@ $this->taskComposerUpdate('path/to/my/composer.phar')
 * `ignorePlatformRequirements($ignore = null)`  adds `ignore-platform-reqs` option to composer
 * `disablePlugins($disable = null)`  disable plugins
 * `noScripts($disable = null)`  skip scripts
+* `noSuggest($noSuggest = true)` skip suggestions
 * `workingDir($dir)`  adds `--working-dir $dir` option to composer
 * `buildCommand()`  Copy class fields into command options as directed.
 * `dir($dir)`  Changes working directory of command

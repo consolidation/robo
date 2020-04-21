@@ -30,6 +30,19 @@ class Update extends Base
     protected $action = 'update';
 
     /**
+     * adds `no-suggest` option to composer
+     *
+     * @param bool $noSuggest
+     *
+     * @return $this
+     */
+    public function noSuggest($noSuggest = true)
+    {
+        $this->option('--no-suggest');
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function run()

@@ -64,13 +64,11 @@ class Build extends Base
     }
     
     /**
-     * @param bool $buildKit
-     *
      * @return $this
      */
-    public function enableBuildKit($buildKit = true)
+    public function enableBuildKit()
     {
-        $this->buildKit = $buildKit;
+        $this->buildKit = true;
         return $this;
     }
 }

@@ -28,6 +28,7 @@ Class Build
 * `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
 * `options(array $options, $separator = null)`  Pass multiple options to executable. The associative array contains
 * `optionList($option, $value = null, $separator = null)`  Pass an option with multiple values to executable. Value can be a string or array.
+* `enableBuildKit()`  Build with [Docker Buildkit](https://docs.docker.com/develop/develop-images/build_enhancements/)
 
 ## Commit
 

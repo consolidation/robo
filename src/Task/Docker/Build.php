@@ -27,6 +27,9 @@ class Build extends Base
      */
     protected $path;
     
+    /**
+     * @var bool
+     */
     protected $buildKit = false;
 
     /**

@@ -1,8 +1,21 @@
 # Changelog
 
-### 2.0.0 10/29/2019
+### 2.0.4 05/22/2020
+
+* Class ZipArchive does not have a constructor by Viktor Szépe (#902)
+* In instances where the simple default config rules are in use, allow for config files to be loaded from the root of the app when Robo is in the vendor directory. (#948)
+* Docker builds with Buildkit by Mario Lubenka (#942)
+* Add a limit to replace via regexp by Patrick Kollitsch (#946)
+* Github access_token via query parameter is deprecated. by Dane Powell (#943)
+* Added the --no-suggest option to composer tasks by Klein Thomas (#934)
+
+### 2.0.0 - 2.0.3 02/18/2019
 
 * Compatible with the 1.x branch, but removes support for old versions of PHP and requires Symfony 4.x.
+* PHP 7.4 compatibility by Dane Powell (#923)
+* extract() is not our friend by Viktor Szépe (#903)
+* Old variables in ImageMinify by Viktor Szépe (#904)
+* RuntimeException used realtively by Viktor Szépe (#905)
 
 ### 1.4.10 7/29/2019
  

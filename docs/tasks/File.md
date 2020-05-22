@@ -51,6 +51,7 @@ $this->taskReplaceInFile('box/robo.txt')
 * `from($from)`  String(s) to be replaced.
 * `to($to)`  Value(s) to be set as a replacement.
 * `regex($regex)`  Regex to match string to be replaced.
+* `limit($limit)`  If used with $this->regexp() how many counts will be replaced
 
 ## TmpFile
 

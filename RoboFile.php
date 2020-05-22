@@ -16,6 +16,8 @@ class RoboFile extends \Robo\Tasks
             'coverage' => false
         ])
     {
+        $this->yell("Deprecated: use 'composer test' instead.");
+
         $collection = $this->collectionBuilder();
 
         $taskPHPUnit = $collection->taskPHPUnit();

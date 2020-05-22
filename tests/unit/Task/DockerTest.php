@@ -27,6 +27,9 @@ class DockerTest extends \Codeception\TestCase\Test
 
         (new \Robo\Task\Docker\Build())->tag('something')->run();
         $docker->verifyInvoked('executeCommand', ['docker build  -t something .']);
+
+        (new \Robo\Task\Docker\Build())->enableBuildKit()->tag('something')->run();
+        $docker->verifyInvoked('executeCommand', ['DOCKER_BUILDKIT=1 docker build  -t something .']);
     }
 
     public function testDockerCommit()

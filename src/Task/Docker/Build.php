@@ -26,6 +26,11 @@ class Build extends Base
      * @var string
      */
     protected $path;
+    
+    /**
+     * @var bool
+     */
+    protected $buildKit = false;
 
     /**
      * @param string $path
@@ -41,7 +46,11 @@ class Build extends Base
      */
     public function getCommand()
     {
-        return $this->command . ' ' . $this->arguments . ' ' . $this->path;
+        $command = $this->command;
+        if ($this->buildKit) {
+            $command = 'DOCKER_BUILDKIT=1 ' . $command;
+        }
+        return $command . ' ' . $this->arguments . ' ' . $this->path;
     }
 
     /**
@@ -52,5 +61,14 @@ class Build extends Base
     public function tag($tag)
     {
         return $this->option('-t', $tag);
+    }
+    
+    /**
+     * @return $this
+     */
+    public function enableBuildKit()
+    {
+        $this->buildKit = true;
+        return $this;
     }
 }

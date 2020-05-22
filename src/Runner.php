@@ -172,12 +172,13 @@ class Runner implements ContainerAwareInterface
         if (basename(dirname(__DIR__, 3)) == 'vendor') {
             $roboAppConfig = dirname(__DIR__, 4) . '/' . basename($userConfig);
         }
-        $configFiles = [$userConfig, $roboAppConfig];
+        $configFiles = [$roboAppConfig, $userConfig];
         if (dirname($userConfig) != '.') {
-            array_unshift($configFiles, basename($userConfig));
+            $configFiles[] = basename($userConfig);
         }
         return $configFiles;
     }
+
     /**
      * @param null|\Symfony\Component\Console\Input\InputInterface $input
      * @param null|\Symfony\Component\Console\Output\OutputInterface $output

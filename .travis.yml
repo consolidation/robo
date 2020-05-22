@@ -38,7 +38,7 @@ script:
   - |
     if [ "$(phpenv version-name)" == "7.2" ]; then
       composer remove goaop/framework
-      composer require --dev --ignore-platform-reqs "phpstan/phpstan-shim:^0.11.0"
+      composer require --dev --ignore-platform-reqs "phpstan/phpstan:^0.12.0"
       vendor/bin/phpstan analyze
     fi
 

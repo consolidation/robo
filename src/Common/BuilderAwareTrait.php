@@ -40,11 +40,6 @@ trait BuilderAwareTrait
      */
     protected function collectionBuilder()
     {
-        // Check builder is not null, or FATAL ERROR will be raised
-        if (is_null($this->getBuilder()) {
-            throw new \RuntimeException('Builder CANNOT be null');
-        }
-            
         return $this->getBuilder()->newBuilder();
     }
 }

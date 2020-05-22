@@ -1,6 +1,6 @@
 # Changelog
 
-### 2.0.4 05/22/2020
+### 2.0.4 - 2.0.5 05/22/2020
 
 * Class ZipArchive does not have a constructor by Viktor Szépe (#902)
 * In instances where the simple default config rules are in use, allow for config files to be loaded from the root of the app when Robo is in the vendor directory. (#948)

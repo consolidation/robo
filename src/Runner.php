@@ -165,7 +165,13 @@ class Runner implements ContainerAwareInterface
      */
     protected function getConfigFilePaths($userConfig)
     {
+        // Look for application config at the root of the application.
+        // Find the root relative to this file, considering that Robo itself
+        // might be the application, or it might be in the `vendor` directory.
         $roboAppConfig = dirname(__DIR__) . '/' . basename($userConfig);
+        if (basename(dirname(__DIR__, 3)) == 'vendor') {
+            $roboAppConfig = dirname(__DIR__, 4) . '/' . basename($userConfig);
+        }
         $configFiles = [$userConfig, $roboAppConfig];
         if (dirname($userConfig) != '.') {
             array_unshift($configFiles, basename($userConfig));

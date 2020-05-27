@@ -78,7 +78,7 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
     public function process($command)
     {
         // TODO: Symfony 4 requires that we supply the working directory.
-        $this->processes[] = new Process($this->receiveCommand($command), getcwd());
+        $this->processes[] = Process::fromShellCommandline($this->receiveCommand($command), getcwd());
         return $this;
     }
 

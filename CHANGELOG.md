@@ -1,5 +1,9 @@
 # Changelog
 
+### 2.1.0 05/27/2020
+
+* Symfony 5 support. (#940)
+
 ### 2.0.4 - 2.0.5 05/22/2020
 
 * Class ZipArchive does not have a constructor by Viktor Szépe (#902)

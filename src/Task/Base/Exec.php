@@ -109,7 +109,7 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
     {
         $this->hideProgressIndicator();
         // TODO: Symfony 4 requires that we supply the working directory.
-        $result_data = $this->execute(new Process($this->getCommand(), getcwd()));
+        $result_data = $this->execute(Process::fromShellCommandline($this->getCommand(), getcwd()));
         return new Result(
             $this,
             $result_data->getExitCode(),

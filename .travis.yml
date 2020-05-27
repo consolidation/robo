@@ -17,9 +17,9 @@ matrix:
     - php: 7.3
     - php: 7.2
     - php: 7.1
-      env: 'SCENARIO=php71'
+      env: 'SCENARIO=symfony4'
     - php: 7.1
-      env: 'SCENARIO=php71 DEPENDENCIES=lowest'
+      env: 'SCENARIO=symfony4 DEPENDENCIES=lowest'
 
 sudo: false
 

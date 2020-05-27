@@ -59,7 +59,7 @@ class ExecTest extends TestCase
         // Symfony < 3.2.1 does not inherit environment variables, so there's
         // nothing to test if the function doesn't exist.
         if (!method_exists('Symfony\Component\Process\Process', 'inheritEnvironmentVariables')) {
-            throw new \PHPUnit_Framework_SkippedTestError(
+            $this->markTestSkipped(
                 'Inheriting of environment variables is not supported.'
             );
         }

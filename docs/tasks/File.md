@@ -21,7 +21,7 @@ $this->taskConcat([
 ## Replace
 
 
-Performs search and replace inside a files.
+Performs search and replace inside a file.
 
 ``` php
 <?php

@@ -2,9 +2,9 @@ dist: trusty
 language: php
 
 branches:
-  # Only test the master branch and SemVer tags.
+  # Only test the main branch and SemVer tags.
   only:
-    - master
+    - main
     - 1.x
     - /^[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+.*$/
 

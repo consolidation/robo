@@ -7,9 +7,9 @@
 [![Latest Unstable Version](https://poser.pugx.org/consolidation/robo/v/unstable.png)](https://packagist.org/packages/consolidation/robo) 
 [![Total Downloads](https://poser.pugx.org/consolidation/robo/downloads.png)](https://packagist.org/packages/consolidation/robo) 
 
-[![Build Status](https://travis-ci.org/consolidation/Robo.svg?branch=master)](https://travis-ci.org/consolidation/Robo) 
+[![Build Status](https://travis-ci.org/consolidation/Robo.svg?branch=main)](https://travis-ci.org/consolidation/Robo) 
 [![Windows CI](https://ci.appveyor.com/api/projects/status/0823hnh06pw8ir4d?svg=true)](https://ci.appveyor.com/project/greg-1-anderson/robo)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/consolidation/Robo/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/consolidation/Robo/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/consolidation/Robo/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/consolidation/Robo/?branch=main)
 [![License](https://img.shields.io/badge/license-MIT-408677.svg)](LICENSE)
 
 * writing cross-platform scripts
@@ -23,7 +23,7 @@
 
 | Branch | Symfony Versions | PHP Versions |
 | ------ | ---------------- | ------------ |
-| [master](https://github.com/consolidation/robo)      | 4 only    | [![PHP 7 only](https://img.shields.io/badge/PHP%207-only-92a9ed)](https://travis-ci.org/consolidation/Robo) |
+| [main](https://github.com/consolidation/robo)      | 4 only    | [![PHP 7 only](https://img.shields.io/badge/PHP%207-only-92a9ed)](https://travis-ci.org/consolidation/Robo) |
 | [1.x](https://github.com/consolidation/robotree/1.x) | 2, 3 or 4 | [![PHP 5 supported](https://img.shields.io/badge/PHP%205-supported-408677)](https://travis-ci.org/consolidation/Robo) |
 
 Robo versions 2.x and 1.x are largely compatible; however, Robo 2.x supports fewer versions of PHP and Symfony. This is to make ongoing maintenance easier; Robo 1.x will be supported less and less over time. Projects should update to Robo ^2 if possible.
@@ -63,7 +63,7 @@ All protected methods in traits that start with `task` prefix are tasks and can 
 
 ## Examples
 
-The best way to learn Robo by example is to take a look into [its own RoboFile](https://github.com/consolidation/Robo/blob/master/RoboFile.php)
+The best way to learn Robo by example is to take a look into [its own RoboFile](https://github.com/consolidation/Robo/blob/main/RoboFile.php)
  or [RoboFile of Codeception project](https://github.com/Codeception/Codeception/blob/2.4/RoboFile.php). There are also some basic example commands in `examples/RoboFile.php`.
 
 Here are some snippets from them:
@@ -184,4 +184,4 @@ Brought to you by [Consolidation Team](https://github.com/orgs/consolidation/peo
 
 ## License
 
-[MIT](https://github.com/consolidation/Robo/blob/master/LICENSE)
+[MIT](https://github.com/consolidation/Robo/blob/main/LICENSE)

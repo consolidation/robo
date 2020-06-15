@@ -2,6 +2,7 @@
 
 namespace Robo\Task\Remote;
 
+use Robo\Common\ProcessUtils;
 use Robo\Contract\CommandInterface;
 use Robo\Exception\TaskException;
 use Robo\Task\BaseTask;
@@ -261,13 +262,13 @@ class Ssh extends BaseTask implements CommandInterface, SimulatedInterface
      */
     protected function sshCommand($command)
     {
-        $command = $this->receiveCommand($command);
+        $command = ProcessUtils::escapeArgument($this->receiveCommand($command));
         $sshOptions = $this->arguments;
         $hostSpec = $this->hostname;
         if ($this->user) {
             $hostSpec = $this->user . '@' . $hostSpec;
         }
 
-        return "ssh{$sshOptions} {$hostSpec} '{$command}'";
+        return "ssh{$sshOptions} {$hostSpec} {$command}";
     }
 }

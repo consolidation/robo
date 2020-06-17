@@ -24,7 +24,7 @@ class ProcessExecutor implements ConfigAwareInterface, LoggerAwareInterface, Out
     }
 
     /**
-     * @param \League\Container\ContainerInterface $container
+     * @param \League\Container\Container $container
      * @param \Symfony\Component\Process\Process $process
      *
      * @return static

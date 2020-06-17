@@ -4,7 +4,6 @@ namespace Robo;
 
 use Composer\Autoload\ClassLoader;
 use League\Container\Container;
-use League\Container\ContainerInterface;
 use Robo\Common\ProcessExecutor;
 use Consolidation\Config\ConfigInterface;
 use Consolidation\Config\Loader\ConfigProcessor;
@@ -26,7 +25,7 @@ class Robo
     /**
      * The currently active container object, or NULL if not initialized yet.
      *
-     * @var \League\Container\ContainerInterface|null
+     * @var \League\Container\Container|null
      */
     protected static $container;
 
@@ -53,10 +52,10 @@ class Robo
     /**
      * Sets a new global container.
      *
-     * @param \League\Container\ContainerInterface $container
+     * @param \League\Container\Container $container
      *   A new container instance to replace the current.
      */
-    public static function setContainer(ContainerInterface $container)
+    public static function setContainer(Container $container)
     {
         static::$container = $container;
     }
@@ -72,7 +71,7 @@ class Robo
     /**
      * Returns the currently active global container.
      *
-     * @return \League\Container\ContainerInterface
+     * @return \League\Container\Container
      *
      * @throws \RuntimeException
      */
@@ -139,7 +138,7 @@ class Robo
      * @param null|\Consolidation\Config\ConfigInterface $config
      * @param null|\Composer\Autoload\ClassLoader $classLoader
      *
-     * @return \League\Container\Container|\League\Container\ContainerInterface
+     * @return \League\Container\Container|\League\Container\Container
      */
     public static function createDefaultContainer($input = null, $output = null, $app = null, $config = null, $classLoader = null)
     {
@@ -181,14 +180,14 @@ class Robo
      * the limitation that the container it creates can only be
      * extended, not modified.
      *
-     * @param \League\Container\ContainerInterface $container
+     * @param \League\Container\Container $container
      * @param \Symfony\Component\Console\Application $app
      * @param \Consolidation\Config\ConfigInterface $config
      * @param null|\Symfony\Component\Console\Input\InputInterface $input
      * @param null|\Symfony\Component\Console\Output\OutputInterface $output
      * @param null|\Composer\Autoload\ClassLoader $classLoader
      */
-    public static function configureContainer(ContainerInterface $container, SymfonyApplication $app, ConfigInterface $config, $input = null, $output = null, $classLoader = null)
+    public static function configureContainer(Container $container, SymfonyApplication $app, ConfigInterface $config, $input = null, $output = null, $classLoader = null)
     {
         // Self-referential container refernce for the inflector
         $container->add('container', $container);
@@ -217,44 +216,44 @@ class Robo
         // Register logging and related services.
         $container->share('logStyler', \Robo\Log\RoboLogStyle::class);
         $container->share('logger', \Robo\Log\RoboLogger::class)
-            ->withArgument('output')
-            ->withMethodCall('setLogOutputStyler', ['logStyler']);
+            ->addArgument('output')
+            ->addMethodCall('setLogOutputStyler', ['logStyler']);
         $container->add('progressBar', \Symfony\Component\Console\Helper\ProgressBar::class)
-            ->withArgument('output');
+            ->addArgument('output');
         $container->share('progressIndicator', \Robo\Common\ProgressIndicator::class)
-            ->withArgument('progressBar')
-            ->withArgument('output');
+            ->addArgument('progressBar')
+            ->addArgument('output');
         $container->share('resultPrinter', \Robo\Log\ResultPrinter::class);
         $container->add('simulator', \Robo\Task\Simulator::class);
         $container->share('globalOptionsEventListener', \Robo\GlobalOptionsEventListener::class)
-            ->withMethodCall('setApplication', ['application']);
+            ->addMethodCall('setApplication', ['application']);
         $container->share('injectConfigEventListener', \Consolidation\Config\Inject\ConfigForCommand::class)
-            ->withArgument('config')
-            ->withMethodCall('setApplication', ['application']);
+            ->addArgument('config')
+            ->addMethodCall('setApplication', ['application']);
         $container->share('collectionProcessHook', \Robo\Collection\CollectionProcessHook::class);
         $container->share('alterOptionsCommandEvent', \Consolidation\AnnotatedCommand\Options\AlterOptionsCommandEvent::class)
-            ->withArgument('application');
+            ->addArgument('application');
         $container->share('hookManager', \Consolidation\AnnotatedCommand\Hooks\HookManager::class)
-            ->withMethodCall('addCommandEvent', ['alterOptionsCommandEvent'])
-            ->withMethodCall('addCommandEvent', ['injectConfigEventListener'])
-            ->withMethodCall('addCommandEvent', ['globalOptionsEventListener'])
-            ->withMethodCall('addResultProcessor', ['collectionProcessHook', '*']);
+            ->addMethodCall('addCommandEvent', ['alterOptionsCommandEvent'])
+            ->addMethodCall('addCommandEvent', ['injectConfigEventListener'])
+            ->addMethodCall('addCommandEvent', ['globalOptionsEventListener'])
+            ->addMethodCall('addResultProcessor', ['collectionProcessHook', '*']);
         $container->share('eventDispatcher', \Symfony\Component\EventDispatcher\EventDispatcher::class)
-            ->withMethodCall('addSubscriber', ['hookManager']);
+            ->addMethodCall('addSubscriber', ['hookManager']);
         $container->share('formatterManager', \Consolidation\OutputFormatters\FormatterManager::class)
-            ->withMethodCall('addDefaultFormatters', [])
-            ->withMethodCall('addDefaultSimplifiers', []);
+            ->addMethodCall('addDefaultFormatters', [])
+            ->addMethodCall('addDefaultSimplifiers', []);
         $container->share('prepareTerminalWidthOption', \Consolidation\AnnotatedCommand\Options\PrepareTerminalWidthOption::class)
-            ->withMethodCall('setApplication', ['application']);
+            ->addMethodCall('setApplication', ['application']);
         $container->share('symfonyStyleInjector', \Robo\Symfony\SymfonyStyleInjector::class);
         $container->share('parameterInjection', \Consolidation\AnnotatedCommand\ParameterInjection::class)
-            ->withMethodCall('register', ['Symfony\Component\Console\Style\SymfonyStyle', 'symfonyStyleInjector']);
+            ->addMethodCall('register', ['Symfony\Component\Console\Style\SymfonyStyle', 'symfonyStyleInjector']);
         $container->share('commandProcessor', \Consolidation\AnnotatedCommand\CommandProcessor::class)
-            ->withArgument('hookManager')
-            ->withMethodCall('setFormatterManager', ['formatterManager'])
-            ->withMethodCall('addPrepareFormatter', ['prepareTerminalWidthOption'])
-            ->withMethodCall('setParameterInjection', ['parameterInjection'])
-            ->withMethodCall(
+            ->addArgument('hookManager')
+            ->addMethodCall('setFormatterManager', ['formatterManager'])
+            ->addMethodCall('addPrepareFormatter', ['prepareTerminalWidthOption'])
+            ->addMethodCall('setParameterInjection', ['parameterInjection'])
+            ->addMethodCall(
                 'setDisplayErrorFunction',
                 [
                     function ($output, $message) use ($container) {
@@ -265,9 +264,9 @@ class Robo
             );
         $container->share('stdinHandler', \Consolidation\AnnotatedCommand\Input\StdinHandler::class);
         $container->share('commandFactory', \Consolidation\AnnotatedCommand\AnnotatedCommandFactory::class)
-            ->withMethodCall('setCommandProcessor', ['commandProcessor']);
+            ->addMethodCall('setCommandProcessor', ['commandProcessor']);
         $container->share('relativeNamespaceDiscovery', \Robo\ClassDiscovery\RelativeNamespaceDiscovery::class)
-            ->withArgument('classLoader');
+            ->addArgument('classLoader');
 
         // Deprecated: favor using collection builders to direct use of collections.
         $container->add('collection', \Robo\Collection\Collection::class);
@@ -300,7 +299,7 @@ class Robo
     /**
      * Add the Robo League\Container inflectors to the container
      *
-     * @param \League\Container\ContainerInterface $container
+     * @param \League\Container\Container $container
      */
     public static function addInflectors($container)
     {

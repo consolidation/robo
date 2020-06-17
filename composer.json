@@ -28,7 +28,7 @@
         "consolidation/output-formatters": "^4.1.1",
         "consolidation/self-update": "^1.2",
         "grasmash/yaml-expander": "^1.4",
-        "league/container": "^2.4.1",
+        "league/container": "^3",
         "symfony/console": "^4.4.8|^5",
         "symfony/event-dispatcher": "^4.4.8|^5",
         "symfony/filesystem": "^4.4.8|^5",

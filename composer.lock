@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "515da8ea6fe0ae38fb2cf407523c8fb8",
+    "content-hash": "a628f8fb64590343cacc6826a02f7e79",
     "packages": [
         {
             "name": "consolidation/annotated-command",
@@ -316,38 +316,6 @@
             "time": "2020-04-13T02:49:20+00:00"
         },
         {
-            "name": "container-interop/container-interop",
-            "version": "1.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/container-interop/container-interop.git",
-                "reference": "79cbf1341c22ec75643d841642dd5d6acd83bdb8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/container-interop/container-interop/zipball/79cbf1341c22ec75643d841642dd5d6acd83bdb8",
-                "reference": "79cbf1341c22ec75643d841642dd5d6acd83bdb8",
-                "shasum": ""
-            },
-            "require": {
-                "psr/container": "^1.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Interop\\Container\\": "src/Interop/Container/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
-            "homepage": "https://github.com/container-interop/container-interop",
-            "abandoned": "psr/container",
-            "time": "2017-02-14T19:40:03+00:00"
-        },
-        {
             "name": "dflydev/dot-access-data",
             "version": "v1.1.0",
             "source": {
@@ -455,35 +423,36 @@
         },
         {
             "name": "league/container",
-            "version": "2.4.1",
+            "version": "3.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/container.git",
-                "reference": "43f35abd03a12977a60ffd7095efd6a7808488c0"
+                "reference": "93238f74ff5964aee27a78508cdfbdba1cd338f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/container/zipball/43f35abd03a12977a60ffd7095efd6a7808488c0",
-                "reference": "43f35abd03a12977a60ffd7095efd6a7808488c0",
+                "url": "https://api.github.com/repos/thephpleague/container/zipball/93238f74ff5964aee27a78508cdfbdba1cd338f6",
+                "reference": "93238f74ff5964aee27a78508cdfbdba1cd338f6",
                 "shasum": ""
             },
             "require": {
-                "container-interop/container-interop": "^1.2",
-                "php": "^5.4.0 || ^7.0"
+                "php": "^7.0",
+                "psr/container": "^1.0"
             },
             "provide": {
-                "container-interop/container-interop-implementation": "^1.2",
                 "psr/container-implementation": "^1.0"
             },
             "replace": {
                 "orno/di": "~2.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "4.*"
+                "phpunit/phpunit": "^6.0",
+                "squizlabs/php_codesniffer": "^3.3"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
+                    "dev-3.x": "3.x-dev",
                     "dev-2.x": "2.x-dev",
                     "dev-1.x": "1.x-dev"
                 }
@@ -516,7 +485,13 @@
                 "provider",
                 "service"
             ],
-            "time": "2017-05-10T09:20:27+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/philipobenito",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-05-18T08:20:23+00:00"
         },
         {
             "name": "psr/container",
@@ -662,16 +637,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v5.1.4",
+            "version": "v5.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "51ff337ce194bdc3d8db12b20ce8cd54ac9f71e9"
+                "reference": "186f395b256065ba9b890c0a4e48a91d598fa2cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/51ff337ce194bdc3d8db12b20ce8cd54ac9f71e9",
-                "reference": "51ff337ce194bdc3d8db12b20ce8cd54ac9f71e9",
+                "url": "https://api.github.com/repos/symfony/console/zipball/186f395b256065ba9b890c0a4e48a91d598fa2cf",
+                "reference": "186f395b256065ba9b890c0a4e48a91d598fa2cf",
                 "shasum": ""
             },
             "require": {
@@ -751,20 +726,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-08-17T13:51:41+00:00"
+            "time": "2020-09-02T07:07:40+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
-            "version": "v2.1.3",
+            "version": "v2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/deprecation-contracts.git",
-                "reference": "5e20b83385a77593259c9f8beb2c43cd03b2ac14"
+                "reference": "5fa56b4074d1ae755beb55617ddafe6f5d78f665"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/5e20b83385a77593259c9f8beb2c43cd03b2ac14",
-                "reference": "5e20b83385a77593259c9f8beb2c43cd03b2ac14",
+                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/5fa56b4074d1ae755beb55617ddafe6f5d78f665",
+                "reference": "5fa56b4074d1ae755beb55617ddafe6f5d78f665",
                 "shasum": ""
             },
             "require": {
@@ -773,7 +748,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.1-dev"
+                    "dev-master": "2.2-dev"
                 },
                 "thanks": {
                     "name": "symfony/contracts",
@@ -815,11 +790,11 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-06-06T08:49:21+00:00"
+            "time": "2020-09-07T11:33:47+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v5.1.4",
+            "version": "v5.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
@@ -905,16 +880,16 @@
         },
         {
             "name": "symfony/event-dispatcher-contracts",
-            "version": "v2.1.3",
+            "version": "v2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher-contracts.git",
-                "reference": "f6f613d74cfc5a623fc36294d3451eb7fa5a042b"
+                "reference": "0ba7d54483095a198fa51781bc608d17e84dffa2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher-contracts/zipball/f6f613d74cfc5a623fc36294d3451eb7fa5a042b",
-                "reference": "f6f613d74cfc5a623fc36294d3451eb7fa5a042b",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher-contracts/zipball/0ba7d54483095a198fa51781bc608d17e84dffa2",
+                "reference": "0ba7d54483095a198fa51781bc608d17e84dffa2",
                 "shasum": ""
             },
             "require": {
@@ -927,7 +902,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.1-dev"
+                    "dev-master": "2.2-dev"
                 },
                 "thanks": {
                     "name": "symfony/contracts",
@@ -977,11 +952,11 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-07-06T13:23:11+00:00"
+            "time": "2020-09-07T11:33:47+00:00"
         },
         {
             "name": "symfony/filesystem",
-            "version": "v5.1.4",
+            "version": "v5.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
@@ -1045,7 +1020,7 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v5.1.4",
+            "version": "v5.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
@@ -1576,7 +1551,7 @@
         },
         {
             "name": "symfony/process",
-            "version": "v5.1.4",
+            "version": "v5.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
@@ -1640,16 +1615,16 @@
         },
         {
             "name": "symfony/service-contracts",
-            "version": "v2.1.3",
+            "version": "v2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/service-contracts.git",
-                "reference": "58c7475e5457c5492c26cc740cc0ad7464be9442"
+                "reference": "d15da7ba4957ffb8f1747218be9e1a121fd298a1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/service-contracts/zipball/58c7475e5457c5492c26cc740cc0ad7464be9442",
-                "reference": "58c7475e5457c5492c26cc740cc0ad7464be9442",
+                "url": "https://api.github.com/repos/symfony/service-contracts/zipball/d15da7ba4957ffb8f1747218be9e1a121fd298a1",
+                "reference": "d15da7ba4957ffb8f1747218be9e1a121fd298a1",
                 "shasum": ""
             },
             "require": {
@@ -1662,7 +1637,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.1-dev"
+                    "dev-master": "2.2-dev"
                 },
                 "thanks": {
                     "name": "symfony/contracts",
@@ -1712,11 +1687,11 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-07-06T13:23:11+00:00"
+            "time": "2020-09-07T11:33:47+00:00"
         },
         {
             "name": "symfony/string",
-            "version": "v5.1.4",
+            "version": "v5.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
@@ -4008,7 +3983,7 @@
         },
         {
             "name": "symfony/config",
-            "version": "v5.1.4",
+            "version": "v5.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/config.git",
@@ -4323,7 +4298,7 @@
         },
         {
             "name": "symfony/stopwatch",
-            "version": "v5.1.4",
+            "version": "v5.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/stopwatch.git",
@@ -4387,7 +4362,7 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v5.1.4",
+            "version": "v5.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",

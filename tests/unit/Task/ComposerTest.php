@@ -372,4 +372,14 @@ class ComposerTest extends \Codeception\TestCase\Test
                 ->getCommand()
         );
     }
+
+    public function testComposerCheckPlatformReqsCommand()
+    {
+        $this->assertEquals(
+            $this->adjustQuotes("composer check-platform-reqs --no-interaction"),
+            (new \Robo\Task\Composer\CheckPlatformReqs('composer'))
+                ->setConfig(new \Robo\Config())
+                ->getCommand()
+        );
+    }
 }

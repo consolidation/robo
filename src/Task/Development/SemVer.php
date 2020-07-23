@@ -226,6 +226,7 @@ class SemVer implements TaskInterface
         if (empty($this->path)) {
             return true;
         }
+
         $semver = sprintf(
             self::SEMVER,
             $this->version['major'],
@@ -234,7 +235,8 @@ class SemVer implements TaskInterface
             $this->version['special'],
             $this->version['metadata']
         );
-        if (is_writeable($this->path) === false || file_put_contents($this->path, $semver) === false) {
+
+        if (file_put_contents($this->path, $semver) === false) {
             throw new TaskException($this, 'Failed to write semver file.');
         }
         return true;

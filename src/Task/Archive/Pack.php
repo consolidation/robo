@@ -17,6 +17,7 @@ use Symfony\Component\Finder\Finder;
  * ->add('README')                         // Puts file 'README' in archive at the root
  * ->add('project')                        // Puts entire contents of directory 'project' in archinve inside 'project'
  * ->addFile('dir/file.txt', 'file.txt')   // Takes 'file.txt' from cwd and puts it in archive inside 'dir'.
+ * ->exclude(['dir\/.*.zip', '.*.md'])      // Add regex (or array of regex) to the excluded patterns list.
  * ->run();
  * ?>
  * ```
@@ -142,13 +143,13 @@ class Pack extends BaseTask implements PrintedInterface
     }
 
     /**
-     * Set the files or folder to be excluded from the archive.
+     * Allow files or folder to be excluded from the archive. Use regex, without enclosing slashes.
      *
      * @param string|string[]
      *   A pattern to be excluded or an array of patterns.
-     *   Zip allows regexp, glob or  string.
+     *   Zip allows regexp, glob or string.
      *   @see \Symfony\Component\Finder\Finder::notName
-     *   Tar only allows regexp.
+     *   Tar, gz and bz2 allow only regexp.
      *   @see \Archive_Tar::setIgnoreList
      *
      * @return $this

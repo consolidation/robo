@@ -38,6 +38,12 @@ class Pack extends BaseTask implements PrintedInterface
     private $archiveFile;
 
     /**
+     * A list of patterns to exclude from the archive.
+     *
+     * @var array
+     */
+    private $ignoreList;
+    /**
      * Construct the class.
      *
      * @param string $archiveFile
@@ -48,6 +54,7 @@ class Pack extends BaseTask implements PrintedInterface
     public function __construct($archiveFile)
     {
         $this->archiveFile = $archiveFile;
+        $this->ignoreList = [];
     }
 
     /**
@@ -135,6 +142,27 @@ class Pack extends BaseTask implements PrintedInterface
     }
 
     /**
+     * Set the files or folder to be excluded from the archive.
+     *
+     * @param string|string[]
+     *   A pattern to be excluded or an array of patterns.
+     *   Zip allows regexp, glob or  string.
+     *   @see \Symfony\Component\Finder\Finder::notName
+     *   Tar only allows regexp.
+     *   @see \Archive_Tar::setIgnoreList
+     *
+     * @return $this
+     */
+    public function exclude($ignoreList)
+    {
+        if (!is_array($ignoreList)) {
+            $ignoreList = [$ignoreList];
+        }
+        $this->ignoreList = $ignoreList;
+        return $this;
+    }
+
+    /**
      * Create a zip archive for distribution.
      *
      * @return \Robo\Result
@@ -184,6 +212,7 @@ class Pack extends BaseTask implements PrintedInterface
         }
 
         $tar_object = new \Archive_Tar($archiveFile);
+        $tar_object->setIgnoreList($this->ignoreList);
         foreach ($items as $placementLocation => $filesystemLocation) {
             $p_remove_dir = $filesystemLocation;
             $p_add_dir = $placementLocation;
@@ -236,7 +265,7 @@ class Pack extends BaseTask implements PrintedInterface
         foreach ($items as $placementLocation => $filesystemLocation) {
             if (is_dir($filesystemLocation)) {
                 $finder = new Finder();
-                $finder->files()->in($filesystemLocation)->ignoreDotFiles(false);
+                $finder->files()->in($filesystemLocation)->ignoreDotFiles(false)->notName($this->ignoreList);
 
                 foreach ($finder as $file) {
                     // Replace Windows slashes or resulting zip will have issues on *nixes.

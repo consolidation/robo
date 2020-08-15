@@ -30,7 +30,7 @@ class PackExtractTest extends TestCase
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             return [['zip']];
         }
-        return [['tar'], ['tar'], ['tar.gz'], ['tar.bz2'], ['tgz']];
+        return [['zip'], ['tar'], ['tar.gz'], ['tar.bz2'], ['tgz']];
     }
 
     /**
@@ -57,6 +57,7 @@ class PackExtractTest extends TestCase
         $result = $this->taskPack("deeply.$archiveType")
             ->add(['deep' => 'some/deeply'])
             ->exclude(['structu3.*.re'])
+            ->exclude('nested4')
             ->run();
         $this->assertTrue($result->wasSuccessful(), $result->getMessage());
         $this->assertFileExists("deeply.$archiveType");
@@ -75,6 +76,7 @@ class PackExtractTest extends TestCase
         $this->assertFileExists("extracted-$archiveType/nested/structu.re");
         $this->assertFileNotExists("extracted-$archiveType/nested3/structu31.re");
         $this->assertFileNotExists("extracted-$archiveType/nested3/structu32.re");
+        $this->assertDirectoryNotExists("extracted-$archiveType/nested4");
         // Next, we'll extract the same archive again, this time preserving
         // the top-level folder.
         $this->taskExtract("deeply.$archiveType")
@@ -86,6 +88,7 @@ class PackExtractTest extends TestCase
         $this->assertFileExists("preserved-$archiveType/deep/nested/structu.re");
         $this->assertFileNotExists("preserved-$archiveType/deep/nested3/structu31.re");
         $this->assertFileNotExists("preserved-$archiveType/deep/nested3/structu32.re");
+        $this->assertDirectoryNotExists("preserved-$archiveType/deep/nested4");
         // Make another archive, this time composed of fanciful locations
         $result = $this->taskPack("composed.$archiveType")
             ->add(['a/b/existing_file' => 'some/deeply/existing_file'])

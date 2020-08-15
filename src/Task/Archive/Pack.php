@@ -39,7 +39,7 @@ class Pack extends BaseTask implements PrintedInterface
     private $archiveFile;
 
     /**
-     * A list of patterns to exclude from the archive.
+     * A list of regex patterns to exclude from the archive.
      *
      * @var array
      */
@@ -146,20 +146,13 @@ class Pack extends BaseTask implements PrintedInterface
      * Allow files or folder to be excluded from the archive. Use regex, without enclosing slashes.
      *
      * @param string|string[]
-     *   A pattern to be excluded or an array of patterns.
-     *   Zip allows regexp, glob or string.
-     *   @see \Symfony\Component\Finder\Finder::notName
-     *   Tar, gz and bz2 allow only regexp.
-     *   @see \Archive_Tar::setIgnoreList
+     *   A regex (or array of) to be excluded.
      *
      * @return $this
      */
     public function exclude($ignoreList)
     {
-        if (!is_array($ignoreList)) {
-            $ignoreList = [$ignoreList];
-        }
-        $this->ignoreList = $ignoreList;
+        $this->ignoreList = array_merge($this->ignoreList, (array) $ignoreList);
         return $this;
     }
 
@@ -266,7 +259,9 @@ class Pack extends BaseTask implements PrintedInterface
         foreach ($items as $placementLocation => $filesystemLocation) {
             if (is_dir($filesystemLocation)) {
                 $finder = new Finder();
-                $finder->files()->in($filesystemLocation)->ignoreDotFiles(false)->notName($this->ignoreList);
+                // Add slashes so Symfony Finder patterns work like Archive_Tar ones.
+                $zipIgnoreList = preg_filter('/^|$/', '/', $this->ignoreList);
+                $finder->files()->in($filesystemLocation)->ignoreDotFiles(false)->notName($zipIgnoreList)->notPath($zipIgnoreList);
 
                 foreach ($finder as $file) {
                     // Replace Windows slashes or resulting zip will have issues on *nixes.

@@ -3,6 +3,8 @@
 namespace Robo\Common;
 
 use Symfony\Component\Console\Helper\QuestionHelper;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -16,6 +18,22 @@ trait IO
      * @var \Symfony\Component\Console\Style\SymfonyStyle
      */
     protected $io;
+
+    public function setInput(InputInterface $input)
+    {
+        $this->input = $input;
+        $this->io = null;
+
+        return $this;
+    }
+
+    public function setOutput(OutputInterface $output)
+    {
+        $this->output = $output;
+        $this->io = null;
+
+        return $this;
+    }
 
     /**
      * Provide access to SymfonyStyle object.

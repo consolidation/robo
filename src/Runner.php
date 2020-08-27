@@ -168,8 +168,8 @@ class Runner implements ContainerAwareInterface
      *   Name of the application.
      * @param string|null $appVersion
      *   Version of the application.
-     * @param string|null $commandFile
-     *   Name of the specific command file that should be included with the application.
+     * @param string|array|null $commandFile
+     *   Name of the specific command file, or array of commands, that should be included with the application.
      * @param \Robo\Config\Config|null $config
      *   Robo configuration to be used with the application.
      * @param \Composer\Autoload\ClassLoader|null $classLoader
@@ -182,12 +182,12 @@ class Runner implements ContainerAwareInterface
     {
         $app = Robo::createDefaultApplication($appName, $appVersion);
         $output = new NullOutput();
-        $commandFiles = $this->getRoboFileCommands($output); // $output is just used for printing error messages, it can be a throwaway stream
         $container = Robo::createDefaultContainer(null, $output, $app, $config, $classLoader);
-        if (is_null($commandFile)) {
-            $this->registerCommandClasses($app, $commandFiles);
-        } else {
-            $this->registerCommandClass($app, $commandFile);
+        if (!is_null($commandFile) && (is_array($commandFile) || is_string($commandFile))) {
+            if (is_string($commandFile)) {
+                $commandFile = [$commandFile];
+            }
+            $this->registerCommandClasses($app, $commandFile);
         }
         return $app;
     }

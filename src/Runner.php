@@ -178,15 +178,16 @@ class Runner implements ContainerAwareInterface
      * @return \Robo\Application
      *   Initialized application based on passed configuration and command classes.
      */
-    public function getAppForTesting($appName = null, $appVersion = null, $commandFile = null, $config = null, $classLoader = null) {
+    public function getAppForTesting($appName = null, $appVersion = null, $commandFile = null, $config = null, $classLoader = null)
+    {
         $app = Robo::createDefaultApplication($appName, $appVersion);
         $output = new NullOutput();
         $commandFiles = $this->getRoboFileCommands($output); // $output is just used for printing error messages, it can be a throwaway stream
         $container = Robo::createDefaultContainer(null, $output, $app, $config, $classLoader);
-        if (is_null($commandFile)) {
+        if (is_null($commandFile))
+        {
             $this->registerCommandClasses($app, $commandFiles);
-        }
-        else {
+        } else {
             $this->registerCommandClass($app, $commandFile);
         }
         return $app;

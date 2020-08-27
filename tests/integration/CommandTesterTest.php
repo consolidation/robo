@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use Robo\Traits\CommandTesterTrait;
 use RoboExample\Robo\Plugin\Commands\ExampleCommands;
 
-class TryInputTestTest extends TestCase
+class CommandTestertTest extends TestCase
 {
     use CommandTesterTrait;
 
@@ -21,5 +21,12 @@ class TryInputTestTest extends TestCase
         $this->assertContains("I'm great!", $tryInputOutput);
         $this->assertContains("PHP", $tryInputOutput);
         $this->assertContains("1234", $tryInputOutput);
+    }
+
+    public function testTesterWithOptions() {
+        list($execOutput, $statusCode) = $this->executeCommand('try:exec', []);
+        $this->assertEquals(0, $statusCode);
+        list($execOutput, $statusCode) = $this->executeCommand('try:exec', [], ['--error']);
+        $this->assertNotEquals(0, $statusCode);
     }
 }

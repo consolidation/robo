@@ -20,6 +20,10 @@ matrix:
       env: 'SCENARIO=symfony4'
     - php: 7.1
       env: 'SCENARIO=symfony4 DEPENDENCIES=lowest'
+    - php: 7.2
+      env: 'SCENARIO=symfony5'
+    - php: 7.2
+      env: 'SCENARIO=symfony5 DEPENDENCIES=lowest'
 
 sudo: false
 

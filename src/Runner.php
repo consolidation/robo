@@ -12,6 +12,7 @@ use Robo\Exception\TaskExitException;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 use Consolidation\Config\Util\EnvConfig;
+use Symfony\Component\Console\Output\NullOutput;
 
 class Runner implements ContainerAwareInterface
 {
@@ -154,6 +155,41 @@ class Runner implements ContainerAwareInterface
         }
         $commandFiles = $this->getRoboFileCommands($output);
         return $this->run($argv, $output, $app, $commandFiles, $this->classLoader);
+    }
+
+    /**
+     * Return an initialized application loaded with specified commands and configuration.
+     *
+     * This should ONLY be used for testing purposes. Works well in conjunction with Symfony's CommandTester.
+     *
+     * @see https://symfony.com/doc/current/console.html#testing-commands
+     *
+     * @param string|null $appName
+     *   Name of the application.
+     * @param string|null $appVersion
+     *   Version of the application.
+     * @param string|null $commandFile
+     *   Name of the specific command file that should be included with the application.
+     * @param \Robo\Config\Config|null $config
+     *   Robo configuration to be used with the application.
+     * @param \Composer\Autoload\ClassLoader|null $classLoader
+     *   Class loader to use. If PHPUnit and the application runner rely on the same autoloader, this can be left null.
+     *
+     * @return \Robo\Application
+     *   Initialized application based on passed configuration and command classes.
+     */
+    public function getAppForTesting($appName = null, $appVersion = null, $commandFile = null, $config = null, $classLoader = null) {
+        $app = Robo::createDefaultApplication($appName, $appVersion);
+        $output = new NullOutput();
+        $commandFiles = $this->getRoboFileCommands($output); // $output is just used for printing error messages, it can be a throwaway stream
+        $container = Robo::createDefaultContainer(null, $output, $app, $config, $classLoader);
+        if (is_null($commandFile)) {
+            $this->registerCommandClasses($app, $commandFiles);
+        }
+        else {
+            $this->registerCommandClass($app, $commandFile);
+        }
+        return $app;
     }
 
     /**

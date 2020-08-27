@@ -6,7 +6,7 @@ use Robo\Result;
 use Robo\Task\BaseTask;
 
 /**
- * Performs search and replace inside a files.
+ * Performs search and replace inside a file.
  *
  * ``` php
  * <?php

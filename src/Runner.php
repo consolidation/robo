@@ -3,6 +3,7 @@
 namespace Robo;
 
 use Composer\Autoload\ClassLoader;
+use Robo\Traits\CommandTesterTrait;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\StringInput;
 use Robo\Contract\BuilderAwareInterface;
@@ -163,6 +164,8 @@ class Runner implements ContainerAwareInterface
      * This should ONLY be used for testing purposes. Works well in conjunction with Symfony's CommandTester.
      *
      * @see https://symfony.com/doc/current/console.html#testing-commands
+     * @see CommandTestertTest
+     * @see CommandTesterTrait
      *
      * @param string|null $appName
      *   Name of the application.

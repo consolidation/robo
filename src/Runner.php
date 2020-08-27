@@ -3,7 +3,6 @@
 namespace Robo;
 
 use Composer\Autoload\ClassLoader;
-use Robo\Traits\CommandTesterTrait;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\StringInput;
 use Robo\Contract\BuilderAwareInterface;

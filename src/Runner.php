@@ -184,8 +184,7 @@ class Runner implements ContainerAwareInterface
         $output = new NullOutput();
         $commandFiles = $this->getRoboFileCommands($output); // $output is just used for printing error messages, it can be a throwaway stream
         $container = Robo::createDefaultContainer(null, $output, $app, $config, $classLoader);
-        if (is_null($commandFile))
-        {
+        if (is_null($commandFile)) {
             $this->registerCommandClasses($app, $commandFiles);
         } else {
             $this->registerCommandClass($app, $commandFile);

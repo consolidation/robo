@@ -36,7 +36,6 @@
         "consolidation/annotated-command": "^4.2",
         "consolidation/output-formatters": "^4.1.1",
         "consolidation/self-update": "^1.2",
-        "grasmash/yaml-expander": "^1.4",
         "league/container": "^2.4.1"
     },
     "require-dev": {

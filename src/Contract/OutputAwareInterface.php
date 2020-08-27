@@ -8,12 +8,9 @@ namespace Robo\Contract;
 
 use Symfony\Component\Console\Output\OutputInterface;
 
-interface OutputAwareInterface
+/**
+ * @deprecated Use \Consolidation\AnnotatedCommand\Output\OutputAwareInterface directly
+ */
+interface OutputAwareInterface extends \Consolidation\AnnotatedCommand\Output\OutputAwareInterface
 {
-    /**
-     * Sets the Console Output.
-     *
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     */
-    public function setOutput(OutputInterface $output);
 }

@@ -21,16 +21,20 @@ trait IO
 
     public function setInput(InputInterface $input)
     {
+        if ($input != $this->input) {
+            $this->io = null;
+        }
         $this->input = $input;
-        $this->io = null;
 
         return $this;
     }
 
     public function setOutput(OutputInterface $output)
     {
+        if ($output != $this->output) {
+            $this->io = null;
+        }
         $this->output = $output;
-        $this->io = null;
 
         return $this;
     }

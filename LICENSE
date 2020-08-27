@@ -22,7 +22,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 DEPENDENCY LICENSES:
 
 Name                                 Version                          License
-consolidation/annotated-command      dev-inject-input-output b28007e  MIT
+consolidation/annotated-command      dev-inject-input-output 7bc9717  MIT
 consolidation/config                 2.0.0                            MIT
 consolidation/log                    2.0.1                            MIT
 consolidation/output-formatters      4.1.1                            MIT

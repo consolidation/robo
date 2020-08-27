@@ -23,7 +23,8 @@ class CommandTestertTest extends TestCase
         $this->assertContains("1234", $tryInputOutput);
     }
 
-    public function testTesterWithOptions() {
+    public function testTesterWithOptions()
+    {
         list($execOutput, $statusCode) = $this->executeCommand('try:exec', []);
         $this->assertEquals(0, $statusCode);
         list($execOutput, $statusCode) = $this->executeCommand('try:exec', [], ['--error']);

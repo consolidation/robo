@@ -16,7 +16,7 @@ trait CommandTesterTrait
     protected $appVersion;
 
     /** @var string|array|null */
-    protected $commandClasses;
+    protected $commandClasses = null;
 
     /** @var Runner */
     protected $runner;
@@ -44,9 +44,7 @@ trait CommandTesterTrait
      */
     protected function executeCommand($command_string, $inputs = [], $command_extra = [], $commandClasses = null)
     {
-        if (is_null($commandClasses)) {
-            $commandClasses = $this->commandClasses;
-        }
+        $commandClasses = $commandClasses ?? $this->commandClasses;
         $app = $this->runner->getAppForTesting($this->appName, $this->appVersion, $commandClasses);
         $command = $app->get($command_string);
         $tester = new CommandTester($command);

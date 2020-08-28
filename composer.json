@@ -68,11 +68,11 @@
         "scenarios": {
             "symfony4": {
                 "require": {
-                    "symfony/console": "^4.4.8",
-                    "symfony/event-dispatcher": "^4.4.8",
-                    "symfony/filesystem": "^4.4.8",
-                    "symfony/finder": "^4.4.8",
-                    "symfony/process": "^4.4.8",
+                    "symfony/console": "^4.4.11",
+                    "symfony/event-dispatcher": "^4.4.11",
+                    "symfony/filesystem": "^4.4.11",
+                    "symfony/finder": "^4.4.11",
+                    "symfony/process": "^4.4.11",
                     "phpunit/phpunit": "^6",
                     "nikic/php-parser": "^2"
                 },

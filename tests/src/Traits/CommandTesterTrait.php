@@ -42,7 +42,7 @@ trait CommandTesterTrait
      * @param string|array|null $commandClasses
      * @return array
      */
-    protected function executeCommand($command_string, $inputs = [], $command_extra = [], $commandClasses = null)
+    protected function executeCommand($command_string, $inputs = [], $command_extra = [], $commandClasses = null, $interactive = true)
     {
         if (is_null($commandClasses)) {
             $commandClasses = $this->commandClasses;
@@ -51,7 +51,7 @@ trait CommandTesterTrait
         $command = $app->get($command_string);
         $tester = new CommandTester($command);
         $tester->setInputs($inputs);
-        $status_code = $tester->execute(array_merge(['command' => $command_string], $command_extra));
+        $status_code = $tester->execute(array_merge(['command' => $command_string], $command_extra), ['interactive' => $interactive]);
         Robo::unsetContainer();
         return [trim($tester->getDisplay()), $status_code];
     }

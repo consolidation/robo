@@ -16,11 +16,10 @@ class CommandTestertTest extends TestCase
 
     public function testInputApis()
     {
-        list($tryInputOutput, $statusCode) = $this->executeCommand('try:input', ["I'm great!", "yes", "PHP", "1234"]);
+        list($tryInputOutput, $statusCode) = $this->executeCommand('try:default-input', [], [], null, false);
         $this->assertEquals(0, $statusCode);
-        $this->assertContains("I'm great!", $tryInputOutput);
+        $this->assertContains("super", $tryInputOutput);
         $this->assertContains("PHP", $tryInputOutput);
-        $this->assertContains("1234", $tryInputOutput);
     }
 
     public function testTesterWithOptions()

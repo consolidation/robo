@@ -63,6 +63,19 @@ class ExampleCommands extends \Robo\Tasks
         $this->say('Bye!');
     }
 
+    public function tryDefaultInput() {
+        $this->say('The <b>expression</b> <bogus>is</bogus> <info>a < b</> it even works');
+        $answer = $this->askDefault('how are you?', 'super');
+        $this->say('You are '.$answer);
+        $yes = $this->confirm('Do you want one more question?', 'yes');
+        if (!$yes) {
+            return Result::cancelled();
+        }
+        $lang = $this->askDefault('what is your favorite scripting language?', 'PHP');
+        $this->say($lang);
+        $this->say('Bye!');
+    }
+
     /**
      * Demonstrate Robo configuration.
      *

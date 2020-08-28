@@ -175,7 +175,7 @@ class Runner implements ContainerAwareInterface
      * @param \Robo\Config\Config|null $config
      *   Robo configuration to be used with the application.
      * @param \Composer\Autoload\ClassLoader|null $classLoader
-     *   Class loader to use. If PHPUnit and the application runner rely on the same autoloader, this can be left null.
+     *   Class loader to use.
      *
      * @return \Robo\Application
      *   Initialized application based on passed configuration and command classes.

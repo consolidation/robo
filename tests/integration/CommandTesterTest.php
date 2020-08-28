@@ -16,6 +16,9 @@ class CommandTestertTest extends TestCase
 
     public function testInputApis()
     {
+        if (getenv('SCENARIO') == 'symfony4' && getenv('DEPENDENCIES') == 'lowest') {
+            $this->markTestSkipped('There is a bug with a lower dependency of symfony4 in how it handles tty.');
+        }
         list($tryInputOutput, $statusCode) = $this->executeCommand('try:input', ["I'm great!", "yes", "PHP", "1234"]);
         $this->assertEquals(0, $statusCode);
         $this->assertContains("I'm great!", $tryInputOutput);

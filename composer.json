@@ -28,11 +28,11 @@
         "consolidation/output-formatters": "^4.1.1",
         "consolidation/self-update": "^1.2",
         "league/container": "^2.4.1",
-        "symfony/console": "^4.4.8|^5",
-        "symfony/event-dispatcher": "^4.4.8|^5",
-        "symfony/filesystem": "^4.4.8|^5",
-        "symfony/finder": "^4.4.8|^5",
-        "symfony/process": "^4.4.8|^5"
+        "symfony/console": "^4.4.11|^5",
+        "symfony/event-dispatcher": "^4.4.11|^5",
+        "symfony/filesystem": "^4.4.11|^5",
+        "symfony/finder": "^4.4.11|^5",
+        "symfony/process": "^4.4.11|^5"
     },
     "require-dev": {
         "g1a/composer-test-scenarios": "^3",
@@ -68,11 +68,11 @@
         "scenarios": {
             "symfony4": {
                 "require": {
-                    "symfony/console": "^4.4.8",
-                    "symfony/event-dispatcher": "^4.4.8",
-                    "symfony/filesystem": "^4.4.8",
-                    "symfony/finder": "^4.4.8",
-                    "symfony/process": "^4.4.8",
+                    "symfony/console": "^4.4.11",
+                    "symfony/event-dispatcher": "^4.4.11",
+                    "symfony/filesystem": "^4.4.11",
+                    "symfony/finder": "^4.4.11",
+                    "symfony/process": "^4.4.11",
                     "phpunit/phpunit": "^6",
                     "nikic/php-parser": "^2"
                 },

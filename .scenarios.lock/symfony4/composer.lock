@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0e11dcde7596d2f66c81b309b320dcfb",
+    "content-hash": "075f9765270442df43aba1ae412c2979",
     "packages": [
         {
             "name": "consolidation/annotated-command",
-            "version": "4.2.0",
+            "version": "dev-save-and-restore-state",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/annotated-command.git",
-                "reference": "4f7a58b7545e3a6b94d51778cc5b298377265e21"
+                "reference": "d1eb96e4da3e711629442c90ae0fc2a6816a0bcc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/annotated-command/zipball/4f7a58b7545e3a6b94d51778cc5b298377265e21",
-                "reference": "4f7a58b7545e3a6b94d51778cc5b298377265e21",
+                "url": "https://api.github.com/repos/consolidation/annotated-command/zipball/d1eb96e4da3e711629442c90ae0fc2a6816a0bcc",
+                "reference": "d1eb96e4da3e711629442c90ae0fc2a6816a0bcc",
                 "shasum": ""
             },
             "require": {
@@ -68,7 +68,7 @@
                 }
             ],
             "description": "Initialize Symfony Console commands from annotated command class methods.",
-            "time": "2020-08-27T17:06:02+00:00"
+            "time": "2020-08-29T15:29:29+00:00"
         },
         {
             "name": "consolidation/config",
@@ -4323,7 +4323,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "consolidation/annotated-command": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

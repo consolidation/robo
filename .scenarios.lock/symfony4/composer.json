@@ -33,7 +33,7 @@
         "php": ">=7.1.3",
         "consolidation/config": "^1.2.1|^2",
         "consolidation/log": "^1.1.1|^2.0.1",
-        "consolidation/annotated-command": "dev-save-and-restore-state",
+        "consolidation/annotated-command": "^4.2.1",
         "consolidation/output-formatters": "^4.1.1",
         "consolidation/self-update": "^1.2",
         "league/container": "^2.4.1"

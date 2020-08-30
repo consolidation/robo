@@ -22,12 +22,4 @@ class CommandTestertTest extends TestCase
         $this->assertContains("PHP", $tryInputOutput);
         $this->assertContains("1234", $tryInputOutput);
     }
-
-    public function testTesterWithOptions()
-    {
-        list($execOutput, $statusCode) = $this->executeCommand('try:exec', []);
-        $this->assertEquals(0, $statusCode);
-        list($execOutput, $statusCode) = $this->executeCommand('try:exec', [], ['--error']);
-        $this->assertNotEquals(0, $statusCode);
-    }
 }

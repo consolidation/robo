@@ -105,6 +105,7 @@ EOT;
 
         $expected = <<<EOT
  This is the command-event hook for the test:command-event command.
+
  This is the main method for the test:command-event command.
  This is the post-command hook for the test:command-event command.
 EOT;

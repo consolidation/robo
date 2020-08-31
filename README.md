@@ -7,9 +7,9 @@
 [![Latest Unstable Version](https://poser.pugx.org/consolidation/robo/v/unstable.png)](https://packagist.org/packages/consolidation/robo) 
 [![Total Downloads](https://poser.pugx.org/consolidation/robo/downloads.png)](https://packagist.org/packages/consolidation/robo) 
 
-[![Build Status](https://travis-ci.org/consolidation/Robo.svg?branch=main)](https://travis-ci.org/consolidation/Robo) 
+[![Build Status](https://travis-ci.org/consolidation/Robo.svg?branch=2.x)](https://travis-ci.org/consolidation/Robo) 
 [![Windows CI](https://ci.appveyor.com/api/projects/status/0823hnh06pw8ir4d?svg=true)](https://ci.appveyor.com/project/greg-1-anderson/robo)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/consolidation/Robo/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/consolidation/Robo/?branch=main)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/consolidation/Robo/badges/quality-score.png?b=2.x)](https://scrutinizer-ci.com/g/consolidation/Robo/?branch=2.x)
 [![License](https://img.shields.io/badge/license-MIT-408677.svg)](LICENSE)
 
 * writing cross-platform scripts
@@ -23,7 +23,7 @@
 
 | Branch | Symfony Versions | PHP Versions |
 | ------ | ---------------- | ------------ |
-| [main](https://github.com/consolidation/robo)      | 4 only    | [![PHP 7 only](https://img.shields.io/badge/PHP%207-only-92a9ed)](https://travis-ci.org/consolidation/Robo) |
+| [2.x](https://github.com/consolidation/robo)      | 4 only    | [![PHP 7 only](https://img.shields.io/badge/PHP%207-only-92a9ed)](https://travis-ci.org/consolidation/Robo) |
 | [1.x](https://github.com/consolidation/robotree/1.x) | 2, 3 or 4 | [![PHP 5 supported](https://img.shields.io/badge/PHP%205-supported-408677)](https://travis-ci.org/consolidation/Robo) |
 
 The pre-build [robo.phar](http://robo.li/robo.phar) is built with Symfony 5, and requires PHP 7.2+.  Robo also works with Symfony 4 and PHP 7.1.3+ if packaged as a library in another application.
@@ -65,7 +65,7 @@ All protected methods in traits that start with `task` prefix are tasks and can 
 
 ## Examples
 
-The best way to learn Robo by example is to take a look into [its own RoboFile](https://github.com/consolidation/Robo/blob/main/RoboFile.php)
+The best way to learn Robo by example is to take a look into [its own RoboFile](https://github.com/consolidation/Robo/blob/2.x/RoboFile.php)
  or [RoboFile of Codeception project](https://github.com/Codeception/Codeception/blob/2.4/RoboFile.php). There are also some basic example commands in `examples/RoboFile.php`.
 
 Here are some snippets from them:
@@ -186,4 +186,4 @@ Brought to you by [Consolidation Team](https://github.com/orgs/consolidation/peo
 
 ## License
 
-[MIT](https://github.com/consolidation/Robo/blob/main/LICENSE)
+[MIT](https://github.com/consolidation/Robo/blob/2.x/LICENSE)

@@ -71,7 +71,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "2.x-dev"
+            "dev-2.x": "2.x-dev"
         }
     },
     "suggest": {

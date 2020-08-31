@@ -3,21 +3,23 @@
 namespace Robo\Collection;
 
 use Consolidation\Config\Inject\ConfigForSetters;
-use Robo\Config\Config;
 use Psr\Log\LogLevel;
-use Robo\Contract\InflectionInterface;
-use Robo\Contract\TaskInterface;
-use Robo\Contract\CompletionInterface;
-use Robo\Contract\WrappedTaskInterface;
-use Robo\Task\Simulator;
 use ReflectionClass;
-use Robo\Task\BaseTask;
+use Robo\Common\InputAwareTrait;
+use Robo\Config\Config;
 use Robo\Contract\BuilderAwareInterface;
 use Robo\Contract\CommandInterface;
+use Robo\Contract\CompletionInterface;
+use Robo\Contract\InflectionInterface;
+use Robo\Contract\TaskInterface;
 use Robo\Contract\VerbosityThresholdInterface;
+use Robo\Contract\WrappedTaskInterface;
+use Robo\Result;
 use Robo\State\StateAwareInterface;
 use Robo\State\StateAwareTrait;
-use Robo\Result;
+use Robo\Task\BaseTask;
+use Robo\Task\Simulator;
+use Symfony\Component\Console\Input\InputAwareInterface;
 
 /**
  * Creates a collection, and adds tasks to it.  The collection builder
@@ -46,9 +48,10 @@ use Robo\Result;
  * In the example above, the `taskDeleteDir` will be called if
  * ```
  */
-class CollectionBuilder extends BaseTask implements NestedCollectionInterface, WrappedTaskInterface, CommandInterface, StateAwareInterface
+class CollectionBuilder extends BaseTask implements NestedCollectionInterface, WrappedTaskInterface, CommandInterface, StateAwareInterface, InputAwareInterface
 {
     use StateAwareTrait;
+    use InputAwareTrait; // BaseTask has OutputAwareTrait
 
     /**
      * @var \Robo\Tasks
@@ -491,6 +494,18 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
         $task = $this->fixTask($task, $args);
         $this->configureTask($name, $task);
         return $this->addTaskToCollection($task);
+    }
+
+    public function injectDependencies(InflectionInterface $child)
+    {
+        parent::injectDependencies($child);
+
+        if ($child instanceof InputAwareInterface) {
+            $child->setInput($this->input());
+        }
+        if ($child instanceof OutputAwareInterface) {
+            $child->setOutput($this->output());
+        }
     }
 
     /**

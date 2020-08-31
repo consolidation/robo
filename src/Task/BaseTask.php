@@ -13,9 +13,9 @@ use Robo\Contract\ConfigAwareInterface;
 use Psr\Log\LoggerAwareInterface;
 use Robo\Contract\OutputAwareInterface;
 
-abstract class BaseTask implements TaskInterface, LoggerAwareInterface, VerbosityThresholdInterface, ConfigAwareInterface, ProgressIndicatorAwareInterface, InflectionInterface
+abstract class BaseTask implements TaskInterface, LoggerAwareInterface, VerbosityThresholdInterface, ConfigAwareInterface, ProgressIndicatorAwareInterface, InflectionInterface, OutputAwareInterface
 {
-    use TaskIO; // uses LoggerAwareTrait, VerbosityThresholdTrait and ConfigAwareTrait
+    use TaskIO; // uses LoggerAwareTrait, OutputAwareTrait, VerbosityThresholdTrait and ConfigAwareTrait
     use ProgressIndicatorAwareTrait;
     use InflectionTrait;
 
@@ -50,6 +50,9 @@ abstract class BaseTask implements TaskInterface, LoggerAwareInterface, Verbosit
     {
         if ($child instanceof LoggerAwareInterface && $this->logger) {
             $child->setLogger($this->logger);
+        }
+        if ($child instanceof OutputAwareInterface) {
+            $child->setOutput($this->output());
         }
         if ($child instanceof ProgressIndicatorAwareInterface && $this->progressIndicator) {
             $child->setProgressIndicator($this->progressIndicator);

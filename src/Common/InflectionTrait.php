@@ -19,4 +19,18 @@ trait InflectionTrait
         $parent->injectDependencies($this);
         return $this;
     }
+
+    /**
+     * Inflect the provided parent object if it implements InflectionInterface
+     *
+     * @param mixed $parent
+     * @return $this
+     */
+    public function inflectIf($parent)
+    {
+        if (isset($parent) && ($parent instanceof InflectionInterface)) {
+            return $this->inflect($parent);
+        }
+        return $this;
+    }
 }

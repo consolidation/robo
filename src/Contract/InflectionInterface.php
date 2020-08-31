@@ -50,4 +50,12 @@ interface InflectionInterface
      * @see https://mwop.net/blog/2016-04-26-on-locators.html
      */
     public function injectDependencies(InflectionInterface $child);
+
+    /**
+     * Inflect the provided parent object if it implements InflectionInterface
+     *
+     * @param mixed $parent
+     * @return $this
+     */
+    public function inflectIf($parent);
 }

@@ -37,9 +37,11 @@ trait BuilderAwareTrait
 
     /**
      * @return \Robo\Collection\CollectionBuilder
+     *
+     * @param \Robo\Symfony\ConsoleIO
      */
-    protected function collectionBuilder()
+    protected function collectionBuilder($io = null)
     {
-        return $this->getBuilder()->newBuilder();
+        return $this->getBuilder()->newBuilder()->inflectIf($this)->inflectIf($io);
     }
 }

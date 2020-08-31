@@ -177,9 +177,12 @@ class RoboFileFixture extends \Robo\Tasks implements LoggerAwareInterface, Custo
         $this->output()->writeln('This is a verbose message (-v).', OutputInterface::VERBOSITY_VERBOSE);
         $this->output()->writeln('This is a very verbose message (-vv).', OutputInterface::VERBOSITY_VERY_VERBOSE);
         $this->output()->writeln('This is a debug message (-vvv).', OutputInterface::VERBOSITY_DEBUG);
-        $this->logger->warning('This is a warning log message.');
-        $this->logger->notice('This is a notice log message.');
-        $this->logger->debug('This is a debug log message.');
+
+        if ($this->logger) {
+            $this->logger->warning('This is a warning log message.');
+            $this->logger->notice('This is a notice log message.');
+            $this->logger->debug('This is a debug log message.');
+        }
     }
 
     public function testVerbosityThreshold()

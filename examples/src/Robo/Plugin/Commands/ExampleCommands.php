@@ -9,6 +9,7 @@ use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
 use Consolidation\OutputFormatters\StructuredData\PropertyList;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
+use Robo\Symfony\ConsoleIO;
 
 /**
  * Example Robo Plugin Commands.
@@ -45,22 +46,22 @@ class ExampleCommands extends \Robo\Tasks
     }
 
     /**
-     * Demonstrates Robo input APIs.
+     * Demonstrates Robo input APIs using ConsoleIO (recommended).
      */
-    public function tryInput()
+    public function tryInput(ConsoleIO $io)
     {
-        $this->say('The <b>expression</b> <bogus>is</bogus> <info>a < b</> it even works');
-        $answer = $this->ask('how are you?');
-        $this->say('You are '.$answer);
-        $yes = $this->confirm('Do you want one more question?');
+        $io->writeln('The <b>expression</b> <bogus>is</bogus> <info>a < b</> it even works');
+        $answer = $io->ask('how are you?');
+        $io->writeln('You are '.$answer);
+        $yes = $io->confirm('Do you want one more question?');
         if (!$yes) {
             return Result::cancelled();
         }
-        $lang = $this->askDefault('what is your favorite scripting language?', 'PHP');
-        $this->say($lang);
-        $pin = $this->askHidden('Ok, now tell your PIN code (it is hidden)');
-        $this->yell('Ha-ha, your pin code is: '.$pin);
-        $this->say('Bye!');
+        $lang = $io->ask('what is your favorite scripting language?', 'PHP');
+        $io->writeln($lang);
+        $pin = $io->askHidden('Ok, now tell your PIN code (it is hidden)');
+        $io->block('Ha-ha, your pin code is: '.$pin);
+        $io->writeln('Bye!');
     }
 
     /**
@@ -79,15 +80,15 @@ class ExampleCommands extends \Robo\Tasks
      *   configuration via the configuration key command.try.config.options.opt.
      * @option show-all Also print out the value of all configuration options
      */
-    public function tryConfig($key = 'options.progress-delay', $options = ['opt' => '0', 'show-all' => false])
+    public function tryConfig(ConsoleIO $io, $key = 'options.progress-delay', $options = ['opt' => '0', 'show-all' => false])
     {
         $value = \Robo\Robo::config()->get($key);
 
-        $this->say("The value of $key is " . var_export($value, true));
-        $this->say("The value of --opt (command.try.config.options.opt) is " . var_export($options['opt'], true));
+        $io->writeln("The value of $key is " . var_export($value, true));
+        $io->writeln("The value of --opt (command.try.config.options.opt) is " . var_export($options['opt'], true));
 
         if ($options['show-all']) {
-            $this->say(var_export(\Robo\Robo::config()->export(), true) . "\n");
+            $io->writeln(var_export(\Robo\Robo::config()->export(), true) . "\n");
         }
     }
 
@@ -97,10 +98,10 @@ class ExampleCommands extends \Robo\Tasks
      * @option $printed Print the output of each process.
      * @option $error Include an extra process that fails.
      */
-    public function tryExec($options = ['printed' => true, 'error' => false])
+    public function tryExec(ConsoleIO $io, $options = ['printed' => true, 'error' => false])
     {
         $dir = dirname(dirname(dirname(dirname(dirname(__DIR__)))));
-        $tasks = $this
+        $tasks = $this->collectionBuilder($io)
             ->taskExec('php')
                 ->args(["$dir/tests/_data/parascript.php", "hey", "4"])
             ->taskExec('php')
@@ -121,15 +122,16 @@ class ExampleCommands extends \Robo\Tasks
      * @option $printed Print the output of each process.
      * @option $error Include an extra process that fails.
      */
-    public function tryPara($options = ['printed' => true, 'error' => false])
+    public function tryPara(ConsoleIO $io, $options = ['printed' => true, 'error' => false])
     {
         $dir = dirname(dirname(dirname(dirname(dirname(__DIR__)))));
-        $para = $this->taskParallelExec()
-            ->printed($options['printed'])
-            ->process("php $dir/tests/_data/parascript.php hey 4")
-            ->process("php $dir/tests/_data/parascript.php hoy 3")
-            ->process("php $dir/tests/_data/parascript.php gou 2")
-            ->process("php $dir/tests/_data/parascript.php die 1");
+        $para = $this->collectionBuilder($io)
+            ->taskParallelExec()
+                ->printed($options['printed'])
+                ->process("php $dir/tests/_data/parascript.php hey 4")
+                ->process("php $dir/tests/_data/parascript.php hoy 3")
+                ->process("php $dir/tests/_data/parascript.php gou 2")
+                ->process("php $dir/tests/_data/parascript.php die 1");
         if ($options['error']) {
             $para->process("ls $dir/tests/_data/filenotfound");
         }
@@ -139,9 +141,9 @@ class ExampleCommands extends \Robo\Tasks
     /**
      * try:opt-required
      */
-    public function tryOptRequired($options = ['foo' => InputOption::VALUE_REQUIRED])
+    public function tryOptRequired(ConsoleIO $io, $options = ['foo' => InputOption::VALUE_REQUIRED])
     {
-        print "foo is " . $options['foo'];
+        $io->writeln("foo is " . $options['foo']);
     }
 
     /**
@@ -150,9 +152,9 @@ class ExampleCommands extends \Robo\Tasks
      * @param string $a The first parameter. Required.
      * @param string $b The second parameter. Optional.
      */
-    public function tryArgs($a, $b = 'default')
+    public function tryArgs(ConsoleIO $io, $a, $b = 'default')
     {
-        $this->say("The parameter a is $a and b is $b");
+        $io->writeln("The parameter a is $a and b is $b");
     }
 
     /**
@@ -161,11 +163,11 @@ class ExampleCommands extends \Robo\Tasks
      * @param array $a A list of commandline parameters.
      * @param array $options
      */
-    public function tryArrayArgs(array $a, array $options = ['foo' => []])
+    public function tryArrayArgs(ConsoleIO $io, array $a, array $options = ['foo' => []])
     {
-        $this->say("The parameters passed are:\n" . var_export($a, true));
+        $io->writeln("The parameters passed are:\n" . var_export($a, true));
         if (!empty($options['foo'])) {
-            $this->say("The options passed via --foo are:\n" . var_export($options['foo'], true));
+            $io->writeln("The options passed via --foo are:\n" . var_export($options['foo'], true));
         }
     }
 
@@ -173,18 +175,41 @@ class ExampleCommands extends \Robo\Tasks
      * Demonstrate use of Symfony $input object in Robo in place of
      * the usual "parameter arguments".
      *
+     * Note that $io provides '$input', so you do not need to declare both
+     * as parameters. See next example.
+     *
      * @arg array $a A list of commandline parameters.
      * @option foo
      * @default a []
      * @default foo []
      */
-    public function trySymfony(InputInterface $input)
+    public function trySymfony(ConsoleIO $io, InputInterface $input)
     {
         $a = $input->getArgument('a');
-        $this->say("The parameters passed are:\n" . var_export($a, true));
+        $io->writeln("The parameters passed are:\n" . var_export($a, true));
         $foo = $input->getOption('foo');
         if (!empty($foo)) {
-            $this->say("The options passed via --foo are:\n" . var_export($foo, true));
+            $io->writeln("The options passed via --foo are:\n" . var_export($foo, true));
+        }
+    }
+
+    /**
+     * Demonstrate use of Symfony $input object in Robo in place of
+     * the usual "parameter arguments".
+     *
+     * @command try:console-io
+     * @arg array $a A list of commandline parameters.
+     * @option foo
+     * @default a []
+     * @default foo []
+     */
+    public function tryConsoleIO(ConsoleIO $io)
+    {
+        $a = $io->input()->getArgument('a');
+        $io->writeln("The parameters passed are:\n" . var_export($a, true));
+        $foo = $io->input()->getOption('foo');
+        if (!empty($foo)) {
+            $io->writeln("The options passed via --foo are:\n" . var_export($foo, true));
         }
     }
 
@@ -194,10 +219,10 @@ class ExampleCommands extends \Robo\Tasks
      * @param array $opts The options.
      * @option boolean $silent Supress output.
      */
-    public function tryOptbool($opts = ['silent|s' => false])
+    public function tryOptbool(ConsoleIO $io, $opts = ['silent|s' => false])
     {
         if (!$opts['silent']) {
-            $this->say("Hello, world");
+            $io->writeln("Hello, world");
         }
     }
 
@@ -215,9 +240,9 @@ class ExampleCommands extends \Robo\Tasks
     /**
      * Demonstrate the use of the Robo open-browser task.
      */
-    public function tryOpenBrowser()
+    public function tryOpenBrowser(ConsoleIO $io)
     {
-        return $this->taskOpenBrowser([
+        return $this->collectionBuilder($io)->taskOpenBrowser([
             'http://robo.li',
             'https://github.com/consolidation-org/Robo'
             ])->run();
@@ -226,17 +251,17 @@ class ExampleCommands extends \Robo\Tasks
     /**
      * Demonstrate Robo error output and command failure.
      */
-    public function tryError()
+    public function tryError(ConsoleIO $io)
     {
-        return $this->taskExec('ls xyzzy' . date('U'))->dir('/tmp')->run();
+        return $this->collectionBuilder($io)->taskExec('ls xyzzy' . date('U'))->dir('/tmp')->run();
     }
 
     /**
      * Demonstrate Robo standard output and command success.
      */
-    public function trySuccess()
+    public function trySuccess(ConsoleIO $io)
     {
-        return $this->_exec('pwd');
+        return $this->collectionBuilder($io)->taskExec('pwd');
     }
 
     /**
@@ -375,9 +400,9 @@ class ExampleCommands extends \Robo\Tasks
      * For demonstration purposes only; this could, of course, be done
      * with a single FilesystemStack.
      */
-    public function tryBuilder()
+    public function tryBuilder(ConsoleIO $io)
     {
-        return $this->collectionBuilder()
+        return $this->collectionBuilder($io)
             ->taskFilesystemStack()
                 ->mkdir('a')
                 ->touch('a/a.txt')
@@ -390,9 +415,9 @@ class ExampleCommands extends \Robo\Tasks
             ->run();
     }
 
-    public function tryState()
+    public function tryState(ConsoleIO $io)
     {
-        return $this->collectionBuilder()
+        return $this->collectionBuilder($io)
             ->taskExec('uname -n')
                 ->printOutput(false)
                 ->storeState('system-name')
@@ -401,12 +426,12 @@ class ExampleCommands extends \Robo\Tasks
             ->run();
     }
 
-    public function tryBuilderRollback()
+    public function tryBuilderRollback(ConsoleIO $io)
     {
         // This example will create two builders, and add
         // the first one as a child of the second in order
         // to demonstrate nested rollbacks.
-        $collection = $this->collectionBuilder()
+        $collection = $this->collectionBuilder($io)
             ->taskFilesystemStack()
                 ->mkdir('g')
                 ->touch('g/g.txt')
@@ -420,7 +445,7 @@ class ExampleCommands extends \Robo\Tasks
                 ->mkdir('g/h/i/c')
                 ->touch('g/h/i/i.txt');
 
-        return $this->collectionBuilder()
+        return $this->collectionBuilder($io)
             ->progressMessage('Start recursive collection')
             ->addTask($collection)
             ->progressMessage('Done with recursive collection')
@@ -429,12 +454,12 @@ class ExampleCommands extends \Robo\Tasks
             ->run();
     }
 
-    public function tryWorkdir()
+    public function tryWorkdir(ConsoleIO $io)
     {
         // This example works like tryBuilderRollback,
         // but does equivalent operations using a working
         // directory. The working directory is deleted on rollback
-        $collection = $this->collectionBuilder();
+        $collection = $this->collectionBuilder($io);
 
         $workdir = $collection->workDir('w');
 
@@ -448,7 +473,7 @@ class ExampleCommands extends \Robo\Tasks
                 ->mkdir("$workdir/h/i/c")
                 ->touch("$workdir/h/i/i.txt");
 
-        return $this->collectionBuilder()
+        return $this->collectionBuilder($io)
             ->progressMessage('Start recursive collection')
             ->addTask($collection)
             ->progressMessage('Done with recursive collection')
@@ -460,10 +485,10 @@ class ExampleCommands extends \Robo\Tasks
     /**
      * Demonstrates Robo temporary directory usage.
      */
-    public function tryTmpDir()
+    public function tryTmpDir(ConsoleIO $io)
     {
         // Set up a collection to add tasks to
-        $collection = $this->collectionBuilder();
+        $collection = $this->collectionBuilder($io);
 
         // Get a temporary directory to work in. Note that we get a path
         // back, but the directory is not created until the task runs.
@@ -475,9 +500,9 @@ class ExampleCommands extends \Robo\Tasks
             ->run();
 
         if (is_dir($tmpPath)) {
-            $this->say("The temporary directory at $tmpPath was not cleaned up after the collection completed.");
+            $io->writeln("The temporary directory at $tmpPath was not cleaned up after the collection completed.");
         } else {
-            $this->say("The temporary directory at $tmpPath was automatically deleted.");
+            $io->writeln("The temporary directory at $tmpPath was automatically deleted.");
         }
 
         return $result;
@@ -489,14 +514,14 @@ class ExampleCommands extends \Robo\Tasks
      * @option delay Miliseconds delay
      * @return type
      */
-    public function tryProgress($options = ['delay' => 500])
+    public function tryProgress(ConsoleIO $io, $options = ['delay' => 500])
     {
         $delay = $options['delay'];
         $delayUntilProgressStart = \Robo\Robo::config()->get(\Robo\Config::PROGRESS_BAR_AUTO_DISPLAY_INTERVAL);
-        $this->say("Progress bar will display after $delayUntilProgressStart seconds of activity.");
+        $io->writeln("Progress bar will display after $delayUntilProgressStart seconds of activity.");
 
         $processList = range(1, 10);
-        return $this->collectionBuilder()
+        return $this->collectionBuilder($io)
             ->taskForEach($processList)
                 ->iterationMessage('Processing {value}')
                 ->call(
@@ -510,13 +535,13 @@ class ExampleCommands extends \Robo\Tasks
             ->run();
     }
 
-    public function tryIter()
+    public function tryIter(ConsoleIO $io)
     {
         $workdir = 'build/iter-example';
         $this->say("Creating sample direcories in $workdir.");
 
         $processList = ['cats', 'dogs', 'sheep', 'fish', 'horses', 'cows'];
-        return $this->collectionBuilder()
+        return $this->collectionBuilder($io)
             ->taskFilesystemStack()
                 ->mkdir($workdir)
             ->taskCleanDir($workdir)

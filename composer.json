@@ -87,7 +87,8 @@
             }
        },
         "branch-alias": {
-            "dev-2.x": "2.x-dev"
+            "dev-master": "2.x-dev",
+            "dev-main": "2.x-dev"
         }
     },
     "suggest": {

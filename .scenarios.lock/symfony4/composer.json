@@ -36,7 +36,8 @@
         "consolidation/annotated-command": "^4.2.1",
         "consolidation/output-formatters": "^4.1.1",
         "consolidation/self-update": "^1.2",
-        "league/container": "^2.4.1"
+        "league/container": "^2.4.1",
+        "totten/lurkerlite": "^1.3"
     },
     "require-dev": {
         "g1a/composer-test-scenarios": "^3",
@@ -77,7 +78,6 @@
     },
     "suggest": {
         "pear/archive_tar": "Allows tar archives to be created and extracted in taskPack and taskExtract, respectively.",
-        "henrikbjorn/lurker": "For monitoring filesystem changes in taskWatch",
         "patchwork/jsqueeze": "For minifying JS files in taskMinify",
         "natxet/cssmin": "For minifying CSS files in taskMinify"
     },

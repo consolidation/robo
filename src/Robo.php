@@ -364,6 +364,8 @@ class Robo
      * Return the result printer object.
      *
      * @return \Robo\Log\ResultPrinter
+     *
+     * @deprecated
      */
     public static function resultPrinter()
     {

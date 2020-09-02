@@ -48,6 +48,13 @@ trait TestTasksTrait
         return $container;
     }
 
+    public function collectionBuilderForTest()
+    {
+        $builder = $this->collectionBuilder();
+        $builder->setOutput($this->testPrinter);
+        return $builder;
+    }
+
     public function capturedOutputStream()
     {
         if (!$this->testPrinter) {

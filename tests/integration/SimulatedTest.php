@@ -27,7 +27,7 @@ class SimulatedTest extends TestCase
     public function testSimulateDirCreation()
     {
         // Set up a collection to add tasks to
-        $collection = $this->collectionBuilder();
+        $collection = $this->collectionBuilderForTest();
         $collection->simulated(true);
 
         // Set up a filesystem stack

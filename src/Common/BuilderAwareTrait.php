@@ -3,6 +3,8 @@
 namespace Robo\Common;
 
 use Robo\Collection\CollectionBuilder;
+use Robo\Robo;
+use Robo\Symfony\ConsoleIO;
 
 trait BuilderAwareTrait
 {
@@ -42,6 +44,10 @@ trait BuilderAwareTrait
      */
     protected function collectionBuilder($io = null)
     {
+        // TODO: trigger_error if $io is null.
+        if (!$io) {
+            $io = new ConsoleIO(Robo::input(), Robo::output());
+        }
         return $this->getBuilder()->newBuilder()->inflectIf($this)->inflectIf($io);
     }
 }

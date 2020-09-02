@@ -44,10 +44,10 @@ trait BuilderAwareTrait
      */
     protected function collectionBuilder($io = null)
     {
-        // TODO: trigger_error if $io is null.
+        // TODO: trigger_error if $io is null. Eventually this shim will be removed.
         if (!$io) {
             $io = new ConsoleIO(Robo::input(), Robo::output());
         }
-        return $this->getBuilder()->newBuilder()->inflectIf($this)->inflectIf($io);
+        return $this->getBuilder()->newBuilder()->inflect($this)->inflect($io);
     }
 }

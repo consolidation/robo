@@ -231,7 +231,9 @@ class RoboFileFixture extends \Robo\Tasks implements LoggerAwareInterface, Custo
     {
         $gitTask = $this->collectionBuilder($io)
             ->taskGitStack()
-                ->pull()
+                ->pull();
+
+        $this->collectionBuilder($io)
             ->taskSshExec('mysite.com')
                 ->remoteDir('/var/www/somesite')
                 ->exec($gitTask)

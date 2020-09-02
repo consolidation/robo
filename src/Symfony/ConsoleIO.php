@@ -48,7 +48,7 @@ class ConsoleIO extends SymfonyStyle implements InflectionInterface // InputInte
     /**
      * {@inheritdoc}
      */
-    public function injectDependencies(InflectionInterface $child)
+    public function injectDependencies($child)
     {
         if ($child instanceof InputAwareInterface) {
             $child->setInput($this->input());

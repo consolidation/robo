@@ -36,7 +36,7 @@ class Result extends ResultData implements OutputAwareInterface, InflectionInter
     {
         parent::__construct($exitCode, $message, $data);
         $this->task = $task;
-        $this->inflectIf($task);
+        $this->inflect($task);
         $this->printResult();
 
         if (self::$stopOnFail) {
@@ -278,7 +278,7 @@ class Result extends ResultData implements OutputAwareInterface, InflectionInter
         return Robo::resultPrinter();
     }
 
-    public function injectDependencies(InflectionInterface $child)
+    public function injectDependencies($child)
     {
         if ($child instanceof OutputAwareInterface) {
             $child->setOutput($this->output);

@@ -46,7 +46,7 @@ abstract class BaseTask implements TaskInterface, LoggerAwareInterface, Verbosit
     /**
      * {@inheritdoc}
      */
-    public function injectDependencies(InflectionInterface $child)
+    public function injectDependencies($child)
     {
         if ($child instanceof LoggerAwareInterface && $this->logger) {
             $child->setLogger($this->logger);

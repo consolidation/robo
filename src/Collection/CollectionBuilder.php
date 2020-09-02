@@ -496,7 +496,7 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
         return $this->addTaskToCollection($task);
     }
 
-    public function injectDependencies(InflectionInterface $child)
+    public function injectDependencies($child)
     {
         parent::injectDependencies($child);
 

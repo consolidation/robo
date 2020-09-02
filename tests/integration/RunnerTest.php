@@ -107,6 +107,7 @@ EOT;
  This is the command-event hook for the test:command-event command.
 
  This is the main method for the test:command-event command.
+
  This is the post-command hook for the test:command-event command.
 EOT;
         $this->assertOutputContains($expected);
@@ -260,6 +261,17 @@ EOT;
     public function testRunnerVerbosityThresholdVerbose()
     {
         $argv = ['placeholder', 'test:verbosity-threshold', '-v'];
+        $result = $this->runner->execute($argv, null, null, $this->capturedOutputStream());
+
+        $this->assertOutputContains('This command will print more information at higher verbosity levels');
+        $this->assertOutputContains("Running echo verbose or higher\nverbose or higher");
+        $this->assertOutputNotContains('very verbose or higher');
+        $this->assertEquals(0, $result);
+    }
+
+    public function testRunnerVerbosityThresholdCompatabilityVerbose()
+    {
+        $argv = ['placeholder', 'test:verbosity-threshold-compatability', '-v'];
         $result = $this->runner->execute($argv, null, null, $this->capturedOutputStream());
 
         $this->assertOutputContains('This command will print more information at higher verbosity levels');

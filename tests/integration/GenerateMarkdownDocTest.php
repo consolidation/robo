@@ -32,7 +32,7 @@ class GenerateMarkdownDocTest extends TestCase
         include $sourceFile;
         $this->assertTrue(class_exists('TestedRoboTask'));
 
-        $collection = $this->collectionBuilder();
+        $collection = $this->collectionBuilderForTest();
         $taskGenerator = $collection->taskGenDoc("TestedRoboTask.md");
         $taskGenerator->filterClasses(function (\ReflectionClass $r) {
             return !($r->isAbstract() || $r->isTrait()) && $r->implementsInterface('Robo\Contract\TaskInterface');

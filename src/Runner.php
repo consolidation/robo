@@ -286,7 +286,8 @@ class Runner implements ContainerAwareInterface
         // successfully.
         if ($statusCode) {
             foreach ($this->errorConditions as $msg => $color) {
-                $this->yell($msg, 40, $color);
+                // TODO: This was 'yell'. Add styling?
+                $output->writeln($msg); // used to wrap at 40 and write in $color
             }
         }
         return $statusCode;

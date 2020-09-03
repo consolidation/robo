@@ -194,7 +194,13 @@ class Robo
         $container->add('container', $container);
         static::setContainer($container);
 
-        // Create default input and output objects if they were not provided
+        // Create default input and output objects if they were not provided.
+        // TODO: We would like to remove $input and $output from the container
+        // (or always register StringInput('') and NullOutput()). There are
+        // currently three shortcomings preventing this:
+        //  1. The logger cannot be used (we could remove the logger from Robo)
+        //  2. Commands that abort with an exception do not print a message (bug)
+        //  3. The runner tests do not initialize taskIO correctly for all tests
         if (!$input) {
             $input = new StringInput('');
         }

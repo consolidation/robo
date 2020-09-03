@@ -28,9 +28,9 @@ class RoboFileFixture extends \Robo\Tasks implements LoggerAwareInterface, Custo
      * @param array $a
      *   A list of commandline parameters.
      */
-    public function testArrayArgs(array $a)
+    public function testArrayArgs(ConsoleIO $io, array $a)
     {
-        $this->say("The parameters passed are:\n" . var_export($a, true));
+        $io->writeln("The parameters passed are:\n" . var_export($a, true));
     }
 
     /**
@@ -250,14 +250,14 @@ class RoboFileFixture extends \Robo\Tasks implements LoggerAwareInterface, Custo
      * @default a []
      * @default foo []
      */
-    public function testSymfony(InputInterface $input)
+    public function testSymfony(ConsoleIO $io, InputInterface $input)
     {
+        // Note that $input is also available via $io
         $a = $input->getArgument('a');
-        // 'say()' is deprecated; pass ConsoleIO $io and use $io->writeln instead.
-        $this->say("The parameters passed are:\n" . var_export($a, true));
+        $io->writeln("The parameters passed are:\n" . var_export($a, true));
         $foo = $input->getOption('foo');
         if (!empty($foo)) {
-            $this->say("The options passed via --foo are:\n" . var_export($foo, true));
+            $io->writeln("The options passed via --foo are:\n" . var_export($foo, true));
         }
     }
 }

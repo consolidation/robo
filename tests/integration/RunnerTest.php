@@ -51,7 +51,7 @@ class RunnerTest extends TestCase
         $this->runner->execute($argv, null, null, $this->capturedOutputStream());
 
         $expected = <<<EOT
->  The parameters passed are:
+The parameters passed are:
 array (
   0 => 'a',
   1 => 'b',
@@ -81,13 +81,13 @@ EOT;
         $argv = ['placeholder', 'test:symfony', 'a', 'b', 'c', '--foo=bar', '--foo=baz', '--foo=boz'];
         $this->runner->execute($argv, null, null, $this->capturedOutputStream());
         $expected = <<<EOT
->  The parameters passed are:
+The parameters passed are:
 array (
   0 => 'a',
   1 => 'b',
   2 => 'c',
 )
->  The options passed via --foo are:
+The options passed via --foo are:
 array (
   0 => 'bar',
   1 => 'baz',

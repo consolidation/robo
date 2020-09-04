@@ -7,7 +7,7 @@ use Robo\Traits\TestTasksTrait;
 class RunnerTest extends TestCase
 {
     use TestTasksTrait;
-    use Task\Base\loadTasks;
+    use Task\Base\Tasks;
 
     /**
      * @var \Robo\Runner

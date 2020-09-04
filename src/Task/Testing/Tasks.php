@@ -2,7 +2,7 @@
 
 namespace Robo\Task\Testing;
 
-trait loadTasks
+trait Tasks
 {
     /**
      * @param null|string $pathToCodeception

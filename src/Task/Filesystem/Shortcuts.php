@@ -2,7 +2,7 @@
 
 namespace Robo\Task\Filesystem;
 
-trait loadShortcuts
+trait Shortcuts
 {
     /**
      * @param string $src

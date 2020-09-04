@@ -2,7 +2,7 @@
 
 namespace Robo\Task\Docker;
 
-trait loadTasks
+trait Tasks
 {
     /**
      * @param string $image

@@ -2,7 +2,7 @@
 
 namespace Robo\Task\Gulp;
 
-trait loadTasks
+trait Tasks
 {
     /**
      * @param string $task

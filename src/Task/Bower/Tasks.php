@@ -2,7 +2,7 @@
 
 namespace Robo\Task\Bower;
 
-trait loadTasks
+trait Tasks
 {
     /**
      * @param null|string $pathToBower

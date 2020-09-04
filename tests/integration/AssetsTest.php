@@ -7,7 +7,7 @@ use Robo\Traits\TestTasksTrait;
 class AssetsTest extends TestCase
 {
     use TestTasksTrait;
-    use Task\Assets\loadTasks;
+    use Task\Assets\Tasks;
 
     protected $fixtures;
 

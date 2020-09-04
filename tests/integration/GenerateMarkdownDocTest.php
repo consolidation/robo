@@ -7,9 +7,9 @@ use Robo\Traits\TestTasksTrait;
 class GenerateMarkdownDocTest extends TestCase
 {
     use TestTasksTrait;
-    use Collection\loadTasks;
-    use Task\Development\loadTasks;
-    use Task\File\loadTasks;
+    use Collection\Tasks;
+    use Task\Development\Tasks;
+    use Task\File\Tasks;
 
     protected $fixtures;
 

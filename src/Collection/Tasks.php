@@ -2,7 +2,7 @@
 
 namespace Robo\Collection;
 
-trait loadTasks
+trait Tasks
 {
     /**
      * Run a callback function on each item in a collection

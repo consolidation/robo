@@ -2,7 +2,7 @@
 
 namespace Robo\Task\Filesystem;
 
-trait loadTasks
+trait Tasks
 {
     /**
      * @param string|string[] $dirs

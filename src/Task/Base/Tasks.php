@@ -2,7 +2,7 @@
 
 namespace Robo\Task\Base;
 
-trait loadTasks
+trait Tasks
 {
     /**
      * @param string|\Robo\Contract\CommandInterface $command

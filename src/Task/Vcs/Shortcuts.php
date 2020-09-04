@@ -2,7 +2,7 @@
 
 namespace Robo\Task\Vcs;
 
-trait loadShortcuts
+trait Shortcuts
 {
     /**
      * @param string $url

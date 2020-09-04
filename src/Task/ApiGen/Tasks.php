@@ -2,7 +2,7 @@
 
 namespace Robo\Task\ApiGen;
 
-trait loadTasks
+trait Tasks
 {
     /**
      * @param null|string $pathToApiGen

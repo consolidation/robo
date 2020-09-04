@@ -2,7 +2,7 @@
 
 namespace Robo\Task\Vcs;
 
-trait loadTasks
+trait Tasks
 {
     /**
      * @param string $username

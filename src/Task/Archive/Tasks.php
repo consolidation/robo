@@ -2,7 +2,7 @@
 
 namespace Robo\Task\Archive;
 
-trait loadTasks
+trait Tasks
 {
     /**
      * @param string $filename

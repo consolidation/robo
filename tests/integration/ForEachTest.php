@@ -9,7 +9,7 @@ use Robo\Traits\TestTasksTrait;
 class ForEachTest extends TestCase
 {
     use TestTasksTrait;
-    use Collection\loadTasks;
+    use Collection\Tasks;
 
     protected $fixtures;
 

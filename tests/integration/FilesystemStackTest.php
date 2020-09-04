@@ -7,8 +7,8 @@ use Robo\Traits\TestTasksTrait;
 class FilesystemStackTest extends TestCase
 {
     use TestTasksTrait;
-    use Collection\loadTasks;
-    use Task\Filesystem\loadTasks;
+    use Collection\Tasks;
+    use Task\Filesystem\Tasks;
 
     protected $fixtures;
 

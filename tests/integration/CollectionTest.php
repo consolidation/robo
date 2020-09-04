@@ -9,10 +9,10 @@ use Robo\Traits\TestTasksTrait;
 class CollectionTest extends TestCase
 {
     use TestTasksTrait;
-    use Collection\loadTasks;
-    use Task\File\loadTasks;
-    use Task\Filesystem\loadTasks;
-    use Task\Filesystem\loadShortcuts;
+    use Collection\Tasks;
+    use Task\File\Tasks;
+    use Task\Filesystem\Tasks;
+    use Task\Filesystem\Shortcuts;
     use Task\TestHelperTasks;
 
     protected $fixtures;

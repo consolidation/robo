@@ -67,7 +67,7 @@ trait TaskIO
 
         static $gaveDeprecationWarning = false;
         if (!$gaveDeprecationWarning) {
-            trigger_error('No logger set for ' . get_class($this) . '. Use $this->task(Foo::class) rather than new Foo() in loadTasks to ensure the builder can initialize task the task, or use $this->collectionBuilder()->taskFoo() if creating one task from within another.', E_USER_DEPRECATED);
+            trigger_error('No logger set for ' . get_class($this) . '. Use $this->task(Foo::class) rather than new Foo() in Tasks to ensure the builder can initialize task the task, or use $this->collectionBuilder()->taskFoo() if creating one task from within another.', E_USER_DEPRECATED);
             $gaveDeprecationWarning = true;
         }
         return Robo::logger();

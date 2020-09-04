@@ -7,7 +7,7 @@ use Robo\Traits\TestTasksTrait;
 class WriteFileTest extends TestCase
 {
     use TestTasksTrait;
-    use Task\File\loadTasks;
+    use Task\File\Tasks;
 
     protected $fixtures;
 

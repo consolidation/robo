@@ -44,7 +44,7 @@ use Robo\Result;
  *  - Give it a constructor that creates a new Frobinator
  *  - Override getDelegate(), and return the Frobinator instance
  *
- * Finally, add your new class to loadTasks.php as usual,
+ * Finally, add your new class to Tasks.php as usual,
  * and you are all done.
  *
  * If you need to add any methods to your task that should run

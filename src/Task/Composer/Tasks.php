@@ -2,7 +2,7 @@
 
 namespace Robo\Task\Composer;
 
-trait loadTasks
+trait Tasks
 {
     /**
      * @param null|string $pathToComposer

@@ -16,7 +16,7 @@ use Robo\Contract\WrappedTaskInterface;
  * Clients may need to wrap their task in a CompletionWrapper if it
  * creates temporary objects.
  *
- * @see \Robo\Task\Filesystem\loadTasks::taskTmpDir
+ * @see \Robo\Task\Filesystem\Tasks::taskTmpDir
  */
 class CompletionWrapper extends BaseTask implements WrappedTaskInterface
 {

@@ -7,7 +7,7 @@ use Robo\Traits\TestTasksTrait;
 class PackExtractTest extends TestCase
 {
     use TestTasksTrait;
-    use Task\Archive\loadTasks;
+    use Task\Archive\Tasks;
 
     protected $fixtures;
 

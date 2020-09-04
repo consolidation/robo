@@ -50,18 +50,18 @@ class ExampleCommands extends \Robo\Tasks
      */
     public function tryInput(ConsoleIO $io)
     {
-        $io->writeln('The <b>expression</b> <bogus>is</bogus> <info>a < b</> it even works');
+        $io->say('The <b>expression</b> <bogus>is</bogus> <info>a < b</> it even works');
         $answer = $io->ask('how are you?');
-        $io->writeln('You are '.$answer);
+        $io->say('You are '.$answer);
         $yes = $io->confirm('Do you want one more question?');
         if (!$yes) {
             return Result::cancelled();
         }
         $lang = $io->ask('what is your favorite scripting language?', 'PHP');
-        $io->writeln($lang);
+        $io->say($lang);
         $pin = $io->askHidden('Ok, now tell your PIN code (it is hidden)');
-        $io->block('Ha-ha, your pin code is: '.$pin);
-        $io->writeln('Bye!');
+        $io->yell('Ha-ha, your pin code is: '.$pin);
+        $io->say('Bye!');
     }
 
     /**
@@ -84,11 +84,11 @@ class ExampleCommands extends \Robo\Tasks
     {
         $value = \Robo\Robo::config()->get($key);
 
-        $io->writeln("The value of $key is " . var_export($value, true));
-        $io->writeln("The value of --opt (command.try.config.options.opt) is " . var_export($options['opt'], true));
+        $io->say("The value of $key is " . var_export($value, true));
+        $io->say("The value of --opt (command.try.config.options.opt) is " . var_export($options['opt'], true));
 
         if ($options['show-all']) {
-            $io->writeln(var_export(\Robo\Robo::config()->export(), true) . "\n");
+            $io->say(var_export(\Robo\Robo::config()->export(), true) . "\n");
         }
     }
 
@@ -154,7 +154,7 @@ class ExampleCommands extends \Robo\Tasks
      */
     public function tryArgs(ConsoleIO $io, $a, $b = 'default')
     {
-        $io->writeln("The parameter a is $a and b is $b");
+        $io->say("The parameter a is $a and b is $b");
     }
 
     /**
@@ -165,9 +165,9 @@ class ExampleCommands extends \Robo\Tasks
      */
     public function tryArrayArgs(ConsoleIO $io, array $a, array $options = ['foo' => []])
     {
-        $io->writeln("The parameters passed are:\n" . var_export($a, true));
+        $io->say("The parameters passed are:\n" . var_export($a, true));
         if (!empty($options['foo'])) {
-            $io->writeln("The options passed via --foo are:\n" . var_export($options['foo'], true));
+            $io->say("The options passed via --foo are:\n" . var_export($options['foo'], true));
         }
     }
 
@@ -206,10 +206,10 @@ class ExampleCommands extends \Robo\Tasks
     public function tryConsoleIO(ConsoleIO $io)
     {
         $a = $io->input()->getArgument('a');
-        $io->writeln("The parameters passed are:\n" . var_export($a, true));
+        $io->say("The parameters passed are:\n" . var_export($a, true));
         $foo = $io->input()->getOption('foo');
         if (!empty($foo)) {
-            $io->writeln("The options passed via --foo are:\n" . var_export($foo, true));
+            $io->say("The options passed via --foo are:\n" . var_export($foo, true));
         }
     }
 
@@ -222,7 +222,7 @@ class ExampleCommands extends \Robo\Tasks
     public function tryOptbool(ConsoleIO $io, $opts = ['silent|s' => false])
     {
         if (!$opts['silent']) {
-            $io->writeln("Hello, world");
+            $io->say("Hello, world");
         }
     }
 
@@ -500,9 +500,9 @@ class ExampleCommands extends \Robo\Tasks
             ->run();
 
         if (is_dir($tmpPath)) {
-            $io->writeln("The temporary directory at $tmpPath was not cleaned up after the collection completed.");
+            $io->say("The temporary directory at $tmpPath was not cleaned up after the collection completed.");
         } else {
-            $io->writeln("The temporary directory at $tmpPath was automatically deleted.");
+            $io->say("The temporary directory at $tmpPath was automatically deleted.");
         }
 
         return $result;
@@ -518,7 +518,7 @@ class ExampleCommands extends \Robo\Tasks
     {
         $delay = $options['delay'];
         $delayUntilProgressStart = \Robo\Robo::config()->get(\Robo\Config::PROGRESS_BAR_AUTO_DISPLAY_INTERVAL);
-        $io->writeln("Progress bar will display after $delayUntilProgressStart seconds of activity.");
+        $io->say("Progress bar will display after $delayUntilProgressStart seconds of activity.");
 
         $processList = range(1, 10);
         return $this->collectionBuilder($io)

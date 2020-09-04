@@ -13,7 +13,7 @@ Next, add an "autoload" section to your composer.json to provide a namespace for
 {
     "name": "myorg/myproject",
     "require": {
-        "consolidation/Robo": "^1"
+        "consolidation/Robo": "^2"
     },
     "autoload":{
         "psr-4":{

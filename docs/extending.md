@@ -21,9 +21,9 @@ Once the extension you wish to use has been added to your vendor directory, you 
 ``` php
 class RoboFile extends \Robo\Tasks
 {
-  use \Boedah\Robo\Task\Drush\Tasks;
+  use Boedah\Robo\Task\Drush\Tasks;
 
-  public function test()
+  public function test(ConsoleIO $io)
   {
     // ...
   }
@@ -57,17 +57,19 @@ example below:
 
 namespace MyProject\Robo\Plugin\Commands;
 
+use Robo\Symfony\ConsoleIO;
+
 class MyCustomCommands extends \Robo\Tasks
 {
     /**
      * @command my-project:command-one
      */
-    public function commandOne() { }
+    public function commandOne(ConsoleIO $io) { }
 
     /**
      * @command my-project:command-two
      */
-    public function commandTwo() { }
+    public function commandTwo(ConsoleIO $io) { }
 }
 ```
 

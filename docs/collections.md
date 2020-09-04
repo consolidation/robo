@@ -73,11 +73,11 @@ The 'publish' command from Robo's own RoboFile is shown below.  It uses a collec
 <?php
 class RoboFile extends \Robo\Tasks
 {
-    public function publish()
+    public function publish(ConsoleIO $io)
     {
         $current_branch = exec('git rev-parse --abbrev-ref HEAD');
 
-        $collection = $this->collectionBuilder();
+        $collection = $this->collectionBuilder($io);
         $collection->taskGitStack()
             ->checkout('site')
             ->merge('master')
@@ -138,9 +138,9 @@ It is recommended that operations that perform multiple filesystem operations sh
 <?php
 class RoboFile extends \Robo\Tasks
 {
-    function myOperation()
+    function myOperation(ConsoleIO $io)
     {
-        $collection = $this->collectionBuilder();
+        $collection = $this->collectionBuilder($io);
         
         // Create a temporary directory, and fetch its path.
         $work = $collection->tmpDir();
@@ -168,9 +168,9 @@ In the previous example, the path to the temporary directory is stored in the va
 <?php
 class RoboFile extends \Robo\Tasks
 {
-    function myOperation()
+    function myOperation(ConsoleIO $io)
     {
-        $collection = $this->collectionBuilder();
+        $collection = $this->collectionBuilder($io);
         
         // Create a temporary directory, and fetch its path.
         // If all of the tasks succeed, then rename the temporary directory
@@ -240,7 +240,7 @@ For example, if you have one task that takes a set of source files and generates
 If the Encrypt task implements `\Robo\State\Consumer` and accepts 'files' from the current state, then these tasks may be chained together as follows:
 ``` php
 <?php
-    $collection = $this->collectionBuilder();
+    $collection = $this->collectionBuilder($io);
     $collection
         ->taskGenerate()
             ->files($sources)
@@ -259,7 +259,7 @@ To pass state from one task to another, the `deferTaskConfiguration()` method ma
 For example, the builder below will create a new directory named after the output of the `uname -n` command returned by taskExec. Note that it is necessary to call `printOutput(false)` in order to make the output of taskExec available to the state system.
 ``` php
 <?php
-    $this->collectionBuilder()
+    $this->collectionBuilder($io)
         ->taskExec('uname -n')
             ->printOutput(false)
             ->storeState('system-name')
@@ -271,7 +271,7 @@ For example, the builder below will create a new directory named after the outpu
 More complex task configuration may be done via the `defer()` method. `defer()` works like `deferTaskConfiguration()`, except that it will run an arbitrary `callable` immediately prior to the execution of the task. The example below works exactly the same as the previous example, but is implemented using `defer()` instead of `deferTaskConfiguration()`.
 ``` php
 <?php
-    $this->collectionBuilder()
+    $this->collectionBuilder($io)
         ->taskExec('uname -n')
             ->printOutput(false)
             ->storeState('system-name')

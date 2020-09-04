@@ -137,10 +137,9 @@ class MyApplication {
     $application = new Application(self::APPLICATION_NAME, $config->get('version'));
 
     // Create and configure container.
-    $container = Robo::createDefaultContainer($input, $output, $application,
-      $config);
-    $this->setContainer($container);
-    $container->add(MyCustomService::class);
+    $container = Robo::createContainer($application, $config);
+    $container->add(MyCustomService::class); // optional
+    Robo::finalizeContainer($container);
 
     // Instantiate Robo Runner.
     $this->runner = new RoboRunner([

@@ -6,8 +6,10 @@ use Robo\Robo;
 use Robo\TaskInfo;
 use Consolidation\Log\ConsoleLogLevel;
 use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Robo\Contract\ProgressIndicatorAwareInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Task input/output methods.  TaskIO is 'used' in BaseTask, so any
@@ -18,12 +20,37 @@ use Robo\Contract\ProgressIndicatorAwareInterface;
  */
 trait TaskIO
 {
-    use LoggerAwareTrait;
     use ConfigAwareTrait;
     use VerbosityThresholdTrait;
+    use OutputAwareTrait;
+
+    protected $logger;
+    protected $output;
+
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+        $this->resetLoggerOutput();
+    }
+
+    public function setOutput(OutputInterface $output)
+    {
+        $this->output = $output;
+        $this->resetLoggerOutput();
+    }
+
+    private function resetLoggerOutput()
+    {
+        if (isset($this->output) && isset($this->logger) && ($this->logger instanceof \Robo\Log\Logger)) {
+            $this->logger->setErrorStream(null);
+            $this->logger->setOutputStream($this->output);
+        }
+    }
 
     /**
      * @return null|\Psr\Log\LoggerInterface
+     *
+     * @deprecated
      */
     public function logger()
     {
@@ -40,7 +67,7 @@ trait TaskIO
 
         static $gaveDeprecationWarning = false;
         if (!$gaveDeprecationWarning) {
-            trigger_error('No logger set for ' . get_class($this) . '. Use $this->task(Foo::class) rather than new Foo() in loadTasks to ensure the builder can initialize task the task, or use $this->collectionBuilder()->taskFoo() if creating one task from within another.', E_USER_DEPRECATED);
+            trigger_error('No logger set for ' . get_class($this) . '. Use $this->task(Foo::class) rather than new Foo() in Tasks to ensure the builder can initialize task the task, or use $this->collectionBuilder()->taskFoo() if creating one task from within another.', E_USER_DEPRECATED);
             $gaveDeprecationWarning = true;
         }
         return Robo::logger();
@@ -134,6 +161,8 @@ trait TaskIO
      *   One of the \Psr\Log\LogLevel constant
      * @param string $text
      * @param null|array $context
+     *
+     * @deprecated
      */
     protected function printTaskOutput($level, $text, $context)
     {

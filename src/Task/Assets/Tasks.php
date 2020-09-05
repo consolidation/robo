@@ -2,7 +2,7 @@
 
 namespace Robo\Task\Assets;
 
-trait loadTasks
+trait Tasks
 {
     /**
      * @param string $input

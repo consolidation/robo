@@ -7,7 +7,7 @@ use Robo\Traits\TestTasksTrait;
 class ExecTest extends TestCase
 {
     use TestTasksTrait;
-    use Task\Base\loadTasks;
+    use Task\Base\Tasks;
 
     public function setup()
     {

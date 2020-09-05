@@ -7,8 +7,8 @@ use Robo\Traits\TestTasksTrait;
 class GenerateTaskTest extends TestCase
 {
     use TestTasksTrait;
-    use Collection\loadTasks;
-    use Task\Development\loadTasks;
+    use Collection\Tasks;
+    use Task\Development\Tasks;
 
     public function setUp()
     {

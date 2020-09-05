@@ -7,7 +7,7 @@ use Robo\Traits\TestTasksTrait;
 class RunnerTest extends TestCase
 {
     use TestTasksTrait;
-    use Task\Base\loadTasks;
+    use Task\Base\Tasks;
 
     /**
      * @var \Robo\Runner
@@ -51,7 +51,7 @@ class RunnerTest extends TestCase
         $this->runner->execute($argv, null, null, $this->capturedOutputStream());
 
         $expected = <<<EOT
->  The parameters passed are:
+The parameters passed are:
 array (
   0 => 'a',
   1 => 'b',
@@ -81,13 +81,13 @@ EOT;
         $argv = ['placeholder', 'test:symfony', 'a', 'b', 'c', '--foo=bar', '--foo=baz', '--foo=boz'];
         $this->runner->execute($argv, null, null, $this->capturedOutputStream());
         $expected = <<<EOT
->  The parameters passed are:
+The parameters passed are:
 array (
   0 => 'a',
   1 => 'b',
   2 => 'c',
 )
->  The options passed via --foo are:
+The options passed via --foo are:
 array (
   0 => 'bar',
   1 => 'baz',
@@ -107,6 +107,7 @@ EOT;
  This is the command-event hook for the test:command-event command.
 
  This is the main method for the test:command-event command.
+
  This is the post-command hook for the test:command-event command.
 EOT;
         $this->assertOutputContains($expected);
@@ -260,6 +261,17 @@ EOT;
     public function testRunnerVerbosityThresholdVerbose()
     {
         $argv = ['placeholder', 'test:verbosity-threshold', '-v'];
+        $result = $this->runner->execute($argv, null, null, $this->capturedOutputStream());
+
+        $this->assertOutputContains('This command will print more information at higher verbosity levels');
+        $this->assertOutputContains("Running echo verbose or higher\nverbose or higher");
+        $this->assertOutputNotContains('very verbose or higher');
+        $this->assertEquals(0, $result);
+    }
+
+    public function testRunnerVerbosityThresholdCompatabilityVerbose()
+    {
+        $argv = ['placeholder', 'test:verbosity-threshold-compatability', '-v'];
         $result = $this->runner->execute($argv, null, null, $this->capturedOutputStream());
 
         $this->assertOutputContains('This command will print more information at higher verbosity levels');

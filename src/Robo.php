@@ -129,15 +129,56 @@ class Robo
     }
 
     /**
+     * Create a container for Robo application.
+     *
+     * After calling this method you may add any additional items you wish
+     * to manage in your application. After you do that, you must call
+     * Robo::finalizeContainer($container) to complete container initialization.
+     *
+     * @param null|\Robo\Application $app
+     * @param null|\Consolidation\Config\ConfigInterface $config
+     * @param null|\Composer\Autoload\ClassLoader $classLoader
+     *
+     * @return \League\Container\Container|\League\Container\ContainerInterface
+     */
+    public static function createContainer($app = null, $config = null, $classLoader = null)
+    {
+        // Do not allow this function to be called more than once.
+        if (static::hasContainer()) {
+            return static::getContainer();
+        }
+
+        if (!$app) {
+            $app = static::createDefaultApplication();
+        }
+
+        if (!$config) {
+            $config = new \Robo\Config\Config();
+        }
+
+        // $input and $output will not be stored in the container at all in the future.
+        $unusedInput = new StringInput('');
+        $unusedOutput = new \Symfony\Component\Console\Output\NullOutput();
+
+        // Set up our dependency injection container.
+        $container = new Container();
+        return static::configureContainer($container, $app, $config, $unusedInput, $unusedOutput, $classLoader);
+
+        return $container;
+    }
+
+    /**
      * Create a container and initiailze it.  If you wish to *change*
      * anything defined in the container, then you should call
-     * \Robo::configureContainer() instead of this function.
+     * Robo::createContainer() and Robo::finalizeContainer() instead of this function.
      *
      * @param null|\Symfony\Component\Console\Input\InputInterface $input
      * @param null|\Symfony\Component\Console\Output\OutputInterface $output
      * @param null|\Robo\Application $app
      * @param null|\Consolidation\Config\ConfigInterface $config
      * @param null|\Composer\Autoload\ClassLoader $classLoader
+     *
+     * @deprecated Use createContainer instead
      *
      * @return \League\Container\Container|\League\Container\ContainerInterface
      */
@@ -159,27 +200,35 @@ class Robo
         // Set up our dependency injection container.
         $container = new Container();
         static::configureContainer($container, $app, $config, $input, $output, $classLoader);
+        static::finalizeContainer($container);
+
+        return $container;
+    }
+
+    /**
+     * Do final initialization to the provided container. Make any necessary
+     * modifications to the container before calling this method.
+     *
+     * @param ContainerInterface $container
+     */
+    public static function finalizeContainer(ContainerInterface $container)
+    {
+        $app = $container->get('application');
 
         // Set the application dispatcher
         $app->setDispatcher($container->get('eventDispatcher'));
-
-        return $container;
     }
 
     /**
      * Initialize a container with all of the default Robo services.
      * IMPORTANT:  after calling this method, clients MUST call:
      *
-     * $dispatcher = $container->get('eventDispatcher');
-     * $app->setDispatcher($dispatcher);
+     * Robo::finalizeContainer($container);
      *
      * Any modification to the container should be done prior to fetching
      * objects from it.
      *
-     * It is recommended to use \Robo::createDefaultContainer()
-     * instead, which does all required setup for the caller, but has
-     * the limitation that the container it creates can only be
-     * extended, not modified.
+     * It is recommended to use Robo::createContainer() instead.
      *
      * @param \League\Container\ContainerInterface $container
      * @param \Symfony\Component\Console\Application $app
@@ -194,7 +243,13 @@ class Robo
         $container->add('container', $container);
         static::setContainer($container);
 
-        // Create default input and output objects if they were not provided
+        // Create default input and output objects if they were not provided.
+        // TODO: We would like to remove $input and $output from the container
+        // (or always register StringInput('') and NullOutput()). There are
+        // currently three shortcomings preventing this:
+        //  1. The logger cannot be used (we could remove the logger from Robo)
+        //  2. Commands that abort with an exception do not print a message (bug)
+        //  3. The runner tests do not initialize taskIO correctly for all tests
         if (!$input) {
             $input = new StringInput('');
         }
@@ -247,8 +302,10 @@ class Robo
         $container->share('prepareTerminalWidthOption', \Consolidation\AnnotatedCommand\Options\PrepareTerminalWidthOption::class)
             ->withMethodCall('setApplication', ['application']);
         $container->share('symfonyStyleInjector', \Robo\Symfony\SymfonyStyleInjector::class);
+        $container->share('consoleIOInjector', \Robo\Symfony\ConsoleIOInjector::class);
         $container->share('parameterInjection', \Consolidation\AnnotatedCommand\ParameterInjection::class)
-            ->withMethodCall('register', ['Symfony\Component\Console\Style\SymfonyStyle', 'symfonyStyleInjector']);
+            ->withMethodCall('register', ['Symfony\Component\Console\Style\SymfonyStyle', 'symfonyStyleInjector'])
+            ->withMethodCall('register', ['Robo\Symfony\ConsoleIO', 'consoleIOInjector']);
         $container->share('commandProcessor', \Consolidation\AnnotatedCommand\CommandProcessor::class)
             ->withArgument('hookManager')
             ->withMethodCall('setFormatterManager', ['formatterManager'])
@@ -362,6 +419,8 @@ class Robo
      * Return the result printer object.
      *
      * @return \Robo\Log\ResultPrinter
+     *
+     * @deprecated
      */
     public static function resultPrinter()
     {

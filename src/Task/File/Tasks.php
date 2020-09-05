@@ -2,7 +2,7 @@
 
 namespace Robo\Task\File;
 
-trait loadTasks
+trait Tasks
 {
     /**
      * @param array|\Iterator $files

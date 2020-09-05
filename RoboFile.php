@@ -1,6 +1,8 @@
 <?php
 use Symfony\Component\Finder\Finder;
 
+use Robo\Symfony\ConsoleIO;
+
 class RoboFile extends \Robo\Tasks
 {
     /**
@@ -10,15 +12,15 @@ class RoboFile extends \Robo\Tasks
      * to run the tests. This command also runs the remaining Codeception
      * tests. You must re-add Codeception to the project to use this.
      */
-    public function test(array $args, $options =
+    public function test(ConsoleIO $io, array $args, $options =
         [
             'coverage-html' => false,
             'coverage' => false
         ])
     {
-        $this->yell("Deprecated: use 'composer test' instead.");
+        $io->warning("Deprecated: use 'composer test' instead. Codeception-based tests will fail.");
 
-        $collection = $this->collectionBuilder();
+        $collection = $this->collectionBuilder($io);
 
         $taskPHPUnit = $collection->taskPHPUnit();
 
@@ -47,6 +49,7 @@ class RoboFile extends \Robo\Tasks
      *    Default is to show only errors.
      */
     public function sniff(
+        ConsoleIO $io,
         $file = 'src/',
         $options = [
             'autofix' => false,
@@ -54,7 +57,7 @@ class RoboFile extends \Robo\Tasks
         ]
     ) {
         $strict = $options['strict'] ? '' : '-n';
-        $result = $this->taskExec("./vendor/bin/phpcs --standard=PSR2 --exclude=Squiz.Classes.ValidClassName {$strict} {$file}")->run();
+        $result = $this->collectionBuilder($io)->taskExec("./vendor/bin/phpcs --standard=PSR2 --exclude=Squiz.Classes.ValidClassName {$strict} {$file}")->run();
         if (!$result->wasSuccessful()) {
             if (!$options['autofix']) {
                 $options['autofix'] = $this->confirm('Would you like to run phpcbf to fix the reported errors?');
@@ -74,15 +77,15 @@ class RoboFile extends \Robo\Tasks
      *
      * @usage generate:task 'Symfony\Component\Filesystem\Filesystem' FilesystemStack
      */
-    public function generateTask($className, $wrapperClassName = "")
+    public function generateTask(ConsoleIO $io, $className, $wrapperClassName = "")
     {
-        return $this->taskGenTask($className, $wrapperClassName)->run();
+        return $this->collectionBuilder($io)->taskGenTask($className, $wrapperClassName)->run();
     }
 
     /**
      * Release Robo.
      */
-    public function release($opts = ['beta' => false])
+    public function release(ConsoleIO $io, $opts = ['beta' => false])
     {
         $this->checkPharReadonly();
 
@@ -94,11 +97,11 @@ class RoboFile extends \Robo\Tasks
         else {
             $version = $this->incrementVersion($version, 'beta');
         }
-        $this->writeVersion($version);
-        $this->yell("Releasing Robo $version");
+        $this->writeVersion($this->collectionBuilder($io), $version);
+        $io->note("Releasing Robo $version");
 
-        $this->docs();
-        $this->taskGitStack()
+        $this->docs($io);
+        $this->collectionBuilder($io)->taskGitStack()
             ->add('-A')
             ->commit("Robo release $version")
             ->pull()
@@ -106,11 +109,11 @@ class RoboFile extends \Robo\Tasks
             ->run();
 
         if ($stable) {
-            $this->pharPublish();
+            $this->pharPublish($io);
         }
 
-        $this->publish();
-        $this->taskGitStack()
+        $this->publish($io);
+        $this->collectionBuilder($io)->taskGitStack()
             ->tag($version)
             ->push('origin master --tags')
             ->run();
@@ -119,7 +122,7 @@ class RoboFile extends \Robo\Tasks
             $version = $this->incrementVersion($version) . '-dev';
             $this->writeVersion($version);
 
-            $this->taskGitStack()
+            $this->collectionBuilder($io)->taskGitStack()
                 ->add('-A')
                 ->commit("Prepare for $version")
                 ->push()
@@ -134,10 +137,10 @@ class RoboFile extends \Robo\Tasks
      *
      * @param string $addition The text to add to the change log.
      */
-    public function changed($addition)
+    public function changed(ConsoleIO $io, $addition)
     {
         $version = preg_replace('/-.*/', '', \Robo\Robo::VERSION);
-        return $this->taskChangelog()
+        return $this->collectionBuilder($io)->taskChangelog()
             ->version($version)
             ->change($addition)
             ->run();
@@ -161,12 +164,13 @@ class RoboFile extends \Robo\Tasks
 
     /**
      * Write the specified version string back into the Robo.php file.
+     * @param \Robo\Collection\CollectionBuilder $builder
      * @param string $version
      */
-    protected function writeVersion($version)
+    protected function writeVersion($builder, $version)
     {
         // Write the result to a file.
-        return $this->taskReplaceInFile(__DIR__.'/src/Robo.php')
+        return $builder->taskReplaceInFile(__DIR__.'/src/Robo.php')
             ->regex("#VERSION = '[^']*'#")
             ->to("VERSION = '".$version."'")
             ->run();
@@ -216,9 +220,9 @@ class RoboFile extends \Robo\Tasks
     /**
      * Generate the Robo documentation files.
      */
-    public function docs()
+    public function docs(ConsoleIO $io)
     {
-        $collection = $this->collectionBuilder();
+        $collection = $this->collectionBuilder($io);
         $collection->progressMessage('Generate documentation from source code.');
         $files = Finder::create()->files()->name('*.php')->in('src/Task');
         $docs = [];
@@ -324,11 +328,11 @@ class RoboFile extends \Robo\Tasks
      *
      * Builds a site in gh-pages branch. Uses mkdocs
      */
-    public function publish()
+    public function publish(ConsoleIO $io)
     {
         $current_branch = exec('git rev-parse --abbrev-ref HEAD');
 
-        return $this->collectionBuilder()
+        return $this->collectionBuilder($io)
             ->taskGitStack()
                 ->checkout('site')
                 ->merge('master')
@@ -343,13 +347,13 @@ class RoboFile extends \Robo\Tasks
     /**
      * Build the Robo phar executable.
      */
-    public function pharBuild()
+    public function pharBuild(ConsoleIO $io)
     {
         $this->checkPharReadonly();
 
         // Create a collection builder to hold the temporary
         // directory until the pack phar task runs.
-        $collection = $this->collectionBuilder();
+        $collection = $this->collectionBuilder($io);
 
         $workDir = $collection->tmpDir();
         $roboBuildDir = "$workDir/robo";
@@ -363,7 +367,7 @@ class RoboFile extends \Robo\Tasks
         // We need to create our work dir and run `composer install`
         // before we prepare the pack phar task, so create a separate
         // collection builder to do this step in.
-        $prepTasks = $this->collectionBuilder();
+        $prepTasks = $this->collectionBuilder($io);
 
         $preparationResult = $prepTasks
             ->taskFilesystemStack()
@@ -447,9 +451,9 @@ class RoboFile extends \Robo\Tasks
      *
      * Installs the Robo phar executable in /usr/bin. Uses 'sudo'.
      */
-    public function pharInstall()
+    public function pharInstall(ConsoleIO $io)
     {
-        return $this->taskExec('sudo cp')
+        return $this->collectionBuilder($io)->taskExec('sudo cp')
             ->arg('robo.phar')
             ->arg('/usr/bin/robo')
             ->run();
@@ -460,11 +464,11 @@ class RoboFile extends \Robo\Tasks
      *
      * Commits the phar executable to Robo's GitHub pages site.
      */
-    public function pharPublish()
+    public function pharPublish(ConsoleIO $io)
     {
-        $this->pharBuild();
+        $this->pharBuild($io);
 
-        $this->collectionBuilder()
+        $this->collectionBuilder($io)
             ->taskFilesystemStack()
                 ->rename('robo.phar', 'robo-release.phar')
             ->taskGitStack()

@@ -28,7 +28,7 @@ interface InflectionInterface
      *
      * @param \Robo\Contract\InflectionInterface $parent
      */
-    public function inflect(InflectionInterface $parent);
+    public function inflect($parent);
 
     /**
      * Take all dependencies availble to this task and inject any that are
@@ -44,10 +44,9 @@ interface InflectionInterface
      * The required dependencies of an object should be provided via constructor
      * injection, not inflection.
      *
-     * @param InflectionInterface $child An object created by this class that
-     *   should have its dependencies injected.
+     * @param mixed $child An object with one or more *AwareInterfaces implemented.
      *
      * @see https://mwop.net/blog/2016-04-26-on-locators.html
      */
-    public function injectDependencies(InflectionInterface $child);
+    public function injectDependencies($child);
 }

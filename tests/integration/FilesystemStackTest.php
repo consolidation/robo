@@ -7,8 +7,8 @@ use Robo\Traits\TestTasksTrait;
 class FilesystemStackTest extends TestCase
 {
     use TestTasksTrait;
-    use Collection\loadTasks;
-    use Task\Filesystem\loadTasks;
+    use Collection\Tasks;
+    use Task\Filesystem\Tasks;
 
     protected $fixtures;
 
@@ -27,7 +27,7 @@ class FilesystemStackTest extends TestCase
     public function testDirAndFileCreation()
     {
         // Set up a collection to add tasks to
-        $collection = $this->collectionBuilder();
+        $collection = $this->collectionBuilderForTest();
 
         // Set up a filesystem stack
         $collection->taskFilesystemStack()

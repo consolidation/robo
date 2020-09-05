@@ -2,7 +2,7 @@
 
 namespace Robo\Task\Remote;
 
-trait loadTasks
+trait Tasks
 {
     /**
      * @return \Robo\Task\Remote\Rsync|\Robo\Collection\CollectionBuilder

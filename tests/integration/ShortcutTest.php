@@ -7,8 +7,8 @@ use Robo\Traits\TestTasksTrait;
 class ShortcutTest extends TestCase
 {
     use TestTasksTrait;
-    use Task\Filesystem\loadTasks;
-    use Task\Filesystem\loadShortcuts;
+    use Task\Filesystem\Tasks;
+    use Task\Filesystem\Shortcuts;
 
     protected $fixtures;
 

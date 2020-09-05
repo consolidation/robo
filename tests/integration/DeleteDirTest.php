@@ -7,7 +7,7 @@ use Robo\Traits\TestTasksTrait;
 class DeleteDirTest extends TestCase
 {
     use TestTasksTrait;
-    use Task\Filesystem\loadTasks;
+    use Task\Filesystem\Tasks;
 
     protected $fixtures;
 

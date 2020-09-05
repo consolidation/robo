@@ -285,7 +285,7 @@ trait ExecTrait
      */
     public function printed($arg)
     {
-        $this->logger->warning("printed() is deprecated. Please use printOutput().");
+        trigger_error('printed() is deprecated. Please use printOutput().', E_USER_DEPRECATED);
         return $this->printOutput($arg);
     }
 

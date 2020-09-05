@@ -7,7 +7,7 @@ use Robo\Traits\TestTasksTrait;
 class SemVerTest extends TestCase
 {
     use TestTasksTrait;
-    use Task\Development\loadTasks;
+    use Task\Development\Tasks;
 
     protected $fixtures;
 

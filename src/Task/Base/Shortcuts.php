@@ -2,7 +2,7 @@
 
 namespace Robo\Task\Base;
 
-trait loadShortcuts
+trait Shortcuts
 {
     /**
      * Executes shell command

@@ -13,7 +13,7 @@ Next, add an "autoload" section to your composer.json to provide a namespace for
 {
     "name": "myorg/myproject",
     "require": {
-        "consolidation/Robo": "^1"
+        "consolidation/Robo": "^2"
     },
     "autoload":{
         "psr-4":{
@@ -137,10 +137,9 @@ class MyApplication {
     $application = new Application(self::APPLICATION_NAME, $config->get('version'));
 
     // Create and configure container.
-    $container = Robo::createDefaultContainer($input, $output, $application,
-      $config);
-    $this->setContainer($container);
-    $container->add(MyCustomService::class);
+    $container = Robo::createContainer($application, $config);
+    $container->add(MyCustomService::class); // optional
+    Robo::finalizeContainer($container);
 
     // Instantiate Robo Runner.
     $this->runner = new RoboRunner([

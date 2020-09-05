@@ -9,10 +9,10 @@ use Robo\Traits\TestTasksTrait;
 class CollectionTest extends TestCase
 {
     use TestTasksTrait;
-    use Collection\loadTasks;
-    use Task\File\loadTasks;
-    use Task\Filesystem\loadTasks;
-    use Task\Filesystem\loadShortcuts;
+    use Collection\Tasks;
+    use Task\File\Tasks;
+    use Task\Filesystem\Tasks;
+    use Task\Filesystem\Shortcuts;
     use Task\TestHelperTasks;
 
     protected $fixtures;
@@ -32,7 +32,7 @@ class CollectionTest extends TestCase
     public function testSimulateDirCreation()
     {
         // Set up a collection to add tasks to
-        $collection = $this->collectionBuilder();
+        $collection = $this->collectionBuilderForTest();
         $collection->simulated(true);
 
         // Set up a filesystem stack
@@ -59,7 +59,7 @@ class CollectionTest extends TestCase
         // a single FilesystemStack, but our goal is to test creating
         // multiple tasks with a builder, and ensure that a propper
         // collection is built.
-        $collection = $this->collectionBuilder();
+        $collection = $this->collectionBuilderForTest();
         $result = $collection->taskFilesystemStack()
                 ->mkdir('a')
                 ->touch('a/a.txt')
@@ -93,7 +93,7 @@ class CollectionTest extends TestCase
         // Run the same test with a working directory.  The working
         // directory path will point to a temporary directory which
         // will be moved into place once the tasks complete.
-        $collection = $this->collectionBuilder();
+        $collection = $this->collectionBuilderForTest();
         $workDirPath = $collection->workDir("build");
         $this->assertNotEquals("build", basename($workDirPath));
         $result = $collection->taskFilesystemStack()
@@ -124,7 +124,7 @@ class CollectionTest extends TestCase
         // This is like the previous test, toRunMultipleTasksViaACollectionBuilder,
         // except we force an error at the end, and confirm that the
         // rollback function is called.
-        $collection = $this->collectionBuilder();
+        $collection = $this->collectionBuilderForTest();
         $result = $collection->taskFilesystemStack()
                 ->mkdir('j')
                 ->touch('j/j.txt')
@@ -154,7 +154,7 @@ class CollectionTest extends TestCase
     {
         // This is like the previous test, except we throw a ForcedException()
         // inside the rollback to abort the rollback.
-        $collection = $this->collectionBuilder();
+        $collection = $this->collectionBuilderForTest();
         $result = $collection->taskFilesystemStack()
             ->mkdir('j')
             ->touch('j/j.txt')
@@ -187,7 +187,7 @@ class CollectionTest extends TestCase
         // Run the same test with a working directory.  The working
         // directory path will point to a temporary directory which
         // will be moved into place once the tasks complete.
-        $collection = $this->collectionBuilder();
+        $collection = $this->collectionBuilderForTest();
         $workDirPath = $collection->workDir("build");
         $this->assertNotEquals("build", basename($workDirPath));
         $result = $collection->taskFilesystemStack()
@@ -214,7 +214,7 @@ class CollectionTest extends TestCase
     {
         $processList = ['cats', 'dogs', 'sheep', 'fish', 'horses', 'cows'];
 
-        $collection = $this->collectionBuilder();
+        $collection = $this->collectionBuilderForTest();
         $result = $collection
             ->taskFilesystemStack()
                 ->mkdir('stuff')
@@ -243,7 +243,7 @@ class CollectionTest extends TestCase
         // This is like the previous test, toRunMultipleTasksViaACollectionBuilder,
         // except we force an error at the end, and confirm that the
         // rollback function is called.
-        $collection = $this->collectionBuilder();
+        $collection = $this->collectionBuilderForTest();
         $collection->taskFilesystemStack()
                 ->mkdir('j')
                 ->touch('j/j.txt')
@@ -257,7 +257,7 @@ class CollectionTest extends TestCase
                 ->mkdir('j/k/m')
                 ->touch('j/k/m/m.txt');
 
-        $result = $this->collectionBuilder()
+        $result = $this->collectionBuilderForTest()
             ->taskFilesystemStack()
                 ->mkdir('q')
                 ->touch('q/q.txt')
@@ -279,7 +279,7 @@ class CollectionTest extends TestCase
     {
         $expected_order = [6,5,4,3,2,1];
         $actual_order = [];
-        $collection = $this->collectionBuilder();
+        $collection = $this->collectionBuilderForTest();
         $collection->rollbackCode(function () use (&$actual_order) {
             $actual_order[] = 1;
         });
@@ -290,7 +290,7 @@ class CollectionTest extends TestCase
             $actual_order[] = 3;
         });
         // Add a nested collection with rollbacks.
-        $nested_collection = $this->collectionBuilder();
+        $nested_collection = $this->collectionBuilderForTest();
         $nested_collection->rollbackCode(function () use (&$actual_order) {
             $actual_order[] = 4;
         });
@@ -313,7 +313,7 @@ class CollectionTest extends TestCase
     public function testCreateDirViaCollection()
     {
         // Set up a collection to add tasks to
-        $collection = $this->collectionBuilder();
+        $collection = $this->collectionBuilderForTest();
 
         // Set up a filesystem stack
         $collection->taskFilesystemStack()
@@ -333,7 +333,7 @@ class CollectionTest extends TestCase
     public function testUseATmpDirAndConfirmItIsDeleted()
     {
         // Set up a collection to add tasks to
-        $collection = $this->collectionBuilder();
+        $collection = $this->collectionBuilderForTest();
 
         // Get a temporary directory to work in. Note that we get a
         // name back, but the directory is not created until the task
@@ -372,7 +372,7 @@ class CollectionTest extends TestCase
     public function testUseATmpDirAndChangeWorkingDirectory()
     {
         // Set up a collection to add tasks to
-        $collection = $this->collectionBuilder();
+        $collection = $this->collectionBuilderForTest();
 
         $cwd = getcwd();
 
@@ -414,7 +414,7 @@ class CollectionTest extends TestCase
     public function testCreateATmpFileAndConfirmItIsDeleted()
     {
         // Set up a collection to add tasks to
-        $collection = $this->collectionBuilder();
+        $collection = $this->collectionBuilderForTest();
 
         // Write to a temporary file. Note that we can get the path
         // to the tempoary file that will be created, even though the
@@ -443,7 +443,7 @@ class CollectionTest extends TestCase
 
     public function testUseATmpDirWithAlternateSyntax()
     {
-        $collection = $this->collectionBuilder();
+        $collection = $this->collectionBuilderForTest();
 
         // This test is equivalent to toUseATmpDirAndConfirmItIsDeleted,
         // but uses a different technique to create a collection of tasks.
@@ -502,7 +502,7 @@ class CollectionTest extends TestCase
 
     public function testThrowAnExceptionAndConfirmItIsCaught()
     {
-        $collection = $this->collectionBuilder();
+        $collection = $this->collectionBuilderForTest();
 
         $collection->addCode(
             function () {
@@ -516,7 +516,7 @@ class CollectionTest extends TestCase
 
     public function testChainData()
     {
-        $collection = $this->collectionBuilder();
+        $collection = $this->collectionBuilderForTest();
 
         $result = $collection
             ->taskValueProvider()

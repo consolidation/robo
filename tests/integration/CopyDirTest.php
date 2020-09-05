@@ -7,7 +7,7 @@ use Robo\Traits\TestTasksTrait;
 class CopyDirTest extends TestCase
 {
     use TestTasksTrait;
-    use Task\Filesystem\loadTasks;
+    use Task\Filesystem\Tasks;
 
     protected $fixtures;
 

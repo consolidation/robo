@@ -15,20 +15,13 @@ trait TestTasksTrait
     protected $capturedOutput;
     protected $logger;
 
-    public function initTestTasksTrait($commandClass = null, $container = null, $input = null)
+    public function initTestTasksTrait($commandClass = null)
     {
-        if (!$container) {
-            $container = Robo::createDefaultContainer();
-        }
         $this->capturedOutput = '';
         $this->testPrinter = new BufferedOutput(OutputInterface::VERBOSITY_DEBUG);
 
-        $app = Robo::createDefaultApplication();
-        $config = new \Robo\Config();
-        \Robo\Robo::configureContainer($container, $app, $config, $input, $this->testPrinter);
-
-        // Set the application dispatcher
-        $app->setDispatcher($container->get('eventDispatcher'));
+        Robo::unsetContainer();
+        $container = Robo::createDefaultContainer(null, $this->testPrinter);
         $this->logger = $container->get('logger');
 
         // Use test class as command class if a specific one is not provided
@@ -46,6 +39,13 @@ trait TestTasksTrait
         $this->setBuilder($builder);
 
         return $container;
+    }
+
+    public function collectionBuilderForTest()
+    {
+        $builder = $this->collectionBuilder();
+        $builder->setOutput($this->testPrinter);
+        return $builder;
     }
 
     public function capturedOutputStream()

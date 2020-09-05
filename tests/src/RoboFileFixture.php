@@ -9,6 +9,7 @@ use Consolidation\AnnotatedCommand\Events\CustomEventAwareInterface;
 use Consolidation\AnnotatedCommand\Events\CustomEventAwareTrait;
 use Consolidation\OutputFormatters\StructuredData\PropertyList;
 use Robo\Contract\VerbosityThresholdInterface;
+use Robo\Symfony\ConsoleIO;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -27,13 +28,15 @@ class RoboFileFixture extends \Robo\Tasks implements LoggerAwareInterface, Custo
      * @param array $a
      *   A list of commandline parameters.
      */
-    public function testArrayArgs(array $a)
+    public function testArrayArgs(ConsoleIO $io, array $a)
     {
-        $this->say("The parameters passed are:\n" . var_export($a, true));
+        $io->writeln("The parameters passed are:\n" . var_export($a, true));
     }
 
     /**
      * Demonstrate use of SymfonyStyle
+     *
+     * @deprecated Use style injector
      */
     public function testSymfonyStyle()
     {
@@ -63,12 +66,13 @@ class RoboFileFixture extends \Robo\Tasks implements LoggerAwareInterface, Custo
      */
     public function hookCommandEvent()
     {
+        // TODO: Can command events receive $io?
         $this->io()->text('This is the command-event hook for the test:command-event command.');
     }
 
-    public function testCommandEvent()
+    public function testCommandEvent(ConsoleIO $io)
     {
-        $this->io()->text('This is the main method for the test:command-event command.');
+        $io->text('This is the main method for the test:command-event command.');
     }
 
     /**
@@ -76,6 +80,7 @@ class RoboFileFixture extends \Robo\Tasks implements LoggerAwareInterface, Custo
      */
     public function hookPostCommand()
     {
+        // TODO: Can post-command events receive $io?
         $this->io()->text('This is the post-command hook for the test:command-event command.');
     }
 
@@ -131,15 +136,15 @@ class RoboFileFixture extends \Robo\Tasks implements LoggerAwareInterface, Custo
     /**
      * Demonstrate Robo error output and command failure.
      */
-    public function testError()
+    public function testError(ConsoleIO $io)
     {
-        $this->io()->text(var_export(\Robo\Robo::config()->export(), true));
-        return $this->taskExec('ls xyzzy' . date('U'))->dir('/tmp')->run();
+        $io->text(var_export(\Robo\Robo::config()->export(), true));
+        return $this->collectionBuilder($io)->taskExec('ls xyzzy' . date('U'))->dir('/tmp')->run();
     }
 
-    public function testExec()
+    public function testExec(ConsoleIO $io)
     {
-        return $this->taskExec('pwd')->run();
+        return $this->collectionBuilder($io)->taskExec('pwd')->run();
     }
 
     /**
@@ -155,10 +160,10 @@ class RoboFileFixture extends \Robo\Tasks implements LoggerAwareInterface, Custo
         throw new \RuntimeException('Task failed with an exception.');
     }
 
-    public function testStopOnFail()
+    public function testStopOnFail(ConsoleIO $io)
     {
         $this->stopOnFail();
-        $this->collectionBuilder()
+        $this->collectionBuilder($io)
             ->taskExec('ls xyzzy' . date('U'))
                 ->dir('/tmp')
             ->run();
@@ -169,20 +174,42 @@ class RoboFileFixture extends \Robo\Tasks implements LoggerAwareInterface, Custo
         return 0;
     }
 
-    public function testVerbosity()
+    public function testVerbosity(ConsoleIO $io)
     {
-        $this->output()->writeln('This command will print more information at higher verbosity levels.');
-        $this->output()->writeln('Try running with -v, -vv or -vvv');
-        $this->output()->writeln('The current verbosity level is ' . $this->output()->getVerbosity());
-        $this->output()->writeln('This is a verbose message (-v).', OutputInterface::VERBOSITY_VERBOSE);
-        $this->output()->writeln('This is a very verbose message (-vv).', OutputInterface::VERBOSITY_VERY_VERBOSE);
-        $this->output()->writeln('This is a debug message (-vvv).', OutputInterface::VERBOSITY_DEBUG);
-        $this->logger->warning('This is a warning log message.');
-        $this->logger->notice('This is a notice log message.');
-        $this->logger->debug('This is a debug log message.');
+        $io->writeln('This command will print more information at higher verbosity levels.');
+        $io->writeln('Try running with -v, -vv or -vvv');
+        $io->writeln('The current verbosity level is ' . $io->getVerbosity());
+        $io->writeln('This is a verbose message (-v).', OutputInterface::VERBOSITY_VERBOSE);
+        $io->writeln('This is a very verbose message (-vv).', OutputInterface::VERBOSITY_VERY_VERBOSE);
+        $io->writeln('This is a debug message (-vvv).', OutputInterface::VERBOSITY_DEBUG);
+
+        if ($this->logger) {
+            $this->logger->warning('This is a warning log message.');
+            $this->logger->notice('This is a notice log message.');
+            $this->logger->debug('This is a debug log message.');
+        }
     }
 
-    public function testVerbosityThreshold()
+    public function testVerbosityThreshold(ConsoleIO $io)
+    {
+        $io->writeln('This command will print more information at higher verbosity levels.');
+        $io->writeln('Try running with -v, -vv or -vvv');
+
+        return $this->collectionBuilder($io)
+            ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+            ->taskExec('echo verbose or higher')
+                ->interactive(false)
+            ->taskExec('echo very verbose or higher')
+                ->interactive(false)
+                ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERY_VERBOSE)
+            ->taskExec('echo always printed')
+                ->interactive(false)
+                ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_NORMAL)
+            ->run();
+    }
+
+    // This tests commands that still use the old API rather than passing a ConsoleIO parameter.
+    public function testVerbosityThresholdCompatability()
     {
         $this->output()->writeln('This command will print more information at higher verbosity levels.');
         $this->output()->writeln('Try running with -v, -vv or -vvv');
@@ -200,15 +227,17 @@ class RoboFileFixture extends \Robo\Tasks implements LoggerAwareInterface, Custo
             ->run();
     }
 
-    public function testDeploy()
+    public function testDeploy(ConsoleIO $io)
     {
-        $gitTask = $this->taskGitStack()
-            ->pull();
+        $gitTask = $this->collectionBuilder($io)
+            ->taskGitStack()
+                ->pull();
 
-        $this->taskSshExec('mysite.com')
-            ->remoteDir('/var/www/somesite')
-            ->exec($gitTask)
-            ->run();
+        $this->collectionBuilder($io)
+            ->taskSshExec('mysite.com')
+                ->remoteDir('/var/www/somesite')
+                ->exec($gitTask)
+                ->run();
     }
 
     /**
@@ -221,13 +250,14 @@ class RoboFileFixture extends \Robo\Tasks implements LoggerAwareInterface, Custo
      * @default a []
      * @default foo []
      */
-    public function testSymfony(InputInterface $input)
+    public function testSymfony(ConsoleIO $io, InputInterface $input)
     {
+        // Note that $input is also available via $io
         $a = $input->getArgument('a');
-        $this->say("The parameters passed are:\n" . var_export($a, true));
+        $io->writeln("The parameters passed are:\n" . var_export($a, true));
         $foo = $input->getOption('foo');
         if (!empty($foo)) {
-            $this->say("The options passed via --foo are:\n" . var_export($foo, true));
+            $io->writeln("The options passed via --foo are:\n" . var_export($foo, true));
         }
     }
 }

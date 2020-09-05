@@ -21,14 +21,17 @@
 
 ## Branches
 
-| Branch | Symfony Versions | PHP Versions |
-| ------ | ---------------- | ------------ |
-| [2.x](https://github.com/consolidation/robo)      | 4 only    | [![PHP 7 only](https://img.shields.io/badge/PHP%207-only-92a9ed)](https://travis-ci.org/consolidation/Robo) |
-| [1.x](https://github.com/consolidation/robotree/1.x) | 2, 3 or 4 | [![PHP 5 supported](https://img.shields.io/badge/PHP%205-supported-408677)](https://travis-ci.org/consolidation/Robo) |
+| Branch | Support Level | Symfony Versions | PHP Versions |
+| ------ | ------------- | ---------------- | ------------ |
+| [3.x](https://github.com/consolidation/robo/tree/3.x) | Unstable        | 4 & 5 | 7.1 - 7.4 |
+| [2.x](https://github.com/consolidation/robo/tree/2.x) | Stable          | 4 & 5 | 7.1 - 7.4 |
+| [1.x](https://github.com/consolidation/robo/tree/1.x) | Not recommended | 2 - 4 | 5.5 - 7.4 |
 
-The pre-build [robo.phar](http://robo.li/robo.phar) is built with Symfony 5, and requires PHP 7.2+.  Robo also works with Symfony 4 and PHP 7.1.3+ if packaged as a library in another application.
+The pre-build [robo.phar](http://robo.li/robo.phar) is built with Symfony 5, and requires PHP 7.2+.  Robo also works with Symfony 4 and PHP 7.1.3+ if packaged as a library in another application. For Symfony 2 or 3 support, or PHP versions prior to 7.1, please use the Robo 1.x branch.
 
-For Symfony 2 or 3 support, or PHP versions prior to 7.1, please use the Robo 1.x branch.
+All three branches of Robo are currently supported, although the 2.x and 1.x branches receive minimum support. All versions are roughly compatible; the breaking changes introduced at each major version are fairly minor, and typically only affect classes that are not used by most clients.
+
+Note that the 3.x branch is still unstable; minor breaking changes, especially with respect to collections and the ConsoleIO class might still be made. To avoid tracking changes closely, typehint the $io parameter as SymfonyStyle rather than ConsoleIO. This technique also works on the 2.x branch.
 
 ## Installing
 
@@ -51,11 +54,11 @@ OSX 10.11+
 chmod +x robo.phar && sudo mv robo.phar /usr/local/bin/robo
 ```
 
-Now you can use it just like `robo`.
+Now you can use it simply via `robo`.
 
 ### Composer
 
-* Run `composer require consolidation/robo:~1`
+* Run `composer require consolidation/robo:^3` # Use ^2 for stable
 * Use `vendor/bin/robo` to execute Robo tasks.
 
 ## Usage
@@ -77,25 +80,28 @@ Run acceptance test with local server and selenium server started.
 
 ``` php
 <?php
+
+use Robo\Symfony\ConsoleIO;
+
 class RoboFile extends \Robo\Tasks
 {
 
-    function testAcceptance($seleniumPath = '~/selenium-server-standalone-2.39.0.jar')
+    function testAcceptance(ConsoleIO $io, $seleniumPath = '~/selenium-server-standalone-2.39.0.jar')
     {
        // launches PHP server on port 8000 for web dir
        // server will be executed in background and stopped in the end
-       $this->taskServer(8000)
+       $this->collectionBuilder($io)->taskServer(8000)
             ->background()
             ->dir('web')
             ->run();
 
        // running Selenium server in background
-       $this->taskExec('java -jar ' . $seleniumPath)
+       $this->collectionBuilder($io)->taskExec('java -jar ' . $seleniumPath)
             ->background()
             ->run();
 
        // loading Symfony Command and running with passed argument
-       $this->taskSymfonyCommand(new \Codeception\Command\Run('run'))
+       $this->collectionBuilder($io)->taskSymfonyCommand(new \Codeception\Command\Run('run'))
             ->arg('suite','acceptance')
             ->run();
     }
@@ -115,11 +121,11 @@ Using `watch` task so you can use it for running tests or building assets.
 <?php
 class RoboFile extends \Robo\Tasks {
 
-    function watchComposer()
+    function watchComposer(ConsoleIO $io)
     {
         // when composer.json changes `composer update` will be executed
-        $this->taskWatch()->monitor('composer.json', function() {
-            $this->taskComposerUpdate()->run();
+        $this->collectionBuilder($io)->taskWatch()->monitor('composer.json', function() {
+            $this->collectionBuilder($io)->taskComposerUpdate()->run();
         })->run();
     }
 }
@@ -133,14 +139,14 @@ Cleaning logs and cache
 <?php
 class RoboFile extends \Robo\Tasks
 {
-    public function clean()
+    public function clean(ConsoleIO $io)
     {
-        $this->taskCleanDir([
+        $this->collectionBuilder($io)->taskCleanDir([
             'app/cache',
             'app/logs'
         ])->run();
 
-        $this->taskDeleteDir([
+        $this->collectionBuilder($io)->taskDeleteDir([
             'web/assets/tmp_uploads',
         ])->run();
     }
@@ -159,10 +165,10 @@ robo clean
 Creating Phar archive
 
 ``` php
-function buildPhar()
+function buildPhar(collectionBuilder $io)
 {
     $files = Finder::create()->ignoreVCS(true)->files()->name('*.php')->in(__DIR__);
-    $packer = $this->taskPackPhar('robo.phar');
+    $packer = $this->collectionBuilder($io)->taskPackPhar('robo.phar');
     foreach ($files as $file) {
         $packer->addFile($file->getRelativePathname(), $file->getRealPath());
     }
@@ -186,4 +192,4 @@ Brought to you by [Consolidation Team](https://github.com/orgs/consolidation/peo
 
 ## License
 
-[MIT](https://github.com/consolidation/Robo/blob/2.x/LICENSE)
+[MIT](https://github.com/consolidation/Robo/blob/3.x/LICENSE)

@@ -1,5 +1,13 @@
 # Changelog
 
+### 2.2.0 09/05/2020
+
+* New CheckPlatformReqs task by Pierre Rudloff (#957)
+* Add Runner function for retrieving an application to be used with tests by Les Peabody (#968)
+* Add ignorelist to pack command by O'Briat (#964)
+* Create a semver file if using the SemVer task for the first time by Dan Untenzu (#960)
+* Allow symfony/yaml ^5
+
 ### 2.1.0 05/27/2020
 
 * Symfony 5 support. (#940)

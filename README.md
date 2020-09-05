@@ -21,14 +21,17 @@
 
 ## Branches
 
-| Branch | Symfony Versions | PHP Versions |
-| ------ | ---------------- | ------------ |
-| [2.x](https://github.com/consolidation/robo)      | 4 only    | [![PHP 7 only](https://img.shields.io/badge/PHP%207-only-92a9ed)](https://travis-ci.org/consolidation/Robo) |
-| [1.x](https://github.com/consolidation/robotree/1.x) | 2, 3 or 4 | [![PHP 5 supported](https://img.shields.io/badge/PHP%205-supported-408677)](https://travis-ci.org/consolidation/Robo) |
+| Branch | Support Level | Symfony Versions | PHP Versions |
+| ------ | ------------- | ---------------- | ------------ |
+| [3.x](https://github.com/consolidation/robo/tree/3.x) | Unstable        | 4 & 5 | 7.1 - 7.4 |
+| [2.x](https://github.com/consolidation/robo/tree/2.x) | Stable          | 4 & 5 | 7.1 - 7.4 |
+| [1.x](https://github.com/consolidation/robo/tree/1.x) | Not recommended | 2 - 4 | 5.5 - 7.4 |
 
-The pre-build [robo.phar](http://robo.li/robo.phar) is built with Symfony 5, and requires PHP 7.2+.  Robo also works with Symfony 4 and PHP 7.1.3+ if packaged as a library in another application.
+The pre-build [robo.phar](http://robo.li/robo.phar) is built with Symfony 5, and requires PHP 7.2+.  Robo also works with Symfony 4 and PHP 7.1.3+ if packaged as a library in another application. For Symfony 2 or 3 support, or PHP versions prior to 7.1, please use the Robo 1.x branch.
 
-For Symfony 2 or 3 support, or PHP versions prior to 7.1, please use the Robo 1.x branch.
+All three branches of Robo are currently supported, although the 2.x and 1.x branches receive minimum support. All versions are roughly compatible; the breaking changes introduced at each major version are fairly minor, and typically only affect classes that are not used by most clients.
+
+Note that the 3.x branch is still unstable; minor breaking changes, especially with respect to collections and the ConsoleIO class might still be made. To avoid tracking changes closely, typehint the $io parameter as SymfonyStyle rather than ConsoleIO. This technique also works on the 2.x branch.
 
 ## Installing
 

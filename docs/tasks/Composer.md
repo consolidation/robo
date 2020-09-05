@@ -1,5 +1,39 @@
 # Composer Tasks
 
+## CheckPlatformReqs
+
+
+Composer Check Platform Requirements
+
+``` php
+<?php
+// simple execution
+$this->taskComposerValidate()->run();
+?>
+```
+
+* `preferDist($preferDist = null)`  adds `prefer-dist` option to composer
+* `preferSource()`  adds `prefer-source` option to composer
+* `dev($dev = null)`  adds `dev` option to composer
+* `noDev()`  adds `no-dev` option to composer
+* `ansi($ansi = null)`  adds `ansi` option to composer
+* `noAnsi()`  adds `no-ansi` option to composer
+* `interaction($interaction = null)`   * `param bool` $interaction
+* `noInteraction()`  adds `no-interaction` option to composer
+* `optimizeAutoloader($optimize = null)`  adds `optimize-autoloader` option to composer
+* `ignorePlatformRequirements($ignore = null)`  adds `ignore-platform-reqs` option to composer
+* `disablePlugins($disable = null)`  disable plugins
+* `noScripts($disable = null)`  skip scripts
+* `workingDir($dir)`  adds `--working-dir $dir` option to composer
+* `buildCommand()`  Copy class fields into command options as directed.
+* `dir($dir)`  Changes working directory of command
+* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
+* `args($args)`  Pass methods parameters as arguments to executable. Argument values
+* `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
+* `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
+* `options(array $options, $separator = null)`  Pass multiple options to executable. The associative array contains
+* `optionList($option, $value = null, $separator = null)`  Pass an option with multiple values to executable. Value can be a string or array.
+
 ## Config
 
 
@@ -356,40 +390,6 @@ $this->taskComposerValidate()->run();
 * `noCheckPublish($noCheckPublish = null)`   * `param bool` $noCheckPublish
 * `withDependencies($withDependencies = null)`   * `param bool` $withDependencies
 * `strict($strict = null)`   * `param bool` $strict
-* `preferDist($preferDist = null)`  adds `prefer-dist` option to composer
-* `preferSource()`  adds `prefer-source` option to composer
-* `dev($dev = null)`  adds `dev` option to composer
-* `noDev()`  adds `no-dev` option to composer
-* `ansi($ansi = null)`  adds `ansi` option to composer
-* `noAnsi()`  adds `no-ansi` option to composer
-* `interaction($interaction = null)`   * `param bool` $interaction
-* `noInteraction()`  adds `no-interaction` option to composer
-* `optimizeAutoloader($optimize = null)`  adds `optimize-autoloader` option to composer
-* `ignorePlatformRequirements($ignore = null)`  adds `ignore-platform-reqs` option to composer
-* `disablePlugins($disable = null)`  disable plugins
-* `noScripts($disable = null)`  skip scripts
-* `workingDir($dir)`  adds `--working-dir $dir` option to composer
-* `buildCommand()`  Copy class fields into command options as directed.
-* `dir($dir)`  Changes working directory of command
-* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
-* `args($args)`  Pass methods parameters as arguments to executable. Argument values
-* `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
-* `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
-* `options(array $options, $separator = null)`  Pass multiple options to executable. The associative array contains
-* `optionList($option, $value = null, $separator = null)`  Pass an option with multiple values to executable. Value can be a string or array.
-
-## CheckPlatformReqs
-
-
-Composer CheckPlatformReqs
-
-``` php
-<?php
-// simple execution
-$this->taskComposerCheckPlatformReqs()->run();
-?>
-```
-
 * `preferDist($preferDist = null)`  adds `prefer-dist` option to composer
 * `preferSource()`  adds `prefer-source` option to composer
 * `dev($dev = null)`  adds `dev` option to composer

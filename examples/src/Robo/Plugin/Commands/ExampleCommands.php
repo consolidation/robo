@@ -116,6 +116,18 @@ class ExampleCommands extends \Robo\Tasks
     }
 
     /**
+     * Demonstrates capturing output from taskExec
+     *
+     * @param ConsoleIO $io
+     */
+    public function tryCaptureExec(ConsoleIO $io)
+    {
+        $result = $this->taskExec('echo')->args(['one', 'two', 'three'])->printOutput(false)->run();
+
+        $io->writeln('Captured output from exec >>> ' . $result->getOutputData());
+    }
+
+    /**
      * Demonstrates parallel execution.
      *
      * @option $printed Print the output of each process.

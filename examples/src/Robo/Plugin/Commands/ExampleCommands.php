@@ -120,11 +120,11 @@ class ExampleCommands extends \Robo\Tasks
      *
      * @param ConsoleIO $io
      */
-    public function tryCaptureExec(ConsoleIO $io)
+    public function tryCaptureExec()
     {
         $result = $this->taskExec('echo')->args(['one', 'two', 'three'])->printOutput(false)->run();
 
-        $io->writeln('Captured output from exec >>> ' . $result->getOutputData());
+        $this->say('Captured output from exec >>> ' . $result->getOutputData());
     }
 
     /**

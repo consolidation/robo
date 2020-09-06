@@ -4,6 +4,7 @@ language: php
 branches:
   # Only test the 2.x branch and SemVer tags.
   only:
+    - 3.x
     - 2.x
     - 1.x
     - /^[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+.*$/

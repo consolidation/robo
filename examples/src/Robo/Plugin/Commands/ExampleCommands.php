@@ -139,7 +139,7 @@ class ExampleCommands extends \Robo\Tasks
         $dir = dirname(dirname(dirname(dirname(dirname(__DIR__)))));
         $para = $this->collectionBuilder($io)
             ->taskParallelExec()
-                ->printed($options['printed'])
+                ->printOutput($options['printed'])
                 ->process("php $dir/tests/_data/parascript.php hey 4")
                 ->process("php $dir/tests/_data/parascript.php hoy 3")
                 ->process("php $dir/tests/_data/parascript.php gou 2")

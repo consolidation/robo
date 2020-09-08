@@ -478,7 +478,7 @@ class ImageMinify extends BaseTask
         // execute the command
         $exec = new Exec($command);
 
-        return $exec->inflect($this)->printed(false)->run();
+        return $exec->inflect($this)->printOutput(false)->run();
     }
 
     /**

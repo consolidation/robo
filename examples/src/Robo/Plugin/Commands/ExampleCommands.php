@@ -118,8 +118,6 @@ class ExampleCommands extends \Robo\Tasks
 
     /**
      * Demonstrates capturing output from taskExec
-     *
-     * @param ConsoleIO $io
      */
     public function tryCaptureExec(ConsoleIO $io)
     {

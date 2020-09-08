@@ -64,10 +64,22 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
      *
      * @return $this
      */
-    public function printed($isPrinted = true)
+    public function printOutput($isPrinted = true)
     {
         $this->isPrinted = $isPrinted;
         return $this;
+    }
+
+    /**
+     * @param bool $isPrinted
+     *
+     * @deprecated Use printOutput instead
+     *
+     * @return $this
+     */
+    public function printed($isPrinted = true)
+    {
+        return $this->printOutput($isPrinted);
     }
 
     /**

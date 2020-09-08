@@ -206,7 +206,9 @@ class Pack extends BaseTask implements PrintedInterface
         }
 
         $tar_object = new \Archive_Tar($archiveFile);
-        $tar_object->setIgnoreList($this->ignoreList);
+        if (!empty($this->ignoreList)) {
+            $tar_object->setIgnoreList($this->ignoreList);
+        }
         foreach ($items as $placementLocation => $filesystemLocation) {
             $p_remove_dir = $filesystemLocation;
             $p_add_dir = $placementLocation;
@@ -259,9 +261,12 @@ class Pack extends BaseTask implements PrintedInterface
         foreach ($items as $placementLocation => $filesystemLocation) {
             if (is_dir($filesystemLocation)) {
                 $finder = new Finder();
-                // Add slashes so Symfony Finder patterns work like Archive_Tar ones.
-                $zipIgnoreList = preg_filter('/^|$/', '/', $this->ignoreList);
-                $finder->files()->in($filesystemLocation)->ignoreDotFiles(false)->notName($zipIgnoreList)->notPath($zipIgnoreList);
+                $finder->files()->in($filesystemLocation)->ignoreDotFiles(false);
+                if (!empty($this->ignoreList)) {
+                    // Add slashes so Symfony Finder patterns work like Archive_Tar ones.
+                    $zipIgnoreList = preg_filter('/^|$/', '/', $this->ignoreList);
+                    $finder->notName($zipIgnoreList)->notPath($zipIgnoreList);
+                }
 
                 foreach ($finder as $file) {
                     // Replace Windows slashes or resulting zip will have issues on *nixes.

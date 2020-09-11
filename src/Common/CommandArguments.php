@@ -36,8 +36,9 @@ trait CommandArguments
      */
     public function args($args)
     {
+        $func_args = func_get_args();
         if (!is_array($args)) {
-            $args = func_get_args();
+            $args = $func_args;
         }
         $this->arguments .= ' ' . implode(' ', array_map('static::escape', $args));
         return $this;

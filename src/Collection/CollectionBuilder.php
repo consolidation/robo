@@ -83,7 +83,7 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
     }
 
     /**
-     * @param \League\Container\Container $container
+     * @param \Psr\Container\ContainerInterface $container
      * @param \Robo\Tasks $commandFile
      *
      * @return static

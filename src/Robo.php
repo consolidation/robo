@@ -4,6 +4,7 @@ namespace Robo;
 
 use Composer\Autoload\ClassLoader;
 use League\Container\Container;
+use Psr\Container\ContainerInterface;
 use Robo\Common\ProcessExecutor;
 use Consolidation\Config\ConfigInterface;
 use Consolidation\Config\Loader\ConfigProcessor;
@@ -25,7 +26,7 @@ class Robo
     /**
      * The currently active container object, or NULL if not initialized yet.
      *
-     * @var \League\Container\Container|null
+     * @var \Psr\Container\ContainerInterface|null
      */
     protected static $container;
 
@@ -52,10 +53,10 @@ class Robo
     /**
      * Sets a new global container.
      *
-     * @param \League\Container\Container $container
+     * @param \Psr\Container\ContainerInterface $container
      *   A new container instance to replace the current.
      */
-    public static function setContainer(Container $container)
+    public static function setContainer(ContainerInterface $container)
     {
         static::$container = $container;
     }
@@ -71,7 +72,7 @@ class Robo
     /**
      * Returns the currently active global container.
      *
-     * @return \League\Container\Container
+     * @return \Psr\Container\ContainerInterface
      *
      * @throws \RuntimeException
      */
@@ -138,7 +139,7 @@ class Robo
      * @param null|\Consolidation\Config\ConfigInterface $config
      * @param null|\Composer\Autoload\ClassLoader $classLoader
      *
-     * @return \League\Container\Container
+     * @return \Psr\Container\ContainerInterface
      */
     public static function createContainer($app = null, $config = null, $classLoader = null)
     {
@@ -179,7 +180,7 @@ class Robo
      *
      * @deprecated Use createContainer instead
      *
-     * @return \League\Container\Container
+     * @return \Psr\Container\ContainerInterface
      */
     public static function createDefaultContainer($input = null, $output = null, $app = null, $config = null, $classLoader = null)
     {
@@ -229,14 +230,14 @@ class Robo
      *
      * It is recommended to use Robo::createContainer() instead.
      *
-     * @param \League\Container\Container $container
+     * @param \Psr\Container\ContainerInterface $container
      * @param \Symfony\Component\Console\Application $app
      * @param \Consolidation\Config\ConfigInterface $config
      * @param null|\Symfony\Component\Console\Input\InputInterface $input
      * @param null|\Symfony\Component\Console\Output\OutputInterface $output
      * @param null|\Composer\Autoload\ClassLoader $classLoader
      */
-    public static function configureContainer(Container $container, SymfonyApplication $app, ConfigInterface $config, $input = null, $output = null, $classLoader = null)
+    public static function configureContainer(ContainerInterface $container, SymfonyApplication $app, ConfigInterface $config, $input = null, $output = null, $classLoader = null)
     {
         // Self-referential container refernce for the inflector
         $container->add('container', $container);
@@ -356,7 +357,7 @@ class Robo
     /**
      * Add the Robo League\Container inflectors to the container
      *
-     * @param \League\Container\Container $container
+     * @param \Psr\Container\ContainerInterface $container
      */
     public static function addInflectors($container)
     {

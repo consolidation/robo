@@ -139,7 +139,7 @@ class Robo
      * @param null|\Consolidation\Config\ConfigInterface $config
      * @param null|\Composer\Autoload\ClassLoader $classLoader
      *
-     * @return \Psr\Container\ContainerInterface
+     * @return \League\Container\Container|\Psr\Container\ContainerInterface
      */
     public static function createContainer($app = null, $config = null, $classLoader = null)
     {
@@ -180,7 +180,7 @@ class Robo
      *
      * @deprecated Use createContainer instead
      *
-     * @return \Psr\Container\ContainerInterface
+     * @return \League\Container\Container|\Psr\Container\ContainerInterface
      */
     public static function createDefaultContainer($input = null, $output = null, $app = null, $config = null, $classLoader = null)
     {
@@ -209,9 +209,9 @@ class Robo
      * Do final initialization to the provided container. Make any necessary
      * modifications to the container before calling this method.
      *
-     * @param Container $container
+     * @param ContainerInterface $container
      */
-    public static function finalizeContainer(Container $container)
+    public static function finalizeContainer(ContainerInterface $container)
     {
         $app = $container->get('application');
 

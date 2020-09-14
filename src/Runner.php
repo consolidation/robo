@@ -11,6 +11,7 @@ use Robo\Common\IO;
 use Robo\Exception\TaskExitException;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
+use League\Container\Exception\ContainerException;
 use Consolidation\Config\Util\EnvConfig;
 use Symfony\Component\Console\Output\NullOutput;
 
@@ -242,7 +243,9 @@ class Runner implements ContainerAwareInterface
         $this->setOutput($output);
 
         // If we were not provided a container, then create one
-        if (!$this->getContainer()) {
+        try {
+            $this->getContainer();
+        } catch (ContainerException $e) {
             $configFiles = $this->getConfigFilePaths($this->configFilename);
             $config = Robo::createConfiguration($configFiles);
             if ($this->envConfigPrefix) {

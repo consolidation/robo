@@ -139,7 +139,7 @@ class Robo
      * @param null|\Consolidation\Config\ConfigInterface $config
      * @param null|\Composer\Autoload\ClassLoader $classLoader
      *
-     * @return \League\Container\Container|\Psr\Container\ContainerInterface
+     * @return \Psr\Container\ContainerInterface
      */
     public static function createContainer($app = null, $config = null, $classLoader = null)
     {
@@ -180,7 +180,7 @@ class Robo
      *
      * @deprecated Use createContainer instead
      *
-     * @return \League\Container\Container|\Psr\Container\ContainerInterface
+     * @return \Psr\Container\ContainerInterface
      */
     public static function createDefaultContainer($input = null, $output = null, $app = null, $config = null, $classLoader = null)
     {

@@ -136,8 +136,7 @@ class Replace extends BaseTask
     public function run()
     {
         if (!file_exists($this->filename)) {
-            $this->printTaskError('File {filename} does not exist', ['filename' => $this->filename]);
-            return false;
+            return Result::error($this, 'File {filename} does not exist', ['filename' => $this->filename]);
         }
 
         $text = file_get_contents($this->filename);

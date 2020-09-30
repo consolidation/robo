@@ -21,12 +21,6 @@ trait IO
      */
     protected $io;
 
-    /**
-     * Get the current state as an object.
-     *
-     * Next annotation is a workaround to ignore this method as a robo command.
-     * @hook alter *ignored*
-     */
     public function currentState()
     {
         return new class($this, $this->input, $this->output, $this->io) implements State {
@@ -50,12 +44,7 @@ trait IO
         };
     }
 
-    /**
-     * This should typically only be called by State::restore()
-     *
-     * Next annotation is a workaround to ignore this method as a robo command.
-     * @hook alter *ignored*
-     */
+    // This should typically only be called by State::restore()
     public function restoreState(InputInterface $input = null, OutputInterface $output = null, SymfonyStyle $io = null)
     {
         $this->setInput($input);

@@ -9,7 +9,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Consolidation\AnnotatedCommand\State\SavableState;
 use Consolidation\AnnotatedCommand\State\State;
 
 trait IO
@@ -22,6 +21,12 @@ trait IO
      */
     protected $io;
 
+    /**
+     * Get the current state as an object.
+     *
+     * Next annotation is a workaround to ignore this method as a robo command.
+     * @hook alter *ignored*
+     */
     public function currentState()
     {
         return new class($this, $this->input, $this->output, $this->io) implements State {
@@ -45,7 +50,12 @@ trait IO
         };
     }
 
-    // This should typically only be called by State::restore()
+    /**
+     * This should typically only be called by State::restore()
+     *
+     * Next annotation is a workaround to ignore this method as a robo command.
+     * @hook alter *ignored*
+     */
     public function restoreState(InputInterface $input = null, OutputInterface $output = null, SymfonyStyle $io = null)
     {
         $this->setInput($input);

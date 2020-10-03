@@ -5,7 +5,6 @@ namespace Robo;
 use Composer\Autoload\ClassLoader;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\StringInput;
-use Robo\AnnotatedCommand\CommandInfoAlterer;
 use Robo\Contract\BuilderAwareInterface;
 use Robo\Collection\CollectionBuilder;
 use Robo\Common\IO;
@@ -351,7 +350,6 @@ class Runner implements ContainerAwareInterface
 
         // Register commands for all of the public methods in the RoboFile.
         $commandFactory = $container->get('commandFactory');
-        $commandFactory->addCommandInfoAlterer(new CommandInfoAlterer());
         $commandList = $commandFactory->createCommandsFromClass($roboCommandFileInstance);
         foreach ($commandList as $command) {
             $app->add($command);

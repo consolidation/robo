@@ -322,7 +322,10 @@ class Robo
             );
         $container->share('stdinHandler', \Consolidation\AnnotatedCommand\Input\StdinHandler::class);
         $container->share('commandFactory', \Consolidation\AnnotatedCommand\AnnotatedCommandFactory::class)
-            ->addMethodCall('setCommandProcessor', ['commandProcessor']);
+            ->addMethodCall('setCommandProcessor', ['commandProcessor'])
+            // Public methods from the class Robo\Commo\IO that should not be
+            // added as available commands.
+            ->addMethodCall('addIgnoredCommandsRegexp', ['/^currentState$|^restoreState$/']);
         $container->share('relativeNamespaceDiscovery', \Robo\ClassDiscovery\RelativeNamespaceDiscovery::class)
             ->addArgument('classLoader');
 

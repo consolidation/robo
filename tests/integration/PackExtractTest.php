@@ -56,7 +56,7 @@ class PackExtractTest extends TestCase
         // an archive for it located in 'deep'
         $result = $this->taskPack("deeply.$archiveType")
             ->add(['deep' => 'some/deeply'])
-            ->exclude(['structu3.*.re'])
+            ->exclude(['structu3[0-9].re'])
             ->exclude('nested4')
             ->run();
         $this->assertTrue($result->wasSuccessful(), $result->getMessage());
@@ -94,7 +94,7 @@ class PackExtractTest extends TestCase
             ->add(['a/b/existing_file' => 'some/deeply/existing_file'])
             ->add(['x/y/z/structu.re' => 'some/deeply/nested/structu.re'])
             ->add(['missing_files' => 'some/deeply/nested3'])
-            ->exclude(['structu3.*.re'])
+            ->exclude(['structu3[0-9].re'])
             ->run();
         $this->assertTrue($result->wasSuccessful(), $result->getMessage());
         $this->assertFileExists("composed.$archiveType");

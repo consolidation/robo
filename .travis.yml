@@ -12,6 +12,8 @@ matrix:
   fast_finish: true
   include:
     - php: 7.4
+      env: 'SCENARIO=finder5 DEPENDENCIES=highest'
+    - php: 7.4
       env: 'SCENARIO=symfony4 DEPENDENCIES=highest'
     - php: 7.3
     - php: 7.2

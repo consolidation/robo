@@ -25,10 +25,10 @@
     "require": {
         "symfony/finder": "^5",
         "php": ">=5.5.0",
-        "consolidation/annotated-command": "dev-finder5",
+        "consolidation/annotated-command": "^2.12.1|^4.1",
         "consolidation/config": "^1.2.1",
         "consolidation/log": "^1.1.1|^2",
-        "consolidation/output-formatters": "dev-finder5",
+        "consolidation/output-formatters": "^3.5.1|^4.1",
         "consolidation/self-update": "^1.1.5",
         "grasmash/yaml-expander": "^1.4",
         "league/container": "^2.4.1",

@@ -25,16 +25,16 @@
     "require": {
         "symfony/console": "^4",
         "php": ">=5.5.0",
-        "consolidation/annotated-command": "^2.11.0|^4.1",
+        "consolidation/annotated-command": "^2.12.1|^4.1",
         "consolidation/config": "^1.2.1",
         "consolidation/log": "^1.1.1|^2",
-        "consolidation/output-formatters": "^3.1.13|^4.1",
+        "consolidation/output-formatters": "^3.5.1|^4.1",
         "consolidation/self-update": "^1.1.5",
         "grasmash/yaml-expander": "^1.4",
         "league/container": "^2.4.1",
         "symfony/event-dispatcher": "^2.5|^3|^4",
         "symfony/filesystem": "^2.5|^3|^4",
-        "symfony/finder": "^2.5|^3|^4",
+        "symfony/finder": "^2.5|^3|^4|^5",
         "symfony/process": "^2.5|^3|^4"
     },
     "require-dev": {

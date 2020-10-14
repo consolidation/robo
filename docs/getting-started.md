@@ -491,6 +491,14 @@ Note that configuration loaded in this way will take precedence over the configu
 
 It is possible to have even more control than this if you [create your own application using Robo as a Framework](framework.md).
 
+### Expand Configuration
+
+Robo yaml uses yaml expander so it is possible to reuse defined yaml parameters inside your yaml configuration.
+```
+parameter:
+  foo:
+    bar: Some ${parameter.foo}
+```
 ## IO
 
 As you noticed, you can print text via the `say` method, which is taken from the `Robo\Output` trait.

@@ -3,6 +3,7 @@
 namespace Robo\Task\Logfile;
 
 use Robo\Result;
+use Robo\Task\Logfile\Exception\InvalidArgumentException;
 
 /**
  * Rotates a log (or any other) file
@@ -41,9 +42,15 @@ class RotateLog extends BaseLogfile
     /**
      * @param int $keep
      * @return RotateLog
+     * @throws InvalidArgumentException
      */
     public function keep(int $keep): self
     {
+        if ($keep < 1) {
+            throw new InvalidArgumentException(
+                sprintf('Keep should be greater than one, to truncate a logfile use taskTruncateLog($logfile).')
+            );
+        }
         $this->keep = $keep;
         return $this;
     }

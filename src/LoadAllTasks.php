@@ -15,6 +15,7 @@ trait LoadAllTasks
     use Task\File\Tasks;
     use Task\Archive\Tasks;
     use Task\Vcs\Tasks;
+    use Task\Logfile\Tasks;
 
     // package managers
     use Task\Composer\Tasks;

@@ -13,6 +13,8 @@ $this->_rotateLog('logfile.log');
 ?>
 ```
 
+* `keep($keep)` Logfiles to keep, default is 3.
+
 ## Truncate logfile
 
 

@@ -7,17 +7,17 @@ use Robo\Collection\CollectionBuilder;
 trait Tasks
 {
     /**
-     * @param string $logfile
+     * @param string|string[] $logfile
      *
      * @return \Robo\Task\Logfile\RotateLog|\Robo\Collection\CollectionBuilder
      */
-    protected function taskRotateLog(string $logfile): CollectionBuilder
+    protected function taskRotateLog($logfile): CollectionBuilder
     {
         return $this->task(RotateLog::class, $logfile);
     }
 
     /**
-     * @param string $logfile
+     * @param string|string[] $logfile
      *
      * @return \Robo\Task\Logfile\TruncateLog|\Robo\Collection\CollectionBuilder
      */

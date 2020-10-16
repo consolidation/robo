@@ -10,9 +10,9 @@ use Robo\Task\Logfile\Exception\InvalidArgumentException;
  *
  * ``` php
  * <?php
- * $this->taskRotateLog('logfile.log')->run();
+ * $this->taskRotateLog(['logfile.log'])->run();
  * // or use shortcut
- * $this->_rotateLog('logfile.log');
+ * $this->_rotateLog(['logfile.log']);
  *
  * ?>
  * ```
@@ -35,8 +35,6 @@ class RotateLog extends BaseLogfile
     public function __construct($logfiles)
     {
         parent::__construct($logfiles);
-        // @todo allow multiple logfile rotations
-        $this->logfile = new \SplFileInfo(reset($this->logfiles));
     }
 
     /**
@@ -51,7 +49,9 @@ class RotateLog extends BaseLogfile
                 sprintf('Keep should be greater than one, to truncate a logfile use taskTruncateLog($logfile).')
             );
         }
+
         $this->keep = $keep;
+
         return $this;
     }
 
@@ -59,6 +59,26 @@ class RotateLog extends BaseLogfile
      * {@inheritdoc}
      */
     public function run(): Result
+    {
+        foreach ($this->logfiles as $logfile) {
+            $this->loadLogfile($logfile)
+                ->process();
+        }
+
+        return Result::success($this);
+    }
+
+    private function loadLogfile(string $logfile): self
+    {
+        $this->logfile = new \SplFileInfo($logfile);
+
+        return $this;
+    }
+
+    /**
+     * @return RotateLog
+     */
+    private function process(): self
     {
         $rotation = 0;
         foreach (scandir($this->logfile->getPath(), SCANDIR_SORT_DESCENDING) as $origin) {
@@ -83,7 +103,7 @@ class RotateLog extends BaseLogfile
 
         $this->filesystem->dumpFile($this->logfile->getPathname(), false);
 
-        return Result::success($this);
+        return $this;
     }
 
     /**

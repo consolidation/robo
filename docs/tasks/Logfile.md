@@ -7,9 +7,9 @@ Rotate and purge obsolete logs.
 
 ``` php
 <?php
-$this->taskRotateLog('logfile.log')->run();
+$this->taskRotateLog(['logfile.log'])->run();
 // as shortcut
-$this->_rotateLog('logfile.log');
+$this->_rotateLog(['logfile.log']);
 ?>
 ```
 
@@ -22,8 +22,8 @@ Truncates or create empty logfile if logfile not exists.
 
 ``` php
 <?php
-$this->taskTruncateLog('logfile.log')->run();
+$this->taskTruncateLog(['logfile.log'])->run();
 // as shortcut
-$this->_rotateTruncate('logfile.log');
+$this->_rotateTruncate(['logfile.log']);
 ?>
 ```

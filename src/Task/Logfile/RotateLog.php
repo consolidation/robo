@@ -20,7 +20,7 @@ use Robo\Task\Logfile\Exception\InvalidArgumentException;
 class RotateLog extends BaseLogfile
 {
     /**
-     * @var int Number of copies to keep, defaults is 3.
+     * @var int Number of copies to keep, default is 3.
      */
     protected $keep = 3;
 

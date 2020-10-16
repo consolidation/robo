@@ -8,7 +8,7 @@ use Symfony\Component\Filesystem\Filesystem;
 abstract class BaseLogfile extends BaseTask
 {
     /**
-     * @var string|string[]
+     * @var string|string[] Array with log files.
      */
     protected $logfiles = [];
 
@@ -18,7 +18,7 @@ abstract class BaseLogfile extends BaseTask
     protected $filesystem;
 
     /**
-     * @var int|false
+     * @var int|bool Octal file mode for log files like 0600.
      */
     protected $chmod = false;
 

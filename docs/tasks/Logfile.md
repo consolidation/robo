@@ -13,6 +13,7 @@ $this->_rotateLog(['logfile.log']);
 ?>
 ```
 
+* `chmod(int $chmod)` Changes file mode to octal $chmod, default is disabled.
 * `keep(int $keep)` Logfiles to keep, default is 3.
 
 ## Truncate logfile
@@ -27,3 +28,5 @@ $this->taskTruncateLog(['logfile.log'])->run();
 $this->_rotateTruncate(['logfile.log']);
 ?>
 ```
+
+* `chmod(int $chmod)` Changes file mode to octal $chmod, default is disabled.

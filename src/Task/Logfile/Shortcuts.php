@@ -7,7 +7,7 @@ use Robo\Result;
 trait Shortcuts
 {
     /**
-     * @param string $logfile
+     * @param string|string[] $logfile
      *
      * @return \Robo\Result
      */
@@ -17,7 +17,7 @@ trait Shortcuts
     }
 
     /**
-     * @param string|array $logfile
+     * @param string|string[] $logfile
      *
      * @return \Robo\Result
      */

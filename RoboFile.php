@@ -484,14 +484,4 @@ class RoboFile extends \Robo\Tasks
                 ->checkout('master')
                 ->run();
     }
-
-    public function rotateLog()
-    {
-        $this->taskRotateLog('/tmp/rotate/rotate.log')->run();
-    }
-
-    public function truncateLog()
-    {
-        $this->taskTruncateLog(['/tmp/rotate/rotate.log', '/tmp/rotate/truncate.log'])->run();
-    }
 }

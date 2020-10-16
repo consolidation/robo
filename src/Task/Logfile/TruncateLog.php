@@ -25,6 +25,9 @@ class TruncateLog extends BaseLogfile
     {
         foreach ($this->logfiles as $logfile) {
             $this->filesystem->dumpFile($logfile, false);
+            if ($this->chmod) {
+                $this->filesystem->chmod($logfile, $this->chmod);
+            }
             $this->printTaskInfo("Truncated {logfile}", ['logfile' => $logfile]);
         }
 

@@ -68,6 +68,10 @@ class RotateLog extends BaseLogfile
         return Result::success($this);
     }
 
+    /**
+     * @param string $logfile
+     * @return RotateLog
+     */
     private function loadLogfile(string $logfile): self
     {
         $this->logfile = new \SplFileInfo($logfile);
@@ -102,6 +106,9 @@ class RotateLog extends BaseLogfile
         }
 
         $this->filesystem->dumpFile($this->logfile->getPathname(), false);
+        if ($this->chmod) {
+            $this->filesystem->chmod($this->logfile->getPathname(), $this->chmod);
+        }
 
         return $this;
     }

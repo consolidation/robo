@@ -105,7 +105,9 @@ class RotateLog extends BaseLogfile
      */
     private function version(\SplFileInfo $origin): int
     {
-        return $origin->getExtension() == 'log' ? 0  : $origin->getExtension();
+        return $origin->getExtension() === $this->logfile->getExtension()
+            ? 0
+            : $origin->getExtension();
     }
 
     /**

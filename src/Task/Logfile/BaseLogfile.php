@@ -18,6 +18,11 @@ abstract class BaseLogfile extends BaseTask
     protected $filesystem;
 
     /**
+     * @var int|false
+     */
+    protected $chmod = false;
+
+    /**
      * @param string|string[] $logfiles
      */
     public function __construct($logfiles)
@@ -27,5 +32,16 @@ abstract class BaseLogfile extends BaseTask
             : $this->logfiles[] = $logfiles;
 
         $this->filesystem = new Filesystem();
+    }
+
+    /**
+     * @param int $chmod
+     * @return $this
+     */
+    public function chmod(int $chmod)
+    {
+        $this->chmod = $chmod;
+
+        return $this;
     }
 }

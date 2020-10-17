@@ -11,7 +11,7 @@ trait Shortcuts
      *
      * @return \Robo\Result
      */
-    protected function _rotateLog(string $logfile): Result
+    protected function _rotateLog($logfile): Result
     {
         return $this->taskRotateLog($logfile)->run();
     }

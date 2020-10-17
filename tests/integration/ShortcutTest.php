@@ -9,6 +9,8 @@ class ShortcutTest extends TestCase
     use TestTasksTrait;
     use Task\Filesystem\loadTasks;
     use Task\Filesystem\loadShortcuts;
+    use Task\Logfile\Tasks;
+    use Task\Logfile\Shortcuts;
 
     protected $fixtures;
 
@@ -42,4 +44,17 @@ class ShortcutTest extends TestCase
         $this->assertFileExists('bin/robo.txt');
     }
 
+    public function testTruncateLogShortcut()
+    {
+        $result = $this->_truncateLog(['box/robo.txt']);
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
+        $this->assertFileExists('box/robo.txt');
+    }
+
+    public function testRotateLogShortcut()
+    {
+        $result = $this->_rotateLog(['box/robo.txt']);
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
+        $this->assertFileExists('box/robo.txt');
+    }
 }

@@ -39,4 +39,5 @@ trait LoadAllTasks
     use Task\Base\loadShortcuts;
     use Task\Filesystem\loadShortcuts;
     use Task\Vcs\loadShortcuts;
+    use Task\Logfile\Shortcuts;
 }

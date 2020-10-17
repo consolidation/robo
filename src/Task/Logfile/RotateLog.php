@@ -44,8 +44,8 @@ class RotateLog extends BaseLogfile
     public function keep(int $keep): self
     {
         if ($keep < 1) {
-            throw new \Exception(
-                sprintf('Keep should be greater than one, to truncate a logfile use taskTruncateLog($logfile).')
+            throw new \InvalidArgumentException(
+                'Keep should be greater than one, to truncate a logfile use taskTruncateLog($logfile).'
             );
         }
 

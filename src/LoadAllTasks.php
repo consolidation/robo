@@ -9,12 +9,14 @@ trait LoadAllTasks
     use Collection\loadTasks;
 
     // standard tasks
+
     use Task\Base\loadTasks;
     use Task\Development\loadTasks;
     use Task\Filesystem\loadTasks;
     use Task\File\loadTasks;
     use Task\Archive\loadTasks;
     use Task\Vcs\loadTasks;
+    use Task\Logfile\Tasks;
 
     // package managers
     use Task\Composer\loadTasks;
@@ -37,4 +39,5 @@ trait LoadAllTasks
     use Task\Base\loadShortcuts;
     use Task\Filesystem\loadShortcuts;
     use Task\Vcs\loadShortcuts;
+    use Task\Logfile\Shortcuts;
 }

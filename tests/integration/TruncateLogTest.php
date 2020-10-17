@@ -28,7 +28,7 @@ class TruncateLogTest extends TestCase
         $this->fixtures->createAndCdToSandbox();
 
         $this->assertStringEqualsFile('box/robo.txt', 'HELLOROBO');
-        $result = $this->taskTruncateLog(['box/robo.txt'])
+        $result = $this->taskTruncateLog('box/robo.txt')
             ->run();
         $this->assertTrue($result->wasSuccessful(), $result->getMessage());
         $this->assertFileExists('box/robo.txt');
@@ -62,4 +62,20 @@ class TruncateLogTest extends TestCase
         $this->assertStringEqualsFile('box/new.log', '');
     }
 
+    public function testTruncateLogFileMode()
+    {
+        $this->fixtures->createAndCdToSandbox();
+
+        $this->assertFileExists('box/robo.txt');
+        $result = $this->taskTruncateLog(['box/robo.txt'])
+            ->chmod(0777)
+            ->run();
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
+        $this->assertFileExists('box/robo.txt');
+        $this->assertFileIsReadable('box/robo.txt');
+        $this->assertFileIsWritable('box/robo.txt');
+        $mode = substr(sprintf('%o', fileperms('box/robo.txt')), -4);
+        $this->assertSame($mode, '0777');
+        $this->assertEquals($mode, '0777');
+    }
 }

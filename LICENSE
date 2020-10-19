@@ -44,3 +44,4 @@ symfony/polyfill-php73               v1.18.1  MIT
 symfony/polyfill-php80               v1.18.1  MIT
 symfony/process                      v4.4.12  MIT
 symfony/service-contracts            v1.1.9   MIT
+totten/lurkerlite                    1.3.0    MIT

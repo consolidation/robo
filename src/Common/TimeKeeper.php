@@ -9,12 +9,12 @@ class TimeKeeper
     const DAY = 86400;
 
     /**
-     * @var float
+     * @var float|null
      */
     protected $startedAt;
 
     /**
-     * @var float
+     * @var float|null
      */
     protected $finishedAt;
 
@@ -30,6 +30,11 @@ class TimeKeeper
     public function stop()
     {
         $this->finishedAt = microtime(true);
+    }
+
+    public function reset()
+    {
+        $this->startedAt = $this->finishedAt = null;
     }
 
     /**

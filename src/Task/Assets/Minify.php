@@ -17,7 +17,7 @@ use Robo\Task\BaseTask;
  * Please install additional packages to use this task:
  *
  * ```
- * composer require patchwork/jsqueeze:^2.0
+ * composer require tedivm/jshrink:^1.3
  * composer require natxet/cssmin:^3.0
  * ```
  */
@@ -46,10 +46,8 @@ class Minify extends BaseTask
     /**
      * @var bool[]
      */
-    protected $squeezeOptions = [
-        'singleLine' => true,
-        'keepImportantComments' => true,
-        'specialVarRx' => false,
+    protected $jsShrinkOptions = [
+        'flaggedComments' => true,
     ];
 
     /**
@@ -170,21 +168,15 @@ class Minify extends BaseTask
                 break;
 
             case 'js':
-                if (!class_exists('\JSqueeze') && !class_exists('\Patchwork\JSqueeze')) {
-                    return Result::errorMissingPackage($this, 'Patchwork\JSqueeze', 'patchwork/jsqueeze');
+                if (!class_exists('\JShrink\Minifier')) {
+                    return Result::errorMissingPackage($this, 'JShrink', 'tedivm/jshrink');
                 }
 
-                if (class_exists('\JSqueeze')) {
-                    $jsqueeze = new \JSqueeze();
-                } else {
-                    $jsqueeze = new \Patchwork\JSqueeze();
-                }
-
-                return $jsqueeze->squeeze(
+                return \JShrink\Minifier::minify(
                     $this->text,
-                    $this->squeezeOptions['singleLine'],
-                    $this->squeezeOptions['keepImportantComments'],
-                    $this->squeezeOptions['specialVarRx']
+                    [
+                        'flaggedComments' => $this->jsShrinkOptions['flaggedComments'],
+                    ]
                 );
                 break;
         }
@@ -193,41 +185,15 @@ class Minify extends BaseTask
     }
 
     /**
-     * Single line option for the JS minimisation.
+     * flaggedComments option for the JS minimisation.
      *
-     * @param bool $singleLine
-     *
-     * @return $this
-     */
-    public function singleLine($singleLine)
-    {
-        $this->squeezeOptions['singleLine'] = (bool)$singleLine;
-        return $this;
-    }
-
-    /**
-     * keepImportantComments option for the JS minimisation.
-     *
-     * @param bool $keepImportantComments
+     * @param bool $flaggedComments
      *
      * @return $this
      */
-    public function keepImportantComments($keepImportantComments)
+    public function flaggedComments($flaggedComments)
     {
-        $this->squeezeOptions['keepImportantComments'] = (bool)$keepImportantComments;
-        return $this;
-    }
-
-    /**
-     * Set specialVarRx option for the JS minimisation.
-     *
-     * @param bool $specialVarRx
-     *
-     * @return $this
-     */
-    public function specialVarRx($specialVarRx)
-    {
-        $this->squeezeOptions['specialVarRx'] = (bool)$specialVarRx;
+        $this->jsShrinkOptions['flaggedComments'] = (bool)$flaggedComments;
         return $this;
     }
 

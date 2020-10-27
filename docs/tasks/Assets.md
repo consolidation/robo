@@ -119,15 +119,13 @@ $this->taskMinify('web/assets/theme.css')
 Please install additional packages to use this task:
 
 ```
-composer require patchwork/jsqueeze:^2.0
+composer require tedivm/jshrink:^1.3
 composer require natxet/cssmin:^3.0
 ```
 
 * `to($dst)`  Sets destination. Tries to guess type from it.
 * `type($type)`  Sets type with validation.
-* `singleLine($singleLine)`  Single line option for the JS minimisation.
-* `keepImportantComments($keepImportantComments)`  keepImportantComments option for the JS minimisation.
-* `specialVarRx($specialVarRx)`  Set specialVarRx option for the JS minimisation.
+* `flaggedComments($flaggedComments)`  Set flaggedComments option for the JS minimisation.
 * `__toString()`  @return string
 
 ## Scss

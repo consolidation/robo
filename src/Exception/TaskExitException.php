@@ -30,7 +30,8 @@ class TaskExitException extends \Exception
     /**
      * @return string
      */
-    public function getOriginalMessage() {
+    public function getOriginalMessage()
+    {
         return $this->originalMessage;
     }
 }

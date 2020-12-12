@@ -677,7 +677,7 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
         if (($paramType != null) && ($paramType->getName() == 'array')) {
             $text .= 'array ';
         }
-        if ($param->isCallable()) {
+        if (($paramType != null) && ($paramType->getName() == 'callable')) {
             $text .= 'callable ';
         }
         $text .= '$' . $param->name;

@@ -9,7 +9,7 @@ class ExecTest extends TestCase
     use TestTasksTrait;
     use Task\Base\Tasks;
 
-    public function setup()
+    public function setUp(): void
     {
         $this->initTestTasksTrait();
     }
@@ -19,10 +19,10 @@ class ExecTest extends TestCase
         $command = strncasecmp(PHP_OS, 'WIN', 3) == 0 ? 'dir' : 'ls';
         $res = $this->taskExec($command)->interactive(false)->run();
         $this->assertTrue($res->wasSuccessful());
-        $this->assertContains(
+        $this->assertStringContainsString(
             'src',
             $res->getMessage());
-        $this->assertContains(
+        $this->assertStringContainsString(
             'codeception.yml',
             $res->getMessage());
     }
@@ -35,10 +35,10 @@ class ExecTest extends TestCase
         $result = $task->run();
         $this->assertTrue($result->wasSuccessful(), $result->getMessage());
         // Verify that the text contains our environment variable.
-        $this->assertContains(
+        $this->assertStringContainsString(
             'FOO=BAR',
             $result->getMessage());
-        $this->assertContains(
+        $this->assertStringContainsString(
             'BAR=BAZ',
             $result->getMessage());
 
@@ -49,7 +49,7 @@ class ExecTest extends TestCase
         $result = $task->run();
         $this->assertTrue($result->wasSuccessful());
         // Verify that the text contains the most recent environment variable.
-        $this->assertContains(
+        $this->assertStringContainsString(
             'FOO=BAZ',
             $result->getMessage());
     }

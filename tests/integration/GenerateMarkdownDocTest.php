@@ -13,14 +13,14 @@ class GenerateMarkdownDocTest extends TestCase
 
     protected $fixtures;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fixtures = new Fixtures();
         $this->initTestTasksTrait();
         $this->fixtures->createAndCdToSandbox();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->fixtures->cleanup();
     }
@@ -92,9 +92,9 @@ class GenerateMarkdownDocTest extends TestCase
         $this->assertFileExists('TestedRoboTask.md');
 
         $contents = file_get_contents('TestedRoboTask.md');
-        $this->assertContains('A test task file. Used for testig documentation generation.', $contents);
-        $this->assertContains('taskTestedRoboTask', $contents);
-        $this->assertContains('Set the destination file', $contents);
+        $this->assertStringContainsString('A test task file. Used for testig documentation generation.', $contents);
+        $this->assertStringContainsString('taskTestedRoboTask', $contents);
+        $this->assertStringContainsString('Set the destination file', $contents);
     }
 
 }

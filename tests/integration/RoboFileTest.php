@@ -25,7 +25,7 @@ class RoboFileTest extends TestCase
      */
     private $roboCommandFileInstance;
 
-    public function setup()
+    public function setUp(): void
     {
         $container = $this->initTestTasksTrait();
         $this->app = $container->get('application');

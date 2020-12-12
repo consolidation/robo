@@ -11,14 +11,14 @@ class WriteFileTest extends TestCase
 
     protected $fixtures;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fixtures = new Fixtures();
         $this->initTestTasksTrait();
         $this->fixtures->createAndCdToSandbox();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->fixtures->cleanup();
     }
@@ -40,7 +40,7 @@ hello world
 ****
 
 HERE;
-        $this->assertContains($expected, $contents);
+        $this->assertStringContainsString($expected, $contents);
     }
 
     public function appendToFile()
@@ -56,7 +56,7 @@ HERE;
 Ahello world
 
 HERE;
-        $this->assertContains($expected, $contents);
+        $this->assertStringContainsString($expected, $contents);
     }
 
     public function testWouldChange()
@@ -83,7 +83,7 @@ HERE;
 BC
 
 HERE;
-        $this->assertContains($expected, $contents);
+        $this->assertStringContainsString($expected, $contents);
     }
 
     public function appendIfMatch()
@@ -108,7 +108,7 @@ hello world
 ****
 Should add this and should also add this!
 HERE;
-        $this->assertContains($expected, $contents);
+        $this->assertStringContainsString($expected, $contents);
     }
 
     public function replaceInFile()
@@ -120,7 +120,7 @@ HERE;
         $this->assertTrue($result->wasSuccessful(), $result->getMessage());
         $this->assertFileExists('a.txt');
         $contents = file_get_contents('a.txt');
-        $this->assertContains('B', $contents);
+        $this->assertStringContainsString('B', $contents);
 
     }
 
@@ -133,7 +133,7 @@ HERE;
         $this->assertTrue($result->wasSuccessful(), $result->getMessage());
         $this->assertFileExists('box/robo.txt');
         $contents = file_get_contents('box/robo.txt');
-        $this->assertContains('Hello robo.li!', $contents);
+        $this->assertStringContainsString('Hello robo.li!', $contents);
     }
 }
 

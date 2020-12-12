@@ -71,14 +71,14 @@ trait TestTasksTrait
     {
         $output = $this->accumulate();
         $output = $this->simplify($output);
-        $this->assertContains($value, $output);
+        $this->assertStringContainsString($value, $output);
     }
 
     public function assertOutputNotContains($value)
     {
         $output = $this->accumulate();
         $output = $this->simplify($output);
-        $this->assertNotContains($value, $output);
+        $this->assertStringNotContainsString($value, $output);
     }
 
     public function assertOutputEquals($value)

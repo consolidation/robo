@@ -9,7 +9,7 @@ class CommandTestertTest extends TestCase
 {
     use CommandTesterTrait;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setupCommandTester(ExampleCommands::class);
     }
@@ -17,9 +17,9 @@ class CommandTestertTest extends TestCase
     public function testInputApis()
     {
         list($tryInputOutput, $statusCode) = $this->executeCommand('try:input', ["I'm great!", "yes", "PHP", "1234"]);
-        $this->assertContains("I'm great!", $tryInputOutput);
-        $this->assertContains("PHP", $tryInputOutput);
-        $this->assertContains("1234", $tryInputOutput);
+        $this->assertStringContainsString("I'm great!", $tryInputOutput);
+        $this->assertStringContainsString("PHP", $tryInputOutput);
+        $this->assertStringContainsString("1234", $tryInputOutput);
         $this->assertEquals(0, $statusCode);
     }
 }

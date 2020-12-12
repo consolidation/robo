@@ -11,13 +11,13 @@ class AssetsTest extends TestCase
 
     protected $fixtures;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fixtures = new Fixtures();
         $this->initTestTasksTrait();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->fixtures->cleanup();
     }
@@ -46,8 +46,8 @@ class AssetsTest extends TestCase
 
 				$this->assertLessThan($initialFileSize, $minifiedFileSize, 'Minified file is smaller than the source file');
 				$this->assertGreaterThan(0, $minifiedFileSize, 'Minified file is not empty');
-				$this->assertContains('body', $outputCssContents, 'Minified file has some content from the source file');
-				$this->assertNotContains('Sample css file', $outputCssContents, 'Minified file does not contain comment from source file');
+				$this->assertStringContainsString('body', $outputCssContents, 'Minified file has some content from the source file');
+				$this->assertStringNotContainsString('Sample css file', $outputCssContents, 'Minified file does not contain comment from source file');
     }
 
 }

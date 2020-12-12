@@ -14,7 +14,7 @@ class RunnerTest extends TestCase
      */
     private $runner;
 
-    public function setup()
+    public function setUp(): void
     {
         $container = $this->initTestTasksTrait();
         $this->runner = new \Robo\Runner('\Robo\RoboFileFixture');
@@ -24,7 +24,7 @@ class RunnerTest extends TestCase
     public function testThrowsExceptionWhenNoContainerAvailable()
     {
         $this->expectException('\RuntimeException');
-        $this->expectExceptionMessageRegExp(
+        $this->expectExceptionMessageMatches(
             '/container is not initialized yet.*/'
         );
         Robo::unsetContainer();
@@ -179,7 +179,7 @@ EOT;
         $this->assertTrue(file_exists('testRoboFile.php'));
         $commandContents = file_get_contents('testRoboFile.php');
         unlink('testRoboFile.php');
-        $this->assertContains('class RoboTestClass', $commandContents);
+        $this->assertStringContainsString('class RoboTestClass', $commandContents);
     }
 
     public function testTasksStopOnFail()

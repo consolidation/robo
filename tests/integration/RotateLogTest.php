@@ -50,7 +50,7 @@ class RotateLogTest extends TestCase
             ->run();
         $this->assertTrue($result->wasSuccessful(), $result->getMessage());
         $this->assertFileExists('box/robo.txt');
-        $this->assertFileNotExists('box/robo.txt.1');
+        $this->assertFileDoesNotExist('box/robo.txt.1');
         $this->assertFileExists('box/first.log');
         $this->assertFileExists('box/first.log.1');
         $this->assertFileExists('box/second.log');

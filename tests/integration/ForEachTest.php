@@ -1,7 +1,7 @@
 <?php
 namespace Robo;
 
-use PHPUnit\Framework\TestCase;
+use Yoast\PHPUnitPolyfills\TestCases\TestCase;
 use Robo\Collection\CollectionBuilder;
 use Robo\State\Data;
 use Robo\Traits\TestTasksTrait;

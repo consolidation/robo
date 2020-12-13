@@ -1,7 +1,7 @@
 <?php
 namespace Robo;
 
-use PHPUnit\Framework\TestCase;
+use Yoast\PHPUnitPolyfills\TestCases\TestCase;
 use Robo\Traits\TestTasksTrait;
 
 class DeleteDirTest extends TestCase
@@ -31,8 +31,8 @@ class DeleteDirTest extends TestCase
         $result = $this->taskDeleteDir(['box'])
             ->run();
         $this->assertTrue($result->wasSuccessful(), $result->getMessage());
-        $this->assertFileNotExists('box');
-        $this->assertFileNotExists('box/robo.txt');
+        $this->assertFileDoesNotExist('box');
+        $this->assertFileDoesNotExist('box/robo.txt');
     }
 
 }

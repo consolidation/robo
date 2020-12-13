@@ -1,7 +1,7 @@
 <?php
 namespace Robo;
 
-use PHPUnit\Framework\TestCase;
+use Yoast\PHPUnitPolyfills\TestCases\TestCase;
 use Robo\Traits\TestTasksTrait;
 
 class CopyDirTest extends TestCase
@@ -129,20 +129,20 @@ class CopyDirTest extends TestCase
         $this->assertTrue($result->wasSuccessful());
 
         $this->assertFileExists('some_destination/deeply/nested');
-        $this->assertFileNotExists('some_destination/deeply/nested2');
+        $this->assertFileDoesNotExist('some_destination/deeply/nested2');
         $this->assertFileExists('some_destination/deeply/nested3');
-        $this->assertFileNotExists('some_destination/deeply/nested3/nested31');
+        $this->assertFileDoesNotExist('some_destination/deeply/nested3/nested31');
         $this->assertFileExists('some_destination/deeply/nested4');
         $this->assertFileExists('some_destination/deeply/nested4/nested41');
         $this->assertFileExists('some_destination/deeply/nested/structu.re');
-        $this->assertFileNotExists('some_destination/deeply/nested/structu1.re');
+        $this->assertFileDoesNotExist('some_destination/deeply/nested/structu1.re');
         $this->assertFileExists('some_destination/deeply/nested/structu2.re');
-        $this->assertFileNotExists('some_destination/deeply/nested/structu3.re');
-        $this->assertFileNotExists('some_destination/deeply/nested2/structu21.re');
-        $this->assertFileNotExists('some_destination/deeply/nested3/structu31.re');
+        $this->assertFileDoesNotExist('some_destination/deeply/nested/structu3.re');
+        $this->assertFileDoesNotExist('some_destination/deeply/nested2/structu21.re');
+        $this->assertFileDoesNotExist('some_destination/deeply/nested3/structu31.re');
         $this->assertFileExists('some_destination/deeply/nested3/structu32.re');
-        $this->assertFileNotExists('some_destination/deeply/nested3/nested31/structu311.re');
-        $this->assertFileNotExists('some_destination/deeply/nested4/nested41/structu411.re');
+        $this->assertFileDoesNotExist('some_destination/deeply/nested3/nested31/structu311.re');
+        $this->assertFileDoesNotExist('some_destination/deeply/nested4/nested41/structu411.re');
         $this->assertFileExists('some_destination/deeply/nested4/nested41/structu412.re');
     }
 }

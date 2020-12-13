@@ -2,7 +2,7 @@
 
 namespace Robo;
 
-use PHPUnit\Framework\TestCase;
+use Yoast\PHPUnitPolyfills\TestCases\TestCase;
 use Robo\Traits\TestTasksTrait;
 
 class TruncateLogTest extends TestCase
@@ -54,7 +54,7 @@ class TruncateLogTest extends TestCase
     {
         $this->fixtures->createAndCdToSandbox();
 
-        $this->assertFileNotExists('box/new.log');
+        $this->assertFileDoesNotExist('box/new.log');
         $result = $this->taskTruncateLog(['box/new.log'])
             ->run();
         $this->assertTrue($result->wasSuccessful(), $result->getMessage());

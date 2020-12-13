@@ -1,7 +1,7 @@
 <?php
 namespace Robo;
 
-use PHPUnit\Framework\TestCase;
+use Yoast\PHPUnitPolyfills\TestCases\TestCase;
 use Robo\Collection\Temporary;
 use Robo\Exception\AbortTasksException;
 use Robo\Traits\TestTasksTrait;
@@ -45,7 +45,7 @@ class CollectionTest extends TestCase
         $result = $collection->run();
         $this->assertTrue($result->wasSuccessful());
         // Nothing should be created in simulated mode
-        $this->assertFileNotExists('simulatedir/error.txt');
+        $this->assertFileDoesNotExist('simulatedir/error.txt');
         $this->assertOutputContains('[Simulator] Simulating Filesystem\FilesystemStack()');
     }
 
@@ -144,10 +144,10 @@ class CollectionTest extends TestCase
 
         // All of the tasks created by the builder should be added
         // to a collection, and `run()` should run them all.
-        $this->assertFileNotExists('q/q.txt');
-        $this->assertFileNotExists('j/j.txt');
-        $this->assertFileNotExists('j/k/k.txt');
-        $this->assertFileNotExists('j/k/m/m.txt');
+        $this->assertFileDoesNotExist('q/q.txt');
+        $this->assertFileDoesNotExist('j/j.txt');
+        $this->assertFileDoesNotExist('j/k/k.txt');
+        $this->assertFileDoesNotExist('j/k/m/m.txt');
     }
 
     public function testAbortRollbackOrCompletion()
@@ -206,8 +206,8 @@ class CollectionTest extends TestCase
 
         // All of the tasks created by the builder should be added
         // to a collection, and `run()` should run them all.
-        $this->assertFileNotExists('build/a');
-        $this->assertFileNotExists($workDirPath);
+        $this->assertFileDoesNotExist('build/a');
+        $this->assertFileDoesNotExist($workDirPath);
     }
 
     public function testBuildFilesViaAddIterable()
@@ -270,9 +270,9 @@ class CollectionTest extends TestCase
         // All of the tasks created by the builder should be added
         // to a collection, and `run()` should run them all.
         $this->assertFileExists('q/q.txt');
-        $this->assertFileNotExists('j/j.txt');
-        $this->assertFileNotExists('j/k/k.txt');
-        $this->assertFileNotExists('j/k/m/m.txt');
+        $this->assertFileDoesNotExist('j/j.txt');
+        $this->assertFileDoesNotExist('j/k/k.txt');
+        $this->assertFileDoesNotExist('j/k/m/m.txt');
     }
 
     public function testRollbackInCorrectOrder()
@@ -321,7 +321,7 @@ class CollectionTest extends TestCase
             ->touch('log/error.txt');
 
         // FilesystemStack has not run yet, so file should not be found.
-        $this->assertFileNotExists('log/error.txt');
+        $this->assertFileDoesNotExist('log/error.txt');
 
         // Run the task collection; now the files should be present
         $result = $collection->run();
@@ -351,9 +351,9 @@ class CollectionTest extends TestCase
         $collection->taskCopyDir([$tmpPath => 'copied']);
 
         // FilesystemStack has not run yet, so no files should be found.
-        $this->assertFileNotExists("$tmpPath/tmp/error.txt");
-        $this->assertFileNotExists("$tmpPath/log/error.txt");
-        $this->assertFileNotExists('copied/log/error.txt');
+        $this->assertFileDoesNotExist("$tmpPath/tmp/error.txt");
+        $this->assertFileDoesNotExist("$tmpPath/log/error.txt");
+        $this->assertFileDoesNotExist('copied/log/error.txt');
 
         // Run the task collection
         $result = $collection->run();
@@ -364,9 +364,9 @@ class CollectionTest extends TestCase
         // This also proves that the tmp directory was created.
         $this->assertFileExists('copied/log/error.txt');
         // $tmpPath should be deleted after $collection->run() completes.
-        $this->assertFileNotExists("$tmpPath/tmp/error.txt");
-        $this->assertFileNotExists("$tmpPath/log/error.txt");
-        $this->assertFileNotExists("$tmpPath");
+        $this->assertFileDoesNotExist("$tmpPath/tmp/error.txt");
+        $this->assertFileDoesNotExist("$tmpPath/log/error.txt");
+        $this->assertFileDoesNotExist("$tmpPath");
     }
 
     public function testUseATmpDirAndChangeWorkingDirectory()
@@ -391,8 +391,8 @@ class CollectionTest extends TestCase
         $collection->taskCopyDir(['log' => "$cwd/copied2"]);
 
         // FilesystemStack has not run yet, so no files should be found.
-        $this->assertFileNotExists("$tmpPath/log/error.txt");
-        $this->assertFileNotExists('$cwd/copied2/log/error.txt');
+        $this->assertFileDoesNotExist("$tmpPath/log/error.txt");
+        $this->assertFileDoesNotExist('$cwd/copied2/log/error.txt');
 
         // Run the task collection
         $result = $collection->run();

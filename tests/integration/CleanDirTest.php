@@ -1,7 +1,7 @@
 <?php
 namespace Robo;
 
-use PHPUnit\Framework\TestCase;
+use Yoast\PHPUnitPolyfills\TestCases\TestCase;
 use Robo\Traits\TestTasksTrait;
 
 class CleanDirTest extends TestCase
@@ -30,7 +30,7 @@ class CleanDirTest extends TestCase
         $result = $this->taskCleanDir(['box'])
             ->run();
         $this->assertTrue($result->wasSuccessful(), $result->getMessage());
-        $this->assertFileNotExists('box/robo.txt');
+        $this->assertFileDoesNotExist('box/robo.txt');
         $this->assertFileExists('a.txt');
     }
 

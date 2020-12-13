@@ -71,6 +71,7 @@ trait TestTasksTrait
     {
         $output = $this->accumulate();
         $output = $this->simplify($output);
+        $value = $this->simplify($value);
         $this->assertStringContainsString($value, $output);
     }
 
@@ -78,6 +79,7 @@ trait TestTasksTrait
     {
         $output = $this->accumulate();
         $output = $this->simplify($output);
+        $value = $this->simplify($value);
         $this->assertStringNotContainsString($value, $output);
     }
 

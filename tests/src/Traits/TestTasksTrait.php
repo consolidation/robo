@@ -85,6 +85,7 @@ trait TestTasksTrait
     {
         $output = $this->accumulate();
         $output = $this->simplify($output);
+        $value = $this->simplify($value);
         $this->assertEquals($value, $output);
     }
 

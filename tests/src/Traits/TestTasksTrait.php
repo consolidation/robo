@@ -94,8 +94,7 @@ trait TestTasksTrait
      */
     protected function simplify($output)
     {
-        $output = str_replace("\r\n", "\n", $output);
-        $output = str_replace("\r", "\n", $output);
+        $output = str_replace("\r", "", $output);
         $output = preg_replace("#\n+#", "\n", $output);
 
         return trim($output);

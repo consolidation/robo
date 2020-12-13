@@ -57,13 +57,13 @@ class RoboFile extends \Robo\Tasks
         ]
     ) {
         $strict = $options['strict'] ? '' : '-n';
-        $result = $this->collectionBuilder($io)->taskExec("./vendor/bin/phpcs --standard=PSR2 --exclude=Squiz.Classes.ValidClassName {$strict} {$file}")->run();
+        $result = $this->collectionBuilder($io)->taskExec("./vendor/bin/phpcs --standard=PSR2 {$strict} {$file}")->run();
         if (!$result->wasSuccessful()) {
             if (!$options['autofix']) {
                 $options['autofix'] = $this->confirm('Would you like to run phpcbf to fix the reported errors?');
             }
             if ($options['autofix']) {
-                $result = $this->taskExec("./vendor/bin/phpcbf --standard=PSR2 --exclude=Squiz.Classes.ValidClassName {$file}")->run();
+                $result = $this->taskExec("./vendor/bin/phpcbf --standard=PSR2 {$file}")->run();
             }
         }
         return $result;

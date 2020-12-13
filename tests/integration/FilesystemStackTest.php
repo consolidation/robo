@@ -1,7 +1,7 @@
 <?php
 namespace Robo;
 
-use PHPUnit\Framework\TestCase;
+use Yoast\PHPUnitPolyfills\TestCases\TestCase;
 use Robo\Traits\TestTasksTrait;
 
 class FilesystemStackTest extends TestCase
@@ -12,14 +12,14 @@ class FilesystemStackTest extends TestCase
 
     protected $fixtures;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fixtures = new Fixtures();
         $this->initTestTasksTrait();
         $this->fixtures->createAndCdToSandbox();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->fixtures->cleanup();
     }
@@ -34,7 +34,7 @@ class FilesystemStackTest extends TestCase
             ->mkdir('simulatedir')
             ->touch('simulatedir/error.txt');
 
-        $this->assertFileNotExists('simulatedir/error.txt');
+        $this->assertFileDoesNotExist('simulatedir/error.txt');
 
         // Run the task collection; the files should be present afterwards
         $result = $collection->run();
@@ -44,7 +44,7 @@ class FilesystemStackTest extends TestCase
 
     public function testCreateDir()
     {
-        $this->assertFileNotExists('log/error.txt');
+        $this->assertFileDoesNotExist('log/error.txt');
         $result = $this->taskFilesystemStack()
             ->mkdir('log')
             ->touch('log/error.txt')
@@ -61,7 +61,7 @@ class FilesystemStackTest extends TestCase
             ->remove('a.txt')
             ->run();
         $this->assertTrue($result->wasSuccessful(), $result->getMessage());
-        $this->assertFileNotExists('a.txt');
+        $this->assertFileDoesNotExist('a.txt');
     }
 
     public function testCrossVolumeRename()
@@ -84,7 +84,7 @@ class FilesystemStackTest extends TestCase
         $actualFsStackTask = $fsStack->getCollectionBuilderCurrentTask();
         $method->invokeArgs($actualFsStackTask, ['log', 'logfiles']);
 
-        $this->assertFileNotExists('log/error.txt');
+        $this->assertFileDoesNotExist('log/error.txt');
         $this->assertFileExists('logfiles/error.txt');
     }
 

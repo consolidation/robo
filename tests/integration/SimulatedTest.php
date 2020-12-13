@@ -1,7 +1,7 @@
 <?php
 namespace Robo;
 
-use PHPUnit\Framework\TestCase;
+use Yoast\PHPUnitPolyfills\TestCases\TestCase;
 use Robo\Traits\TestTasksTrait;
 
 class SimulatedTest extends TestCase
@@ -12,14 +12,14 @@ class SimulatedTest extends TestCase
 
     protected $fixtures;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fixtures = new Fixtures();
         $this->initTestTasksTrait();
         $this->fixtures->createAndCdToSandbox();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->fixtures->cleanup();
     }
@@ -40,7 +40,7 @@ class SimulatedTest extends TestCase
         $result = $collection->run();
         $this->assertTrue($result->wasSuccessful(), $result->getMessage());
         // Nothing should be created in simulated mode
-        $this->assertFileNotExists('simulatedir/error.txt');
+        $this->assertFileDoesNotExist('simulatedir/error.txt');
         $this->assertOutputContains('[Simulator] Simulating Filesystem\FilesystemStack()');
     }
 

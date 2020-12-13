@@ -1,7 +1,7 @@
 <?php
 namespace Robo;
 
-use PHPUnit\Framework\TestCase;
+use Yoast\PHPUnitPolyfills\TestCases\TestCase;
 use Robo\Traits\TestTasksTrait;
 
 class GenerateTaskTest extends TestCase
@@ -10,7 +10,7 @@ class GenerateTaskTest extends TestCase
     use Collection\Tasks;
     use Task\Development\Tasks;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->initTestTasksTrait();
     }
@@ -19,7 +19,7 @@ class GenerateTaskTest extends TestCase
     {
         $result = $this->taskGenTask('Symfony\Component\Filesystem\Filesystem', 'FilesystemStack')->run();
         $this->assertTrue($result->wasSuccessful(), $result->getMessage());
-        $this->assertContains(
+        $this->assertStringContainsString(
           'protected function _chgrp($files, $group, $recursive = false)',
           $result->getMessage());
     }

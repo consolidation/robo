@@ -1,7 +1,7 @@
 <?php
 namespace Robo;
 
-use PHPUnit\Framework\TestCase;
+use Yoast\PHPUnitPolyfills\TestCases\TestCase;
 use Robo\Traits\TestTasksTrait;
 
 class RunnerTest extends TestCase
@@ -14,7 +14,7 @@ class RunnerTest extends TestCase
      */
     private $runner;
 
-    public function setup()
+    public function setUp(): void
     {
         $container = $this->initTestTasksTrait();
         $this->runner = new \Robo\Runner('\Robo\RoboFileFixture');
@@ -24,7 +24,7 @@ class RunnerTest extends TestCase
     public function testThrowsExceptionWhenNoContainerAvailable()
     {
         $this->expectException('\RuntimeException');
-        $this->expectExceptionMessageRegExp(
+        $this->expectExceptionMessageMatches(
             '/container is not initialized yet.*/'
         );
         Robo::unsetContainer();
@@ -57,7 +57,6 @@ array (
   1 => 'b',
   2 => 'c',
 )
-
 EOT;
         $this->assertOutputEquals($expected);
     }
@@ -93,7 +92,6 @@ array (
   1 => 'baz',
   2 => 'boz',
 )
-
 EOT;
         $this->assertOutputEquals($expected);
     }
@@ -104,10 +102,8 @@ EOT;
         $this->runner->execute($argv, null, null, $this->capturedOutputStream());
 
         $expected = <<<EOT
- This is the command-event hook for the test:command-event command.
-
+This is the command-event hook for the test:command-event command.
  This is the main method for the test:command-event command.
-
  This is the post-command hook for the test:command-event command.
 EOT;
         $this->assertOutputContains($expected);
@@ -179,7 +175,7 @@ EOT;
         $this->assertTrue(file_exists('testRoboFile.php'));
         $commandContents = file_get_contents('testRoboFile.php');
         unlink('testRoboFile.php');
-        $this->assertContains('class RoboTestClass', $commandContents);
+        $this->assertStringContainsString('class RoboTestClass', $commandContents);
     }
 
     public function testTasksStopOnFail()

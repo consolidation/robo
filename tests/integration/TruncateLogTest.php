@@ -2,7 +2,7 @@
 
 namespace Robo;
 
-use PHPUnit\Framework\TestCase;
+use Yoast\PHPUnitPolyfills\TestCases\TestCase;
 use Robo\Traits\TestTasksTrait;
 
 class TruncateLogTest extends TestCase
@@ -12,13 +12,13 @@ class TruncateLogTest extends TestCase
 
     protected $fixtures;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fixtures = new Fixtures();
         $this->initTestTasksTrait();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->fixtures->cleanup();
     }
@@ -54,7 +54,7 @@ class TruncateLogTest extends TestCase
     {
         $this->fixtures->createAndCdToSandbox();
 
-        $this->assertFileNotExists('box/new.log');
+        $this->assertFileDoesNotExist('box/new.log');
         $result = $this->taskTruncateLog(['box/new.log'])
             ->run();
         $this->assertTrue($result->wasSuccessful(), $result->getMessage());
@@ -75,7 +75,8 @@ class TruncateLogTest extends TestCase
         $this->assertFileIsReadable('box/robo.txt');
         $this->assertFileIsWritable('box/robo.txt');
         $mode = substr(sprintf('%o', fileperms('box/robo.txt')), -4);
-        $this->assertSame($mode, '0777');
-        $this->assertEquals($mode, '0777');
+        $expectedMode = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? '0666' : '0777';
+        $this->assertSame($mode, $expectedMode);
+        $this->assertEquals($mode, $expectedMode);
     }
 }

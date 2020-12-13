@@ -2,7 +2,7 @@
 
 namespace Robo;
 
-use PHPUnit\Framework\TestCase;
+use Yoast\PHPUnitPolyfills\TestCases\TestCase;
 use Robo\Traits\TestTasksTrait;
 
 class RoboFileTest extends TestCase
@@ -25,7 +25,7 @@ class RoboFileTest extends TestCase
      */
     private $roboCommandFileInstance;
 
-    public function setup()
+    public function setUp(): void
     {
         $container = $this->initTestTasksTrait();
         $this->app = $container->get('application');

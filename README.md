@@ -7,10 +7,10 @@
 [![Latest Unstable Version](https://poser.pugx.org/consolidation/robo/v/unstable.png)](https://packagist.org/packages/consolidation/robo) 
 [![Total Downloads](https://poser.pugx.org/consolidation/robo/downloads.png)](https://packagist.org/packages/consolidation/robo) 
 
-[![Build Status](https://travis-ci.org/consolidation/Robo.svg?branch=2.x)](https://travis-ci.org/consolidation/Robo) 
-[![Windows CI](https://ci.appveyor.com/api/projects/status/0823hnh06pw8ir4d?svg=true)](https://ci.appveyor.com/project/greg-1-anderson/robo)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/consolidation/Robo/badges/quality-score.png?b=2.x)](https://scrutinizer-ci.com/g/consolidation/Robo/?branch=2.x)
-[![License](https://img.shields.io/badge/license-MIT-408677.svg)](LICENSE)
+[![ci](https://github.com/consolidation/robo/workflows/CI/badge.svg)](https://travis-ci.org/consolidation/robo)
+[![scrutinizer](https://scrutinizer-ci.com/g/consolidation/robo/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/consolidation/robo/?branch=master)
+[![codecov](https://codecov.io/gh/consolidation/robo/branch/main/graph/badge.svg?token=CAaB7ofhxx)](https://codecov.io/gh/consolidation/robo)
+[![license](https://poser.pugx.org/consolidation/robo/license)](https://packagist.org/packages/consolidation/robo)
 
 * writing cross-platform scripts
 * processing assets (less, sass, minification)

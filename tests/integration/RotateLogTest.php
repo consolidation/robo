@@ -2,7 +2,7 @@
 
 namespace Robo;
 
-use PHPUnit\Framework\TestCase;
+use Yoast\PHPUnitPolyfills\TestCases\TestCase;
 use Robo\Traits\TestTasksTrait;
 
 class RotateLogTest extends TestCase
@@ -12,13 +12,13 @@ class RotateLogTest extends TestCase
 
     protected $fixtures;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fixtures = new Fixtures();
         $this->initTestTasksTrait();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->fixtures->cleanup();
     }
@@ -50,7 +50,7 @@ class RotateLogTest extends TestCase
             ->run();
         $this->assertTrue($result->wasSuccessful(), $result->getMessage());
         $this->assertFileExists('box/robo.txt');
-        $this->assertFileNotExists('box/robo.txt.1');
+        $this->assertFileDoesNotExist('box/robo.txt.1');
         $this->assertFileExists('box/first.log');
         $this->assertFileExists('box/first.log.1');
         $this->assertFileExists('box/second.log');
@@ -112,7 +112,8 @@ class RotateLogTest extends TestCase
             ),
             -4
         );
-        $this->assertSame($mode, '0777');
-        $this->assertEquals($mode, '0777');
+        $expectedMode = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? '0666' : '0777';
+        $this->assertSame($mode, $expectedMode);
+        $this->assertEquals($mode, $expectedMode);
     }
 }

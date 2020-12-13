@@ -71,20 +71,23 @@ trait TestTasksTrait
     {
         $output = $this->accumulate();
         $output = $this->simplify($output);
-        $this->assertContains($value, $output);
+        $value = $this->simplify($value);
+        $this->assertStringContainsString($value, $output);
     }
 
     public function assertOutputNotContains($value)
     {
         $output = $this->accumulate();
         $output = $this->simplify($output);
-        $this->assertNotContains($value, $output);
+        $value = $this->simplify($value);
+        $this->assertStringNotContainsString($value, $output);
     }
 
     public function assertOutputEquals($value)
     {
         $output = $this->accumulate();
         $output = $this->simplify($output);
+        $value = $this->simplify($value);
         $this->assertEquals($value, $output);
     }
 
@@ -94,9 +97,9 @@ trait TestTasksTrait
      */
     protected function simplify($output)
     {
-        $output = str_replace("\r\n", "\n", $output);
-        $output = str_replace("\r", "\n", $output);
+        $output = str_replace("\r", "", $output);
+        $output = preg_replace("#\n+#", "\n", $output);
 
-        return $output;
+        return trim($output);
     }
 }

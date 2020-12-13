@@ -1,7 +1,7 @@
 <?php
 namespace Robo;
 
-use PHPUnit\Framework\TestCase;
+use Yoast\PHPUnitPolyfills\TestCases\TestCase;
 use Robo\Traits\TestTasksTrait;
 
 class SemVerTest extends TestCase
@@ -11,13 +11,13 @@ class SemVerTest extends TestCase
 
     protected $fixtures;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fixtures = new Fixtures();
         $this->initTestTasksTrait();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->fixtures->cleanup();
     }
@@ -38,6 +38,6 @@ class SemVerTest extends TestCase
 
         $this->assertFileExists($outputFile);
         $outputFileContents = file_get_contents($outputFile);
-        $this->assertContains('major', $outputFileContents, 'Semver file has expected structure');
+        $this->assertStringContainsString('major', $outputFileContents, 'Semver file has expected structure');
     }
 }

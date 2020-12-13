@@ -401,10 +401,10 @@ class CollectionTest extends TestCase
         // The file 'error.txt' should have been copied into the "copied" dir
         $this->assertFileExists("$cwd/copied2/error.txt");
         // $tmpPath should be deleted after $collection->run() completes.
-        $this->assertFileNotExists("$tmpPath/log/error.txt");
+        $this->assertFileDoesNotExist("$tmpPath/log/error.txt");
         // Make sure that 'log' was created in the temporary directory, not
         // at the current working directory.
-        $this->assertFileNotExists("$cwd/log/error.txt");
+        $this->assertFileDoesNotExist("$cwd/log/error.txt");
 
         // Make sure that our working directory was restored.
         $finalWorkingDir = getcwd();
@@ -428,8 +428,8 @@ class CollectionTest extends TestCase
             ->copy($tmpPath, 'copied.txt');
 
         // FilesystemStack has not run yet, so no files should be found.
-        $this->assertFileNotExists("$tmpPath");
-        $this->assertFileNotExists('copied.txt');
+        $this->assertFileDoesNotExist("$tmpPath");
+        $this->assertFileDoesNotExist('copied.txt');
 
         // Run the task collection
         $result = $collection->run();
@@ -438,7 +438,7 @@ class CollectionTest extends TestCase
         // The file 'copied.txt' should have been copied from the tmp file
         $this->assertFileExists('copied.txt');
         // $tmpPath should be deleted after $collection->run() completes.
-        $this->assertFileNotExists("$tmpPath");
+        $this->assertFileDoesNotExist("$tmpPath");
     }
 
     public function testUseATmpDirWithAlternateSyntax()
@@ -463,7 +463,7 @@ class CollectionTest extends TestCase
         // The results of this operation should be the same.
         $this->assertEquals(0, $result->getExitCode(), $result->getMessage());
         $this->assertFileExists('copied3/log/error.txt');
-        $this->assertFileNotExists("$tmpPath/log/error.txt");
+        $this->assertFileDoesNotExist("$tmpPath/log/error.txt");
     }
 
     public function testCreateATmpDirWithoutACollection()
@@ -472,7 +472,7 @@ class CollectionTest extends TestCase
         // the prefix for the directory name.
         $tmpDirTask = $this->taskTmpDir(__FUNCTION__);
         $tmpPath = $tmpDirTask->getPath();
-        $this->assertFileNotExists($tmpPath);
+        $this->assertFileDoesNotExist($tmpPath);
         $result = $tmpDirTask->run();
         $this->assertTrue($result->wasSuccessful(), $result->getMessage());
         $this->assertFileExists($tmpPath);
@@ -482,7 +482,7 @@ class CollectionTest extends TestCase
         // TransientManager::complete(); note that this deletes ALL global tmp
         // directories, so this is not thread-safe!  Useful in tests, though.
         Temporary::complete();
-        $this->assertFileNotExists($tmpPath);
+        $this->assertFileDoesNotExist($tmpPath);
     }
 
     public function testCreateATmpDirUsingShortcut()
@@ -497,7 +497,7 @@ class CollectionTest extends TestCase
         // TransientManager::complete(); note that this deletes ALL global tmp
         // directories, so this is not thread-safe!  Useful in tests, though.
         Temporary::complete();
-        $this->assertFileNotExists($tmpPath);
+        $this->assertFileDoesNotExist($tmpPath);
     }
 
     public function testThrowAnExceptionAndConfirmItIsCaught()

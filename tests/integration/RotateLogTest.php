@@ -112,7 +112,8 @@ class RotateLogTest extends TestCase
             ),
             -4
         );
-        $this->assertSame($mode, '0777');
-        $this->assertEquals($mode, '0777');
+        $expectedMode = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? '0666' : '0777';
+        $this->assertSame($mode, $expectedMode);
+        $this->assertEquals($mode, $expectedMode);
     }
 }

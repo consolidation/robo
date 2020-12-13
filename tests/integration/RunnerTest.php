@@ -57,7 +57,6 @@ array (
   1 => 'b',
   2 => 'c',
 )
-
 EOT;
         $this->assertOutputEquals($expected);
     }
@@ -93,7 +92,6 @@ array (
   1 => 'baz',
   2 => 'boz',
 )
-
 EOT;
         $this->assertOutputEquals($expected);
     }
@@ -104,10 +102,8 @@ EOT;
         $this->runner->execute($argv, null, null, $this->capturedOutputStream());
 
         $expected = <<<EOT
- This is the command-event hook for the test:command-event command.
-
+This is the command-event hook for the test:command-event command.
  This is the main method for the test:command-event command.
-
  This is the post-command hook for the test:command-event command.
 EOT;
         $this->assertOutputContains($expected);

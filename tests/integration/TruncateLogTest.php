@@ -75,7 +75,8 @@ class TruncateLogTest extends TestCase
         $this->assertFileIsReadable('box/robo.txt');
         $this->assertFileIsWritable('box/robo.txt');
         $mode = substr(sprintf('%o', fileperms('box/robo.txt')), -4);
-        $this->assertSame($mode, '0777');
-        $this->assertEquals($mode, '0777');
+        $expectedMode = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? '0666' : '0777';
+        $this->assertSame($mode, $expectedMode);
+        $this->assertEquals($mode, $expectedMode);
     }
 }

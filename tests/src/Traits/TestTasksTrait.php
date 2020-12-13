@@ -96,7 +96,8 @@ trait TestTasksTrait
     {
         $output = str_replace("\r\n", "\n", $output);
         $output = str_replace("\r", "\n", $output);
+        $output = preg_replace("#\n+#", "\n", $output);
 
-        return $output;
+        return trim($output);
     }
 }

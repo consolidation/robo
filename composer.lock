@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "84badba945210304e1ffeb8b4871458d",
+    "content-hash": "ae01b9e9f0739eb07d4b149f4f3b0498",
     "packages": [
         {
             "name": "consolidation/annotated-command",

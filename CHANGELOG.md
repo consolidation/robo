@@ -1,5 +1,21 @@
 # Changelog
 
+### 2.2.2 12/18/2020
+
+* Restore symfony/yaml dependency by Dan Untenzu (#1010)
+* Backport Logfile tasks from Robo 3.x by Christin Gruber (#995)
+* TaskInterface::Run() should always return a Result by Pieter Frenssen (#986)
+* PHP 7.3 compatibility issues by Yogesh Pawar (#984)
+* Fix Parallel Exec example.
+* Stopped using deprecated "printed()" method in taskExec and used recommended "printOutput()" instead. (#980)
+* Removed problematic annotation in try:capture-exec
+
+### 2.2.1 09/08/2020
+
+* Do not call ignorelist on the archive if it is empty. (#979)
+* Backport #977
+* Make sure that output from ExecTrait is passed through when "printOutput(false)" is called. (#977)
+
 ### 2.2.0 09/05/2020
 
 * New CheckPlatformReqs task by Pierre Rudloff (#957)

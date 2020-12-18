@@ -22,9 +22,9 @@
     "bin":["robo"],
     "require": {
         "php": ">=7.1.3",
+        "consolidation/annotated-command": "^4.2.1",
         "consolidation/config": "^1.2.1|^2",
         "consolidation/log": "^1.1.1|^2.0.1",
-        "consolidation/annotated-command": "^4.2.1",
         "consolidation/output-formatters": "^4.1.1",
         "consolidation/self-update": "^1.2",
         "league/container": "^2.4.1",
@@ -32,7 +32,8 @@
         "symfony/event-dispatcher": "^4.4.11|^5",
         "symfony/filesystem": "^4.4.11|^5",
         "symfony/finder": "^4.4.11|^5",
-        "symfony/process": "^4.4.11|^5"
+        "symfony/process": "^4.4.11|^5",
+        "symfony/yaml": "^4.0 || ^5.0"
     },
     "require-dev": {
         "g1a/composer-test-scenarios": "^3",

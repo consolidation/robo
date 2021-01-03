@@ -524,13 +524,16 @@ class Runner implements ContainerAwareInterface
                 $this->roboClass = $className;
             }
         }
-        // Convert directory to a real path, but only if the
-        // path exists. We do not want to lose the original
-        // directory if the user supplied a bad value.
-        $realDir = realpath($this->dir);
-        if ($realDir) {
-            chdir($realDir);
-            $this->dir = $realDir;
+        
+        if (substr($this->dir, 0, 7) !== "phar://") {
+            // Convert directory to a real path, but only if the
+            // path exists. We do not want to lose the original
+            // directory if the user supplied a bad value.
+            $realDir = realpath($this->dir);
+            if ($realDir) {
+                chdir($realDir);
+                $this->dir = $realDir;
+            }
         }
 
         return $argv;

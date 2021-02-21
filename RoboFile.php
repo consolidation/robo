@@ -117,7 +117,7 @@ class RoboFile extends \Robo\Tasks
         $this->publish($io);
         $this->collectionBuilder($io)->taskGitStack()
             ->tag($version)
-            ->push('origin ' . MAIN_BRANCH . ' --tags')
+            ->push('origin ' . self::MAIN_BRANCH . ' --tags')
             ->run();
 
         if ($stable) {
@@ -337,7 +337,7 @@ class RoboFile extends \Robo\Tasks
         return $this->collectionBuilder($io)
             ->taskGitStack()
                 ->checkout('site')
-                ->merge(MAIN_BRANCH)
+                ->merge(self::MAIN_BRANCH)
             ->completion($this->taskGitStack()->checkout($current_branch))
             ->taskFilesystemStack()
                 ->copy('CHANGELOG.md', 'docs/changelog.md')
@@ -483,7 +483,7 @@ class RoboFile extends \Robo\Tasks
                 ->add('robotheme/robo.phar')
                 ->commit('Update robo.phar to ' . \Robo\Robo::VERSION)
                 ->push('origin site')
-                ->checkout(MAIN_BRANCH)
+                ->checkout(self::MAIN_BRANCH)
                 ->run();
     }
 }

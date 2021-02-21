@@ -21,6 +21,7 @@ $this->taskBowerInstall('path/to/my/bower')
 * `forceLatest()`  adds `force-latest` option to bower
 * `noDev()`  adds `production` option to bower
 * `offline()`  adds `offline` option to bower
+* `setOutput($output)`  Sets the Console Output.
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -28,6 +29,7 @@ $this->taskBowerInstall('path/to/my/bower')
 * `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
 * `options(array $options, $separator = null)`  Pass multiple options to executable. The associative array contains
 * `optionList($option, $value = null, $separator = null)`  Pass an option with multiple values to executable. Value can be a string or array.
+
 
 ## Update
 
@@ -50,6 +52,7 @@ $this->taskBowerUpdate('path/to/my/bower')
 * `forceLatest()`  adds `force-latest` option to bower
 * `noDev()`  adds `production` option to bower
 * `offline()`  adds `offline` option to bower
+* `setOutput($output)`  Sets the Console Output.
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values

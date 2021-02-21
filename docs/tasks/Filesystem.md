@@ -13,7 +13,7 @@ $this->_cleanDir('app/cache');
 ?>
 ```
 
-
+* `setOutput($output)`  Sets the Console Output.
 
 ## CopyDir
 
@@ -31,6 +31,7 @@ $this->_copyDir('dist/config', 'config');
 * `dirPermissions($value)`  Sets the default folder permissions for the destination if it doesn't exist
 * `exclude($exclude = null)`  List files to exclude.
 * `overwrite($overwrite)`  Destination files newer than source files are overwritten.
+* `setOutput($output)`  Sets the Console Output.
 
 ## DeleteDir
 
@@ -45,7 +46,7 @@ $this->_deleteDir(['tmp', 'log']);
 ?>
 ```
 
-
+* `setOutput($output)`  Sets the Console Output.
 
 ## FilesystemStack
 
@@ -81,6 +82,7 @@ $this->_mkdir('logs');
 * `$this mirror(string $from, string $to, \Traversable $iterator = null, array $options = [])` 
 
 * `stopOnFail($stop = null)`   * `param bool` $stop
+* `setOutput($output)`  Sets the Console Output.
 
 ## FlattenDir
 
@@ -148,6 +150,7 @@ $this->taskFlattenDir(['assets/*.min.js' => 'dist'])
 * `includeParents($parents)`  Sets the value from which direction and how much parent dirs should be included.
 * `parentDir($dir)`  Sets the parent directory from which the relative parent directories will be calculated.
 * `to($target)`  Sets the target directory where the files will be copied to.
+* `setOutput($output)`  Sets the Console Output.
 
 ## MirrorDir
 
@@ -162,6 +165,8 @@ $this->_mirrorDir('dist/config/', 'config/');
 
 ?>
 ```
+
+* `setOutput($output)`  Sets the Console Output.
 
 
 
@@ -192,6 +197,7 @@ $tmpPath = $this->_tmpDir();
 * `cwd($shouldChangeWorkingDirectory = null)`  Flag that we should cwd to the temporary directory when it is
 * `complete()`  Delete this directory when our collection completes.
 * `getPath()`  Get a reference to the path to the temporary directory, so that
+* `setOutput($output)`  Sets the Console Output.
 
 ## WorkDir
 
@@ -215,4 +221,5 @@ $collection->run();
 * `rollback()`  Delete our working directory
 * `getPath()`  Get a reference to the path to the temporary directory, so that
 * `cwd($shouldChangeWorkingDirectory = null)`  Flag that we should cwd to the temporary directory when it is
+* `setOutput($output)`  Sets the Console Output.
 

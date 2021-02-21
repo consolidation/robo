@@ -22,6 +22,7 @@ Class Build
 
 * `tag($tag)`   * `param string` $tag
 * `enableBuildKit()`   * `return` $this
+* `setOutput($output)`  Sets the Console Output.
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -52,6 +53,7 @@ $task->dockerCommit($result)
 ```
 
 * `name($name)`   * `param string` $name
+* `setOutput($output)`  Sets the Console Output.
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -88,6 +90,7 @@ $this->taskDockerExec($test)
 
 * `detached()`   * `return` $this
 * `exec($command)`   * `param string|\Robo\Contract\CommandInterface` $command
+* `setOutput($output)`  Sets the Console Output.
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -110,6 +113,7 @@ $this->taskDockerPull('wordpress')
 ```
 
 
+* `setOutput($output)`  Sets the Console Output.
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -131,6 +135,7 @@ $this->taskDockerRemove($container)
 ```
 
 
+* `setOutput($output)`  Sets the Console Output.
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -197,6 +202,7 @@ $this->taskDockerRun('wordpress')
 * `tmpDir($dir)`   * `param string` $dir
 * `getTmpDir()`  @return string
 * `getUniqId()`  @return string
+* `setOutput($output)`  Sets the Console Output.
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -217,6 +223,7 @@ $this->taskDockerStart($cidOrResult)
 ?>
 ```
 
+* `setOutput($output)`  Sets the Console Output.
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -237,6 +244,7 @@ $this->taskDockerStop($cidOrResult)
 ?>
 ```
 
+* `setOutput($output)`  Sets the Console Output.
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -244,4 +252,5 @@ $this->taskDockerStop($cidOrResult)
 * `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
 * `options(array $options, $separator = null)`  Pass multiple options to executable. The associative array contains
 * `optionList($option, $value = null, $separator = null)`  Pass an option with multiple values to executable. Value can be a string or array.
+
 

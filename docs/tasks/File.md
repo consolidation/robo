@@ -17,6 +17,7 @@ $this->taskConcat([
 ```
 
 * `to($dst)`  set the destination file
+* `setOutput($output)`  Sets the Console Output.
 
 ## Replace
 
@@ -52,6 +53,8 @@ $this->taskReplaceInFile('box/robo.txt')
 * `to($to)`  Value(s) to be set as a replacement.
 * `regex($regex)`  Regex to match string to be replaced.
 * `limit($limit)`  If used with $this->regexp() how many counts will be replaced
+* `setOutput($output)`  Sets the Console Output.
+
 
 ## TmpFile
 
@@ -91,6 +94,7 @@ $collection->run();
 * `originalContents()`  @return string
 * `wouldChange()`  @return bool
 * `getPath()`  @return string
+* `setOutput($output)`  Sets the Console Output.
 
 ## Write
 
@@ -121,4 +125,5 @@ $this->taskWriteToFile('blogpost.md')
 * `originalContents()`  @return string
 * `wouldChange()`  @return bool
 * `getPath()`  @return string
+* `setOutput($output)`  Sets the Console Output.
 

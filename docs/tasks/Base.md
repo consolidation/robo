@@ -20,6 +20,7 @@ if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
 ```
 
 * `simulate($context)`  {@inheritdoc}
+* `setOutput($output)`  Sets the Console Output.
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -49,6 +50,7 @@ $this->taskExecStack()
 * `exec($command)`   * `param string|string[]|CommandInterface` $command
 * `stopOnFail($stopOnFail = null)`   * `param bool` $stopOnFail
 * `result($result)` 
+* `setOutput($output)`  Sets the Console Output.
 * `dir($dir)`  Changes working directory of command
 
 ## ParallelExec
@@ -68,6 +70,8 @@ $this->taskParallelExec()
 
 * `process($command)`   * `param string|\Robo\Contract\CommandInterface` $command
 * `waitInterval($waitInterval)`  Parallel processing will wait `$waitInterval` seconds after launching each process and before
+* `setOutput($output)`  Sets the Console Output.
+
 
 ## SymfonyCommand
 
@@ -91,6 +95,8 @@ $this->taskSymfonyCommand(new ModelGeneratorCommand())
 
 * `arg($arg, $value)`   * `param string` $arg
 * `opt($option, $value = null)` 
+* `setOutput($output)`  Sets the Console Output.
+
 
 ## Watch
 
@@ -146,4 +152,5 @@ $this
 The $event parameter is a [standard Symfony file resource object](https://api.symfony.com/3.1/Symfony/Component/Config/Resource/FileResource.html)
 
 * `monitor($paths, $callable, $events = null)`   * `param string|string[]` $paths
+* `setOutput($output)`  Sets the Console Output.
 

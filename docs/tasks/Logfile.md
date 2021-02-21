@@ -1,32 +1,39 @@
 # Logfile Tasks
 
-## Rotate logfile
+## RotateLog
 
 
-Rotate and purge obsolete logs.
+Rotates a log (or any other) file
 
 ``` php
 <?php
 $this->taskRotateLog(['logfile.log'])->run();
-// as shortcut
+// or use shortcut
 $this->_rotateLog(['logfile.log']);
+
 ?>
 ```
 
-* `chmod(int $chmod)` Changes file mode to octal $chmod, default is disabled.
-* `keep(int $keep)` Logfiles to keep, default is 3.
+* `keep($keep)`   * `param int` $keep
+* `chmod($chmod)`   * `param int` $chmod
+* `setOutput($output)`  Sets the Console Output.
 
-## Truncate logfile
 
 
-Truncates or create empty logfile if logfile not exists.
+## TruncateLog
+
+
+Truncates a log (or any other) file
 
 ``` php
 <?php
 $this->taskTruncateLog(['logfile.log'])->run();
-// as shortcut
-$this->_rotateTruncate(['logfile.log']);
+// or use shortcut
+$this->_truncateLog(['logfile.log']);
+
 ?>
 ```
 
-* `chmod(int $chmod)` Changes file mode to octal $chmod, default is disabled.
+* `chmod($chmod)`   * `param int` $chmod
+* `setOutput($output)`  Sets the Console Output.
+

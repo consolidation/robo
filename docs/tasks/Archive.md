@@ -26,6 +26,7 @@ $this->taskExtract($archivePath)
 
 * `to($to)`  Location to store extracted files.
 * `preserveTopDirectory($preserve = null)`   * `param bool` $preserve
+* `setOutput($output)`  Sets the Console Output.
 
 ## Pack
 
@@ -49,4 +50,6 @@ $this->taskPack(
 * `addDir($placementLocation, $filesystemLocation)`  Alias for addFile, in case anyone has angst about using
 * `add($item)`  Add a file or directory, or list of same to the archive.
 * `exclude($ignoreList)`  Allow files or folder to be excluded from the archive. Use regex, without enclosing slashes.
+* `setOutput($output)`  Sets the Console Output.
+
 

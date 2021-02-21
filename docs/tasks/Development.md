@@ -36,6 +36,7 @@ $this->taskChangelog()
 * `change($change)`   * `param string` $change
 * `getChanges()`  @return array
 * `processLogRow($i)`   * `param string` $i
+* `setOutput($output)`  Sets the Console Output.
 
 ## GenerateMarkdownDoc
 
@@ -93,6 +94,7 @@ $this->taskGenDoc('models.md')
 * `append($append)`  Inserts text at the end of markdown file.
 * `text($text)`   * `param string` $text
 * `textForClass($item)`   * `param string` $item
+* `setOutput($output)`  Sets the Console Output.
 
 ## Generate
 
@@ -105,7 +107,7 @@ $this->taskGenerateTask('Symfony\Component\Filesystem\Filesystem', 'FilesystemSt
   ->run();
 ```
 
-
+* `setOutput($output)`  Sets the Console Output.
 
 
 ## GitHubRelease
@@ -139,6 +141,7 @@ $this->taskGitHubRelease('0.1.0')
 * `user($user)`   * `param string` $user
 * `password($password)`   * `param string` $password
 * `accessToken($token)`   * `param string` $token
+* `setOutput($output)`  Sets the Console Output.
 
 ## OpenBrowser
 
@@ -160,7 +163,7 @@ $this->taskOpenBrowser([
   ->run();
 ```
 
-
+* `setOutput($output)`  Sets the Console Output.
 
 ## PackPhar
 
@@ -201,6 +204,7 @@ $pharTask = $this->taskPackPhar('package/codecept.phar')
 * `addFile($path, $file)`   * `param string` $path
 * `addFiles($files)`   * `param \Symfony\Component\Finder\SplFileInfo[]` $files
 * `executable($file)`   * `param string` $file
+* `setOutput($output)`  Sets the Console Output.
 
 ## PhpServer
 
@@ -229,6 +233,7 @@ $this->taskServer(8000)
 * `host($host)`   * `param string` $host
 * `dir($path)`   * `param string` $path
 * `simulate($context)`  {@inheritdoc}
+* `setOutput($output)`  Sets the Console Output.
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
 * `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
@@ -258,4 +263,5 @@ $this->taskSemVer('.semver')
 * `increment($what = null)`   * `param string` $what
 * `prerelease($tag = null)`   * `param string` $tag
 * `metadata($data)`   * `param array|string` $data
+
 

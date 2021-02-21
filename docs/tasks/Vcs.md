@@ -37,6 +37,7 @@ $this->taskGitStack()
 * `exec($command)`   * `param string|string[]|CommandInterface` $command
 * `stopOnFail($stopOnFail = null)`   * `param bool` $stopOnFail
 * `result($result)` 
+* `setOutput($output)`  Sets the Console Output.
 * `dir($dir)`  Changes working directory of command
 
 ## HgStack
@@ -69,7 +70,9 @@ $this->hgStack
 * `exec($command)`   * `param string|string[]|CommandInterface` $command
 * `stopOnFail($stopOnFail = null)`   * `param bool` $stopOnFail
 * `result($result)` 
+* `setOutput($output)`  Sets the Console Output.
 * `dir($dir)`  Changes working directory of command
+
 
 ## SvnStack
 
@@ -102,5 +105,7 @@ $this->taskSvnStack('username', 'password')
 * `exec($command)`   * `param string|string[]|CommandInterface` $command
 * `stopOnFail($stopOnFail = null)`   * `param bool` $stopOnFail
 * `result($result)` 
+* `setOutput($output)`  Sets the Console Output.
 * `dir($dir)`  Changes working directory of command
+
 

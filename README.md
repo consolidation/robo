@@ -23,7 +23,7 @@
 
 | Branch | Support Level | Symfony Versions | PHP Versions |
 | ------ | ------------- | ---------------- | ------------ |
-| [3.x](https://github.com/consolidation/robo/tree/3.x) | Unstable        | 4 & 5 | 7.1 - 7.4 |
+| [3.x](https://github.com/consolidation/robo/tree/3.x) | Unstable        | 4 & 5 | 7.1 - 8.0 |
 | [2.x](https://github.com/consolidation/robo/tree/2.x) | Stable          | 4 & 5 | 7.1 - 7.4 |
 | [1.x](https://github.com/consolidation/robo/tree/1.x) | Not recommended | 2 - 4 | 5.5 - 7.4 |
 

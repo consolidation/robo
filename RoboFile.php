@@ -5,6 +5,8 @@ use Robo\Symfony\ConsoleIO;
 
 class RoboFile extends \Robo\Tasks
 {
+    const MAIN_BRANCH = '3.x';
+
     /**
      * Run the Robo unit tests.
      *
@@ -115,7 +117,7 @@ class RoboFile extends \Robo\Tasks
         $this->publish($io);
         $this->collectionBuilder($io)->taskGitStack()
             ->tag($version)
-            ->push('origin master --tags')
+            ->push('origin ' . MAIN_BRANCH . ' --tags')
             ->run();
 
         if ($stable) {
@@ -335,7 +337,7 @@ class RoboFile extends \Robo\Tasks
         return $this->collectionBuilder($io)
             ->taskGitStack()
                 ->checkout('site')
-                ->merge('master')
+                ->merge(MAIN_BRANCH)
             ->completion($this->taskGitStack()->checkout($current_branch))
             ->taskFilesystemStack()
                 ->copy('CHANGELOG.md', 'docs/changelog.md')
@@ -481,7 +483,7 @@ class RoboFile extends \Robo\Tasks
                 ->add('robotheme/robo.phar')
                 ->commit('Update robo.phar to ' . \Robo\Robo::VERSION)
                 ->push('origin site')
-                ->checkout('master')
+                ->checkout(MAIN_BRANCH)
                 ->run();
     }
 }

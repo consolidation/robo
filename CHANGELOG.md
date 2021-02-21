@@ -1,5 +1,12 @@
 # Changelog
 
+### 3.0.0 02/21/2021
+
+* PHP 8 support
+* Update to league/container ^3
+* Prefer passing `ConsoleIO $io` to commands over `$this->io()`, which is now deprecated.
+* `loadTasks` renamed to `Tasks`
+
 ### 2.2.0 09/05/2020
 
 * New CheckPlatformReqs task by Pierre Rudloff (#957)

@@ -122,7 +122,7 @@ class RoboFile extends \Robo\Tasks
 
         if ($stable) {
             $version = $this->incrementVersion($version) . '-dev';
-            $this->writeVersion($version);
+            $this->writeVersion($this->collectionBuilder($io), $version);
 
             $this->collectionBuilder($io)->taskGitStack()
                 ->add('-A')
@@ -472,6 +472,7 @@ class RoboFile extends \Robo\Tasks
 
         $this->collectionBuilder($io)
             ->taskFilesystemStack()
+                ->remove('robo-release.phar')
                 ->rename('robo.phar', 'robo-release.phar')
             ->taskGitStack()
                 ->checkout('site')

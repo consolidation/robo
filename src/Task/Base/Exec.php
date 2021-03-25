@@ -124,7 +124,7 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
 }
 
 if (function_exists('pcntl_signal')) {
-    pcntl_signal(SIGTERM, ['Robo\Task\Base\Exec', 'stopRunningJobs']);
+    pcntl_signal(SIGTERM, ['self', 'stopRunningJobs']);
 }
 
-register_shutdown_function(['Robo\Task\Base\Exec', 'stopRunningJobs']);
+register_shutdown_function(['self', 'stopRunningJobs']);

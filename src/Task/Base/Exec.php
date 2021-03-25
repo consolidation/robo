@@ -2,6 +2,7 @@
 
 namespace Robo\Task\Base;
 
+use Closure;
 use Robo\Contract\CommandInterface;
 use Robo\Contract\PrintedInterface;
 use Robo\Contract\SimulatedInterface;
@@ -44,6 +45,8 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
      */
     protected $command;
 
+    private static $isSetupStopRunningJob = false;
+
     /**
      * @param string|\Robo\Contract\CommandInterface $command
      */
@@ -51,11 +54,24 @@ class Exec extends BaseTask implements CommandInterface, PrintedInterface, Simul
     {
         $this->command = $this->receiveCommand($command);
 
-        if (function_exists('pcntl_signal')) {
-            pcntl_signal(SIGTERM, ['self', 'stopRunningJobs']);
+        $this->setupStopRunningJobs();
+    }
+
+    private function setupStopRunningJobs()
+    {
+        if (self::$isSetupStopRunningJob === true) {
+            return;
         }
 
-        register_shutdown_function(['self', 'stopRunningJobs']);
+        $stopRunningJobs = Closure::fromCallable(['self', 'stopRunningJobs']);
+
+        if (function_exists('pcntl_signal')) {
+            pcntl_signal(SIGTERM, $stopRunningJobs);
+        }
+
+        register_shutdown_function($stopRunningJobs);
+
+        self::$isSetupStopRunningJob = true;
     }
 
     public function __destruct()

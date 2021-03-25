@@ -5,6 +5,7 @@ namespace Robo\Task\Testing;
 use Robo\Contract\CommandInterface;
 use Robo\Contract\PrintedInterface;
 use Robo\Task\BaseTask;
+use Robo\Common\ExecOneCommand;
 
 /**
  * Runs [atoum](http://atoum.org/) tests
@@ -21,7 +22,7 @@ use Robo\Task\BaseTask;
  */
 class Atoum extends BaseTask implements CommandInterface, PrintedInterface
 {
-    use \Robo\Common\ExecOneCommand;
+    use ExecOneCommand;
 
     /**
      * @var string

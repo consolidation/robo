@@ -9,6 +9,8 @@ use Robo\Contract\SimulatedInterface;
 use Robo\Task\BaseTask;
 use Symfony\Component\Process\Process;
 use Robo\Result;
+use Robo\Common\CommandReceiver;
+use Robo\Common\ExecOneCommand;
 
 /**
  * Executes shell script. Closes it when running in background mode.
@@ -30,8 +32,8 @@ use Robo\Result;
  */
 class Exec extends BaseTask implements CommandInterface, PrintedInterface, SimulatedInterface
 {
-    use \Robo\Common\CommandReceiver;
-    use \Robo\Common\ExecOneCommand;
+    use CommandReceiver;
+    use ExecOneCommand;
 
     /**
      * @var static[]

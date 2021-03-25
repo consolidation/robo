@@ -4,10 +4,11 @@ namespace Robo\Task\Npm;
 
 use Robo\Task\BaseTask;
 use Robo\Exception\TaskException;
+use Robo\Common\ExecOneCommand;
 
 abstract class Base extends BaseTask
 {
-    use \Robo\Common\ExecOneCommand;
+    use ExecOneCommand;
 
     /**
      * @var string

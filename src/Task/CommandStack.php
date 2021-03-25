@@ -7,11 +7,12 @@ use Robo\Contract\PrintedInterface;
 use Robo\Result;
 use Robo\Contract\CommandInterface;
 use Robo\Exception\TaskException;
+use Robo\Common\CommandReceiver;
 
 abstract class CommandStack extends BaseTask implements CommandInterface, PrintedInterface
 {
     use ExecCommand;
-    use \Robo\Common\CommandReceiver;
+    use CommandReceiver;
 
     /**
      * @var string

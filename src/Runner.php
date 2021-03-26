@@ -13,7 +13,8 @@ use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 use League\Container\Exception\ContainerException;
 use Consolidation\Config\Util\EnvConfig;
-use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class Runner implements ContainerAwareInterface
 {
@@ -97,16 +98,11 @@ class Runner implements ContainerAwareInterface
         $this->errorConditions[$msg] = $errorType;
     }
 
-    /**
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return bool
-     */
-    protected function loadRoboFile($output)
+    protected function loadRoboFile(?OutputInterface $output): bool
     {
         // If we have not been provided an output object, make a temporary one.
         if (!$output) {
-            $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+            $output = new ConsoleOutput();
         }
 
         // If $this->roboClass is a single class that has not already
@@ -146,7 +142,7 @@ class Runner implements ContainerAwareInterface
      *
      * @return int
      */
-    public function execute($argv, $appName = null, $appVersion = null, $output = null)
+    public function execute(array $argv, ?string $appName = null, ?string $appVersion = null, ?OutputInterface $output = null)
     {
         $argv = $this->shebang($argv);
         $argv = $this->processRoboOptions($argv);
@@ -154,7 +150,8 @@ class Runner implements ContainerAwareInterface
         if ($appName && $appVersion) {
             $app = Robo::createDefaultApplication($appName, $appVersion);
         }
-        $commandFiles = $this->getRoboFileCommands($output);
+        $commandFiles = (array) $this->getRoboFileCommands($output);
+
         return $this->run($argv, $output, $app, $commandFiles, $this->classLoader);
     }
 
@@ -181,17 +178,18 @@ class Runner implements ContainerAwareInterface
      * @return \Robo\Application
      *   Initialized application based on passed configuration and command classes.
      */
-    public function getAppForTesting($appName = null, $appVersion = null, $commandFile = null, $config = null, $classLoader = null)
+    public function getAppForTesting($appName = null, $appVersion = null, $commandFile = null, $config = null, $classLoader = null): Application
     {
         $app = Robo::createDefaultApplication($appName, $appVersion);
-        $output = new NullOutput();
-        $container = Robo::createDefaultContainer(null, $output, $app, $config, $classLoader);
+        $container = Robo::createContainer($app, $config, $classLoader);
+
         if (!is_null($commandFile) && (is_array($commandFile) || is_string($commandFile))) {
             if (is_string($commandFile)) {
                 $commandFile = [$commandFile];
             }
             $this->registerCommandClasses($app, $commandFile);
         }
+
         return $app;
     }
 
@@ -202,7 +200,7 @@ class Runner implements ContainerAwareInterface
      *
      * @return string[]
      */
-    protected function getConfigFilePaths($userConfig)
+    protected function getConfigFilePaths(string $userConfig): array
     {
         // Look for application config at the root of the application.
         // Find the root relative to this file, considering that Robo itself
@@ -218,17 +216,13 @@ class Runner implements ContainerAwareInterface
         return $configFiles;
     }
 
-    /**
-     * @param null|\Symfony\Component\Console\Input\InputInterface $input
-     * @param null|\Symfony\Component\Console\Output\OutputInterface $output
-     * @param null|\Robo\Application $app
-     * @param array[] $commandFiles
-     * @param null|ClassLoader $classLoader
-     *
-     * @return int
-     */
-    public function run($input = null, $output = null, $app = null, $commandFiles = [], $classLoader = null)
-    {
+    public function run(
+        $input = null,
+        ?OutputInterface $output = null,
+        ?Application $app = null,
+        array $commandFiles = [],
+        ?ClassLoader $classLoader = null
+    ): int {
         // Create default input and output objects if they were not provided
         if (!$input) {
             $input = new StringInput('');
@@ -237,7 +231,7 @@ class Runner implements ContainerAwareInterface
             $input = new ArgvInput($input);
         }
         if (!$output) {
-            $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+            $output = new ConsoleOutput();
         }
         $this->setInput($input);
         $this->setOutput($output);
@@ -252,7 +246,7 @@ class Runner implements ContainerAwareInterface
                 $envConfig = new EnvConfig($this->envConfigPrefix);
                 $config->addContext('env', $envConfig);
             }
-            $container = Robo::createDefaultContainer($input, $output, $app, $config, $classLoader);
+            $container = Robo::createContainer($app, $config, $classLoader);
             $this->setContainer($container);
             // Automatically register a shutdown function and
             // an error handler when we provide the container.
@@ -262,7 +256,7 @@ class Runner implements ContainerAwareInterface
         if (!$app) {
             $app = Robo::application();
         }
-        if ($app instanceof \Robo\Application) {
+        if ($app instanceof Application) {
             $app->addSelfUpdateCommand($this->getSelfUpdateRepository());
             if (!isset($commandFiles)) {
                 $this->errorCondition("Robo is not initialized here. Please run `robo init` to create a new RoboFile.", 'yellow');
@@ -296,51 +290,38 @@ class Runner implements ContainerAwareInterface
         return $statusCode;
     }
 
-    /**
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return null|string
-     */
-    protected function getRoboFileCommands($output)
+    protected function getRoboFileCommands(?OutputInterface $output)
     {
         if (!$this->loadRoboFile($output)) {
-            return;
+            return null;
         }
+
         return $this->roboClass;
     }
 
-    /**
-     * @param \Robo\Application $app
-     * @param array $commandClasses
-     */
-    public function registerCommandClasses($app, $commandClasses)
+    public function registerCommandClasses(Application $app, array $commandClasses)
     {
         foreach ((array)$commandClasses as $commandClass) {
             $this->registerCommandClass($app, $commandClass);
         }
     }
 
-    /**
-     * @param string $relativeNamespace
-     *
-     * @return string[]
-     */
-    protected function discoverCommandClasses($relativeNamespace)
+    protected function discoverCommandClasses(string $relativeNamespace): array
     {
         /** @var \Robo\ClassDiscovery\RelativeNamespaceDiscovery $discovery */
         $discovery = Robo::service('relativeNamespaceDiscovery');
         $discovery->setRelativeNamespace($relativeNamespace . '\Commands')
             ->setSearchPattern('/.*Commands?\.php$/');
+
         return $discovery->getClasses();
     }
 
     /**
-     * @param \Robo\Application $app
      * @param string|BuilderAwareInterface|ContainerAwareInterface $commandClass
      *
      * @return null|object
      */
-    public function registerCommandClass($app, $commandClass)
+    public function registerCommandClass(Application $app, $commandClass)
     {
         $container = Robo::getContainer();
         $roboCommandFileInstance = $this->instantiateCommandClass($commandClass);
@@ -351,9 +332,11 @@ class Runner implements ContainerAwareInterface
         // Register commands for all of the public methods in the RoboFile.
         $commandFactory = $container->get('commandFactory');
         $commandList = $commandFactory->createCommandsFromClass($roboCommandFileInstance);
+
         foreach ($commandList as $command) {
             $app->add($command);
         }
+
         return $roboCommandFileInstance;
     }
 
@@ -405,12 +388,10 @@ class Runner implements ContainerAwareInterface
     /**
      * Process a shebang script, if one was used to launch this Runner.
      *
-     * @param array $args
-     *
      * @return array $args
      *   With shebang script removed.
      */
-    protected function shebang($args)
+    protected function shebang(array $args): array
     {
         // Option 1: Shebang line names Robo, but includes no parameters.
         // #!/bin/env robo
@@ -428,6 +409,7 @@ class Runner implements ContainerAwareInterface
         if ((count($args) > 2) && $this->isShebangFile($args[2])) {
             return array_merge([$args[0]], explode(' ', $args[1]), array_slice($args, 3));
         }
+
         return $args;
     }
 
@@ -441,7 +423,7 @@ class Runner implements ContainerAwareInterface
      * @return bool
      *   Returns TRUE if shebang script was processed.
      */
-    protected function isShebangFile($filepath)
+    protected function isShebangFile(string $filepath): bool
     {
         // Avoid trying to call $filepath on remote URLs
         if ((strpos($filepath, '://') !== false) && (substr($filepath, 0, 7) != 'file://')) {
@@ -476,12 +458,8 @@ class Runner implements ContainerAwareInterface
 
     /**
      * Test to see if the provided line is a robo 'shebang' line.
-     *
-     * @param string $line
-     *
-     * @return bool
      */
-    protected function isShebangLine($line)
+    protected function isShebangLine(string $line): bool
     {
         return ((substr($line, 0, 2) == '#!') && (strstr($line, 'robo') !== false));
     }
@@ -490,12 +468,8 @@ class Runner implements ContainerAwareInterface
      * Check for Robo-specific arguments such as --load-from, process them,
      * and remove them from the array.  We have to process --load-from before
      * we set up Symfony Console.
-     *
-     * @param array $argv
-     *
-     * @return array
      */
-    protected function processRoboOptions($argv)
+    protected function processRoboOptions(array $argv): array
     {
         // loading from other directory
         $pos = $this->arraySearchBeginsWith('--load-from', $argv) ?: array_search('-f', $argv);
@@ -537,18 +511,16 @@ class Runner implements ContainerAwareInterface
     }
 
     /**
-     * @param string $needle
-     * @param string[] $haystack
-     *
      * @return bool|int
      */
-    protected function arraySearchBeginsWith($needle, $haystack)
+    protected function arraySearchBeginsWith(string $needle, array $haystack)
     {
         for ($i = 0; $i < count($haystack); ++$i) {
             if (substr($haystack[$i], 0, strlen($needle)) == $needle) {
                 return $i;
             }
         }
+
         return false;
     }
 
@@ -565,77 +537,56 @@ class Runner implements ContainerAwareInterface
      * This is just a proxy error handler that checks the current error_reporting level.
      * In case error_reporting is disabled the error is marked as handled, otherwise
      * the normal internal error handling resumes.
-     *
-     * @return bool
      */
-    public function handleError()
+    public function handleError(): bool
     {
         if (error_reporting() === 0) {
             return true;
         }
+
         return false;
     }
 
-    /**
-     * @return string
-     */
-    public function getSelfUpdateRepository()
+    public function getSelfUpdateRepository(): ?string
     {
         return $this->selfUpdateRepository;
     }
 
     /**
      * @param $selfUpdateRepository
-     *
-     * @return $this
      */
-    public function setSelfUpdateRepository($selfUpdateRepository)
+    public function setSelfUpdateRepository($selfUpdateRepository): self
     {
         $this->selfUpdateRepository = $selfUpdateRepository;
+
         return $this;
     }
 
-    /**
-     * @param string $configFilename
-     *
-     * @return $this
-     */
-    public function setConfigurationFilename($configFilename)
+    public function setConfigurationFilename(string $configFilename): self
     {
         $this->configFilename = $configFilename;
+
         return $this;
     }
 
-    /**
-     * @param string $envConfigPrefix
-     *
-     * @return $this
-     */
-    public function setEnvConfigPrefix($envConfigPrefix)
+    public function setEnvConfigPrefix(string $envConfigPrefix): self
     {
         $this->envConfigPrefix = $envConfigPrefix;
+
         return $this;
     }
 
-    /**
-     * @param \Composer\Autoload\ClassLoader $classLoader
-     *
-     * @return $this
-     */
-    public function setClassLoader(ClassLoader $classLoader)
+    public function setClassLoader(ClassLoader $classLoader): self
     {
         $this->classLoader = $classLoader;
+
         return $this;
     }
 
-    /**
-     * @param string $relativeNamespace
-     *
-     * @return $this
-     */
-    public function setRelativePluginNamespace($relativeNamespace)
+    public function setRelativePluginNamespace(string $relativeNamespace): self
     {
         $this->relativePluginNamespace = $relativeNamespace;
+
         return $this;
     }
 }

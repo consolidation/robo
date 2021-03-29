@@ -28,10 +28,8 @@ trait ConfigAwareTrait
 
     /**
      * Get the config management object.
-     *
-     * @return \Consolidation\Config\ConfigInterface
      */
-    public function getConfig()
+    public function getConfig(): ?ConfigInterface
     {
         return $this->config;
     }

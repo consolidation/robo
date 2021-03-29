@@ -105,7 +105,7 @@ class Extract extends BaseTask implements BuilderAwareInterface
 
         $destinationParentDir = dirname($this->to);
         if (!file_exists($destinationParentDir)) {
-          @mkdir($destinationParentDir);
+            @mkdir($destinationParentDir);
         }
 
         $this->startTimer();

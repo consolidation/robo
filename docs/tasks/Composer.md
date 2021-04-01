@@ -328,6 +328,25 @@ $this->taskComposerRequire()->dependency('foo/bar', '^.2.4.8')->run();
 * `options(array $options, $separator = null)`  Pass multiple options to executable. The associative array contains
 * `optionList($option, $value = null, $separator = null)`  Pass an option with multiple values to executable. Value can be a string or array.
 
+## Show
+
+
+Composer Show
+
+``` php
+<?php
+// simple execution
+$this->taskComposerRequire()->dependency('foo/bar')->run();
+
+// inspect output
+$this->taskComposerRequire()->dependency('foo/bar')->format('json')->printOutput(false)->run();
+$dependencyInfo = $result->getOutputData();
+?>
+```
+
+* `dependency($project, $version = null)`  composer dependency
+* `format($format = 'json')`  adds `format` option to composer
+
 ## Update
 
 

@@ -162,7 +162,7 @@ class Robo
 
         // Set up our dependency injection container.
         $container = new Container();
-        return static::configureContainer($container, $app, $config, $unusedInput, $unusedOutput, $classLoader);
+        static::configureContainer($container, $app, $config, $unusedInput, $unusedOutput, $classLoader);
 
         return $container;
     }

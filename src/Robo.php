@@ -104,7 +104,7 @@ class Robo
     public static function createConfiguration($paths)
     {
         $config = new \Robo\Config\Config();
-        static::loadConfiguration($paths, $config);
+        self::loadConfiguration($paths, $config);
         return $config;
     }
 
@@ -117,7 +117,7 @@ class Robo
     public static function loadConfiguration($paths, $config = null)
     {
         if ($config == null) {
-            $config = static::config();
+            $config = self::config();
         }
         $loader = new YamlConfigLoader();
         $processor = new ConfigProcessor();
@@ -144,12 +144,12 @@ class Robo
     public static function createContainer($app = null, $config = null, $classLoader = null)
     {
         // Do not allow this function to be called more than once.
-        if (static::hasContainer()) {
-            return static::getContainer();
+        if (self::hasContainer()) {
+            return self::getContainer();
         }
 
         if (!$app) {
-            $app = static::createDefaultApplication();
+            $app = self::createDefaultApplication();
         }
 
         if (!$config) {
@@ -162,7 +162,7 @@ class Robo
 
         // Set up our dependency injection container.
         $container = new Container();
-        return static::configureContainer($container, $app, $config, $unusedInput, $unusedOutput, $classLoader);
+        return self::configureContainer($container, $app, $config, $unusedInput, $unusedOutput, $classLoader);
 
         return $container;
     }
@@ -185,12 +185,12 @@ class Robo
     public static function createDefaultContainer($input = null, $output = null, $app = null, $config = null, $classLoader = null)
     {
         // Do not allow this function to be called more than once.
-        if (static::hasContainer()) {
-            return static::getContainer();
+        if (self::hasContainer()) {
+            return self::getContainer();
         }
 
         if (!$app) {
-            $app = static::createDefaultApplication();
+            $app = self::createDefaultApplication();
         }
 
         if (!$config) {
@@ -199,8 +199,8 @@ class Robo
 
         // Set up our dependency injection container.
         $container = new Container();
-        static::configureContainer($container, $app, $config, $input, $output, $classLoader);
-        static::finalizeContainer($container);
+        self::configureContainer($container, $app, $config, $input, $output, $classLoader);
+        self::finalizeContainer($container);
 
         return $container;
     }
@@ -241,7 +241,7 @@ class Robo
     {
         // Self-referential container refernce for the inflector
         $container->add('container', $container);
-        static::setContainer($container);
+        self::setContainer($container);
 
         // Create default input and output objects if they were not provided.
         // TODO: We would like to remove $input and $output from the container
@@ -335,7 +335,7 @@ class Robo
         // yet, BuilderAwareInterface::collectionBuilder() if available.
         $container->add('collectionBuilder', \Robo\Collection\CollectionBuilder::class);
 
-        static::addInflectors($container);
+        self::addInflectors($container);
 
         // Make sure the application is appropriately initialized.
         $app->setAutoExit(false);
@@ -400,7 +400,7 @@ class Robo
      */
     public static function service($id)
     {
-        return static::getContainer()->get($id);
+        return self::getContainer()->get($id);
     }
 
     /**
@@ -415,7 +415,7 @@ class Robo
     public static function hasService($id)
     {
         // Check hasContainer() first in order to always return a Boolean.
-        return static::hasContainer() && static::getContainer()->has($id);
+        return self::hasContainer() && self::getContainer()->has($id);
     }
 
     /**
@@ -427,7 +427,7 @@ class Robo
      */
     public static function resultPrinter()
     {
-        return static::service('resultPrinter');
+        return self::service('resultPrinter');
     }
 
     /**
@@ -435,7 +435,7 @@ class Robo
      */
     public static function config()
     {
-        return static::service('config');
+        return self::service('config');
     }
 
     /**
@@ -443,7 +443,7 @@ class Robo
      */
     public static function logger()
     {
-        return static::service('logger');
+        return self::service('logger');
     }
 
     /**
@@ -451,7 +451,7 @@ class Robo
      */
     public static function application()
     {
-        return static::service('application');
+        return self::service('application');
     }
 
     /**
@@ -461,7 +461,7 @@ class Robo
      */
     public static function output()
     {
-        return static::service('output');
+        return self::service('output');
     }
 
     /**
@@ -471,7 +471,7 @@ class Robo
      */
     public static function input()
     {
-        return static::service('input');
+        return self::service('input');
     }
 
     /**
@@ -479,6 +479,6 @@ class Robo
      */
     public static function process(Process $process)
     {
-        return ProcessExecutor::create(static::getContainer(), $process);
+        return ProcessExecutor::create(self::getContainer(), $process);
     }
 }

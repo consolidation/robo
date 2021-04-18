@@ -219,7 +219,7 @@ class Runner implements ContainerAwareInterface
     }
 
     /**
-     * @param null|\Symfony\Component\Console\Input\InputInterface $input
+     * @param null|array|\Symfony\Component\Console\Input\InputInterface $input
      * @param null|\Symfony\Component\Console\Output\OutputInterface $output
      * @param null|\Robo\Application $app
      * @param array[] $commandFiles

@@ -215,10 +215,25 @@ trait ExecTrait
      *
      * @return $this
      */
-    public function setInput($input)
+    public function setProcessInput($input)
     {
         $this->input = $input;
         return $this;
+    }
+
+    /**
+     * Pass an input to the process. Can be resource created with fopen() or string
+     *
+     * @param resource|string $input
+     *
+     * @return $this
+     *
+     * @deprecated
+     */
+    public function setInput($input)
+    {
+        trigger_error('setInput() is deprecated. Please use setProcessInput(().', E_USER_DEPRECATED);
+        return $this->setProcessInput($input);
     }
 
     /**

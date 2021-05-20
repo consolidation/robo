@@ -235,7 +235,8 @@ trait ExecTrait
     public function setInput($input)
     {
         trigger_error('setInput() is deprecated. Please use setProcessInput(().', E_USER_DEPRECATED);
-        return $this->setProcessInput($input);
+        $this->input = $input;
+        return $this;
     }
 
     /**

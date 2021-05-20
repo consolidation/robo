@@ -218,6 +218,8 @@ trait ExecTrait
     public function setProcessInput($input)
     {
         $this->input = $input;
+        // A tty should not be allocated when the input is provided.
+        $this->interactive(false);
         return $this;
     }
 

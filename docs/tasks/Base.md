@@ -21,7 +21,7 @@ if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
 
 * `simulate($context)`  {@inheritdoc}
 * `setOutput($output)`  Sets the Console Output.
-* `setProcessInput($output)`  Sets the input for the command. Similar to a pipe like `echo "input" | cat`. Usually followed by a call to `->interactive(false)` to avoid other inputs.
+* `setProcessInput($input)`  Sets the input for the command. Similar to a pipe like `echo "input" | cat`.
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values

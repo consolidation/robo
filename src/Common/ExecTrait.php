@@ -215,8 +215,26 @@ trait ExecTrait
      *
      * @return $this
      */
+    public function setProcessInput($input)
+    {
+        $this->input = $input;
+        // A tty should not be allocated when the input is provided.
+        $this->interactive(false);
+        return $this;
+    }
+
+    /**
+     * Pass an input to the process. Can be resource created with fopen() or string
+     *
+     * @param resource|string $input
+     *
+     * @return $this
+     *
+     * @deprecated
+     */
     public function setInput($input)
     {
+        trigger_error('setInput() is deprecated. Please use setProcessInput(().', E_USER_DEPRECATED);
         $this->input = $input;
         return $this;
     }

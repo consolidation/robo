@@ -2,8 +2,6 @@
 
 namespace Robo\Common;
 
-use Robo\Common\ProcessUtils;
-
 /**
  * Use this to add arguments and options to the $arguments property.
  */
@@ -71,7 +69,7 @@ trait CommandArguments
         if (preg_match('/^[a-zA-Z0-9\/\.@~_-]+$/', $value)) {
             return $value;
         }
-        return ProcessUtils::escapeArgument($value);
+        return escapeshellarg($value);
     }
 
     /**

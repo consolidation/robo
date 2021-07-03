@@ -3,7 +3,6 @@
 namespace Robo\Task\Development;
 
 use Robo\Task\BaseTask;
-use Robo\Common\ProcessUtils;
 use Robo\Result;
 
 /**
@@ -51,7 +50,7 @@ class OpenBrowser extends BaseTask
         }
 
         foreach ($this->urls as $url) {
-            passthru(sprintf($openCommand, ProcessUtils::escapeArgument($url)));
+            passthru(sprintf($openCommand, escapeshellarg($url)));
             $this->printTaskInfo('Opened {url}', ['url' => $url]);
         }
 

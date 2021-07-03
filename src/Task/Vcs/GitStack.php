@@ -3,7 +3,6 @@
 namespace Robo\Task\Vcs;
 
 use Robo\Task\CommandStack;
-use Robo\Common\ProcessUtils;
 
 /**
  * Runs Git commands in stack. You can use `stopOnFail()` to point that stack should be terminated on first fail.
@@ -98,7 +97,7 @@ class GitStack extends CommandStack
      */
     public function commit($message, $options = "")
     {
-        $message = ProcessUtils::escapeArgument($message);
+        $message = escapeshellarg($message);
         return $this->exec([__FUNCTION__, "-m $message", $options]);
     }
 

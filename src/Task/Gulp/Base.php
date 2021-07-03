@@ -2,10 +2,9 @@
 
 namespace Robo\Task\Gulp;
 
-use Robo\Task\BaseTask;
-use Robo\Exception\TaskException;
-use Robo\Common\ProcessUtils;
 use Robo\Common\ExecOneCommand;
+use Robo\Exception\TaskException;
+use Robo\Task\BaseTask;
 
 abstract class Base extends BaseTask
 {
@@ -93,6 +92,6 @@ abstract class Base extends BaseTask
      */
     public function getCommand()
     {
-        return "{$this->command} " . ProcessUtils::escapeArgument($this->task) . "{$this->arguments}";
+        return "{$this->command} " . escapeshellarg($this->task) . "{$this->arguments}";
     }
 }

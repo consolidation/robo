@@ -102,11 +102,11 @@ class Runner implements ContainerAwareInterface
     }
 
     /**
-     * @param OutputInterface $output
+     * @param OutputInterface|null $output
      *
      * @return bool
      */
-    protected function loadRoboFile(OutputInterface $output): bool
+    protected function loadRoboFile(?OutputInterface $output): bool
     {
         // If we have not been provided an output object, make a temporary one.
         if (!$output) {
@@ -315,11 +315,11 @@ class Runner implements ContainerAwareInterface
     }
 
     /**
-     * @param OutputInterface $output
+     * @param OutputInterface|null $output
      *
      * @return null|string
      */
-    protected function getRoboFileCommands(OutputInterface $output): ?string
+    protected function getRoboFileCommands(?OutputInterface $output): ?string
     {
         if (!$this->loadRoboFile($output)) {
             return null;

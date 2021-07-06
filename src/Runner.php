@@ -3,18 +3,21 @@
 namespace Robo;
 
 use Composer\Autoload\ClassLoader;
-use ReflectionClass;
-use Robo\ClassDiscovery\RelativeNamespaceDiscovery;
-use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Input\StringInput;
-use Robo\Contract\BuilderAwareInterface;
-use Robo\Collection\CollectionBuilder;
-use Robo\Common\IO;
-use Robo\Exception\TaskExitException;
+use Consolidation\Config\Util\EnvConfig;
+use Exception;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 use League\Container\Exception\ContainerException;
-use Consolidation\Config\Util\EnvConfig;
+use ReflectionClass;
+use ReflectionException;
+use Robo\ClassDiscovery\RelativeNamespaceDiscovery;
+use Robo\Collection\CollectionBuilder;
+use Robo\Common\IO;
+use Robo\Contract\BuilderAwareInterface;
+use Robo\Exception\TaskExitException;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -64,7 +67,7 @@ class Runner implements ContainerAwareInterface
     protected $configFilename = 'conf.yml';
 
     /**
-     * @var string prefix for environment variable configuration overrides
+     * @var bool|string prefix for environment variable configuration overrides
      */
     protected $envConfigPrefix = false;
 
@@ -87,8 +90,8 @@ class Runner implements ContainerAwareInterface
     public function __construct(string $roboClass = null, string $roboFile = null)
     {
         // set the const as class properties to allow overwriting in child classes
-        $this->roboClass = $roboClass ? $roboClass : self::ROBOCLASS ;
-        $this->roboFile  = $roboFile ? $roboFile : self::ROBOFILE;
+        $this->roboClass = $roboClass ?: self::ROBOCLASS ;
+        $this->roboFile  = $roboFile ?: self::ROBOFILE;
         $this->dir = getcwd();
     }
 
@@ -121,7 +124,10 @@ class Runner implements ContainerAwareInterface
             return true;
         }
         if (!file_exists($this->dir)) {
-            $this->errorCondition("Path `{$this->dir}` is invalid; please provide a valid absolute path to the Robofile to load.", 'red');
+            $this->errorCondition(
+                "Path `$this->dir` is invalid; please provide a valid absolute path to the Robofile to load.",
+                'red'
+            );
             return false;
         }
 
@@ -136,7 +142,7 @@ class Runner implements ContainerAwareInterface
         require_once $roboFilePath;
 
         if (!class_exists($this->roboClass)) {
-            $this->errorCondition("Class {$this->roboClass} was not loaded.", 'red');
+            $this->errorCondition("Class $this->roboClass was not loaded.", 'red');
             return false;
         }
         return true;
@@ -149,6 +155,7 @@ class Runner implements ContainerAwareInterface
      * @param OutputInterface|null $output
      *
      * @return int
+     * @throws Exception
      */
     public function execute(
         array $argv,
@@ -188,6 +195,7 @@ class Runner implements ContainerAwareInterface
      *
      * @return Application
      *   Initialized application based on passed configuration and command classes.
+     * @throws ReflectionException
      */
     public function getAppForTesting(
         string $appName = null,
@@ -195,7 +203,7 @@ class Runner implements ContainerAwareInterface
         $commandFile = null,
         Config\Config $config = null,
         ClassLoader $classLoader = null
-    ) {
+    ): Application {
         $app = Robo::createDefaultApplication($appName, $appVersion);
         $output = new NullOutput();
         $container = Robo::createDefaultContainer(null, $output, $app, $config, $classLoader);
@@ -232,13 +240,14 @@ class Runner implements ContainerAwareInterface
     }
 
     /**
-     * @param null|array|\Symfony\Component\Console\Input\InputInterface $input
+     * @param null|array|InputInterface $input
      * @param OutputInterface|null $output
      * @param Application|null $app
-     * @param array[] $commandFiles
+     * @param string|array|null $commandFiles
      * @param ClassLoader|null $classLoader
      *
      * @return int
+     * @throws Exception
      */
     public function run(
         $input = null,
@@ -330,10 +339,11 @@ class Runner implements ContainerAwareInterface
     /**
      * @param Application $app
      * @param array $commandClasses
+     * @throws ReflectionException
      */
     public function registerCommandClasses(Application $app, array $commandClasses)
     {
-        foreach ((array)$commandClasses as $commandClass) {
+        foreach ($commandClasses as $commandClass) {
             $this->registerCommandClass($app, $commandClass);
         }
     }
@@ -357,6 +367,7 @@ class Runner implements ContainerAwareInterface
      * @param string|BuilderAwareInterface|ContainerAwareInterface $commandClass
      *
      * @return null|object
+     * @throws ReflectionException
      */
     public function registerCommandClass(Application $app, $commandClass)
     {
@@ -379,7 +390,7 @@ class Runner implements ContainerAwareInterface
      * @param string|BuilderAwareInterface|ContainerAwareInterface $commandClass
      *
      * @return null|object
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     protected function instantiateCommandClass($commandClass)
     {
@@ -641,7 +652,7 @@ class Runner implements ContainerAwareInterface
      *
      * @return $this
      */
-    public function setClassLoader(ClassLoader $classLoader)
+    public function setClassLoader(ClassLoader $classLoader): Runner
     {
         $this->classLoader = $classLoader;
         return $this;

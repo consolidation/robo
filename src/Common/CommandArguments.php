@@ -29,7 +29,7 @@ trait CommandArguments
      * @param string|null $separator
      * @return void
      */
-    public function addArgument($argument, $key = null, $prefix = null, $separator = ' ')
+    protected function addArgument($argument, $key = null, $prefix = null, $separator = ' ')
     {
         if (is_null($key)) {
             $key = "arg" . md5($argument);

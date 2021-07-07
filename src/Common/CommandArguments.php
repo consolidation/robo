@@ -50,7 +50,7 @@ trait CommandArguments
      *
      * @deprecated Use \Robo\Common\ProcessUtils::escapeArgument() instead.
      */
-    public function escape($argument)
+    public static function escape($argument)
     {
         return ProcessUtils::escapeArgument($argument);
     }

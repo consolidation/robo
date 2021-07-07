@@ -26,18 +26,18 @@ class ProcessUtils
     /**
      * Escapes a string to be used as a shell argument.
      *
+     * This method is a copy of a method that was deprecated by Symfony 3.3 and
+     * removed in Symfony 4; it will be removed once there is an actual
+     * replacement for escapeArgument.
+     *
      * @param string $argument
      *   The argument that will be escaped.
      *
      * @return string
      *   The escaped argument.
-     *
-     * @deprecated since version 3.3, to be removed in 4.0. Use a command line array or give env vars to the `Process::start/run()` method instead.
      */
     public static function escapeArgument($argument)
     {
-        @trigger_error('The ' . __METHOD__ . '() method is a copy of a method that was deprecated by Symfony 3.3 and removed in Symfony 4; it will be removed in Robo 2.0.', E_USER_DEPRECATED);
-
         //Fix for PHP bug #43784 escapeshellarg removes % from given string
         //Fix for PHP bug #49446 escapeshellarg doesn't work on Windows
         //@see https://bugs.php.net/bug.php?id=43784

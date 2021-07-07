@@ -43,6 +43,19 @@ trait CommandArguments
     }
 
     /**
+     * Escape a command line argument.
+     *
+     * @param string $argument
+     * @return string
+     *
+     * @deprecated Use \Robo\Common\ProcessUtils::escapeArgument() instead.
+     */
+    public function escape($argument)
+    {
+        return ProcessUtils::escapeArgument($argument);
+    }
+
+    /**
      * Pass argument to executable. It will be changed to a placeholder.
      *
      * @param string $arg

@@ -29,7 +29,7 @@ class ProcessUtils
      *
      * @param string $commandline
      * @param array $env
-     * @return void
+     * @return string
      */
     public static function replacePlaceholders(string $commandline, array $env)
     {

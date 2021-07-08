@@ -52,6 +52,9 @@ trait CommandArguments
      */
     public static function escape($argument)
     {
+        if (preg_match('/^[a-zA-Z0-9\/\.@~_-]+$/', $argument)) {
+            return $argument;
+        }
         return ProcessUtils::escapeArgument($argument);
     }
 

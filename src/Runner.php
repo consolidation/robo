@@ -169,6 +169,7 @@ class Runner implements ContainerAwareInterface
         if ($appName && $appVersion) {
             $app = Robo::createDefaultApplication($appName, $appVersion);
         }
+        // Major duck typing happening here. $commandFiles can be a multitude of types.
         $commandFiles = $this->getRoboFileCommands($output);
         return $this->run($argv, $output, $app, $commandFiles, $this->classLoader);
     }

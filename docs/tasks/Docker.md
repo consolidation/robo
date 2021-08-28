@@ -23,6 +23,7 @@ Class Build
 * `tag($tag)`   * `param string` $tag
 * `enableBuildKit()`   * `return` $this
 * `setOutput($output)`  Sets the Console Output.
+* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -54,6 +55,7 @@ $task->dockerCommit($result)
 
 * `name($name)`   * `param string` $name
 * `setOutput($output)`  Sets the Console Output.
+* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -91,6 +93,7 @@ $this->taskDockerExec($test)
 * `detached()`   * `return` $this
 * `exec($command)`   * `param string|\Robo\Contract\CommandInterface` $command
 * `setOutput($output)`  Sets the Console Output.
+* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -114,6 +117,7 @@ $this->taskDockerPull('wordpress')
 
 
 * `setOutput($output)`  Sets the Console Output.
+* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -136,6 +140,7 @@ $this->taskDockerRemove($container)
 
 
 * `setOutput($output)`  Sets the Console Output.
+* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -203,6 +208,7 @@ $this->taskDockerRun('wordpress')
 * `getTmpDir()`  @return string
 * `getUniqId()`  @return string
 * `setOutput($output)`  Sets the Console Output.
+* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -224,6 +230,7 @@ $this->taskDockerStart($cidOrResult)
 ```
 
 * `setOutput($output)`  Sets the Console Output.
+* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -245,6 +252,7 @@ $this->taskDockerStop($cidOrResult)
 ```
 
 * `setOutput($output)`  Sets the Console Output.
+* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values

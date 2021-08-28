@@ -19,6 +19,7 @@ $this->taskNpmInstall('path/to/my/npm')
 
 * `noDev()`  adds `production` option to npm
 * `setOutput($output)`  Sets the Console Output.
+* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -47,6 +48,7 @@ $this->taskNpmUpdate('path/to/my/npm')
 
 * `noDev()`  adds `production` option to npm
 * `setOutput($output)`  Sets the Console Output.
+* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values

@@ -27,6 +27,7 @@ $this->taskComposerValidate()->run();
 * `workingDir($dir)`  adds `--working-dir $dir` option to composer
 * `buildCommand()`  Copy class fields into command options as directed.
 * `setOutput($output)`  Sets the Console Output.
+* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -68,6 +69,7 @@ $this->taskComposerConfig()->set('bin-dir', 'bin/')->run();
 * `workingDir($dir)`  adds `--working-dir $dir` option to composer
 * `buildCommand()`  Copy class fields into command options as directed.
 * `setOutput($output)`  Sets the Console Output.
+* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -110,6 +112,7 @@ $this->taskComposerCreateProject()->source('foo/bar')->target('myBar')->run();
 * `noScripts($disable = null)`  skip scripts
 * `workingDir($dir)`  adds `--working-dir $dir` option to composer
 * `setOutput($output)`  Sets the Console Output.
+* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -162,6 +165,7 @@ $this->taskComposerDumpAutoload('path/to/my/composer.phar')
 * `workingDir($dir)`  adds `--working-dir $dir` option to composer
 * `buildCommand()`  Copy class fields into command options as directed.
 * `setOutput($output)`  Sets the Console Output.
+* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -206,6 +210,7 @@ $this->taskComposerInit()->run();
 * `workingDir($dir)`  adds `--working-dir $dir` option to composer
 * `buildCommand()`  Copy class fields into command options as directed.
 * `setOutput($output)`  Sets the Console Output.
+* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -252,6 +257,7 @@ $this->taskComposerInstall('path/to/my/composer.phar')
 * `workingDir($dir)`  adds `--working-dir $dir` option to composer
 * `buildCommand()`  Copy class fields into command options as directed.
 * `setOutput($output)`  Sets the Console Output.
+* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -291,6 +297,7 @@ $this->taskComposerRemove()->run();
 * `workingDir($dir)`  adds `--working-dir $dir` option to composer
 * `buildCommand()`  Copy class fields into command options as directed.
 * `setOutput($output)`  Sets the Console Output.
+* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -328,6 +335,7 @@ $this->taskComposerRequire()->dependency('foo/bar', '^.2.4.8')->run();
 * `workingDir($dir)`  adds `--working-dir $dir` option to composer
 * `buildCommand()`  Copy class fields into command options as directed.
 * `setOutput($output)`  Sets the Console Output.
+* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -375,6 +383,7 @@ $this->taskComposerUpdate('path/to/my/composer.phar')
 * `workingDir($dir)`  adds `--working-dir $dir` option to composer
 * `buildCommand()`  Copy class fields into command options as directed.
 * `setOutput($output)`  Sets the Console Output.
+* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -415,6 +424,7 @@ $this->taskComposerValidate()->run();
 * `workingDir($dir)`  adds `--working-dir $dir` option to composer
 * `buildCommand()`  Copy class fields into command options as directed.
 * `setOutput($output)`  Sets the Console Output.
+* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values

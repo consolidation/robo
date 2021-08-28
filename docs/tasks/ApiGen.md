@@ -49,6 +49,7 @@ $this->taskApiGen('./vendor/apigen/apigen.phar')
 * `updateCheck($check)`   * `param bool|string` $check
 * `debug($debug)`   * `param bool|string` $debug
 * `setOutput($output)`  Sets the Console Output.
+* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.

@@ -21,7 +21,7 @@ if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
 
 * `simulate($context)`  {@inheritdoc}
 * `setOutput($output)`  Sets the Console Output.
-* `setProcessInput($input)`  Sets the input for the command. Similar to a pipe like `echo "input" | cat`.
+* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -50,8 +50,9 @@ $this->taskExecStack()
 * `executable($executable)`   * `param string` $executable
 * `exec($command)`   * `param string|string[]|CommandInterface` $command
 * `stopOnFail($stopOnFail = null)`   * `param bool` $stopOnFail
-* `result($result)`
+* `result($result)` 
 * `setOutput($output)`  Sets the Console Output.
+* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
 * `dir($dir)`  Changes working directory of command
 
 ## ParallelExec
@@ -95,7 +96,7 @@ $this->taskSymfonyCommand(new ModelGeneratorCommand())
 ```
 
 * `arg($arg, $value)`   * `param string` $arg
-* `opt($option, $value = null)`
+* `opt($option, $value = null)` 
 * `setOutput($output)`  Sets the Console Output.
 
 

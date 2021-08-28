@@ -21,6 +21,7 @@ $this->taskGulpRun('clean')
 * `color()`  adds `--color` option to gulp
 * `simple()`  adds `--tasks-simple` option to gulp
 * `setOutput($output)`  Sets the Console Output.
+* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values

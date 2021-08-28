@@ -69,6 +69,7 @@ if ('y' === $this->ask('Do you want to run (y/n)')) {
 * `filesFrom($file)`   * `param string` $file
 * `remoteShell($command)`   * `param string` $command
 * `setOutput($output)`  Sets the Console Output.
+* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -125,6 +126,7 @@ You can configure the remote directory for all future calls:
 * `exec($command)`   * `param string|string[]|CommandInterface` $command
 * `simulate($context)`  {@inheritdoc}
 * `setOutput($output)`  Sets the Console Output.
+* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values

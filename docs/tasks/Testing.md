@@ -23,6 +23,7 @@ $this->taskAtoum()
 * `files($files)`  Test file or test files to run.
 * `directories($directories)`  Test directory or directories to run.
 * `setOutput($output)`  Sets the Console Output.
+* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -55,6 +56,7 @@ $this->taskBehat()
 * `verbose($level = null)`   * `param string` $level
 * `format($formater)`   * `param string` $formater
 * `setOutput($output)`  Sets the Console Output.
+* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -100,6 +102,7 @@ $this->taskCodecept()
 * `noExit()`   * `return` $this
 * `failGroup($failGroup)`   * `param string` $failGroup
 * `setOutput($output)`  Sets the Console Output.
+* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -135,6 +138,7 @@ $this->taskPHPUnit()
 * `files($files)`  Directory of test files or single test file to run.
 * `file($file)`  Test the provided file.
 * `setOutput($output)`  Sets the Console Output.
+* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values
@@ -167,6 +171,7 @@ $this->taskPhpspec()
 * `config($config_file)`   * `param string` $config_file
 * `format($formater)`   * `param string` $formater
 * `setOutput($output)`  Sets the Console Output.
+* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
 * `dir($dir)`  Changes working directory of command
 * `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
 * `args($args)`  Pass methods parameters as arguments to executable. Argument values

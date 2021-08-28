@@ -8,46 +8,33 @@
     "packages": [
         {
             "name": "consolidation/annotated-command",
-            "version": "4.2.1",
+            "version": "4.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/annotated-command.git",
-                "reference": "ef6b7e662ce2d8b0af9004307bdf26350aad4df1"
+                "reference": "b620b92b7cc2705fa829620f1fba7d182a6397c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/annotated-command/zipball/ef6b7e662ce2d8b0af9004307bdf26350aad4df1",
-                "reference": "ef6b7e662ce2d8b0af9004307bdf26350aad4df1",
+                "url": "https://api.github.com/repos/consolidation/annotated-command/zipball/b620b92b7cc2705fa829620f1fba7d182a6397c2",
+                "reference": "b620b92b7cc2705fa829620f1fba7d182a6397c2",
                 "shasum": ""
             },
             "require": {
                 "consolidation/output-formatters": "^4.1.1",
                 "php": ">=7.1.3",
                 "psr/log": "^1|^2",
-                "symfony/console": "^4.4.8|^5",
+                "symfony/console": "^4.4.8|~5.1.0",
                 "symfony/event-dispatcher": "^4.4.8|^5",
                 "symfony/finder": "^4.4.8|^5"
             },
             "require-dev": {
-                "g1a/composer-test-scenarios": "^3",
-                "php-coveralls/php-coveralls": "^2.2",
-                "phpunit/phpunit": "^6",
-                "squizlabs/php_codesniffer": "^3"
+                "phpunit/phpunit": "^7.5.20 || ^8 || ^9",
+                "squizlabs/php_codesniffer": "^3",
+                "yoast/phpunit-polyfills": "^0.2.0"
             },
             "type": "library",
             "extra": {
-                "scenarios": {
-                    "symfony4": {
-                        "require": {
-                            "symfony/console": "^4.0"
-                        },
-                        "config": {
-                            "platform": {
-                                "php": "7.1.3"
-                            }
-                        }
-                    }
-                },
                 "branch-alias": {
                     "dev-main": "4.x-dev"
                 }
@@ -68,55 +55,48 @@
                 }
             ],
             "description": "Initialize Symfony Console commands from annotated command class methods.",
-            "time": "2020-08-30T17:37:39+00:00"
+            "support": {
+                "issues": "https://github.com/consolidation/annotated-command/issues",
+                "source": "https://github.com/consolidation/annotated-command/tree/4.3.0"
+            },
+            "time": "2021-08-28T01:13:18+00:00"
         },
         {
             "name": "consolidation/config",
-            "version": "2.0.0",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/config.git",
-                "reference": "9842670aad3406dbc8df3069fd680a9f8cd6edd7"
+                "reference": "9a2c2a7b2aea1b3525984a4378743a8b74c14e1c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/config/zipball/9842670aad3406dbc8df3069fd680a9f8cd6edd7",
-                "reference": "9842670aad3406dbc8df3069fd680a9f8cd6edd7",
+                "url": "https://api.github.com/repos/consolidation/config/zipball/9a2c2a7b2aea1b3525984a4378743a8b74c14e1c",
+                "reference": "9a2c2a7b2aea1b3525984a4378743a8b74c14e1c",
                 "shasum": ""
             },
             "require": {
                 "dflydev/dot-access-data": "^1.1.0",
                 "grasmash/expander": "^1",
-                "php": ">=7.1.3"
+                "php": ">=7.1.3",
+                "psr/log": "^1.1",
+                "symfony/event-dispatcher": "^4||^5"
             },
             "require-dev": {
-                "g1a/composer-test-scenarios": "^3",
-                "php-coveralls/php-coveralls": "^2.2",
-                "phpunit/phpunit": "^6",
+                "phpunit/phpunit": ">=7.5.20",
                 "squizlabs/php_codesniffer": "^3",
-                "symfony/console": "^4|^5",
-                "symfony/event-dispatcher": "^4|^5",
-                "symfony/yaml": "^4|^5"
+                "symfony/console": "^4||^5",
+                "symfony/yaml": "^4||^5",
+                "yoast/phpunit-polyfills": "^0.2.0"
             },
             "suggest": {
+                "symfony/event-dispatcher": "Required to inject configuration into Command options",
                 "symfony/yaml": "Required to use Consolidation\\Config\\Loader\\YamlConfigLoader"
             },
             "type": "library",
             "extra": {
-                "scenarios": {
-                    "symfony4": {
-                        "require-dev": {
-                            "symfony/console": "^4"
-                        },
-                        "config": {
-                            "platform": {
-                                "php": "7.1.3"
-                            }
-                        }
-                    }
-                },
                 "branch-alias": {
-                    "dev-master": "2.x-dev"
+                    "dev-main": "2.x-dev"
                 }
             },
             "autoload": {
@@ -135,20 +115,24 @@
                 }
             ],
             "description": "Provide configuration services for a commandline tool.",
-            "time": "2020-05-27T17:11:23+00:00"
+            "support": {
+                "issues": "https://github.com/consolidation/config/issues",
+                "source": "https://github.com/consolidation/config/tree/2.0.1"
+            },
+            "time": "2020-12-06T00:03:30+00:00"
         },
         {
             "name": "consolidation/log",
-            "version": "2.0.1",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/log.git",
-                "reference": "ba0bf6af1fbd09ed4dc18fc2f27b12ceff487cbf"
+                "reference": "82a2aaaa621a7b976e50a745a8d249d5085ee2b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/log/zipball/ba0bf6af1fbd09ed4dc18fc2f27b12ceff487cbf",
-                "reference": "ba0bf6af1fbd09ed4dc18fc2f27b12ceff487cbf",
+                "url": "https://api.github.com/repos/consolidation/log/zipball/82a2aaaa621a7b976e50a745a8d249d5085ee2b1",
+                "reference": "82a2aaaa621a7b976e50a745a8d249d5085ee2b1",
                 "shasum": ""
             },
             "require": {
@@ -157,27 +141,14 @@
                 "symfony/console": "^4|^5"
             },
             "require-dev": {
-                "g1a/composer-test-scenarios": "^3",
-                "php-coveralls/php-coveralls": "^2.2",
-                "phpunit/phpunit": "^6",
-                "squizlabs/php_codesniffer": "^3"
+                "phpunit/phpunit": ">=7.5.20",
+                "squizlabs/php_codesniffer": "^3",
+                "yoast/phpunit-polyfills": "^0.2.0"
             },
             "type": "library",
             "extra": {
-                "scenarios": {
-                    "symfony4": {
-                        "require-dev": {
-                            "symfony/console": "^4"
-                        },
-                        "config": {
-                            "platform": {
-                                "php": "7.1.3"
-                            }
-                        }
-                    }
-                },
                 "branch-alias": {
-                    "dev-master": "2.x-dev"
+                    "dev-main": "2.x-dev"
                 }
             },
             "autoload": {
@@ -196,20 +167,24 @@
                 }
             ],
             "description": "Improved Psr-3 / Psr\\Log logger based on Symfony Console components.",
-            "time": "2020-05-27T17:06:13+00:00"
+            "support": {
+                "issues": "https://github.com/consolidation/log/issues",
+                "source": "https://github.com/consolidation/log/tree/2.0.2"
+            },
+            "time": "2020-12-10T16:26:23+00:00"
         },
         {
             "name": "consolidation/output-formatters",
-            "version": "4.1.1",
+            "version": "4.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/output-formatters.git",
-                "reference": "9deeddd6a916d0a756b216a8b40ce1016e17c0b9"
+                "reference": "5821e6ae076bf690058a4de6c94dce97398a69c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/output-formatters/zipball/9deeddd6a916d0a756b216a8b40ce1016e17c0b9",
-                "reference": "9deeddd6a916d0a756b216a8b40ce1016e17c0b9",
+                "url": "https://api.github.com/repos/consolidation/output-formatters/zipball/5821e6ae076bf690058a4de6c94dce97398a69c9",
+                "reference": "5821e6ae076bf690058a4de6c94dce97398a69c9",
                 "shasum": ""
             },
             "require": {
@@ -219,32 +194,20 @@
                 "symfony/finder": "^4|^5"
             },
             "require-dev": {
-                "g1a/composer-test-scenarios": "^3",
-                "php-coveralls/php-coveralls": "^2.2",
-                "phpunit/phpunit": "^6",
+                "php-coveralls/php-coveralls": "^2.4.2",
+                "phpunit/phpunit": ">=7",
                 "squizlabs/php_codesniffer": "^3",
                 "symfony/var-dumper": "^4",
-                "symfony/yaml": "^4"
+                "symfony/yaml": "^4",
+                "yoast/phpunit-polyfills": "^0.2.0"
             },
             "suggest": {
                 "symfony/var-dumper": "For using the var_dump formatter"
             },
             "type": "library",
             "extra": {
-                "scenarios": {
-                    "symfony4": {
-                        "require": {
-                            "symfony/console": "^4.0"
-                        },
-                        "config": {
-                            "platform": {
-                                "php": "7.1.3"
-                            }
-                        }
-                    }
-                },
                 "branch-alias": {
-                    "dev-master": "4.x-dev"
+                    "dev-main": "4.x-dev"
                 }
             },
             "autoload": {
@@ -263,7 +226,11 @@
                 }
             ],
             "description": "Format text by applying transformations provided by plug-in formatters.",
-            "time": "2020-05-27T20:51:17+00:00"
+            "support": {
+                "issues": "https://github.com/consolidation/output-formatters/issues",
+                "source": "https://github.com/consolidation/output-formatters/tree/4.1.2"
+            },
+            "time": "2020-12-12T19:04:59+00:00"
         },
         {
             "name": "consolidation/self-update",
@@ -313,6 +280,10 @@
                 }
             ],
             "description": "Provides a self:update command for Symfony Console applications.",
+            "support": {
+                "issues": "https://github.com/consolidation/self-update/issues",
+                "source": "https://github.com/consolidation/self-update/tree/1.2.0"
+            },
             "time": "2020-04-13T02:49:20+00:00"
         },
         {
@@ -1873,27 +1844,27 @@
         },
         {
             "name": "g1a/composer-test-scenarios",
-            "version": "3.1.1",
+            "version": "3.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/g1a/composer-test-scenarios.git",
-                "reference": "4386e1ee0668c80a1d8cbf3077739af0df79f98b"
+                "reference": "e7394206d845fd593d325440507fb940bef8cb62"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/g1a/composer-test-scenarios/zipball/4386e1ee0668c80a1d8cbf3077739af0df79f98b",
-                "reference": "4386e1ee0668c80a1d8cbf3077739af0df79f98b",
+                "url": "https://api.github.com/repos/g1a/composer-test-scenarios/zipball/e7394206d845fd593d325440507fb940bef8cb62",
+                "reference": "e7394206d845fd593d325440507fb940bef8cb62",
                 "shasum": ""
             },
             "require": {
-                "composer-plugin-api": "^1.0.0",
+                "composer-plugin-api": "^1.0.0 || ^2.0.0",
                 "php": ">=5.4"
             },
             "require-dev": {
-                "composer/composer": "^1.7",
+                "composer/composer": "^1.10.6 || ^2.0@rc",
                 "php-coveralls/php-coveralls": "^1.0",
                 "phpunit/phpunit": "^4.8.36|^6",
-                "squizlabs/php_codesniffer": "^2.8"
+                "squizlabs/php_codesniffer": "^3.5"
             },
             "bin": [
                 "scripts/dependency-licenses"
@@ -1902,7 +1873,7 @@
             "extra": {
                 "class": "ComposerTestScenarios\\Plugin",
                 "branch-alias": {
-                    "dev-master": "3.x-dev"
+                    "dev-main": "3.x-dev"
                 }
             },
             "autoload": {
@@ -1921,7 +1892,11 @@
                 }
             ],
             "description": "Useful scripts for testing multiple sets of Composer dependencies.",
-            "time": "2020-05-28T21:35:51+00:00"
+            "support": {
+                "issues": "https://github.com/g1a/composer-test-scenarios/issues",
+                "source": "https://github.com/g1a/composer-test-scenarios/tree/3.2.0"
+            },
+            "time": "2020-09-28T20:54:35+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -4570,5 +4545,5 @@
     "platform-overrides": {
         "php": "7.2.28"
     },
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.0.0"
 }

@@ -1,5 +1,17 @@
 # Changelog
 
+### 3.0.4 08/28/2021
+
+* Undeprecate escapeArgument() by Mark Dorison (#1039)
+* Add setProcessInput and deprecate setInput by Rodrigo(#1034)
+* Add array as a type accepted for argv parameter by Rodrigo (#1032)
+* Fix null return in createContainer by Rodrigo (#1031)
+* Fix mkdir error in taskExtract on PHP 8 by wxa (#1028)
+* refactor: Remove hardcoded namespace by Pol Dellaiera refactor (#1026)
+* refactor: Use proper use imports by Pol Dellaiera refactor (#1025)
+* Run linter in parallel by Viktor Szépe (#1020)
+* Fix task pack (#1044)
+
 ### 3.0.0 02/21/2021
 
 * PHP 8 support

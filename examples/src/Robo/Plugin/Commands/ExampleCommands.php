@@ -33,6 +33,28 @@ use Robo\Symfony\ConsoleIO;
 class ExampleCommands extends \Robo\Tasks
 {
     /**
+     * Demonstrate variable args and options
+     *
+     * This command will concatenate two or more parameters. If the --flip flag
+     * is provided, then the result is the concatenation of two and one.
+     *
+     * @command try:echo
+     * @param array $args The argument list
+     * @param bool $flip The "flip" option
+     * @option flip Whether or not the second parameter should come first in the result.
+     * @aliases c
+     * @usage bet alpha --flip
+     *   Concatenate "alpha" and "bet".
+     */
+    public function tryEcho(array $args, $flip = false)
+    {
+        if ($flip) {
+            $args = array_reverse($args);
+        }
+        return implode(" ", $args);
+    }
+
+    /**
      * Watch a file.
      *
      * Demonstrates the 'watch' command. Runs 'composer update' any time

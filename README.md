@@ -56,7 +56,7 @@ Now you can use it simply via `robo`.
 
 ### Composer
 
-* Run `composer require consolidation/robo:^3` # Use ^2 for stable
+* Run `composer require consolidation/robo:^3`
 * Use `vendor/bin/robo` to execute Robo tasks.
 
 ## Usage

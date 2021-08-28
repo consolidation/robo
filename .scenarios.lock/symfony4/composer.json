@@ -78,7 +78,7 @@
     },
     "suggest": {
         "pear/archive_tar": "Allows tar archives to be created and extracted in taskPack and taskExtract, respectively.",
-        "henrikbjorn/lurker": "For monitoring filesystem changes in taskWatch",
+        "totten/lurkerlite": "For monitoring filesystem changes in taskWatch",
         "patchwork/jsqueeze": "For minifying JS files in taskMinify",
         "natxet/cssmin": "For minifying CSS files in taskMinify"
     },

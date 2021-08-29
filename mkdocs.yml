@@ -1,0 +1,32 @@
+site_name: Robo
+theme: mkdocs
+site_favicon: img/favicon.png
+theme_dir: robotheme
+site_url: http://robo.li
+repo_url: https://github.com/consolidation/Robo/
+pages:
+- Index: index.md
+- Guides:
+  - "Getting Started": getting-started.md
+  - Collections: collections.md
+  - "Extending": extending.md
+  - "Robo as Framework": framework.md
+- Tasks:
+  - "Base Tasks": tasks/Base.md
+  - "FileSystem Tasks": tasks/Filesystem.md
+  - "File Tasks": tasks/File.md
+  - "Composer Tasks": tasks/Composer.md
+  - "VCS Tasks": tasks/Vcs.md
+  - "Development Tasks": tasks/Development.md
+  - "Assets Tasks": tasks/Assets.md
+  - "Archive Tasks": tasks/Archive.md
+  - "SSH, Rsync Tasks": tasks/Remote.md
+  - "Testing Tasks": tasks/Testing.md
+  - "NPM Tasks": tasks/Npm.md
+  - "Bower Tasks": tasks/Bower.md
+  - "Gulp Tasks": tasks/Gulp.md
+  - "Docker Tasks": tasks/Docker.md
+  - "ApiGen Tasks": tasks/ApiGen.md
+- Releases: changelog.md
+extra_css:
+- /css/robo.css

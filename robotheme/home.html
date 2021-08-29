@@ -1,0 +1,182 @@
+<div class="layer">
+<div class="callout">
+<div class="container">
+
+        <div class="col-md-3">
+            <div class="logo">
+                <a href="http://robo.li/"><img src="img/robo.png" alt="RoboTask"/></a>
+
+            </div>
+
+        </div>
+
+    <div class="col-md-6">
+        <h1>Robo</h1>
+        <h3>Modern Task Runner for <strong>PHP</strong></h3>
+
+    </div>
+
+    <div class="col-md-3">
+
+
+        <p>
+        <a class="btn btn-success btn-lg btn-block" href="/robo.phar">Download robo.phar &raquo;</a>
+        </p>
+
+
+        <div class="well">
+
+            <p>
+              <a class="twitter-follow-button"
+  href="https://twitter.com/robo_php"
+  data-show-count="false"
+  data-lang="en">
+Follow @Robo_PHP
+</a>
+<script>window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));</script>
+            </p>
+
+            <p>
+            <a href="https://gitter.im/consolidation-org/Robo?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">
+                <img src="https://badges.gitter.im/Join%20Chat.svg" alt="Gitter"/>
+            </a>
+                </p>
+
+        <p>
+        <a href="https://packagist.org/packages/consolidation/robo">
+            <img src="https://poser.pugx.org/consolidation/robo/v/stable.png" alt="Release"/>
+        </a>
+            </p>
+        <p>
+
+            <a href="https://packagist.org/packages/consolidation/robo">
+                <img src="https://poser.pugx.org/consolidation/robo/downloads.png" alt="Total Downloads"/>
+            </a></p>
+        <p>
+            <a href="https://packagist.org/packages/consolidation/robo">
+                <img src="https://poser.pugx.org/consolidation/robo/license.png" alt="License MIT"/>
+            </a>
+        </p>
+        </div>
+    </div>
+
+</div>
+</div>
+</div>
+
+<div class="container">
+        <div class="col-md-6">
+            <div class="col-md-6 features">
+                <h3>What is Robo?</h3>
+                Robo is a task runner you always have been looking for.
+                It allows you to write fully customizable tasks in common OOP PHP style.
+                Robo has comprehensive list of built-in common tasks for development, testing, and deployment.
+            </div>
+            <div class="col-md-6">
+
+                <h3>Use Robo to</h3>
+                <ul>
+                    <li>automate your common tasks</li>
+                    <li>start workers</li>
+                    <li>run parallel tasks</li>
+                    <li>execute commands</li>
+                    <li>run tests</li>
+                    <li>watch filesystem changes</li>
+                </ul>
+            </div>
+            <div class="col-md-12">
+                <h2>Install</h2>
+                <h3>Via Composer</h3>
+
+                <p>Add to <code>composer.json</code> of your project</p>
+                <pre>
+<code class="json">require-dev: {
+    "consolidation/robo": "^1.0.0"
+}
+</code></pre>
+
+                or install it globally:
+
+<pre><code>composer global require consolidation/robo</code></pre>
+
+                <a class="btn btn-success right" href="http://robo.li/robo.phar">Download robo.phar</a>
+                <h3>Using Phar</h3>
+                <div class="clear"></div>
+                <pre><code>wget http://robo.li/robo.phar</code></pre>
+                <p>or download it via HTTPS from <a href="https://github.com/consolidation/Robo/releases">GitHub releases</a></p>
+                <p>To install globally put robo.phar in /usr/bin (/usr/local/bin in OSX 10.11+).</p>
+                <pre><code>chmod +x robo.phar && sudo mv robo.phar /usr/bin/robo</code></pre></p>
+
+                Now you can use it just like <code>robo</code>.
+            <h2>Feedback</h2>
+
+                    <blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/search?q=%23Robo&amp;src=hash">#Robo</a> is a very amazing project. The one project that was missing to php developer environment. I really like it. <a href="https://twitter.com/codeception">@codeception</a> @codegyre</p>&mdash; Hugo Leonardo C. S. (@hugoleodev) <a href="https://twitter.com/hugoleodev/statuses/436351614216335360">February 20, 2014</a></blockquote>
+                    <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+                    <blockquote class="twitter-tweet" data-cards="hidden" lang="en"><p>I&#39;ve been playing w/ <a href="https://twitter.com/davert">@davert</a>&#39;s Robo this evening, converting a rickety shell script for building <a href="https://twitter.com/search?q=%23Drupal&amp;src=hash">#Drupal</a>. Very nice. <a href="http://t.co/gGtJu0EWSC">pic.twitter.com/gGtJu0EWSC</a></p>&mdash; Paul Byrne (@pfaocle) <a href="https://twitter.com/pfaocle/statuses/428671971124342784">January 29, 2014</a></blockquote>
+                    <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+            </div>
+            </div>
+        <div class="col-md-6">
+<pre><code class="php">&lt;?php // all tasks are defined in RoboFile.php
+class RoboFile {
+/**
+ * Each public method is a command in runner
+ * parameters are arguments in console
+ *
+ * use './robo test' to run tests on a project
+ */
+function test($pathToSelenium = '~/selenium.jar')
+{
+    // starts PHP server in background
+    $this->taskPhpServer(8000)
+        ->background()
+        ->dir('web')
+        ->run();
+
+    // launches Selenium server
+    $this->taskExec('java -jar '.$pathToSelenium)
+        ->background()
+        ->run();
+
+    // runs PHPUnit tests
+    $this->taskPHPUnit()
+        ->run();
+}
+
+/**
+ * Cleanup temporary files
+ */
+function clean()
+{
+    $this->_cleanDir(['app/cache', 'app/logs']);
+    $this->_deleteDir(['web/assets/tmp_uploads']);
+}
+
+/**
+ * Minify assets
+ */
+function assets()
+{
+    // concat CSS files
+    $this->taskConcat(['web/css/core.css','web/css/theme.css'])
+        ->to('main.css')
+        ->run();
+
+    // minify CSS files
+    $this->taskMinify('main.css')
+        ->to('main.min.css')
+        ->run();
+
+    // install Bower dependencies
+    $this->taskBowerInstall()
+        ->dir('web')
+        ->run();
+}
+// ...Git, Ssh, Docker, and other tasks available
+}
+</code></pre>
+
+
+ </div>
+</div>

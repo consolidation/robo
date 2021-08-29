@@ -2,8 +2,7 @@ vendor/
 .idea/
 build
 site/
-robotheme/
 tests/_log/*
 tests/_helpers/_generated/*
-*.phar
+/*.phar
 .phpunit.result.cache

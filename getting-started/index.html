@@ -9,289 +9,295 @@
         <link rel="canonical" href="http://robo.li/getting-started/">
         <link rel="shortcut icon" href="../img/favicon.png">
         
-        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
-
-	<title>Getting Started - Robo</title>
-
-        <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
-        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <title>Getting Started - Robo</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
         <link href="../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="../css/highlight.css">
-        <link href="..//css/robo.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+        <link href="/css/robo.css" rel="stylesheet">
 
-        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-        <![endif]-->
-
-        
+        <script src="../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
     </head>
 
     <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">Robo</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="container">
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href=".." class="nav-link">Index</a>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Guides <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="./" class="dropdown-item active">Getting Started</a>
+</li>
+                                    
+<li>
+    <a href="../collections/" class="dropdown-item">Collections</a>
+</li>
+                                    
+<li>
+    <a href="../extending/" class="dropdown-item">Extending</a>
+</li>
+                                    
+<li>
+    <a href="../framework/" class="dropdown-item">Robo as Framework</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Tasks <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../tasks/Base/" class="dropdown-item">Base Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../tasks/Filesystem/" class="dropdown-item">FileSystem Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../tasks/File/" class="dropdown-item">File Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../tasks/Composer/" class="dropdown-item">Composer Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../tasks/Vcs/" class="dropdown-item">VCS Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../tasks/Development/" class="dropdown-item">Development Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../tasks/Assets/" class="dropdown-item">Assets Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../tasks/Archive/" class="dropdown-item">Archive Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../tasks/Remote/" class="dropdown-item">SSH, Rsync Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../tasks/Testing/" class="dropdown-item">Testing Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../tasks/Npm/" class="dropdown-item">NPM Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../tasks/Bower/" class="dropdown-item">Bower Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../tasks/Gulp/" class="dropdown-item">Gulp Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../tasks/Docker/" class="dropdown-item">Docker Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../tasks/ApiGen/" class="dropdown-item">ApiGen Tasks</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="navitem">
+                                <a href="../changelog/" class="nav-link">Releases</a>
+                            </li>
+                        </ul>
 
-        <!-- Collapsed navigation -->
-        <div class="navbar-header">
-            <!-- Expander button -->
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="..">Robo</a>
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href=".." class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../collections/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/consolidation/Robo/edit/master/docs/getting-started.md" class="nav-link"><i class="fa fa-github"></i> Edit on GitHub</a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
-        <!-- Expanded navigation -->
-        <div class="navbar-collapse collapse">
-                <!-- Main navigation -->
-                <ul class="nav navbar-nav">
-                    <li >
-                        <a href="..">Index</a>
-                    </li>
-                    <li class="dropdown active">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Guides <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            
-<li class="active">
-    <a href="./">Getting Started</a>
-</li>
-                            
-<li >
-    <a href="../collections/">Collections</a>
-</li>
-                            
-<li >
-    <a href="../extending/">Extending</a>
-</li>
-                            
-<li >
-    <a href="../framework/">Robo as Framework</a>
-</li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tasks <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            
-<li >
-    <a href="../tasks/Base/">Base Tasks</a>
-</li>
-                            
-<li >
-    <a href="../tasks/Filesystem/">FileSystem Tasks</a>
-</li>
-                            
-<li >
-    <a href="../tasks/File/">File Tasks</a>
-</li>
-                            
-<li >
-    <a href="../tasks/Composer/">Composer Tasks</a>
-</li>
-                            
-<li >
-    <a href="../tasks/Vcs/">VCS Tasks</a>
-</li>
-                            
-<li >
-    <a href="../tasks/Development/">Development Tasks</a>
-</li>
-                            
-<li >
-    <a href="../tasks/Assets/">Assets Tasks</a>
-</li>
-                            
-<li >
-    <a href="../tasks/Archive/">Archive Tasks</a>
-</li>
-                            
-<li >
-    <a href="../tasks/Remote/">SSH, Rsync Tasks</a>
-</li>
-                            
-<li >
-    <a href="../tasks/Testing/">Testing Tasks</a>
-</li>
-                            
-<li >
-    <a href="../tasks/Npm/">NPM Tasks</a>
-</li>
-                            
-<li >
-    <a href="../tasks/Bower/">Bower Tasks</a>
-</li>
-                            
-<li >
-    <a href="../tasks/Gulp/">Gulp Tasks</a>
-</li>
-                            
-<li >
-    <a href="../tasks/Docker/">Docker Tasks</a>
-</li>
-                            
-<li >
-    <a href="../tasks/ApiGen/">ApiGen Tasks</a>
-</li>
-                        </ul>
-                    </li>
-                    <li >
-                        <a href="../changelog/">Releases</a>
-                    </li>
-                </ul>
-
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
-                        <i class="fa fa-search"></i> Search
-                    </a>
-                </li>
-                    <li >
-                        <a rel="next" href="..">
-                            <i class="fa fa-arrow-left"></i> Previous
-                        </a>
-                    </li>
-                    <li >
-                        <a rel="prev" href="../collections/">
-                            Next <i class="fa fa-arrow-right"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://github.com/consolidation/Robo/">
-                                <i class="fa fa-github"></i>GitHub
-                        </a>
-                    </li>
-            </ul>
-        </div>
-    </div>
-</div>
-
-        
         <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
             
-                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
-    <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#getting-started">Getting Started</a></li>
-            <li><a href="#commands">Commands</a></li>
-            <li><a href="#tasks">Tasks</a></li>
-            <li><a href="#configuration">Configuration</a></li>
-            <li><a href="#io">IO</a></li>
-            <li><a href="#working-with-composer">Working with Composer</a></li>
-            <li><a href="#robo-as-a-framework">Robo as a Framework</a></li>
-    </ul>
+            <li class="nav-item" data-level="1"><a href="#getting-started" class="nav-link">Getting Started</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#commands" class="nav-link">Commands</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#tasks" class="nav-link">Tasks</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#configuration" class="nav-link">Configuration</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#io" class="nav-link">IO</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#working-with-composer" class="nav-link">Working with Composer</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#robo-as-a-framework" class="nav-link">Robo as a Framework</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
 </div></div>
-                <div class="col-md-9" role="main">
+                    <div class="col-md-9" role="main">
 
 <h1 id="getting-started">Getting Started</h1>
 <p>To begin you need to create a RoboFile. Just run <code>robo init</code> in your project directory:</p>
 <pre><code>cd myproject
 robo init
 </code></pre>
-
 <p>Your project directory may start out empty; Robo will create a new <code>RoboFile.php</code> for you. There will be RoboFile class which extends <code>\Robo\Tasks</code>, which includes all bundled tasks of Robo.</p>
-<pre><code class="php">&lt;?php
+<pre><code class="language-php">&lt;?php
 class RoboFile extends \Robo\Tasks
 {
 }
 ?&gt;
 </code></pre>
-
 <h2 id="commands">Commands</h2>
 <p>All public methods of the RoboFile class will be treated as <strong>commands</strong>. You can run them from the CLI and pass arguments.</p>
-<pre><code class="php">&lt;?php
+<pre><code class="language-php">&lt;?php
+
+use Robo\Symfony\ConsoleIO;
+
 class RoboFile extends \Robo\Tasks
 {
-    function hello($world)
+    function hello(ConsoleIO $io, $world)
     {
-        $this-&gt;say(&quot;Hello, $world&quot;);
+        $io-&gt;say(&quot;Hello, $world&quot;);
     }
 }
 ?&gt;
 </code></pre>
-
+<p><strong>Note:</strong> The class ConsoleIO <em>isa</em> SymfonyStyle, and therefore has access to all of the Symfony styling methods. It also adds a few Robo extensions such as the <code>say()</code> and <code>yell()</code> output styles. This parameter may be omitted for commands that do not perofrom any output.</p>
 <p>When we run:</p>
 <pre><code>robo hello davert
 ➜ Hello, davert
 </code></pre>
-
-<p>Method names should be camelCased. In CLI <code>camelCased</code> method will be available as <code>camel:cased</code> command.
-<code>longCamelCased</code> method will be transformed to <code>long:camel-cased</code> command.</p>
 <p><strong>Note:</strong> This assumes you have installed Robo by downloading the <a href="http://robo.li/robo.phar">robo.phar</a> file and copied it to a directory in your <code>$PATH</code>. For example, <code>cp robo.phar ~/bin/robo</code>.</p>
+<p>Method names in a RoboFile should be camelCased. When called from the CLI, <code>camelCased</code> methods will be available as commands formatted as <code>camel:cased</code>.
+<code>longCamelCased</code> methods will be transformed to commands formatted as <code>long:camel-cased</code>.</p>
 <h3 id="arguments">Arguments</h3>
-<p>All method parameters without default values are treated as required arguments. In our example command <code>hello</code> requires one argument.
-If you pass a default value to parameter the argument becomes optional:</p>
-<pre><code class="php">&lt;?php
-    function hello($world = 'world')
+<p>All method parameters without default values are treated as required arguments. In our example command <code>hello</code> requires one argument.</p>
+<p>If you pass a default value to parameter the argument becomes optional:</p>
+<pre><code class="language-php">&lt;?php
+    function hello(ConsoleIO $io, $world = 'world')
     {
-        $this-&gt;say(&quot;Hello, $world&quot;);
+        $io-&gt;say(&quot;Hello, $world&quot;);
     }
 ?&gt;
 </code></pre>
-
 <pre><code>robo hello
 ➜ Hello, world
 </code></pre>
-
-<p>To accept multiple, variable arguments, define a parameter as an <code>array</code>; Robo will then pass all CLI arguments in this variable:</p>
-<pre><code class="php">&lt;?php
-    function hello(array $world)
+<p>To accept multiple, variable arguments, typehint a parameter as an <code>array</code>; Robo will then pass all CLI arguments in this variable:</p>
+<pre><code class="language-php">&lt;?php
+    function hello(ConsoleIO $io, array $world)
     {
-        $this-&gt;say(&quot;Hello, &quot; . implode(', ', $world));
+        $io-&gt;say(&quot;Hello, &quot; . implode(', ', $world));
     }
 ?&gt;
 </code></pre>
-
 <pre><code>robo hello davert jon bill bob
 ➜ Hello, davert, jon, bill, bob
 </code></pre>
-
 <h3 id="options">Options</h3>
-<p>To define command options you should define the last method parameter as an associative array where the keys define the option names and the values provide each option's default values:</p>
-<pre><code class="php">&lt;?php
-    function hello($opts = ['silent' =&gt; false])
+<p>To define command options you should define the last method parameter as an associative array where the keys define the option names and the values provide each option's default value:</p>
+<pre><code class="language-php">&lt;?php
+    function hello(ConsoleIO $io, $opts = ['silent' =&gt; false])
     {
-        if (!$opts['silent']) $this-&gt;say(&quot;Hello, world&quot;);
+        if (!$opts['silent']) $io-&gt;say(&quot;Hello, world&quot;);
     }
 ?&gt;
 </code></pre>
-
 <pre><code>robo hello
 ➜ Hello, world
 
 robo hello --silent
 </code></pre>
-
 <p>A one-character shortcut can be specified for option:</p>
-<pre><code class="php">&lt;?php
-    function hello($opts = ['silent|s' =&gt; false])
+<pre><code class="language-php">&lt;?php
+    function hello(ConsoleIO $io, $opts = ['silent|s' =&gt; false])
     {
-        if (!$opts['silent']) $this-&gt;say(&quot;Hello, world&quot;);
+        if (!$opts['silent']) $io-&gt;say(&quot;Hello, world&quot;);
     }
 ?&gt;
 </code></pre>
-
 <p>Now command can be executed with '-s' to run in silent mode: </p>
 <pre><code>robo hello -s
 </code></pre>
-
 <p>The default value for options must be one of:</p>
 <ul>
-<li>The boolean value <code>false</code>, which indicates that the option takes no value.</li>
+<li>The boolean value <code>false</code>, which indicates that the option takes no value; the variable will be <code>true</code> if the option appears on the commandline, and will be false otherwise.</li>
+<li>The boolean value <code>true</code>, which indicates that the variable should be true unless the option is disabled on the commandline via the flag <code>--no-foo</code> or <code>--foo=0</code> (for <code>$opts = ['foo' =&gt; true]</code>).</li>
 <li>A <strong>string</strong> containing the default value for options that may be provided a value, but are not required to.</li>
 <li>NULL for options that may be provided an optional value, but that have no default when a value is not provided.</li>
 <li>The special value InputOption::VALUE_REQUIRED, which indicates that the user must provide a value for the option whenever it is used.</li>
 <li>An empty array, which indicates that the option may appear multiple times on the command line.</li>
 </ul>
-<p>No other values should be used for the default value. For example, <code>$options = ['a' =&gt; 1]</code> is <strong>incorrect</strong>; instead, use <code>$options = ['a' =&gt; '1']</code>. Similarly, <code>$options = ['a' =&gt; true]</code> is unsupported, or at least not useful, as this would indicate that the value of <code>--a</code> was always <code>true</code>, whether or not it appeared on the command line.</p>
+<p>No other values should be used for the default value. For example, <code>$options = ['a' =&gt; 1]</code> is <strong>incorrect</strong>; instead, use <code>$options = ['a' =&gt; '1']</code>.</p>
 <h3 id="load-from-other-robofile">Load From Other Robofile</h3>
 <p>Robo can execute commands from a different RoboFile, eg. located in different directory or with a different filename.<br />
 You can specify the path to another RoboFile by including the <code>--load-from</code> option:</p>
 <pre><code>robo run --load-from /path/to/my/other/robofile
 </code></pre>
-
 <p>Additional notes:</p>
 <ul>
 <li>The filename can be anything; it is not limited to <code>RoboFile.php</code>.</li>
@@ -300,24 +306,23 @@ You can specify the path to another RoboFile by including the <code>--load-from<
 <li>The internal current directory (cwd) of the PHP process will be switched to the directory where the provided RoboFile came from.</li>
 </ul>
 <h3 id="pass-through-arguments">Pass-Through Arguments</h3>
-<p>Sometimes you need to pass arguments from your command into a task. A command line after the <code>--</code> characters is treated as one argument.
-Any special character like <code>-</code> will be passed into without change.</p>
-<pre><code class="php">&lt;?php
-    function ls(array $args)
+<p>Sometimes you need to pass arguments from your command into a task. A command line after the <code>--</code> delimiter is passed as a single parameter containing all of the following arguments.
+Any special characters such as <code>-</code> will be passed into without change.</p>
+<pre><code class="language-php">&lt;?php
+    function ls(ConsoleIO $io, array $args)
     {
         $this-&gt;taskExec('ls')-&gt;args($args)-&gt;run();
     }
 ?&gt;
 </code></pre>
-
+<p><strong>Note:</strong> Creating tasks without a builder, e.g. <code>$this-&gt;taskExec()</code> as shown above, is deprecated. See the <a href="/collections.md">Collections</a> documentation for the preferred way to declare tasks.</p>
 <pre><code>robo ls -- Robo -c --all
- [Robo\Task\ExecTask] running ls Robo -c --all
+ [ExecTask] running ls Robo -c --all
  .  ..  CHANGELOG.md  codeception.yml  composer.json  composer.lock  docs  .git  .gitignore  .idea  LICENSE  README.md  robo  RoboFile.php  robo.phar  src  tests  .travis.yml  vendor
 </code></pre>
-
 <h3 id="help">Help</h3>
 <p>The help text for a command in a RoboFile may be provided in Doc-Block comments. An example help Doc-Block comment is shown below:</p>
-<pre><code class="php">&lt;?php
+<pre><code class="language-php">&lt;?php
 /**
  * Calculate the fibonacci sequence between two numbers.
  *
@@ -337,12 +342,11 @@ Any special character like <code>-</code> will be passed into without change.</p
  * @option $graphic Display the sequence graphically using cube
  *                  representation
  */
-public function fibonacci($start, $steps, $opts = ['graphic' =&gt; false])
+public function fibonacci(ConsoleIO $io, $start, $steps, $opts = ['graphic' =&gt; false])
 {
 }
 ?&gt;
 </code></pre>
-
 <p>The corresponding help text produced is:</p>
 <pre><code>robo fibonacci --help
 Usage:
@@ -366,69 +370,62 @@ Help:
      |        |             |
      +--------+-------------+
 </code></pre>
-
 <p>Arguments and options are populated from annotations.</p>
-<p>Initially added with <a href="https://github.com/consolidation/Robo/pull/71">PR by @jonsa</a>; now provided by the <a href="https://github.com/consolidation/annotated-command">consolidation/annotated-command</a> project, which was factored out from Robo.</p>
+<p>Initially added with <a href="https://github.com/consolidation/robo/pull/71">PR by @jonsa</a>; now provided by the <a href="https://github.com/consolidation/annotated-command">consolidation/annotated-command</a> project, which was factored out from Robo.</p>
 <h3 id="ignored-methods">Ignored methods</h3>
 <p>Robo ignores any method of your RoboFile that begins with <code>get</code> or <code>set</code>. These methods are presumed to be data accessors, not commands.  To implement a command whose name contains <code>get</code> or <code>set</code>, use the <code>@command</code> annotation.</p>
-<pre><code class="php">&lt;?php
+<pre><code class="language-php">&lt;?php
     /**
      * @command set-alignment
      */
-    function setAlignment($value)
+    function setAlignment(ConsoleIO $io, $value)
     {
         ...
     }
 ?&gt;
 </code></pre>
-
 <h2 id="tasks">Tasks</h2>
 <p>Robo commands typically divide the work they need to accomplish into <strong>tasks</strong>. The command first determines what needs to be done, inspecting current state if necessary, and then sets up and executes one or more tasks that make the actual changes needed by the command.  (See also the documentation on <a href="../collections/">Collections</a>, which allow you to combine groups of tasks which can provide rollback functions to recover from failure situations.)</p>
 <p>For details on how to add custom tasks to Robo, see the <a href="../extending/">extending</a> document.</p>
 <h3 id="shortcuts">Shortcuts</h3>
 <p>Some tasks may have shortcuts. If a task does not require multi-step configuration, it can be executed with a single line:</p>
-<pre><code class="php">&lt;?php
+<pre><code class="language-php">&lt;?php
 $this-&gt;_exec('ps aux');
 $this-&gt;_copy('config/env.example.yml','config/env.yml');
 ?&gt;
 </code></pre>
-
 <h3 id="result">Result</h3>
 <p>Each task must return an instance of <code>Robo\Result</code>. A Robo Result contains the task instance, exit code, message, and any variable data that the task may wish to return.</p>
 <p><em>Note</em>: A task may also return <code>NULL</code> or an array as a shortcut for a successful result. In this instance, Robo will convert the value into a <code>Robo\Result</code>, and will apply the provided array values, if any, to the result's variable data. This practice is supported, but not recommended.</p>
 <p>The <code>run</code> method of <code>CompileAssets</code> class may look like this:</p>
 <pre><code>return new Robo\Result($this, $exitCode, &quot;Assets compiled&quot;);
 </code></pre>
-
 <p>or</p>
 <pre><code>return Robo\Result::success($this, &quot;Assets compiled&quot;);
 return Robo\Result::error($this, &quot;Failed to compile assets&quot;);
 </code></pre>
-
 <p>You can use this results to check if execution was successful, either using the <code>wasSuccessful()</code> method, or via the <code>invoke</code> shortcut. We will use the <code>Exec</code> task in next example to illustrate this:</p>
-<pre><code class="php">&lt;?php
+<pre><code class="language-php">&lt;?php
 class RoboFile
 {
     use Robo\Task\Base\loadShortcuts;
 
-    function test()
+    function test(ConsoleIO $io)
     {
         $res1 = $this-&gt;_exec('phpunit tests/integration');
         $res2 = $this-&gt;_exec('phpunit tests/unit');
 
         // print message when tests passed
-        if ($res1-&gt;wasSuccessful() and $res2-&gt;wasSuccessful()) $this-&gt;say(&quot;All tests passed&quot;);
+        if ($res1-&gt;wasSuccessful() and $res2-&gt;wasSuccessful()) $io-&gt;say(&quot;All tests passed&quot;);
     }
 }
 ?&gt;
 </code></pre>
-
 <p>When making multi-step commands that call one task after another, it is best to use a collection to group the tasks together. The collection will handle error detection and rollback, and will return a single Result object when done. For more information, see the <a href="../collections/">Collections</a> documentation.</p>
 <p>Some tasks may also attach data to the Result object.  If this is done, the data may be accessed as an array; for example, <code>$result['path'];</code>. This is not common.</p>
 <p>Commands should return a Result object obtained from a task; this will ensure that the command exit code is set correctly.  If a command does not have a Result object available, then it may use a ResultData object.  ResultData objects are just like Result objects, except the do not contain a reference to a task.</p>
 <pre><code>return new Robo\ResultData($exitcode, 'Error message.');
 </code></pre>
-
 <p>If the command returns a TaskInterface instead of a result, then the task will be executed, and the result from that task will be used as the final result of the command. See also <code>Formatters</code>, below.</p>
 <h3 id="stack">Stack</h3>
 <p>Some tasks contain <code>Stack</code> in their name. These are called "stack" tasks, and they execute similar tasks one after the other.  Each of the primary methods in a stack class executes an operation.</p>
@@ -437,7 +434,7 @@ class RoboFile
 <p>There is a global <code>stopOnFail</code> method as well, that can be used to stop a command on first failure of a task.</p>
 <pre><code>$this-&gt;stopOnFail(true);
 </code></pre>
-
+<p>Note, however, that using <a href="/collections.md">Collections</a> is preferred.</p>
 <h3 id="progress">Progress</h3>
 <p>Robo supports progress indicators via the Symfony ProgressBar class.  Long-running tasks that wish to display the progress indicator may do so via four simple steps:</p>
 <ul>
@@ -447,7 +444,7 @@ class RoboFile
 <li>Call <code>$this-&gt;stopProgressIndicator()</code> when the operation is completed.</li>
 </ul>
 <p>An example of this is shown below:</p>
-<pre><code class="php">&lt;?php
+<pre><code class="language-php">&lt;?php
 class MyTask extends BaseTask
 {
     protected $steps = 10;
@@ -473,7 +470,6 @@ class MyTask extends BaseTask
 }
 ?&gt;
 </code></pre>
-
 <p>Tasks should not attempt to use a specific progress indicator (e.g. the Symfony ProgressBar class) directly, as the ProgressIndicatorAwareTrait allows for an appropriate progress indicator to be used (or omitted) as best suits the application.</p>
 <p>Note that when using <a href="../collections/">Collections</a>, the progress bar will automatically be shown if the collection takes longer than two seconds to run.  Each task in the collection will count for one "step"; if the task supports progress indicators as shown above, then it will add an additional number of steps as indicated by its <code>progressIndicatorSteps()</code> method.</p>
 <h2 id="configuration">Configuration</h2>
@@ -481,26 +477,23 @@ class MyTask extends BaseTask
 <p>Environment variables can also be used to set individual configuration values. The environment variable key should start with the string <code>ROBO_</code>, and should be followed by an all-uppercase version of the configuration key, with spaces, dashes and dots converted to underscores. For example, to set the progress bar delay to 999999 seconds:</p>
 <pre><code>export ROBO_OPTIONS_PROGRESS_DELAY=999999
 </code></pre>
-
 <p>Configuration values may also be set via the <code>-D</code> commandline switch. The above effect can also be achieved by adding <code>-Doptions.progress-delay=999999</code> to any Robo command.</p>
 <h3 id="configuration-for-command-options">Configuration for Command Options</h3>
 <p>The preferred method for commands to use to read configuration is to simply define commandline options for each configuration value. Configuration may be provided for any command option in the <code>robo.yml</code> configuration file.</p>
 <p>For example, given the following Robo command:</p>
-<pre><code class="php">&lt;?php
-    function hello($opts = ['who' =&gt; 'unknown'])
+<pre><code class="language-php">&lt;?php
+    function hello(ConsoleIO $io, $opts = ['who' =&gt; 'unknown'])
     {
-        $this-&gt;say(&quot;Hello, &quot; . $opts['who']);
+        $io-&gt;say(&quot;Hello, &quot; . $opts['who']);
     }
 ?&gt;
 </code></pre>
-
 <p>The <code>who</code> option can be defined as follows:</p>
 <pre><code>command:
   hello:
     options:
       who: world
 </code></pre>
-
 <p>If you run this command, then it will print <code>Hello, world</code>. If the <code>--who</code> option is provided on the command line, that value will take precidence over the value stored in configuration. Thus, <code>hello --who=everyone</code> will print <code>Hello, everyone</code>.</p>
 <p>Command groups may also share configuration options. For example, if you have commands <code>foo:bar</code>, <code>foo:baz</code> and <code>foo:boz</code>, all of which share a common option <code>color</code>, then the following configuration will provide the value <code>blue</code> to <code>foo:bar</code> and <code>foo:baz</code>, and the value <code>green</code> to <code>foo:boz</code>:</p>
 <pre><code>command:
@@ -511,7 +504,6 @@ class MyTask extends BaseTask
       options:
         color: green
 </code></pre>
-
 <h3 id="configuration-for-task-settings">Configuration for Task Settings</h3>
 <p>Robo will automatically configure tasks with values from configuration. For example, given the following task definition:</p>
 <pre><code>$this-&gt;taskMyOperation()
@@ -519,12 +511,10 @@ class MyTask extends BaseTask
   -&gt;extrapolated(false)
   -&gt;run();
 </code></pre>
-
 <p>You could instead remove the setter methods and move the parameter values to a configruation file:</p>
 <pre><code>$this-&gt;taskComposerInstall()
   -&gt;run();
 </code></pre>
-
 <p>Then, presuming that <code>taskMyOperation</code> was implemented in a class <code>\MyOrg\Task\TaskGroup\MyOperation</code>, then the corresponding configuration file would appear as follows:</p>
 <pre><code>task:
   TaskGroup:
@@ -533,7 +523,6 @@ class MyTask extends BaseTask
         dir: /my/path
         extrapolated: false
 </code></pre>
-
 <p>The key for configuration-injected settings is <code>task.PARTIAL_NAMESPACE.CLASSNAME.settings.key</code>. PARTIAL_NAMESPACE is the namespace for the class, with each <code>\</code> replaced with a <code>.</code>, and with each component of the namespace up to and including <code>Task</code> removed.</p>
 <p>Tasks in the same namespace may also share configuration-injected settings. For example, the configuration below will set the <code>dir</code> option of any task implemented by a class in the <code>*\TaskGroup\MyOperation</code> namespace, unless the task has a more specific configuration value stored with its classname:</p>
 <pre><code>task:
@@ -542,7 +531,6 @@ class MyTask extends BaseTask
       dir: /my/path
       extrapolated: false
 </code></pre>
-
 <h3 id="accessing-configuration-directly">Accessing Configuration Directly</h3>
 <p>In a RoboFile, use <code>\Robo\Robo::Config()-&gt;get('task.TaskGroup.MyOperation.settings.dir');</code> to fetch the <code>dir</code> configuration option from the previous example.</p>
 <p>In the implementation of <code>taskMyOperation()</code> itself, it is in general not necessary to access configuration values directly, as it is preferable to allow Robo to inject configuration as described above. However, if desired, configuration may be accessed from within the method of any task that extends <code>\Robo\Task\BaseTask</code> (or otherwise uses <code>ConfigAwareTrait</code>) may do so via <code>static::getConfigValue('key', 'default');</code>.</p>
@@ -556,7 +544,6 @@ class MyTask extends BaseTask
     }
 }
 </code></pre>
-
 <p>If <code>task.Remote.Ssh.remoteDir</code> is set to some other value in the robo.yml configuration file in the current directory, then the value from the configuration file will take precedence.</p>
 <h3 id="loading-configuration-from-another-source">Loading Configuration From Another Source</h3>
 <p>Sometimes, a RoboFile might want to define its own private configuration file to use in addition to the standard <code>robo.yml</code> file. This can also be done in the constructor.</p>
@@ -568,23 +555,19 @@ class MyTask extends BaseTask
     }
 }
 </code></pre>
-
 <p>Note that configuration loaded in this way will take precedence over the configuration loaded by default by Robo.</p>
 <p>It is possible to have even more control than this if you <a href="../framework/">create your own application using Robo as a Framework</a>.</p>
 <h2 id="io">IO</h2>
 <p>As you noticed, you can print text via the <code>say</code> method, which is taken from the <code>Robo\Output</code> trait.</p>
 <pre><code>$this-&gt;say(&quot;Hello&quot;);
 </code></pre>
-
 <p>Also, you can ask for input from console:</p>
 <pre><code>$name = $this-&gt;ask(&quot;What is your name?&quot;);
 </code></pre>
-
 <p>There are also <code>askDefault</code>, <code>askHidden</code>, and <code>confirm</code> methods.</p>
 <p>In addition, Robo makes all of the methods of Symfony Style available through the <code>io()</code> method:</p>
 <pre><code>$this-&gt;io()-&gt;title(&quot;Build all site assets&quot;);
 </code></pre>
-
 <p>This allows Robo scripts to follow the documentation on <a href="https://symfony.com/doc/current/console/style.html">How to Style a Console Command</a> if desired.</p>
 <h3 id="formatters">Formatters</h3>
 <p>It is preferable for commands that look up and display information should avoid doing IO directly, and should instead return the data they wish to display as an array. This data can then be converted into different data formats, such as "table" and "json". The user may select which formatter to use via the --format option. For details on formatters, see the <a href="https://github.com/consolidation/output-formatters">consolidation/output-formatters</a> project.</p>
@@ -592,20 +575,18 @@ class MyTask extends BaseTask
 <h3 id="adding-a-robofile-to-your-project">Adding a RoboFile to your Project</h3>
 <p>Robo is designed to work well with Composer. To use Robo scripts in your Composer-based project, simply add <code>robo</code> to your composer.json file:</p>
 <pre><code>$ cd myproject
-$ composer require consolidation/Robo:~1
+$ composer require consolidation/robo:^2
 $ ./vendor/bin/robo mycommand
 </code></pre>
-
 <p>If you do not want to type the whole path to Robo, you may add <code>./vendor/bin</code> to your <code>$PATH</code> (relative paths work), or use <code>composer exec</code> to find and run Robo:</p>
 <pre><code>$ composer exec robo mycommand
 </code></pre>
-
 <h3 id="implementing-composer-scripts-with-robo">Implementing Composer Scripts with Robo</h3>
 <p>When using Robo in your project, it is convenient to define Composer scripts that call your Robo commands.  Simply add the following to your composer.json file:</p>
 <pre><code>{
     &quot;name&quot;: &quot;myorg/myproject&quot;,
     &quot;require&quot;: {
-        &quot;consolidation/Robo&quot;: &quot;~1&quot;
+        &quot;consolidation/robo&quot;: &quot;^2&quot;
     },
     &quot;scripts&quot;: {
         &quot;test&quot;: &quot;composer robo test&quot;,
@@ -614,75 +595,91 @@ $ ./vendor/bin/robo mycommand
     }
 }
 </code></pre>
-
 <p><em>Note</em>: When you include Robo as a library like this, some external projects used by certain core Robo tasks are not automatically included in your project.  See the <code>"suggest":</code> section of Robo's composer.json for a list of external projects you might also want to require in your project.</p>
 <p>Once you have set up your composer.json file (and ran <code>composer update</code> if you manually changed the <code>require</code> or <code>require-dev</code> sections), Composer will ensure that your project-local copy of Robo in the <code>vendor/bin</code> dir is in your <code>$PATH</code> when you run the additional Composer scripts that you declared:</p>
 <pre><code>$ cd myproject
 $ composer test
 $ composer phar
 </code></pre>
-
 <p>This will call the public methods <code>test()</code> and <code>phar()</code> in your RoboFile.php when using <code>composer test</code> and <code>composer phar</code>, respectively.</p>
 <p>Advertising your build commands as Composer scripts is a useful way to provide the key commands used for testing, building or packaging your application. Also, if your application should happen to provide a commandline tool to perform the operations of the application itself, then defining your build commands in their own RoboFile provides desirable separation, keeping your build commands out of the help and list commands of your primary script.</p>
 <p>If you would like to simplify the output of your script (e.g. when running on a CI service), replace the <code>--ansi</code> option in the example above with <code>--no-ansi</code>, and  colored terminal output and progress bars will be disabled. </p>
 <h2 id="robo-as-a-framework">Robo as a Framework</h2>
 <p>For an overview on how to turn your Robo scripts into standalone tools, see the example <a href="https://github.com/consolidation/Robo/blob/master/examples/robo.script">robo.script</a>, and the section <a href="../framework/">Robo as a Framework</a>.</p></div>
-            
-
+            </div>
         </div>
-        
 
         <footer class="col-md-12">
-            <p>Brought to you by <a href="https://github.com/orgs/consolidation/people">Consolidation Team</a> and our <a href="https://github.com/consolidation/Robo/graphs/contributors">awesome contributors</a>
-
-</p>
-<p>
-Robo is on <a href="http://twitter.com/robo_php">Twitter</a> and on <a href="https://github.com/consolidation/robo">GitHub</a>
-</p>
-
-            <p>
-                Projects Using It:
-                <a href="http://codeception.com">Codeception</a> |
-                <a href="http://www.drush.org">Drush</a> |
-                <a href="https://github.com/Codeception/AspectMock">AspectMock</a> |
-                <a href="https://github.com/pantheon-systems/terminus">Pantheon Terminus</a> |
-                <a href="https://github.com/Codeception/CodeceptJS">CodeceptJS</a>
-            </p>
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js" defer></script>
+        <script src="../search/main.js" defer></script>
 
-        
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
 
-        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-        <script src="../js/bootstrap-3.0.3.min.js"></script>
-        <script src="../js/prettify-1.0.min.js"></script>
-        <script src="../js/highlight.pack.js"></script>
-        <script>var base_url = '..';</script>
-        <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script>
-        <script src="../js/base.js"></script>
-
-    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
-         <div class="modal-dialog">
-             <div class="modal-content">
-                 <div class="modal-header">
-                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                     <h4 class="modal-title" id="exampleModalLabel">Search</h4>
-                 </div>
-                 <div class="modal-body">
-                     <p>
-                         From here you can search these documents. Enter
-                         your search terms below.
-                     </p>
-                     <form role="form">
-                         <div class="form-group">
-                             <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
-                         </div>
-                     </form>
-                     <div id="mkdocs-search-results"></div>
-                 </div>
-                 <div class="modal-footer">
-                 </div>
-             </div>
-         </div>
-     </div>
     </body>
 </html>

@@ -9,203 +9,200 @@
         <link rel="canonical" href="http://robo.li/changelog/">
         <link rel="shortcut icon" href="../img/favicon.png">
         
-        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
-
-	<title>Releases - Robo</title>
-
-        <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
-        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <title>Releases - Robo</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
         <link href="../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="../css/highlight.css">
-        <link href="..//css/robo.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+        <link href="/css/robo.css" rel="stylesheet">
 
-        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-        <![endif]-->
-
-        
+        <script src="../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
     </head>
 
     <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">Robo</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="container">
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href=".." class="nav-link">Index</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Guides <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../getting-started/" class="dropdown-item">Getting Started</a>
+</li>
+                                    
+<li>
+    <a href="../collections/" class="dropdown-item">Collections</a>
+</li>
+                                    
+<li>
+    <a href="../extending/" class="dropdown-item">Extending</a>
+</li>
+                                    
+<li>
+    <a href="../framework/" class="dropdown-item">Robo as Framework</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Tasks <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../tasks/Base/" class="dropdown-item">Base Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../tasks/Filesystem/" class="dropdown-item">FileSystem Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../tasks/File/" class="dropdown-item">File Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../tasks/Composer/" class="dropdown-item">Composer Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../tasks/Vcs/" class="dropdown-item">VCS Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../tasks/Development/" class="dropdown-item">Development Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../tasks/Assets/" class="dropdown-item">Assets Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../tasks/Archive/" class="dropdown-item">Archive Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../tasks/Remote/" class="dropdown-item">SSH, Rsync Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../tasks/Testing/" class="dropdown-item">Testing Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../tasks/Npm/" class="dropdown-item">NPM Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../tasks/Bower/" class="dropdown-item">Bower Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../tasks/Gulp/" class="dropdown-item">Gulp Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../tasks/Docker/" class="dropdown-item">Docker Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../tasks/ApiGen/" class="dropdown-item">ApiGen Tasks</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="navitem active">
+                                <a href="./" class="nav-link">Releases</a>
+                            </li>
+                        </ul>
 
-        <!-- Collapsed navigation -->
-        <div class="navbar-header">
-            <!-- Expander button -->
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="..">Robo</a>
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../tasks/ApiGen/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" class="nav-link disabled">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/consolidation/Robo/edit/master/docs/changelog.md" class="nav-link"><i class="fa fa-github"></i> Edit on GitHub</a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
-        <!-- Expanded navigation -->
-        <div class="navbar-collapse collapse">
-                <!-- Main navigation -->
-                <ul class="nav navbar-nav">
-                    <li >
-                        <a href="..">Index</a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Guides <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            
-<li >
-    <a href="../getting-started/">Getting Started</a>
-</li>
-                            
-<li >
-    <a href="../collections/">Collections</a>
-</li>
-                            
-<li >
-    <a href="../extending/">Extending</a>
-</li>
-                            
-<li >
-    <a href="../framework/">Robo as Framework</a>
-</li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tasks <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            
-<li >
-    <a href="../tasks/Base/">Base Tasks</a>
-</li>
-                            
-<li >
-    <a href="../tasks/Filesystem/">FileSystem Tasks</a>
-</li>
-                            
-<li >
-    <a href="../tasks/File/">File Tasks</a>
-</li>
-                            
-<li >
-    <a href="../tasks/Composer/">Composer Tasks</a>
-</li>
-                            
-<li >
-    <a href="../tasks/Vcs/">VCS Tasks</a>
-</li>
-                            
-<li >
-    <a href="../tasks/Development/">Development Tasks</a>
-</li>
-                            
-<li >
-    <a href="../tasks/Assets/">Assets Tasks</a>
-</li>
-                            
-<li >
-    <a href="../tasks/Archive/">Archive Tasks</a>
-</li>
-                            
-<li >
-    <a href="../tasks/Remote/">SSH, Rsync Tasks</a>
-</li>
-                            
-<li >
-    <a href="../tasks/Testing/">Testing Tasks</a>
-</li>
-                            
-<li >
-    <a href="../tasks/Npm/">NPM Tasks</a>
-</li>
-                            
-<li >
-    <a href="../tasks/Bower/">Bower Tasks</a>
-</li>
-                            
-<li >
-    <a href="../tasks/Gulp/">Gulp Tasks</a>
-</li>
-                            
-<li >
-    <a href="../tasks/Docker/">Docker Tasks</a>
-</li>
-                            
-<li >
-    <a href="../tasks/ApiGen/">ApiGen Tasks</a>
-</li>
-                        </ul>
-                    </li>
-                    <li class="active">
-                        <a href="./">Releases</a>
-                    </li>
-                </ul>
-
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
-                        <i class="fa fa-search"></i> Search
-                    </a>
-                </li>
-                    <li >
-                        <a rel="next" href="../tasks/ApiGen/">
-                            <i class="fa fa-arrow-left"></i> Previous
-                        </a>
-                    </li>
-                    <li class="disabled">
-                        <a rel="prev" >
-                            Next <i class="fa fa-arrow-right"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://github.com/consolidation/Robo/">
-                                <i class="fa fa-github"></i>GitHub
-                        </a>
-                    </li>
-            </ul>
-        </div>
-    </div>
-</div>
-
-        
         <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
             
-                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
-    <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#changelog">Changelog</a></li>
-            <li><a href="#210-05272020">2.1.0 05/27/2020</a></li>
-            <li><a href="#204-205-05222020">2.0.4 - 2.0.5 05/22/2020</a></li>
-            <li><a href="#200-203-02182019">2.0.0 - 2.0.3 02/18/2019</a></li>
-            <li><a href="#1410-7292019">1.4.10 7/29/2019</a></li>
-            <li><a href="#147-149-2192019">1.4.7 - 1.4.9 2/19/2019</a></li>
-            <li><a href="#146-2162019">1.4.6 2/16/2019</a></li>
-            <li><a href="#145-2152019">1.4.5 2/15/2019</a></li>
-            <li><a href="#144-282019">1.4.4 2/8/2019</a></li>
-            <li><a href="#140-143-122019">1.4.0 - 1.4.3 1/2/2019</a></li>
-            <li><a href="#134-12202018">1.3.4 12/20/2018</a></li>
-            <li><a href="#133-12132018">1.3.3 12/13/2018</a></li>
-            <li><a href="#132-11212018">1.3.2 11/21/2018</a></li>
-            <li><a href="#131-8172018">1.3.1 8/17/2018</a></li>
-            <li><a href="#130-5262018">1.3.0 5/26/2018</a></li>
-            <li><a href="#124-5252018">1.2.4 5/25/2018</a></li>
-            <li><a href="#123-452018">1.2.3 4/5/2018</a></li>
-            <li><a href="#122-2272018">1.2.2 2/27/2018</a></li>
-            <li><a href="#121-12282017">1.2.1 12/28/2017</a></li>
-            <li><a href="#120-12122017">1.2.0 12/12/2017</a></li>
-            <li><a href="#115-10252017">1.1.5 10/25/2017</a></li>
-            <li><a href="#114-10162017">1.1.4 10/16/2017</a></li>
-            <li><a href="#113-09232017">1.1.3 09/23/2017</a></li>
-            <li><a href="#112-07282017">1.1.2 07/28/2017</a></li>
-            <li><a href="#111-07072017">1.1.1 07/07/2017</a></li>
-            <li><a href="#110-06292017">1.1.0 06/29/2017</a></li>
-            <li><a href="#108-06022017">1.0.8 06/02/2017</a></li>
-    </ul>
+            <li class="nav-item" data-level="1"><a href="#changelog" class="nav-link">Changelog</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+        </ul>
+    </div>
 </div></div>
-                <div class="col-md-9" role="main">
+                    <div class="col-md-9" role="main">
 
 <h1 id="changelog">Changelog</h1>
+<h3 id="304-08282021">3.0.4 08/28/2021</h3>
+<ul>
+<li>Undeprecate escapeArgument() by Mark Dorison (#1039)</li>
+<li>Add setProcessInput and deprecate setInput by Rodrigo(#1034)</li>
+<li>Add array as a type accepted for argv parameter by Rodrigo (#1032)</li>
+<li>Fix null return in createContainer by Rodrigo (#1031)</li>
+<li>Fix mkdir error in taskExtract on PHP 8 by wxa (#1028)</li>
+<li>refactor: Remove hardcoded namespace by Pol Dellaiera refactor (#1026)</li>
+<li>refactor: Use proper use imports by Pol Dellaiera refactor (#1025)</li>
+<li>Run linter in parallel by Viktor Szépe (#1020)</li>
+<li>Fix task pack (#1044)</li>
+</ul>
+<h3 id="300-02212021">3.0.0 02/21/2021</h3>
+<ul>
+<li>PHP 8 support</li>
+<li>Update to league/container ^3</li>
+<li>Prefer passing <code>ConsoleIO $io</code> to commands over <code>$this-&gt;io()</code>, which is now deprecated.</li>
+<li><code>loadTasks</code> renamed to <code>Tasks</code></li>
+</ul>
+<h3 id="220-09052020">2.2.0 09/05/2020</h3>
+<ul>
+<li>New CheckPlatformReqs task by Pierre Rudloff (#957)</li>
+<li>Add Runner function for retrieving an application to be used with tests by Les Peabody (#968)</li>
+<li>Add ignorelist to pack command by O'Briat (#964)</li>
+<li>Create a semver file if using the SemVer task for the first time by Dan Untenzu (#960)</li>
+<li>Allow symfony/yaml ^5</li>
+</ul>
 <h3 id="210-05272020">2.1.0 05/27/2020</h3>
 <ul>
 <li>Symfony 5 support. (#940)</li>
@@ -611,62 +608,80 @@
 <li>Added Changelog task</li>
 <li>Added ReplaceInFile task</li>
 </ul></div>
-            
-
+            </div>
         </div>
-        
 
         <footer class="col-md-12">
-            <p>Brought to you by <a href="https://github.com/orgs/consolidation/people">Consolidation Team</a> and our <a href="https://github.com/consolidation/Robo/graphs/contributors">awesome contributors</a>
-
-</p>
-<p>
-Robo is on <a href="http://twitter.com/robo_php">Twitter</a> and on <a href="https://github.com/consolidation/robo">GitHub</a>
-</p>
-
-            <p>
-                Projects Using It:
-                <a href="http://codeception.com">Codeception</a> |
-                <a href="http://www.drush.org">Drush</a> |
-                <a href="https://github.com/Codeception/AspectMock">AspectMock</a> |
-                <a href="https://github.com/pantheon-systems/terminus">Pantheon Terminus</a> |
-                <a href="https://github.com/Codeception/CodeceptJS">CodeceptJS</a>
-            </p>
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js" defer></script>
+        <script src="../search/main.js" defer></script>
 
-        
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
 
-        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-        <script src="../js/bootstrap-3.0.3.min.js"></script>
-        <script src="../js/prettify-1.0.min.js"></script>
-        <script src="../js/highlight.pack.js"></script>
-        <script>var base_url = '..';</script>
-        <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script>
-        <script src="../js/base.js"></script>
-
-    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
-         <div class="modal-dialog">
-             <div class="modal-content">
-                 <div class="modal-header">
-                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                     <h4 class="modal-title" id="exampleModalLabel">Search</h4>
-                 </div>
-                 <div class="modal-body">
-                     <p>
-                         From here you can search these documents. Enter
-                         your search terms below.
-                     </p>
-                     <form role="form">
-                         <div class="form-group">
-                             <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
-                         </div>
-                     </form>
-                     <div id="mkdocs-search-results"></div>
-                 </div>
-                 <div class="modal-footer">
-                 </div>
-             </div>
-         </div>
-     </div>
     </body>
 </html>

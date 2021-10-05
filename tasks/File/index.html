@@ -9,184 +9,192 @@
         <link rel="canonical" href="http://robo.li/tasks/File/">
         <link rel="shortcut icon" href="../../img/favicon.png">
         
-        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
-
-	<title>File Tasks - Robo</title>
-
-        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
-        <link href="../../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <title>File Tasks - Robo</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="../../css/highlight.css">
-        <link href="../..//css/robo.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+        <link href="/css/robo.css" rel="stylesheet">
 
-        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-        <![endif]-->
-
-        
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
     </head>
 
     <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">Robo</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="container">
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Index</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Guides <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../getting-started/" class="dropdown-item">Getting Started</a>
+</li>
+                                    
+<li>
+    <a href="../../collections/" class="dropdown-item">Collections</a>
+</li>
+                                    
+<li>
+    <a href="../../extending/" class="dropdown-item">Extending</a>
+</li>
+                                    
+<li>
+    <a href="../../framework/" class="dropdown-item">Robo as Framework</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Tasks <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../Base/" class="dropdown-item">Base Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../Filesystem/" class="dropdown-item">FileSystem Tasks</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active">File Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../Composer/" class="dropdown-item">Composer Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../Vcs/" class="dropdown-item">VCS Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../Development/" class="dropdown-item">Development Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../Assets/" class="dropdown-item">Assets Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../Archive/" class="dropdown-item">Archive Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../Remote/" class="dropdown-item">SSH, Rsync Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../Testing/" class="dropdown-item">Testing Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../Npm/" class="dropdown-item">NPM Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../Bower/" class="dropdown-item">Bower Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../Gulp/" class="dropdown-item">Gulp Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../Docker/" class="dropdown-item">Docker Tasks</a>
+</li>
+                                    
+<li>
+    <a href="../ApiGen/" class="dropdown-item">ApiGen Tasks</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="navitem">
+                                <a href="../../changelog/" class="nav-link">Releases</a>
+                            </li>
+                        </ul>
 
-        <!-- Collapsed navigation -->
-        <div class="navbar-header">
-            <!-- Expander button -->
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="../..">Robo</a>
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../Filesystem/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../Composer/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/consolidation/Robo/edit/master/docs/tasks/File.md" class="nav-link"><i class="fa fa-github"></i> Edit on GitHub</a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
-        <!-- Expanded navigation -->
-        <div class="navbar-collapse collapse">
-                <!-- Main navigation -->
-                <ul class="nav navbar-nav">
-                    <li >
-                        <a href="../..">Index</a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Guides <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            
-<li >
-    <a href="../../getting-started/">Getting Started</a>
-</li>
-                            
-<li >
-    <a href="../../collections/">Collections</a>
-</li>
-                            
-<li >
-    <a href="../../extending/">Extending</a>
-</li>
-                            
-<li >
-    <a href="../../framework/">Robo as Framework</a>
-</li>
-                        </ul>
-                    </li>
-                    <li class="dropdown active">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tasks <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            
-<li >
-    <a href="../Base/">Base Tasks</a>
-</li>
-                            
-<li >
-    <a href="../Filesystem/">FileSystem Tasks</a>
-</li>
-                            
-<li class="active">
-    <a href="./">File Tasks</a>
-</li>
-                            
-<li >
-    <a href="../Composer/">Composer Tasks</a>
-</li>
-                            
-<li >
-    <a href="../Vcs/">VCS Tasks</a>
-</li>
-                            
-<li >
-    <a href="../Development/">Development Tasks</a>
-</li>
-                            
-<li >
-    <a href="../Assets/">Assets Tasks</a>
-</li>
-                            
-<li >
-    <a href="../Archive/">Archive Tasks</a>
-</li>
-                            
-<li >
-    <a href="../Remote/">SSH, Rsync Tasks</a>
-</li>
-                            
-<li >
-    <a href="../Testing/">Testing Tasks</a>
-</li>
-                            
-<li >
-    <a href="../Npm/">NPM Tasks</a>
-</li>
-                            
-<li >
-    <a href="../Bower/">Bower Tasks</a>
-</li>
-                            
-<li >
-    <a href="../Gulp/">Gulp Tasks</a>
-</li>
-                            
-<li >
-    <a href="../Docker/">Docker Tasks</a>
-</li>
-                            
-<li >
-    <a href="../ApiGen/">ApiGen Tasks</a>
-</li>
-                        </ul>
-                    </li>
-                    <li >
-                        <a href="../../changelog/">Releases</a>
-                    </li>
-                </ul>
-
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
-                        <i class="fa fa-search"></i> Search
-                    </a>
-                </li>
-                    <li >
-                        <a rel="next" href="../Filesystem/">
-                            <i class="fa fa-arrow-left"></i> Previous
-                        </a>
-                    </li>
-                    <li >
-                        <a rel="prev" href="../Composer/">
-                            Next <i class="fa fa-arrow-right"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://github.com/consolidation/Robo/">
-                                <i class="fa fa-github"></i>GitHub
-                        </a>
-                    </li>
-            </ul>
-        </div>
-    </div>
-</div>
-
-        
         <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
             
-                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
-    <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#file-tasks">File Tasks</a></li>
-            <li><a href="#concat">Concat</a></li>
-            <li><a href="#replace">Replace</a></li>
-            <li><a href="#tmpfile">TmpFile</a></li>
-            <li><a href="#write">Write</a></li>
-    </ul>
+            <li class="nav-item" data-level="1"><a href="#file-tasks" class="nav-link">File Tasks</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#concat" class="nav-link">Concat</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#replace" class="nav-link">Replace</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#tmpfile" class="nav-link">TmpFile</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#write" class="nav-link">Write</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
 </div></div>
-                <div class="col-md-9" role="main">
+                    <div class="col-md-9" role="main">
 
 <h1 id="file-tasks">File Tasks</h1>
 <h2 id="concat">Concat</h2>
 <p>Merges files into one. Used for preparing assets.</p>
-<pre><code class="php">&lt;?php
+<pre><code class="language-php">&lt;?php
 $this-&gt;taskConcat([
      'web/assets/screen.css',
      'web/assets/print.css',
@@ -196,13 +204,13 @@ $this-&gt;taskConcat([
  -&gt;run()
 ?&gt;
 </code></pre>
-
 <ul>
 <li><code>to($dst)</code>  set the destination file</li>
+<li><code>setOutput($output)</code>  Sets the Console Output.</li>
 </ul>
 <h2 id="replace">Replace</h2>
-<p>Performs search and replace inside a file.</p>
-<pre><code class="php">&lt;?php
+<p>Performs search and replace inside a files.</p>
+<pre><code class="language-php">&lt;?php
 $this-&gt;taskReplaceInFile('VERSION')
  -&gt;from('0.2.0')
  -&gt;to('0.3.0')
@@ -224,13 +232,13 @@ $this-&gt;taskReplaceInFile('box/robo.txt')
  -&gt;run();
 ?&gt;
 </code></pre>
-
 <ul>
 <li><code>filename($filename)</code>   * <code>param string</code> $filename</li>
 <li><code>from($from)</code>  String(s) to be replaced.</li>
 <li><code>to($to)</code>  Value(s) to be set as a replacement.</li>
 <li><code>regex($regex)</code>  Regex to match string to be replaced.</li>
 <li><code>limit($limit)</code>  If used with $this-&gt;regexp() how many counts will be replaced</li>
+<li><code>setOutput($output)</code>  Sets the Console Output.</li>
 </ul>
 <h2 id="tmpfile">TmpFile</h2>
 <p>Create a temporary file that is automatically cleaned up
@@ -239,7 +247,7 @@ it is given a random filename.</p>
 <p>This temporary file may be manipulated exacatly like taskWrite().
 It is deleted as soon as the collection it is a part of completes
 or rolls back.</p>
-<pre><code class="php">&lt;?php
+<pre><code class="language-php">&lt;?php
 $collection = $this-&gt;collectionBuilder();
 $tmpFilePath = $collection-&gt;taskTmpFile()
      -&gt;line('-----')
@@ -249,7 +257,6 @@ $tmpFilePath = $collection-&gt;taskTmpFile()
 $collection-&gt;run();
 ?&gt;
 </code></pre>
-
 <ul>
 <li><code>complete()</code>  Delete this file when our collection completes.</li>
 <li><code>filename($filename)</code>   * <code>param string</code> $filename</li>
@@ -266,10 +273,11 @@ $collection-&gt;run();
 <li><code>originalContents()</code>  @return string</li>
 <li><code>wouldChange()</code>  @return bool</li>
 <li><code>getPath()</code>  @return string</li>
+<li><code>setOutput($output)</code>  Sets the Console Output.</li>
 </ul>
 <h2 id="write">Write</h2>
 <p>Writes to file.</p>
-<pre><code class="php">&lt;?php
+<pre><code class="language-php">&lt;?php
 $this-&gt;taskWriteToFile('blogpost.md')
      -&gt;line('-----')
      -&gt;line(date('Y-m-d').' '.$title)
@@ -277,7 +285,6 @@ $this-&gt;taskWriteToFile('blogpost.md')
      -&gt;run();
 ?&gt;
 </code></pre>
-
 <ul>
 <li><code>filename($filename)</code>   * <code>param string</code> $filename</li>
 <li><code>append($append = null)</code>   * <code>param bool</code> $append</li>
@@ -293,63 +300,82 @@ $this-&gt;taskWriteToFile('blogpost.md')
 <li><code>originalContents()</code>  @return string</li>
 <li><code>wouldChange()</code>  @return bool</li>
 <li><code>getPath()</code>  @return string</li>
+<li><code>setOutput($output)</code>  Sets the Console Output.</li>
 </ul></div>
-            
-
+            </div>
         </div>
-        
 
         <footer class="col-md-12">
-            <p>Brought to you by <a href="https://github.com/orgs/consolidation/people">Consolidation Team</a> and our <a href="https://github.com/consolidation/Robo/graphs/contributors">awesome contributors</a>
-
-</p>
-<p>
-Robo is on <a href="http://twitter.com/robo_php">Twitter</a> and on <a href="https://github.com/consolidation/robo">GitHub</a>
-</p>
-
-            <p>
-                Projects Using It:
-                <a href="http://codeception.com">Codeception</a> |
-                <a href="http://www.drush.org">Drush</a> |
-                <a href="https://github.com/Codeception/AspectMock">AspectMock</a> |
-                <a href="https://github.com/pantheon-systems/terminus">Pantheon Terminus</a> |
-                <a href="https://github.com/Codeception/CodeceptJS">CodeceptJS</a>
-            </p>
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js" defer></script>
+        <script src="../../search/main.js" defer></script>
 
-        
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
 
-        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-        <script src="../../js/bootstrap-3.0.3.min.js"></script>
-        <script src="../../js/prettify-1.0.min.js"></script>
-        <script src="../../js/highlight.pack.js"></script>
-        <script>var base_url = '../..';</script>
-        <script data-main="../../mkdocs/js/search.js" src="../../mkdocs/js/require.js"></script>
-        <script src="../../js/base.js"></script>
-
-    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
-         <div class="modal-dialog">
-             <div class="modal-content">
-                 <div class="modal-header">
-                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                     <h4 class="modal-title" id="exampleModalLabel">Search</h4>
-                 </div>
-                 <div class="modal-body">
-                     <p>
-                         From here you can search these documents. Enter
-                         your search terms below.
-                     </p>
-                     <form role="form">
-                         <div class="form-group">
-                             <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
-                         </div>
-                     </form>
-                     <div id="mkdocs-search-results"></div>
-                 </div>
-                 <div class="modal-footer">
-                 </div>
-             </div>
-         </div>
-     </div>
     </body>
 </html>

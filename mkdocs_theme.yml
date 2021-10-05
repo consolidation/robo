@@ -1,4 +1,0 @@
-# Config options for 'mkdocs' theme
-
-static_templates:
-    - 404.html

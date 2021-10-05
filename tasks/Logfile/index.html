@@ -6,10 +6,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         
-        <link rel="canonical" href="http://robo.li/tasks/Bower/">
+        <link rel="canonical" href="http://robo.li/tasks/Logfile/">
         <link rel="shortcut icon" href="../../img/favicon.png">
         
-        <title>Bower Tasks - Robo</title>
+        <title>Logfile Tasks - Robo</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -59,7 +59,7 @@
 </li>
                                 </ul>
                             </li>
-                            <li class="dropdown active">
+                            <li class="dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Tasks <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
@@ -108,7 +108,7 @@
 </li>
                                     
 <li>
-    <a href="./" class="dropdown-item active">Bower Tasks</a>
+    <a href="../Bower/" class="dropdown-item">Bower Tasks</a>
 </li>
                                     
 <li>
@@ -136,17 +136,7 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../Npm/" class="nav-link">
-                                    <i class="fa fa-arrow-left"></i> Previous
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a rel="next" href="../Gulp/" class="nav-link">
-                                    Next <i class="fa fa-arrow-right"></i>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="https://github.com/consolidation/Robo/edit/master/docs/tasks/Bower.md" class="nav-link"><i class="fa fa-github"></i> Edit on GitHub</a>
+                                <a href="https://github.com/consolidation/Robo/edit/master/docs/tasks/Logfile.md" class="nav-link"><i class="fa fa-github"></i> Edit on GitHub</a>
                             </li>
                     </ul>
                 </div>
@@ -166,13 +156,13 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-level="1"><a href="#bower-tasks" class="nav-link">Bower Tasks</a>
+            <li class="nav-item" data-level="1"><a href="#logfile-tasks" class="nav-link">Logfile Tasks</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-level="2"><a href="#install" class="nav-link">Install</a>
+            <li class="nav-item" data-level="2"><a href="#rotatelog" class="nav-link">RotateLog</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#update" class="nav-link">Update</a>
+            <li class="nav-item" data-level="2"><a href="#truncatelog" class="nav-link">TruncateLog</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -183,60 +173,33 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="bower-tasks">Bower Tasks</h1>
-<h2 id="install">Install</h2>
-<p>Bower Install</p>
+<h1 id="logfile-tasks">Logfile Tasks</h1>
+<h2 id="rotatelog">RotateLog</h2>
+<p>Rotates a log (or any other) file</p>
 <pre><code class="language-php">&lt;?php
-// simple execution
-$this-&gt;taskBowerInstall()-&gt;run();
+$this-&gt;taskRotateLog(['logfile.log'])-&gt;run();
+// or use shortcut
+$this-&gt;_rotateLog(['logfile.log']);
 
-// prefer dist with custom path
-$this-&gt;taskBowerInstall('path/to/my/bower')
-     -&gt;noDev()
-     -&gt;run();
 ?&gt;
 </code></pre>
 <ul>
-<li><code>allowRoot()</code>  adds <code>allow-root</code> option to bower</li>
-<li><code>forceLatest()</code>  adds <code>force-latest</code> option to bower</li>
-<li><code>noDev()</code>  adds <code>production</code> option to bower</li>
-<li><code>offline()</code>  adds <code>offline</code> option to bower</li>
+<li><code>keep($keep)</code>   * <code>param int</code> $keep</li>
+<li><code>chmod($chmod)</code>   * <code>param int</code> $chmod</li>
 <li><code>setOutput($output)</code>  Sets the Console Output.</li>
-<li><code>setProcessInput($input)</code>  Pass an input to the process. Can be resource created with fopen() or string</li>
-<li><code>dir($dir)</code>  Changes working directory of command</li>
-<li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
-<li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
-<li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
-<li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
 </ul>
-<h2 id="update">Update</h2>
-<p>Bower Update</p>
+<h2 id="truncatelog">TruncateLog</h2>
+<p>Truncates a log (or any other) file</p>
 <pre><code class="language-php">&lt;?php
-// simple execution
-$this-&gt;taskBowerUpdate-&gt;run();
+$this-&gt;taskTruncateLog(['logfile.log'])-&gt;run();
+// or use shortcut
+$this-&gt;_truncateLog(['logfile.log']);
 
-// prefer dist with custom path
-$this-&gt;taskBowerUpdate('path/to/my/bower')
-     -&gt;noDev()
-     -&gt;run();
 ?&gt;
 </code></pre>
 <ul>
-<li><code>allowRoot()</code>  adds <code>allow-root</code> option to bower</li>
-<li><code>forceLatest()</code>  adds <code>force-latest</code> option to bower</li>
-<li><code>noDev()</code>  adds <code>production</code> option to bower</li>
-<li><code>offline()</code>  adds <code>offline</code> option to bower</li>
+<li><code>chmod($chmod)</code>   * <code>param int</code> $chmod</li>
 <li><code>setOutput($output)</code>  Sets the Console Output.</li>
-<li><code>setProcessInput($input)</code>  Pass an input to the process. Can be resource created with fopen() or string</li>
-<li><code>dir($dir)</code>  Changes working directory of command</li>
-<li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
-<li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
-<li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
-<li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
 </ul></div>
             </div>
         </div>

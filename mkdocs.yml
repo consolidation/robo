@@ -1,7 +1,7 @@
 site_name: Robo
 theme: mkdocs
 theme:
-  name: readthedocs
+  name: null
   custom_dir: robotheme/
 site_url: https://robo.li/
 repo_url: https://github.com/consolidation/robo/

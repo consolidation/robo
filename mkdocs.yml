@@ -1,10 +1,11 @@
 site_name: Robo
 theme: mkdocs
-site_favicon: img/favicon.png
-theme_dir: robotheme
-site_url: http://robo.li
-repo_url: https://github.com/consolidation/Robo/
-pages:
+theme:
+  name: readthedocs
+  custom_dir: robotheme/
+site_url: https://robo.li/
+repo_url: https://github.com/consolidation/robo/
+nav:
 - Index: index.md
 - Guides:
   - "Getting Started": getting-started.md
@@ -27,6 +28,6 @@ pages:
   - "Gulp Tasks": tasks/Gulp.md
   - "Docker Tasks": tasks/Docker.md
   - "ApiGen Tasks": tasks/ApiGen.md
-- Releases: changelog.md
+  - "Logfile Tasks": tasks/Logfile.md
 extra_css:
-- /css/robo.css
+- css/robo.css

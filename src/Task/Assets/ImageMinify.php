@@ -525,6 +525,10 @@ class ImageMinify extends BaseTask
                 return Result::error($this, $message);
             }
         }
+        // check if target directory was set
+        if (empty($this->executableTargetDir)) {
+            return Result::error($this, 'No target directory for executables set');
+        }
         // check if target directory exists
         if (!is_dir($this->executableTargetDir)) {
             mkdir($this->executableTargetDir);

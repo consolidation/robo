@@ -522,10 +522,10 @@ class ImageMinify extends BaseTask
         $this->printTaskInfo('Downloading the {executable} executable from the imagemin repository', ['executable' => $executable]);
 
         $os = $this->getOS();
-        $url = $this->imageminRepos[$executable] . '/blob/master/vendor/' . $os . '/' . $executable . '?raw=true';
+        $url = $this->imageminRepos[$executable] . '/blob/main/vendor/' . $os . '/' . $executable . '?raw=true';
         if (substr($os, 0, 3) == 'win') {
             // if it is win, add a .exe extension
-            $url = $this->imageminRepos[$executable] . '/blob/master/vendor/' . $os . '/' . $executable . '.exe?raw=true';
+            $url = $this->imageminRepos[$executable] . '/blob/main/vendor/' . $os . '/' . $executable . '.exe?raw=true';
         }
         $data = @file_get_contents($url, false, null);
         if ($data === false) {

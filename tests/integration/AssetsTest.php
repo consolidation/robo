@@ -52,6 +52,10 @@ class AssetsTest extends TestCase
 
     public function testImageMinification()
     {
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            $this->markTestSkipped('Binary download & execution not working on Windows (#1053).');
+        }
+
         $this->fixtures->createAndCdToSandbox();
         mkdir('dist');
 

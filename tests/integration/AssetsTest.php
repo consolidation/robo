@@ -53,6 +53,7 @@ class AssetsTest extends TestCase
     public function testImageMinification()
     {
         $this->fixtures->createAndCdToSandbox();
+        mkdir('dist');
 
         $sampleImage = $this->fixtures->dataFile('sample.png');
         $outputImage = 'dist/sample.png';
@@ -60,7 +61,8 @@ class AssetsTest extends TestCase
         $initialFileSize = filesize($sampleImage);
 
         $result = $this->taskImageMinify($sampleImage)
-            ->to('dist/')
+            ->setExecutableDir(realpath('') . '/bin') // use sandbox for bin download
+            ->to(realpath('') . '/dist')
             ->run();
         $this->assertTrue($result->wasSuccessful(), $result->getMessage());
 

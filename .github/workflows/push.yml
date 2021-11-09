@@ -1,16 +1,8 @@
-# From https://github.com/sebastianbergmann/phpunit/blob/20ab19d3aed56fccf9569cd33c6cd0baab0ec272/.github/workflows/ci.yml
-# (With many modifications)
-
+name: Unit Testing CI on Push to the 3.x branch
 on:
-  pull_request:
-    branches:
-      - 3.x
   push:
     branches:
       - 3.x
-
-name: CI
-
 jobs:
   coding-guidelines:
     name: Coding Guidelines
@@ -67,9 +59,7 @@ jobs:
 
   tests:
     name: Tests
-
     runs-on: ${{ matrix.os }}
-
     env:
       PHP_EXTENSIONS: dom, json, libxml, mbstring, pdo_sqlite, soap, xml, xmlwriter
 
@@ -132,7 +122,7 @@ jobs:
 
       - name: Make sure composer.json is valid before we start modifyig it
         run: composer validate
-        
+
       - name: Clear platform php configuration in case we need to update phpunit
         run: composer config --unset platform.php
 
@@ -152,7 +142,7 @@ jobs:
 
       - name: Run tests with phpunit
         run: composer unit
-      
+
       - name: Publish code coverage to Codecov
         if: matrix.os == 'ubuntu-latest' && matrix.php-version == '8.0'
         run: bash <(curl -s https://codecov.io/bash)

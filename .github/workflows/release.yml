@@ -1,0 +1,18 @@
+name: Update Homebrew on Release
+on:
+  release:
+    branches:
+      - main
+jobs:
+  package_macos:
+    runs-on: macos-latest
+    name: Package a Homebrew release
+    steps:
+      - name: Bump Homebrew formula
+        uses: dawidd6/action-homebrew-bump-formula@v3
+        with:
+          token: ${{secrets.HOMEBREW_GITHUB_API_TOKEN}}
+          tap: consolidated/external
+          tag: ${{github.ref}}
+          revision: ${{github.sha}}
+          formula: robo

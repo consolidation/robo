@@ -45,7 +45,7 @@ jobs:
         run: composer install --no-ansi --no-interaction --no-progress
 
       - name: Run phpcs
-        run: composer cs
+        run: composer code:cs
 
       - name: Run linter
         run: composer code:lint

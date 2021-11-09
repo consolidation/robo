@@ -4,13 +4,35 @@ on:
       - 3.x
       - homebrew-integration
 
-name: Unit Testing CI on Push to the 3.x branch
+name: Unit Testing CI on Push to development branches
 jobs:
+  checkout_build:
+    runs-on: ubuntu-latest
+    container:
+      image: quay.io/pantheon-public/php-ci:v7.4
+    name: Checkout & build Phar
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Save repo content as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: full-workspace
+          path: ${{ github.workspace }}
+      - name: Full Composer Install
+        run: composer install
+      - name: Validate Code
+        run: composer code:lint
+      - name: Phar Build
+        run: composer phar:build
+      - name: permissions
+        run: chmod +x ./robo
+
   coding-guidelines:
     name: Coding Guidelines
-
     runs-on: ubuntu-latest
-
+    needs:
+      - checkout_build
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -32,9 +54,9 @@ jobs:
 
   backward-compatibility:
     name: Backward Compatibility
-
     runs-on: ubuntu-latest
-
+    needs:
+      - checkout_build
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -62,6 +84,8 @@ jobs:
   tests:
     name: Tests
     runs-on: ${{ matrix.os }}
+    needs:
+      - checkout_build
     env:
       PHP_EXTENSIONS: dom, json, libxml, mbstring, pdo_sqlite, soap, xml, xmlwriter
 

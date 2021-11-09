@@ -2,6 +2,7 @@ on:
   pull_request:
     branches:
       - main
+      - 3.x
 name: Build Phar on Pull Request CI
 jobs:
   checkout_build:

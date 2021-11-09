@@ -47,10 +47,10 @@
     "yoast/phpunit-polyfills": "^0.2.0"
   },
   "scripts": {
-    "cs": "./robo sniff",
-    "unit": "phpunit",
-    "lint": "find src tests/src -name '*.php' -print0 | xargs -0 -n1 -P4 -- php -l",
-    "test": [
+    "code:cs": "./robo sniff",
+    "code:unit": "phpunit",
+    "code:lint": "find src tests/src -name '*.php' -print0 | xargs -0 -n1 -P4 -- php -l",
+    "code:test": [
       "@lint",
       "@unit",
       "@cs"

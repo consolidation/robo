@@ -14,19 +14,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Full Composer Install
+        run: composer install
+      - name: Phar Build
+        run: composer phar:build
+      - name: permissions
+        run: chmod +x ./robo
       - name: Save repo content as artifact
         uses: actions/upload-artifact@v2
         with:
           name: full-workspace
           path: ${{ github.workspace }}
-      - name: Full Composer Install
-        run: composer install
-      - name: Validate Code
-        run: composer code:lint
-      - name: Phar Build
-        run: composer phar:build
-      - name: permissions
-        run: chmod +x ./robo
 
   coding-guidelines:
     name: Coding Guidelines
@@ -50,7 +48,7 @@ jobs:
         run: composer cs
 
       - name: Run linter
-        run: composer lint
+        run: composer code:lint
 
   backward-compatibility:
     name: Backward Compatibility
@@ -106,16 +104,9 @@ jobs:
 
         include:
           - os: ubuntu-latest
-            php-version: "7.1"
-            dependencies: lowest
-
-          - os: ubuntu-latest
             php-version: "7.4"
-            dependencies: highest
-
           - os: ubuntu-latest
             php-version: "8.0"
-            dependencies: highest
             php-ini-values: assert.exception=1, zend.assertions=1, opcache.enable=1, opcache.enable_cli=1, opcache.optimization_level=-1, opcache.jit_buffer_size=4096M, opcache.jit=1205
 
     steps:
@@ -147,7 +138,7 @@ jobs:
             php${{ matrix.php-version }}-composer-${{ matrix.dependencies }}-
 
       - name: Make sure composer.json is valid before we start modifyig it
-        run: composer validate
+        run: composer validate --strict
 
       - name: Clear platform php configuration in case we need to update phpunit
         run: composer config --unset platform.php
@@ -167,7 +158,7 @@ jobs:
         run: composer update --no-ansi --no-interaction --no-progress
 
       - name: Run tests with phpunit
-        run: composer unit
+        run: composer code:unit
 
       - name: Publish code coverage to Codecov
         if: matrix.os == 'ubuntu-latest' && matrix.php-version == '8.0'

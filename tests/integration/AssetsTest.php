@@ -24,9 +24,6 @@ class AssetsTest extends TestCase
 
     public function testCssMinification()
     {
-        if (version_compare(PHP_VERSION, '7.2.0') >= 0) {
-            $this->markTestSkipped('natxet/cssmin uses deprecated "each()" function (PHP 7.2+)');
-        }
 
         $this->fixtures->createAndCdToSandbox();
 

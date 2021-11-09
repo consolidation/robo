@@ -194,14 +194,13 @@ class Extract extends BaseTask implements BuilderAwareInterface
      */
     protected function extractTar($extractLocation)
     {
-        if (!class_exists('Archive_Tar')) {
-            return Result::errorMissingPackage($this, 'Archive_Tar', 'pear/archive_tar');
+        if (!class_exists('PharData')) {
+            return Result::errorMissingPackage($this, 'PharData', 'phar');
         }
-        $tar_object = new \Archive_Tar($this->filename);
-        if (!$tar_object->extract($extractLocation)) {
+        $tar_object = new \PharData($this->filename);
+        if (!$tar_object->extractTo($extractLocation)) {
             return Result::error($this, "Could not extract tar archive {$this->filename}");
         }
-
         return Result::success($this);
     }
 

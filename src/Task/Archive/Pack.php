@@ -201,16 +201,39 @@ class Pack extends BaseTask implements PrintedInterface
      */
     protected function archiveTar($archiveFile, $items)
     {
-        if (!class_exists('Archive_Tar')) {
-            return Result::errorMissingPackage($this, 'Archive_Tar', 'pear/archive_tar');
+        if (!class_exists('PharData')) {
+            return Result::errorMissingPackage($this, 'PharData', 'phar');
         }
-
-        $tar_object = new \Archive_Tar($archiveFile);
+        $tar_object = new \PharData($archiveFile);
         if (!empty($this->ignoreList)) {
-            $regexp = '#/' . join('$|/', $this->ignoreList) . '#';
-            $tar_object->setIgnoreRegexp($regexp);
+            $ignoreList = $this->ignoreList;
+            $filter_function = function (\SplFileInfo $o_info) use ($ignoreList) {
+                foreach ($ignoreList as $ignorable) {
+                    $regexp = '/' . $ignorable . '/';
+                    if (preg_match($regexp, $o_info->getFilename())){
+                        // If found in the ignore list, tell the iterator not to
+                        // include in the archive
+                        return false;
+                    }
+                }
+                return true;
+            };
         }
         foreach ($items as $placementLocation => $filesystemLocation) {
+            if (is_dir($filesystemLocation)) {
+                $directory = new \RecursiveDirectoryIterator($filesystemLocation);
+                $directory->setFlags(\PharData::SKIP_DOTS);
+                if (isset($filter_function)) {
+                    $to_filter = new \RecursiveDirectoryIterator($filesystemLocation);
+                    $to_filter->setFlags(\PharData::SKIP_DOTS);
+                    // During iteration, if found in the ignore list, do not
+                    // include in archive.
+                    $o_filter = new \RecursiveCallbackFilterIterator($to_filter, $filter_function);
+                    $directory = new \RecursiveIteratorIterator($o_filter);
+                }
+                $tar_object->buildFromIterator($directory, $placementLocation);
+                continue;
+            }
             $p_remove_dir = $filesystemLocation;
             $p_add_dir = $placementLocation;
             if (is_file($filesystemLocation)) {
@@ -219,10 +242,7 @@ class Pack extends BaseTask implements PrintedInterface
                 if (basename($filesystemLocation) != basename($placementLocation)) {
                     return Result::error($this, "Tar archiver does not support renaming files during extraction; could not add $filesystemLocation as $placementLocation.");
                 }
-            }
-
-            if (!$tar_object->addModify([$filesystemLocation], $p_add_dir, $p_remove_dir)) {
-                return Result::error($this, "Could not add $filesystemLocation to the archive.");
+                $tar_object->addFile($filesystemLocation, $placementLocation);
             }
         }
 

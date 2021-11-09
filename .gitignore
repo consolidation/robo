@@ -8,3 +8,4 @@ tests/_helpers/_generated/*
 *.phar
 .phpunit.result.cache
 .DS_Store
+/robo

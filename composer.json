@@ -24,6 +24,7 @@
   ],
   "require": {
     "php": ">=7.4.0",
+    "ext-zip": "*",
     "consolidation/annotated-command": "^4.3",
     "consolidation/config": "^1.2.1|^2.0.1",
     "consolidation/log": "^1.1.1|^2.0.2",
@@ -39,11 +40,12 @@
     "symfony/yaml": "^4.4 || ^5"
   },
   "require-dev": {
-    "natxet/cssmin": "3.0.4",
+    "kint-php/kint": "^3.3",
+    "natxet/cssmin": "^3",
     "patchwork/jsqueeze": "^2",
-    "pear/archive_tar": "^1.4.4",
-    "squizlabs/php_codesniffer": "^3.6",
     "phpunit/phpunit": "^7.5.20 | ^8",
+    "psy/psysh": "^0.10.9",
+    "squizlabs/php_codesniffer": "@stable",
     "yoast/phpunit-polyfills": "^0.2.0"
   },
   "scripts": {
@@ -51,9 +53,10 @@
     "code:unit": "phpunit",
     "code:lint": "find src tests/src -name '*.php' -print0 | xargs -0 -n1 -P4 -- php -l",
     "code:test": [
-      "@lint",
-      "@unit",
-      "@cs"
+      "@phar:build",
+      "@code:lint",
+      "@code:unit",
+      "@code:cs"
     ],
     "post-install-cmd": [
       "Tooly\\ScriptHandler::installPharTools"
@@ -63,7 +66,7 @@
     ],
     "phar:build": [
       "rm -Rf robo || true",
-      "vendor/bin/phar-composer.phar build .",
+      "php -d phar.readonly=off vendor/bin/phar-composer.phar build .",
       "mv robo.phar robo",
       "chmod +x robo"
     ],
@@ -113,7 +116,6 @@
     }
   },
   "suggest": {
-    "pear/archive_tar": "Allows tar archives to be created and extracted in taskPack and taskExtract, respectively.",
     "totten/lurkerlite": "For monitoring filesystem changes in taskWatch",
     "patchwork/jsqueeze": "For minifying JS files in taskMinify",
     "natxet/cssmin": "For minifying CSS files in taskMinify"

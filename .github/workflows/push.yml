@@ -1,8 +1,10 @@
-name: Unit Testing CI on Push to the 3.x branch
 on:
   push:
-    branches:
+    branches: # Add development branches here
       - 3.x
+      - homebrew-integration
+
+name: Unit Testing CI on Push to the 3.x branch
 jobs:
   coding-guidelines:
     name: Coding Guidelines

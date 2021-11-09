@@ -1,9 +1,8 @@
-name: Create release on merge with Main
 on:
   push:
     branches:
       - main
-
+name: Create release on merge with Main
 jobs:
   build:
     name: Create Release

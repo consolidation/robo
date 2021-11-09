@@ -1,8 +1,8 @@
-name: Update Homebrew on Release
 on:
   release:
     branches:
       - main
+name: Update Homebrew on Release
 jobs:
   package_macos:
     runs-on: macos-latest

@@ -1,10 +1,8 @@
-# From https://github.com/sebastianbergmann/phpunit/blob/20ab19d3aed56fccf9569cd33c6cd0baab0ec272/.github/workflows/ci.yml
-# (With many modifications)
-name: Build Phar on Pull Request CI
 on:
   pull_request:
     branches:
       - main
+name: Build Phar on Pull Request CI
 jobs:
   checkout_build:
     runs-on: ubuntu-latest

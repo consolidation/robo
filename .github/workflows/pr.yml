@@ -1,0 +1,34 @@
+on:
+  pull_request:
+    branches:
+      - main
+      - 3.x
+name: Build Phar on Pull Request CI
+jobs:
+  checkout_build:
+    runs-on: ubuntu-latest
+    container:
+      image: quay.io/pantheon-public/php-ci:v7.4
+    name: Checkout & build Phar
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Save repo content as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: full-workspace
+          path: ${{ github.workspace }}
+      - name: Full Composer Install
+        run: composer install
+      - name: Validate Code
+        run: composer code:lint
+      - name: Phar Build
+        run: composer phar:build
+      - name: permissions
+        run: chmod +x ./robo
+      - name: Save robo.phar as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: robo-phar
+          path: robo
+          if-no-files-found: error

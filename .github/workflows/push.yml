@@ -145,6 +145,7 @@ jobs:
           coverage: pcov
           extensions: ${{ env.PHP_EXTENSIONS }}
           ini-values: ${{ matrix.php-ini-values }}
-
+      - name: Make sure everything is still installed
+        run: composer install
       - name: Run tests with phpunit
         run: composer code:unit

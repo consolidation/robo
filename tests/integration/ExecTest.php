@@ -53,39 +53,4 @@ class ExecTest extends TestCase
             'FOO=BAZ',
             $result->getMessage());
     }
-
-    public function testInheritEnv()
-    {
-        // Symfony < 3.2.1 does not inherit environment variables, so there's
-        // nothing to test if the function doesn't exist.
-        if (!method_exists('Symfony\Component\Process\Process', 'inheritEnvironmentVariables')) {
-            $this->markTestSkipped(
-                'Inheriting of environment variables is not supported. Nothing to test.'
-            );
-        }
-        // With no environment variables set, count how many environment
-        // variables are present.
-        $task = $this->taskExec('env | wc -l')->interactive(false);
-        $result = $task->run();
-        $this->assertTrue($result->wasSuccessful());
-        $start_count = (int) $result->getMessage();
-        $this->assertGreaterThan(0, $start_count);
-
-        // Verify that we get the same amount of environment variables with
-        // another exec call.
-        $task = $this->taskExec('env | wc -l')->interactive(false);
-        $result = $task->run();
-        $this->assertTrue($result->wasSuccessful());
-        $this->assertEquals(
-            $start_count,
-            (int) $result->getMessage());
-
-        // Now run the same command, but this time add another environment
-        // variable, and see if our count increases by one.
-        $task = $this->taskExec('env | wc -l')->interactive(false);
-        $task->env('FOO', 'BAR');
-        $result = $task->run();
-        $this->assertTrue($result->wasSuccessful());
-        $this->assertEquals($start_count + 1, (int) $result->getMessage());
-    }
 }

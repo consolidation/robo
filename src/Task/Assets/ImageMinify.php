@@ -389,6 +389,12 @@ class ImageMinify extends BaseTask
                         $minifier = 'svgo';
                         break;
                 }
+
+                // Skip files without available minifier
+                if ($minifier === '') {
+                    $this->results['error'][] = $from;
+                    continue;
+                }
             } else {
                 if (!in_array($this->minifier, $this->minifiers, true)
                     && !is_callable(strtr($this->minifier, '-', '_'))

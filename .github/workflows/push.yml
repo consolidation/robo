@@ -25,6 +25,15 @@ jobs:
         with:
           name: full-workspace
           path: ${{ github.workspace }}
+      - name: permissions
+        run: chmod +x ./robo
+      - name: Save robo.phar as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: robo-phar
+          path: robo
+          if-no-files-found: error
+          retention-days: 5
 
   coding-guidelines:
     name: Coding Guidelines
@@ -34,7 +43,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
+        with:
+          fetch-depth: 0
+      - name: Get artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: robo-phar
       - name: Install PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -112,7 +126,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
+      - name: Get artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: robo-phar
       - name: Install PHP with extensions
         uses: shivammathur/setup-php@v2
         with:

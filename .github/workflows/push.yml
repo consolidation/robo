@@ -128,12 +128,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Get artifact
         uses: actions/download-artifact@v2
         with:
           name: robo-phar
+
       - name: permissions
         run: chmod +x ./robo
+
       - name: Install PHP with extensions
         uses: shivammathur/setup-php@v2
         with:
@@ -142,45 +146,5 @@ jobs:
           extensions: ${{ env.PHP_EXTENSIONS }}
           ini-values: ${{ matrix.php-ini-values }}
 
-      - name: Determine composer cache directory on Linux
-        if: matrix.os == 'ubuntu-latest'
-        run: echo "COMPOSER_CACHE_DIR=$(composer config cache-dir)" >> $GITHUB_ENV
-
-      - name: Determine composer cache directory on Windows
-        if: matrix.os == 'windows-latest'
-        run: Add-Content -Path $ENV:GITHUB_ENV -Value "COMPOSER_CACHE_DIR=~\AppData\Local\Composer"
-
-      - name: Cache dependencies installed with composer
-        uses: actions/cache@v1
-        with:
-          path: ${{ env.COMPOSER_CACHE_DIR }}
-          key: php${{ matrix.php-version }}-composer-${{ matrix.dependencies }}-${{ hashFiles('**/composer.json') }}
-          restore-keys: |
-            php${{ matrix.php-version }}-composer-${{ matrix.dependencies }}-
-
-      - name: Make sure composer.json is valid before we start modifyig it
-        run: composer validate --strict
-
-      - name: Clear platform php configuration in case we need to update phpunit
-        run: composer config --unset platform.php
-
-      - name: Update phpunit if dependencies are locked in case phpunit version in lock file is not compatible
-        if: matrix.dependencies == 'locked'
-        run: |
-          composer install --no-ansi --no-interaction --no-progress
-          composer update --no-ansi --no-interaction --no-progress phpunit/phpunit --with-all-dependencies
-
-      - name: Install lowest dependencies with composer
-        if: matrix.dependencies == 'lowest'
-        run: composer update --no-ansi --no-interaction --no-progress --prefer-lowest
-
-      - name: Install highest dependencies with composer
-        if: matrix.dependencies == 'highest'
-        run: composer update --no-ansi --no-interaction --no-progress
-
       - name: Run tests with phpunit
         run: composer code:unit
-
-      - name: Publish code coverage to Codecov
-        if: matrix.os == 'ubuntu-latest' && matrix.php-version == '8.0'
-        run: bash <(curl -s https://codecov.io/bash)

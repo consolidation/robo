@@ -144,14 +144,10 @@ abstract class CssPreprocessor extends BaseTask
      */
     protected function compile($file)
     {
-        if (is_callable($this->compiler)) {
-            return call_user_func($this->compiler, $file, $this->compilerOptions);
+        $contents = file_get_contents($file);
+        if ($contents) {
+            return \Minify_CSSmin::minify($contents);
         }
-
-        if (method_exists($this, $this->compiler)) {
-            return $this->{$this->compiler}($file);
-        }
-
         return false;
     }
 

@@ -60,7 +60,7 @@ class ExecTest extends TestCase
         // nothing to test if the function doesn't exist.
         if (!method_exists('Symfony\Component\Process\Process', 'inheritEnvironmentVariables')) {
             $this->markTestSkipped(
-                'Inheriting of environment variables is not supported.'
+                'Inheriting of environment variables is not supported. Nothing to test.'
             );
         }
         // With no environment variables set, count how many environment

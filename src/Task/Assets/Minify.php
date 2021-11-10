@@ -162,11 +162,7 @@ class Minify extends BaseTask
     {
         switch ($this->type) {
             case 'css':
-                if (!class_exists('\CssMin')) {
-                    return Result::errorMissingPackage($this, 'CssMin', 'natxet/cssmin');
-                }
-
-                return \CssMin::minify($this->text);
+                return \Minify_CSSmin::minify($this->text);
                 break;
 
             case 'js':

@@ -18,6 +18,7 @@ jobs:
         with:
           name: full-workspace
           path: ${{ github.workspace }}
+          retention-days: 5
       - name: Full Composer Install
         run: composer install
       - name: Validate Code

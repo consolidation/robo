@@ -39,7 +39,7 @@
     "symfony/process": "^4.4.9 || ^5",
     "symfony/yaml": "^4.4 || ^5",
     "tm/tooly-composer-script": "^1.4",
-    "pear/archive_tar": "1.4.14"
+    "pear/archive_tar": "^1.4.14"
   },
   "require-dev": {
     "kint-php/kint": "^3.3",

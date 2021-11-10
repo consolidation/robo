@@ -54,7 +54,7 @@
       "./robo sniff"
     ],
     "code:unit": [
-      "phpunit"
+      "vendor/bin/phpunit"
     ],
     "code:lint": [
       "find src tests/src -name '*.php' -print0 | xargs -0 -n1 -P4 -- php -l"

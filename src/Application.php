@@ -51,7 +51,7 @@ class Application extends SymfonyApplication
                 . "\n/**"
                 . "\n * This is project's console commands configuration for Robo task runner."
                 . "\n *"
-                . "\n * @see http://robo.li/"
+                . "\n * @see https://robo.li/"
                 . "\n */"
                 . "\nclass " . $roboClass . " extends \\Robo\\Tasks\n{\n    // define public methods as commands\n}"
             );

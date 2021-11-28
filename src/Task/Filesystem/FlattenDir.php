@@ -117,9 +117,9 @@ class FlattenDir extends BaseDir
     /**
      * Sets the default folder permissions for the destination if it does not exist.
      *
-     * @link http://en.wikipedia.org/wiki/Chmod
-     * @link http://php.net/manual/en/function.mkdir.php
-     * @link http://php.net/manual/en/function.chmod.php
+     * @link https://en.wikipedia.org/wiki/Chmod
+     * @link https://php.net/manual/en/function.mkdir.php
+     * @link https://php.net/manual/en/function.chmod.php
      *
      * @param int $permission
      *

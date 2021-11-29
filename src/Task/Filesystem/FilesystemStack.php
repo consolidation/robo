@@ -9,7 +9,7 @@ use Robo\Contract\BuilderAwareInterface;
 use Robo\Common\BuilderAwareTrait;
 
 /**
- * Wrapper for [Symfony Filesystem](http://symfony.com/doc/current/components/filesystem.html) Component.
+ * Wrapper for [Symfony Filesystem](https://symfony.com/doc/current/components/filesystem.html) Component.
  * Comands are executed in stack and can be stopped on first fail with `stopOnFail` option.
  *
  * ``` php

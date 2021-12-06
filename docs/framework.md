@@ -72,9 +72,9 @@ Use [box-project/box2](https://github.com/box-project/box2) or Robo's taskPackPh
 
 It is possible to provide as many command classes as you wish to the Robo `Runner()` constructor. You might wish to separate your Robo command implementations into separate Robo files if you have a lot of commands, or if you wish to group similar commands together in the same source file. If you do this, you can simply add more class references to the `$commandClasses` variable shown above.
 ```
-$commandClasses = [ 
-    \MyProject\Commands\BuildCommands::class, 
-    \MyProject\Commands\DeployCommands::class 
+$commandClasses = [
+    \MyProject\Commands\BuildCommands::class,
+    \MyProject\Commands\DeployCommands::class
 ];
 ```
 If your application has a large number of command files, or if it supports command extensions, then you might wish to use the Command Discovery class to locate your files. The `CommandFileDiscovery` class will use the Symfony Finder class to search for all filenames matching the provided search pattern. It will return a list of class names using the provided base namespace.
@@ -180,4 +180,4 @@ You may also wish to subclass the provided `Config` and `ConfigProcessor` classe
 
 The example above presumes that the configuration object starts off empty. If you need to repeat this process to extend the configuration in a later stage, you should call `$processor->add($config->export());` to ensure that the configuration processor is seeded with the previous configuration values.
 
-Any configuraiton loader that produces a nested array may be used in place of the config loaders and config processor shown in the example above. For example, if you wish to find configuration files in a certain set of directories, allow .yml or .xml configuration files, and validate the schema of your configuration files (to alert users of any syntax errors or unrecognized configuration values), you might want to consider [Symfony/Config](http://symfony.com/doc/current/components/config/definition.html). Symfony/Config produces a clean array of configuration values; the result of `$processor->processConfiguration()` may be provided directly to Robo's `$config->import()` method.
+Any configuration loader that produces a nested array may be used in place of the config loaders and config processor shown in the example above. For example, if you wish to find configuration files in a certain set of directories, allow .yml or .xml configuration files, and validate the schema of your configuration files (to alert users of any syntax errors or unrecognized configuration values), you might want to consider [Symfony/Config](https://symfony.com/doc/current/components/config/definition.html). Symfony/Config produces a clean array of configuration values; the result of `$processor->processConfiguration()` may be provided directly to Robo's `$config->import()` method.

@@ -7,7 +7,7 @@ use Robo\Contract\PrintedInterface;
 use Robo\Task\BaseTask;
 
 /**
- * Runs [atoum](http://atoum.org/) tests
+ * Runs [atoum](https://atoum.org/) tests
  *
  * ``` php
  * <?php

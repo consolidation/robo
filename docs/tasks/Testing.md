@@ -2,7 +2,7 @@
 ## Atoum
 
 
-Runs [atoum](http://atoum.org/) tests
+Runs [atoum](https://atoum.org/) tests
 
 ``` php
 <?php
@@ -153,9 +153,9 @@ $this->taskPhpspec()
 ```
 
 
-* `stopOnFail()` 
-* `noCodeGeneration()` 
-* `quiet()` 
+* `stopOnFail()`
+* `noCodeGeneration()`
+* `quiet()`
 * `verbose($level = null)`   * `param string` $level
 * `noAnsi()`   * `return` $this
 * `noInteraction()`   * `return` $this

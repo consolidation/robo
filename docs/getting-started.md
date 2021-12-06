@@ -43,7 +43,7 @@ robo hello davert
 Method names should be camelCased. In CLI `camelCased` method will be available as `camel:cased` command.
 `longCamelCased` method will be transformed to `long:camel-cased` command.
 
-**Note:** This assumes you have installed Robo by downloading the [robo.phar](http://robo.li/robo.phar) file and copied it to a directory in your `$PATH`. For example, `cp robo.phar ~/bin/robo`.
+**Note:** This assumes you have installed Robo by downloading the [robo.phar](https://robo.li/robo.phar) file and copied it to a directory in your `$PATH`. For example, `cp robo.phar ~/bin/robo`.
 
 ### Arguments
 
@@ -111,7 +111,7 @@ A one-character shortcut can be specified for option:
 ?>
 ```
 
-Now command can be executed with '-s' to run in silent mode: 
+Now command can be executed with '-s' to run in silent mode:
 
 ```
 robo hello -s
@@ -129,7 +129,7 @@ No other values should be used for the default value. For example, `$options = [
 
 ### Load From Other Robofile
 
-Robo can execute commands from a different RoboFile, eg. located in different directory or with a different filename.  
+Robo can execute commands from a different RoboFile, eg. located in different directory or with a different filename.
 You can specify the path to another RoboFile by including the `--load-from` option:
 
 ```
@@ -249,7 +249,7 @@ For details on how to add custom tasks to Robo, see the [extending](extending.md
 ### Shortcuts
 
 Some tasks may have shortcuts. If a task does not require multi-step configuration, it can be executed with a single line:
- 
+
 ```php
 <?php
 $this->_exec('ps aux');
@@ -337,17 +337,17 @@ An example of this is shown below:
 class MyTask extends BaseTask
 {
     protected $steps = 10;
-    
+
     public function progressIndicatorSteps()
     {
         return $this->steps;
     }
-    
+
     public function run()
     {
         $exitCode = 0;
         $errorMessage = "";
-    
+
         $this->startProgressIndicator();
         for ($i = 0; $i < $this->steps; ++$i) {
             $this->advanceProgressIndicator();
@@ -458,7 +458,7 @@ RoboFiles that wish to provide default configuration values that can be overridd
 class RoboFile
 {
     public function __construct()
-    {    
+    {
         Robo\Task\Remote\Ssh::configure('remoteDir', '/srv/www');
     }
 }
@@ -472,7 +472,7 @@ Sometimes, a RoboFile might want to define its own private configuration file to
 class RoboFile
 {
     public function __construct()
-    {    
+    {
         Robo::loadConfiguration([__DIR__ . '/myconf.yml']);
     }
 }
@@ -551,7 +551,7 @@ This will call the public methods `test()` and `phar()` in your RoboFile.php whe
 
 Advertising your build commands as Composer scripts is a useful way to provide the key commands used for testing, building or packaging your application. Also, if your application should happen to provide a commandline tool to perform the operations of the application itself, then defining your build commands in their own RoboFile provides desirable separation, keeping your build commands out of the help and list commands of your primary script.
 
-If you would like to simplify the output of your script (e.g. when running on a CI service), replace the `--ansi` option in the example above with `--no-ansi`, and  colored terminal output and progress bars will be disabled. 
+If you would like to simplify the output of your script (e.g. when running on a CI service), replace the `--ansi` option in the example above with `--no-ansi`, and  colored terminal output and progress bars will be disabled.
 
 ## Robo as a Framework
 

@@ -2,13 +2,13 @@
 
 **Modern and simple PHP task runner** inspired by Gulp and Rake aimed to automate common tasks:
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/consolidation/Robo?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) 
-[![Latest Stable Version](https://poser.pugx.org/consolidation/robo/v/stable.png)](https://packagist.org/packages/consolidation/robo) 
-[![Latest Unstable Version](https://poser.pugx.org/consolidation/robo/v/unstable.png)](https://packagist.org/packages/consolidation/robo) 
-[![Total Downloads](https://poser.pugx.org/consolidation/robo/downloads.png)](https://packagist.org/packages/consolidation/robo) 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/consolidation/Robo?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Latest Stable Version](https://poser.pugx.org/consolidation/robo/v/stable.png)](https://packagist.org/packages/consolidation/robo)
+[![Latest Unstable Version](https://poser.pugx.org/consolidation/robo/v/unstable.png)](https://packagist.org/packages/consolidation/robo)
+[![Total Downloads](https://poser.pugx.org/consolidation/robo/downloads.png)](https://packagist.org/packages/consolidation/robo)
 [![PHP 5 supported](https://img.shields.io/badge/PHP%205-supported-92a9ed)](https://travis-ci.org/consolidation/Robo)
 
-[![Build Status](https://travis-ci.org/consolidation/Robo.svg?branch=master)](https://travis-ci.org/consolidation/Robo) 
+[![Build Status](https://travis-ci.org/consolidation/Robo.svg?branch=master)](https://travis-ci.org/consolidation/Robo)
 [![Windows CI](https://ci.appveyor.com/api/projects/status/0823hnh06pw8ir4d?svg=true)](https://ci.appveyor.com/project/greg-1-anderson/robo)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/consolidation/Robo/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/consolidation/Robo/?branch=master)
 [![License](https://img.shields.io/badge/license-MIT-408677.svg)](LICENSE)
@@ -33,10 +33,10 @@ Robo versions 2.x and 1.x are largely compatible; however, Robo 2.x supports few
 
 ### Phar
 
-[Download robo.phar >](http://robo.li/robo.phar)
+[Download robo.phar >](https://robo.li/robo.phar)
 
 ```
-wget http://robo.li/robo.phar
+wget https://robo.li/robo.phar
 ```
 
 To install globally put `robo.phar` in `/usr/bin`. (`/usr/local/bin/` in OSX 10.11+)
@@ -179,7 +179,7 @@ Create your own tasks and send them as Pull Requests or create packages [with `"
 
 ## Credits
 
-Follow [@robo_php](http://twitter.com/robo_php) for updates.
+Follow [@robo_php](https://twitter.com/robo_php) for updates.
 
 Brought to you by [Consolidation Team](https://github.com/orgs/consolidation/people) and our [awesome contributors](https://github.com/consolidation/Robo/graphs/contributors).
 

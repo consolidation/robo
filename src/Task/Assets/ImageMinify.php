@@ -567,7 +567,7 @@ class ImageMinify extends BaseTask
         $command = sprintf('optipng -quiet -out "%s" -- "%s"', $to, $from);
         if ($from != $to && is_file($to)) {
             // earlier versions of optipng do not overwrite the target without a backup
-            // http://sourceforge.net/p/optipng/bugs/37/
+            // https://sourceforge.net/p/optipng/bugs/37/
             unlink($to);
         }
 

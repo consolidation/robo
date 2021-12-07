@@ -47,7 +47,7 @@ install:
   #Install Composer
   - cd %APPVEYOR_BUILD_FOLDER%
   #- appveyor DownloadFile https://getcomposer.org/composer.phar
-  - php -r "readfile('http://getcomposer.org/installer');" | php
+  - php -r "readfile('https://getcomposer.org/installer');" | php
   #Install dependencies via Composer
   - php composer.phar -q install --prefer-dist -n
   - SET PATH=%APPVEYOR_BUILD_FOLDER%;%APPVEYOR_BUILD_FOLDER%/vendor/bin;%PATH%

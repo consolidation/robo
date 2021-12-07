@@ -50,7 +50,7 @@ $this->_deleteDir(['tmp', 'log']);
 ## FilesystemStack
 
 
-Wrapper for [Symfony Filesystem](http://symfony.com/doc/current/components/filesystem.html) Component.
+Wrapper for [Symfony Filesystem](https://symfony.com/doc/current/components/filesystem.html) Component.
 Comands are executed in stack and can be stopped on first fail with `stopOnFail` option.
 
 ``` php
@@ -69,16 +69,16 @@ $this->_mkdir('logs');
 ?>
 ```
 
-* `$this mkdir(string|array|\Traversable $dir, int $mode = 0777)` 
-* `$this touch(string|array|\Traversable $file, int $time = null, int $atime = null)` 
-* `$this copy(string $from, string $to, bool $force = false)` 
-* `$this chmod(string|array|\Traversable $file, int $permissions, int $umask = 0000, bool $recursive = false)` 
-* `$this chgrp(string|array|\Traversable $file, string $group, bool $recursive = false)` 
-* `$this chown(string|array|\Traversable $file, string $user, bool $recursive = false)` 
-* `$this remove(string|array|\Traversable $file)` 
-* `$this rename(string $from, string $to, bool $force = false)` 
-* `$this symlink(string $from, string $to, bool $copyOnWindows = false)` 
-* `$this mirror(string $from, string $to, \Traversable $iterator = null, array $options = [])` 
+* `$this mkdir(string|array|\Traversable $dir, int $mode = 0777)`
+* `$this touch(string|array|\Traversable $file, int $time = null, int $atime = null)`
+* `$this copy(string $from, string $to, bool $force = false)`
+* `$this chmod(string|array|\Traversable $file, int $permissions, int $umask = 0000, bool $recursive = false)`
+* `$this chgrp(string|array|\Traversable $file, string $group, bool $recursive = false)`
+* `$this chown(string|array|\Traversable $file, string $user, bool $recursive = false)`
+* `$this remove(string|array|\Traversable $file)`
+* `$this rename(string $from, string $to, bool $force = false)`
+* `$this symlink(string $from, string $to, bool $copyOnWindows = false)`
+* `$this mirror(string $from, string $to, \Traversable $iterator = null, array $options = [])`
 
 * `stopOnFail($stop = null)`   * `param bool` $stop
 

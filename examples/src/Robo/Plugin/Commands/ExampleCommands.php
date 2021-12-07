@@ -228,7 +228,7 @@ class ExampleCommands extends \Robo\Tasks
     public function tryOpenBrowser()
     {
         return $this->taskOpenBrowser([
-            'http://robo.li',
+            'https://robo.li',
             'https://github.com/consolidation-org/Robo'
             ])->run();
     }

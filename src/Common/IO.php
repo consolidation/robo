@@ -81,7 +81,7 @@ trait IO
      *
      * @return \Symfony\Component\Console\Style\SymfonyStyle
      *
-     * @see http://symfony.com/blog/new-in-symfony-2-8-console-style-guide
+     * @see https://symfony.com/blog/new-in-symfony-2-8-console-style-guide
      */
     protected function io()
     {

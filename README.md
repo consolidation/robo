@@ -2,12 +2,12 @@
 
 **Modern and simple PHP task runner** inspired by Gulp and Rake aimed to automate common tasks:
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/consolidation/Robo?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) 
-[![Latest Stable Version](https://poser.pugx.org/consolidation/robo/v/stable.png)](https://packagist.org/packages/consolidation/robo) 
-[![Latest Unstable Version](https://poser.pugx.org/consolidation/robo/v/unstable.png)](https://packagist.org/packages/consolidation/robo) 
-[![Total Downloads](https://poser.pugx.org/consolidation/robo/downloads.png)](https://packagist.org/packages/consolidation/robo) 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/consolidation/Robo?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Latest Stable Version](https://poser.pugx.org/consolidation/robo/v/stable.png)](https://packagist.org/packages/consolidation/robo)
+[![Latest Unstable Version](https://poser.pugx.org/consolidation/robo/v/unstable.png)](https://packagist.org/packages/consolidation/robo)
+[![Total Downloads](https://poser.pugx.org/consolidation/robo/downloads.png)](https://packagist.org/packages/consolidation/robo)
 
-[![Build Status](https://travis-ci.org/consolidation/Robo.svg?branch=2.x)](https://travis-ci.org/consolidation/Robo) 
+[![Build Status](https://travis-ci.org/consolidation/Robo.svg?branch=2.x)](https://travis-ci.org/consolidation/Robo)
 [![Windows CI](https://ci.appveyor.com/api/projects/status/0823hnh06pw8ir4d?svg=true)](https://ci.appveyor.com/project/greg-1-anderson/robo)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/consolidation/Robo/badges/quality-score.png?b=2.x)](https://scrutinizer-ci.com/g/consolidation/Robo/?branch=2.x)
 [![License](https://img.shields.io/badge/license-MIT-408677.svg)](LICENSE)
@@ -27,7 +27,7 @@
 | [2.x](https://github.com/consolidation/robo/tree/2.x) | Stable          | 4 & 5 | 7.1 - 7.4 |
 | [1.x](https://github.com/consolidation/robo/tree/1.x) | Not recommended | 2 - 4 | 5.5 - 7.4 |
 
-The pre-build [robo.phar](http://robo.li/robo.phar) is built with Symfony 5, and requires PHP 7.2+.  Robo also works with Symfony 4 and PHP 7.1.3+ if packaged as a library in another application. For Symfony 2 or 3 support, or PHP versions prior to 7.1, please use the Robo 1.x branch.
+The pre-build [robo.phar](https://robo.li/robo.phar) is built with Symfony 5, and requires PHP 7.2+.  Robo also works with Symfony 4 and PHP 7.1.3+ if packaged as a library in another application. For Symfony 2 or 3 support, or PHP versions prior to 7.1, please use the Robo 1.x branch.
 
 All three branches of Robo are currently supported, although the 2.x and 1.x branches receive minimum support. All versions are roughly compatible; the breaking changes introduced at each major version are fairly minor, and typically only affect classes that are not used by most clients.
 
@@ -37,10 +37,10 @@ Note that the 3.x branch is still unstable; minor breaking changes, especially w
 
 ### Phar
 
-[Download robo.phar >](http://robo.li/robo.phar)
+[Download robo.phar >](https://robo.li/robo.phar)
 
 ```
-wget http://robo.li/robo.phar
+wget https://robo.li/robo.phar
 ```
 
 To install globally put `robo.phar` in `/usr/bin`. (`/usr/local/bin/` in OSX 10.11+)
@@ -183,7 +183,7 @@ Create your own tasks and send them as Pull Requests or create packages [with `"
 
 ## Credits
 
-Follow [@robo_php](http://twitter.com/robo_php) for updates.
+Follow [@robo_php](https://twitter.com/robo_php) for updates.
 
 Brought to you by [Consolidation Team](https://github.com/orgs/consolidation/people) and our [awesome contributors](https://github.com/consolidation/Robo/graphs/contributors).
 

@@ -60,7 +60,10 @@ abstract class Base extends BaseTask implements CommandInterface
             $this->command = $this->findExecutablePhar('composer');
         }
         if (!$this->command) {
-            throw new TaskException(__CLASS__, "Neither local composer.phar nor global composer installation could be found.");
+            throw new TaskException(
+                __CLASS__,
+                "Neither local composer.phar nor global composer installation could be found."
+            );
         }
     }
 

@@ -41,7 +41,7 @@ class PackExtractTest extends TestCase
     public function testPackExtract($archiveType)
     {
         if ((version_compare(PHP_VERSION, '7.4.0') >= 0) && (getenv('TRAVIS'))) {
-          $this->markTestSkipped('Zip libraries apparently not available on Travis CI with PHP 7.4 image.');
+            $this->markTestSkipped('Zip libraries apparently not available on Travis CI with PHP 7.4 image.');
         }
 
         // Archive directory and then extract it again with Archive and Extract tasks
@@ -112,6 +112,5 @@ class PackExtractTest extends TestCase
         $this->assertFileDoesNotExist("decomposed-$archiveType/missing_files/structu32.re");
         $this->assertDirectoryExists("decomposed-$archiveType/a/b");
         $this->assertFileExists("decomposed-$archiveType/a/b/existing_file");
-
     }
 }

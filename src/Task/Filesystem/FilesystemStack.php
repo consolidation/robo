@@ -113,7 +113,12 @@ class FilesystemStack extends StackBasedTask implements BuilderAwareInterface
     {
         // we check that target does not exist
         if ((!$overwrite && is_readable($target)) || (file_exists($target) && !is_writable($target))) {
-            throw new IOException(sprintf('Cannot rename because the target "%s" already exists.', $target), 0, null, $target);
+            throw new IOException(
+                sprintf('Cannot rename because the target "%s" already exists.', $target),
+                0,
+                null,
+                $target
+            );
         }
 
         // Due to a bug (limitation) in PHP, cross-volume renames do not work.

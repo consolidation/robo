@@ -31,10 +31,12 @@ class PackPharTest extends TestCase
         $this->fixtures->createAndCdToSandbox();
 
         $pharFile = 'test.phar';
-        $this->taskPackPhar($pharFile)
+        $this
+            ->taskPackPhar($pharFile)
             ->addStripped(
                 'annotated.php',
-                $this->fixtures->dataFile('TestedRoboFile.php'))
+                $this->fixtures->dataFile('TestedRoboFile.php')
+            )
             ->run();
 
         $phar = new \Phar($pharFile);

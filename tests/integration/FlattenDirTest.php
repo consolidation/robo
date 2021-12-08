@@ -51,6 +51,5 @@ class FlattenDirTest extends TestCase
 
         $this->assertFileExists('flattened/deeply/nested');
         $this->assertFileExists('flattened/deeply/nested/structu.re');
-
     }
 }

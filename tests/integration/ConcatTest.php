@@ -34,8 +34,5 @@ class ConcatTest extends TestCase
         $expected = "A\nB\n";
         $actual = file_get_contents('merged.txt');
         $this->assertEquals($expected, $actual);
-
-
     }
-
 }

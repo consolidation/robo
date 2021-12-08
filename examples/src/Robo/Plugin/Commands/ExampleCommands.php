@@ -102,8 +102,14 @@ class ExampleCommands extends \Robo\Tasks
      *   configuration via the configuration key command.try.config.options.opt.
      * @option show-all Also print out the value of all configuration options
      */
-    public function tryConfig(ConsoleIO $io, $key = 'options.progress-delay', $options = ['opt' => '0', 'show-all' => false])
-    {
+    public function tryConfig(
+        ConsoleIO $io,
+        $key = 'options.progress-delay',
+        $options = [
+            'opt' => '0',
+            'show-all' => false
+        ]
+    ) {
         $value = \Robo\Robo::config()->get($key);
 
         $io->say("The value of $key is " . var_export($value, true));
@@ -373,10 +379,12 @@ class ExampleCommands extends \Robo\Tasks
     public function tryWrap()
     {
         $data = [
+            // phpcs:disable Generic.Files.LineLength.TooLong
             [
                 'first' => 'This is a really long cell that contains a lot of data. When it is rendered, it should be wrapped across multiple lines.',
                 'second' => 'This is the second column of the same table. It is also very long, and should be wrapped across multiple lines, just like the first column.',
             ]
+            // phpcs:enable Generic.Files.LineLength.TooLong
         ];
         return new RowsOfFields($data);
     }
@@ -557,7 +565,7 @@ class ExampleCommands extends \Robo\Tasks
             ->taskForEach($processList)
                 ->iterationMessage('Processing {value}')
                 ->call(
-                    function ($value) use($delay) {
+                    function ($value) use ($delay) {
                         // TaskForEach::call should only be used to do
                         // non-Robo operations. To use Robo tasks in an
                         // iterator, @see TaskForEach::withBuilder.

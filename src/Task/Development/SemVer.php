@@ -22,8 +22,10 @@ class SemVer implements TaskInterface
 {
     const SEMVER = "---\n:major: %d\n:minor: %d\n:patch: %d\n:special: '%s'\n:metadata: '%s'";
 
+    // phpcs:ignore
     const REGEX = "/^\-\-\-\r?\n:major:\s(0|[1-9]\d*)\r?\n:minor:\s(0|[1-9]\d*)\r?\n:patch:\s(0|[1-9]\d*)\r?\n:special:\s'([a-zA-z0-9]*\.?(?:0|[1-9]\d*)?)'\r?\n:metadata:\s'((?:0|[1-9]\d*)?(?:\.[a-zA-z0-9\.]*)?)'/";
 
+    // phpcs:ignore
     const REGEX_STRING = '/^(?<major>[0-9]+)\.(?<minor>[0-9]+)\.(?<patch>[0-9]+)(|-(?<special>[0-9a-zA-Z.]+))(|\+(?<metadata>[0-9a-zA-Z.]+))$/';
 
     /**

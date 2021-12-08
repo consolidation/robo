@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<ruleset
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd"
+    name="Custom">
+
+    <file>./examples/</file>
+    <file>./src/</file>
+    <file>./tests/</file>
+    <exclude-pattern>./tests/_data/</exclude-pattern>
+    <exclude-pattern>./tests/_helpers/_generated/</exclude-pattern>
+    <exclude-pattern>./tests/_log/</exclude-pattern>
+    <exclude-pattern>./tests/_bootstrap.php</exclude-pattern>
+    <file>./RoboFile.php</file>
+
+    <rule ref="PSR2"/>
+    <rule ref="PSR2.Methods.MethodDeclaration.Underscore">
+        <!-- _before() _after() -->
+        <exclude-pattern>./tests/</exclude-pattern>
+
+        <!-- Task builders -->
+        <exclude-pattern>./src/Task/Base/Shortcuts.php</exclude-pattern>
+        <exclude-pattern>./src/Task/Filesystem/FilesystemStack.php</exclude-pattern>
+        <exclude-pattern>./src/Task/Filesystem/Shortcuts.php</exclude-pattern>
+        <exclude-pattern>./src/Task/Logfile/Shortcuts.php</exclude-pattern>
+        <exclude-pattern>./src/Task/Vcs/Shortcuts.php</exclude-pattern>
+
+    </rule>
+    <rule ref="PSR1.Classes.ClassDeclaration.MissingNamespace">
+        <!-- @todo Tests also should be under namespaces. -->
+        <exclude-pattern>./tests/</exclude-pattern>
+        <exclude-pattern>./RoboFile.php</exclude-pattern>
+    </rule>
+    <rule ref="PSR1.Classes.ClassDeclaration.MultipleClasses">
+        <!-- @todo Fix this kind of errors. -->
+        <exclude-pattern>./examples/src/Robo/Plugin/Commands/ExampleCommands.php</exclude-pattern>
+        <exclude-pattern>./tests/unit/ConfigurationTest.php</exclude-pattern>
+        <exclude-pattern>./tests/unit/ResultTest.php</exclude-pattern>
+    </rule>
+    <rule ref="PSR1.Files.SideEffects.FoundWithSymbols">
+        <!-- @todo Fix this kind of errors. -->
+        <exclude-pattern>./tests/unit/ApplicationTest.php</exclude-pattern>
+    </rule>
+    <rule ref="Squiz.Classes.ValidClassName.NotCamelCaps">
+        <!-- @todo Fix this kind of errors. -->
+        <exclude-pattern>./tests/unit/AAA_RunnerErrorTest.php</exclude-pattern>
+    </rule>
+</ruleset>

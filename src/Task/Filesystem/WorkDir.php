@@ -63,7 +63,13 @@ class WorkDir extends TmpDir implements RollbackInterface, BuilderAwareInterface
         // move it out of the way before placing our results there.
         if (is_dir($this->finalDestination)) {
             if (!is_writable($this->finalDestination)) {
-                return Result::error($this, "Destination directory {dir} exists and cannot be overwritten.", ['dir' => $this->finalDestination]);
+                return Result::error(
+                    $this,
+                    "Destination directory {dir} exists and cannot be overwritten.",
+                    [
+                        'dir' => $this->finalDestination,
+                    ]
+                );
             }
         }
 

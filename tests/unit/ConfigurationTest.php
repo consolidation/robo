@@ -18,13 +18,15 @@ class ConfigurationTest extends \Codeception\TestCase\Test
         $taskA->setConfig(Robo::config());
         $this->assertEquals(
             'value-a',
-            $taskA->run());
+            $taskA->run()
+        );
 
         $taskB = new ConfigurationTestTaskB();
         $taskB->setConfig(Robo::config());
         $this->assertEquals(
             'value-b',
-            $taskB->run());
+            $taskB->run()
+        );
     }
 
     public function testConfigurationWithCrossFileReferences()
@@ -38,22 +40,27 @@ class ConfigurationTest extends \Codeception\TestCase\Test
         $sources = $processor->sources();
         $this->assertEquals(
             dirname(__DIR__) . '/_data/config-3.yml',
-            $sources['a']);
+            $sources['a']
+        );
         $this->assertEquals(
             dirname(__DIR__) . '/_data/config-2.yml',
-            $sources['b']);
+            $sources['b']
+        );
         $this->assertEquals(
             dirname(__DIR__) . '/_data/config-1.yml',
-            $sources['c']);
+            $sources['c']
+        );
 
         \Robo\Robo::config()->import($processor->export());
 
         $this->assertEquals(
             '3',
-            implode(',', \Robo\Robo::config()->get('m')));
+            implode(',', \Robo\Robo::config()->get('m'))
+        );
         $this->assertEquals(
             'foobarbaz',
-            \Robo\Robo::config()->get('a'));
+            \Robo\Robo::config()->get('a')
+        );
     }
 
     public function testConfigurationWithReverseOrderCrossFileReferences()
@@ -67,19 +74,23 @@ class ConfigurationTest extends \Codeception\TestCase\Test
         $sources = $processor->sources();
         $this->assertEquals(
             dirname(__DIR__) . '/_data/config-3.yml',
-            $sources['a']);
+            $sources['a']
+        );
         $this->assertEquals(
             dirname(__DIR__) . '/_data/config-2.yml',
-            $sources['b']);
+            $sources['b']
+        );
         $this->assertEquals(
             dirname(__DIR__) . '/_data/config-1.yml',
-            $sources['c']);
+            $sources['c']
+        );
 
         \Robo\Robo::config()->import($processor->export());
 
         $this->assertEquals(
             '1',
-            implode(',', \Robo\Robo::config()->get('m')));
+            implode(',', \Robo\Robo::config()->get('m'))
+        );
 
         if (strpos(\Robo\Robo::config()->get('a'), '$') !== false) {
             throw new \PHPUnit_Framework_SkippedTestError(
@@ -88,7 +99,8 @@ class ConfigurationTest extends \Codeception\TestCase\Test
         }
         $this->assertEquals(
             'foobarbaz',
-            \Robo\Robo::config()->get('a'));
+            \Robo\Robo::config()->get('a')
+        );
     }
 }
 

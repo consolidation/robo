@@ -24,43 +24,51 @@ class GulpTest extends \Codeception\TestCase\Test
     {
         $this->assertEquals(
             $this->adjustQuotes("gulp 'default'"),
-            (new \Robo\Task\Gulp\Run('default','gulp'))->getCommand()
+            (new \Robo\Task\Gulp\Run('default', 'gulp'))->getCommand()
         );
 
         $this->assertEquals(
             $this->adjustQuotes("gulp 'another'"),
-            (new \Robo\Task\Gulp\Run('another','gulp'))->getCommand()
+            (new \Robo\Task\Gulp\Run('another', 'gulp'))->getCommand()
         );
 
         $this->assertEquals(
             $this->adjustQuotes("gulp 'default' --silent"),
-            (new \Robo\Task\Gulp\Run('default','gulp'))->silent()->getCommand()
+            (new \Robo\Task\Gulp\Run('default', 'gulp'))->silent()->getCommand()
         );
 
         $this->assertEquals(
             $this->adjustQuotes("gulp 'default' --no-color"),
-            (new \Robo\Task\Gulp\Run('default','gulp'))->noColor()->getCommand()
+            (new \Robo\Task\Gulp\Run('default', 'gulp'))->noColor()->getCommand()
         );
 
         $this->assertEquals(
             $this->adjustQuotes("gulp 'default' --color"),
-            (new \Robo\Task\Gulp\Run('default','gulp'))->color()->getCommand()
+            (new \Robo\Task\Gulp\Run('default', 'gulp'))->color()->getCommand()
         );
 
         $this->assertEquals(
             $this->adjustQuotes("gulp 'default' --tasks-simple"),
-            (new \Robo\Task\Gulp\Run('default','gulp'))->simple()->getCommand()
+            (new \Robo\Task\Gulp\Run('default', 'gulp'))->simple()->getCommand()
         );
     }
 
     public function testGulpRun()
     {
-        $gulp = test::double('Robo\Task\Gulp\Run', ['executeCommand' => null, 'getConfig' => new \Robo\Config(), 'logger' => new \Psr\Log\NullLogger()]);
+        $gulp = test::double(
+            'Robo\Task\Gulp\Run',
+            [
+                'executeCommand' => null,
+                'getConfig' => new \Robo\Config(),
+                'logger' => new \Psr\Log\NullLogger(),
+            ]
+        );
 
-        $task = (new \Robo\Task\Gulp\Run('default','gulp'))->simple();
+        $task = (new \Robo\Task\Gulp\Run('default', 'gulp'))->simple();
         $this->assertEquals(
             $this->adjustQuotes("gulp 'default' --tasks-simple"),
-            $task->getCommand());
+            $task->getCommand()
+        );
         $task->run();
         $gulp->verifyInvoked('executeCommand', [$this->adjustQuotes("gulp 'default' --tasks-simple")]);
     }
@@ -74,7 +82,7 @@ class GulpTest extends \Codeception\TestCase\Test
 
         $this->assertEquals(
             $expected,
-            (new \Robo\Task\Gulp\Run('anotherWith weired!("\') Chars','gulp'))->getCommand()
+            (new \Robo\Task\Gulp\Run('anotherWith weired!("\') Chars', 'gulp'))->getCommand()
         );
     }
 }

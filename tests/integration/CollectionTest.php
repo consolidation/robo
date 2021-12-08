@@ -526,7 +526,9 @@ class CollectionTest extends TestCase
                 ->provideMessage('2nd')
                 ->storeState('two')
             ->taskValueProvider()
-                ->deferTaskConfiguration('provideItem', 'one') // Same as ->proivdeItem($state['one']), but runs immediately before this task's run() method.
+                 // Same as ->proivdeItem($state['one']),
+                 // but runs immediately before this task's run() method.
+                ->deferTaskConfiguration('provideItem', 'one')
                 ->deferTaskConfiguration('provideMessage', 'two')
                 ->storeState('final')
             ->run();
@@ -538,7 +540,4 @@ class CollectionTest extends TestCase
         $this->assertEquals('1st', $state['item']);
         $this->assertEquals('2nd', $state['final']);
     }
-
 }
-
-

@@ -46,7 +46,13 @@ class RoboLogStyle extends LogOutputStyler
         if (array_key_exists('name', $context)) {
             $label = $context['name'];
         }
-        return $this->formatMessage($label, $message, $context, $this->labelStyles[$level], $this->messageStyles[$level]);
+        return $this->formatMessage(
+            $label,
+            $message,
+            $context,
+            $this->labelStyles[$level],
+            $this->messageStyles[$level]
+        );
     }
 
     /**
@@ -65,7 +71,10 @@ class RoboLogStyle extends LogOutputStyler
     {
         $message = parent::formatMessage($label, $message, $context, $taskNameStyle, $messageStyle);
 
-        if (array_key_exists('time', $context) && !empty($context['time']) && array_key_exists('timer-label', $context)) {
+        if (array_key_exists('time', $context)
+            && !empty($context['time'])
+            && array_key_exists('timer-label', $context)
+        ) {
             $duration = TimeKeeper::formatDuration($context['time']);
             $message .= ' ' . $context['timer-label'] . ' ' . $this->wrapFormatString($duration, 'fg=yellow');
         }

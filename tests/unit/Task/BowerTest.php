@@ -20,7 +20,13 @@ class BowerTest extends \Codeception\TestCase\Test
     // tests
     public function testBowerInstall()
     {
-        $bower = test::double('Robo\Task\Bower\Install', ['executeCommand' => null, 'logger' => new \Psr\Log\NullLogger(),]);
+        $bower = test::double(
+            'Robo\Task\Bower\Install',
+            [
+                'executeCommand' => null,
+                'logger' => new \Psr\Log\NullLogger(),
+            ]
+        );
         (new \Robo\Task\Bower\Install('bower'))->run();
         $bower->verifyInvoked('executeCommand', ['bower install']);
     }
@@ -57,5 +63,4 @@ class BowerTest extends \Codeception\TestCase\Test
                 ->getCommand()
         );
     }
-
 }

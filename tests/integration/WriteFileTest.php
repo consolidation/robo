@@ -121,7 +121,6 @@ HERE;
         $this->assertFileExists('a.txt');
         $contents = file_get_contents('a.txt');
         $this->assertStringContainsString('B', $contents);
-
     }
 
     public function replaceMultipleInFile()
@@ -136,4 +135,3 @@ HERE;
         $this->assertStringContainsString('Hello robo.li!', $contents);
     }
 }
-

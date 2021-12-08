@@ -24,7 +24,14 @@ class ComposerTest extends \Codeception\TestCase\Test
     // tests
     public function testComposerInstall()
     {
-        $composer = test::double('Robo\Task\Composer\Install', ['executeCommand' => null, 'getConfig' => new \Robo\Config(), 'logger' => new \Psr\Log\NullLogger()]);
+        $composer = test::double(
+            'Robo\Task\Composer\Install',
+            [
+                'executeCommand' => null,
+                'getConfig' => new \Robo\Config(),
+                'logger' => new \Psr\Log\NullLogger()
+            ]
+        );
 
         (new \Robo\Task\Composer\Install('composer'))->run();
         $composer->verifyInvoked('executeCommand', ['composer install --no-interaction']);
@@ -45,7 +52,14 @@ class ComposerTest extends \Codeception\TestCase\Test
         $config = new \Robo\Config();
         $config->setDecorated(true);
         $config->setInteractive(true);
-        $composer = test::double('Robo\Task\Composer\Install', ['executeCommand' => null, 'getConfig' => $config, 'logger' => new \Psr\Log\NullLogger()]);
+        $composer = test::double(
+            'Robo\Task\Composer\Install',
+            [
+                'executeCommand' => null,
+                'getConfig' => $config,
+                'logger' => new \Psr\Log\NullLogger()
+            ]
+        );
 
         (new \Robo\Task\Composer\Install('composer'))->run();
         $composer->verifyInvoked('executeCommand', ['composer install --ansi']);
@@ -63,7 +77,14 @@ class ComposerTest extends \Codeception\TestCase\Test
 
     public function testComposerUpdate()
     {
-        $composer = test::double('Robo\Task\Composer\Update', ['executeCommand' => null, 'getConfig' => new \Robo\Config(), 'logger' => new \Psr\Log\NullLogger()]);
+        $composer = test::double(
+            'Robo\Task\Composer\Update',
+            [
+                'executeCommand' => null,
+                'getConfig' => new \Robo\Config(),
+                'logger' => new \Psr\Log\NullLogger()
+            ]
+        );
 
         (new \Robo\Task\Composer\Update('composer'))->run();
         $composer->verifyInvoked('executeCommand', ['composer update --no-interaction']);
@@ -76,7 +97,14 @@ class ComposerTest extends \Codeception\TestCase\Test
 
     public function testComposerDumpAutoload()
     {
-        $composer = test::double('Robo\Task\Composer\DumpAutoload', ['executeCommand' => null, 'getConfig' => new \Robo\Config(), 'logger' => new \Psr\Log\NullLogger()]);
+        $composer = test::double(
+            'Robo\Task\Composer\DumpAutoload',
+            [
+                'executeCommand' => null,
+                'getConfig' => new \Robo\Config(),
+                'logger' => new \Psr\Log\NullLogger()
+            ]
+        );
 
         (new \Robo\Task\Composer\DumpAutoload('composer'))->run();
         $composer->verifyInvoked('executeCommand', ['composer dump-autoload --no-interaction']);
@@ -100,7 +128,14 @@ class ComposerTest extends \Codeception\TestCase\Test
 
     public function testComposerValidate()
     {
-        $composer = test::double('Robo\Task\Composer\Validate', ['executeCommand' => null, 'getConfig' => new \Robo\Config(), 'logger' => new \Psr\Log\NullLogger()]);
+        $composer = test::double(
+            'Robo\Task\Composer\Validate',
+            [
+                'executeCommand' => null,
+                'getConfig' => new \Robo\Config(),
+                'logger' => new \Psr\Log\NullLogger()
+            ]
+        );
 
         (new \Robo\Task\Composer\Validate('composer'))->run();
         $composer->verifyInvoked('executeCommand', ['composer validate --no-interaction']);
@@ -273,8 +308,18 @@ class ComposerTest extends \Codeception\TestCase\Test
                 ->getCommand()
         );
 
+        $expected = implode(' ', [
+            'composer',
+            'validate',
+            '--no-check-all',
+            '--no-check-lock',
+            '--no-check-publish',
+            '--with-dependencies',
+            '--strict',
+            '--no-interaction',
+        ]);
         $this->assertEquals(
-            'composer validate --no-check-all --no-check-lock --no-check-publish --with-dependencies --strict --no-interaction',
+            $expected,
             (new \Robo\Task\Composer\Validate('composer'))
                 ->setConfig(new \Robo\Config())
                 ->noCheckAll()
@@ -293,8 +338,21 @@ class ComposerTest extends \Codeception\TestCase\Test
             (new \Robo\Task\Composer\Init('composer'))->setConfig(new \Robo\Config())->getCommand()
         );
 
+        $expected = $this->adjustQuotes(implode(' ', [
+            'composer',
+            'init',
+            '--name foo/bar',
+            "--description 'A test project'",
+            "--require 'baz/boz:^2.4.8'",
+            '--type project',
+            "--homepage 'https://foo.bar.com'",
+            '--stability beta',
+            '--license MIT',
+            "--repository 'https://packages.drupal.org/8'",
+            '--no-interaction',
+        ]));
         $this->assertEquals(
-            $this->adjustQuotes("composer init --name foo/bar --description 'A test project' --require 'baz/boz:^2.4.8' --type project --homepage 'https://foo.bar.com' --stability beta --license MIT --repository 'https://packages.drupal.org/8' --no-interaction"),
+            $expected,
             (new \Robo\Task\Composer\Init('composer'))
                 ->setConfig(new \Robo\Config())
                 ->projectName('foo/bar')
@@ -307,7 +365,6 @@ class ComposerTest extends \Codeception\TestCase\Test
                 ->repository('https://packages.drupal.org/8')
                 ->getCommand()
         );
-
     }
 
     public function testComposerConfigCommand()
@@ -329,8 +386,16 @@ class ComposerTest extends \Codeception\TestCase\Test
                 ->getCommand()
         );
 
+        $expected = $this->adjustQuotes(implode(' ', [
+            'composer',
+            'config',
+            'repositories.drupalorg',
+            'composer',
+            "'https://packages.drupal.org/8'",
+            '--no-interaction',
+        ]));
         $this->assertEquals(
-            $this->adjustQuotes("composer config repositories.drupalorg composer 'https://packages.drupal.org/8' --no-interaction"),
+            $expected,
             (new \Robo\Task\Composer\Config('composer'))
                 ->setConfig(new \Robo\Config())
                 ->repository('drupalorg', 'https://packages.drupal.org/8', 'composer')
@@ -359,8 +424,20 @@ class ComposerTest extends \Codeception\TestCase\Test
 
     public function testComposerCreateProjectCommand()
     {
+        $expected = $this->adjustQuotes(implode(' ', [
+            'composer',
+            'create-project',
+            '--repository',
+            "'https://packages.drupal.org/8'",
+            '--keep-vcs',
+            '--no-install',
+            'foo/bar',
+            'mybar',
+            "'^2.4.8'",
+            '--no-interaction',
+        ]));
         $this->assertEquals(
-            $this->adjustQuotes("composer create-project --repository 'https://packages.drupal.org/8' --keep-vcs --no-install foo/bar mybar '^2.4.8' --no-interaction"),
+            $expected,
             (new \Robo\Task\Composer\CreateProject('composer'))
                 ->setConfig(new \Robo\Config())
                 ->source('foo/bar')

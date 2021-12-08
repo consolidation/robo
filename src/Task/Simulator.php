@@ -104,7 +104,10 @@ class Simulator extends BaseTask implements CommandInterface
     public function getCommand()
     {
         if (!$this->task instanceof CommandInterface) {
-            throw new TaskException($this->task, 'Simulated task that is not a CommandInterface used as a CommandInterface.');
+            throw new TaskException(
+                $this->task,
+                'Simulated task that is not a CommandInterface used as a CommandInterface.'
+            );
         }
         return $this->task->getCommand();
     }

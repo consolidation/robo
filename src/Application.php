@@ -21,16 +21,33 @@ class Application extends SymfonyApplication
 
         $this->getDefinition()
             ->addOption(
-                new InputOption('--simulate', null, InputOption::VALUE_NONE, 'Run in simulated mode (show what would have happened).')
+                new InputOption(
+                    '--simulate',
+                    null,
+                    InputOption::VALUE_NONE,
+                    'Run in simulated mode (show what would have happened).'
+                )
             );
         $this->getDefinition()
             ->addOption(
-                new InputOption('--progress-delay', null, InputOption::VALUE_REQUIRED, 'Number of seconds before progress bar is displayed in long-running task collections. Default: 2s.', Config::DEFAULT_PROGRESS_DELAY)
+                new InputOption(
+                    '--progress-delay',
+                    null,
+                    InputOption::VALUE_REQUIRED,
+                    'Number of seconds before progress bar is displayed in long-running task collections. Default: 2s.',
+                    Config::DEFAULT_PROGRESS_DELAY
+                )
             );
 
         $this->getDefinition()
             ->addOption(
-                new InputOption('--define', '-D', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Define a configuration item value.', [])
+                new InputOption(
+                    '--define',
+                    '-D',
+                    InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
+                    'Define a configuration item value.',
+                    []
+                )
             );
     }
 
@@ -43,8 +60,9 @@ class Application extends SymfonyApplication
         $createRoboFile = new Command('init');
         $createRoboFile->setDescription("Intitalizes basic RoboFile in current dir");
         $createRoboFile->setCode(function (InputInterface $input, OutputInterface $output) use ($roboClass, $roboFile) {
+            $roboFileBaseName = basename($roboFile);
             $output->writeln("<comment>  ~~~ Welcome to Robo! ~~~~ </comment>");
-            $output->writeln("<comment>  " . basename($roboFile) . " will be created in the current directory </comment>");
+            $output->writeln("<comment>  $roboFileBaseName will be created in the current directory </comment>");
             file_put_contents(
                 $roboFile,
                 '<?php'

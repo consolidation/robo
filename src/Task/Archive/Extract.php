@@ -88,13 +88,16 @@ class Extract extends BaseTask implements BuilderAwareInterface
      */
     public function run()
     {
+        $messageArgs = [
+            'filename' => $this->filename,
+        ];
         if (!file_exists($this->filename)) {
-            $this->printTaskError("File {filename} does not exist", ['filename' => $this->filename]);
+            $this->printTaskError("File {filename} does not exist", $messageArgs);
 
             return false;
         }
         if (!($mimetype = static::archiveType($this->filename))) {
-            $this->printTaskError("Could not determine type of archive for {filename}", ['filename' => $this->filename]);
+            $this->printTaskError("Could not determine type of archive for {filename}", $messageArgs);
 
             return false;
         }
@@ -112,11 +115,11 @@ class Extract extends BaseTask implements BuilderAwareInterface
 
         $this->startTimer();
 
-        $this->printTaskInfo("Extracting {filename}", ['filename' => $this->filename]);
+        $this->printTaskInfo("Extracting {filename}", $messageArgs);
 
         $result = $this->extractAppropriateType($mimetype, $extractLocation);
         if ($result->wasSuccessful()) {
-            $this->printTaskInfo("{filename} extracted", ['filename' => $this->filename]);
+            $this->printTaskInfo("{filename} extracted", $messageArgs);
             // Now, we want to move the extracted files to $this->to. There
             // are two possibilities that we must consider:
             //

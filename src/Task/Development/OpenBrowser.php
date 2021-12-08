@@ -7,8 +7,8 @@ use Robo\Common\ProcessUtils;
 use Robo\Result;
 
 /**
- * Opens the default's user browser
- * code inspired from openBrowser() function in https://github.com/composer/composer/blob/master/src/Composer/Command/HomeCommand.php
+ * Opens the default's user browser code inspired from openBrowser() function in
+ * https://github.com/composer/composer/blob/master/src/Composer/Command/HomeCommand.php
  *
  * ``` php
  * <?php

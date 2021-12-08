@@ -53,14 +53,17 @@ class ApplicationTest extends \Codeception\TestCase\Test
         $collectionBuilder = $method->invoke($this->roboCommandFileInstance, 'Robo\Task\Base\Exec', 'ls');
         $this->assertEquals(
             'Robo\Collection\CollectionBuilder',
-            get_class($collectionBuilder));
+            get_class($collectionBuilder)
+        );
         $task = $collectionBuilder->getCollectionBuilderCurrentTask();
         $this->assertEquals(
             'Robo\Task\Base\Exec',
-            get_class($task));
+            get_class($task)
+        );
         $this->assertEquals(
             'Robo\Task\Base\Exec',
-            get_class($task));
+            get_class($task)
+        );
     }
 
     public function testAllowEmptyValuesAsDefaultsToOptionalOptions()
@@ -84,7 +87,8 @@ class ApplicationTest extends \Codeception\TestCase\Test
 
         $this->assertEquals(
             'Calculate the fibonacci sequence between two numbers.',
-            $command->getDescription());
+            $command->getDescription()
+        );
     }
 
     public function testCommandCompactDocumentation()
@@ -93,7 +97,8 @@ class ApplicationTest extends \Codeception\TestCase\Test
 
         $this->assertEquals(
             'Compact doc comment',
-            $command->getDescription());
+            $command->getDescription()
+        );
     }
 
     public function testCommandArgumentDocumentation()
@@ -104,13 +109,15 @@ class ApplicationTest extends \Codeception\TestCase\Test
 
         $this->assertEquals(
             'Number to start from',
-            $start->getDescription());
+            $start->getDescription()
+        );
 
         $steps = $command->getDefinition()->getArgument('steps');
 
         $this->assertEquals(
             'Number of steps to perform',
-            $steps->getDescription());
+            $steps->getDescription()
+        );
     }
 
     public function testCommandOptionDocumentation()
@@ -121,7 +128,8 @@ class ApplicationTest extends \Codeception\TestCase\Test
 
         $this->assertEquals(
             'Display the sequence graphically using cube representation',
-            $graphic->getDescription());
+            $graphic->getDescription()
+        );
     }
 
     public function testCommandHelpDocumentation()
@@ -130,7 +138,8 @@ class ApplicationTest extends \Codeception\TestCase\Test
 
         $this->assertContains(
             '+----+---+',
-            $command->getHelp());
+            $command->getHelp()
+        );
     }
 
     public function testCommandNaming()

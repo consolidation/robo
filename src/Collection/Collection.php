@@ -505,7 +505,10 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
             return $task->getCommand();
         }
 
-        throw new TaskException($task, get_class($task) . " does not implement CommandInterface, so can't be used to provide a command");
+        throw new TaskException(
+            $task,
+            get_class($task) . " does not implement CommandInterface, so can't be used to provide a command"
+        );
     }
 
     /**
@@ -648,9 +651,13 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
     }
 
     /**
+     * phpcs:disable Generic.Files.LineLength.TooLong
+     *
      * @param \Robo\Contract\TaskInterface|\Robo\Collection\NestedCollectionInterface|\Robo\Contract\WrappedTaskInterface $task
      *
      * @return \Robo\Result
+     *
+     * phpcs:enable Generic.Files.LineLength.TooLongs
      */
     protected function runSubtask($task)
     {

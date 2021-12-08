@@ -48,7 +48,12 @@ use Symfony\Component\Console\Input\InputAwareInterface;
  * In the example above, the `taskDeleteDir` will be called if
  * ```
  */
-class CollectionBuilder extends BaseTask implements NestedCollectionInterface, WrappedTaskInterface, CommandInterface, StateAwareInterface, InputAwareInterface
+class CollectionBuilder extends BaseTask implements
+    NestedCollectionInterface,
+    WrappedTaskInterface,
+    CommandInterface,
+    StateAwareInterface,
+    InputAwareInterface
 {
     use StateAwareTrait;
     use InputAwareTrait; // BaseTask has OutputAwareTrait
@@ -339,7 +344,9 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
      */
     protected function callCollectionStateFunction($functionName, $args)
     {
-        $currentTask = ($this->currentTask instanceof WrappedTaskInterface) ? $this->currentTask->original() : $this->currentTask;
+        $currentTask = $this->currentTask instanceof WrappedTaskInterface ?
+            $this->currentTask->original()
+            : $this->currentTask;
 
         array_unshift($args, $currentTask);
         $collection = $this->getCollection();
@@ -369,7 +376,9 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
      */
     public function setVerbosityThreshold($verbosityThreshold)
     {
-        $currentTask = ($this->currentTask instanceof WrappedTaskInterface) ? $this->currentTask->original() : $this->currentTask;
+        $currentTask = $this->currentTask instanceof WrappedTaskInterface ?
+            $this->currentTask->original()
+            : $this->currentTask;
         if ($currentTask) {
             $currentTask->setVerbosityThreshold($verbosityThreshold);
             return $this;
@@ -455,7 +464,9 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
             $temporaryBuilder = $this->commandFile->getBuiltTask($fn, $args);
             $this->commandFile->setBuilder($saveBuilder);
             if (!$temporaryBuilder) {
-                throw new \BadMethodCallException("No such method $fn: task does not exist in " . get_class($this->commandFile));
+                throw new \BadMethodCallException(
+                    "No such method $fn: task does not exist in " . get_class($this->commandFile)
+                );
             }
             $temporaryBuilder->getCollection()->transferTasks($this);
             return $this;
@@ -468,7 +479,9 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
         $result = call_user_func_array([$this->currentTask, $fn], $args);
 
         // If something other than a setter method is called, then return its result.
-        $currentTask = ($this->currentTask instanceof WrappedTaskInterface) ? $this->currentTask->original() : $this->currentTask;
+        $currentTask = $this->currentTask instanceof WrappedTaskInterface ?
+            $this->currentTask->original()
+            : $this->currentTask;
         if (isset($result) && ($result !== $currentTask)) {
             return $result;
         }
@@ -644,7 +657,9 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
             $this->collection = new Collection();
             $this->collection->inflect($this);
             $this->collection->setState($this->getState());
-            $this->collection->setProgressBarAutoDisplayInterval($this->getConfig()->get(Config::PROGRESS_BAR_AUTO_DISPLAY_INTERVAL));
+            $this->collection->setProgressBarAutoDisplayInterval(
+                $this->getConfig()->get(Config::PROGRESS_BAR_AUTO_DISPLAY_INTERVAL)
+            );
 
             if (isset($this->currentTask)) {
                 $this->collection->add($this->currentTask);

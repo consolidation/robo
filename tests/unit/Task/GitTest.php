@@ -31,9 +31,37 @@ class GitTest extends \Codeception\TestCase\Test
 
     public function testGitStackCommands()
     {
-        $linuxCmd = "git clone https://github.com/consolidation-org/Robo && git pull && git add -A && git commit -m 'changed' && git push && git tag 0.6.0 && git push origin 0.6.0";
+        $linuxCmd = implode(' ', [
+            'git clone https://github.com/consolidation-org/Robo',
+            '&&',
+            'git pull',
+            '&&',
+            'git add -A',
+            '&&',
+            "git commit -m 'changed'",
+            '&&',
+            'git push',
+            '&&',
+            'git tag 0.6.0',
+            '&&',
+            'git push origin 0.6.0',
+        ]);
 
-        $winCmd = 'git clone https://github.com/consolidation-org/Robo && git pull && git add -A && git commit -m "changed" && git push && git tag 0.6.0 && git push origin 0.6.0';
+        $winCmd = implode(' ', [
+            'git clone https://github.com/consolidation-org/Robo',
+            '&&',
+            'git pull',
+            '&&',
+            'git add -A',
+            '&&',
+            'git commit -m "changed"',
+            '&&',
+            'git push',
+            '&&',
+            'git tag 0.6.0',
+            '&&',
+            'git push origin 0.6.0',
+        ]);
 
         $cmd = stripos(PHP_OS, 'WIN') === 0 ? $winCmd : $linuxCmd;
 
@@ -53,9 +81,37 @@ class GitTest extends \Codeception\TestCase\Test
 
     public function testGitStackCommandsWithTagMessage()
     {
-        $linuxCmd = "git clone https://github.com/consolidation-org/Robo && git pull && git add -A && git commit -m 'changed' && git push && git tag -m 'message' 0.6.0 && git push origin 0.6.0";
+        $linuxCmd = implode(' ', [
+            'git clone https://github.com/consolidation-org/Robo',
+            '&&',
+            'git pull',
+            '&&',
+            'git add -A',
+            '&&',
+            "git commit -m 'changed'",
+            '&&',
+            'git push',
+            '&&',
+            "git tag -m 'message' 0.6.0",
+            '&&',
+            "git push origin 0.6.0",
+        ]);
 
-        $winCmd = 'git clone https://github.com/consolidation-org/Robo && git pull && git add -A && git commit -m "changed" && git push && git tag -m \'message\' 0.6.0 && git push origin 0.6.0';
+        $winCmd = implode(' ', [
+            'git clone https://github.com/consolidation-org/Robo',
+            '&&',
+            'git pull',
+            '&&',
+            'git add -A',
+            '&&',
+            'git commit -m "changed"',
+            '&&',
+            'git push',
+            '&&',
+            "git tag -m 'message' 0.6.0",
+            '&&',
+            'git push origin 0.6.0',
+        ]);
 
         $cmd = stripos(PHP_OS, 'WIN') === 0 ? $winCmd : $linuxCmd;
 

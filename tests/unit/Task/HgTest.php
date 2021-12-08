@@ -57,8 +57,23 @@ class HgTest extends \Codeception\TestCase\Test
 
     public function testHgStackCommands()
     {
+        $expected = implode(' ', [
+            'hg clone https://bitbucket.org/durin42/hgsubversion',
+            '&&',
+            'hg pull',
+            '&&',
+            'hg add',
+            '&&',
+            "hg commit -m 'changed'",
+            '&&',
+            'hg push',
+            '&&',
+            'hg tag 0.6.0',
+            '&&',
+            "hg push -b '0.6.0'",
+        ]);
         $this->assertEquals(
-            "hg clone https://bitbucket.org/durin42/hgsubversion && hg pull && hg add && hg commit -m 'changed' && hg push && hg tag 0.6.0 && hg push -b '0.6.0'",
+            $expected,
             $this->hgStack
                 ->cloneRepo('https://bitbucket.org/durin42/hgsubversion')
                 ->pull()
@@ -73,8 +88,23 @@ class HgTest extends \Codeception\TestCase\Test
 
     public function testHgStackCommandsWithTagMessage()
     {
+        $expected = implode(' ', [
+            'hg clone https://bitbucket.org/durin42/hgsubversion',
+            '&&',
+            'hg pull',
+            '&&',
+            'hg add',
+            '&&',
+            "hg commit -m 'changed'",
+            '&&',
+            'hg push',
+            '&&',
+            "hg tag -m 'message' 0.6.0".
+            '&&',
+            "hg push -b '0.6.0'",
+        ]);
         $this->assertEquals(
-            "hg clone https://bitbucket.org/durin42/hgsubversion && hg pull && hg add && hg commit -m 'changed' && hg push && hg tag -m 'message' 0.6.0 && hg push -b '0.6.0'",
+            $expected,
             $this->hgStack
                 ->cloneRepo('https://bitbucket.org/durin42/hgsubversion')
                 ->pull()

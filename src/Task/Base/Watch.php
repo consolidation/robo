@@ -6,6 +6,7 @@ use Lurker\ResourceWatcher;
 use Robo\Result;
 use Robo\Task\BaseTask;
 
+// phpcs:disable Generic.Files.LineLength.TooLong
 /**
  * Runs task when specified file or dir was changed.
  * Uses Lurker library.
@@ -59,6 +60,7 @@ use Robo\Task\BaseTask;
  */
 class Watch extends BaseTask
 {
+    // phpcs:enable Generic.Files.LineLength.TooLong
     /**
      * @var \Closure
      */

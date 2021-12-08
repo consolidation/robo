@@ -33,5 +33,4 @@ class CleanDirTest extends TestCase
         $this->assertFileDoesNotExist('box/robo.txt');
         $this->assertFileExists('a.txt');
     }
-
 }

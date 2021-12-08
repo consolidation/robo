@@ -59,7 +59,7 @@ class GenerateTask extends BaseTask
                 $argDescription = '$' . $arg->name;
                 $argNameList[] = $argDescription;
                 if ($arg->isOptional()) {
-                    $argDescription = $argDescription . ' = ' . str_replace("\n", "", var_export($arg->getDefaultValue(), true));
+                    $argDescription .= ' = ' . str_replace("\n", "", var_export($arg->getDefaultValue(), true));
                     // We will create wrapper methods for any method that
                     // has default parameters.
                     $needsImplementation = true;
@@ -73,12 +73,28 @@ class GenerateTask extends BaseTask
                 $methodDescriptions[] = "@method $methodName($argPrototypeString)";
 
                 if ($getter) {
-                    $immediateMethods[] = "    public function $methodName($argPrototypeString)\n    {\n        return \$this->delegate->$methodName($argNameListString);\n    }";
+                    $immediateMethods[] = implode("\n", [
+                        "    public function $methodName($argPrototypeString)",
+                        '    {',
+                        "        return \$this->delegate->$methodName($argNameListString);",
+                        '    }',
+                    ]);
                 } elseif ($setter) {
-                    $immediateMethods[] = "    public function $methodName($argPrototypeString)\n    {\n        \$this->delegate->$methodName($argNameListString);\n        return \$this;\n    }";
+                    $immediateMethods[] = implode("\n", [
+                        "    public function $methodName($argPrototypeString)",
+                        '    {',
+                        "        \$this->delegate->$methodName($argNameListString);",
+                        "        return \$this;",
+                        '    }',
+                    ]);
                 } elseif ($needsImplementation) {
                     // Include an implementation for the wrapper method if necessary
-                    $methodImplementations[] = "    protected function _$methodName($argPrototypeString)\n    {\n        \$this->delegate->$methodName($argNameListString);\n    }";
+                    $methodImplementations[] = implode("\n", [
+                        "    protected function _$methodName($argPrototypeString)",
+                        '    {',
+                        "        \$this->delegate->$methodName($argNameListString);",
+                        '    }',
+                    ]);
                 }
             }
         }

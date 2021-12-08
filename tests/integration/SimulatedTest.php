@@ -43,7 +43,4 @@ class SimulatedTest extends TestCase
         $this->assertFileDoesNotExist('simulatedir/error.txt');
         $this->assertOutputContains('[Simulator] Simulating Filesystem\FilesystemStack()');
     }
-
 }
-
-

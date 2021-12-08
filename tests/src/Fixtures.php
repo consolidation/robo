@@ -27,8 +27,7 @@ class Fixtures
         foreach ($this->tmpDirs as $tmpDir) {
             try {
                 $fs->remove($tmpDir);
-            }
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 // Ignore problems with removing fixtures.
             }
         }
@@ -43,7 +42,7 @@ class Fixtures
      */
     public function mktmpdir($basedir = false)
     {
-        $tempfile = tempnam($basedir ?: $this->testDir ?: sys_get_temp_dir(),'robo-tests');
+        $tempfile = tempnam($basedir ?: $this->testDir ?: sys_get_temp_dir(), 'robo-tests');
         unlink($tempfile);
         mkdir($tempfile);
         $this->tmpDirs[] = $tempfile;

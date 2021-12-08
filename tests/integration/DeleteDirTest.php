@@ -34,5 +34,4 @@ class DeleteDirTest extends TestCase
         $this->assertFileDoesNotExist('box');
         $this->assertFileDoesNotExist('box/robo.txt');
     }
-
 }

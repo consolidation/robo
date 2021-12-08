@@ -43,7 +43,10 @@ class Atoum extends BaseTask implements CommandInterface, PrintedInterface
             $this->command = $this->findExecutable('atoum');
         }
         if (!$this->command) {
-            throw new \Robo\Exception\TaskException(__CLASS__, "Neither local atoum nor global composer installation not found");
+            throw new \Robo\Exception\TaskException(
+                __CLASS__,
+                "Neither local atoum nor global composer installation not found"
+            );
         }
     }
 

@@ -43,9 +43,39 @@ class ApiGenTest extends \Codeception\TestCase\Test
             ->tree('Y') // boolean as string
             ->debug('n');
 
-        $linuxCmd = 'apigen generate --config ./apigen.neon --source src --extensions php --exclude test --exclude tmp --skip-doc-path a --skip-doc-path b --charset \'utf8,iso88591\' --internal no --php yes --tree yes --debug no';
+        $linuxCmd = implode(' ', [
+            'apigen',
+            'generate',
+            '--config ./apigen.neon',
+            '--source src',
+            '--extensions php',
+            '--exclude test',
+            '--exclude tmp',
+            '--skip-doc-path a',
+            '--skip-doc-path b',
+            "--charset 'utf8,iso88591'",
+            '--internal no',
+            '--php yes',
+            '--tree yes',
+            '--debug no',
+        ]);
 
-        $winCmd = 'apigen generate --config ./apigen.neon --source src --extensions php --exclude test --exclude tmp --skip-doc-path a --skip-doc-path b --charset "utf8,iso88591" --internal no --php yes --tree yes --debug no';
+        $winCmd = implode(' ', [
+            'apigen',
+            'generate',
+            '--config ./apigen.neon',
+            '--source src',
+            '--extensions php',
+            '--exclude test',
+            '--exclude tmp',
+            '--skip-doc-path a',
+            '--skip-doc-path b',
+            '--charset "utf8,iso88591"',
+            '--internal no',
+            '--php yes',
+            '--tree yes',
+            '--debug no',
+        ]);
 
         $cmd = stripos(PHP_OS, 'WIN') === 0 ? $winCmd : $linuxCmd;
 

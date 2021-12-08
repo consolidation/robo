@@ -19,6 +19,20 @@ class AtoumTest extends \Codeception\TestCase\Test
 
     public function testAtoumCommand()
     {
+        $expectedCommand = implode(' ', [
+            'atoum',
+            '--bootstrap bootstrap.php',
+            '--tags needDb',
+            '--use-light-report',
+            '--use-tap-report',
+            '--bootstrap tests/bootstrap.php',
+            '-c config/dev.php',
+            '--debug',
+            '--f path/to/file1.php',
+            '--f path/to/file2.php',
+            '--directories tests/units',
+        ]);
+
         $task = (new \Robo\Task\Testing\Atoum('atoum'))
             ->bootstrap('bootstrap.php')
             ->tags("needDb")
@@ -28,12 +42,16 @@ class AtoumTest extends \Codeception\TestCase\Test
             ->configFile("config/dev.php")
             ->debug()
             ->files(array("path/to/file1.php", "path/to/file2.php"))
-            ->directories("tests/units")
-        ;
-        $this->assertEquals(
-            'atoum --bootstrap bootstrap.php --tags needDb --use-light-report --use-tap-report --bootstrap tests/bootstrap.php -c config/dev.php --debug --f path/to/file1.php --f path/to/file2.php --directories tests/units',
-            $task->getCommand());
+            ->directories("tests/units");
+
+        $this->assertEquals($expectedCommand, $task->getCommand());
+
         $task->run();
-        $this->atoum->verifyInvoked('executeCommand', ['atoum --bootstrap bootstrap.php --tags needDb --use-light-report --use-tap-report --bootstrap tests/bootstrap.php -c config/dev.php --debug --f path/to/file1.php --f path/to/file2.php --directories tests/units']);
+        $this->atoum->verifyInvoked(
+            'executeCommand',
+            [
+                $expectedCommand,
+            ]
+        );
     }
 }

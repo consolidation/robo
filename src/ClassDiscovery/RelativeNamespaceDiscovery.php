@@ -60,7 +60,7 @@ class RelativeNamespaceDiscovery extends AbstractClassDiscovery
             if ($directories) {
                 foreach ($this->search($directories, $this->searchPattern) as $file) {
                     $relativePathName = $file->getRelativePathname();
-                    $classes[] = $baseNamespace . $this->convertPathToNamespace($relativePath . '/' . $relativePathName);
+                    $classes[] = $baseNamespace . $this->convertPathToNamespace("$relativePath/$relativePathName");
                 }
             }
         }

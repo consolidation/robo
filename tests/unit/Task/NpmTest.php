@@ -45,5 +45,4 @@ class NpmTest extends \Codeception\TestCase\Test
                 ->getCommand()
         );
     }
-
 }

@@ -36,8 +36,31 @@ class SvnTest extends \Codeception\TestCase\Test
 
     public function testSvnStackCommands()
     {
+        $expected = implode(' ', [
+            'svn',
+            '--username guest',
+            '--password foo',
+            'checkout svn://server/trunk',
+            '&&',
+            'svn',
+            '--username guest',
+            '--password foo',
+            'update',
+            '&&',
+            'svn',
+            '--username guest',
+            '--password foo',
+            'add',
+            '&&',
+            'svn',
+            '--username guest',
+            '--password foo',
+            'commit',
+            "-m 'changed'",
+        ]);
+
         $this->assertEquals(
-            "svn --username guest --password foo checkout svn://server/trunk && svn --username guest --password foo update && svn --username guest --password foo add && svn --username guest --password foo commit -m 'changed'",
+            $expected,
             (new \Robo\Task\Vcs\SvnStack('guest', 'foo'))
                 ->checkout('svn://server/trunk')
                 ->update()
@@ -46,5 +69,4 @@ class SvnTest extends \Codeception\TestCase\Test
                 ->getCommand()
         );
     }
-
 }

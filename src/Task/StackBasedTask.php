@@ -115,7 +115,13 @@ abstract class StackBasedTask extends BaseTask
      */
     protected function printTaskProgress($command, $action)
     {
-        $this->printTaskInfo('{command} {action}', ['command' => "{$command[1]}", 'action' => json_encode($action, JSON_UNESCAPED_SLASHES)]);
+        $this->printTaskInfo(
+            '{command} {action}',
+            [
+                'command' => "{$command[1]}",
+                'action' => json_encode($action, JSON_UNESCAPED_SLASHES),
+            ]
+        );
     }
 
     /**

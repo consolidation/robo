@@ -145,14 +145,20 @@ class Replace extends BaseTask
         } else {
             $text = str_replace($this->from, $this->to, $text, $count);
         }
+
+        $messageArgs = [
+            'filename' => $this->filename,
+            'count' => $count,
+        ];
+
         if ($count > 0) {
             $res = file_put_contents($this->filename, $text);
             if ($res === false) {
-                return Result::error($this, "Error writing to file {filename}.", ['filename' => $this->filename]);
+                return Result::error($this, "Error writing to file {filename}.", $messageArgs);
             }
-            $this->printTaskSuccess("{filename} updated. {count} items replaced", ['filename' => $this->filename, 'count' => $count]);
+            $this->printTaskSuccess("{filename} updated. {count} items replaced", $messageArgs);
         } else {
-            $this->printTaskInfo("{filename} unchanged. {count} items replaced", ['filename' => $this->filename, 'count' => $count]);
+            $this->printTaskInfo("{filename} unchanged. {count} items replaced", $messageArgs);
         }
         return Result::success($this, '', ['replaced' => $count]);
     }

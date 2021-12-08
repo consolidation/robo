@@ -46,8 +46,16 @@ class AssetsTest extends TestCase
 
         $this->assertLessThan($initialFileSize, $minifiedFileSize, 'Minified file is smaller than the source file');
         $this->assertGreaterThan(0, $minifiedFileSize, 'Minified file is not empty');
-        $this->assertStringContainsString('body', $outputCssContents, 'Minified file has some content from the source file');
-        $this->assertStringNotContainsString('Sample css file', $outputCssContents, 'Minified file does not contain comment from source file');
+        $this->assertStringContainsString(
+            'body',
+            $outputCssContents,
+            'Minified file has some content from the source file'
+        );
+        $this->assertStringNotContainsString(
+            'Sample css file',
+            $outputCssContents,
+            'Minified file does not contain comment from source file'
+        );
     }
 
     public function testImageMinification()

@@ -1,9 +1,10 @@
 <?php
-use Symfony\Component\Finder\Finder;
 
 use Robo\Symfony\ConsoleIO;
+use Robo\Tasks;
+use Symfony\Component\Finder\Finder;
 
-class RoboFile extends \Robo\Tasks
+class RoboFile extends Tasks
 {
     const MAIN_BRANCH = '3.x';
 
@@ -14,12 +15,14 @@ class RoboFile extends \Robo\Tasks
      * to run the tests. This command also runs the remaining Codeception
      * tests. You must re-add Codeception to the project to use this.
      */
-    public function test(ConsoleIO $io, array $args, $options =
-        [
+    public function test(
+        ConsoleIO $io,
+        array $args,
+        $options = [
             'coverage-html' => false,
             'coverage' => false
-        ])
-    {
+        ]
+    ) {
         $io->warning("Deprecated: use 'composer test' instead. Codeception-based tests will fail.");
 
         $collection = $this->collectionBuilder($io);
@@ -37,7 +40,7 @@ class RoboFile extends \Robo\Tasks
         }
 
         return $collection;
-     }
+    }
 
     /**
      * Code sniffer.
@@ -52,23 +55,61 @@ class RoboFile extends \Robo\Tasks
      */
     public function sniff(
         ConsoleIO $io,
-        $file = 'src/',
+        $file = '',
         $options = [
             'autofix' => false,
             'strict' => false,
         ]
     ) {
-        $strict = $options['strict'] ? '' : '-n';
-        $result = $this->collectionBuilder($io)->taskExec("./vendor/bin/phpcs --standard=PSR2 {$strict} {$file}")->run();
+        $command = $this->getPhpcsCommand($file, $options);
+
+        $result = $this->collectionBuilder($io)->taskExec($command)->run();
         if (!$result->wasSuccessful()) {
             if (!$options['autofix']) {
                 $options['autofix'] = $this->confirm('Would you like to run phpcbf to fix the reported errors?');
             }
             if ($options['autofix']) {
-                $result = $this->taskExec("./vendor/bin/phpcbf --standard=PSR2 {$file}")->run();
+                $result = $this->taskExec($this->getPhpcbfCommand($file))->run();
             }
         }
         return $result;
+    }
+
+    /**
+     * @param string $file
+     * @param array $options
+     *
+     * @return string
+     */
+    protected function getPhpcsCommand($file = '', array $options = [])
+    {
+        $options += [
+            'strict' => false,
+        ];
+
+        $cmdPattern = './vendor/bin/phpcs';
+        $cmdArgs = [];
+
+        if ($options['strict']) {
+            $cmdPattern .= ' -n';
+        }
+
+        if ($file !== '') {
+            $cmdPattern .= ' %s';
+            $cmdArgs[] = escapeshellarg($file);
+        }
+
+        return vsprintf($cmdPattern, $cmdArgs);
+    }
+
+    /**
+     * @param string $file
+     *
+     * @return string
+     */
+    protected function getPhpcbfCommand($file = '')
+    {
+        return './vendor/bin/phpcbf' . ($file !== '' ? ' ' . escapeshellarg($file) : '');
     }
 
     /**
@@ -95,8 +136,7 @@ class RoboFile extends \Robo\Tasks
         $stable = !$opts['beta'];
         if ($stable) {
             $version = preg_replace('/-.*/', '', $version);
-        }
-        else {
+        } else {
             $version = $this->incrementVersion($version, 'beta');
         }
         $this->writeVersion($this->collectionBuilder($io), $version);

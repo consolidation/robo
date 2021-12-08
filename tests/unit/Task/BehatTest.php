@@ -20,7 +20,14 @@ class BehatTest extends \Codeception\TestCase\Test
     // tests
     public function testBehatRun()
     {
-        $behat = test::double('Robo\Task\Testing\Behat', ['executeCommand' => null, 'getConfig' => new \Robo\Config(), 'logger' => new \Psr\Log\NullLogger()]);
+        $behat = test::double(
+            'Robo\Task\Testing\Behat',
+            [
+                'executeCommand' => null,
+                'getConfig' => new \Robo\Config(),
+                'logger' => new \Psr\Log\NullLogger(),
+            ]
+        );
 
         (new \Robo\Task\Testing\Behat('behat'))->run();
         $behat->verifyInvoked('executeCommand');
@@ -28,7 +35,14 @@ class BehatTest extends \Codeception\TestCase\Test
 
     public function testBehatCommand()
     {
-        $behat = test::double('Robo\Task\Testing\Behat', ['executeCommand' => null, 'getConfig' => new \Robo\Config(), 'logger' => new \Psr\Log\NullLogger()]);
+        $behat = test::double(
+            'Robo\Task\Testing\Behat',
+            [
+                'executeCommand' => null,
+                'getConfig' => new \Robo\Config(),
+                'logger' => new \Psr\Log\NullLogger(),
+            ]
+        );
 
         $task = (new \Robo\Task\Testing\Behat('behat'))
             ->stopOnFail()
@@ -36,9 +50,9 @@ class BehatTest extends \Codeception\TestCase\Test
             ->colors();
         $this->assertEquals(
             'behat --stop-on-failure --no-interaction --colors',
-            $task->getCommand());
+            $task->getCommand()
+        );
         $task->run();
         $behat->verifyInvoked('executeCommand', ['behat --stop-on-failure --no-interaction --colors']);
     }
-
 }

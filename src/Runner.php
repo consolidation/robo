@@ -380,7 +380,7 @@ class Runner implements ContainerAwareInterface
             }
 
             $commandFileName = "{$commandClass}Commands";
-            $container->share($commandFileName, $commandClass);
+            $container->addShared($commandFileName, $commandClass);
             $commandClass = $container->get($commandFileName);
         }
         // If the command class is a Builder Aware Interface, then

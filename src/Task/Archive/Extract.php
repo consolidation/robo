@@ -232,19 +232,19 @@ class Extract extends BaseTask implements BuilderAwareInterface
                     switch ($data[1]) {
                         case 0x8b1f:
                             // First two bytes of gzip files are 0x1f, 0x8b (little-endian).
-                            // See http://www.gzip.org/zlib/rfc-gzip.html#header-trailer
+                            // See https://www.gzip.org/zlib/rfc-gzip.html#header-trailer
                             $content_type = 'application/x-gzip';
                             break;
 
                         case 0x4b50:
                             // First two bytes of zip files are 0x50, 0x4b ('PK') (little-endian).
-                            // See http://en.wikipedia.org/wiki/Zip_(file_format)#File_headers
+                            // See https://en.wikipedia.org/wiki/Zip_(file_format)#File_headers
                             $content_type = 'application/zip';
                             break;
 
                         case 0x5a42:
                             // First two bytes of bzip2 files are 0x5a, 0x42 ('BZ') (big-endian).
-                            // See http://en.wikipedia.org/wiki/Bzip2#File_format
+                            // See https://en.wikipedia.org/wiki/Bzip2#File_format
                             $content_type = 'application/x-bzip2';
                             break;
                     }

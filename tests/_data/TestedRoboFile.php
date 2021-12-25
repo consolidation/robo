@@ -5,6 +5,7 @@ class TestedRoboFile extends \Robo\Tasks
     {
     }
 
+    #[\ReturnTypeWillChange]
     public function hello($name = null, $opts = ['yell' => false, 'to' => null]) {
     }
 

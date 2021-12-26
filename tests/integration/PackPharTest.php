@@ -24,6 +24,10 @@ class PackPharTest extends TestCase
 
     public function testAddStrippedFileContainingAnnotation()
     {
+        if (ini_get('phar.readonly') === '1') {
+            $this->markTestSkipped('phar.readonly = 1');
+        }
+
         $this->fixtures->createAndCdToSandbox();
 
         $pharFile = 'test.phar';

@@ -150,7 +150,7 @@ jobs:
 
       - name: Install highest dependencies with composer
         if: matrix.dependencies == 'highest'
-        run: composer update --no-ansi --no-interaction --no-progress
+        run: composer config --unset platform.php && composer update --no-ansi --no-interaction --no-progress
 
       - name: Run tests with phpunit
         run: composer unit

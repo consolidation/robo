@@ -3,11 +3,10 @@
 ## ImageMinify
 
 
-Minifies images. When the required minifier is not installed on the system
-the task will try to download it from the [imagemin](https://github.com/imagemin) repository.
+Minifies images.
 
-When the task is run without any specified minifier it will compress the images
-based on the extension.
+When the task is run without any specified minifier it will compress the
+images based on the extension.
 
 ```php
 $this->taskImageMinify('assets/images/*')
@@ -15,15 +14,27 @@ $this->taskImageMinify('assets/images/*')
     ->run();
 ```
 
-This will use the following minifiers:
+This will use the following minifiers based in the extension:
 
 - PNG: optipng
 - GIF: gifsicle
 - JPG, JPEG: jpegtran
 - SVG: svgo
 
-When the minifier is specified the task will use that for all the input files. In that case
-it is useful to filter the files with the extension:
+When the required minifier is not installed on the system the task will try
+to download it from the [imagemin](https://github.com/imagemin) repository
+into a local directory.
+This directory is `vendor/bin/` by default and may be changed:
+
+```php
+$this->taskImageMinify('assets/images/*')
+    ->setExecutableDir('/tmp/imagemin/bin/)
+    ->to('dist/images/')
+    ->run();
+```
+
+When the minifier is specified the task will use that for all the input
+files. In that case it is useful to filter the files with the extension:
 
 ```php
 $this->taskImageMinify('assets/images/*.png')
@@ -58,6 +69,7 @@ $this->taskImageMinify('assets/images/*.jpg')
 This will execute as:
 `jpegtran -copy none -progressive -optimize -outfile "dist/images/test.jpg" "/var/www/test/assets/images/test.jpg"`
 
+* `setExecutableDir($directory)`  Sets the target directory for executables (`vendor/bin/` by default)
 * `to($target)`  Sets the target directory where the files will be copied to.
 * `minifier($minifier, array $options = Array ( ) )`  Sets the minifier.
 * `setOutput($output)`  Sets the Console Output.

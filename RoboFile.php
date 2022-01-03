@@ -114,7 +114,9 @@ class RoboFile extends \Robo\Tasks
             $this->pharPublish($io);
         }
 
-        $this->publish($io);
+        // Skip publishing site until it works again.
+        // $this->publish($io);
+
         $this->collectionBuilder($io)->taskGitStack()
             ->tag($version)
             ->push('origin ' . self::MAIN_BRANCH . ' --tags')

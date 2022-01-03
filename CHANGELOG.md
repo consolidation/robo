@@ -1,5 +1,15 @@
 # Changelog
 
+### 3.0.7 12/30/2021
+
+* PHP 8.1 & Symfony 6 (#1092, #1091)
+* PackPhar: Don't strip PHP8 attributes by Gintautas Miselis (#1084)
+* Fix image minifier task by Dan Untenzu (#1052)
+
+### 3.0.6 10/5/2021
+
+* Use consolidation/self-update ^2
+
 ### 3.0.4 08/28/2021
 
 * Undeprecate escapeArgument() by Mark Dorison (#1039)

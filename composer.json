@@ -59,7 +59,7 @@
         "optimize-autoloader": true,
         "sort-packages": true,
         "platform": {
-            "php": "7.2"
+            "php": "7.2.28"
         }
     },
     "extra": {

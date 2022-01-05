@@ -227,7 +227,7 @@ class Robo
      * @param mixed $concrete
      * @return \League\Container\Definition\DefinitionInterface
      */
-    private static function addShared(ContainerInterface $container, string $id, $concrete)
+    public static function addShared(ContainerInterface $container, string $id, $concrete)
     {
         if (method_exists($container, 'addShared')) {
             return $container->addShared($id, $concrete);

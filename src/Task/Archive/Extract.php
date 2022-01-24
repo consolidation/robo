@@ -99,13 +99,15 @@ class Extract extends BaseTask implements BuilderAwareInterface
             return false;
         }
 
+        $umask = 0777 - umask();
+
         // We will first extract to $extractLocation and then move to $this->to
-        $extractLocation = static::getTmpDir();
-        @mkdir($extractLocation);
+        $extractLocation = $this->getTempDir();
+        @mkdir($extractLocation, $umask, true);
 
         $destinationParentDir = dirname($this->to);
         if (!file_exists($destinationParentDir)) {
-            @mkdir($destinationParentDir);
+            @mkdir($destinationParentDir, $umask, true);
         }
 
         $this->startTimer();
@@ -275,6 +277,18 @@ class Extract extends BaseTask implements BuilderAwareInterface
 
     /**
      * @return string
+     */
+    protected function getTempDir()
+    {
+        return $this->to . '-tmp' . rand() . time();
+    }
+
+    /**
+     * @deprecated Use $this->getTempDir() instead.
+     *
+     * @return string
+     *
+     * @see getTempDir
      */
     protected static function getTmpDir()
     {

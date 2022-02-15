@@ -1,5 +1,15 @@
 # Changelog
 
+### 3.0.8 2/15/2022
+
+* Fix bug when using dot-access-data ^3 (#1104)
+* ProgressIndicator uses the stdError by Andor (#1101)
+* Use TaskAccessor trait in Task\Archive\Extract by Andor (#1089)
+* Avoid cross volume rename in Task\Archive\Extract by Andor (#1090)
+* Fixing PHPDoc block @param on BuilderAwareTrait::collectionBuilder by Jay Klehr (#1096)
+* League container 4 by Nicos Panayides (#1083)
+* PHP 8.1 TimeKeeper implicit conversion from float to int by Andor (#1095)
+
 ### 3.0.7 12/30/2021
 
 * PHP 8.1 & Symfony 6 (#1092, #1091)
@@ -13,7 +23,7 @@
 ### 3.0.4 08/28/2021
 
 * Undeprecate escapeArgument() by Mark Dorison (#1039)
-* Add setProcessInput and deprecate setInput by Rodrigo(#1034)
+* Add setProcessInput and deprecate setInput by Rodrigo (#1034)
 * Add array as a type accepted for argv parameter by Rodrigo (#1032)
 * Fix null return in createContainer by Rodrigo (#1031)
 * Fix mkdir error in taskExtract on PHP 8 by wxa (#1028)

@@ -27,6 +27,7 @@ $this->taskExtract($archivePath)
 * `to($to)`  Location to store extracted files.
 * `preserveTopDirectory($preserve = null)`   * `param bool` $preserve
 * `setOutput($output)`  Sets the Console Output.
+* `getBuiltTask($fn, $args)`  Provides the collection builder with access to all of the
 
 ## Pack
 

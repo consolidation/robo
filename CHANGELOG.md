@@ -1,5 +1,9 @@
 # Changelog
 
+### 3.0.10 2/21/2022
+
+* symfony/process ^6
+
 ### 3.0.8 2/15/2022
 
 * Fix bug when using dot-access-data ^3 (#1104)

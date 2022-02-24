@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "33dc99f2d28b5922494f032f1d0b0b4f",
+    "content-hash": "22660204f7daee5f72d461147ac0b33e",
     "packages": [
         {
             "name": "composer/semver",
@@ -205,16 +205,16 @@
         },
         {
             "name": "consolidation/log",
-            "version": "dev-psr-log-2",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/log.git",
-                "reference": "656e0e423baae014f8c17eaf22af2b04c5e06de0"
+                "reference": "3ad08dc57e8aff9400111bad36beb0ed387fe6a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/log/zipball/656e0e423baae014f8c17eaf22af2b04c5e06de0",
-                "reference": "656e0e423baae014f8c17eaf22af2b04c5e06de0",
+                "url": "https://api.github.com/repos/consolidation/log/zipball/3ad08dc57e8aff9400111bad36beb0ed387fe6a9",
+                "reference": "3ad08dc57e8aff9400111bad36beb0ed387fe6a9",
                 "shasum": ""
             },
             "require": {
@@ -251,9 +251,9 @@
             "description": "Improved Psr-3 / Psr\\Log logger based on Symfony Console components.",
             "support": {
                 "issues": "https://github.com/consolidation/log/issues",
-                "source": "https://github.com/consolidation/log/tree/psr-log-2"
+                "source": "https://github.com/consolidation/log/tree/2.1.1"
             },
-            "time": "2022-02-24T00:06:53+00:00"
+            "time": "2022-02-24T04:27:32+00:00"
         },
         {
             "name": "consolidation/output-formatters",
@@ -446,7 +446,7 @@
         },
         {
             "name": "grasmash/expander",
-            "version": "dev-master",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/grasmash/expander.git",
@@ -469,7 +469,6 @@
                 "phpunit/phpunit": "^6.0 || ^8.0 || ^9",
                 "squizlabs/php_codesniffer": "^2.7 || ^3.3"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -4138,19 +4137,9 @@
             "time": "2020-11-25T02:59:57+00:00"
         }
     ],
-    "aliases": [
-        {
-            "package": "grasmash/expander",
-            "version": "9999999-dev",
-            "alias": "2.0.1",
-            "alias_normalized": "2.0.1.0"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "grasmash/expander": 20,
-        "consolidation/log": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

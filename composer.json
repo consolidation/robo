@@ -26,6 +26,7 @@
         "php": ">=7.1.3",
         "consolidation/annotated-command": "^4.3",
         "consolidation/config": "^1.2.1 || ^2.0.1",
+        "grasmash/expander": "dev-master as 2.0.1",
         "consolidation/log": "dev-psr-log-2",
         "consolidation/output-formatters": "^4.1.2",
         "consolidation/self-update": "^2.0",
@@ -57,10 +58,7 @@
     },
     "config": {
         "optimize-autoloader": true,
-        "sort-packages": true,
-        "platform": {
-            "php": "7.2.28"
-        }
+        "sort-packages": true
     },
     "extra": {
         "scenarios": {

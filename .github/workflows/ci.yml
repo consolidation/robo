@@ -60,7 +60,7 @@ jobs:
       - name: Install roave/backward-compatibility-check
         run: |
           mkdir -p tools
-          composer --working-dir=tools require roave/backward-compatibility-check:^7
+          composer --working-dir=tools require roave/backward-compatibility-check:^6
 
       - name: Run roave/backward-compatibility-check
         run: ./tools/vendor/bin/roave-backward-compatibility-check --from=3.0.8

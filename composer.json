@@ -26,7 +26,7 @@
         "php": ">=7.1.3",
         "consolidation/annotated-command": "^4.3",
         "consolidation/config": "^1.2.1 || ^2.0.1",
-        "consolidation/log": "^1.1.1 || ^2.0.2",
+        "consolidation/log": "^1.1.1 || ^2.0.2 || ^3.0.0" ,
         "consolidation/output-formatters": "^4.1.2",
         "consolidation/self-update": "^2.0",
         "league/container": "^3.3.1 || ^4.0",

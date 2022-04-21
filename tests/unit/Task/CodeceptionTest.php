@@ -23,7 +23,8 @@ class CodeceptionTest extends \Codeception\TestCase\Test
     {
         $this->assertEquals(
             'codecept.phar run',
-            trim((new \Robo\Task\Testing\Codecept('codecept.phar'))->getCommand()));
+            trim((new \Robo\Task\Testing\Codecept('codecept.phar'))->getCommand())
+        );
     }
 
     public function testCodeceptionRun()
@@ -50,6 +51,7 @@ class CodeceptionTest extends \Codeception\TestCase\Test
 
         $failGroupName = 'failed1';
         $this->assertRegExp(
+            // phpcs:ignore
             "|^codecept run tests/unit/Codeception -c ~/Codeception --xml result\\.xml --html --no-rebuild --override ['\"]extensions: config: Codeception\\\\Extension\\\\RunFailed: fail-group: {$failGroupName}['\"]$|",
             (new \Robo\Task\Testing\Codecept('codecept'))
             ->test('tests/unit/Codeception')
@@ -63,26 +65,34 @@ class CodeceptionTest extends \Codeception\TestCase\Test
 
         $this->assertContains(
             ' --debug',
-            (new \Robo\Task\Testing\Codecept('codecept.phar'))->debug()->getCommand());
+            (new \Robo\Task\Testing\Codecept('codecept.phar'))->debug()->getCommand()
+        );
         $this->assertContains(
             ' --silent',
-            (new \Robo\Task\Testing\Codecept('codecept.phar'))->silent()->getCommand());
+            (new \Robo\Task\Testing\Codecept('codecept.phar'))->silent()->getCommand()
+        );
         $this->assertContains(
             ' --skip-group g',
-            (new \Robo\Task\Testing\Codecept('codecept.phar'))->excludeGroup('g')->getCommand());
+            (new \Robo\Task\Testing\Codecept('codecept.phar'))->excludeGroup('g')->getCommand()
+        );
         $this->assertContains(
             '--tap',
-            (new \Robo\Task\Testing\Codecept('codecept.phar'))->tap()->getCommand());
+            (new \Robo\Task\Testing\Codecept('codecept.phar'))->tap()->getCommand()
+        );
         $this->assertContains(
             '--json',
-            (new \Robo\Task\Testing\Codecept('codecept.phar'))->json()->getCommand());
+            (new \Robo\Task\Testing\Codecept('codecept.phar'))->json()->getCommand()
+        );
         $this->assertContains(
             '--no-rebuild',
-            (new \Robo\Task\Testing\Codecept('codecept.phar'))->noRebuild()->getCommand());
+            (new \Robo\Task\Testing\Codecept('codecept.phar'))->noRebuild()->getCommand()
+        );
+
         $failGroupName = 'failed2';
         $this->assertRegExp(
+            // phpcs:ignore
             "|--override ['\"]extensions: config: Codeception\\\\Extension\\\\RunFailed: fail-group: {$failGroupName}['\"]|",
-            (new \Robo\Task\Testing\Codecept('codecept.phar'))->failGroup($failGroupName)->getCommand());
+            (new \Robo\Task\Testing\Codecept('codecept.phar'))->failGroup($failGroupName)->getCommand()
+        );
     }
-
 }

@@ -55,7 +55,10 @@ class Phpspec extends BaseTask implements CommandInterface, PrintedInterface
             $this->command = $this->findExecutable('phpspec');
         }
         if (!$this->command) {
-            throw new \Robo\Exception\TaskException(__CLASS__, "Neither composer nor phar installation of Phpspec found");
+            throw new \Robo\Exception\TaskException(
+                __CLASS__,
+                "Neither composer nor phar installation of Phpspec found"
+            );
         }
         $this->arg('run');
     }

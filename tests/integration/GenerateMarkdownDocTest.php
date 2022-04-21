@@ -96,5 +96,4 @@ class GenerateMarkdownDocTest extends TestCase
         $this->assertStringContainsString('taskTestedRoboTask', $contents);
         $this->assertStringContainsString('Set the destination file', $contents);
     }
-
 }

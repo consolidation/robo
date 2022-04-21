@@ -20,8 +20,8 @@ class GenerateTaskTest extends TestCase
         $result = $this->taskGenTask('Symfony\Component\Filesystem\Filesystem', 'FilesystemStack')->run();
         $this->assertTrue($result->wasSuccessful(), $result->getMessage());
         $this->assertStringContainsString(
-          'protected function _chgrp($files, $group, $recursive = false)',
-          $result->getMessage());
+            'protected function _chgrp($files, $group, $recursive = false)',
+            $result->getMessage()
+        );
     }
-
 }

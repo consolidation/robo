@@ -174,12 +174,25 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
                 try {
                     $process->checkTimeout();
                 } catch (ProcessTimedOutException $e) {
-                    $this->printTaskWarning("Process timed out for {command}", ['command' => $process->getCommandLine(), '_style' => ['command' => 'fg=white;bg=magenta']]);
+                    $this->printTaskWarning(
+                        "Process timed out for {command}",
+                        [
+                            'command' => $process->getCommandLine(),
+                            '_style' => ['command' => 'fg=white;bg=magenta'],
+                        ]
+                    );
                 }
                 if (!$process->isRunning()) {
                     $this->advanceProgressIndicator();
                     if ($this->isPrinted) {
-                        $this->printTaskInfo("Output for {command}:\n\n{output}", ['command' => $process->getCommandLine(), 'output' => $process->getOutput(), '_style' => ['command' => 'fg=white;bg=magenta']]);
+                        $this->printTaskInfo(
+                            "Output for {command}:\n\n{output}",
+                            [
+                                'command' => $process->getCommandLine(),
+                                'output' => $process->getOutput(),
+                                '_style' => ['command' => 'fg=white;bg=magenta'],
+                            ]
+                        );
                         $errorOutput = $process->getErrorOutput();
                         if ($errorOutput) {
                             $this->printTaskError(rtrim($errorOutput));
@@ -205,7 +218,12 @@ class ParallelExec extends BaseTask implements CommandInterface, PrintedInterfac
             $exitCode = max($exitCode, $p->getExitCode());
         }
         if (!$errorMessage) {
-            $this->printTaskSuccess('{process-count} processes finished running', ['process-count' => count($this->processes)]);
+            $this->printTaskSuccess(
+                '{process-count} processes finished running',
+                [
+                    'process-count' => count($this->processes),
+                ]
+            );
         }
 
         return new Result($this, $exitCode, $errorMessage, ['time' => $this->getExecutionTime()]);

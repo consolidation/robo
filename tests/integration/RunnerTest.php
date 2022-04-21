@@ -194,7 +194,9 @@ EOT;
         $argv = ['placeholder', 'no-such-command', '-f', 'no-such-directory'];
         $result = $runnerWithNoRoboFile->execute($argv, null, null, $this->capturedOutputStream());
 
-        $this->assertOutputContains('Path `no-such-directory` is invalid; please provide a valid absolute path to the Robofile to load.');
+        $this->assertOutputContains(
+            'Path `no-such-directory` is invalid; please provide a valid absolute path to the Robofile to load.'
+        );
     }
 
     public function testUnloadableRoboFile()

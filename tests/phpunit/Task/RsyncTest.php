@@ -7,9 +7,37 @@ class RsyncTest extends TestCase
     // tests
     public function testRsync()
     {
-        $linuxCmd = 'rsync --recursive --exclude .git --exclude .svn --exclude .hg --checksum --whole-file --verbose --progress --human-readable --stats src/ \'dev@localhost:/var/www/html/app/\'';
+        $linuxCmd = implode(' ', [
+            'rsync',
+            '--recursive',
+            '--exclude .git',
+            '--exclude .svn',
+            '--exclude .hg',
+            '--checksum',
+            '--whole-file',
+            '--verbose',
+            '--progress',
+            '--human-readable',
+            '--stats',
+            'src/',
+            "'dev@localhost:/var/www/html/app/'",
+        ]);
 
-        $winCmd = 'rsync --recursive --exclude .git --exclude .svn --exclude .hg --checksum --whole-file --verbose --progress --human-readable --stats src/ "dev@localhost:/var/www/html/app/"';
+        $winCmd = implode(' ', [
+            'rsync',
+            '--recursive',
+            '--exclude .git',
+            '--exclude .svn',
+            '--exclude .hg',
+            '--checksum',
+            '--whole-file',
+            '--verbose',
+            '--progress',
+            '--human-readable',
+            '--stats',
+            'src/',
+            '"dev@localhost:/var/www/html/app/"',
+        ]);
 
         $cmd = stripos(PHP_OS, 'WIN') === 0 ? $winCmd : $linuxCmd;
 

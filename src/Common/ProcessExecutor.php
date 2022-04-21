@@ -8,7 +8,11 @@ use Robo\Contract\OutputAwareInterface;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Process\Process;
 
-class ProcessExecutor implements ConfigAwareInterface, LoggerAwareInterface, OutputAwareInterface, VerbosityThresholdInterface
+class ProcessExecutor implements
+    ConfigAwareInterface,
+    LoggerAwareInterface,
+    OutputAwareInterface,
+    VerbosityThresholdInterface
 {
     use ExecTrait;
     use TaskIO; // uses LoggerAwareTrait and ConfigAwareTrait

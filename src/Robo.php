@@ -3,9 +3,12 @@
 namespace Robo;
 
 use Composer\Autoload\ClassLoader;
+use Consolidation\AnnotatedCommand\Options\AlterOptionsCommandEvent;
+use Consolidation\AnnotatedCommand\Options\PrepareTerminalWidthOption;
 use League\Container\Container;
 use League\Container\Definition\DefinitionInterface;
 use Psr\Container\ContainerInterface;
+use Robo\ClassDiscovery\RelativeNamespaceDiscovery;
 use Robo\Common\ProcessExecutor;
 use Consolidation\Config\ConfigInterface;
 use Consolidation\Config\Loader\ConfigProcessor;
@@ -43,8 +46,14 @@ class Robo
      *
      * @return int
      */
-    public static function run($argv, $commandClasses, $appName = null, $appVersion = null, $output = null, $repository = null)
-    {
+    public static function run(
+        $argv,
+        $commandClasses,
+        $appName = null,
+        $appVersion = null,
+        $output = null,
+        $repository = null
+    ) {
         $runner = new \Robo\Runner($commandClasses);
         $runner->setSelfUpdateRepository($repository);
         $statusCode = $runner->execute($argv, $appName, $appVersion, $output);
@@ -80,6 +89,7 @@ class Robo
     public static function getContainer()
     {
         if (static::$container === null) {
+            // phpcs:ignore
             throw new \RuntimeException('container is not initialized yet. \Robo\Robo::setContainer() must be called with a real container.');
         }
         return static::$container;
@@ -183,8 +193,13 @@ class Robo
      *
      * @return \Psr\Container\ContainerInterface
      */
-    public static function createDefaultContainer($input = null, $output = null, $app = null, $config = null, $classLoader = null)
-    {
+    public static function createDefaultContainer(
+        $input = null,
+        $output = null,
+        $app = null,
+        $config = null,
+        $classLoader = null
+    ) {
         // Do not allow this function to be called more than once.
         if (static::hasContainer()) {
             return static::getContainer();
@@ -254,8 +269,14 @@ class Robo
      * @param null|\Symfony\Component\Console\Output\OutputInterface $output
      * @param null|\Composer\Autoload\ClassLoader $classLoader
      */
-    public static function configureContainer(ContainerInterface $container, SymfonyApplication $app, ConfigInterface $config, $input = null, $output = null, $classLoader = null)
-    {
+    public static function configureContainer(
+        ContainerInterface $container,
+        SymfonyApplication $app,
+        ConfigInterface $config,
+        $input = null,
+        $output = null,
+        $classLoader = null
+    ) {
         // Self-referential container refernce for the inflector
         $container->add('container', $container);
         static::setContainer($container);
@@ -304,7 +325,7 @@ class Robo
             ->addArgument('config')
             ->addMethodCall('setApplication', ['application']);
         self::addShared($container, 'collectionProcessHook', \Robo\Collection\CollectionProcessHook::class);
-        self::addShared($container, 'alterOptionsCommandEvent', \Consolidation\AnnotatedCommand\Options\AlterOptionsCommandEvent::class)
+        self::addShared($container, 'alterOptionsCommandEvent', AlterOptionsCommandEvent::class)
             ->addArgument('application');
         self::addShared($container, 'hookManager', \Consolidation\AnnotatedCommand\Hooks\HookManager::class)
             ->addMethodCall('addCommandEvent', ['alterOptionsCommandEvent'])
@@ -316,7 +337,7 @@ class Robo
         self::addShared($container, 'formatterManager', \Consolidation\OutputFormatters\FormatterManager::class)
             ->addMethodCall('addDefaultFormatters', [])
             ->addMethodCall('addDefaultSimplifiers', []);
-        self::addShared($container, 'prepareTerminalWidthOption', \Consolidation\AnnotatedCommand\Options\PrepareTerminalWidthOption::class)
+        self::addShared($container, 'prepareTerminalWidthOption', PrepareTerminalWidthOption::class)
             ->addMethodCall('setApplication', ['application']);
         self::addShared($container, 'symfonyStyleInjector', \Robo\Symfony\SymfonyStyleInjector::class);
         self::addShared($container, 'consoleIOInjector', \Robo\Symfony\ConsoleIOInjector::class);
@@ -343,7 +364,7 @@ class Robo
             // Public methods from the class Robo\Commo\IO that should not be
             // added as available commands.
             ->addMethodCall('addIgnoredCommandsRegexp', ['/^currentState$|^restoreState$/']);
-        self::addShared($container, 'relativeNamespaceDiscovery', \Robo\ClassDiscovery\RelativeNamespaceDiscovery::class)
+        self::addShared($container, 'relativeNamespaceDiscovery', RelativeNamespaceDiscovery::class)
             ->addArgument('classLoader');
 
         // Deprecated: favor using collection builders to direct use of collections.

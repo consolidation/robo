@@ -54,7 +54,8 @@ class CliHelper extends \Codeception\Module implements ContainerAwareInterface
         $this->assertTrue(is_dir($dir) && file_exists($dir), "Directory does not exist");
     }
 
-    public function _before(\Codeception\TestCase $test) {
+    public function _before(\Codeception\TestCase $test)
+    {
         $container = new \League\Container\Container();
         $this->initSeeInOutputTrait($container);
         Robo::setContainer($container);
@@ -63,7 +64,8 @@ class CliHelper extends \Codeception\Module implements ContainerAwareInterface
         $this->getModule('Filesystem')->copyDir(codecept_data_dir().'claypit', codecept_data_dir().'sandbox');
     }
 
-    public function _after(\Codeception\TestCase $test) {
+    public function _after(\Codeception\TestCase $test)
+    {
         $this->getModule('Filesystem')->deleteDir(codecept_data_dir().'sandbox');
         $this->getContainer()->add('output', new ConsoleOutput());
         chdir(codecept_root_dir());

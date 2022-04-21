@@ -171,7 +171,10 @@ class Pack extends BaseTask implements PrintedInterface
         $fileInfo = new \SplFileInfo($this->archiveFile);
         $extension = strtolower($fileInfo->getExtension());
         if (empty($extension)) {
-            return Result::error($this, "Archive filename must use an extension (e.g. '.zip') to specify the kind of archive to create.");
+            return Result::error(
+                $this,
+                "Archive filename must use an extension (e.g. '.zip') to specify the kind of archive to create."
+            );
         }
 
         try {
@@ -184,7 +187,14 @@ class Pack extends BaseTask implements PrintedInterface
             }
             $this->printTaskSuccess("{filename} created.", ['filename' => $this->archiveFile]);
         } catch (\Exception $e) {
-            $this->printTaskError("Could not create {filename}. {exception}", ['filename' => $this->archiveFile, 'exception' => $e->getMessage(), '_style' => ['exception' => '']]);
+            $this->printTaskError(
+                "Could not create {filename}. {exception}",
+                [
+                    'filename' => $this->archiveFile,
+                    'exception' => $e->getMessage(),
+                    '_style' => ['exception' => ''],
+                ]
+            );
             $result = Result::error($this, sprintf('Could not create %s. %s', $this->archiveFile, $e->getMessage()));
         }
         $this->stopTimer();
@@ -217,7 +227,11 @@ class Pack extends BaseTask implements PrintedInterface
                 $p_remove_dir = dirname($filesystemLocation);
                 $p_add_dir = dirname($placementLocation);
                 if (basename($filesystemLocation) != basename($placementLocation)) {
-                    return Result::error($this, "Tar archiver does not support renaming files during extraction; could not add $filesystemLocation as $placementLocation.");
+                    return Result::error(
+                        $this,
+                        // phpcs:ignore
+                        "Tar archiver does not support renaming files during extraction; could not add $filesystemLocation as $placementLocation."
+                    );
                 }
             }
 
@@ -274,7 +288,11 @@ class Pack extends BaseTask implements PrintedInterface
                     $relativePathname = str_replace('\\', '/', $file->getRelativePathname());
 
                     if (!$zip->addFile($file->getRealpath(), "{$placementLocation}/{$relativePathname}")) {
-                        return Result::error($this, "Could not add directory $filesystemLocation to the archive; error adding {$file->getRealpath()}.");
+                        return Result::error(
+                            $this,
+                            // phpcs:ignore
+                            "Could not add directory $filesystemLocation to the archive; error adding {$file->getRealpath()}."
+                        );
                     }
                 }
             } elseif (is_file($filesystemLocation)) {

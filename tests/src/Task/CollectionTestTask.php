@@ -46,4 +46,3 @@ class CollectionTestTask extends BaseTask
         return $this->getValue();
     }
 }
-

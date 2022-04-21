@@ -13,7 +13,14 @@ use Robo\Contract\ConfigAwareInterface;
 use Psr\Log\LoggerAwareInterface;
 use Robo\Contract\OutputAwareInterface;
 
-abstract class BaseTask implements TaskInterface, LoggerAwareInterface, VerbosityThresholdInterface, ConfigAwareInterface, ProgressIndicatorAwareInterface, InflectionInterface, OutputAwareInterface
+abstract class BaseTask implements
+    TaskInterface,
+    LoggerAwareInterface,
+    VerbosityThresholdInterface,
+    ConfigAwareInterface,
+    ProgressIndicatorAwareInterface,
+    InflectionInterface,
+    OutputAwareInterface
 {
     use TaskIO; // uses LoggerAwareTrait, OutputAwareTrait, VerbosityThresholdTrait and ConfigAwareTrait
     use ProgressIndicatorAwareTrait;

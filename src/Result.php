@@ -70,7 +70,11 @@ class Result extends ResultData implements OutputAwareInterface, InflectionInter
         if (is_array($result)) {
             return static::success($task, '', $result);
         }
-        throw new \Exception(sprintf('Task %s returned a %s instead of a \Robo\Result.', get_class($task), get_class($result)));
+        throw new \Exception(sprintf(
+            'Task %s returned a %s instead of a \Robo\Result.',
+            get_class($task),
+            get_class($result)
+        ));
     }
 
     protected function printResult()

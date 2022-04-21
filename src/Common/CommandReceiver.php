@@ -25,7 +25,10 @@ trait CommandReceiver
         if ($command instanceof CommandInterface) {
             return $command->getCommand();
         } else {
-            throw new TaskException($this, get_class($command) . " does not implement CommandInterface, so can't be passed into this task");
+            throw new TaskException(
+                $this,
+                get_class($command) . " does not implement CommandInterface, so can't be passed into this task"
+            );
         }
     }
 }

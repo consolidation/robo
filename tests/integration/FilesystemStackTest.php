@@ -87,5 +87,4 @@ class FilesystemStackTest extends TestCase
         $this->assertFileDoesNotExist('log/error.txt');
         $this->assertFileExists('logfiles/error.txt');
     }
-
 }

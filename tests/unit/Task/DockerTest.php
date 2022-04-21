@@ -20,7 +20,14 @@ class DockerTest extends \Codeception\TestCase\Test
     // tests
     public function testDockerBuild()
     {
-        $docker = test::double('Robo\Task\Docker\Build', ['executeCommand' => null, 'getConfig' => new \Robo\Config(), 'logger' => new \Psr\Log\NullLogger()]);
+        $docker = test::double(
+            'Robo\Task\Docker\Build',
+            [
+                'executeCommand' => null,
+                'getConfig' => new \Robo\Config(),
+                'logger' => new \Psr\Log\NullLogger()
+            ]
+        );
 
         (new \Robo\Task\Docker\Build())->run();
         $docker->verifyInvoked('executeCommand', ['docker build  .']);
@@ -34,7 +41,14 @@ class DockerTest extends \Codeception\TestCase\Test
 
     public function testDockerCommit()
     {
-        $docker = test::double('Robo\Task\Docker\Commit', ['executeCommand' => null, 'getConfig' => new \Robo\Config(), 'logger' => new \Psr\Log\NullLogger()]);
+        $docker = test::double(
+            'Robo\Task\Docker\Commit',
+            [
+                'executeCommand' => null,
+                'getConfig' => new \Robo\Config(),
+                'logger' => new \Psr\Log\NullLogger()
+            ]
+        );
 
         (new \Robo\Task\Docker\Commit('cid'))->run();
         $docker->verifyInvoked('executeCommand', ['docker commit cid  ']);
@@ -45,7 +59,14 @@ class DockerTest extends \Codeception\TestCase\Test
 
     public function testDockerExec()
     {
-        $docker = test::double('Robo\Task\Docker\Exec', ['executeCommand' => null, 'getConfig' => new \Robo\Config(), 'logger' => new \Psr\Log\NullLogger()]);
+        $docker = test::double(
+            'Robo\Task\Docker\Exec',
+            [
+                'executeCommand' => null,
+                'getConfig' => new \Robo\Config(),
+                'logger' => new \Psr\Log\NullLogger()
+            ]
+        );
 
         (new \Robo\Task\Docker\Exec('cid'))->run();
         $docker->verifyInvoked('executeCommand', ['docker exec  cid ']);
@@ -56,7 +77,14 @@ class DockerTest extends \Codeception\TestCase\Test
 
     public function testDockerPull()
     {
-        $docker = test::double('Robo\Task\Docker\Pull', ['executeCommand' => null, 'getConfig' => new \Robo\Config(), 'logger' => new \Psr\Log\NullLogger()]);
+        $docker = test::double(
+            'Robo\Task\Docker\Pull',
+            [
+                'executeCommand' => null,
+                'getConfig' => new \Robo\Config(),
+                'logger' => new \Psr\Log\NullLogger()
+            ]
+        );
 
         (new \Robo\Task\Docker\Pull('image'))->run();
         $docker->verifyInvoked('executeCommand', ['docker pull image  ']);
@@ -64,7 +92,14 @@ class DockerTest extends \Codeception\TestCase\Test
 
     public function testDockerRemove()
     {
-        $docker = test::double('Robo\Task\Docker\Remove', ['executeCommand' => null, 'getConfig' => new \Robo\Config(), 'logger' => new \Psr\Log\NullLogger()]);
+        $docker = test::double(
+            'Robo\Task\Docker\Remove',
+            [
+                'executeCommand' => null,
+                'getConfig' => new \Robo\Config(),
+                'logger' => new \Psr\Log\NullLogger()
+            ]
+        );
 
         (new \Robo\Task\Docker\Remove('container'))->run();
         $docker->verifyInvoked('executeCommand', ['docker rm container  ']);
@@ -72,7 +107,15 @@ class DockerTest extends \Codeception\TestCase\Test
 
     public function testDockerRun()
     {
-        $docker = test::double('Robo\Task\Docker\Run', ['executeCommand' => null, 'getConfig' => new \Robo\Config(), 'logger' => new \Psr\Log\NullLogger(), 'getUniqId' => '12345']);
+        $docker = test::double(
+            'Robo\Task\Docker\Run',
+            [
+                'executeCommand' => null,
+                'getConfig' => new \Robo\Config(),
+                'logger' => new \Psr\Log\NullLogger(),
+                'getUniqId' => '12345'
+            ]
+        );
 
         (new \Robo\Task\Docker\Run('cid'))->tmpDir('/tmp')->run();
         $docker->verifyInvoked('executeCommand', ['docker run  -i --cidfile /tmp/docker_12345.cid cid']);
@@ -83,7 +126,14 @@ class DockerTest extends \Codeception\TestCase\Test
 
     public function testDockerStart()
     {
-        $docker = test::double('Robo\Task\Docker\Start', ['executeCommand' => null, 'getConfig' => new \Robo\Config(), 'logger' => new \Psr\Log\NullLogger()]);
+        $docker = test::double(
+            'Robo\Task\Docker\Start',
+            [
+                'executeCommand' => null,
+                'getConfig' => new \Robo\Config(),
+                'logger' => new \Psr\Log\NullLogger()
+            ]
+        );
 
         (new \Robo\Task\Docker\Start('cid'))->run();
         $docker->verifyInvoked('executeCommand', ['docker start  cid']);
@@ -91,7 +141,14 @@ class DockerTest extends \Codeception\TestCase\Test
 
     public function testDockerStop()
     {
-        $docker = test::double('Robo\Task\Docker\Stop', ['executeCommand' => null, 'getConfig' => new \Robo\Config(), 'logger' => new \Psr\Log\NullLogger()]);
+        $docker = test::double(
+            'Robo\Task\Docker\Stop',
+            [
+                'executeCommand' => null,
+                'getConfig' => new \Robo\Config(),
+                'logger' => new \Psr\Log\NullLogger()
+            ]
+        );
 
         (new \Robo\Task\Docker\Stop('cid'))->run();
         $docker->verifyInvoked('executeCommand', ['docker stop  cid']);

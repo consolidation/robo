@@ -117,7 +117,10 @@ class Runner implements ContainerAwareInterface
             return true;
         }
         if (!file_exists($this->dir)) {
-            $this->errorCondition("Path `{$this->dir}` is invalid; please provide a valid absolute path to the Robofile to load.", 'red');
+            $this->errorCondition(
+                "Path `{$this->dir}` is invalid; please provide a valid absolute path to the Robofile to load.",
+                'red'
+            );
             return false;
         }
 
@@ -126,7 +129,11 @@ class Runner implements ContainerAwareInterface
         $roboFilePath = $realDir . DIRECTORY_SEPARATOR . $this->roboFile;
         if (!file_exists($roboFilePath)) {
             $requestedRoboFilePath = $this->dir . DIRECTORY_SEPARATOR . $this->roboFile;
-            $this->errorCondition("Requested RoboFile `$requestedRoboFilePath` is invalid, please provide valid absolute path to load Robofile.", 'red');
+            $this->errorCondition(
+                // phpcs:ignore
+                "Requested RoboFile `$requestedRoboFilePath` is invalid, please provide valid absolute path to load Robofile.",
+                'red'
+            );
             return false;
         }
         require_once $roboFilePath;
@@ -181,8 +188,13 @@ class Runner implements ContainerAwareInterface
      * @return \Robo\Application
      *   Initialized application based on passed configuration and command classes.
      */
-    public function getAppForTesting($appName = null, $appVersion = null, $commandFile = null, $config = null, $classLoader = null)
-    {
+    public function getAppForTesting(
+        $appName = null,
+        $appVersion = null,
+        $commandFile = null,
+        $config = null,
+        $classLoader = null
+    ) {
         $app = Robo::createDefaultApplication($appName, $appVersion);
         $output = new NullOutput();
         $container = Robo::createDefaultContainer(null, $output, $app, $config, $classLoader);
@@ -265,7 +277,10 @@ class Runner implements ContainerAwareInterface
         if ($app instanceof \Robo\Application) {
             $app->addSelfUpdateCommand($this->getSelfUpdateRepository());
             if (!isset($commandFiles)) {
-                $this->errorCondition("Robo is not initialized here. Please run `robo init` to create a new RoboFile.", 'yellow');
+                $this->errorCondition(
+                    "Robo is not initialized here. Please run `robo init` to create a new RoboFile.",
+                    'yellow'
+                );
                 $app->addInitRoboFileCommand($this->roboFile, $this->roboClass);
                 $commandFiles = [];
             }
@@ -558,7 +573,12 @@ class Runner implements ContainerAwareInterface
         if (!is_array($error)) {
             return;
         }
-        $this->writeln(sprintf("<error>ERROR: %s \nin %s:%d\n</error>", $error['message'], $error['file'], $error['line']));
+        $this->writeln(sprintf(
+            "<error>ERROR: %s \nin %s:%d\n</error>",
+            $error['message'],
+            $error['file'],
+            $error['line']
+        ));
     }
 
     /**

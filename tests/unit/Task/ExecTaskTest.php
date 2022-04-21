@@ -29,7 +29,8 @@ class ExecTaskTest extends \Codeception\TestCase\Test
         $this->process->verifyInvoked('run');
         $this->assertEquals(
             'Hello world',
-            $result->getMessage());
+            $result->getMessage()
+        );
         $this->assertEquals(0, $result->getExitCode());
     }
 
@@ -48,7 +49,8 @@ class ExecTaskTest extends \Codeception\TestCase\Test
     {
         $this->assertEquals(
             'ls',
-            (new \Robo\Task\Base\Exec('ls'))->getCommand());
+            (new \Robo\Task\Base\Exec('ls'))->getCommand()
+        );
     }
 
     public function testExecStack()
@@ -86,4 +88,4 @@ class ExecTaskTest extends \Codeception\TestCase\Test
             ->getCommand()
         );
     }
-};
+}

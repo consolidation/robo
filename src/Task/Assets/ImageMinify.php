@@ -176,10 +176,12 @@ class ImageMinify extends BaseTask
         // JPG
         'jpegtran' => 'https://github.com/imagemin/jpegtran-bin',
         'jpegoptim' => 'https://github.com/imagemin/jpegoptim-bin',
-        'cjpeg' => 'https://github.com/imagemin/mozjpeg-bin', // note: we do not support this minifier because it creates JPG from non-JPG files
+        // note: we do not support this minifier because it creates JPG from non-JPG files
+        'cjpeg' => 'https://github.com/imagemin/mozjpeg-bin',
         'jpeg-recompress' => 'https://github.com/imagemin/jpeg-recompress-bin',
         // WebP
-        'cwebp' => 'https://github.com/imagemin/cwebp-bin', // note: we do not support this minifier because it creates WebP from non-WebP files
+        // note: we do not support this minifier because it creates WebP from non-WebP files
+        'cwebp' => 'https://github.com/imagemin/cwebp-bin',
     ];
 
     /**
@@ -217,7 +219,11 @@ class ImageMinify extends BaseTask
 
         $amount = (count($files) == 1 ? 'image' : 'images');
         $message = "Minified {filecount} out of {filetotal} $amount into {destination}";
-        $context = ['filecount' => count($this->results['success']), 'filetotal' => count($files), 'destination' => $this->to];
+        $context = [
+            'filecount' => count($this->results['success']),
+            'filetotal' => count($files),
+            'destination' => $this->to,
+        ];
 
         if (count($this->results['success']) == count($files)) {
             $this->printTaskSuccess($message, $context);
@@ -333,7 +339,13 @@ class ImageMinify extends BaseTask
                 $files[$file->getRealpath()] = $this->getTarget($file->getRealPath(), $to);
             }
             $fileNoun = count($finder) == 1 ? ' file' : ' files';
-            $this->printTaskInfo("Found {filecount} $fileNoun in {dir}", ['filecount' => count($finder), 'dir' => $dir]);
+            $this->printTaskInfo(
+                "Found {filecount} $fileNoun in {dir}",
+                [
+                    'filecount' => count($finder),
+                    'dir' => $dir,
+                ]
+            );
         }
 
         return $files;
@@ -415,7 +427,13 @@ class ImageMinify extends BaseTask
             }
 
             // launch the command
-            $this->printTaskInfo('Minifying {filepath} with {minifier}', ['filepath' => $from, 'minifier' => $minifier]);
+            $this->printTaskInfo(
+                'Minifying {filepath} with {minifier}',
+                [
+                    'filepath' => $from,
+                    'minifier' => $minifier,
+                ]
+            );
             $result = $this->executeCommand($command);
 
             // check the return code
@@ -434,7 +452,13 @@ class ImageMinify extends BaseTask
                                 $command = $this->{$minifier}($from, $to);
                             }
                             // launch the command
-                            $this->printTaskInfo('Minifying {filepath} with {minifier}', ['filepath' => $from, 'minifier' => $minifier]);
+                            $this->printTaskInfo(
+                                'Minifying {filepath} with {minifier}',
+                                [
+                                    'filepath' => $from,
+                                    'minifier' => $minifier,
+                                ]
+                            );
                             $result = $this->executeCommand($command);
                         } else {
                             $this->printTaskError($result->getMessage());
@@ -519,7 +543,12 @@ class ImageMinify extends BaseTask
 
             return Result::error($this, $message);
         }
-        $this->printTaskInfo('Downloading the {executable} executable from the imagemin repository', ['executable' => $executable]);
+        $this->printTaskInfo(
+            'Downloading the {executable} executable from the imagemin repository',
+            [
+                'executable' => $executable,
+            ]
+        );
 
         $os = $this->getOS();
         $url = $this->imageminRepos[$executable] . '/blob/main/vendor/' . $os . '/' . $executable . '?raw=true';
@@ -558,7 +587,10 @@ class ImageMinify extends BaseTask
         if (!is_dir($this->executableTargetDir)) {
             // create and check access rights (directory created, but not readable)
             if (!mkdir($this->executableTargetDir) && !is_dir($this->executableTargetDir)) {
-                $message = sprintf('Can not create target directory for executables in <info>%s</info>', $this->executableTargetDir);
+                $message = sprintf(
+                    'Can not create target directory for executables in <info>%s</info>',
+                    $this->executableTargetDir
+                );
 
                 return Result::error($this, $message);
             }

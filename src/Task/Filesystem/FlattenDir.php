@@ -109,7 +109,13 @@ class FlattenDir extends BaseDir
         $this->copyFiles($files);
 
         $fileNoun = count($files) == 1 ? ' file' : ' files';
-        $this->printTaskSuccess("Copied {count} $fileNoun to {destination}", ['count' => count($files), 'destination' => $this->to]);
+        $this->printTaskSuccess(
+            "Copied {count} $fileNoun to {destination}",
+            [
+                'count' => count($files),
+                'destination' => $this->to,
+            ]
+        );
 
         return Result::success($this);
     }
@@ -269,7 +275,9 @@ class FlattenDir extends BaseDir
             $parts = explode('/', rtrim($rel_path, '/'));
             $prefix_dir = '';
             $prefix_dir .= ($this->parents[0] > 0 ? implode('/', array_slice($parts, 0, $this->parents[0])) . '/' : '');
-            $prefix_dir .= ($this->parents[1] > 0 ? implode('/', array_slice($parts, (0 - $this->parents[1]), $this->parents[1])) : '');
+            $prefix_dir .= $this->parents[1] > 0 ?
+                implode('/', array_slice($parts, (0 - $this->parents[1]), $this->parents[1]))
+                : '';
             $prefix_dir = rtrim($prefix_dir, '/');
             $target = $to . '/' . $prefix_dir . '/' . basename($file);
         }

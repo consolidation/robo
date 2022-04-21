@@ -51,7 +51,10 @@ class PHPUnit extends BaseTask implements CommandInterface, PrintedInterface
             $this->command = $this->findExecutablePhar('phpunit');
         }
         if (!$this->command) {
-            throw new \Robo\Exception\TaskException(__CLASS__, "Neither local phpunit nor global composer installation not found");
+            throw new \Robo\Exception\TaskException(
+                __CLASS__,
+                "Neither local phpunit nor global composer installation not found"
+            );
         }
     }
 

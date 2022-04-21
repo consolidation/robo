@@ -86,7 +86,6 @@ class CopyDirTest extends TestCase
         $this->assertTrue($result->wasSuccessful());
         $this->assertFileExists('some_destination/deeply/nested');
         $this->assertFileExists('some_destination/deeply/nested/structu.re');
-
     }
 
     public function testCopyRecursiveWithExcludedFile()

@@ -18,7 +18,12 @@ class PHPServerTest extends \Codeception\TestCase\Test
             'getExitCode' => 0,
             'logger' => new \Psr\Log\NullLogger(),
         ]);
-        test::double('Robo\Task\Development\PhpServer', ['output' => new \Symfony\Component\Console\Output\NullOutput()]);
+        test::double(
+            'Robo\Task\Development\PhpServer',
+            [
+                'output' => new \Symfony\Component\Console\Output\NullOutput(),
+            ]
+        );
     }
 
     public function testServerBackgroundRun()

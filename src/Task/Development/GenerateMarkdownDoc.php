@@ -458,7 +458,13 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
             ->line($this->append)
             ->run();
 
-        $this->printTaskSuccess('{filename} created. {class-count} classes documented', ['filename' => $this->filename, 'class-count' => count($this->docClass)]);
+        $this->printTaskSuccess(
+            '{filename} created. {class-count} classes documented',
+            [
+                'filename' => $this->filename,
+                'class-count' => count($this->docClass),
+            ]
+        );
 
         return new Result($this, $result->getExitCode(), $result->getMessage(), $this->textForClass);
     }

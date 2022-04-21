@@ -10,7 +10,8 @@ use Robo\Traits\Common\CommandArgumentsHost;
  */
 class CommandArgumentsTest extends TestCase
 {
-    public function casesArgs() {
+    public function casesArgs()
+    {
         return [
             'no arguments' => [
                 ' ',

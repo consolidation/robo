@@ -2,7 +2,7 @@
 
 namespace Robo\Log;
 
-class RoboLogLevel extends \Consolidation\Log\ConsoleLogLevel
+class RoboLogLevel extends \Psr\Log\LogLevel
 {
     /**
      * Command did something in simulated mode.

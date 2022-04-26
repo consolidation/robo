@@ -4,7 +4,6 @@ namespace Robo\Common;
 
 use Robo\Robo;
 use Robo\TaskInfo;
-use Consolidation\Log\ConsoleLogLevel;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
@@ -93,20 +92,13 @@ trait TaskIO
     /**
      * Provide notification that some part of the task succeeded.
      *
-     * With the Symfony Console logger, success messages are remapped to NOTICE,
-     * and displayed in VERBOSITY_VERBOSE. When used with the Robo logger,
-     * success messages are displayed at VERBOSITY_NORMAL.
+     * @deprecated ConsoleLogLevel::SUCCESS was removed; use TaskIO::printTaskInfo instead
      *
      * @param string $text
      * @param null|array $context
      */
     protected function printTaskSuccess($text, $context = null)
     {
-        // Not all loggers will recognize ConsoleLogLevel::SUCCESS.
-        // We therefore log as LogLevel::NOTICE, and apply a '_level'
-        // override in the context so that this message will be
-        // logged as SUCCESS if that log level is recognized.
-        $context['_level'] = ConsoleLogLevel::SUCCESS;
         $this->printTaskOutput(LogLevel::NOTICE, $text, $this->getTaskContext($context));
     }
 

@@ -56,7 +56,7 @@ class Robo
      * roave/backward-compatibility-check does not complain about b/c breaks
      * when the version number changes.
      */
-    public static version()
+    public static function version()
     {
         return self::VERSION;
     }

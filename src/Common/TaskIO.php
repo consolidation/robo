@@ -23,15 +23,10 @@ trait TaskIO
     use ConfigAwareTrait;
     use VerbosityThresholdTrait;
     use OutputAwareTrait;
+    use LoggerAwareTrait;
 
     protected $logger;
     protected $output;
-
-    public function setLogger(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
-        $this->resetLoggerOutput();
-    }
 
     public function setOutput(OutputInterface $output)
     {

@@ -23,10 +23,10 @@
 
 | Branch | Support Level | Symfony | League Container | psr/log | PHP Versions |
 | ------ | ------------- | ------- | ---------------- | ------------ | ------------ |
-| [4.x](https://github.com/consolidation/robo/tree/4.x) | Stable               | 5 & 6 | ^3 | ^2 & ^3 | 8.0 - 8.1 |
-| [3.x](https://github.com/consolidation/robo/tree/3.x) | Important fixes only | 4 & 5 & 6 | ^3 | ^1 & ^2 | 7.1 - 8.1 |
-| [2.x](https://github.com/consolidation/robo/tree/2.x) | Not recommended      | 4 & 5 | ^2 | ^1 & ^2 | 7.1 - 7.4 |
-| [1.x](https://github.com/consolidation/robo/tree/1.x) | Not recommended      | 2 - 4 | ^2 | ^1 & ^2 | 5.5 - 7.4 |
+| [4.x](https://github.com/consolidation/robo/tree/4.x) | Stable               | ^5 || ^6 | ^3 | ^2 || ^3 | 8.0 - 8.1 |
+| [3.x](https://github.com/consolidation/robo/tree/3.x) | Important fixes only | ^4 || ^5 || ^6 | ^3 | ^1 & ^2 | 7.1 - 8.1 |
+| [2.x](https://github.com/consolidation/robo/tree/2.x) | Not recommended      | ^4 || ^5 | ^2 | ^1 || ^2 | 7.1 - 7.4 |
+| [1.x](https://github.com/consolidation/robo/tree/1.x) | Not recommended      | ^2 || ^3 || ^4 | ^2 | ^1 || ^2 | 5.5 - 7.4 |
 
 All three branches of Robo are currently supported, although the 2.x and 1.x branches receive minimum support. All versions are roughly compatible; the breaking changes introduced at each major version are fairly minor, and typically only affect classes that are not used by most clients.
 

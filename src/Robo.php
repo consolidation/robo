@@ -22,7 +22,7 @@ use Symfony\Component\Process\Process;
 class Robo
 {
     const APPLICATION_NAME = 'Robo';
-    const VERSION = '3.0.11-dev';
+    private const VERSION = '3.0.11-dev';
 
     /**
      * The currently active container object, or NULL if not initialized yet.
@@ -49,6 +49,16 @@ class Robo
         $runner->setSelfUpdateRepository($repository);
         $statusCode = $runner->execute($argv, $appName, $appVersion, $output);
         return $statusCode;
+    }
+
+    /**
+     * Only provide access to the Robo version via Robo::version() so that
+     * roave/backward-compatibility-check does not complain about b/c breaks
+     * when the version number changes.
+     */
+    public static version()
+    {
+        return self::VERSION;
     }
 
     /**
@@ -367,7 +377,7 @@ class Robo
     public static function createDefaultApplication($appName = null, $appVersion = null)
     {
         $appName = $appName ?: self::APPLICATION_NAME;
-        $appVersion = $appVersion ?: self::VERSION;
+        $appVersion = $appVersion ?: self::version();
 
         $app = new \Robo\Application($appName, $appVersion);
         $app->setAutoExit(false);

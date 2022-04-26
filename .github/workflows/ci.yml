@@ -5,9 +5,11 @@ on:
   pull_request:
     branches:
       - 3.x
+      - 4.x
   push:
     branches:
       - 3.x
+      - 4.x
 
 name: CI
 

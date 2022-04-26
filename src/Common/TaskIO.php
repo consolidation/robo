@@ -25,7 +25,6 @@ trait TaskIO
     use OutputAwareTrait;
     use LoggerAwareTrait;
 
-    protected $logger;
     protected $output;
 
     public function setOutput(OutputInterface $output)

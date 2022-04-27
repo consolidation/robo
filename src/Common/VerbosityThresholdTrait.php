@@ -6,6 +6,7 @@ use Robo\Robo;
 use Robo\TaskInfo;
 use Robo\Contract\OutputAdapterInterface;
 use Robo\Contract\VerbosityThresholdInterface;
+use Consolidation\Log\ConsoleLogLevel;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LogLevel;
 use Robo\Contract\ProgressIndicatorAwareInterface;

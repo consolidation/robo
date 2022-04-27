@@ -2,6 +2,7 @@ vendor/
 .idea/
 build
 site/
+tools/
 robotheme/
 tests/_log/*
 tests/_helpers/_generated/*

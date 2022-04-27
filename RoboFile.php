@@ -91,7 +91,7 @@ class RoboFile extends \Robo\Tasks
     {
         $this->checkPharReadonly();
 
-        $version = \Robo\Robo::VERSION;
+        $version = \Robo\Robo::version();
         $stable = !$opts['beta'];
         if ($stable) {
             $version = preg_replace('/-.*/', '', $version);
@@ -143,7 +143,7 @@ class RoboFile extends \Robo\Tasks
      */
     public function changed(ConsoleIO $io, $addition)
     {
-        $version = preg_replace('/-.*/', '', \Robo\Robo::VERSION);
+        $version = preg_replace('/-.*/', '', \Robo\Robo::version());
         return $this->collectionBuilder($io)->taskChangelog()
             ->version($version)
             ->change($addition)
@@ -161,7 +161,7 @@ class RoboFile extends \Robo\Tasks
     {
         // If the user did not specify a version, then update the current version.
         if (empty($version)) {
-            $version = $this->incrementVersion(\Robo\Robo::VERSION, $options['stage']);
+            $version = $this->incrementVersion(\Robo\Robo::version(), $options['stage']);
         }
         return $this->writeVersion($version);
     }
@@ -484,7 +484,7 @@ class RoboFile extends \Robo\Tasks
                 ->rename('robo-release.phar', 'robotheme/robo.phar')
             ->taskGitStack()
                 ->add('robotheme/robo.phar')
-                ->commit('Update robo.phar to ' . \Robo\Robo::VERSION)
+                ->commit('Update robo.phar to ' . \Robo\Robo::version())
                 ->push('origin site')
                 ->checkout(self::MAIN_BRANCH)
                 ->run();

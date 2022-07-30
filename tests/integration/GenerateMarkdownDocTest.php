@@ -97,4 +97,27 @@ class GenerateMarkdownDocTest extends TestCase
         $this->assertStringContainsString('Set the destination file', $contents);
     }
 
+    public function testMarkdownOfUnionType()
+    {
+        if (version_compare(PHP_VERSION, '8.0') < 0) {
+            $this->markTestSkipped('Requires PHP 8.0');
+        }
+
+        $sourceFile = $this->fixtures->dataFile('ClassWithUnionParam.php');
+        $this->assertFileExists($sourceFile);
+        include $sourceFile;
+        $this->assertTrue(class_exists('ClassWithUnionParam'));
+
+        $collection = $this->collectionBuilderForTest();
+        $taskGenerator = $collection->taskGenDoc("ClassWithUnionParam.md");
+        $taskGenerator->docClass('ClassWithUnionParam');
+        $result = $collection->run();
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
+
+        $this->assertFileExists('ClassWithUnionParam.md');
+
+        $contents = file_get_contents('ClassWithUnionParam.md');
+        $this->assertStringContainsString('A test file. Used for testing documentation generation.', $contents);
+        $this->assertStringContainsString('#### *final public static* executeTask($task)', $contents);
+    }
 }

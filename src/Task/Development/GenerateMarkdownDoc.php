@@ -687,7 +687,7 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
             if ($param->allowsNull()) {
                 $text .= ' = null';
             } else {
-                $text .= ' = ' . str_replace("\n", ' ', print_r($param->getDefaultValue(), true));
+                $text .= ' = ' . str_replace("\n", ' ', var_export($param->getDefaultValue(), true));
             }
         }
 

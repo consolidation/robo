@@ -81,8 +81,7 @@ class GenerateMarkdownDocTest extends TestCase
             }
         )->processMethodDocBlock(
             function (\ReflectionMethod $m, $text) {
-
-                return $text ? ' ' . trim(strtok($text, "\n"), "\n") : '';
+                return $text;
             }
         );
 
@@ -94,7 +93,15 @@ class GenerateMarkdownDocTest extends TestCase
         $contents = file_get_contents('TestedRoboTask.md');
         $this->assertStringContainsString('A test task file. Used for testig documentation generation.', $contents);
         $this->assertStringContainsString('taskTestedRoboTask', $contents);
-        $this->assertStringContainsString('Set the destination file', $contents);
+        $this->assertStringContainsString(<<<'EOT'
+* `to($dst)`
+
+* `param string` $dst
+* `return Concat` The current instance
+
+Set the destination file
+EOT
+, $contents);
     }
 
     public function testMarkdownOfUnionType()
@@ -118,6 +125,20 @@ class GenerateMarkdownDocTest extends TestCase
 
         $contents = file_get_contents('ClassWithUnionParam.md');
         $this->assertStringContainsString('A test file. Used for testing documentation generation.', $contents);
-        $this->assertStringContainsString('#### *final public static* executeTask($task)', $contents);
+        $this->assertStringContainsString(<<<'EOT'
+#### *final public static* executeTask($task)
+
+* `author` Gintautas Miselis <gintautas@localhost>
+* `since` 2.0.0 New method
+* `param \Robo\Task\Composer\Install|\Robo\Task\Composer\Update` $task
+* `return array|string`
+
+Short description
+
+Long description 1
+Long description 2
+Long description 3
+EOT
+, $contents);
     }
 }

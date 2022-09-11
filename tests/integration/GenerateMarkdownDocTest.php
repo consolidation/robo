@@ -133,10 +133,11 @@ EOT, $contents);
         $this->assertStringContainsString('A test file. Used for testing documentation generation.', $contents);
 
         if (PHP_OS_FAMILY === 'Windows') {
-            $this->assertStringContainsString('#### *final public static* executeTask($task)', $contents);
+            $this->assertStringContainsString('#### *final public static* executeTask($task, $documented)', $contents);
             $this->assertStringContainsString('* `author` Gintautas Miselis <gintautas@localhost>', $contents);
             $this->assertStringContainsString('* `since` 2.0.0 New method', $contents);
             $this->assertStringContainsString('* `param \Robo\Task\Composer\Install|\Robo\Task\Composer\Update` $task', $contents);
+            $this->assertStringContainsString('* `param string` $documented Documented parameter', $contents);
             $this->assertStringContainsString('* `return array|string`', $contents);
             $this->assertStringContainsString('Short description', $contents);
             $this->assertStringContainsString('Long description 1', $contents);
@@ -144,11 +145,12 @@ EOT, $contents);
             $this->assertStringContainsString('Long description 3', $contents);
         } else {
             $this->assertStringContainsString(<<<'EOT'
-#### *final public static* executeTask($task)
+#### *final public static* executeTask($task, $documented)
 
 * `author` Gintautas Miselis <gintautas@localhost>
 * `since` 2.0.0 New method
 * `param \Robo\Task\Composer\Install|\Robo\Task\Composer\Update` $task
+* `param string` $documented Documented parameter
 * `return array|string`
 
 Short description

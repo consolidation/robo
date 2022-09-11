@@ -808,9 +808,13 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
             }
         }
 
+        $docblock->removeTags('param');
+
         foreach ($parameters as $parameter) {
             $parameterName = $parameter->getName();
-            if (!isset($existingParamTags[$parameterName])) {
+            if (isset($existingParamTags[$parameterName])) {
+                $docblock->appendTag($existingParamTags[$parameterName]);
+            } else {
                 $newParamTag = new ParamTag();
                 $newParamTag->setVariable($parameterName);
                 $parameterType = $parameter->getType();

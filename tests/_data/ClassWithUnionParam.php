@@ -16,8 +16,12 @@ class ClassWithUnionParam
      *
      * @author Gintautas Miselis <gintautas@localhost>
      * @since 2.0.0 New method
+     * @param string $documented Documented parameter
      */
-    final public static function executeTask(Robo\Task\Composer\Install|Robo\Task\Composer\Update $task): string|array
+    final public static function executeTask(
+        Robo\Task\Composer\Install|Robo\Task\Composer\Update $task,
+        string $documented
+    ): string|array
     {
         return [];
     }

@@ -81,8 +81,7 @@ class GenerateMarkdownDocTest extends TestCase
             }
         )->processMethodDocBlock(
             function (\ReflectionMethod $m, $text) {
-
-                return $text ? ' ' . trim(strtok($text, "\n"), "\n") : '';
+                return $text;
             }
         );
 
@@ -94,7 +93,21 @@ class GenerateMarkdownDocTest extends TestCase
         $contents = file_get_contents('TestedRoboTask.md');
         $this->assertStringContainsString('A test task file. Used for testig documentation generation.', $contents);
         $this->assertStringContainsString('taskTestedRoboTask', $contents);
-        $this->assertStringContainsString('Set the destination file', $contents);
+        if (PHP_OS_FAMILY === 'Windows') {
+            $this->assertStringContainsString('* `to($dst)`', $contents);
+            $this->assertStringContainsString('* `param string` $dst', $contents);
+            $this->assertStringContainsString('* `return Concat` The current instance', $contents);
+            $this->assertStringContainsString('Set the destination file', $contents);
+        } else {
+            $this->assertStringContainsString(<<<'EOT'
+* `to($dst)`
+
+* `param string` $dst
+* `return Concat` The current instance
+
+Set the destination file
+EOT, $contents);
+        }
     }
 
     public function testMarkdownOfUnionType()
@@ -118,6 +131,34 @@ class GenerateMarkdownDocTest extends TestCase
 
         $contents = file_get_contents('ClassWithUnionParam.md');
         $this->assertStringContainsString('A test file. Used for testing documentation generation.', $contents);
-        $this->assertStringContainsString('#### *final public static* executeTask($task)', $contents);
+
+        if (PHP_OS_FAMILY === 'Windows') {
+            $this->assertStringContainsString('#### *final public static* executeTask($task, $documented)', $contents);
+            $this->assertStringContainsString('* `author` Gintautas Miselis <gintautas@localhost>', $contents);
+            $this->assertStringContainsString('* `since` 2.0.0 New method', $contents);
+            $this->assertStringContainsString('* `param \Robo\Task\Composer\Install|\Robo\Task\Composer\Update` $task', $contents);
+            $this->assertStringContainsString('* `param string` $documented Documented parameter', $contents);
+            $this->assertStringContainsString('* `return array|string`', $contents);
+            $this->assertStringContainsString('Short description', $contents);
+            $this->assertStringContainsString('Long description 1', $contents);
+            $this->assertStringContainsString('Long description 2', $contents);
+            $this->assertStringContainsString('Long description 3', $contents);
+        } else {
+            $this->assertStringContainsString(<<<'EOT'
+#### *final public static* executeTask($task, $documented)
+
+* `author` Gintautas Miselis <gintautas@localhost>
+* `since` 2.0.0 New method
+* `param \Robo\Task\Composer\Install|\Robo\Task\Composer\Update` $task
+* `param string` $documented Documented parameter
+* `return array|string`
+
+Short description
+
+Long description 1
+Long description 2
+Long description 3
+EOT, $contents);
+        }
     }
 }

@@ -121,7 +121,7 @@ class RoboFile extends \Robo\Tasks {
     function watchComposer(ConsoleIO $io)
     {
         // when composer.json changes `composer update` will be executed
-        $this->collectionBuilder($io)->taskWatch()->monitor('composer.json', function() {
+        $this->collectionBuilder($io)->taskWatch()->monitor('composer.json', function() use ($io) {
             $this->collectionBuilder($io)->taskComposerUpdate()->run();
         })->run();
     }

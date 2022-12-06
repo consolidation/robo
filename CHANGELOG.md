@@ -1,12 +1,16 @@
 # Changelog
 
+### 4.0.2 12/6/2022
+
+* PHP 8.2 support
+
 ### 4.0.0 9/20/2022
 
 * Minimum version of PHP supported is now 8.0
 * BREAKING: Removed support for Symfony 4 and 5; Symfony 6 required.
 * BREAKING: Removed support for league/container 1; version 2 or 3 required.
 * BREAKING: Use \Robo\Robo::version() instead of \Robo\Robo::VERSION
-* BREAKING: Use RoboLogLevel::SUCCESS isntead of ConsoleLogLevel::SUCCESS
+* BREAKING: Use RoboLogLevel::SUCCESS instead of ConsoleLogLevel::SUCCESS
 * BREAKING: Cannot pass `null` to \Robo\Config\Config constructor any longer
 
 ### 3.0.10 2/21/2022

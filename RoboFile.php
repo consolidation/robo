@@ -5,7 +5,7 @@ use Robo\Symfony\ConsoleIO;
 
 class RoboFile extends \Robo\Tasks
 {
-    const MAIN_BRANCH = '3.x';
+    const MAIN_BRANCH = '4.x';
 
     /**
      * Run the Robo unit tests.

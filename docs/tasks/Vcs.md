@@ -24,22 +24,54 @@ $this->taskGitStack()
 ?>
 ```
 
-* `cloneRepo($repo, $to = null, $branch = null)`  Executes `git clone`
-* `cloneShallow($repo, $to = null, $branch = null, $depth = null)`  Executes `git clone` with depth 1 as default
-* `add($pattern)`  Executes `git add` command with files to add pattern
-* `commit($message, $options = null)`  Executes `git commit` command with a message
-* `pull($origin = null, $branch = null)`  Executes `git pull` command.
-* `push($origin = null, $branch = null)`  Executes `git push` command
-* `merge($branch)`  Performs git merge
-* `checkout($branch)`  Executes `git checkout` command
-* `tag($tag_name, $message = null)`  Executes `git tag` command
-* `executable($executable)`   * `param string` $executable
-* `exec($command)`   * `param string|string[]|CommandInterface` $command
-* `stopOnFail($stopOnFail = null)`   * `param bool` $stopOnFail
-* `result($result)` 
-* `setOutput($output)`  Sets the Console Output.
-* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
-* `dir($dir)`  Changes working directory of command
+* `cloneRepo($repo, $to = null, $branch = null)`
+
+ * `param string` $repo
+* `cloneShallow($repo, $to = null, $branch = null, $depth = null)`
+
+ * `param string` $repo
+* `add($pattern)`
+
+ * `param string` $pattern
+* `commit($message, $options = null)`
+
+ * `param string` $message
+* `pull($origin = null, $branch = null)`
+
+ * `param string` $origin
+* `push($origin = null, $branch = null)`
+
+ * `param string` $origin
+* `merge($branch)`
+
+ * `param string` $branch
+* `checkout($branch)`
+
+ * `param string` $branch
+* `tag($tag_name, $message = null)`
+
+ * `param string` $tag_name
+* `executable($executable)`
+
+ * `param string` $executable
+* `exec($command)`
+
+ * `param string|string[]|CommandInterface` $command
+* `stopOnFail($stopOnFail = null)`
+
+ * `param bool` $stopOnFail
+* `result($result)`
+
+ * `param ` $result
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `setProcessInput($input)`
+
+ * `param resource|string` $input
+* `dir($dir)`
+
+ * `param string` $dir
 
 ## HgStack
 
@@ -60,20 +92,48 @@ $this->hgStack
 ?>
 ```
 
-* `cloneRepo($repo, $to = null)`  Executes `hg clone`
-* `add($include = null, $exclude = null)`  Executes `hg add` command with files to add by pattern
-* `commit($message, $options = null)`  Executes `hg commit` command with a message
-* `pull($branch = null)`  Executes `hg pull` command.
-* `push($branch = null)`  Executes `hg push` command
-* `merge($revision = null)`  Performs hg merge
-* `tag($tag_name, $message = null)`  Executes `hg tag` command
-* `executable($executable)`   * `param string` $executable
-* `exec($command)`   * `param string|string[]|CommandInterface` $command
-* `stopOnFail($stopOnFail = null)`   * `param bool` $stopOnFail
-* `result($result)` 
-* `setOutput($output)`  Sets the Console Output.
-* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
-* `dir($dir)`  Changes working directory of command
+* `cloneRepo($repo, $to = null)`
+
+ * `param string` $repo
+* `add($include = null, $exclude = null)`
+
+ * `param string` $include
+* `commit($message, $options = null)`
+
+ * `param string` $message
+* `pull($branch = null)`
+
+ * `param string` $branch
+* `push($branch = null)`
+
+ * `param string` $branch
+* `merge($revision = null)`
+
+ * `param string` $revision
+* `tag($tag_name, $message = null)`
+
+ * `param string` $tag_name
+* `executable($executable)`
+
+ * `param string` $executable
+* `exec($command)`
+
+ * `param string|string[]|CommandInterface` $command
+* `stopOnFail($stopOnFail = null)`
+
+ * `param bool` $stopOnFail
+* `result($result)`
+
+ * `param ` $result
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `setProcessInput($input)`
+
+ * `param resource|string` $input
+* `dir($dir)`
+
+ * `param string` $dir
 
 
 ## SvnStack
@@ -99,16 +159,38 @@ $this->taskSvnStack('username', 'password')
 ?>
 ```
 
-* `update($path = null)`  Updates `svn update` command
-* `add($pattern = null)`  Executes `svn add` command with files to add pattern
-* `commit($message, $options = null)`  Executes `svn commit` command with a message
-* `checkout($branch)`  Executes `svn checkout` command
-* `executable($executable)`   * `param string` $executable
-* `exec($command)`   * `param string|string[]|CommandInterface` $command
-* `stopOnFail($stopOnFail = null)`   * `param bool` $stopOnFail
-* `result($result)` 
-* `setOutput($output)`  Sets the Console Output.
-* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
-* `dir($dir)`  Changes working directory of command
+* `update($path = null)`
+
+ * `param string` $path
+* `add($pattern = null)`
+
+ * `param string` $pattern
+* `commit($message, $options = null)`
+
+ * `param string` $message
+* `checkout($branch)`
+
+ * `param string` $branch
+* `executable($executable)`
+
+ * `param string` $executable
+* `exec($command)`
+
+ * `param string|string[]|CommandInterface` $command
+* `stopOnFail($stopOnFail = null)`
+
+ * `param bool` $stopOnFail
+* `result($result)`
+
+ * `param ` $result
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `setProcessInput($input)`
+
+ * `param resource|string` $input
+* `dir($dir)`
+
+ * `param string` $dir
 
 

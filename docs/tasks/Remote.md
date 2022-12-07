@@ -40,43 +40,117 @@ if ('y' === $this->ask('Do you want to run (y/n)')) {
 }
 ```
 
-* `fromPath($path)`  This can either be a full rsync path spec (user@host:path) or just a path.
-* `toPath($path)`  This can either be a full rsync path spec (user@host:path) or just a path.
-* `fromUser($fromUser)`   * `param string` $fromUser
-* `fromHost($fromHost)`   * `param string` $fromHost
-* `toUser($toUser)`   * `param string` $toUser
-* `toHost($toHost)`   * `param string` $toHost
-* `progress()`   * `return` $this
-* `stats()`   * `return` $this
-* `recursive()`   * `return` $this
-* `verbose()`   * `return` $this
-* `checksum()`   * `return` $this
-* `archive()`   * `return` $this
-* `compress()`   * `return` $this
-* `owner()`   * `return` $this
-* `group()`   * `return` $this
-* `times()`   * `return` $this
-* `delete()`   * `return` $this
-* `humanReadable()`   * `return` $this
-* `wholeFile()`   * `return` $this
-* `dryRun()`   * `return` $this
-* `itemizeChanges()`   * `return` $this
-* `excludeVcs()`  Excludes .git, .svn and .hg items at any depth.
-* `exclude($pattern)`   * `param array|string` $pattern
-* `excludeFrom($file)`   * `param string` $file
-* `includeFilter($pattern)`   * `param array|string` $pattern
-* `filter($pattern)`   * `param array|string` $pattern
-* `filesFrom($file)`   * `param string` $file
-* `remoteShell($command)`   * `param string` $command
-* `setOutput($output)`  Sets the Console Output.
-* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
-* `dir($dir)`  Changes working directory of command
-* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
-* `args($args)`  Pass methods parameters as arguments to executable. Argument values
-* `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
-* `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
-* `options(array $options, $separator = null)`  Pass multiple options to executable. The associative array contains
-* `optionList($option, $value = null, $separator = null)`  Pass an option with multiple values to executable. Value can be a string or array.
+* `fromPath($path)`
+
+ * `param string|array` $path
+* `toPath($path)`
+
+ * `param string` $path
+* `fromUser($fromUser)`
+
+ * `param string` $fromUser
+* `fromHost($fromHost)`
+
+ * `param string` $fromHost
+* `toUser($toUser)`
+
+ * `param string` $toUser
+* `toHost($toHost)`
+
+ * `param string` $toHost
+* `progress()`
+
+ * `return $this`
+* `stats()`
+
+ * `return $this`
+* `recursive()`
+
+ * `return $this`
+* `verbose()`
+
+ * `return $this`
+* `checksum()`
+
+ * `return $this`
+* `archive()`
+
+ * `return $this`
+* `compress()`
+
+ * `return $this`
+* `owner()`
+
+ * `return $this`
+* `group()`
+
+ * `return $this`
+* `times()`
+
+ * `return $this`
+* `delete()`
+
+ * `return $this`
+* `humanReadable()`
+
+ * `return $this`
+* `wholeFile()`
+
+ * `return $this`
+* `dryRun()`
+
+ * `return $this`
+* `itemizeChanges()`
+
+ * `return $this`
+* `excludeVcs()`
+
+ * `return $this`
+* `exclude($pattern)`
+
+ * `param array|string` $pattern
+* `excludeFrom($file)`
+
+ * `param string` $file
+* `includeFilter($pattern)`
+
+ * `param array|string` $pattern
+* `filter($pattern)`
+
+ * `param array|string` $pattern
+* `filesFrom($file)`
+
+ * `param string` $file
+* `remoteShell($command)`
+
+ * `param string` $command
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `setProcessInput($input)`
+
+ * `param resource|string` $input
+* `dir($dir)`
+
+ * `param string` $dir
+* `arg($arg)`
+
+ * `param string` $arg
+* `args($args)`
+
+ * `param string|string[]` $args
+* `rawArg($arg)`
+
+ * `param string` $arg
+* `option($option, $value = null, $separator = null)`
+
+ * `param string` $option
+* `options(array $options, $separator = null)`
+
+ * `param array` $options
+* `optionList($option, $value = null, $separator = null)`
+
+ * `param string` $option
 
 ## Ssh
 
@@ -114,25 +188,65 @@ You can configure the remote directory for all future calls:
 ::configure('remoteDir', '/some-dir');
 ```
 
-* `hostname($hostname)`   * `param string` $hostname
-* `user($user)`   * `param string` $user
-* `stopOnFail($stopOnFail = null)`  Whether or not to chain commands together with && and stop the chain if one command fails.
-* `remoteDir($remoteDir)`  Changes to the given directory before running commands.
-* `identityFile($filename)`   * `param string` $filename
-* `port($port)`   * `param int` $port
-* `forcePseudoTty()`   * `return` $this
-* `quiet()`   * `return` $this
-* `verbose()`   * `return` $this
-* `exec($command)`   * `param string|string[]|CommandInterface` $command
-* `simulate($context)`  {@inheritdoc}
-* `setOutput($output)`  Sets the Console Output.
-* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
-* `dir($dir)`  Changes working directory of command
-* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
-* `args($args)`  Pass methods parameters as arguments to executable. Argument values
-* `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
-* `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
-* `options(array $options, $separator = null)`  Pass multiple options to executable. The associative array contains
-* `optionList($option, $value = null, $separator = null)`  Pass an option with multiple values to executable. Value can be a string or array.
+* `hostname($hostname)`
+
+ * `param string` $hostname
+* `user($user)`
+
+ * `param string` $user
+* `stopOnFail($stopOnFail = null)`
+
+ * `param bool` $stopOnFail
+* `remoteDir($remoteDir)`
+
+ * `param string` $remoteDir
+* `identityFile($filename)`
+
+ * `param string` $filename
+* `port($port)`
+
+ * `param int` $port
+* `forcePseudoTty()`
+
+ * `return $this`
+* `quiet()`
+
+ * `return $this`
+* `verbose()`
+
+ * `return $this`
+* `exec($command)`
+
+ * `param string|string[]|CommandInterface` $command
+* `simulate($context)`
+
+ * `param ` $context
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `setProcessInput($input)`
+
+ * `param resource|string` $input
+* `dir($dir)`
+
+ * `param string` $dir
+* `arg($arg)`
+
+ * `param string` $arg
+* `args($args)`
+
+ * `param string|string[]` $args
+* `rawArg($arg)`
+
+ * `param string` $arg
+* `option($option, $value = null, $separator = null)`
+
+ * `param string` $option
+* `options(array $options, $separator = null)`
+
+ * `param array` $options
+* `optionList($option, $value = null, $separator = null)`
+
+ * `param string` $option
 
 

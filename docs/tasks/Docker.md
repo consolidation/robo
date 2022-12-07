@@ -20,17 +20,39 @@ $this->taskDockerBuild('path/to/dir')
 Class Build
 @package Robo\Task\Docker
 
-* `tag($tag)`   * `param string` $tag
-* `enableBuildKit()`   * `return` $this
-* `setOutput($output)`  Sets the Console Output.
-* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
-* `dir($dir)`  Changes working directory of command
-* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
-* `args($args)`  Pass methods parameters as arguments to executable. Argument values
-* `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
-* `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
-* `options(array $options, $separator = null)`  Pass multiple options to executable. The associative array contains
-* `optionList($option, $value = null, $separator = null)`  Pass an option with multiple values to executable. Value can be a string or array.
+* `tag($tag)`
+
+ * `param string` $tag
+* `enableBuildKit()`
+
+ * `return $this`
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `setProcessInput($input)`
+
+ * `param resource|string` $input
+* `dir($dir)`
+
+ * `param string` $dir
+* `arg($arg)`
+
+ * `param string` $arg
+* `args($args)`
+
+ * `param string|string[]` $args
+* `rawArg($arg)`
+
+ * `param string` $arg
+* `option($option, $value = null, $separator = null)`
+
+ * `param string` $option
+* `options(array $options, $separator = null)`
+
+ * `param array` $options
+* `optionList($option, $value = null, $separator = null)`
+
+ * `param string` $option
 
 ## Commit
 
@@ -53,16 +75,36 @@ $task->dockerCommit($result)
      ->run();
 ```
 
-* `name($name)`   * `param string` $name
-* `setOutput($output)`  Sets the Console Output.
-* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
-* `dir($dir)`  Changes working directory of command
-* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
-* `args($args)`  Pass methods parameters as arguments to executable. Argument values
-* `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
-* `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
-* `options(array $options, $separator = null)`  Pass multiple options to executable. The associative array contains
-* `optionList($option, $value = null, $separator = null)`  Pass an option with multiple values to executable. Value can be a string or array.
+* `name($name)`
+
+ * `param string` $name
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `setProcessInput($input)`
+
+ * `param resource|string` $input
+* `dir($dir)`
+
+ * `param string` $dir
+* `arg($arg)`
+
+ * `param string` $arg
+* `args($args)`
+
+ * `param string|string[]` $args
+* `rawArg($arg)`
+
+ * `param string` $arg
+* `option($option, $value = null, $separator = null)`
+
+ * `param string` $option
+* `options(array $options, $separator = null)`
+
+ * `param array` $options
+* `optionList($option, $value = null, $separator = null)`
+
+ * `param string` $option
 
 ## Exec
 
@@ -90,17 +132,39 @@ $this->taskDockerExec($test)
 ```
 
 
-* `detached()`   * `return` $this
-* `exec($command)`   * `param string|\Robo\Contract\CommandInterface` $command
-* `setOutput($output)`  Sets the Console Output.
-* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
-* `dir($dir)`  Changes working directory of command
-* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
-* `args($args)`  Pass methods parameters as arguments to executable. Argument values
-* `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
-* `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
-* `options(array $options, $separator = null)`  Pass multiple options to executable. The associative array contains
-* `optionList($option, $value = null, $separator = null)`  Pass an option with multiple values to executable. Value can be a string or array.
+* `detached()`
+
+ * `return $this`
+* `exec($command)`
+
+ * `param string|\Robo\Contract\CommandInterface` $command
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `setProcessInput($input)`
+
+ * `param resource|string` $input
+* `dir($dir)`
+
+ * `param string` $dir
+* `arg($arg)`
+
+ * `param string` $arg
+* `args($args)`
+
+ * `param string|string[]` $args
+* `rawArg($arg)`
+
+ * `param string` $arg
+* `option($option, $value = null, $separator = null)`
+
+ * `param string` $option
+* `options(array $options, $separator = null)`
+
+ * `param array` $options
+* `optionList($option, $value = null, $separator = null)`
+
+ * `param string` $option
 
 ## Pull
 
@@ -116,15 +180,33 @@ $this->taskDockerPull('wordpress')
 ```
 
 
-* `setOutput($output)`  Sets the Console Output.
-* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
-* `dir($dir)`  Changes working directory of command
-* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
-* `args($args)`  Pass methods parameters as arguments to executable. Argument values
-* `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
-* `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
-* `options(array $options, $separator = null)`  Pass multiple options to executable. The associative array contains
-* `optionList($option, $value = null, $separator = null)`  Pass an option with multiple values to executable. Value can be a string or array.
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `setProcessInput($input)`
+
+ * `param resource|string` $input
+* `dir($dir)`
+
+ * `param string` $dir
+* `arg($arg)`
+
+ * `param string` $arg
+* `args($args)`
+
+ * `param string|string[]` $args
+* `rawArg($arg)`
+
+ * `param string` $arg
+* `option($option, $value = null, $separator = null)`
+
+ * `param string` $option
+* `options(array $options, $separator = null)`
+
+ * `param array` $options
+* `optionList($option, $value = null, $separator = null)`
+
+ * `param string` $option
 
 ## Remove
 
@@ -139,15 +221,33 @@ $this->taskDockerRemove($container)
 ```
 
 
-* `setOutput($output)`  Sets the Console Output.
-* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
-* `dir($dir)`  Changes working directory of command
-* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
-* `args($args)`  Pass methods parameters as arguments to executable. Argument values
-* `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
-* `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
-* `options(array $options, $separator = null)`  Pass multiple options to executable. The associative array contains
-* `optionList($option, $value = null, $separator = null)`  Pass an option with multiple values to executable. Value can be a string or array.
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `setProcessInput($input)`
+
+ * `param resource|string` $input
+* `dir($dir)`
+
+ * `param string` $dir
+* `arg($arg)`
+
+ * `param string` $arg
+* `args($args)`
+
+ * `param string|string[]` $args
+* `rawArg($arg)`
+
+ * `param string` $arg
+* `option($option, $value = null, $separator = null)`
+
+ * `param string` $option
+* `options(array $options, $separator = null)`
+
+ * `param array` $options
+* `optionList($option, $value = null, $separator = null)`
+
+ * `param string` $option
 
 
 ## Run
@@ -195,27 +295,69 @@ $this->taskDockerRun('wordpress')
 ```
 
 
-* `detached()`   * `return` $this
-* `exec($run)`   * `param string|\Robo\Contract\CommandInterface` $run
-* `volume($from, $to = null)`   * `param string` $from
-* `publish($port = null, $portTo = null)`   * `param null|int` $port
-* `containerWorkdir($dir)`   * `param string` $dir
-* `user($user)`   * `param string` $user
-* `privileged()`   * `return` $this
-* `name($name)`   * `param string` $name
-* `link($name, $alias)`   * `param string|\Robo\Task\Docker\Result` $name
-* `tmpDir($dir)`   * `param string` $dir
-* `getTmpDir()`  @return string
-* `getUniqId()`  @return string
-* `setOutput($output)`  Sets the Console Output.
-* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
-* `dir($dir)`  Changes working directory of command
-* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
-* `args($args)`  Pass methods parameters as arguments to executable. Argument values
-* `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
-* `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
-* `options(array $options, $separator = null)`  Pass multiple options to executable. The associative array contains
-* `optionList($option, $value = null, $separator = null)`  Pass an option with multiple values to executable. Value can be a string or array.
+* `detached()`
+
+ * `return $this`
+* `exec($run)`
+
+ * `param string|\Robo\Contract\CommandInterface` $run
+* `volume($from, $to = null)`
+
+ * `param string` $from
+* `publish($port = null, $portTo = null)`
+
+ * `param null|int` $port
+* `containerWorkdir($dir)`
+
+ * `param string` $dir
+* `user($user)`
+
+ * `param string` $user
+* `privileged()`
+
+ * `return $this`
+* `name($name)`
+
+ * `param string` $name
+* `link($name, $alias)`
+
+ * `param string|\Robo\Task\Docker\Result` $name
+* `tmpDir($dir)`
+
+ * `param string` $dir
+* `getTmpDir()`
+
+ * `return string`
+* `getUniqId()`
+
+ * `return string`
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `setProcessInput($input)`
+
+ * `param resource|string` $input
+* `dir($dir)`
+
+ * `param string` $dir
+* `arg($arg)`
+
+ * `param string` $arg
+* `args($args)`
+
+ * `param string|string[]` $args
+* `rawArg($arg)`
+
+ * `param string` $arg
+* `option($option, $value = null, $separator = null)`
+
+ * `param string` $option
+* `options(array $options, $separator = null)`
+
+ * `param array` $options
+* `optionList($option, $value = null, $separator = null)`
+
+ * `param string` $option
 
 ## Start
 
@@ -229,15 +371,33 @@ $this->taskDockerStart($cidOrResult)
 ?>
 ```
 
-* `setOutput($output)`  Sets the Console Output.
-* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
-* `dir($dir)`  Changes working directory of command
-* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
-* `args($args)`  Pass methods parameters as arguments to executable. Argument values
-* `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
-* `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
-* `options(array $options, $separator = null)`  Pass multiple options to executable. The associative array contains
-* `optionList($option, $value = null, $separator = null)`  Pass an option with multiple values to executable. Value can be a string or array.
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `setProcessInput($input)`
+
+ * `param resource|string` $input
+* `dir($dir)`
+
+ * `param string` $dir
+* `arg($arg)`
+
+ * `param string` $arg
+* `args($args)`
+
+ * `param string|string[]` $args
+* `rawArg($arg)`
+
+ * `param string` $arg
+* `option($option, $value = null, $separator = null)`
+
+ * `param string` $option
+* `options(array $options, $separator = null)`
+
+ * `param array` $options
+* `optionList($option, $value = null, $separator = null)`
+
+ * `param string` $option
 
 ## Stop
 
@@ -251,14 +411,32 @@ $this->taskDockerStop($cidOrResult)
 ?>
 ```
 
-* `setOutput($output)`  Sets the Console Output.
-* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
-* `dir($dir)`  Changes working directory of command
-* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
-* `args($args)`  Pass methods parameters as arguments to executable. Argument values
-* `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
-* `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
-* `options(array $options, $separator = null)`  Pass multiple options to executable. The associative array contains
-* `optionList($option, $value = null, $separator = null)`  Pass an option with multiple values to executable. Value can be a string or array.
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `setProcessInput($input)`
+
+ * `param resource|string` $input
+* `dir($dir)`
+
+ * `param string` $dir
+* `arg($arg)`
+
+ * `param string` $arg
+* `args($args)`
+
+ * `param string|string[]` $args
+* `rawArg($arg)`
+
+ * `param string` $arg
+* `option($option, $value = null, $separator = null)`
+
+ * `param string` $option
+* `options(array $options, $separator = null)`
+
+ * `param array` $options
+* `optionList($option, $value = null, $separator = null)`
+
+ * `param string` $option
 
 

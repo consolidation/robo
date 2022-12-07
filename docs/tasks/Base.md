@@ -19,16 +19,36 @@ if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
 ?>
 ```
 
-* `simulate($context)`  {@inheritdoc}
-* `setOutput($output)`  Sets the Console Output.
-* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
-* `dir($dir)`  Changes working directory of command
-* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
-* `args($args)`  Pass methods parameters as arguments to executable. Argument values
-* `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
-* `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
-* `options(array $options, $separator = null)`  Pass multiple options to executable. The associative array contains
-* `optionList($option, $value = null, $separator = null)`  Pass an option with multiple values to executable. Value can be a string or array.
+* `simulate($context)`
+
+ * `param ` $context
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `setProcessInput($input)`
+
+ * `param resource|string` $input
+* `dir($dir)`
+
+ * `param string` $dir
+* `arg($arg)`
+
+ * `param string` $arg
+* `args($args)`
+
+ * `param string|string[]` $args
+* `rawArg($arg)`
+
+ * `param string` $arg
+* `option($option, $value = null, $separator = null)`
+
+ * `param string` $option
+* `options(array $options, $separator = null)`
+
+ * `param array` $options
+* `optionList($option, $value = null, $separator = null)`
+
+ * `param string` $option
 
 ## ExecStack
 
@@ -47,13 +67,27 @@ $this->taskExecStack()
 ?>
 ```
 
-* `executable($executable)`   * `param string` $executable
-* `exec($command)`   * `param string|string[]|CommandInterface` $command
-* `stopOnFail($stopOnFail = null)`   * `param bool` $stopOnFail
-* `result($result)` 
-* `setOutput($output)`  Sets the Console Output.
-* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
-* `dir($dir)`  Changes working directory of command
+* `executable($executable)`
+
+ * `param string` $executable
+* `exec($command)`
+
+ * `param string|string[]|CommandInterface` $command
+* `stopOnFail($stopOnFail = null)`
+
+ * `param bool` $stopOnFail
+* `result($result)`
+
+ * `param ` $result
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `setProcessInput($input)`
+
+ * `param resource|string` $input
+* `dir($dir)`
+
+ * `param string` $dir
 
 ## ParallelExec
 
@@ -70,9 +104,15 @@ $this->taskParallelExec()
 ?>
 ```
 
-* `process($command)`   * `param string|\Robo\Contract\CommandInterface` $command
-* `waitInterval($waitInterval)`  Parallel processing will wait `$waitInterval` seconds after launching each process and before
-* `setOutput($output)`  Sets the Console Output.
+* `process($command)`
+
+ * `param string|\Robo\Contract\CommandInterface` $command
+* `waitInterval($waitInterval)`
+
+ * `param int` $waitInterval
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 
 ## SymfonyCommand
@@ -95,9 +135,15 @@ $this->taskSymfonyCommand(new ModelGeneratorCommand())
 ?>
 ```
 
-* `arg($arg, $value)`   * `param string` $arg
-* `opt($option, $value = null)` 
-* `setOutput($output)`  Sets the Console Output.
+* `arg($arg, $value)`
+
+ * `param string` $arg
+* `opt($option, $value = null)`
+
+ * `param ` $option
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 
 ## Watch
@@ -153,6 +199,10 @@ $this
 
 The $event parameter is a [standard Symfony file resource object](https://api.symfony.com/3.1/Symfony/Component/Config/Resource/FileResource.html)
 
-* `monitor($paths, $callable, $events = null)`   * `param string|string[]` $paths
-* `setOutput($output)`  Sets the Console Output.
+* `monitor($paths, $callable, $events = null)`
+
+ * `param string|string[]` $paths
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 

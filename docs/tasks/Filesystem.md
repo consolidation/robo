@@ -13,7 +13,9 @@ $this->_cleanDir('app/cache');
 ?>
 ```
 
-* `setOutput($output)`  Sets the Console Output.
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 ## CopyDir
 
@@ -28,10 +30,18 @@ $this->_copyDir('dist/config', 'config');
 ?>
 ```
 
-* `dirPermissions($value)`  Sets the default folder permissions for the destination if it doesn't exist
-* `exclude($exclude = null)`  List files to exclude.
-* `overwrite($overwrite)`  Destination files newer than source files are overwritten.
-* `setOutput($output)`  Sets the Console Output.
+* `dirPermissions($value)`
+
+ * `link` https://en.wikipedia.org/wiki/Chmod
+* `exclude($exclude = null)`
+
+ * `param string[]` $exclude
+* `overwrite($overwrite)`
+
+ * `param bool` $overwrite
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 ## DeleteDir
 
@@ -46,7 +56,9 @@ $this->_deleteDir(['tmp', 'log']);
 ?>
 ```
 
-* `setOutput($output)`  Sets the Console Output.
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 ## FilesystemStack
 
@@ -81,8 +93,12 @@ $this->_mkdir('logs');
 * `$this symlink(string $from, string $to, bool $copyOnWindows = false)` 
 * `$this mirror(string $from, string $to, \Traversable $iterator = null, array $options = [])` 
 
-* `stopOnFail($stop = null)`   * `param bool` $stop
-* `setOutput($output)`  Sets the Console Output.
+* `stopOnFail($stop = null)`
+
+ * `param bool` $stop
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 ## FlattenDir
 
@@ -146,11 +162,21 @@ $this->taskFlattenDir(['assets/*.min.js' => 'dist'])
 ?>
 ```
 
-* `dirPermissions($permission)`  Sets the default folder permissions for the destination if it does not exist.
-* `includeParents($parents)`  Sets the value from which direction and how much parent dirs should be included.
-* `parentDir($dir)`  Sets the parent directory from which the relative parent directories will be calculated.
-* `to($target)`  Sets the target directory where the files will be copied to.
-* `setOutput($output)`  Sets the Console Output.
+* `dirPermissions($permission)`
+
+ * `link` https://en.wikipedia.org/wiki/Chmod
+* `includeParents($parents)`
+
+ * `param int|int[]` $parents
+* `parentDir($dir)`
+
+ * `param string` $dir
+* `to($target)`
+
+ * `param string` $target
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 ## MirrorDir
 
@@ -166,7 +192,9 @@ $this->_mirrorDir('dist/config/', 'config/');
 ?>
 ```
 
-* `setOutput($output)`  Sets the Console Output.
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 
 
@@ -194,10 +222,18 @@ $tmpPath = $this->_tmpDir();
 ?>
 ```
 
-* `cwd($shouldChangeWorkingDirectory = null)`  Flag that we should cwd to the temporary directory when it is
-* `complete()`  Delete this directory when our collection completes.
-* `getPath()`  Get a reference to the path to the temporary directory, so that
-* `setOutput($output)`  Sets the Console Output.
+* `cwd($shouldChangeWorkingDirectory = null)`
+
+ * `param bool` $shouldChangeWorkingDirectory
+* `complete()`
+
+ Delete this directory when our collection completes.
+* `getPath()`
+
+ * `return string`
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 ## WorkDir
 
@@ -217,9 +253,19 @@ $collection->run();
 ?>
 ```
 
-* `complete()`  Move our working directory into its final destination once the
-* `rollback()`  Delete our working directory
-* `getPath()`  Get a reference to the path to the temporary directory, so that
-* `cwd($shouldChangeWorkingDirectory = null)`  Flag that we should cwd to the temporary directory when it is
-* `setOutput($output)`  Sets the Console Output.
+* `complete()`
+
+ Move our working directory into its final destination once the
+* `rollback()`
+
+ Delete our working directory
+* `getPath()`
+
+ * `return string`
+* `cwd($shouldChangeWorkingDirectory = null)`
+
+ * `param bool` $shouldChangeWorkingDirectory
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 

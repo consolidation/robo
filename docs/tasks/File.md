@@ -16,8 +16,12 @@ $this->taskConcat([
 ?>
 ```
 
-* `to($dst)`  set the destination file
-* `setOutput($output)`  Sets the Console Output.
+* `to($dst)`
+
+ * `param string` $dst
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 ## Replace
 
@@ -48,12 +52,24 @@ $this->taskReplaceInFile('box/robo.txt')
 ?>
 ```
 
-* `filename($filename)`   * `param string` $filename
-* `from($from)`  String(s) to be replaced.
-* `to($to)`  Value(s) to be set as a replacement.
-* `regex($regex)`  Regex to match string to be replaced.
-* `limit($limit)`  If used with $this->regexp() how many counts will be replaced
-* `setOutput($output)`  Sets the Console Output.
+* `filename($filename)`
+
+ * `param string` $filename
+* `from($from)`
+
+ * `param string|string[]` $from
+* `to($to)`
+
+ * `param string|string[]` $to
+* `regex($regex)`
+
+ * `param string` $regex
+* `limit($limit)`
+
+ * `param int` $limit
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 
 ## TmpFile
@@ -79,22 +95,54 @@ $collection->run();
 ?>
 ```
 
-* `complete()`  Delete this file when our collection completes.
-* `filename($filename)`   * `param string` $filename
-* `append($append = null)`   * `param bool` $append
-* `line($line)`  add a line.
-* `lines(array $lines)`  add more lines.
-* `text($text)`  add a text.
-* `textFromFile($filename)`  add a text from a file.
-* `place($name, $val)`  substitute a placeholder with value, placeholder must be enclosed by `{}`.
-* `replace($string, $replacement)`  replace any string with value.
-* `regexReplace($pattern, $replacement)`  replace any string with value using regular expression.
-* `appendIfMatches($pattern, $text)`  Append the provided text to the end of the buffer if the provided
-* `appendUnlessMatches($pattern, $text)`  Append the provided text to the end of the buffer unless the provided
-* `originalContents()`  @return string
-* `wouldChange()`  @return bool
-* `getPath()`  @return string
-* `setOutput($output)`  Sets the Console Output.
+* `complete()`
+
+ Delete this file when our collection completes.
+* `filename($filename)`
+
+ * `param string` $filename
+* `append($append = null)`
+
+ * `param bool` $append
+* `line($line)`
+
+ * `param string` $line
+* `lines(array $lines)`
+
+ * `param array` $lines
+* `text($text)`
+
+ * `param string` $text
+* `textFromFile($filename)`
+
+ * `param string` $filename
+* `place($name, $val)`
+
+ * `param string` $name
+* `replace($string, $replacement)`
+
+ * `param string` $string
+* `regexReplace($pattern, $replacement)`
+
+ * `param string` $pattern
+* `appendIfMatches($pattern, $text)`
+
+ * `param string` $pattern
+* `appendUnlessMatches($pattern, $text)`
+
+ * `param string` $pattern
+* `originalContents()`
+
+ * `return string`
+* `wouldChange()`
+
+ * `return bool`
+* `getPath()`
+
+ * `return string`
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 ## Write
 
@@ -111,19 +159,49 @@ $this->taskWriteToFile('blogpost.md')
 ?>
 ```
 
-* `filename($filename)`   * `param string` $filename
-* `append($append = null)`   * `param bool` $append
-* `line($line)`  add a line.
-* `lines(array $lines)`  add more lines.
-* `text($text)`  add a text.
-* `textFromFile($filename)`  add a text from a file.
-* `place($name, $val)`  substitute a placeholder with value, placeholder must be enclosed by `{}`.
-* `replace($string, $replacement)`  replace any string with value.
-* `regexReplace($pattern, $replacement)`  replace any string with value using regular expression.
-* `appendIfMatches($pattern, $text)`  Append the provided text to the end of the buffer if the provided
-* `appendUnlessMatches($pattern, $text)`  Append the provided text to the end of the buffer unless the provided
-* `originalContents()`  @return string
-* `wouldChange()`  @return bool
-* `getPath()`  @return string
-* `setOutput($output)`  Sets the Console Output.
+* `filename($filename)`
+
+ * `param string` $filename
+* `append($append = null)`
+
+ * `param bool` $append
+* `line($line)`
+
+ * `param string` $line
+* `lines(array $lines)`
+
+ * `param array` $lines
+* `text($text)`
+
+ * `param string` $text
+* `textFromFile($filename)`
+
+ * `param string` $filename
+* `place($name, $val)`
+
+ * `param string` $name
+* `replace($string, $replacement)`
+
+ * `param string` $string
+* `regexReplace($pattern, $replacement)`
+
+ * `param string` $pattern
+* `appendIfMatches($pattern, $text)`
+
+ * `param string` $pattern
+* `appendUnlessMatches($pattern, $text)`
+
+ * `param string` $pattern
+* `originalContents()`
+
+ * `return string`
+* `wouldChange()`
+
+ * `return bool`
+* `getPath()`
+
+ * `return string`
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 

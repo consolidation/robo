@@ -12,29 +12,75 @@ $this->taskComposerValidate()->run();
 ?>
 ```
 
-* `preferDist($preferDist = null)`  adds `prefer-dist` option to composer
-* `preferSource()`  adds `prefer-source` option to composer
-* `dev($dev = null)`  adds `dev` option to composer
-* `noDev()`  adds `no-dev` option to composer
-* `ansi($ansi = null)`  adds `ansi` option to composer
-* `noAnsi()`  adds `no-ansi` option to composer
-* `interaction($interaction = null)`   * `param bool` $interaction
-* `noInteraction()`  adds `no-interaction` option to composer
-* `optimizeAutoloader($optimize = null)`  adds `optimize-autoloader` option to composer
-* `ignorePlatformRequirements($ignore = null)`  adds `ignore-platform-reqs` option to composer
-* `disablePlugins($disable = null)`  disable plugins
-* `noScripts($disable = null)`  skip scripts
-* `workingDir($dir)`  adds `--working-dir $dir` option to composer
-* `buildCommand()`  Copy class fields into command options as directed.
-* `setOutput($output)`  Sets the Console Output.
-* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
-* `dir($dir)`  Changes working directory of command
-* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
-* `args($args)`  Pass methods parameters as arguments to executable. Argument values
-* `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
-* `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
-* `options(array $options, $separator = null)`  Pass multiple options to executable. The associative array contains
-* `optionList($option, $value = null, $separator = null)`  Pass an option with multiple values to executable. Value can be a string or array.
+* `preferDist($preferDist = null)`
+
+ * `param bool` $preferDist
+* `preferSource()`
+
+ * `return $this`
+* `dev($dev = null)`
+
+ * `param bool` $dev
+* `noDev()`
+
+ * `return $this`
+* `ansi($ansi = null)`
+
+ * `param bool` $ansi
+* `noAnsi()`
+
+ * `return $this`
+* `interaction($interaction = null)`
+
+ * `param bool` $interaction
+* `noInteraction()`
+
+ * `return $this`
+* `optimizeAutoloader($optimize = null)`
+
+ * `param bool` $optimize
+* `ignorePlatformRequirements($ignore = null)`
+
+ * `param bool` $ignore
+* `disablePlugins($disable = null)`
+
+ * `param bool` $disable
+* `noScripts($disable = null)`
+
+ * `param bool` $disable
+* `workingDir($dir)`
+
+ * `param string` $dir
+* `buildCommand()`
+
+ Copy class fields into command options as directed.
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `setProcessInput($input)`
+
+ * `param resource|string` $input
+* `dir($dir)`
+
+ * `param string` $dir
+* `arg($arg)`
+
+ * `param string` $arg
+* `args($args)`
+
+ * `param string|string[]` $args
+* `rawArg($arg)`
+
+ * `param string` $arg
+* `option($option, $value = null, $separator = null)`
+
+ * `param string` $option
+* `options(array $options, $separator = null)`
+
+ * `param array` $options
+* `optionList($option, $value = null, $separator = null)`
+
+ * `param string` $option
 
 ## Config
 
@@ -48,35 +94,93 @@ $this->taskComposerConfig()->set('bin-dir', 'bin/')->run();
 ?>
 ```
 
-* `set($key, $value)`  Set a configuration value.
-* `useGlobal($useGlobal = null)`  Operate on the global repository
-* `repository($id, $uri, $repoType = null)`   * `param string` $id
-* `removeRepository($id)`   * `param string` $id
-* `disableRepository($id)`   * `param string` $id
-* `enableRepository($id)`   * `param string` $id
-* `preferDist($preferDist = null)`  adds `prefer-dist` option to composer
-* `preferSource()`  adds `prefer-source` option to composer
-* `dev($dev = null)`  adds `dev` option to composer
-* `noDev()`  adds `no-dev` option to composer
-* `ansi($ansi = null)`  adds `ansi` option to composer
-* `noAnsi()`  adds `no-ansi` option to composer
-* `interaction($interaction = null)`   * `param bool` $interaction
-* `noInteraction()`  adds `no-interaction` option to composer
-* `optimizeAutoloader($optimize = null)`  adds `optimize-autoloader` option to composer
-* `ignorePlatformRequirements($ignore = null)`  adds `ignore-platform-reqs` option to composer
-* `disablePlugins($disable = null)`  disable plugins
-* `noScripts($disable = null)`  skip scripts
-* `workingDir($dir)`  adds `--working-dir $dir` option to composer
-* `buildCommand()`  Copy class fields into command options as directed.
-* `setOutput($output)`  Sets the Console Output.
-* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
-* `dir($dir)`  Changes working directory of command
-* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
-* `args($args)`  Pass methods parameters as arguments to executable. Argument values
-* `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
-* `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
-* `options(array $options, $separator = null)`  Pass multiple options to executable. The associative array contains
-* `optionList($option, $value = null, $separator = null)`  Pass an option with multiple values to executable. Value can be a string or array.
+* `set($key, $value)`
+
+ * `param string` $key
+* `useGlobal($useGlobal = null)`
+
+ * `param bool` $useGlobal
+* `repository($id, $uri, $repoType = null)`
+
+ * `param string` $id
+* `removeRepository($id)`
+
+ * `param string` $id
+* `disableRepository($id)`
+
+ * `param string` $id
+* `enableRepository($id)`
+
+ * `param string` $id
+* `preferDist($preferDist = null)`
+
+ * `param bool` $preferDist
+* `preferSource()`
+
+ * `return $this`
+* `dev($dev = null)`
+
+ * `param bool` $dev
+* `noDev()`
+
+ * `return $this`
+* `ansi($ansi = null)`
+
+ * `param bool` $ansi
+* `noAnsi()`
+
+ * `return $this`
+* `interaction($interaction = null)`
+
+ * `param bool` $interaction
+* `noInteraction()`
+
+ * `return $this`
+* `optimizeAutoloader($optimize = null)`
+
+ * `param bool` $optimize
+* `ignorePlatformRequirements($ignore = null)`
+
+ * `param bool` $ignore
+* `disablePlugins($disable = null)`
+
+ * `param bool` $disable
+* `noScripts($disable = null)`
+
+ * `param bool` $disable
+* `workingDir($dir)`
+
+ * `param string` $dir
+* `buildCommand()`
+
+ Copy class fields into command options as directed.
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `setProcessInput($input)`
+
+ * `param resource|string` $input
+* `dir($dir)`
+
+ * `param string` $dir
+* `arg($arg)`
+
+ * `param string` $arg
+* `args($args)`
+
+ * `param string|string[]` $args
+* `rawArg($arg)`
+
+ * `param string` $arg
+* `option($option, $value = null, $separator = null)`
+
+ * `param string` $option
+* `options(array $options, $separator = null)`
+
+ * `param array` $options
+* `optionList($option, $value = null, $separator = null)`
+
+ * `param string` $option
 
 ## CreateProject
 
@@ -90,36 +194,96 @@ $this->taskComposerCreateProject()->source('foo/bar')->target('myBar')->run();
 ?>
 ```
 
-* `source($source)`   * `param string` $source
-* `target($target)`   * `param string` $target
-* `version($version)`   * `param string` $version
-* `keepVcs($keep = null)`   * `param bool` $keep
-* `noInstall($noInstall = null)`   * `param bool` $noInstall
-* `repository($repository)`   * `param string` $repository
-* `stability($stability)`   * `param string` $stability
-* `buildCommand()`  {@inheritdoc}
-* `preferDist($preferDist = null)`  adds `prefer-dist` option to composer
-* `preferSource()`  adds `prefer-source` option to composer
-* `dev($dev = null)`  adds `dev` option to composer
-* `noDev()`  adds `no-dev` option to composer
-* `ansi($ansi = null)`  adds `ansi` option to composer
-* `noAnsi()`  adds `no-ansi` option to composer
-* `interaction($interaction = null)`   * `param bool` $interaction
-* `noInteraction()`  adds `no-interaction` option to composer
-* `optimizeAutoloader($optimize = null)`  adds `optimize-autoloader` option to composer
-* `ignorePlatformRequirements($ignore = null)`  adds `ignore-platform-reqs` option to composer
-* `disablePlugins($disable = null)`  disable plugins
-* `noScripts($disable = null)`  skip scripts
-* `workingDir($dir)`  adds `--working-dir $dir` option to composer
-* `setOutput($output)`  Sets the Console Output.
-* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
-* `dir($dir)`  Changes working directory of command
-* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
-* `args($args)`  Pass methods parameters as arguments to executable. Argument values
-* `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
-* `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
-* `options(array $options, $separator = null)`  Pass multiple options to executable. The associative array contains
-* `optionList($option, $value = null, $separator = null)`  Pass an option with multiple values to executable. Value can be a string or array.
+* `source($source)`
+
+ * `param string` $source
+* `target($target)`
+
+ * `param string` $target
+* `version($version)`
+
+ * `param string` $version
+* `keepVcs($keep = null)`
+
+ * `param bool` $keep
+* `noInstall($noInstall = null)`
+
+ * `param bool` $noInstall
+* `repository($repository)`
+
+ * `param string` $repository
+* `stability($stability)`
+
+ * `param string` $stability
+* `buildCommand()`
+
+ {@inheritdoc}
+* `preferDist($preferDist = null)`
+
+ * `param bool` $preferDist
+* `preferSource()`
+
+ * `return $this`
+* `dev($dev = null)`
+
+ * `param bool` $dev
+* `noDev()`
+
+ * `return $this`
+* `ansi($ansi = null)`
+
+ * `param bool` $ansi
+* `noAnsi()`
+
+ * `return $this`
+* `interaction($interaction = null)`
+
+ * `param bool` $interaction
+* `noInteraction()`
+
+ * `return $this`
+* `optimizeAutoloader($optimize = null)`
+
+ * `param bool` $optimize
+* `ignorePlatformRequirements($ignore = null)`
+
+ * `param bool` $ignore
+* `disablePlugins($disable = null)`
+
+ * `param bool` $disable
+* `noScripts($disable = null)`
+
+ * `param bool` $disable
+* `workingDir($dir)`
+
+ * `param string` $dir
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `setProcessInput($input)`
+
+ * `param resource|string` $input
+* `dir($dir)`
+
+ * `param string` $dir
+* `arg($arg)`
+
+ * `param string` $arg
+* `args($args)`
+
+ * `param string|string[]` $args
+* `rawArg($arg)`
+
+ * `param string` $arg
+* `option($option, $value = null, $separator = null)`
+
+ * `param string` $option
+* `options(array $options, $separator = null)`
+
+ * `param array` $options
+* `optionList($option, $value = null, $separator = null)`
+
+ * `param string` $option
 
 ## DumpAutoload
 
@@ -149,30 +313,78 @@ $this->taskComposerDumpAutoload('path/to/my/composer.phar')
 ?>
 ```
 
-* `optimize($optimize = null)`   * `param bool` $optimize
-* `preferDist($preferDist = null)`  adds `prefer-dist` option to composer
-* `preferSource()`  adds `prefer-source` option to composer
-* `dev($dev = null)`  adds `dev` option to composer
-* `noDev()`  adds `no-dev` option to composer
-* `ansi($ansi = null)`  adds `ansi` option to composer
-* `noAnsi()`  adds `no-ansi` option to composer
-* `interaction($interaction = null)`   * `param bool` $interaction
-* `noInteraction()`  adds `no-interaction` option to composer
-* `optimizeAutoloader($optimize = null)`  adds `optimize-autoloader` option to composer
-* `ignorePlatformRequirements($ignore = null)`  adds `ignore-platform-reqs` option to composer
-* `disablePlugins($disable = null)`  disable plugins
-* `noScripts($disable = null)`  skip scripts
-* `workingDir($dir)`  adds `--working-dir $dir` option to composer
-* `buildCommand()`  Copy class fields into command options as directed.
-* `setOutput($output)`  Sets the Console Output.
-* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
-* `dir($dir)`  Changes working directory of command
-* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
-* `args($args)`  Pass methods parameters as arguments to executable. Argument values
-* `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
-* `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
-* `options(array $options, $separator = null)`  Pass multiple options to executable. The associative array contains
-* `optionList($option, $value = null, $separator = null)`  Pass an option with multiple values to executable. Value can be a string or array.
+* `optimize($optimize = null)`
+
+ * `param bool` $optimize
+* `preferDist($preferDist = null)`
+
+ * `param bool` $preferDist
+* `preferSource()`
+
+ * `return $this`
+* `dev($dev = null)`
+
+ * `param bool` $dev
+* `noDev()`
+
+ * `return $this`
+* `ansi($ansi = null)`
+
+ * `param bool` $ansi
+* `noAnsi()`
+
+ * `return $this`
+* `interaction($interaction = null)`
+
+ * `param bool` $interaction
+* `noInteraction()`
+
+ * `return $this`
+* `optimizeAutoloader($optimize = null)`
+
+ * `param bool` $optimize
+* `ignorePlatformRequirements($ignore = null)`
+
+ * `param bool` $ignore
+* `disablePlugins($disable = null)`
+
+ * `param bool` $disable
+* `noScripts($disable = null)`
+
+ * `param bool` $disable
+* `workingDir($dir)`
+
+ * `param string` $dir
+* `buildCommand()`
+
+ Copy class fields into command options as directed.
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `setProcessInput($input)`
+
+ * `param resource|string` $input
+* `dir($dir)`
+
+ * `param string` $dir
+* `arg($arg)`
+
+ * `param string` $arg
+* `args($args)`
+
+ * `param string|string[]` $args
+* `rawArg($arg)`
+
+ * `param string` $arg
+* `option($option, $value = null, $separator = null)`
+
+ * `param string` $option
+* `options(array $options, $separator = null)`
+
+ * `param array` $options
+* `optionList($option, $value = null, $separator = null)`
+
+ * `param string` $option
 
 ## Init
 
@@ -186,38 +398,102 @@ $this->taskComposerInit()->run();
 ?>
 ```
 
-* `projectName($projectName)`   * `param string` $projectName
-* `description($description)`   * `param string` $description
-* `author($author)`   * `param string` $author
-* `projectType($type)`   * `param string` $type
-* `homepage($homepage)`   * `param string` $homepage
-* `dependency($project, $version = null)`  'require' is a keyword, so it cannot be a method name.
-* `stability($stability)`   * `param string` $stability
-* `license($license)`   * `param string` $license
-* `repository($repository)`   * `param string` $repository
-* `preferDist($preferDist = null)`  adds `prefer-dist` option to composer
-* `preferSource()`  adds `prefer-source` option to composer
-* `dev($dev = null)`  adds `dev` option to composer
-* `noDev()`  adds `no-dev` option to composer
-* `ansi($ansi = null)`  adds `ansi` option to composer
-* `noAnsi()`  adds `no-ansi` option to composer
-* `interaction($interaction = null)`   * `param bool` $interaction
-* `noInteraction()`  adds `no-interaction` option to composer
-* `optimizeAutoloader($optimize = null)`  adds `optimize-autoloader` option to composer
-* `ignorePlatformRequirements($ignore = null)`  adds `ignore-platform-reqs` option to composer
-* `disablePlugins($disable = null)`  disable plugins
-* `noScripts($disable = null)`  skip scripts
-* `workingDir($dir)`  adds `--working-dir $dir` option to composer
-* `buildCommand()`  Copy class fields into command options as directed.
-* `setOutput($output)`  Sets the Console Output.
-* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
-* `dir($dir)`  Changes working directory of command
-* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
-* `args($args)`  Pass methods parameters as arguments to executable. Argument values
-* `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
-* `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
-* `options(array $options, $separator = null)`  Pass multiple options to executable. The associative array contains
-* `optionList($option, $value = null, $separator = null)`  Pass an option with multiple values to executable. Value can be a string or array.
+* `projectName($projectName)`
+
+ * `param string` $projectName
+* `description($description)`
+
+ * `param string` $description
+* `author($author)`
+
+ * `param string` $author
+* `projectType($type)`
+
+ * `param string` $type
+* `homepage($homepage)`
+
+ * `param string` $homepage
+* `dependency($project, $version = null)`
+
+ * `param string` $project
+* `stability($stability)`
+
+ * `param string` $stability
+* `license($license)`
+
+ * `param string` $license
+* `repository($repository)`
+
+ * `param string` $repository
+* `preferDist($preferDist = null)`
+
+ * `param bool` $preferDist
+* `preferSource()`
+
+ * `return $this`
+* `dev($dev = null)`
+
+ * `param bool` $dev
+* `noDev()`
+
+ * `return $this`
+* `ansi($ansi = null)`
+
+ * `param bool` $ansi
+* `noAnsi()`
+
+ * `return $this`
+* `interaction($interaction = null)`
+
+ * `param bool` $interaction
+* `noInteraction()`
+
+ * `return $this`
+* `optimizeAutoloader($optimize = null)`
+
+ * `param bool` $optimize
+* `ignorePlatformRequirements($ignore = null)`
+
+ * `param bool` $ignore
+* `disablePlugins($disable = null)`
+
+ * `param bool` $disable
+* `noScripts($disable = null)`
+
+ * `param bool` $disable
+* `workingDir($dir)`
+
+ * `param string` $dir
+* `buildCommand()`
+
+ Copy class fields into command options as directed.
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `setProcessInput($input)`
+
+ * `param resource|string` $input
+* `dir($dir)`
+
+ * `param string` $dir
+* `arg($arg)`
+
+ * `param string` $arg
+* `args($args)`
+
+ * `param string|string[]` $args
+* `rawArg($arg)`
+
+ * `param string` $arg
+* `option($option, $value = null, $separator = null)`
+
+ * `param string` $option
+* `options(array $options, $separator = null)`
+
+ * `param array` $options
+* `optionList($option, $value = null, $separator = null)`
+
+ * `param string` $option
 
 ## Install
 
@@ -241,30 +517,78 @@ $this->taskComposerInstall('path/to/my/composer.phar')
 ?>
 ```
 
-* `noSuggest($noSuggest = null)`  adds `no-suggest` option to composer
-* `preferDist($preferDist = null)`  adds `prefer-dist` option to composer
-* `preferSource()`  adds `prefer-source` option to composer
-* `dev($dev = null)`  adds `dev` option to composer
-* `noDev()`  adds `no-dev` option to composer
-* `ansi($ansi = null)`  adds `ansi` option to composer
-* `noAnsi()`  adds `no-ansi` option to composer
-* `interaction($interaction = null)`   * `param bool` $interaction
-* `noInteraction()`  adds `no-interaction` option to composer
-* `optimizeAutoloader($optimize = null)`  adds `optimize-autoloader` option to composer
-* `ignorePlatformRequirements($ignore = null)`  adds `ignore-platform-reqs` option to composer
-* `disablePlugins($disable = null)`  disable plugins
-* `noScripts($disable = null)`  skip scripts
-* `workingDir($dir)`  adds `--working-dir $dir` option to composer
-* `buildCommand()`  Copy class fields into command options as directed.
-* `setOutput($output)`  Sets the Console Output.
-* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
-* `dir($dir)`  Changes working directory of command
-* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
-* `args($args)`  Pass methods parameters as arguments to executable. Argument values
-* `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
-* `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
-* `options(array $options, $separator = null)`  Pass multiple options to executable. The associative array contains
-* `optionList($option, $value = null, $separator = null)`  Pass an option with multiple values to executable. Value can be a string or array.
+* `noSuggest($noSuggest = null)`
+
+ * `param bool` $noSuggest
+* `preferDist($preferDist = null)`
+
+ * `param bool` $preferDist
+* `preferSource()`
+
+ * `return $this`
+* `dev($dev = null)`
+
+ * `param bool` $dev
+* `noDev()`
+
+ * `return $this`
+* `ansi($ansi = null)`
+
+ * `param bool` $ansi
+* `noAnsi()`
+
+ * `return $this`
+* `interaction($interaction = null)`
+
+ * `param bool` $interaction
+* `noInteraction()`
+
+ * `return $this`
+* `optimizeAutoloader($optimize = null)`
+
+ * `param bool` $optimize
+* `ignorePlatformRequirements($ignore = null)`
+
+ * `param bool` $ignore
+* `disablePlugins($disable = null)`
+
+ * `param bool` $disable
+* `noScripts($disable = null)`
+
+ * `param bool` $disable
+* `workingDir($dir)`
+
+ * `param string` $dir
+* `buildCommand()`
+
+ Copy class fields into command options as directed.
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `setProcessInput($input)`
+
+ * `param resource|string` $input
+* `dir($dir)`
+
+ * `param string` $dir
+* `arg($arg)`
+
+ * `param string` $arg
+* `args($args)`
+
+ * `param string|string[]` $args
+* `rawArg($arg)`
+
+ * `param string` $arg
+* `option($option, $value = null, $separator = null)`
+
+ * `param string` $option
+* `options(array $options, $separator = null)`
+
+ * `param array` $options
+* `optionList($option, $value = null, $separator = null)`
+
+ * `param string` $option
 
 ## Remove
 
@@ -278,33 +602,87 @@ $this->taskComposerRemove()->run();
 ?>
 ```
 
-* `dev($dev = null)`   * `param bool` $dev
-* `noProgress($noProgress = null)`   * `param bool` $noProgress
-* `noUpdate($noUpdate = null)`   * `param bool` $noUpdate
-* `updateNoDev($updateNoDev = null)`   * `param bool` $updateNoDev
-* `noUpdateWithDependencies($updateWithDependencies = null)`   * `param bool` $updateWithDependencies
-* `preferDist($preferDist = null)`  adds `prefer-dist` option to composer
-* `preferSource()`  adds `prefer-source` option to composer
-* `noDev()`  adds `no-dev` option to composer
-* `ansi($ansi = null)`  adds `ansi` option to composer
-* `noAnsi()`  adds `no-ansi` option to composer
-* `interaction($interaction = null)`   * `param bool` $interaction
-* `noInteraction()`  adds `no-interaction` option to composer
-* `optimizeAutoloader($optimize = null)`  adds `optimize-autoloader` option to composer
-* `ignorePlatformRequirements($ignore = null)`  adds `ignore-platform-reqs` option to composer
-* `disablePlugins($disable = null)`  disable plugins
-* `noScripts($disable = null)`  skip scripts
-* `workingDir($dir)`  adds `--working-dir $dir` option to composer
-* `buildCommand()`  Copy class fields into command options as directed.
-* `setOutput($output)`  Sets the Console Output.
-* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
-* `dir($dir)`  Changes working directory of command
-* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
-* `args($args)`  Pass methods parameters as arguments to executable. Argument values
-* `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
-* `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
-* `options(array $options, $separator = null)`  Pass multiple options to executable. The associative array contains
-* `optionList($option, $value = null, $separator = null)`  Pass an option with multiple values to executable. Value can be a string or array.
+* `dev($dev = null)`
+
+ * `param bool` $dev
+* `noProgress($noProgress = null)`
+
+ * `param bool` $noProgress
+* `noUpdate($noUpdate = null)`
+
+ * `param bool` $noUpdate
+* `updateNoDev($updateNoDev = null)`
+
+ * `param bool` $updateNoDev
+* `noUpdateWithDependencies($updateWithDependencies = null)`
+
+ * `param bool` $updateWithDependencies
+* `preferDist($preferDist = null)`
+
+ * `param bool` $preferDist
+* `preferSource()`
+
+ * `return $this`
+* `noDev()`
+
+ * `return $this`
+* `ansi($ansi = null)`
+
+ * `param bool` $ansi
+* `noAnsi()`
+
+ * `return $this`
+* `interaction($interaction = null)`
+
+ * `param bool` $interaction
+* `noInteraction()`
+
+ * `return $this`
+* `optimizeAutoloader($optimize = null)`
+
+ * `param bool` $optimize
+* `ignorePlatformRequirements($ignore = null)`
+
+ * `param bool` $ignore
+* `disablePlugins($disable = null)`
+
+ * `param bool` $disable
+* `noScripts($disable = null)`
+
+ * `param bool` $disable
+* `workingDir($dir)`
+
+ * `param string` $dir
+* `buildCommand()`
+
+ Copy class fields into command options as directed.
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `setProcessInput($input)`
+
+ * `param resource|string` $input
+* `dir($dir)`
+
+ * `param string` $dir
+* `arg($arg)`
+
+ * `param string` $arg
+* `args($args)`
+
+ * `param string|string[]` $args
+* `rawArg($arg)`
+
+ * `param string` $arg
+* `option($option, $value = null, $separator = null)`
+
+ * `param string` $option
+* `options(array $options, $separator = null)`
+
+ * `param array` $options
+* `optionList($option, $value = null, $separator = null)`
+
+ * `param string` $option
 
 ## RequireDependency
 
@@ -318,31 +696,81 @@ $this->taskComposerRequire()->dependency('foo/bar', '^.2.4.8')->run();
 ?>
 ```
 
-* `dependency($project, $version = null)`  'require' is a keyword, so it cannot be a method name.
-* `noSuggest($noSuggest = null)`  adds `no-suggest` option to composer
-* `preferDist($preferDist = null)`  adds `prefer-dist` option to composer
-* `preferSource()`  adds `prefer-source` option to composer
-* `dev($dev = null)`  adds `dev` option to composer
-* `noDev()`  adds `no-dev` option to composer
-* `ansi($ansi = null)`  adds `ansi` option to composer
-* `noAnsi()`  adds `no-ansi` option to composer
-* `interaction($interaction = null)`   * `param bool` $interaction
-* `noInteraction()`  adds `no-interaction` option to composer
-* `optimizeAutoloader($optimize = null)`  adds `optimize-autoloader` option to composer
-* `ignorePlatformRequirements($ignore = null)`  adds `ignore-platform-reqs` option to composer
-* `disablePlugins($disable = null)`  disable plugins
-* `noScripts($disable = null)`  skip scripts
-* `workingDir($dir)`  adds `--working-dir $dir` option to composer
-* `buildCommand()`  Copy class fields into command options as directed.
-* `setOutput($output)`  Sets the Console Output.
-* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
-* `dir($dir)`  Changes working directory of command
-* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
-* `args($args)`  Pass methods parameters as arguments to executable. Argument values
-* `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
-* `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
-* `options(array $options, $separator = null)`  Pass multiple options to executable. The associative array contains
-* `optionList($option, $value = null, $separator = null)`  Pass an option with multiple values to executable. Value can be a string or array.
+* `dependency($project, $version = null)`
+
+ * `param string` $project
+* `noSuggest($noSuggest = null)`
+
+ * `param bool` $noSuggest
+* `preferDist($preferDist = null)`
+
+ * `param bool` $preferDist
+* `preferSource()`
+
+ * `return $this`
+* `dev($dev = null)`
+
+ * `param bool` $dev
+* `noDev()`
+
+ * `return $this`
+* `ansi($ansi = null)`
+
+ * `param bool` $ansi
+* `noAnsi()`
+
+ * `return $this`
+* `interaction($interaction = null)`
+
+ * `param bool` $interaction
+* `noInteraction()`
+
+ * `return $this`
+* `optimizeAutoloader($optimize = null)`
+
+ * `param bool` $optimize
+* `ignorePlatformRequirements($ignore = null)`
+
+ * `param bool` $ignore
+* `disablePlugins($disable = null)`
+
+ * `param bool` $disable
+* `noScripts($disable = null)`
+
+ * `param bool` $disable
+* `workingDir($dir)`
+
+ * `param string` $dir
+* `buildCommand()`
+
+ Copy class fields into command options as directed.
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `setProcessInput($input)`
+
+ * `param resource|string` $input
+* `dir($dir)`
+
+ * `param string` $dir
+* `arg($arg)`
+
+ * `param string` $arg
+* `args($args)`
+
+ * `param string|string[]` $args
+* `rawArg($arg)`
+
+ * `param string` $arg
+* `option($option, $value = null, $separator = null)`
+
+ * `param string` $option
+* `options(array $options, $separator = null)`
+
+ * `param array` $options
+* `optionList($option, $value = null, $separator = null)`
+
+ * `param string` $option
 
 
 ## Update
@@ -367,30 +795,78 @@ $this->taskComposerUpdate('path/to/my/composer.phar')
 ?>
 ```
 
-* `noSuggest($noSuggest = null)`  adds `no-suggest` option to composer
-* `preferDist($preferDist = null)`  adds `prefer-dist` option to composer
-* `preferSource()`  adds `prefer-source` option to composer
-* `dev($dev = null)`  adds `dev` option to composer
-* `noDev()`  adds `no-dev` option to composer
-* `ansi($ansi = null)`  adds `ansi` option to composer
-* `noAnsi()`  adds `no-ansi` option to composer
-* `interaction($interaction = null)`   * `param bool` $interaction
-* `noInteraction()`  adds `no-interaction` option to composer
-* `optimizeAutoloader($optimize = null)`  adds `optimize-autoloader` option to composer
-* `ignorePlatformRequirements($ignore = null)`  adds `ignore-platform-reqs` option to composer
-* `disablePlugins($disable = null)`  disable plugins
-* `noScripts($disable = null)`  skip scripts
-* `workingDir($dir)`  adds `--working-dir $dir` option to composer
-* `buildCommand()`  Copy class fields into command options as directed.
-* `setOutput($output)`  Sets the Console Output.
-* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
-* `dir($dir)`  Changes working directory of command
-* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
-* `args($args)`  Pass methods parameters as arguments to executable. Argument values
-* `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
-* `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
-* `options(array $options, $separator = null)`  Pass multiple options to executable. The associative array contains
-* `optionList($option, $value = null, $separator = null)`  Pass an option with multiple values to executable. Value can be a string or array.
+* `noSuggest($noSuggest = null)`
+
+ * `param bool` $noSuggest
+* `preferDist($preferDist = null)`
+
+ * `param bool` $preferDist
+* `preferSource()`
+
+ * `return $this`
+* `dev($dev = null)`
+
+ * `param bool` $dev
+* `noDev()`
+
+ * `return $this`
+* `ansi($ansi = null)`
+
+ * `param bool` $ansi
+* `noAnsi()`
+
+ * `return $this`
+* `interaction($interaction = null)`
+
+ * `param bool` $interaction
+* `noInteraction()`
+
+ * `return $this`
+* `optimizeAutoloader($optimize = null)`
+
+ * `param bool` $optimize
+* `ignorePlatformRequirements($ignore = null)`
+
+ * `param bool` $ignore
+* `disablePlugins($disable = null)`
+
+ * `param bool` $disable
+* `noScripts($disable = null)`
+
+ * `param bool` $disable
+* `workingDir($dir)`
+
+ * `param string` $dir
+* `buildCommand()`
+
+ Copy class fields into command options as directed.
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `setProcessInput($input)`
+
+ * `param resource|string` $input
+* `dir($dir)`
+
+ * `param string` $dir
+* `arg($arg)`
+
+ * `param string` $arg
+* `args($args)`
+
+ * `param string|string[]` $args
+* `rawArg($arg)`
+
+ * `param string` $arg
+* `option($option, $value = null, $separator = null)`
+
+ * `param string` $option
+* `options(array $options, $separator = null)`
+
+ * `param array` $options
+* `optionList($option, $value = null, $separator = null)`
+
+ * `param string` $option
 
 ## Validate
 
@@ -404,32 +880,88 @@ $this->taskComposerValidate()->run();
 ?>
 ```
 
-* `noCheckAll($noCheckAll = null)`   * `param bool` $noCheckAll
-* `noCheckLock($noCheckLock = null)`   * `param bool` $noCheckLock
-* `noCheckPublish($noCheckPublish = null)`   * `param bool` $noCheckPublish
-* `withDependencies($withDependencies = null)`   * `param bool` $withDependencies
-* `strict($strict = null)`   * `param bool` $strict
-* `preferDist($preferDist = null)`  adds `prefer-dist` option to composer
-* `preferSource()`  adds `prefer-source` option to composer
-* `dev($dev = null)`  adds `dev` option to composer
-* `noDev()`  adds `no-dev` option to composer
-* `ansi($ansi = null)`  adds `ansi` option to composer
-* `noAnsi()`  adds `no-ansi` option to composer
-* `interaction($interaction = null)`   * `param bool` $interaction
-* `noInteraction()`  adds `no-interaction` option to composer
-* `optimizeAutoloader($optimize = null)`  adds `optimize-autoloader` option to composer
-* `ignorePlatformRequirements($ignore = null)`  adds `ignore-platform-reqs` option to composer
-* `disablePlugins($disable = null)`  disable plugins
-* `noScripts($disable = null)`  skip scripts
-* `workingDir($dir)`  adds `--working-dir $dir` option to composer
-* `buildCommand()`  Copy class fields into command options as directed.
-* `setOutput($output)`  Sets the Console Output.
-* `setProcessInput($input)`  Pass an input to the process. Can be resource created with fopen() or string
-* `dir($dir)`  Changes working directory of command
-* `arg($arg)`  Pass argument to executable. Its value will be automatically escaped.
-* `args($args)`  Pass methods parameters as arguments to executable. Argument values
-* `rawArg($arg)`  Pass the provided string in its raw (as provided) form as an argument to executable.
-* `option($option, $value = null, $separator = null)`  Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
-* `options(array $options, $separator = null)`  Pass multiple options to executable. The associative array contains
-* `optionList($option, $value = null, $separator = null)`  Pass an option with multiple values to executable. Value can be a string or array.
+* `noCheckAll($noCheckAll = null)`
+
+ * `param bool` $noCheckAll
+* `noCheckLock($noCheckLock = null)`
+
+ * `param bool` $noCheckLock
+* `noCheckPublish($noCheckPublish = null)`
+
+ * `param bool` $noCheckPublish
+* `withDependencies($withDependencies = null)`
+
+ * `param bool` $withDependencies
+* `strict($strict = null)`
+
+ * `param bool` $strict
+* `preferDist($preferDist = null)`
+
+ * `param bool` $preferDist
+* `preferSource()`
+
+ * `return $this`
+* `dev($dev = null)`
+
+ * `param bool` $dev
+* `noDev()`
+
+ * `return $this`
+* `ansi($ansi = null)`
+
+ * `param bool` $ansi
+* `noAnsi()`
+
+ * `return $this`
+* `interaction($interaction = null)`
+
+ * `param bool` $interaction
+* `noInteraction()`
+
+ * `return $this`
+* `optimizeAutoloader($optimize = null)`
+
+ * `param bool` $optimize
+* `ignorePlatformRequirements($ignore = null)`
+
+ * `param bool` $ignore
+* `disablePlugins($disable = null)`
+
+ * `param bool` $disable
+* `noScripts($disable = null)`
+
+ * `param bool` $disable
+* `workingDir($dir)`
+
+ * `param string` $dir
+* `buildCommand()`
+
+ Copy class fields into command options as directed.
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `setProcessInput($input)`
+
+ * `param resource|string` $input
+* `dir($dir)`
+
+ * `param string` $dir
+* `arg($arg)`
+
+ * `param string` $arg
+* `args($args)`
+
+ * `param string|string[]` $args
+* `rawArg($arg)`
+
+ * `param string` $arg
+* `option($option, $value = null, $separator = null)`
+
+ * `param string` $option
+* `options(array $options, $separator = null)`
+
+ * `param array` $options
+* `optionList($option, $value = null, $separator = null)`
+
+ * `param string` $option
 

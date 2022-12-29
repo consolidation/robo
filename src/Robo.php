@@ -3,6 +3,7 @@
 namespace Robo;
 
 use Composer\Autoload\ClassLoader;
+use League\Container\Argument\Literal\StringArgument;
 use League\Container\Container;
 use League\Container\Definition\DefinitionInterface;
 use Psr\Container\ContainerInterface;
@@ -331,8 +332,8 @@ class Robo
         self::addShared($container, 'symfonyStyleInjector', \Robo\Symfony\SymfonyStyleInjector::class);
         self::addShared($container, 'consoleIOInjector', \Robo\Symfony\ConsoleIOInjector::class);
         self::addShared($container, 'parameterInjection', \Consolidation\AnnotatedCommand\ParameterInjection::class)
-            ->addMethodCall('register', ['Symfony\Component\Console\Style\SymfonyStyle', 'symfonyStyleInjector'])
-            ->addMethodCall('register', ['Robo\Symfony\ConsoleIO', 'consoleIOInjector']);
+            ->addMethodCall('register', [new StringArgument('Symfony\Component\Console\Style\SymfonyStyle'), 'symfonyStyleInjector'])
+            ->addMethodCall('register', [new StringArgument('Robo\Symfony\ConsoleIO'), 'consoleIOInjector']);
         self::addShared($container, 'commandProcessor', \Consolidation\AnnotatedCommand\CommandProcessor::class)
             ->addArgument('hookManager')
             ->addMethodCall('setFormatterManager', ['formatterManager'])

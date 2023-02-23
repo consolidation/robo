@@ -341,6 +341,9 @@ class ExampleCommands extends \Robo\Tasks
      *   first: I
      *   second: II
      *   third: III
+     *   fourth: IV
+     * @default-table-fields first,second,third
+     * @default-fields first,second,third,fourth
      * @default-string-field second
      * @usage try:formatters --format=yaml
      * @usage try:formatters --format=csv
@@ -353,10 +356,10 @@ class ExampleCommands extends \Robo\Tasks
     public function tryFormatters($somthing = 'default', $options = ['format' => 'table', 'fields' => ''])
     {
         $outputData = [
-            'en' => [ 'first' => 'One',  'second' => 'Two',  'third' => 'Three' ],
-            'de' => [ 'first' => 'Eins', 'second' => 'Zwei', 'third' => 'Drei'  ],
-            'jp' => [ 'first' => 'Ichi', 'second' => 'Ni',   'third' => 'San'   ],
-            'es' => [ 'first' => 'Uno',  'second' => 'Dos',  'third' => 'Tres'  ],
+            'en' => [ 'first' => 'One',  'second' => 'Two',  'third' => 'Three', 'fourth' => 'Four', ],
+            'de' => [ 'first' => 'Eins', 'second' => 'Zwei', 'third' => 'Drei', 'fourth' => 'Vier', ],
+            'jp' => [ 'first' => 'Ichi', 'second' => 'Ni',   'third' => 'San', 'fourth' => 'Shi',   ],
+            'es' => [ 'first' => 'Uno',  'second' => 'Dos',  'third' => 'Tres', 'fourth' => 'Quatro', ],
         ];
         return new RowsOfFields($outputData);
     }

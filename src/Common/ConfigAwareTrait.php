@@ -70,7 +70,7 @@ trait ConfigAwareTrait
     private static function getClassKey($key)
     {
         $configPrefix = static::configPrefix();                            // task.
-        $configClass = static::configClassIdentifier(get_called_class());  // PARTIAL_NAMESPACE.CLASSNAME
+        $configClass = static::configClassIdentifier(static::class);       // PARTIAL_NAMESPACE.CLASSNAME
         $configPostFix = static::configPostfix();                          // .settings
 
         return sprintf('%s%s%s.%s', $configPrefix, $configClass, $configPostFix, $key);

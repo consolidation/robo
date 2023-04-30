@@ -26,7 +26,7 @@ use Symfony\Component\Process\Process;
 class Robo
 {
     const APPLICATION_NAME = 'Robo';
-    private const VERSION = '4.0.4-dev';
+    private const VERSION = '4.0.4';
 
     /**
      * The currently active container object, or NULL if not initialized yet.
@@ -521,7 +521,7 @@ class Robo
      */
     public static function register($app, $handler)
     {
-        $container = Robo::getContainer();
+        $container = static::getContainer();
         $instance = static::instantiate($handler);
         if (!$instance) {
             return;

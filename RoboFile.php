@@ -111,15 +111,15 @@ class RoboFile extends \Robo\Tasks
             ->run();
 
         if ($stable) {
-            $this->pharPublish($io);
+            $this->pharBuild($io);
         }
 
-        // Skip publishing site until it works again.
-        // $this->publish($io);
+        $this->publish($io);
 
         $this->collectionBuilder($io)->taskGitStack()
             ->tag($version)
-            ->push('origin ' . self::MAIN_BRANCH . ' --tags')
+            ->push('origin ' . self::MAIN_BRANCH)
+            ->push('origin ' . $version)
             ->run();
 
         if ($stable) {
@@ -470,23 +470,6 @@ class RoboFile extends \Robo\Tasks
      */
     public function pharPublish(ConsoleIO $io)
     {
-        $this->pharBuild($io);
-
-        $this->collectionBuilder($io)
-            ->taskFilesystemStack()
-                ->remove('robo-release.phar')
-                ->rename('robo.phar', 'robo-release.phar')
-            ->taskGitStack()
-                ->checkout('site')
-                ->pull('origin site')
-            ->taskFilesystemStack()
-                ->remove('robotheme/robo.phar')
-                ->rename('robo-release.phar', 'robotheme/robo.phar')
-            ->taskGitStack()
-                ->add('robotheme/robo.phar')
-                ->commit('Update robo.phar to ' . \Robo\Robo::version())
-                ->push('origin site')
-                ->checkout(self::MAIN_BRANCH)
-                ->run();
+        throw new \Exception("phar:publish is obsolete.");
     }
 }

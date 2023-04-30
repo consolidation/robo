@@ -8,3 +8,5 @@ tests/_log/*
 tests/_helpers/_generated/*
 *.phar
 .phpunit.result.cache
+phpunit.xml
+phpdoc.xml

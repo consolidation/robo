@@ -517,9 +517,26 @@ class Robo
      * @param \Robo\Application $app
      * @param string|object $handler
      *
+     * @return array
+     */
+    public static function register($app, $handlers)
+    {
+        if (!is_array($handlers)) {
+            $handlers = [ $handlers ];
+        }
+
+        foreach ($handlers as $handler) {
+            static::registerSingle($handler);
+        }
+    }
+
+    /**
+     * @param \Robo\Application $app
+     * @param string|object $handler
+     *
      * @return null|object
      */
-    public static function register($app, $handler)
+    protected static function registerSingle($app, $handler)
     {
         $container = static::getContainer();
         $instance = static::instantiate($handler);
@@ -548,7 +565,7 @@ class Robo
      *
      * @return null|object
      */
-    protected static function instantiate($handler)
+    public static function instantiate($handler)
     {
         $container = Robo::getContainer();
 

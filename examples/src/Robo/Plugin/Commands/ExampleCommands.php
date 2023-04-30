@@ -352,7 +352,6 @@ class ExampleCommands extends \Robo\Tasks
      */
     public function tryOptionValues($somthing = 'default', $options = ['format' => 'table', 'fields' => 'options'])
     {
-        var_export($options);
         $data = [
             'options' => $options,
         ];
@@ -420,9 +419,6 @@ class ExampleCommands extends \Robo\Tasks
      */
     public function tryFormatters(InputInterface $input, $somthing = 'default', $options = ['format' => 'table', 'fields' => ''])
     {
-        var_export($input->getParameterOption('fields'));
-
-        var_export($options);
         $outputData = [
             'en' => [ 'first' => 'One',  'second' => 'Two',  'third' => 'Three', 'fourth' => 'Four', ],
             'de' => [ 'first' => 'Eins', 'second' => 'Zwei', 'third' => 'Drei', 'fourth' => 'Vier', ],

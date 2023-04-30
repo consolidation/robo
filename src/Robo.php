@@ -526,7 +526,7 @@ class Robo
         }
 
         foreach ($handlers as $handler) {
-            static::registerSingle($handler);
+            static::registerSingle($app, $handler);
         }
     }
 

@@ -347,6 +347,14 @@ class Runner implements ContainerAwareInterface
         return Robo::register($app, $commandClass);
     }
 
+    /**
+     * @deprecated Use Robo::instantiate directly
+     */
+    protected function instantiateCommandClass($commandClass)
+    {
+        return Robo::instantiate($commandClass);
+    }
+
     public function installRoboHandlers()
     {
         register_shutdown_function(array($this, 'shutdown'));

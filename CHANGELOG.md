@@ -1,6 +1,12 @@
 # Changelog
 
-### 4.0.2 12/6/2022
+### 4.0.4
+
+* Move register command out of runner and into Robo class. (#1143)
+* More PHP 8.2 and 8.1 Fixes (#1131, #1133, #1135, #1141)
+* docs: update getting-started.md (#1139)
+
+### 4.0.2, 4.0.3 12/6/2022
 
 * PHP 8.2 support
 

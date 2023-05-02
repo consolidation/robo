@@ -80,4 +80,15 @@ class AssetsTest extends TestCase
         $this->assertLessThan($initialFileSize, $minifiedFileSize, 'Minified file is smaller than the source file');
         $this->assertGreaterThan(0, $minifiedFileSize, 'Minified file is not empty');
     }
+
+    public function testImageMinificationErrors()
+    {
+        $this->fixtures->createAndCdToSandbox();
+
+        // fails because file is not an image
+        $result = $this->taskImageMinify($this->fixtures->dataFile('sample.css'))
+            ->to(realpath('') . '/dist')
+            ->run();
+        $this->assertFalse($result->wasSuccessful(), $result->getMessage());
+    }
 }

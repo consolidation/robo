@@ -702,6 +702,9 @@ $this->taskComposerRequire()->dependency('foo/bar', '^.2.4.8')->run();
 * `noSuggest($noSuggest = null)`
 
  * `param bool` $noSuggest
+* `noUpdate($noUpdate = null)`
+
+ * `param bool` $noUpdate
 * `preferDist($preferDist = null)`
 
  * `param bool` $preferDist

@@ -59,11 +59,9 @@ class RequireDependency extends Base
     /**
      * adds `no-update` option to composer
      *
-     * @param bool $noUpdate
-     *
      * @return $this
      */
-    public function noUpdate($noSuggest = true)
+    public function noUpdate(): self
     {
         $this->option('--no-update');
         return $this;

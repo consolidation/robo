@@ -212,13 +212,17 @@ class ComposerTest extends \Codeception\TestCase\Test
     public function testComposerRemove()
     {
         $this->assertEquals(
-            'composer remove --no-interaction',
-            (new \Robo\Task\Composer\Remove('composer'))->setConfig(new \Robo\Config())->getCommand()
-        );
-        $this->assertEquals(
-            'composer remove --dev --no-progress --no-update --no-interaction',
+            $this->adjustQuotes("composer remove 'foo/bar' 'baz/qux' --no-interaction"),
             (new \Robo\Task\Composer\Remove('composer'))
                 ->setConfig(new \Robo\Config())
+                ->dependency(['foo/bar', 'baz/qux'])
+                ->getCommand()
+        );
+        $this->assertEquals(
+            $this->adjustQuotes("composer remove 'foo/bar' --dev --no-progress --no-update --no-interaction"),
+            (new \Robo\Task\Composer\Remove('composer'))
+                ->setConfig(new \Robo\Config())
+                ->dependency('foo/bar')
                 ->dev()
                 ->noProgress()
                 ->noUpdate()

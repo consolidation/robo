@@ -20,6 +20,20 @@ class Remove extends Base
     protected $action = 'remove';
 
     /**
+     * 'remove' is a keyword, so it cannot be a method name.
+     *
+     * @param array|string $project
+     *
+     * @return $this
+     */
+    public function dependency(array|string $project): self
+    {
+        $project = (array)$project;
+        $this->args($project);
+        return $this;
+    }
+
+    /**
      * @param bool $dev
      *
      * @return $this

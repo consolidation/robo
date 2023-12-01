@@ -355,6 +355,16 @@ class ComposerTest extends \Codeception\TestCase\Test
                 ->dependency(['a/b', 'x/y:^1'])
                 ->getCommand()
         );
+
+        $this->assertEquals(
+            $this->adjustQuotes("composer require a/b 'x/y:^1' --no-interaction --no-suggest --no-update"),
+            (new \Robo\Task\Composer\RequireDependency('composer'))
+                ->setConfig(new \Robo\Config())
+                ->dependency(['a/b', 'x/y:^1'])
+                ->noSuggest()
+                ->noUpdate()
+                ->getCommand()
+        );
     }
 
     public function testComposerCreateProjectCommand()

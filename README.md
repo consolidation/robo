@@ -28,7 +28,7 @@
 | [2.x](https://github.com/consolidation/robo/tree/2.x) | Not recommended      | 4 - 5 | 2 | 1 - 2 | 7.1 - 7.4 |
 | [1.x](https://github.com/consolidation/robo/tree/1.x) | Not recommended      | 2 - 4 | 2 | 1 - 2 | 5.5 - 7.4 |
 
-All three branches of Robo are currently supported, although the 2.x and 1.x branches receive minimum support. All versions are roughly compatible; the breaking changes introduced at each major version are fairly minor, and typically only affect classes that are not used by most clients.
+All four branches of Robo are currently supported, although the 2.x and 1.x branches receive minimum support. All versions are roughly compatible; the breaking changes introduced at each major version are fairly minor, and typically only affect classes that are not used by most clients.
 
 ## Installing
 

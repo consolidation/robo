@@ -38,7 +38,7 @@
   ],
     "require": {
         "php": ">=8.0",
-        "consolidation/annotated-command": "dev-symfony7",
+        "consolidation/annotated-command": "dev-symfony7-4.x",
         "consolidation/config": "dev-symfony7",
         "consolidation/log": "dev-symfony7",
         "consolidation/output-formatters": "^4.1.2",

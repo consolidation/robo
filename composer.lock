@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fff0301a8800ad7fffceb8a1aa0cb59e",
+    "content-hash": "67cc447837a00a3bde5274d7d1d19b81",
     "packages": [
         {
             "name": "composer/semver",
@@ -89,16 +89,16 @@
         },
         {
             "name": "consolidation/annotated-command",
-            "version": "dev-symfony7",
+            "version": "dev-symfony7-4.x",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/annotated-command.git",
-                "reference": "af6282367975583ad7230237a19add558325ea9c"
+                "reference": "4d340bf9dfd21ce810db9728549d948e17a7c2be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/annotated-command/zipball/af6282367975583ad7230237a19add558325ea9c",
-                "reference": "af6282367975583ad7230237a19add558325ea9c",
+                "url": "https://api.github.com/repos/consolidation/annotated-command/zipball/4d340bf9dfd21ce810db9728549d948e17a7c2be",
+                "reference": "4d340bf9dfd21ce810db9728549d948e17a7c2be",
                 "shasum": ""
             },
             "require": {
@@ -116,6 +116,11 @@
                 "yoast/phpunit-polyfills": "^0.2.0"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "4.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Consolidation\\AnnotatedCommand\\": "src"
@@ -134,9 +139,9 @@
             "description": "Initialize Symfony Console commands from annotated command class methods.",
             "support": {
                 "issues": "https://github.com/consolidation/annotated-command/issues",
-                "source": "https://github.com/consolidation/annotated-command/tree/symfony7"
+                "source": "https://github.com/consolidation/annotated-command/tree/symfony7-4.x"
             },
-            "time": "2024-04-02T15:32:58+00:00"
+            "time": "2024-04-04T11:36:02+00:00"
         },
         {
             "name": "consolidation/config",
@@ -3902,7 +3907,7 @@
         "consolidation/log": 20,
         "consolidation/self-update": 20
     },
-    "prefer-stable": true,
+    "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": ">=8.0"

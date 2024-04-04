@@ -57,7 +57,7 @@
         "patchwork/jsqueeze": "^2",
         "pear/archive_tar": "^1.4.4",
         "squizlabs/php_codesniffer": "^3.6",
-        "phpunit/phpunit": "^7.5.20 || ^8",
+        "phpunit/phpunit": "^7.5.20 || ^8 || ^9",
         "yoast/phpunit-polyfills": "^0.2.0"
     },
     "scripts": {

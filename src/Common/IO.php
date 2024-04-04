@@ -54,14 +54,15 @@ trait IO
         return $this;
     }
 
-    public function setInput(InputInterface $input)
+    public function setInput(InputInterface $input): void
     {
         if ($input != $this->input) {
             $this->io = null;
         }
         $this->input = $input;
 
-        return $this;
+        // @TODO Is anything relying on a return value?
+        // return $this;
     }
 
     public function setOutput(OutputInterface $output)

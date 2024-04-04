@@ -138,11 +138,11 @@ jobs:
 
       - name: Install lowest dependencies with composer
         if: matrix.dependencies == 'lowest'
-        run: composer update --no-ansi --no-interaction --no-progress --prefer-lowest
+        run: composer update --no-ansi --no-interaction --no-progress --prefer-lowest -W
 
       - name: Install highest dependencies with composer
         if: matrix.dependencies == 'highest'
-        run: composer config --unset platform.php && composer update --no-ansi --no-interaction --no-progress
+        run: composer config --unset platform.php && composer update --no-ansi --no-interaction --no-progress -W
 
       - name: Run tests with phpunit
         run: composer unit

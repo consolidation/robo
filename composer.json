@@ -45,12 +45,12 @@
         "consolidation/self-update": "dev-symfony7",
         "league/container": "^3.3.1 || ^4.0",
         "phpowermove/docblock": "^4.0",
-        "symfony/console": "^7",
-        "symfony/event-dispatcher": "^7",
-        "symfony/filesystem": "^7",
-        "symfony/finder": "^7",
-        "symfony/process": "^7",
-        "symfony/yaml": "^7"
+        "symfony/console": "6 || ^7",
+        "symfony/event-dispatcher": "6 || ^7",
+        "symfony/filesystem": "6 || ^7",
+        "symfony/finder": "6 || ^7",
+        "symfony/process": "6 || ^7",
+        "symfony/yaml": "6 || ^7"
     },
     "require-dev": {
         "natxet/cssmin": "3.0.4",
@@ -78,7 +78,7 @@
         "optimize-autoloader": true,
         "sort-packages": true,
         "platform": {
-            "php": "8.3"
+            "php": "8.0.17"
         }
     },
     "suggest": {

@@ -60,9 +60,6 @@ trait IO
             $this->io = null;
         }
         $this->input = $input;
-
-        // @TODO Is anything relying on a return value?
-        // return $this;
     }
 
     public function setOutput(OutputInterface $output)

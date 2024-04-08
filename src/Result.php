@@ -31,10 +31,11 @@ class Result extends ResultData implements OutputAwareInterface, InflectionInter
      * @param int $exitCode
      * @param string $message
      * @param array $data
+     * @param string $errorOutput
      */
-    public function __construct(TaskInterface $task, $exitCode, $message = '', $data = [])
+    public function __construct(TaskInterface $task, $exitCode, $message = '', $data = [], $errorOutput = '')
     {
-        parent::__construct($exitCode, $message, $data);
+        parent::__construct($exitCode, $message, $data, $errorOutput);
         $this->task = $task;
         $this->inflect($task);
         $this->printResult();
@@ -292,6 +293,6 @@ class Result extends ResultData implements OutputAwareInterface, InflectionInter
      */
     private function exitEarly($status)
     {
-        throw new TaskExitException($this->getTask(), $this->getMessage(), $status);
+        throw new TaskExitException($this->getTask(), $this->getErrorOutput(), $status);
     }
 }

@@ -13,6 +13,11 @@ class ResultData extends Data implements ExitCodeInterface, OutputDataInterface
      */
     protected $exitCode;
 
+    /**
+     * @var string
+     */
+    protected $errorOutput;
+
     const EXITCODE_OK = 0;
     const EXITCODE_ERROR = 1;
     /** Symfony Console handles these conditions; Robo returns the status
@@ -30,10 +35,12 @@ class ResultData extends Data implements ExitCodeInterface, OutputDataInterface
      * @param int $exitCode
      * @param string $message
      * @param array $data
+     * @param string $errorOutput
      */
-    public function __construct($exitCode = self::EXITCODE_OK, $message = '', $data = [])
+    public function __construct($exitCode = self::EXITCODE_OK, $message = '', $data = [], $errorOutput = '')
     {
         $this->exitCode = $exitCode;
+        $this->errorOutput = $errorOutput;
         parent::__construct($message, $data);
     }
 
@@ -107,5 +114,13 @@ class ResultData extends Data implements ExitCodeInterface, OutputDataInterface
     public function wasCancelled()
     {
         return $this->exitCode == self::EXITCODE_USER_CANCEL;
+    }
+
+    /**
+     * @return string
+     */
+    public function getErrorOutput()
+    {
+        return $this->errorOutput;
     }
 }

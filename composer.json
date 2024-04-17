@@ -23,10 +23,10 @@
         "robo"
     ],
     "require": {
-        "php": ">=8.0",
+        "php": ">=8.2",
         "consolidation/annotated-command": "^4.8.1",
-        "consolidation/config": "^2.0.1 || ^3",
-        "consolidation/log": "^2.0.2 || ^3",
+        "consolidation/config": "^3",
+        "consolidation/log": "^3",
         "consolidation/output-formatters": "^4.1.2",
         "league/container": "^3.3.1 || ^4.0",
         "phpowermove/docblock": "^4.0",
@@ -63,7 +63,7 @@
         "optimize-autoloader": true,
         "sort-packages": true,
         "platform": {
-            "php": "8.0.17"
+            "php": "8.2.18"
         }
     },
     "suggest": {

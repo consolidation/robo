@@ -22,27 +22,12 @@
     "bin": [
         "robo"
     ],
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/larowlan/config"
-    },
-    {
-      "type": "vcs",
-      "url": "https://github.com/larowlan/log"
-    },
-    {
-      "type": "vcs",
-      "url": "https://github.com/larowlan/self-update"
-    }
-  ],
     "require": {
         "php": ">=8.0",
-        "consolidation/annotated-command": "dev-symfony7-4.x",
-        "consolidation/config": "dev-symfony7",
-        "consolidation/log": "dev-symfony7",
+        "consolidation/annotated-command": "^4.8.1",
+        "consolidation/config": "^2.0.1 || ^3",
+        "consolidation/log": "^2.0.2 || ^3",
         "consolidation/output-formatters": "^4.1.2",
-        "consolidation/self-update": "dev-symfony7",
         "league/container": "^3.3.1 || ^4.0",
         "phpowermove/docblock": "^4.0",
         "symfony/console": "^6 || ^7",
@@ -85,7 +70,8 @@
         "pear/archive_tar": "Allows tar archives to be created and extracted in taskPack and taskExtract, respectively.",
         "totten/lurkerlite": "For monitoring filesystem changes in taskWatch",
         "patchwork/jsqueeze": "For minifying JS files in taskMinify",
-        "natxet/cssmin": "For minifying CSS files in taskMinify"
+        "natxet/cssmin": "For minifying CSS files in taskMinify",
+        "consolidation/self-update": "For self-updating a phar-based app built with Robo"
     },
     "conflict": {
         "codegyre/robo": "*"

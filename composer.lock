@@ -4,101 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cee24d3d2f7d35067e7aa78586716124",
+    "content-hash": "1f1c12ee6bc3bc45751aeaba234eec3d",
     "packages": [
         {
-            "name": "composer/semver",
-            "version": "3.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/composer/semver.git",
-                "reference": "35e8d0af4486141bc745f23a29cc2091eb624a32"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/composer/semver/zipball/35e8d0af4486141bc745f23a29cc2091eb624a32",
-                "reference": "35e8d0af4486141bc745f23a29cc2091eb624a32",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.3.2 || ^7.0 || ^8.0"
-            },
-            "require-dev": {
-                "phpstan/phpstan": "^1.4",
-                "symfony/phpunit-bridge": "^4.2 || ^5"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "3.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Composer\\Semver\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Nils Adermann",
-                    "email": "naderman@naderman.de",
-                    "homepage": "http://www.naderman.de"
-                },
-                {
-                    "name": "Jordi Boggiano",
-                    "email": "j.boggiano@seld.be",
-                    "homepage": "http://seld.be"
-                },
-                {
-                    "name": "Rob Bast",
-                    "email": "rob.bast@gmail.com",
-                    "homepage": "http://robbast.nl"
-                }
-            ],
-            "description": "Semver library that offers utilities, version constraint parsing and validation.",
-            "keywords": [
-                "semantic",
-                "semver",
-                "validation",
-                "versioning"
-            ],
-            "support": {
-                "irc": "ircs://irc.libera.chat:6697/composer",
-                "issues": "https://github.com/composer/semver/issues",
-                "source": "https://github.com/composer/semver/tree/3.4.0"
-            },
-            "funding": [
-                {
-                    "url": "https://packagist.com",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/composer",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/composer/composer",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2023-08-31T09:50:34+00:00"
-        },
-        {
             "name": "consolidation/annotated-command",
-            "version": "dev-symfony7-4.x",
+            "version": "4.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/annotated-command.git",
-                "reference": "0cbe71c37ade5d122fa75ae3d74562db9ae16a59"
+                "reference": "1e830ba908c9ffb1ba7ca056203531b27188812c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/annotated-command/zipball/0cbe71c37ade5d122fa75ae3d74562db9ae16a59",
-                "reference": "0cbe71c37ade5d122fa75ae3d74562db9ae16a59",
+                "url": "https://api.github.com/repos/consolidation/annotated-command/zipball/1e830ba908c9ffb1ba7ca056203531b27188812c",
+                "reference": "1e830ba908c9ffb1ba7ca056203531b27188812c",
                 "shasum": ""
             },
             "require": {
@@ -139,36 +58,36 @@
             "description": "Initialize Symfony Console commands from annotated command class methods.",
             "support": {
                 "issues": "https://github.com/consolidation/annotated-command/issues",
-                "source": "https://github.com/consolidation/annotated-command/tree/symfony7-4.x"
+                "source": "https://github.com/consolidation/annotated-command/tree/4.10.0"
             },
-            "time": "2024-04-04T12:09:41+00:00"
+            "time": "2024-04-05T21:05:39+00:00"
         },
         {
             "name": "consolidation/config",
-            "version": "dev-symfony7",
+            "version": "2.1.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/larowlan/config.git",
-                "reference": "1f2dbc5bad58418ba11499ec53c7121f89c4045f"
+                "url": "https://github.com/consolidation/config.git",
+                "reference": "597f8d7fbeef801736250ec10c3e190569b1b0ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/larowlan/config/zipball/1f2dbc5bad58418ba11499ec53c7121f89c4045f",
-                "reference": "1f2dbc5bad58418ba11499ec53c7121f89c4045f",
+                "url": "https://api.github.com/repos/consolidation/config/zipball/597f8d7fbeef801736250ec10c3e190569b1b0ae",
+                "reference": "597f8d7fbeef801736250ec10c3e190569b1b0ae",
                 "shasum": ""
             },
             "require": {
                 "dflydev/dot-access-data": "^1.1.0 || ^2 || ^3",
                 "grasmash/expander": "^2.0.1 || ^3",
                 "php": ">=7.1.3",
-                "symfony/event-dispatcher": "^4 || ^5 || ^6 || ^7"
+                "symfony/event-dispatcher": "^4 || ^5 || ^6"
             },
             "require-dev": {
                 "ext-json": "*",
-                "phpunit/phpunit": "^7.5.20 || ^8 || ^9",
+                "phpunit/phpunit": ">=7.5.20",
                 "squizlabs/php_codesniffer": "^3",
-                "symfony/console": "^4 || ^5 || ^6 || ^7",
-                "symfony/yaml": "^4 || ^5 || ^6 || ^7",
+                "symfony/console": "^4 || ^5 || ^6",
+                "symfony/yaml": "^4 || ^5 || ^6",
                 "yoast/phpunit-polyfills": "^1"
             },
             "suggest": {
@@ -186,31 +105,7 @@
                     "Consolidation\\Config\\": "src"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Consolidation\\Config\\Tests\\": "tests/src"
-                }
-            },
-            "scripts": {
-                "cs": [
-                    "phpcs --standard=PSR2 -n src"
-                ],
-                "cbf": [
-                    "phpcbf --standard=PSR2 -n src"
-                ],
-                "unit": [
-                    "phpunit --testsuite=unit --colors=always"
-                ],
-                "lint": [
-                    "find src -name '*.php' -print0 | xargs -0 -n1 php -l",
-                    "find tests/src -name '*.php' -print0 | xargs -0 -n1 php -l"
-                ],
-                "test": [
-                    "@lint",
-                    "@unit",
-                    "@cs"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -222,22 +117,23 @@
             ],
             "description": "Provide configuration services for a commandline tool.",
             "support": {
-                "source": "https://github.com/larowlan/config/tree/symfony7"
+                "issues": "https://github.com/consolidation/config/issues",
+                "source": "https://github.com/consolidation/config/tree/2.1.2"
             },
-            "time": "2024-04-03T00:38:34+00:00"
+            "time": "2022-10-06T17:48:03+00:00"
         },
         {
             "name": "consolidation/log",
-            "version": "dev-symfony7",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/larowlan/log.git",
-                "reference": "d850eea29431846f2c2dbd0bd6fed4454eee3cb1"
+                "url": "https://github.com/consolidation/log.git",
+                "reference": "c27a3beb36137c141ccbce0d89f64befb243c015"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/larowlan/log/zipball/d850eea29431846f2c2dbd0bd6fed4454eee3cb1",
-                "reference": "d850eea29431846f2c2dbd0bd6fed4454eee3cb1",
+                "url": "https://api.github.com/repos/consolidation/log/zipball/c27a3beb36137c141ccbce0d89f64befb243c015",
+                "reference": "c27a3beb36137c141ccbce0d89f64befb243c015",
                 "shasum": ""
             },
             "require": {
@@ -253,7 +149,7 @@
             "type": "library",
             "extra": {
                 "platform": {
-                    "php": "8.1.14"
+                    "php": "8.2.17"
                 }
             },
             "autoload": {
@@ -261,31 +157,7 @@
                     "Consolidation\\Log\\": "src"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Consolidation\\TestUtils\\": "tests/src"
-                }
-            },
-            "scripts": {
-                "cs": [
-                    "phpcs -n --standard=PSR2 src"
-                ],
-                "cbf": [
-                    "phpcbf -n --standard=PSR2 src"
-                ],
-                "unit": [
-                    "phpunit --colors=always"
-                ],
-                "lint": [
-                    "find src -name '*.php' -print0 | xargs -0 -n1 php -l",
-                    "find tests/src -name '*.php' -print0 | xargs -0 -n1 php -l"
-                ],
-                "test": [
-                    "@lint",
-                    "@unit",
-                    "@cs"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -297,9 +169,10 @@
             ],
             "description": "Improved Psr-3 / Psr\\Log logger based on Symfony Console components.",
             "support": {
-                "source": "https://github.com/larowlan/log/tree/symfony7"
+                "issues": "https://github.com/consolidation/log/issues",
+                "source": "https://github.com/consolidation/log/tree/3.1.0"
             },
-            "time": "2024-04-03T00:43:39+00:00"
+            "time": "2024-04-04T23:50:25+00:00"
         },
         {
             "name": "consolidation/output-formatters",
@@ -354,64 +227,6 @@
                 "source": "https://github.com/consolidation/output-formatters/tree/4.5.0"
             },
             "time": "2024-04-02T15:18:52+00:00"
-        },
-        {
-            "name": "consolidation/self-update",
-            "version": "dev-symfony7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/larowlan/self-update.git",
-                "reference": "b90a97fd63d1a3178d9d3d1a443a1c9e39d6d04c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/larowlan/self-update/zipball/b90a97fd63d1a3178d9d3d1a443a1c9e39d6d04c",
-                "reference": "b90a97fd63d1a3178d9d3d1a443a1c9e39d6d04c",
-                "shasum": ""
-            },
-            "require": {
-                "composer/semver": "^3.2",
-                "php": ">=5.5.0",
-                "symfony/console": "^2.8 || ^3 || ^4 || ^5 || ^6 || ^7",
-                "symfony/filesystem": "^2.5 || ^3 || ^4 || ^5 || ^6 || ^7"
-            },
-            "bin": [
-                "scripts/release"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "2.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "SelfUpdate\\": "src"
-                }
-            },
-            "scripts": {
-                "release": [
-                    "./scripts/release VERSION"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Alexander Menk",
-                    "email": "menk@mestrona.net"
-                },
-                {
-                    "name": "Greg Anderson",
-                    "email": "greg.1.anderson@greenknowe.org"
-                }
-            ],
-            "description": "Provides a self:update command for Symfony Console applications.",
-            "support": {
-                "source": "https://github.com/larowlan/self-update/tree/symfony7"
-            },
-            "time": "2024-04-03T00:46:26+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -2968,16 +2783,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.6.18",
+            "version": "9.6.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "32c2c2d6580b1d8ab3c10b1e9e4dc263cc69bb04"
+                "reference": "a1a54a473501ef4cdeaae4e06891674114d79db8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/32c2c2d6580b1d8ab3c10b1e9e4dc263cc69bb04",
-                "reference": "32c2c2d6580b1d8ab3c10b1e9e4dc263cc69bb04",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/a1a54a473501ef4cdeaae4e06891674114d79db8",
+                "reference": "a1a54a473501ef4cdeaae4e06891674114d79db8",
                 "shasum": ""
             },
             "require": {
@@ -3051,7 +2866,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.18"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.19"
             },
             "funding": [
                 {
@@ -3067,7 +2882,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-03-21T12:07:32+00:00"
+            "time": "2024-04-05T04:35:58+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -4228,12 +4043,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "consolidation/annotated-command": 20,
-        "consolidation/config": 20,
-        "consolidation/log": 20,
-        "consolidation/self-update": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

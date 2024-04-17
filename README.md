@@ -23,12 +23,15 @@
 
 | Branch | Support Level | Symfony | League Container | psr/log | PHP Versions |
 | ------ | ------------- | ------- | ---------------- | ------------ | ------------ |
-| [4.x](https://github.com/consolidation/robo/tree/4.x) | Stable             | 6 | 3 | 2 - 3 | 8.0 - 8.1 |
+| [5.x](https://github.com/consolidation/robo/tree/5.x) | Stable             | 6 - 7 | 3 | 2 - 3 | 8.2 - 8.3 |
+| [4.x](https://github.com/consolidation/robo/tree/4.x) | Stable             | 6     | 3 | 2 - 3 | 8.0 - 8.3 |
 | [3.x](https://github.com/consolidation/robo/tree/3.x) | Not supported      | 4 - 6 | 3 | 1 - 2 | 7.1 - 8.1 |
 | [2.x](https://github.com/consolidation/robo/tree/2.x) | Not supported      | 4 - 5 | 2 | 1 - 2 | 7.1 - 7.4 |
 | [1.x](https://github.com/consolidation/robo/tree/1.x) | Not supported      | 2 - 4 | 2 | 1 - 2 | 5.5 - 7.4 |
 
 All versions are roughly compatible; the breaking changes introduced at each major version are fairly minor, and typically only affect classes that are not used by most clients.
+
+Note also that Robo 5.x removed consolidation/self-update as a direct dependency. You will need to explicitly add it if you are using it to update your application phar.
 
 ## Installing
 

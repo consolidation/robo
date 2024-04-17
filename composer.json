@@ -23,27 +23,26 @@
         "robo"
     ],
     "require": {
-        "php": ">=8.0",
+        "php": ">=8.2",
         "consolidation/annotated-command": "^4.8.1",
-        "consolidation/config": "^2.0.1",
-        "consolidation/log": "^2.0.2 || ^3",
+        "consolidation/config": "^3",
+        "consolidation/log": "^3",
         "consolidation/output-formatters": "^4.1.2",
-        "consolidation/self-update": "^2.0",
         "league/container": "^3.3.1 || ^4.0",
         "phpowermove/docblock": "^4.0",
-        "symfony/console": "^6",
-        "symfony/event-dispatcher": "^6",
-        "symfony/filesystem": "^6",
-        "symfony/finder": "^6",
-        "symfony/process": "^6",
-        "symfony/yaml": "^6"
+        "symfony/console": "^6 || ^7",
+        "symfony/event-dispatcher": "6 || ^7",
+        "symfony/filesystem": "^6 || ^7",
+        "symfony/finder": "^6 || ^7",
+        "symfony/process": "^6 || ^7",
+        "symfony/yaml": "^6 || ^7"
     },
     "require-dev": {
         "natxet/cssmin": "3.0.4",
         "patchwork/jsqueeze": "^2",
         "pear/archive_tar": "^1.4.4",
         "squizlabs/php_codesniffer": "^3.6",
-        "phpunit/phpunit": "^7.5.20 || ^8",
+        "phpunit/phpunit": "^7.5.20 || ^8 || ^9",
         "yoast/phpunit-polyfills": "^0.2.0"
     },
     "scripts": {
@@ -64,14 +63,15 @@
         "optimize-autoloader": true,
         "sort-packages": true,
         "platform": {
-            "php": "8.0.17"
+            "php": "8.2.18"
         }
     },
     "suggest": {
         "pear/archive_tar": "Allows tar archives to be created and extracted in taskPack and taskExtract, respectively.",
         "totten/lurkerlite": "For monitoring filesystem changes in taskWatch",
         "patchwork/jsqueeze": "For minifying JS files in taskMinify",
-        "natxet/cssmin": "For minifying CSS files in taskMinify"
+        "natxet/cssmin": "For minifying CSS files in taskMinify",
+        "consolidation/self-update": "For self-updating a phar-based app built with Robo"
     },
     "conflict": {
         "codegyre/robo": "*"

@@ -6,10 +6,12 @@ on:
     branches:
       - 3.x
       - 4.x
+      - 5.x
   push:
     branches:
       - 3.x
       - 4.x
+      - 5.x
 
 name: CI
 
@@ -26,7 +28,7 @@ jobs:
       - name: Install PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.0
+          php-version: 8.3
           coverage: none
 
       - name: Install dependencies
@@ -55,7 +57,7 @@ jobs:
       - name: Install PHP with extensions
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.0
+          php-version: 8.2
           coverage: none
           extensions: intl
 
@@ -82,7 +84,7 @@ jobs:
           - windows-latest
 
         php-version:
-          - "8.0"
+          - "8.2"
 
         php-ini-values:
           - assert.exception=1, zend.assertions=1, phar.readonly=false
@@ -92,17 +94,7 @@ jobs:
 
         include:
           - os: ubuntu-latest
-            php-version: "8.0"
-            dependencies: lowest
-            php-ini-values: assert.exception=1, zend.assertions=1, opcache.enable=1, opcache.enable_cli=1, opcache.optimization_level=-1, opcache.jit_buffer_size=4096M, opcache.jit=1205, phar.readonly=false
-
-          - os: ubuntu-latest
-            php-version: "8.1"
-            dependencies: highest
-            php-ini-values: assert.exception=1, zend.assertions=1, opcache.enable=1, opcache.enable_cli=1, opcache.optimization_level=-1, opcache.jit_buffer_size=4096M, opcache.jit=1205, phar.readonly=false
-
-          - os: ubuntu-latest
-            php-version: "8.2"
+            php-version: "8.3"
             dependencies: highest
             php-ini-values: assert.exception=1, zend.assertions=1, opcache.enable=1, opcache.enable_cli=1, opcache.optimization_level=-1, opcache.jit_buffer_size=4096M, opcache.jit=1205, phar.readonly=false
 
@@ -117,6 +109,9 @@ jobs:
           coverage: pcov
           extensions: ${{ env.PHP_EXTENSIONS }}
           ini-values: ${{ matrix.php-ini-values }}
+        # https://github.com/composer/composer/issues/9084#issuecomment-752134788https://github.com/composer/composer/issues/9084#issuecomment-752134788
+        env:
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Determine composer cache directory on Linux
         if: matrix.os == 'ubuntu-latest'
@@ -144,16 +139,19 @@ jobs:
         if: matrix.dependencies == 'locked'
         run: |
           composer install --no-ansi --no-interaction --no-progress
-          composer update --no-ansi --no-interaction --no-progress phpunit/phpunit --with-all-dependencies
+#          composer update --no-ansi --no-interaction --no-progress phpunit/phpunit --with-all-dependencies
 
       - name: Install lowest dependencies with composer
         if: matrix.dependencies == 'lowest'
-        run: composer update --no-ansi --no-interaction --no-progress --prefer-lowest
+        run: composer update --no-ansi --no-interaction --no-progress --prefer-lowest -W
 
       - name: Install highest dependencies with composer
         if: matrix.dependencies == 'highest'
-        run: composer config --unset platform.php && composer update --no-ansi --no-interaction --no-progress
+        run: composer config --unset platform.php && composer update --no-ansi --no-interaction --no-progress -W
 
+      - name: Show composer dependencies
+        run: composer info
+      
       - name: Run tests with phpunit
         run: composer unit
 

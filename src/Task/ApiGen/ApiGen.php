@@ -125,7 +125,7 @@ class ApiGen extends BaseTask implements CommandInterface
      * @param bool|string $val
      *   An argument to be normalized.
      * @param string $default
-     *   One of self::BOOL_YES or self::BOOK_NO if the provided value could not
+     *   One of self::BOOL_YES or self::BOOL_NO if the provided value could not
      *   deterministically be converted to a yes or no value.
      *
      * @return string

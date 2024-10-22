@@ -1,5 +1,10 @@
 # Changelog
 
+### 5.1.0 10/22/2024
+
+* PHP 8.4 compatibility by Andy Postnikov (#1165)
+* Don't require exact event-dispatcher version (typo fix) by Pierre Rudloff (#1169)
+
 ### 5.0.0 4/17/2024
 
 * Support Symfony 7

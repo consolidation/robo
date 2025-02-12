@@ -45,7 +45,7 @@ trait IO
     }
 
     // This should typically only be called by State::restore()
-    public function restoreState(InputInterface $input = null, OutputInterface $output = null, SymfonyStyle $io = null)
+    public function restoreState(?InputInterface $input = null, ?OutputInterface $output = null, ?SymfonyStyle $io = null)
     {
         $this->setInput($input);
         $this->setOutput($output);

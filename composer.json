@@ -24,6 +24,7 @@
     ],
     "require": {
         "php": ">=8.2",
+        "caxy/php-htmldiff": "^0.1.17",
         "consolidation/annotated-command": "^4.8.1",
         "consolidation/config": "^3",
         "consolidation/log": "^3",
@@ -36,7 +37,6 @@
         "symfony/finder": "^6 || ^7",
         "symfony/process": "^6 || ^7",
         "symfony/yaml": "^6 || ^7",
-        "caxy/php-htmldiff": "^0.1.17",
         "vlucas/phpdotenv": "^5.6"
     },
     "require-dev": {

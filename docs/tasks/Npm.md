@@ -20,9 +20,6 @@ $this->taskNpmInstall('path/to/my/npm')
 * `noDev()`
 
  * `return $this`
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
@@ -47,6 +44,9 @@ $this->taskNpmInstall('path/to/my/npm')
 * `optionList($option, $value = null, $separator = null)`
 
  * `param string` $option
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 
 ## Update
@@ -69,9 +69,6 @@ $this->taskNpmUpdate('path/to/my/npm')
 * `noDev()`
 
  * `return $this`
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
@@ -96,4 +93,7 @@ $this->taskNpmUpdate('path/to/my/npm')
 * `optionList($option, $value = null, $separator = null)`
 
  * `param string` $option
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 

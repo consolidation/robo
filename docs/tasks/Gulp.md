@@ -26,9 +26,6 @@ $this->taskGulpRun('clean')
 * `simple()`
 
  * `return $this`
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
@@ -53,5 +50,8 @@ $this->taskGulpRun('clean')
 * `optionList($option, $value = null, $separator = null)`
 
  * `param string` $option
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 

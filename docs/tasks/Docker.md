@@ -26,9 +26,6 @@ Class Build
 * `enableBuildKit()`
 
  * `return $this`
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
@@ -53,6 +50,9 @@ Class Build
 * `optionList($option, $value = null, $separator = null)`
 
  * `param string` $option
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 ## Commit
 
@@ -78,9 +78,6 @@ $task->dockerCommit($result)
 * `name($name)`
 
  * `param string` $name
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
@@ -105,6 +102,9 @@ $task->dockerCommit($result)
 * `optionList($option, $value = null, $separator = null)`
 
  * `param string` $option
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 ## Exec
 
@@ -138,9 +138,6 @@ $this->taskDockerExec($test)
 * `exec($command)`
 
  * `param string|\Robo\Contract\CommandInterface` $command
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
@@ -165,6 +162,9 @@ $this->taskDockerExec($test)
 * `optionList($option, $value = null, $separator = null)`
 
  * `param string` $option
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 ## Pull
 
@@ -180,9 +180,6 @@ $this->taskDockerPull('wordpress')
 ```
 
 
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
@@ -207,6 +204,9 @@ $this->taskDockerPull('wordpress')
 * `optionList($option, $value = null, $separator = null)`
 
  * `param string` $option
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 ## Remove
 
@@ -221,9 +221,6 @@ $this->taskDockerRemove($container)
 ```
 
 
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
@@ -248,6 +245,9 @@ $this->taskDockerRemove($container)
 * `optionList($option, $value = null, $separator = null)`
 
  * `param string` $option
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 
 ## Run
@@ -331,9 +331,6 @@ $this->taskDockerRun('wordpress')
 * `getUniqId()`
 
  * `return string`
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
@@ -358,6 +355,9 @@ $this->taskDockerRun('wordpress')
 * `optionList($option, $value = null, $separator = null)`
 
  * `param string` $option
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 ## Start
 
@@ -371,9 +371,6 @@ $this->taskDockerStart($cidOrResult)
 ?>
 ```
 
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
@@ -398,6 +395,9 @@ $this->taskDockerStart($cidOrResult)
 * `optionList($option, $value = null, $separator = null)`
 
  * `param string` $option
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 ## Stop
 
@@ -411,9 +411,6 @@ $this->taskDockerStop($cidOrResult)
 ?>
 ```
 
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
@@ -438,5 +435,8 @@ $this->taskDockerStop($cidOrResult)
 * `optionList($option, $value = null, $separator = null)`
 
  * `param string` $option
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 

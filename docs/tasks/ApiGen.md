@@ -114,9 +114,6 @@ $this->taskApiGen('./vendor/apigen/apigen.phar')
 * `debug($debug)`
 
  * `param bool|string` $debug 'yes' or true to enable debug mode, 'no' or false otherwise.
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
@@ -138,5 +135,8 @@ $this->taskApiGen('./vendor/apigen/apigen.phar')
 * `optionList($option, $value = null, $separator = null)`
 
  * `param string` $option
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 

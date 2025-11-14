@@ -124,9 +124,6 @@ if ('y' === $this->ask('Do you want to run (y/n)')) {
 * `remoteShell($command)`
 
  * `param string` $command
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
@@ -151,6 +148,9 @@ if ('y' === $this->ask('Do you want to run (y/n)')) {
 * `optionList($option, $value = null, $separator = null)`
 
  * `param string` $option
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 ## Ssh
 
@@ -221,9 +221,6 @@ You can configure the remote directory for all future calls:
 * `simulate($context)`
 
  * `param ` $context
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
@@ -248,5 +245,8 @@ You can configure the remote directory for all future calls:
 * `optionList($option, $value = null, $separator = null)`
 
  * `param string` $option
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 

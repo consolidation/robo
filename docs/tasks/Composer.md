@@ -54,9 +54,6 @@ $this->taskComposerValidate()->run();
 * `buildCommand()`
 
  Copy class fields into command options as directed.
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
@@ -81,6 +78,9 @@ $this->taskComposerValidate()->run();
 * `optionList($option, $value = null, $separator = null)`
 
  * `param string` $option
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 ## Config
 
@@ -154,9 +154,6 @@ $this->taskComposerConfig()->set('bin-dir', 'bin/')->run();
 * `buildCommand()`
 
  Copy class fields into command options as directed.
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
@@ -181,6 +178,9 @@ $this->taskComposerConfig()->set('bin-dir', 'bin/')->run();
 * `optionList($option, $value = null, $separator = null)`
 
  * `param string` $option
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 ## CreateProject
 
@@ -257,9 +257,6 @@ $this->taskComposerCreateProject()->source('foo/bar')->target('myBar')->run();
 * `workingDir($dir)`
 
  * `param string` $dir
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
@@ -284,6 +281,9 @@ $this->taskComposerCreateProject()->source('foo/bar')->target('myBar')->run();
 * `optionList($option, $value = null, $separator = null)`
 
  * `param string` $option
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 ## DumpAutoload
 
@@ -358,9 +358,6 @@ $this->taskComposerDumpAutoload('path/to/my/composer.phar')
 * `buildCommand()`
 
  Copy class fields into command options as directed.
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
@@ -385,6 +382,9 @@ $this->taskComposerDumpAutoload('path/to/my/composer.phar')
 * `optionList($option, $value = null, $separator = null)`
 
  * `param string` $option
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 ## Init
 
@@ -467,9 +467,6 @@ $this->taskComposerInit()->run();
 * `buildCommand()`
 
  Copy class fields into command options as directed.
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
@@ -494,6 +491,9 @@ $this->taskComposerInit()->run();
 * `optionList($option, $value = null, $separator = null)`
 
  * `param string` $option
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 ## Install
 
@@ -562,9 +562,6 @@ $this->taskComposerInstall('path/to/my/composer.phar')
 * `buildCommand()`
 
  Copy class fields into command options as directed.
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
@@ -589,6 +586,9 @@ $this->taskComposerInstall('path/to/my/composer.phar')
 * `optionList($option, $value = null, $separator = null)`
 
  * `param string` $option
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 ## Remove
 
@@ -602,6 +602,9 @@ $this->taskComposerRemove()->run();
 ?>
 ```
 
+* `dependency($project)`
+
+ * `param array|string` $project
 * `dev($dev = null)`
 
  * `param bool` $dev
@@ -656,9 +659,6 @@ $this->taskComposerRemove()->run();
 * `buildCommand()`
 
  Copy class fields into command options as directed.
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
@@ -683,6 +683,9 @@ $this->taskComposerRemove()->run();
 * `optionList($option, $value = null, $separator = null)`
 
  * `param string` $option
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 ## RequireDependency
 
@@ -703,6 +706,8 @@ $this->taskComposerRequire()->dependency('foo/bar', '^.2.4.8')->run();
 
  * `param bool` $noSuggest
 * `noUpdate()`
+
+ * `return $this`
 * `preferDist($preferDist = null)`
 
  * `param bool` $preferDist
@@ -745,9 +750,6 @@ $this->taskComposerRequire()->dependency('foo/bar', '^.2.4.8')->run();
 * `buildCommand()`
 
  Copy class fields into command options as directed.
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
@@ -772,6 +774,9 @@ $this->taskComposerRequire()->dependency('foo/bar', '^.2.4.8')->run();
 * `optionList($option, $value = null, $separator = null)`
 
  * `param string` $option
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 
 ## Update
@@ -841,9 +846,6 @@ $this->taskComposerUpdate('path/to/my/composer.phar')
 * `buildCommand()`
 
  Copy class fields into command options as directed.
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
@@ -868,6 +870,9 @@ $this->taskComposerUpdate('path/to/my/composer.phar')
 * `optionList($option, $value = null, $separator = null)`
 
  * `param string` $option
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 ## Validate
 
@@ -938,9 +943,6 @@ $this->taskComposerValidate()->run();
 * `buildCommand()`
 
  Copy class fields into command options as directed.
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
@@ -965,4 +967,7 @@ $this->taskComposerValidate()->run();
 * `optionList($option, $value = null, $separator = null)`
 
  * `param string` $option
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 

@@ -146,7 +146,8 @@ trait ExecCommand
             $this,
             $result_data->getExitCode(),
             $result_data->getMessage(),
-            $result_data->getData()
+            $result_data->getData(),
+            $result_data->getErrorOutput()
         );
     }
 }

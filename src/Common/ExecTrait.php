@@ -398,7 +398,8 @@ trait ExecTrait
             return new ResultData(
                 $this->process->getExitCode(),
                 $this->process->getOutput(),
-                $this->getResultData()
+                $this->getResultData(),
+                $this->process->getErrorOutput(),
             );
         }
 
@@ -408,7 +409,8 @@ trait ExecTrait
             return new ResultData(
                 $this->process->getExitCode(),
                 $e->getMessage(),
-                $this->getResultData()
+                $this->getResultData(),
+                $this->process->getErrorOutput(),
             );
         }
         return new ResultData($this->process->getExitCode());

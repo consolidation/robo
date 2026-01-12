@@ -547,7 +547,7 @@ class Robo
         // If the instance is a Symfony Command, register it with
         // the application
         if ($instance instanceof Command) {
-            $app->add($instance);
+            $app->addCommand($instance);
             return $instance;
         }
 
@@ -555,7 +555,7 @@ class Robo
         $commandFactory = $container->get('commandFactory');
         $commandList = $commandFactory->createCommandsFromClass($instance);
         foreach ($commandList as $command) {
-            $app->add($command);
+            $app->addCommand($command);
         }
         return $instance;
     }

@@ -353,7 +353,7 @@ class Runner implements ContainerAwareInterface
         $commandFactory = $container->get('commandFactory');
         $commandList = $commandFactory->createCommandsFromClass($roboCommandFileInstance);
         foreach ($commandList as $command) {
-            $app->add($command);
+            $app->addCommand($command);
         }
         return $roboCommandFileInstance;
     }

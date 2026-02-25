@@ -35,7 +35,7 @@ class RoboFileTest extends TestCase
         $this->roboCommandFileInstance->setBuilder($builder);
         $commandList = $this->commandFactory->createCommandsFromClass($this->roboCommandFileInstance);
         foreach ($commandList as $command) {
-            $this->app->add($command);
+            $this->app->addCommand($command);
         }
     }
 

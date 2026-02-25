@@ -56,7 +56,7 @@ class Application extends SymfonyApplication
             );
             $output->writeln("<comment>  Edit this file to add your commands! </comment>");
         });
-        $this->add($createRoboFile);
+        $this->addCommand($createRoboFile);
     }
 
     /**
@@ -71,6 +71,6 @@ class Application extends SymfonyApplication
             return;
         }
         $selfUpdateCommand = new \SelfUpdate\SelfUpdateCommand($this->getName(), $this->getVersion(), $repository);
-        $this->add($selfUpdateCommand);
+        $this->addCommand($selfUpdateCommand);
     }
 }

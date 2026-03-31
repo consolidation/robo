@@ -2,7 +2,6 @@
 
 ## ImageMinify
 
-
 Minifies images.
 
 When the task is run without any specified minifier it will compress the
@@ -23,12 +22,12 @@ This will use the following minifiers based in the extension:
 
 When the required minifier is not installed on the system the task will try
 to download it from the [imagemin](https://github.com/imagemin) repository
-into a local directory.
-This directory is `vendor/bin/` by default and may be changed:
+into a local directory. This directory is `vendor/bin/` by default and may be
+changed:
 
 ```php
 $this->taskImageMinify('assets/images/*')
-    ->setExecutableDir('/tmp/imagemin/bin/)
+    ->setExecutableDir('/tmp/imagemin/bin/')
     ->to('dist/images/')
     ->run();
 ```
@@ -39,7 +38,7 @@ files. In that case it is useful to filter the files with the extension:
 ```php
 $this->taskImageMinify('assets/images/*.png')
     ->to('dist/images/')
-    ->minifier('pngcrush');
+    ->minifier('pngcrush')
     ->run();
 ```
 
@@ -70,20 +69,15 @@ This will execute as:
 `jpegtran -copy none -progressive -optimize -outfile "dist/images/test.jpg" "/var/www/test/assets/images/test.jpg"`
 
 * `setExecutableDir($directory)`
-
- * `param string` $directory
+  * `param string` $directory
 * `to($target)`
-
- * `param string` $target
+  * `param string` $target
 * `minifier($minifier, array $options = array ( ))`
-
- * `param string` $minifier
+  * `param string` $minifier
 * `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
+  * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 ## Less
-
 
 Compiles less files.
 
@@ -121,35 +115,29 @@ method named after them and overloading the lessCompilers() method to
 inject the name there.
 
 * `importDir($dirs)`
-
- * `see` CssPreprocessor::setImportPaths
+  * `see` CssPreprocessor::setImportPaths
 * `addImportPath($dir)`
-
- * `param string` $dir
+  * `param string` $dir
 * `setImportPaths($dirs)`
-
- * `param array|string` $dirs
+  * `param array|string` $dirs
 * `setFormatter($formatterName)`
-
- * `param string` $formatterName
+  * `param string` $formatterName
 * `compiler($compiler, array $options = array ( ))`
-
- * `param string` $compiler
+  * `param string` $compiler
 * `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
+  * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 ## Minify
 
-
 Minifies an asset file (CSS or JS).
 
-``` php
+```php
 <?php
 $this->taskMinify('web/assets/theme.css')
-     ->run()
+    ->run();
 ?>
 ```
+
 Please install additional packages to use this task:
 
 ```
@@ -158,29 +146,21 @@ composer require natxet/cssmin:^3.0
 ```
 
 * `to($dst)`
-
- * `param string` $dst
+  * `param string` $dst
 * `type($type)`
-
- * `param string` $type Allowed values: "css", "js".
+  * `param string` $type Allowed values: "css", "js".
 * `singleLine($singleLine)`
-
- * `param bool` $singleLine
+  * `param bool` $singleLine
 * `keepImportantComments($keepImportantComments)`
-
- * `param bool` $keepImportantComments
+  * `param bool` $keepImportantComments
 * `specialVarRx($specialVarRx)`
-
- * `param bool` $specialVarRx
+  * `param bool` $specialVarRx
 * `__toString()`
-
- * `return string`
+  * `return string`
 * `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
+  * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 ## Scss
-
 
 Compiles scss files.
 
@@ -194,10 +174,24 @@ $this->taskScss([
 ?>
 ```
 
-Use the following scss compiler in your project:
+Use one of both scss compilers in your project:
 
 ```
-"scssphp/scssphp ": "~1.0.0",
+"scssphp/scssphp": "^2.1",
+"bugo/scss-php": "^0.4"
+```
+
+Specify directory (string or array) for scss imports lookup:
+
+```php
+<?php
+$this->taskScss([
+    'scss/default.scss' => 'css/default.css'
+])
+->importDir('scss')
+->compiler('scss')
+->run();
+?>
 ```
 
 You can implement additional compilers by extending this task and adding a
@@ -205,22 +199,15 @@ method named after them and overloading the scssCompilers() method to
 inject the name there.
 
 * `setFormatter($formatterName)`
-
- * `link` https://scssphp.github.io/scssphp/docs/#output-formatting
+  * `link` https://scssphp.github.io/scssphp/docs/#output-formatting
+  * Accepts `expanded` and `compressed`; legacy formatter class names from scssphp 1.x are also supported.
 * `importDir($dirs)`
-
- * `see` CssPreprocessor::setImportPaths
+  * `see` CssPreprocessor::setImportPaths
 * `addImportPath($dir)`
-
- * `param string` $dir
+  * `param string` $dir
 * `setImportPaths($dirs)`
-
- * `param array|string` $dirs
+  * `param array|string` $dirs
 * `compiler($compiler, array $options = array ( ))`
-
- * `param string` $compiler
+  * `param string` $compiler
 * `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
-
-
+  * `param \Symfony\Component\Console\Output\OutputInterface` $output

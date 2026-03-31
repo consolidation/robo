@@ -80,4 +80,67 @@ class AssetsTest extends TestCase
         $this->assertLessThan($initialFileSize, $minifiedFileSize, 'Minified file is smaller than the source file');
         $this->assertGreaterThan(0, $minifiedFileSize, 'Minified file is not empty');
     }
+
+    public function testScssCompilationWithScssPhpCompiler()
+    {
+        if (! class_exists('\ScssPhp\ScssPhp\Compiler')) {
+            $this->markTestSkipped('scssphp/scssphp is not installed.');
+        }
+
+        $this->fixtures->createAndCdToSandbox();
+        mkdir('scss');
+
+        file_put_contents('scss/_variables.scss', '$primary: #fff;');
+        file_put_contents('scss/input.scss', <<<'SCSS'
+@import 'variables';
+
+body {
+  color: $primary;
+}
+SCSS
+        );
+
+        $result = $this->taskScss([
+            'scss/input.scss' => 'output.css',
+        ])
+            ->importDir('scss')
+            ->setFormatter('compressed')
+            ->run();
+
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
+        $this->assertFileExists('output.css');
+        $this->assertSame('body{color:#fff}', trim(file_get_contents('output.css')));
+    }
+
+    public function testScssCompilationWithBugoCompiler()
+    {
+        if (! class_exists('\Bugo\SCSS\Compiler')) {
+            $this->markTestSkipped('bugo/scss-php is not installed.');
+        }
+
+        $this->fixtures->createAndCdToSandbox();
+        mkdir('scss');
+
+        file_put_contents('scss/_variables.scss', '$primary: #fff;');
+        file_put_contents('scss/input.scss', <<<'SCSS'
+@import 'variables';
+
+body {
+  color: $primary;
+}
+SCSS
+        );
+
+        $result = $this->taskScss([
+            'scss/input.scss' => 'output.css',
+        ])
+            ->importDir('scss')
+            ->compiler('scss')
+            ->setFormatter('compressed')
+            ->run();
+
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
+        $this->assertFileExists('output.css');
+        $this->assertSame('body{color:#fff}', trim(file_get_contents('output.css')));
+    }
 }

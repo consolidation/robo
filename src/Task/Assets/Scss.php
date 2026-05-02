@@ -21,7 +21,7 @@ use Robo\Result;
  *
  * ```
  * "scssphp/scssphp": "^2.1",
- * "bugo/scss-php": "^0.4"
+ * "bugo/scss-php": "^0.7"
  * ```
  *
  * Specify directory (string or array) for scss imports lookup:

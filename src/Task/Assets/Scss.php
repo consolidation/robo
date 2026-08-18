@@ -17,10 +17,25 @@ use Robo\Result;
  * ?>
  * ```
  *
- * Use the following scss compiler in your project:
+ * Use one of the scss compilers in your project:
  *
  * ```
- * "scssphp/scssphp ": "~1.0.0",
+ * "scssphp/scssphp": "^2.1",
+ * "bugo/scss-php": "^0.8",
+ * "bugo/sass-embedded-php": "^0.9"
+ * ```
+ *
+ * Specify directory (string or array) for scss imports lookup:
+ *
+ * ```php
+ * <?php
+ * $this->taskScss([
+ *     'scss/default.scss' => 'css/default.css'
+ * ])
+ * ->importDir('scss')
+ * ->compiler('scss-php')
+ * ->run();
+ * ?>
  * ```
  *
  * You can implement additional compilers by extending this task and adding a
@@ -39,6 +54,23 @@ class Scss extends CssPreprocessor
     ];
 
     /**
+     * Adds the additional scss compilers shipped with Robo to the list of
+     * available compilers without changing the declared default value, so
+     * that the public API remains backward compatible.
+     *
+     * @return void
+     */
+    protected function setDefaultCompiler()
+    {
+        $this->compilers = array_merge($this->compilers, [
+            'scss', // https://github.com/dragomano/scss-php
+            'sass-embedded', // https://github.com/dragomano/sass-embedded-php
+        ]);
+
+        parent::setDefaultCompiler();
+    }
+
+    /**
      * scssphp compiler
      * @link https://github.com/scssphp/scssphp
      *
@@ -52,34 +84,150 @@ class Scss extends CssPreprocessor
             return Result::errorMissingPackage($this, 'scssphp', 'scssphp/scssphp');
         }
 
-        $scssCode = file_get_contents($file);
         $scss = new \ScssPhp\ScssPhp\Compiler();
 
-        // set options for the scssphp compiler
         if (isset($this->compilerOptions['importDirs'])) {
             $scss->setImportPaths($this->compilerOptions['importDirs']);
         }
 
         if (isset($this->compilerOptions['formatter'])) {
-            $scss->setFormatter($this->compilerOptions['formatter']);
+            $scss->setOutputStyle($this->normalizeScssPhpOutputStyle($this->compilerOptions['formatter']));
         }
 
-        return $scss->compile($scssCode);
+        return $scss->compileFile($file)->getCss();
     }
 
     /**
-     * Sets the formatter for scssphp
+     * bugo/scss-php compiler
+     * @link https://github.com/dragomano/scss-php
      *
-     * The method setFormatter($formatterName) sets the current formatter to $formatterName,
-     * the name of a class as a string that implements the formatting interface. See the source
-     * for ScssPhp\ScssPhp\Formatter\Expanded for an example.
+     * @param string $file
      *
-     * Five formatters are included with scssphp/scssphp:
-     * - ScssPhp\ScssPhp\Formatter\Expanded
-     * - ScssPhp\ScssPhp\Formatter\Nested (default)
-     * - ScssPhp\ScssPhp\Formatter\Compressed
-     * - ScssPhp\ScssPhp\Formatter\Compact
-     * - ScssPhp\ScssPhp\Formatter\Crunched
+     * @return string|\Robo\Result
+     */
+    protected function scss($file)
+    {
+        if (!class_exists('\Bugo\SCSS\Compiler')) {
+            return Result::errorMissingPackage($this, 'Bugo\\SCSS\\Compiler', 'bugo/scss-php');
+        }
+
+        $loader = isset($this->compilerOptions['importDirs'])
+            ? new \Bugo\SCSS\Loader($this->compilerOptions['importDirs'])
+            : new \Bugo\SCSS\Loader();
+
+        $compiler = new \Bugo\SCSS\Compiler(
+            new \Bugo\SCSS\CompilerOptions(
+                style: $this->normalizeBugoOutputStyle($this->compilerOptions['formatter'] ?? null)
+            ),
+            $loader
+        );
+
+        return $compiler->compileFile($file);
+    }
+
+    /**
+     * bugo/sass-embedded-php compiler (native Dart Sass bridge)
+     * @link https://github.com/dragomano/sass-embedded-php
+     *
+     * @param string $file
+     *
+     * @return string|\Robo\Result
+     */
+    protected function sassEmbedded($file)
+    {
+        if (!class_exists('\Bugo\Sass\Compiler')) {
+            return Result::errorMissingPackage($this, 'Bugo\\Sass\\Compiler', 'bugo/sass-embedded-php');
+        }
+
+        $compiler = new \Bugo\Sass\Compiler();
+
+        return $compiler->compileFile($file, new \Bugo\Sass\Options(
+            loadPaths: $this->compilerOptions['importDirs'] ?? null,
+            style: $this->normalizeFormatter($this->compilerOptions['formatter'] ?? null),
+        ));
+    }
+
+    /**
+     * @param string|null $formatter
+     *
+     * @return \ScssPhp\ScssPhp\OutputStyle
+     */
+    protected function normalizeScssPhpOutputStyle($formatter)
+    {
+        return \ScssPhp\ScssPhp\OutputStyle::fromString($this->normalizeFormatter($formatter));
+    }
+
+    /**
+     * @param string|null $formatter
+     *
+     * @return \Bugo\SCSS\Style
+     */
+    protected function normalizeBugoOutputStyle($formatter)
+    {
+        return $this->normalizeFormatter($formatter) === 'compressed'
+            ? \Bugo\SCSS\Style::COMPRESSED
+            : \Bugo\SCSS\Style::EXPANDED;
+    }
+
+    /**
+     * Maps legacy formatter names from scssphp 1.x to the output styles
+     * supported by the modern compilers.
+     *
+     * @param string|null $formatter
+     *
+     * @return string
+     */
+    protected function normalizeFormatter($formatter)
+    {
+        $formatter = ltrim((string) $formatter, '\\');
+
+        $formatters = [
+            '' => 'expanded',
+            'expanded' => 'expanded',
+            'compressed' => 'compressed',
+            'ScssPhp\ScssPhp\Formatter\Expanded' => 'expanded',
+            'ScssPhp\ScssPhp\Formatter\Nested' => 'expanded',
+            'ScssPhp\ScssPhp\Formatter\Compact' => 'expanded',
+            'ScssPhp\ScssPhp\Formatter\Compressed' => 'compressed',
+            'ScssPhp\ScssPhp\Formatter\Crunched' => 'compressed',
+        ];
+
+        if (!isset($formatters[$formatter])) {
+            throw new \InvalidArgumentException(sprintf('Invalid scss formatter %s!', $formatter));
+        }
+
+        return $formatters[$formatter];
+    }
+
+    /**
+     * Resolves the compiler method name. The "sass-embedded" compiler key is
+     * not a valid PHP method name, so it is mapped to the actual method.
+     *
+     * @param string $file
+     *
+     * @return bool|mixed|\Robo\Result
+     */
+    protected function compile($file)
+    {
+        $method = $this->compiler === 'sass-embedded' ? 'sassEmbedded' : $this->compiler;
+
+        if (is_callable($method)) {
+            return call_user_func($method, $file, $this->compilerOptions);
+        }
+
+        if (method_exists($this, $method)) {
+            return $this->{$method}($file);
+        }
+
+        return false;
+    }
+
+    /**
+     * Sets the formatter for scss compilers.
+     *
+     * `scssphp/scssphp` 2.x, `bugo/scss-php` and `bugo/sass-embedded-php` support
+     * `expanded` and `compressed` output styles. Legacy formatter class names from
+     * scssphp 1.x are also accepted and mapped to the closest supported output style.
      *
      * @link https://scssphp.github.io/scssphp/docs/#output-formatting
      *

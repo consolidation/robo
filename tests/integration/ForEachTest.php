@@ -27,7 +27,7 @@ class ForEachTest extends TestCase
     /**
      * @return array
      */
-    public function examples()
+    public static function examples()
     {
         return [
             'without items' => [

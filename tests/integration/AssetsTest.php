@@ -80,4 +80,108 @@ class AssetsTest extends TestCase
         $this->assertLessThan($initialFileSize, $minifiedFileSize, 'Minified file is smaller than the source file');
         $this->assertGreaterThan(0, $minifiedFileSize, 'Minified file is not empty');
     }
+
+    public function testScssCompilationWithScssPhpCompiler()
+    {
+        if (! class_exists('\ScssPhp\ScssPhp\Compiler')) {
+            $this->markTestSkipped('scssphp/scssphp is not installed.');
+        }
+
+        $this->fixtures->createAndCdToSandbox();
+        mkdir('scss');
+
+        file_put_contents('scss/_variables.scss', '$primary: #fff;');
+        file_put_contents('scss/input.scss', <<<'SCSS'
+@import 'variables';
+
+body {
+  color: $primary;
+}
+SCSS
+        );
+
+        $result = $this->taskScss([
+            'scss/input.scss' => 'output.css',
+        ])
+            ->importDir('scss')
+            ->setFormatter('compressed')
+            ->run();
+
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
+        $this->assertFileExists('output.css');
+        $this->assertSame('body{color:#fff}', trim(file_get_contents('output.css')));
+    }
+
+    public function testScssCompilationWithBugoCompiler()
+    {
+        if (! class_exists('\Bugo\SCSS\Compiler')) {
+            $this->markTestSkipped('bugo/scss-php is not installed.');
+        }
+
+        $this->fixtures->createAndCdToSandbox();
+        mkdir('scss');
+
+        file_put_contents('scss/_variables.scss', '$primary: #fff;');
+        file_put_contents('scss/input.scss', <<<'SCSS'
+@import 'variables';
+
+body {
+  color: $primary;
+}
+SCSS
+        );
+
+        $result = $this->taskScss([
+            'scss/input.scss' => 'output.css',
+        ])
+            ->importDir('scss')
+            ->compiler('scss')
+            ->setFormatter('compressed')
+            ->run();
+
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
+        $this->assertFileExists('output.css');
+        $this->assertSame('body{color:#fff}', trim(file_get_contents('output.css')));
+    }
+
+    public function testScssCompilationWithSassEmbeddedCompiler()
+    {
+        if (! class_exists('\Bugo\Sass\Compiler')) {
+            $this->markTestSkipped('bugo/sass-embedded-php is not installed.');
+        }
+
+        $binBase = realpath(__DIR__ . '/../../vendor/bugo/sass-embedded-php/bin');
+        $binary = PHP_OS_FAMILY === 'Windows'
+            ? $binBase . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'dart.exe'
+            : $binBase . DIRECTORY_SEPARATOR . 'sass';
+
+        if (! file_exists($binary)) {
+            $this->markTestSkipped('Native Dart Sass binary is not available for bugo/sass-embedded-php.');
+        }
+
+        $this->fixtures->createAndCdToSandbox();
+        mkdir('scss');
+
+        file_put_contents('scss/_variables.scss', '$primary: #fff;');
+        file_put_contents('scss/input.scss', <<<'SCSS'
+@import 'variables';
+
+body {
+  color: $primary;
+}
+SCSS
+        );
+
+        $result = $this->taskScss([
+            'scss/input.scss' => 'output.css',
+        ])
+            ->importDir('scss')
+            ->compiler('sass-embedded')
+            ->setFormatter('compressed')
+            ->run();
+
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
+        $this->assertFileExists('output.css');
+        $this->assertSame('body{color:#fff}', trim(file_get_contents('output.css')));
+    }
 }

@@ -25,7 +25,7 @@ class PackExtractTest extends TestCase
     /**
      * Data provider for testPackExtract.
      */
-    public function archiveTypeProvider()
+    public static function archiveTypeProvider()
     {
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             return [['zip']];

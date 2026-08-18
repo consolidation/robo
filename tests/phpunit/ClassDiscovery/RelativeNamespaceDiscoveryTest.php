@@ -56,7 +56,7 @@ class RelativeNamespaceDiscoveryTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function convertPathToNamespaceData()
+    public static function convertPathToNamespaceData()
     {
         return [
           ['/A/B/C', 'A\B\C'],
@@ -80,7 +80,7 @@ class RelativeNamespaceDiscoveryTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function convertNamespaceToPathData()
+    public static function convertNamespaceToPathData()
     {
         return [
           ['A\B\C', '/A/B/C'],

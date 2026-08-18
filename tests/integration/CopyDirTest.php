@@ -36,7 +36,7 @@ class CopyDirTest extends TestCase
     /**
      * Data provider for overwrite test
      */
-    public function copyDirWithOverwriteData()
+    public static function copyDirWithOverwriteData()
     {
         return [
             [

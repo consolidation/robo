@@ -174,11 +174,12 @@ $this->taskScss([
 ?>
 ```
 
-Use one of both scss compilers in your project:
+Use one of the scss compilers in your project:
 
 ```
 "scssphp/scssphp": "^2.1",
-"bugo/scss-php": "^0.7"
+"bugo/scss-php": "^0.8",
+"bugo/sass-embedded-php": "^0.9"
 ```
 
 Specify directory (string or array) for scss imports lookup:
@@ -194,13 +195,26 @@ $this->taskScss([
 ?>
 ```
 
+Use the native Dart Sass bridge provided by `bugo/sass-embedded-php`:
+
+```php
+<?php
+$this->taskScss([
+    'scss/default.scss' => 'css/default.css'
+])
+->importDir('scss')
+->compiler('sass-embedded')
+->run();
+?>
+```
+
 You can implement additional compilers by extending this task and adding a
 method named after them and overloading the scssCompilers() method to
 inject the name there.
 
 * `setFormatter($formatterName)`
   * `link` https://scssphp.github.io/scssphp/docs/#output-formatting
-  * Accepts `expanded` and `compressed`; legacy formatter class names from scssphp 1.x are also supported.
+  * Accepts `expanded` and `compressed`; legacy formatter class names from scssphp 1.x are also supported. Supported by `scssphp/scssphp`, `bugo/scss-php` and `bugo/sass-embedded-php`.
 * `importDir($dirs)`
   * `see` CssPreprocessor::setImportPaths
 * `addImportPath($dir)`

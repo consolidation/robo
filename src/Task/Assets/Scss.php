@@ -51,9 +51,24 @@ class Scss extends CssPreprocessor
      */
     protected $compilers = [
         'scssphp', // https://github.com/scssphp/scssphp
-        'scss', // https://github.com/dragomano/scss-php
-        'sass-embedded', // https://github.com/dragomano/sass-embedded-php
     ];
+
+    /**
+     * Adds the additional scss compilers shipped with Robo to the list of
+     * available compilers without changing the declared default value, so
+     * that the public API remains backward compatible.
+     *
+     * @return void
+     */
+    protected function setDefaultCompiler()
+    {
+        $this->compilers = array_merge($this->compilers, [
+            'scss', // https://github.com/dragomano/scss-php
+            'sass-embedded', // https://github.com/dragomano/sass-embedded-php
+        ]);
+
+        parent::setDefaultCompiler();
+    }
 
     /**
      * scssphp compiler

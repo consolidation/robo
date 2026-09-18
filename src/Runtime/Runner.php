@@ -2,18 +2,18 @@
 
 namespace Robo\Runtime;
 
-use Robo\Robo;
 use Composer\Autoload\ClassLoader;
+use Consolidation\Config\Util\EnvConfig;
+use League\Container\ContainerAwareInterface;
+use League\Container\Exception\ContainerException;
+use Robo\Collection\CollectionBuilder;
+use Robo\Common\ContainerAwareTrait;
+use Robo\Common\IO;
+use Robo\Contract\BuilderAwareInterface;
+use Robo\Exception\TaskExitException;
+use Robo\Robo;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\StringInput;
-use Robo\Contract\BuilderAwareInterface;
-use Robo\Collection\CollectionBuilder;
-use Robo\Common\IO;
-use Robo\Exception\TaskExitException;
-use League\Container\ContainerAwareInterface;
-use League\Container\ContainerAwareTrait;
-use League\Container\Exception\ContainerException;
-use Consolidation\Config\Util\EnvConfig;
 use Symfony\Component\Console\Output\NullOutput;
 
 class Runner implements ContainerAwareInterface

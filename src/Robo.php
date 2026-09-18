@@ -395,25 +395,34 @@ class Robo
      */
     public static function addInflectors($container)
     {
-        // Register our various inflectors.
-        $container->inflector(\Robo\Contract\ConfigAwareInterface::class)
-            ->invokeMethod('setConfig', ['config']);
-        $container->inflector(\Psr\Log\LoggerAwareInterface::class)
-            ->invokeMethod('setLogger', ['logger']);
-        $container->inflector(\League\Container\ContainerAwareInterface::class)
-            ->invokeMethod('setContainer', ['container']);
-        $container->inflector(\Symfony\Component\Console\Input\InputAwareInterface::class)
-            ->invokeMethod('setInput', ['input']);
-        $container->inflector(\Robo\Contract\OutputAwareInterface::class)
-            ->invokeMethod('setOutput', ['output']);
-        $container->inflector(\Robo\Contract\ProgressIndicatorAwareInterface::class)
-            ->invokeMethod('setProgressIndicator', ['progressIndicator']);
-        $container->inflector(\Consolidation\AnnotatedCommand\Events\CustomEventAwareInterface::class)
-            ->invokeMethod('setHookManager', ['hookManager']);
-        $container->inflector(\Robo\Contract\VerbosityThresholdInterface::class)
-            ->invokeMethod('setOutputAdapter', ['outputAdapter']);
-        $container->inflector(\Consolidation\AnnotatedCommand\Input\StdinAwareInterface::class)
-            ->invokeMethod('setStdinHandler', ['stdinHandler']);
+        // Register our various inflectors using the event system.
+        $container->afterResolve(\Robo\Contract\ConfigAwareInterface::class, function ($service) use ($container) {
+            $service->setConfig($container->get('config'));
+        });
+        $container->afterResolve(\Psr\Log\LoggerAwareInterface::class, function ($service) use ($container) {
+            $service->setLogger($container->get('logger'));
+        });
+        $container->afterResolve(\League\Container\ContainerAwareInterface::class, function ($service) use ($container) {
+            $service->setContainer($container);
+        });
+        $container->afterResolve(\Symfony\Component\Console\Input\InputAwareInterface::class, function ($service) use ($container) {
+            $service->setInput($container->get('input'));
+        });
+        $container->afterResolve(\Robo\Contract\OutputAwareInterface::class, function ($service) use ($container) {
+            $service->setOutput($container->get('output'));
+        });
+        $container->afterResolve(\Robo\Contract\ProgressIndicatorAwareInterface::class, function ($service) use ($container) {
+            $service->setProgressIndicator($container->get('progressIndicator'));
+        });
+        $container->afterResolve(\Consolidation\AnnotatedCommand\Events\CustomEventAwareInterface::class, function ($service) use ($container) {
+            $service->setHookManager($container->get('hookManager'));
+        });
+        $container->afterResolve(\Robo\Contract\VerbosityThresholdInterface::class, function ($service) use ($container) {
+            $service->setOutputAdapter($container->get('outputAdapter'));
+        });
+        $container->afterResolve(\Consolidation\AnnotatedCommand\Input\StdinAwareInterface::class, function ($service) use ($container) {
+            $service->setStdinHandler($container->get('stdinHandler'));
+        });
     }
 
     /**

@@ -1,13 +1,10 @@
 <?php
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Robo\ResultData;
 
-/**
- * Class ResultDataTest.
- *
- * @coversDefaultClass \Robo\ResultData
- */
+#[CoversClass(\Robo\ResultData::class)]
 class ResultDataTest extends TestCase
 {
     public function testResultDataUpdate()

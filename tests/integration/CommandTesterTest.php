@@ -5,7 +5,7 @@ use Yoast\PHPUnitPolyfills\TestCases\TestCase;
 use Robo\Traits\CommandTesterTrait;
 use RoboExample\Robo\Plugin\Commands\ExampleCommands;
 
-class CommandTestertTest extends TestCase
+class CommandTesterTest extends TestCase
 {
     use CommandTesterTrait;
 

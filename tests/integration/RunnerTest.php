@@ -122,8 +122,12 @@ EOT;
     {
         $argv = ['placeholder', 'test:symfony-style'];
         $commandFiles = ['\Robo\RoboFileFixture'];
-        Robo::run($argv, $commandFiles, 'MyApp', '1.2.3', $this->capturedOutputStream());
-        $this->assertOutputContains('Some text in section one.');
+        try {
+            Robo::run($argv, $commandFiles, 'MyApp', '1.2.3', $this->capturedOutputStream());
+            $this->assertOutputContains('Some text in section one.');
+        } finally {
+            restore_error_handler();
+        }
     }
 
     public function testDeploy()
@@ -191,22 +195,30 @@ EOT;
     {
         $runnerWithNoRoboFile = new \Robo\Runner();
 
-        $argv = ['placeholder', 'no-such-command', '-f', 'no-such-directory'];
-        $result = $runnerWithNoRoboFile->execute($argv, null, null, $this->capturedOutputStream());
+        try {
+            $argv = ['placeholder', 'no-such-command', '-f', 'no-such-directory'];
+            $result = $runnerWithNoRoboFile->execute($argv, null, null, $this->capturedOutputStream());
 
-        $this->assertOutputContains('Path `no-such-directory` is invalid; please provide a valid absolute path to the Robofile to load.');
+            $this->assertOutputContains('Path `no-such-directory` is invalid; please provide a valid absolute path to the Robofile to load.');
+        } finally {
+            restore_error_handler();
+        }
     }
 
     public function testUnloadableRoboFile()
     {
         $runnerWithNoRoboFile = new \Robo\Runner();
 
-        $argv = ['placeholder', 'help', 'test:custom-event', '-f', dirname(__DIR__) . '/src/RoboFileFixture.php'];
-        $result = $runnerWithNoRoboFile->execute($argv, null, null, $this->capturedOutputStream());
+        try {
+            $argv = ['placeholder', 'help', 'test:custom-event', '-f', dirname(__DIR__) . '/src/RoboFileFixture.php'];
+            $result = $runnerWithNoRoboFile->execute($argv, null, null, $this->capturedOutputStream());
 
-        // We cannot load RoboFileFixture.php via -f / --load-from because
-        // it has a namespace, and --load-from does not support that.
-        $this->assertOutputContains('Class RoboFileFixture was not loaded');
+            // We cannot load RoboFileFixture.php via -f / --load-from because
+            // it has a namespace, and --load-from does not support that.
+            $this->assertOutputContains('Class RoboFileFixture was not loaded');
+        } finally {
+            restore_error_handler();
+        }
     }
 
     public function testRunnerQuietOutput()

@@ -1,6 +1,7 @@
 <?php
 namespace Robo;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Yoast\PHPUnitPolyfills\TestCases\TestCase;
 use Robo\Collection\CollectionBuilder;
 use Robo\State\Data;
@@ -27,7 +28,7 @@ class ForEachTest extends TestCase
     /**
      * @return array
      */
-    public function examples()
+    public static function examples()
     {
         return [
             'without items' => [
@@ -49,9 +50,7 @@ class ForEachTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider examples
-     */
+    #[DataProvider('examples')]
     public function testSetIterableInConstructor($expected, $items)
     {
         $actual = [];
@@ -72,9 +71,7 @@ class ForEachTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    /**
-     * @dataProvider examples
-     */
+    #[DataProvider('examples')]
     public function testSetIterableWithDeferTaskConfiguration($expected, $items)
     {
         $actual = [];

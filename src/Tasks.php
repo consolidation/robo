@@ -2,11 +2,11 @@
 
 namespace Robo;
 
-use Robo\Common\IO;
-use Robo\Contract\IOAwareInterface;
-use Robo\Contract\BuilderAwareInterface;
 use League\Container\ContainerAwareInterface;
-use League\Container\ContainerAwareTrait;
+use Robo\Common\ContainerAwareTrait;
+use Robo\Common\IO;
+use Robo\Contract\BuilderAwareInterface;
+use Robo\Contract\IOAwareInterface;
 
 class Tasks implements BuilderAwareInterface, IOAwareInterface, ContainerAwareInterface
 {

@@ -1,16 +1,12 @@
 <?php
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Robo\Traits\Common\CommandArgumentsHost;
 
-/**
- * Class CommandArgumentsTest.
- *
- * @coversDefaultClass \Robo\Common\CommandArguments
- */
 class CommandArgumentsTest extends TestCase
 {
-    public function casesArgs() {
+    public static function casesArgs() {
         return [
             'no arguments' => [
                 ' ',
@@ -70,14 +66,7 @@ class CommandArgumentsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider casesArgs
-     *
-     * @covers ::args
-     *
-     * @param string $expected
-     * @param array $args
-     */
+    #[DataProvider('casesArgs')]
     public function testArgs($expectedLinux, $expectedWindows, $args)
     {
         $expected = stripos(PHP_OS, 'WIN') === 0 ? $expectedWindows : $expectedLinux;

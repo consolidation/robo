@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Robo\ClassDiscovery\RelativeNamespaceDiscovery;
 use Composer\Autoload\ClassLoader;
@@ -42,12 +43,7 @@ class RelativeNamespaceDiscoveryTest extends TestCase
         $this->assertStringEndsWith('ThirdCustomCommand.php', $actual);
     }
 
-    /**
-     * @dataProvider convertPathToNamespaceData
-     *
-     * @param $path
-     * @param $expected
-     */
+    #[DataProvider('convertPathToNamespaceData')]
     public function testConvertPathToNamespace($path, $expected)
     {
         $classLoader = new ClassLoader();
@@ -56,7 +52,7 @@ class RelativeNamespaceDiscoveryTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function convertPathToNamespaceData()
+    public static function convertPathToNamespaceData()
     {
         return [
           ['/A/B/C', 'A\B\C'],
@@ -66,12 +62,7 @@ class RelativeNamespaceDiscoveryTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider convertNamespaceToPathData
-     *
-     * @param $namespace
-     * @param $expected
-     */
+    #[DataProvider('convertNamespaceToPathData')]
     public function testConvertNamespaceToPath($namespace, $expected)
     {
         $classLoader = new ClassLoader();
@@ -80,7 +71,7 @@ class RelativeNamespaceDiscoveryTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function convertNamespaceToPathData()
+    public static function convertNamespaceToPathData()
     {
         return [
           ['A\B\C', '/A/B/C'],

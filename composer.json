@@ -28,7 +28,7 @@
         "consolidation/config": "^3",
         "consolidation/log": "^3",
         "consolidation/output-formatters": "^4.1.2",
-        "consolidation/self-update": "*",
+        "consolidation/self-update": "^3.1.0",
         "league/container": "^3.3.1 || ^4.0",
         "phpowermove/docblock": "^4.0",
         "symfony/console": "^6 || ^7 || ^8",
@@ -71,8 +71,7 @@
         "pear/archive_tar": "Allows tar archives to be created and extracted in taskPack and taskExtract, respectively.",
         "totten/lurkerlite": "For monitoring filesystem changes in taskWatch",
         "patchwork/jsqueeze": "For minifying JS files in taskMinify",
-        "natxet/cssmin": "For minifying CSS files in taskMinify",
-        "consolidation/self-update": "For self-updating a phar-based app built with Robo"
+        "natxet/cssmin": "For minifying CSS files in taskMinify"
     },
     "conflict": {
         "codegyre/robo": "*"

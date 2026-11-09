@@ -34,6 +34,38 @@ class Application extends SymfonyApplication
     }
 
     /**
+     * Override add() method to redirect to addCommand() for Symfony 7.4+ compatibility.
+     *
+     * @param Command $command
+     * @return Command|null
+     */
+    public function add(Command $command): ?Command
+    {
+        return $this->addCommand($command);
+    }
+
+    /**
+     * Compatibility wrapper for add/addCommand methods.
+     *
+     * Symfony 7.4+ accepts Command|callable, while Symfony 6 only accepts Command.
+     * We remove the type hint from the parameter to maintain compatibility.
+     *
+     * @param Command|callable $command
+     * @return Command|null
+     */
+    public function addCommand($command): ?Command
+    {
+        if (method_exists(parent::class, 'addCommand')) {
+            return parent::addCommand($command);
+        }
+        // For Symfony 6, only Command objects are supported
+        if (!$command instanceof Command) {
+            throw new \InvalidArgumentException('Symfony 6 only supports Command objects');
+        }
+        return parent::add($command);
+    }
+
+    /**
      * @param string $roboFile
      * @param string $roboClass
      */
@@ -56,7 +88,7 @@ class Application extends SymfonyApplication
             );
             $output->writeln("<comment>  Edit this file to add your commands! </comment>");
         });
-        $this->add($createRoboFile);
+        $this->addCommand($createRoboFile);
     }
 
     /**
@@ -71,6 +103,6 @@ class Application extends SymfonyApplication
             return;
         }
         $selfUpdateCommand = new \SelfUpdate\SelfUpdateCommand($this->getName(), $this->getVersion(), $repository);
-        $this->add($selfUpdateCommand);
+        $this->addCommand($selfUpdateCommand);
     }
 }

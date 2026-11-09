@@ -676,7 +676,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
     protected function doStateUpdates($task, Data $taskResult)
     {
         $this->updateState($taskResult);
-        $key = spl_object_hash($task);
+        $key = spl_object_id($task);
         if (array_key_exists($key, $this->messageStoreKeys)) {
             $state = $this->getState();
             list($stateKey, $sourceKey) = $this->messageStoreKeys[$key];
@@ -694,7 +694,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
      */
     public function storeState($task, $key, $source = '')
     {
-        $this->messageStoreKeys[spl_object_hash($task)] = [$key, $source];
+        $this->messageStoreKeys[spl_object_id($task)] = [$key, $source];
 
         return $this;
     }
@@ -731,7 +731,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
      */
     public function defer($task, $callback)
     {
-        $this->deferredCallbacks[spl_object_hash($task)][] = $callback;
+        $this->deferredCallbacks[spl_object_id($task)][] = $callback;
 
         return $this;
     }
@@ -747,7 +747,7 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
         }
 
         // Check and see if there are any deferred callbacks for this task.
-        $key = spl_object_hash($task);
+        $key = spl_object_id($task);
         if (!array_key_exists($key, $this->deferredCallbacks)) {
             return;
         }

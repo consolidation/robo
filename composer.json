@@ -39,7 +39,7 @@
         "symfony/yaml": "^6 || ^7 || ^8"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.64",
+        "friendsofphp/php-cs-fixer": "^3.95.30",
         "natxet/cssmin": "3.0.4",
         "patchwork/jsqueeze": "^2",
         "pear/archive_tar": "^1.4.4",

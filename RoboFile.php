@@ -394,6 +394,7 @@ class RoboFile extends \Robo\Tasks
                 ->noUpdate()
                 ->args($devProjectsToRemove)
             ->taskComposerRequire()
+                ->dir($roboBuildDir)
                 ->dependency('consolidation/self-update', '*')
                 ->noUpdate()
             ->taskComposerInstall()

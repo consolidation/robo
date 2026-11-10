@@ -102,7 +102,8 @@ class Application extends SymfonyApplication
         if (!$repository || !class_exists('\SelfUpdate\SelfUpdateCommand') || empty(\Phar::running())) {
             return;
         }
-        $selfUpdateCommand = new \SelfUpdate\SelfUpdateCommand($this->getName(), $this->getVersion(), $repository);
+        $selfUpdateManager = new \SelfUpdate\SelfUpdateManager($this->getName(), $this->getVersion(), $repository);
+        $selfUpdateCommand = new \SelfUpdate\SelfUpdateCommand($selfUpdateManager);
         $this->addCommand($selfUpdateCommand);
     }
 }

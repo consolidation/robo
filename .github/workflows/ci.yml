@@ -205,6 +205,14 @@ jobs:
       - name: Run tests with phpunit
         run: composer unit
 
+      # Some code paths (e.g. self:update registration) only run inside a phar, so the unit tests can't see them.
+      - name: Build and smoke-test the phar
+        if: matrix.os == 'ubuntu-latest' && matrix.dependencies == 'locked'
+        run: |
+          php robo phar:build
+          php robo.phar --version
+          php robo.phar list | grep -q 'self:update'
+
       - name: Publish code coverage to Codecov
         if: matrix.os == 'ubuntu-latest' && matrix.php-version == '8.0'
         run: bash <(curl -s https://codecov.io/bash)

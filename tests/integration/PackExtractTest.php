@@ -40,10 +40,10 @@ class PackExtractTest extends TestCase
      */
     public function testPackExtract($archiveType)
     {
-        if ((version_compare(PHP_VERSION, '7.4.0') >= 0) && (getenv('TRAVIS'))) {
-          $this->markTestSkipped('Zip libraries apparently not available on Travis CI with PHP 7.4 image.');
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            $this->markTestSkipped("Windows image for PHP 8.2+ on GitHub actions does not have zlib");
         }
-
+        
         // Archive directory and then extract it again with Archive and Extract tasks
         $this->fixtures->createAndCdToSandbox();
 

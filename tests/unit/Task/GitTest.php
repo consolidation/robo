@@ -31,16 +31,16 @@ class GitTest extends \Codeception\TestCase\Test
 
     public function testGitStackCommands()
     {
-        $linuxCmd = "git clone http://github.com/consolidation-org/Robo && git pull && git add -A && git commit -m 'changed' && git push && git tag 0.6.0 && git push origin 0.6.0";
+        $linuxCmd = "git clone https://github.com/consolidation-org/Robo && git pull && git add -A && git commit -m 'changed' && git push && git tag 0.6.0 && git push origin 0.6.0";
 
-        $winCmd = 'git clone http://github.com/consolidation-org/Robo && git pull && git add -A && git commit -m "changed" && git push && git tag 0.6.0 && git push origin 0.6.0';
+        $winCmd = 'git clone https://github.com/consolidation-org/Robo && git pull && git add -A && git commit -m "changed" && git push && git tag 0.6.0 && git push origin 0.6.0';
 
         $cmd = stripos(PHP_OS, 'WIN') === 0 ? $winCmd : $linuxCmd;
 
         $this->assertEquals(
             $cmd,
             (new \Robo\Task\Vcs\GitStack())
-                ->cloneRepo('http://github.com/consolidation-org/Robo')
+                ->cloneRepo('https://github.com/consolidation-org/Robo')
                 ->pull()
                 ->add('-A')
                 ->commit('changed')
@@ -53,16 +53,16 @@ class GitTest extends \Codeception\TestCase\Test
 
     public function testGitStackCommandsWithTagMessage()
     {
-        $linuxCmd = "git clone http://github.com/consolidation-org/Robo && git pull && git add -A && git commit -m 'changed' && git push && git tag -m 'message' 0.6.0 && git push origin 0.6.0";
+        $linuxCmd = "git clone https://github.com/consolidation-org/Robo && git pull && git add -A && git commit -m 'changed' && git push && git tag -m 'message' 0.6.0 && git push origin 0.6.0";
 
-        $winCmd = 'git clone http://github.com/consolidation-org/Robo && git pull && git add -A && git commit -m "changed" && git push && git tag -m \'message\' 0.6.0 && git push origin 0.6.0';
+        $winCmd = 'git clone https://github.com/consolidation-org/Robo && git pull && git add -A && git commit -m "changed" && git push && git tag -m \'message\' 0.6.0 && git push origin 0.6.0';
 
         $cmd = stripos(PHP_OS, 'WIN') === 0 ? $winCmd : $linuxCmd;
 
         $this->assertEquals(
             $cmd,
             (new \Robo\Task\Vcs\GitStack())
-                ->cloneRepo('http://github.com/consolidation-org/Robo')
+                ->cloneRepo('https://github.com/consolidation-org/Robo')
                 ->pull()
                 ->add('-A')
                 ->commit('changed')
@@ -75,24 +75,24 @@ class GitTest extends \Codeception\TestCase\Test
 
     public function testGitStackShallowCloneCommand()
     {
-        $cmd = 'git clone --depth 1 http://github.com/consolidation-org/Robo ./deployment-path';
+        $cmd = 'git clone --depth 1 https://github.com/consolidation-org/Robo ./deployment-path';
 
         $this->assertEquals(
             $cmd,
             (new \Robo\Task\Vcs\GitStack())
-                ->cloneShallow('http://github.com/consolidation-org/Robo', './deployment-path')
+                ->cloneShallow('https://github.com/consolidation-org/Robo', './deployment-path')
                 ->getCommand()
         );
     }
 
     public function testGitStackShallowCloneCommandWithDifferentDepth()
     {
-        $cmd = 'git clone --depth 3 http://github.com/consolidation-org/Robo . --branch feature';
+        $cmd = 'git clone --depth 3 https://github.com/consolidation-org/Robo . --branch feature';
 
         $this->assertEquals(
             $cmd,
             (new \Robo\Task\Vcs\GitStack())
-                ->cloneShallow('http://github.com/consolidation-org/Robo', '.', 'feature', 3)
+                ->cloneShallow('https://github.com/consolidation-org/Robo', '.', 'feature', 3)
                 ->getCommand()
         );
     }

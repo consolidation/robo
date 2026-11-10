@@ -80,7 +80,9 @@ class FilesystemStackTest extends TestCase
         // call it via reflection.
         $class = new \ReflectionClass('\Robo\Task\Filesystem\FilesystemStack');
         $method = $class->getMethod('crossVolumeRename');
-        $method->setAccessible(true);
+        if (\PHP_VERSION_ID < 80100) {
+            $method->setAccessible(true);
+        }
         $actualFsStackTask = $fsStack->getCollectionBuilderCurrentTask();
         $method->invokeArgs($actualFsStackTask, ['log', 'logfiles']);
 

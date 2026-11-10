@@ -5,7 +5,7 @@ namespace Robo\Contract;
 interface InflectionInterface
 {
     /**
-     * Based on league/container inflection: http://container.thephpleague.com/inflectors/
+     * Based on league/container inflection: https://container.thephpleague.com/4.x/inflectors/
      *
      * This allows us to run:
      *

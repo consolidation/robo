@@ -19,6 +19,7 @@ $isPhar = (filesize(__FILE__) > 500000);
 $candidates = [
     __DIR__.'/vendor/autoload.php',
     __DIR__.'/../../autoload.php',
+    __DIR__.'/../autoload.php',
 ];
 
 // Use our phar alias path

@@ -42,7 +42,9 @@ class RoboFileTest extends TestCase
     /**
      * Expect the same number of commands as public methods defined in the Robofile.
      *
-     * The two default commands from symfony (list and help) need to be added to the count.
+     * The four default commands from symfony need to be ignored when comparing the count.
+     * This is kind of a low-value test. The next time it breaks, we should probably
+     * just remove it.
      */
     public function testNumberOfCommands()
     {
@@ -57,7 +59,14 @@ class RoboFileTest extends TestCase
                 substr($expectedCommandMethod->name, 0, 3) != 'get';
         });
 
-        // Two more commands are expected that come from symfony console by default.
-        $this->assertEquals(count($this->app->all()), count($expectedCommands) + 2);
+        // Get all of the Symfony commands. Ignore those added by Symfony itself.
+        $all = $this->app->all();
+        unset($all['list']);
+        unset($all['help']);
+        unset($all['_complete']);
+        unset($all['completion']);
+
+        // Assert that the method counts we find match our expectation.
+        $this->assertEquals(count($expectedCommands), count($all));
     }
 }

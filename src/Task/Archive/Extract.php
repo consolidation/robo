@@ -4,10 +4,9 @@ namespace Robo\Task\Archive;
 
 use Robo\Result;
 use Robo\Task\BaseTask;
-use Robo\Task\Filesystem\FilesystemStack;
-use Robo\Task\Filesystem\DeleteDir;
+use Robo\Task\Filesystem\Tasks as FilesystemTaskLoader;
 use Robo\Contract\BuilderAwareInterface;
-use Robo\Common\BuilderAwareTrait;
+use Robo\TaskAccessor;
 
 /**
  * Extracts an archive.
@@ -34,7 +33,8 @@ use Robo\Common\BuilderAwareTrait;
  */
 class Extract extends BaseTask implements BuilderAwareInterface
 {
-    use BuilderAwareTrait;
+    use TaskAccessor;
+    use FilesystemTaskLoader;
 
     /**
      * @var string
@@ -99,13 +99,15 @@ class Extract extends BaseTask implements BuilderAwareInterface
             return false;
         }
 
+        $umask = 0777 - umask();
+
         // We will first extract to $extractLocation and then move to $this->to
-        $extractLocation = static::getTmpDir();
-        @mkdir($extractLocation);
+        $extractLocation = $this->getTempDir();
+        @mkdir($extractLocation, $umask, true);
 
         $destinationParentDir = dirname($this->to);
         if (!file_exists($destinationParentDir)) {
-            @mkdir($destinationParentDir);
+            @mkdir($destinationParentDir, $umask, true);
         }
 
         $this->startTimer();
@@ -129,16 +131,14 @@ class Extract extends BaseTask implements BuilderAwareInterface
             $filesInExtractLocation = glob("$extractLocation/*");
             $hasEncapsulatingFolder = ((count($filesInExtractLocation) == 1) && is_dir($filesInExtractLocation[0]));
             if ($hasEncapsulatingFolder && !$this->preserveTopDirectory) {
-                $result = (new FilesystemStack())
-                    ->inflect($this)
+                $this
+                    ->taskFilesystemStack()
                     ->rename($filesInExtractLocation[0], $this->to)
-                    ->run();
-                (new DeleteDir($extractLocation))
-                    ->inflect($this)
+                    ->remove($extractLocation)
                     ->run();
             } else {
-                $result = (new FilesystemStack())
-                    ->inflect($this)
+                $this
+                    ->taskFilesystemStack()
                     ->rename($extractLocation, $this->to)
                     ->run();
             }
@@ -232,19 +232,19 @@ class Extract extends BaseTask implements BuilderAwareInterface
                     switch ($data[1]) {
                         case 0x8b1f:
                             // First two bytes of gzip files are 0x1f, 0x8b (little-endian).
-                            // See http://www.gzip.org/zlib/rfc-gzip.html#header-trailer
+                            // See https://www.gzip.org/zlib/rfc-gzip.html#header-trailer
                             $content_type = 'application/x-gzip';
                             break;
 
                         case 0x4b50:
                             // First two bytes of zip files are 0x50, 0x4b ('PK') (little-endian).
-                            // See http://en.wikipedia.org/wiki/Zip_(file_format)#File_headers
+                            // See https://en.wikipedia.org/wiki/Zip_(file_format)#File_headers
                             $content_type = 'application/zip';
                             break;
 
                         case 0x5a42:
                             // First two bytes of bzip2 files are 0x5a, 0x42 ('BZ') (big-endian).
-                            // See http://en.wikipedia.org/wiki/Bzip2#File_format
+                            // See https://en.wikipedia.org/wiki/Bzip2#File_format
                             $content_type = 'application/x-bzip2';
                             break;
                     }
@@ -275,6 +275,18 @@ class Extract extends BaseTask implements BuilderAwareInterface
 
     /**
      * @return string
+     */
+    protected function getTempDir()
+    {
+        return $this->to . '-tmp' . rand() . time();
+    }
+
+    /**
+     * @deprecated Use $this->getTempDir() instead.
+     *
+     * @return string
+     *
+     * @see getTempDir
      */
     protected static function getTmpDir()
     {

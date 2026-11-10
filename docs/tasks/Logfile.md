@@ -14,9 +14,15 @@ $this->_rotateLog(['logfile.log']);
 ?>
 ```
 
-* `keep($keep)`   * `param int` $keep
-* `chmod($chmod)`   * `param int` $chmod
-* `setOutput($output)`  Sets the Console Output.
+* `keep($keep)`
+
+ * `param int` $keep
+* `chmod($chmod)`
+
+ * `param int` $chmod
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 
 
@@ -34,6 +40,10 @@ $this->_truncateLog(['logfile.log']);
 ?>
 ```
 
-* `chmod($chmod)`   * `param int` $chmod
-* `setOutput($output)`  Sets the Console Output.
+* `chmod($chmod)`
+
+ * `param int` $chmod
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 

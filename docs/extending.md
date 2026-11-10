@@ -11,14 +11,14 @@ Note: The `Tasks` traits are called `loadTasks` in Robo core. This is a legacy n
 ## Including Additional Tasks
 
 Additional tasks may be installed into projects that have included Robo via Composer. For example:
-```
+```sh
 $ cd myproject
 $ composer require boedah/robo-drush
 ```
 If any of the tasks you include require external Composer projects themselves, then you must `composer require` these as well.  See the `suggests` section of Robo's composer.json file for a list of some projects you might need to require.
 
 Once the extension you wish to use has been added to your vendor directory, you may then include it from your RoboFile:
-``` php
+```php
 class RoboFile extends \Robo\Tasks
 {
   use Boedah\Robo\Task\Drush\Tasks;
@@ -102,7 +102,7 @@ A Robo tasks extension is created by advertising a Composer package of type `rob
 ### Create your composer.json File
 
 Your composer.json file should look something like the example below:
-```
+```json
 {
     "name": "boedah/robo-drush",
     "description": "Drush CommandStack for Robo Task Runner",
@@ -123,7 +123,7 @@ Customize the name and autoload paths as necessary, and add any additional requi
 ### Create the Tasks.php Trait
 
 It is recommended to place your trait-loading task in a `Tasks` file in the same namespace as the task implementation.
-```
+```php
 namespace Boedah\Robo\Task\Drush;
 
 trait Tasks
@@ -146,7 +146,7 @@ The implementation of each task class should extend \Robo\Task\BaseTask, or some
 
 There are many examples of task implementations in the Robo\Task namespace.  A very basic task example is provided below.  The namespace is `MyAssetTasks`, and the example task is `CompileAssets`. To customize to your purposes, choose an appropriate namespace, and then define as many tasks as you need.
 
-``` php
+```php
 <?php
 namespace MyAssetTasks;
 
@@ -198,7 +198,7 @@ To use the tasks you define in a RoboFile, use its `Tasks` trait as explained in
 To allow tasks access IO, use the `Robo\Common\TaskIO` trait, or inherit your task class from `Robo\Task\BaseTask` (recommended).
 
 Inside tasks you should print process details with `printTaskInfo`, `printTaskSuccess`, and `printTaskError`.
-```
+```php
 $this->printTaskInfo('Processing...');
 ```
 The Task IO methods send all output through a PSR-3 logger. Tasks should use task IO exclusively; methods such as 'say' and 'ask' should reside in the command method. This allows tasks to be usable in any context that has a PSR-3 logger, including background or server processes where it is not possible to directly query the user.
@@ -214,7 +214,7 @@ To obtain access to a `CollectionBuilder`, a task should implement `BuilderAware
 If you wish to use the `task()` methods from your `Tasks` trait in your unit tests, it is necessary to also use the Robo `TaskAccessor` trait, and define a `collectionBuilder()` method to provide a builder.  Collection builders are used to initialize all Robo tasks.  The easiest way to get a usable collection builder in your tests is to initialize Robo's default dependency injection container, and use it to request a new builder.
 
 An example of how to do this in a PHPUnit test is shown below.
-```
+```php
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 use Symfony\Component\Console\Output\NullOutput;

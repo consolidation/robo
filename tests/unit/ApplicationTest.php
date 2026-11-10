@@ -49,7 +49,9 @@ class ApplicationTest extends \Codeception\TestCase\Test
         // this is normally only callable by methods of the
         // commandfile instance.
         $method = new ReflectionMethod($this->roboCommandFileInstance, 'task');
-        $method->setAccessible(true);
+        if (\PHP_VERSION_ID < 80100) {
+            $method->setAccessible(true);
+        }
         $collectionBuilder = $method->invoke($this->roboCommandFileInstance, 'Robo\Task\Base\Exec', 'ls');
         $this->assertEquals(
             'Robo\Collection\CollectionBuilder',

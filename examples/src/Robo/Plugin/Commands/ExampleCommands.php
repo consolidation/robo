@@ -4,6 +4,7 @@ namespace RoboExample\Robo\Plugin\Commands;
 use Robo\Result;
 
 use Consolidation\AnnotatedCommand\CommandData;
+use Consolidation\AnnotatedCommand\CommandResult;
 use Consolidation\OutputFormatters\Options\FormatterOptions;
 use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
 use Consolidation\OutputFormatters\StructuredData\PropertyList;
@@ -275,7 +276,7 @@ class ExampleCommands extends \Robo\Tasks
     public function tryOpenBrowser(ConsoleIO $io)
     {
         return $this->collectionBuilder($io)->taskOpenBrowser([
-            'http://robo.li',
+            'https://robo.li',
             'https://github.com/consolidation-org/Robo'
             ])->run();
     }
@@ -335,12 +336,11 @@ class ExampleCommands extends \Robo\Tasks
     }
 
     /**
-     * Demonstrate Robo formatters.  Default format is 'table'.
+     * Test the contents of the $options array
      *
      * @field-labels
-     *   first: I
-     *   second: II
-     *   third: III
+     *   options: Options
+     * @default-table-fields options
      * @default-string-field second
      * @usage try:formatters --format=yaml
      * @usage try:formatters --format=csv
@@ -350,13 +350,80 @@ class ExampleCommands extends \Robo\Tasks
      *
      * @return \Consolidation\OutputFormatters\StructuredData\RowsOfFields
      */
-    public function tryFormatters($somthing = 'default', $options = ['format' => 'table', 'fields' => ''])
+    public function tryOptionValues($somthing = 'default', $options = ['format' => 'table', 'fields' => 'options'])
+    {
+        $data = [
+            'options' => $options,
+        ];
+        return (new RowsOfFields($data))->addRendererFunction(
+            function ($key, $cellData) {
+                if (!is_string($cellData)) {
+                    return var_export($cellData, true);
+                }
+                return $cellData;
+            }
+        );
+    }
+
+
+    /**
+     * Test command with formatters
+     *
+     * @command example:table
+     * @param $unused An unused argument
+     * @field-labels
+     *   first: I
+     *   second: II
+     *   third: III
+     *   fourth: IV
+     * @default-table-fields first,second,third
+     * @default-fields first,second,third,fourth
+     * @usage example:table --format=yml
+     *   Show the example table in yml format.
+     * @usage example:table --fields=first,third
+     *   Show only the first and third fields in the table.
+     * @usage example:table --fields=II,III
+     *   Note that either the field ID or the visible field label may be used.
+     * @aliases extab
+     * @topics docs-tables
+     * @return \Consolidation\OutputFormatters\StructuredData\RowsOfFields Fully-qualified class name
+     */
+    public function exampleTable($unused = '', $options = ['format' => 'table', 'fields' => ''])
     {
         $outputData = [
-            'en' => [ 'first' => 'One',  'second' => 'Two',  'third' => 'Three' ],
-            'de' => [ 'first' => 'Eins', 'second' => 'Zwei', 'third' => 'Drei'  ],
-            'jp' => [ 'first' => 'Ichi', 'second' => 'Ni',   'third' => 'San'   ],
-            'es' => [ 'first' => 'Uno',  'second' => 'Dos',  'third' => 'Tres'  ],
+            'en' => [ 'first' => 'One',  'second' => 'Two',  'third' => 'Three', 'fourth' => 'Four', ],
+            'de' => [ 'first' => 'Eins', 'second' => 'Zwei', 'third' => 'Drei', 'fourth' => 'Vier', ],
+            'jp' => [ 'first' => 'Ichi', 'second' => 'Ni',   'third' => 'San', 'fourth' => 'Shi',  ],
+            'es' => [ 'first' => 'Uno',  'second' => 'Dos',  'third' => 'Tres', 'fourth' => 'Quatro', ],
+        ];
+        return CommandResult::data(new RowsOfFields($outputData));
+    }
+
+    /**
+     * Demonstrate Robo formatters.  Default format is 'table'.
+     *
+     * @field-labels
+     *   first: I
+     *   second: II
+     *   third: III
+     *   fourth: IV
+     * @default-fields first,third,fourth
+     * @default-string-field second
+     * @usage try:formatters --format=yaml
+     * @usage try:formatters --format=csv
+     * @usage try:formatters --fields=first,third
+     * @usage try:formatters --fields=III,II
+     * @aliases tf
+     *
+     * @return \Consolidation\OutputFormatters\StructuredData\RowsOfFields
+     */
+    public function tryFormatters(InputInterface $input, $somthing = 'default', $options = ['format' => 'table', 'fields' => ''])
+    {
+        $outputData = [
+            'en' => [ 'first' => 'One',  'second' => 'Two',  'third' => 'Three', 'fourth' => 'Four', ],
+            'de' => [ 'first' => 'Eins', 'second' => 'Zwei', 'third' => 'Drei', 'fourth' => 'Vier', ],
+            'jp' => [ 'first' => 'Ichi', 'second' => 'Ni',   'third' => 'San', 'fourth' => 'Shi',   ],
+            'es' => [ 'first' => 'Uno',  'second' => 'Dos',  'third' => 'Tres', 'fourth' => 'Quatro', ],
         ];
         return new RowsOfFields($outputData);
     }

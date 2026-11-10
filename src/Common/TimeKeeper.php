@@ -60,16 +60,16 @@ class TimeKeeper
     public static function formatDuration($duration)
     {
         if ($duration >= self::DAY * 2) {
-            return gmdate('z \d\a\y\s H:i:s', $duration);
+            return gmdate('z \d\a\y\s H:i:s', (int) $duration);
         }
-        if ($duration > self::DAY) {
-            return gmdate('\1 \d\a\y H:i:s', $duration);
+        if ($duration >= self::DAY) {
+            return gmdate('\1 \d\a\y H:i:s', (int) $duration);
         }
-        if ($duration > self::HOUR) {
-            return gmdate("H:i:s", $duration);
+        if ($duration >= self::HOUR) {
+            return gmdate("H:i:s", (int) $duration);
         }
-        if ($duration > self::MINUTE) {
-            return gmdate("i:s", $duration);
+        if ($duration >= self::MINUTE) {
+            return gmdate("i:s", (int) $duration);
         }
         return round($duration, 3) . 's';
     }

@@ -2,6 +2,13 @@
 
 namespace Robo\Task\Development;
 
+use phpowermove\docblock\Docblock;
+use phpowermove\docblock\tags\AbstractDescriptionTag;
+use phpowermove\docblock\tags\AbstractTag;
+use phpowermove\docblock\tags\AbstractTypeTag;
+use phpowermove\docblock\tags\AbstractVarTypeTag;
+use phpowermove\docblock\tags\ParamTag;
+use phpowermove\docblock\tags\ReturnTag;
 use Robo\Task\BaseTask;
 use Robo\Result;
 use Robo\Contract\BuilderAwareInterface;
@@ -583,7 +590,7 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
 
         $signature = $this->documentMethodSignature($reflectedMethod);
         $docblock = $this->documentMethodDocBlock($reflectedMethod);
-        $methodDoc = "$signature $docblock";
+        $methodDoc = "$signature\n\n$docblock";
         if (is_callable($this->processMethod)) {
             $methodDoc = call_user_func($this->processMethod, $reflectedMethod, $methodDoc);
         }
@@ -674,18 +681,20 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
     {
         $text = "";
         $paramType = $param->getType();
-        if (($paramType != null) && ($paramType->getName() == 'array')) {
-            $text .= 'array ';
-        }
-        if (($paramType != null) && ($paramType->getName() == 'callable')) {
-            $text .= 'callable ';
+        if ($paramType instanceof \ReflectionNamedType) {
+            if ($paramType->getName() === 'array') {
+                $text .= 'array ';
+            }
+            if (($paramType->getName() === 'callable')) {
+                $text .= 'callable ';
+            }
         }
         $text .= '$' . $param->name;
         if ($param->isDefaultValueAvailable()) {
             if ($param->allowsNull()) {
                 $text .= ' = null';
             } else {
-                $text .= ' = ' . str_replace("\n", ' ', print_r($param->getDefaultValue(), true));
+                $text .= ' = ' . str_replace("\n", ' ', var_export($param->getDefaultValue(), true));
             }
         }
 
@@ -773,12 +782,149 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
             }
         }
 
-        $methodDoc = self::indentDoc($methodDoc, 7);
-        $methodDoc = preg_replace("~^@(.*?) ([$\s])~m", ' * `$1` $2', $methodDoc); // format annotations
+        $methodDoc = $this->documentMethodParametersAndReturnType($reflectedMethod, $methodDoc);
+
         if (is_callable($this->processMethodDocBlock)) {
             $methodDoc = call_user_func($this->processMethodDocBlock, $reflectedMethod, $methodDoc);
         }
 
         return $methodDoc;
     }
+
+    protected function documentMethodParametersAndReturnType(\ReflectionMethod $method, string $text): string
+    {
+        $parameters = $method->getParameters();
+        $class = $method->getDeclaringClass();
+
+        $docblock = new Docblock($text);
+        /**
+         * @var ParamTag[] $paramTags
+         */
+        $paramTags = $docblock->getTags('param')->toArray();
+        $existingParamTags = [];
+        if ($paramTags !== []) {
+            foreach ($paramTags as $paramTag) {
+                $existingParamTags[$paramTag->getVariable()] = $paramTag;
+            }
+        }
+
+        $docblock->removeTags('param');
+
+        foreach ($parameters as $parameter) {
+            $parameterName = $parameter->getName();
+            if (isset($existingParamTags[$parameterName])) {
+                $docblock->appendTag($existingParamTags[$parameterName]);
+            } else {
+                $newParamTag = new ParamTag();
+                $newParamTag->setVariable($parameterName);
+                $parameterType = $parameter->getType();
+                if ($parameterType !== null) {
+                    $newParamTag->setType($this->stringifyType($parameterType, $class));
+                }
+                $docblock->appendTag($newParamTag);
+            }
+        }
+
+        if (!$docblock->hasTag('return')) {
+            $returnType = $method->getReturnType();
+            if ($returnType !== null) {
+                $returnTag = new ReturnTag();
+                $returnTag->setType($this->stringifyType($returnType, $class));
+                $docblock->appendTag($returnTag);
+            }
+        }
+
+        $result = '';
+        /**
+         * @var AbstractTag[] $sortedTags
+         */
+        $sortedTags = $docblock->getSortedTags();
+
+        foreach ($sortedTags as $tag) {
+            if ($tag instanceof AbstractTypeTag) {
+                $result .= '* `' . $tag->getTagName() . ' ' . $tag->getType() . '`';
+
+                if ($tag instanceof AbstractVarTypeTag) {
+                    $result .= ' $' . $tag->getVariable();
+                }
+                if ($tag->getDescription() !== '') {
+                    $result .= ' ' . $tag->getDescription();
+                }
+            } else {
+                $result .= preg_replace("~^@(.*?)([$\s])~", '* `$1`$2', $tag->toString());
+            }
+            $result .= "\n";
+        }
+
+        $shortDescription = trim($docblock->getShortDescription());
+        $longDescription = trim($docblock->getLongDescription());
+
+        if ($shortDescription !== '') {
+            if ($result !== '') {
+                $result .= "\n";
+            }
+            $result .= $shortDescription . "\n";
+        }
+
+        if ($longDescription !== '') {
+            if ($result !== '') {
+                $result .= "\n";
+            }
+            $result .= $longDescription . "\n";
+        }
+
+        return $result;
+    }
+
+    /**
+     * Copied from \Codeception\Lib\Generator\Actions
+     */
+    private function stringifyType(\ReflectionType $type, \ReflectionClass $moduleClass): string
+    {
+        if ($type instanceof \ReflectionUnionType) {
+            return $this->stringifyNamedTypes($type->getTypes(), $moduleClass, '|');
+        } elseif ($type instanceof \ReflectionIntersectionType) {
+            return $this->stringifyNamedTypes($type->getTypes(), $moduleClass, '&');
+        } elseif ($type instanceof \ReflectionNamedType) {
+            return sprintf(
+                '%s%s',
+                ($type->allowsNull() && $type->getName() !== 'mixed') ? '?' : '',
+                self::stringifyNamedType($type, $moduleClass)
+            );
+        } else {
+            throw new \InvalidArgumentException('Unsupported type class: ' . $type::class);
+        }
+    }
+
+    /**
+     * @param \ReflectionNamedType[] $types
+     */
+    private function stringifyNamedTypes(array $types, \ReflectionClass $moduleClass, string $separator): string
+    {
+        $strings = [];
+        foreach ($types as $type) {
+            $strings[] = self::stringifyNamedType($type, $moduleClass);
+        }
+
+        return implode($separator, $strings);
+    }
+
+    public static function stringifyNamedType(\ReflectionNamedType $type, \ReflectionClass $moduleClass): string
+    {
+        $typeName = $type->getName();
+
+        if ($typeName === 'self') {
+            $typeName = $moduleClass->getName();
+        } elseif ($typeName === 'parent') {
+            $typeName = $moduleClass->getParentClass()->getName();
+        }
+
+        return sprintf(
+            '%s%s',
+            $type->isBuiltin() ? '' : '\\',
+            $typeName
+        );
+    }
+
+    // end of copy
 }

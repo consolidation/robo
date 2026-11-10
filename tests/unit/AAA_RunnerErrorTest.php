@@ -37,7 +37,7 @@ class AAA_RunnerErrorTest extends \Codeception\TestCase\Test
         $tmpLevel = error_reporting();
 
         // Set error_get_last to a known state.  Note that it can never be
-        // reset; see http://php.net/manual/en/function.error-get-last.php
+        // reset; see https://php.net/manual/en/function.error-get-last.php
         @trigger_error('control');
         $error_description = error_get_last();
         $this->assertEquals('control', $error_description['message']);

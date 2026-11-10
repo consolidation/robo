@@ -87,6 +87,8 @@ class Application extends SymfonyApplication
                 . "\nclass " . $roboClass . " extends \\Robo\\Tasks\n{\n    // define public methods as commands\n}"
             );
             $output->writeln("<comment>  Edit this file to add your commands! </comment>");
+            // Symfony 8 requires an int exit code from command code.
+            return 0;
         });
         $this->addCommand($createRoboFile);
     }
@@ -102,7 +104,8 @@ class Application extends SymfonyApplication
         if (!$repository || !class_exists('\SelfUpdate\SelfUpdateCommand') || empty(\Phar::running())) {
             return;
         }
-        $selfUpdateCommand = new \SelfUpdate\SelfUpdateCommand($this->getName(), $this->getVersion(), $repository);
+        $selfUpdateManager = new \SelfUpdate\SelfUpdateManager($this->getName(), $this->getVersion(), $repository);
+        $selfUpdateCommand = new \SelfUpdate\SelfUpdateCommand($selfUpdateManager);
         $this->addCommand($selfUpdateCommand);
     }
 }

@@ -87,6 +87,8 @@ class Application extends SymfonyApplication
                 . "\nclass " . $roboClass . " extends \\Robo\\Tasks\n{\n    // define public methods as commands\n}"
             );
             $output->writeln("<comment>  Edit this file to add your commands! </comment>");
+            // Symfony 8 requires an int exit code from command code.
+            return 0;
         });
         $this->addCommand($createRoboFile);
     }

@@ -23,7 +23,7 @@
 
 | Branch | Support Level | Symfony | League Container | psr/log | PHP Versions |
 | ------ | ------------- | ------- | ---------------- | ------------ | ------------ |
-| [5.x](https://github.com/consolidation/robo/tree/5.x) | Stable             | 6 - 7 | 3 | 2 - 3 | 8.2 - 8.3 |
+| [5.x](https://github.com/consolidation/robo/tree/5.x) | Stable             | 6 - 8 | 3 | 2 - 3 | 8.2 - 8.3 |
 | [4.x](https://github.com/consolidation/robo/tree/4.x) | Stable             | 6     | 3 | 2 - 3 | 8.0 - 8.3 |
 | [3.x](https://github.com/consolidation/robo/tree/3.x) | Not supported      | 4 - 6 | 3 | 1 - 2 | 7.1 - 8.1 |
 | [2.x](https://github.com/consolidation/robo/tree/2.x) | Not supported      | 4 - 5 | 2 | 1 - 2 | 7.1 - 7.4 |

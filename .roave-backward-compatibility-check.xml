@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<roave-bc-check
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="tools/vendor/roave/backward-compatibility-check/Resources/schema.xsd">
+    <baseline>
+        <!-- Symfony 8's EventSubscriberInterface declares getSubscribedEvents(): array, so the return type is
+             mandatory there. Adding it is compatible with Symfony 6/7, whose interface has no return type. -->
+        <ignored-regex>#\[BC\] CHANGED: The return type of Robo\\GlobalOptionsEventListener::getSubscribedEvents\(\)#</ignored-regex>
+    </baseline>
+</roave-bc-check>

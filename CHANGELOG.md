@@ -1,5 +1,12 @@
 # Changelog
 
+### 5.2.0 11/10/2026
+
+* Support Symfony 8 by Andy Postnikov (#1187)
+* Symfony Console 7.4+ addCommand() compatibility by Paul Babin (#1185)
+* PHP 8.6 (#1192)
+* Fix the phar crashing on startup with consolidation/self-update 3.x
+
 ### 5.1.1 11/14/2025
 
 * PHP 8.5

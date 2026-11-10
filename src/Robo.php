@@ -25,8 +25,8 @@ use Symfony\Component\Process\Process;
  */
 class Robo
 {
-    public const APPLICATION_NAME = 'Robo';
-    private const VERSION = '5.1.2-dev';
+    const APPLICATION_NAME = 'Robo';
+    private const VERSION = '5.2.0';
 
     /**
      * The currently active container object, or NULL if not initialized yet.

@@ -1,4 +1,5 @@
 <?php
+
 use AspectMock\Test as test;
 
 class AtoumTest extends \Codeception\TestCase\Test
@@ -32,7 +33,8 @@ class AtoumTest extends \Codeception\TestCase\Test
         ;
         $this->assertEquals(
             'atoum --bootstrap bootstrap.php --tags needDb --use-light-report --use-tap-report --bootstrap tests/bootstrap.php -c config/dev.php --debug --f path/to/file1.php --f path/to/file2.php --directories tests/units',
-            $task->getCommand());
+            $task->getCommand()
+        );
         $task->run();
         $this->atoum->verifyInvoked('executeCommand', ['atoum --bootstrap bootstrap.php --tags needDb --use-light-report --use-tap-report --bootstrap tests/bootstrap.php -c config/dev.php --debug --f path/to/file1.php --f path/to/file2.php --directories tests/units']);
     }

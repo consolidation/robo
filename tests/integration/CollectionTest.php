@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo;
 
 use Yoast\PHPUnitPolyfills\TestCases\TestCase;
@@ -540,5 +541,3 @@ class CollectionTest extends TestCase
     }
 
 }
-
-

@@ -7,13 +7,13 @@ use Consolidation\Config\ConfigInterface;
 
 class Config extends ConfigOverlay implements GlobalOptionDefaultValuesInterface
 {
-    const PROGRESS_BAR_AUTO_DISPLAY_INTERVAL = 'options.progress-delay';
-    const DEFAULT_PROGRESS_DELAY = 2;
-    const SIMULATE = 'options.simulate';
+    public const PROGRESS_BAR_AUTO_DISPLAY_INTERVAL = 'options.progress-delay';
+    public const DEFAULT_PROGRESS_DELAY = 2;
+    public const SIMULATE = 'options.simulate';
 
     // Read-only configuration properties; changing these has no effect.
-    const INTERACTIVE = 'options.interactive';
-    const DECORATED = 'options.decorated';
+    public const INTERACTIVE = 'options.interactive';
+    public const DECORATED = 'options.decorated';
 
     /**
      * @var array

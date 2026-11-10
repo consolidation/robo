@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo;
 
 use Yoast\PHPUnitPolyfills\TestCases\TestCase;
@@ -136,4 +137,3 @@ HERE;
         $this->assertStringContainsString('Hello robo.li!', $contents);
     }
 }
-

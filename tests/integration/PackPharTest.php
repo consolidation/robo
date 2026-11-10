@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo;
 
 use Yoast\PHPUnitPolyfills\TestCases\TestCase;
@@ -34,7 +35,8 @@ class PackPharTest extends TestCase
         $this->taskPackPhar($pharFile)
             ->addStripped(
                 'annotated.php',
-                $this->fixtures->dataFile('TestedRoboFile.php'))
+                $this->fixtures->dataFile('TestedRoboFile.php')
+            )
             ->run();
 
         $phar = new \Phar($pharFile);

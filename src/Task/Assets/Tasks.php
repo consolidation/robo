@@ -24,11 +24,11 @@ trait Tasks
         return $this->task(ImageMinify::class, $input);
     }
 
-   /**
-    * @param array $input
-    *
-    * @return \Robo\Task\Assets\Less|\Robo\Collection\CollectionBuilder
-    */
+    /**
+     * @param array $input
+     *
+     * @return \Robo\Task\Assets\Less|\Robo\Collection\CollectionBuilder
+     */
     protected function taskLess($input)
     {
         return $this->task(Less::class, $input);

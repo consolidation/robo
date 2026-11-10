@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo;
 
 use Yoast\PHPUnitPolyfills\TestCases\TestCase;
@@ -21,10 +22,12 @@ class ExecTest extends TestCase
         $this->assertTrue($res->wasSuccessful());
         $this->assertStringContainsString(
             'src',
-            $res->getMessage());
+            $res->getMessage()
+        );
         $this->assertStringContainsString(
             'codeception.yml',
-            $res->getMessage());
+            $res->getMessage()
+        );
     }
 
     public function testMultipleEnvVars()
@@ -37,10 +40,12 @@ class ExecTest extends TestCase
         // Verify that the text contains our environment variable.
         $this->assertStringContainsString(
             'FOO=BAR',
-            $result->getMessage());
+            $result->getMessage()
+        );
         $this->assertStringContainsString(
             'BAR=BAZ',
-            $result->getMessage());
+            $result->getMessage()
+        );
 
         // Now verify that we can reset a value that was previously set.
         $task = $this->taskExec('env')->interactive(false);
@@ -51,7 +56,8 @@ class ExecTest extends TestCase
         // Verify that the text contains the most recent environment variable.
         $this->assertStringContainsString(
             'FOO=BAZ',
-            $result->getMessage());
+            $result->getMessage()
+        );
     }
 
     public function testInheritEnv()
@@ -71,7 +77,8 @@ class ExecTest extends TestCase
         $this->assertTrue($result->wasSuccessful());
         $this->assertEquals(
             $start_count,
-            (int) $result->getMessage());
+            (int) $result->getMessage()
+        );
 
         // Now run the same command, but this time add another environment
         // variable, and see if our count increases by one.

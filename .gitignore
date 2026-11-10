@@ -10,3 +10,4 @@ tests/_helpers/_generated/*
 .phpunit.result.cache
 phpunit.xml
 phpdoc.xml
+.php-cs-fixer.cache

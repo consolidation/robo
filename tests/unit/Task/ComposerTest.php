@@ -1,6 +1,6 @@
 <?php
-use AspectMock\Test as test;
 
+use AspectMock\Test as test;
 use Robo\Traits\Common\AdjustQuotes;
 
 class ComposerTest extends \Codeception\TestCase\Test

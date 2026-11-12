@@ -27,9 +27,13 @@ class Robo
 {
     const APPLICATION_NAME = 'Robo';
 <<<<<<< HEAD
-    private const VERSION = '5.2.2-dev';
+<<<<<<< HEAD
+    private const VERSION = '5.2.3-dev';
 =======
-    private const VERSION = '5.2.2-dev';
+    private const VERSION = '5.2.3-dev';
+>>>>>>> 5.x
+=======
+    private const VERSION = '5.2.3-dev';
 >>>>>>> 5.x
 
     /**

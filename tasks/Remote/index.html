@@ -16,7 +16,7 @@
         <link href="../../css/font-awesome-4.0.3.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
         <link rel="stylesheet" href="../../css/highlight.css">
-        <link href="../..//css/robo.css" rel="stylesheet">
+        <link href="../../css/robo.css" rel="stylesheet">
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -41,7 +41,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="../..">Robo</a>
+            <a class="navbar-brand" href="">Robo</a>
         </div>
 
         <!-- Expanded navigation -->
@@ -56,19 +56,19 @@
                         <ul class="dropdown-menu">
                             
 <li >
-    <a href="../../getting-started/">Getting Started</a>
+    <a href="getting-started/">Getting Started</a>
 </li>
                             
 <li >
-    <a href="../../collections/">Collections</a>
+    <a href="collections/">Collections</a>
 </li>
                             
 <li >
-    <a href="../../extending/">Extending</a>
+    <a href="extending/">Extending</a>
 </li>
                             
 <li >
-    <a href="../../framework/">Robo as Framework</a>
+    <a href="framework/">Robo as Framework</a>
 </li>
                         </ul>
                     </li>
@@ -77,68 +77,69 @@
                         <ul class="dropdown-menu">
                             
 <li >
-    <a href="../Base/">Base Tasks</a>
+    <a href="tasks/Base/">Base Tasks</a>
 </li>
                             
 <li >
-    <a href="../Filesystem/">FileSystem Tasks</a>
+    <a href="tasks/Filesystem/">FileSystem Tasks</a>
 </li>
                             
 <li >
-    <a href="../File/">File Tasks</a>
+    <a href="tasks/File/">File Tasks</a>
 </li>
                             
 <li >
-    <a href="../Composer/">Composer Tasks</a>
+    <a href="tasks/Composer/">Composer Tasks</a>
 </li>
                             
 <li >
-    <a href="../Vcs/">VCS Tasks</a>
+    <a href="tasks/Vcs/">VCS Tasks</a>
 </li>
                             
 <li >
-    <a href="../Development/">Development Tasks</a>
+    <a href="tasks/Development/">Development Tasks</a>
 </li>
                             
 <li >
-    <a href="../Assets/">Assets Tasks</a>
+    <a href="tasks/Assets/">Assets Tasks</a>
 </li>
                             
 <li >
-    <a href="../Archive/">Archive Tasks</a>
+    <a href="tasks/Archive/">Archive Tasks</a>
 </li>
                             
 <li class="active">
-    <a href="./">SSH, Rsync Tasks</a>
+    <a href="tasks/Remote/">SSH, Rsync Tasks</a>
 </li>
                             
 <li >
-    <a href="../Testing/">Testing Tasks</a>
+    <a href="tasks/Testing/">Testing Tasks</a>
 </li>
                             
 <li >
-    <a href="../Npm/">NPM Tasks</a>
+    <a href="tasks/Npm/">NPM Tasks</a>
 </li>
                             
 <li >
-    <a href="../Bower/">Bower Tasks</a>
+    <a href="tasks/Bower/">Bower Tasks</a>
 </li>
                             
 <li >
-    <a href="../Gulp/">Gulp Tasks</a>
+    <a href="tasks/Gulp/">Gulp Tasks</a>
 </li>
                             
 <li >
-    <a href="../Docker/">Docker Tasks</a>
+    <a href="tasks/Docker/">Docker Tasks</a>
 </li>
                             
 <li >
-    <a href="../ApiGen/">ApiGen Tasks</a>
+    <a href="tasks/ApiGen/">ApiGen Tasks</a>
+</li>
+                            
+<li >
+    <a href="tasks/Logfile/">Logfile Tasks</a>
 </li>
                         </ul>
-                    </li>
-                    <li >
-                        <a href="../../changelog/">Releases</a>
                     </li>
                 </ul>
 
@@ -149,17 +150,17 @@
                     </a>
                 </li>
                     <li >
-                        <a rel="next" href="../Archive/">
+                        <a rel="next" href="tasks/Archive/">
                             <i class="fa fa-arrow-left"></i> Previous
                         </a>
                     </li>
                     <li >
-                        <a rel="prev" href="../Testing/">
+                        <a rel="prev" href="tasks/Testing/">
                             Next <i class="fa fa-arrow-right"></i>
                         </a>
                     </li>
                     <li>
-                        <a href="https://github.com/consolidation/Robo/edit/master/docs/tasks/Remote.md"><i class="fa fa-github"></i> Edit on GitHub</a>
+                        <a href="https://github.com/consolidation/robo/edit/master/docs/tasks/Remote.md"><i class="fa fa-github"></i> Edit on GitHub</a>
                     </li>
             </ul>
         </div>
@@ -213,43 +214,228 @@ if ('y' === $this-&gt;ask('Do you want to run (y/n)')) {
 }
 </code></pre>
 <ul>
-<li><code>fromPath($path)</code>  This can either be a full rsync path spec (user@host:path) or just a path.</li>
-<li><code>toPath($path)</code>  This can either be a full rsync path spec (user@host:path) or just a path.</li>
-<li><code>fromUser($fromUser)</code>   * <code>param string</code> $fromUser</li>
-<li><code>fromHost($fromHost)</code>   * <code>param string</code> $fromHost</li>
-<li><code>toUser($toUser)</code>   * <code>param string</code> $toUser</li>
-<li><code>toHost($toHost)</code>   * <code>param string</code> $toHost</li>
-<li><code>progress()</code>   * <code>return</code> $this</li>
-<li><code>stats()</code>   * <code>return</code> $this</li>
-<li><code>recursive()</code>   * <code>return</code> $this</li>
-<li><code>verbose()</code>   * <code>return</code> $this</li>
-<li><code>checksum()</code>   * <code>return</code> $this</li>
-<li><code>archive()</code>   * <code>return</code> $this</li>
-<li><code>compress()</code>   * <code>return</code> $this</li>
-<li><code>owner()</code>   * <code>return</code> $this</li>
-<li><code>group()</code>   * <code>return</code> $this</li>
-<li><code>times()</code>   * <code>return</code> $this</li>
-<li><code>delete()</code>   * <code>return</code> $this</li>
-<li><code>humanReadable()</code>   * <code>return</code> $this</li>
-<li><code>wholeFile()</code>   * <code>return</code> $this</li>
-<li><code>dryRun()</code>   * <code>return</code> $this</li>
-<li><code>itemizeChanges()</code>   * <code>return</code> $this</li>
-<li><code>excludeVcs()</code>  Excludes .git, .svn and .hg items at any depth.</li>
-<li><code>exclude($pattern)</code>   * <code>param array|string</code> $pattern</li>
-<li><code>excludeFrom($file)</code>   * <code>param string</code> $file</li>
-<li><code>includeFilter($pattern)</code>   * <code>param array|string</code> $pattern</li>
-<li><code>filter($pattern)</code>   * <code>param array|string</code> $pattern</li>
-<li><code>filesFrom($file)</code>   * <code>param string</code> $file</li>
-<li><code>remoteShell($command)</code>   * <code>param string</code> $command</li>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
-<li><code>setProcessInput($input)</code>  Pass an input to the process. Can be resource created with fopen() or string</li>
-<li><code>dir($dir)</code>  Changes working directory of command</li>
-<li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
-<li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
-<li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
-<li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
+<li>
+<p><code>fromPath($path)</code></p>
+</li>
+<li>
+<p><code>param string|array</code> $path</p>
+</li>
+<li>
+<p><code>toPath($path)</code></p>
+</li>
+<li>
+<p><code>param string</code> $path</p>
+</li>
+<li>
+<p><code>fromUser($fromUser)</code></p>
+</li>
+<li>
+<p><code>param string</code> $fromUser</p>
+</li>
+<li>
+<p><code>fromHost($fromHost)</code></p>
+</li>
+<li>
+<p><code>param string</code> $fromHost</p>
+</li>
+<li>
+<p><code>toUser($toUser)</code></p>
+</li>
+<li>
+<p><code>param string</code> $toUser</p>
+</li>
+<li>
+<p><code>toHost($toHost)</code></p>
+</li>
+<li>
+<p><code>param string</code> $toHost</p>
+</li>
+<li>
+<p><code>progress()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>stats()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>recursive()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>verbose()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>checksum()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>archive()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>compress()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>owner()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>group()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>times()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>delete()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>humanReadable()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>wholeFile()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>dryRun()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>itemizeChanges()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>excludeVcs()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>exclude($pattern)</code></p>
+</li>
+<li>
+<p><code>param array|string</code> $pattern</p>
+</li>
+<li>
+<p><code>excludeFrom($file)</code></p>
+</li>
+<li>
+<p><code>param string</code> $file</p>
+</li>
+<li>
+<p><code>includeFilter($pattern)</code></p>
+</li>
+<li>
+<p><code>param array|string</code> $pattern</p>
+</li>
+<li>
+<p><code>filter($pattern)</code></p>
+</li>
+<li>
+<p><code>param array|string</code> $pattern</p>
+</li>
+<li>
+<p><code>filesFrom($file)</code></p>
+</li>
+<li>
+<p><code>param string</code> $file</p>
+</li>
+<li>
+<p><code>remoteShell($command)</code></p>
+</li>
+<li>
+<p><code>param string</code> $command</p>
+</li>
+<li>
+<p><code>setProcessInput($input)</code></p>
+</li>
+<li>
+<p><code>param resource|string</code> $input</p>
+</li>
+<li>
+<p><code>dir($dir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dir</p>
+</li>
+<li>
+<p><code>arg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>args($args)</code></p>
+</li>
+<li>
+<p><code>param string|string[]</code> $args</p>
+</li>
+<li>
+<p><code>rawArg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>option($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>options(array $options, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param array</code> $options</p>
+</li>
+<li>
+<p><code>optionList($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul>
 <h2 id="ssh">Ssh</h2>
 <p>Runs multiple commands on a remote server.
@@ -277,26 +463,126 @@ $this-&gt;taskSshExec('remote.example.com')
 <pre><code class="language-php">::configure('remoteDir', '/some-dir');
 </code></pre>
 <ul>
-<li><code>hostname($hostname)</code>   * <code>param string</code> $hostname</li>
-<li><code>user($user)</code>   * <code>param string</code> $user</li>
-<li><code>stopOnFail($stopOnFail = null)</code>  Whether or not to chain commands together with &amp;&amp; and stop the chain if one command fails.</li>
-<li><code>remoteDir($remoteDir)</code>  Changes to the given directory before running commands.</li>
-<li><code>identityFile($filename)</code>   * <code>param string</code> $filename</li>
-<li><code>port($port)</code>   * <code>param int</code> $port</li>
-<li><code>forcePseudoTty()</code>   * <code>return</code> $this</li>
-<li><code>quiet()</code>   * <code>return</code> $this</li>
-<li><code>verbose()</code>   * <code>return</code> $this</li>
-<li><code>exec($command)</code>   * <code>param string|string[]|CommandInterface</code> $command</li>
-<li><code>simulate($context)</code>  {@inheritdoc}</li>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
-<li><code>setProcessInput($input)</code>  Pass an input to the process. Can be resource created with fopen() or string</li>
-<li><code>dir($dir)</code>  Changes working directory of command</li>
-<li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
-<li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
-<li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
-<li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
+<li>
+<p><code>hostname($hostname)</code></p>
+</li>
+<li>
+<p><code>param string</code> $hostname</p>
+</li>
+<li>
+<p><code>user($user)</code></p>
+</li>
+<li>
+<p><code>param string</code> $user</p>
+</li>
+<li>
+<p><code>stopOnFail($stopOnFail = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $stopOnFail</p>
+</li>
+<li>
+<p><code>remoteDir($remoteDir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $remoteDir</p>
+</li>
+<li>
+<p><code>identityFile($filename)</code></p>
+</li>
+<li>
+<p><code>param string</code> $filename</p>
+</li>
+<li>
+<p><code>port($port)</code></p>
+</li>
+<li>
+<p><code>param int</code> $port</p>
+</li>
+<li>
+<p><code>forcePseudoTty()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>quiet()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>verbose()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>exec($command)</code></p>
+</li>
+<li>
+<p><code>param string|string[]|CommandInterface</code> $command</p>
+</li>
+<li>
+<p><code>simulate($context)</code></p>
+</li>
+<li>
+<p><code>param</code> $context</p>
+</li>
+<li>
+<p><code>setProcessInput($input)</code></p>
+</li>
+<li>
+<p><code>param resource|string</code> $input</p>
+</li>
+<li>
+<p><code>dir($dir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dir</p>
+</li>
+<li>
+<p><code>arg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>args($args)</code></p>
+</li>
+<li>
+<p><code>param string|string[]</code> $args</p>
+</li>
+<li>
+<p><code>rawArg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>option($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>options(array $options, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param array</code> $options</p>
+</li>
+<li>
+<p><code>optionList($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul></div>
             
 
@@ -330,8 +616,7 @@ Robo is on <a href="http://twitter.com/robo_php">Twitter</a> and on <a href="htt
         <script>var base_url = '../..';</script>
         <script data-main="../../mkdocs/js/search.js" src="../../mkdocs/js/require.js"></script>
         <script src="../../js/base.js"></script>
-        <script src="../../search/require.js"></script>
-        <script src="../../search/search.js"></script>
+        <script src="../../search/main.js"></script>
 
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
          <div class="modal-dialog">

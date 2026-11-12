@@ -16,7 +16,7 @@
         <link href="../../css/font-awesome-4.0.3.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
         <link rel="stylesheet" href="../../css/highlight.css">
-        <link href="../..//css/robo.css" rel="stylesheet">
+        <link href="../../css/robo.css" rel="stylesheet">
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -41,7 +41,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="../..">Robo</a>
+            <a class="navbar-brand" href="">Robo</a>
         </div>
 
         <!-- Expanded navigation -->
@@ -56,19 +56,19 @@
                         <ul class="dropdown-menu">
                             
 <li >
-    <a href="../../getting-started/">Getting Started</a>
+    <a href="getting-started/">Getting Started</a>
 </li>
                             
 <li >
-    <a href="../../collections/">Collections</a>
+    <a href="collections/">Collections</a>
 </li>
                             
 <li >
-    <a href="../../extending/">Extending</a>
+    <a href="extending/">Extending</a>
 </li>
                             
 <li >
-    <a href="../../framework/">Robo as Framework</a>
+    <a href="framework/">Robo as Framework</a>
 </li>
                         </ul>
                     </li>
@@ -77,68 +77,69 @@
                         <ul class="dropdown-menu">
                             
 <li >
-    <a href="../Base/">Base Tasks</a>
+    <a href="tasks/Base/">Base Tasks</a>
 </li>
                             
 <li >
-    <a href="../Filesystem/">FileSystem Tasks</a>
+    <a href="tasks/Filesystem/">FileSystem Tasks</a>
 </li>
                             
 <li >
-    <a href="../File/">File Tasks</a>
+    <a href="tasks/File/">File Tasks</a>
 </li>
                             
 <li >
-    <a href="../Composer/">Composer Tasks</a>
+    <a href="tasks/Composer/">Composer Tasks</a>
 </li>
                             
 <li >
-    <a href="../Vcs/">VCS Tasks</a>
+    <a href="tasks/Vcs/">VCS Tasks</a>
 </li>
                             
 <li >
-    <a href="../Development/">Development Tasks</a>
+    <a href="tasks/Development/">Development Tasks</a>
 </li>
                             
 <li >
-    <a href="../Assets/">Assets Tasks</a>
+    <a href="tasks/Assets/">Assets Tasks</a>
 </li>
                             
 <li >
-    <a href="../Archive/">Archive Tasks</a>
+    <a href="tasks/Archive/">Archive Tasks</a>
 </li>
                             
 <li >
-    <a href="../Remote/">SSH, Rsync Tasks</a>
+    <a href="tasks/Remote/">SSH, Rsync Tasks</a>
 </li>
                             
 <li >
-    <a href="../Testing/">Testing Tasks</a>
+    <a href="tasks/Testing/">Testing Tasks</a>
 </li>
                             
 <li >
-    <a href="../Npm/">NPM Tasks</a>
+    <a href="tasks/Npm/">NPM Tasks</a>
 </li>
                             
 <li >
-    <a href="../Bower/">Bower Tasks</a>
+    <a href="tasks/Bower/">Bower Tasks</a>
 </li>
                             
 <li >
-    <a href="../Gulp/">Gulp Tasks</a>
+    <a href="tasks/Gulp/">Gulp Tasks</a>
 </li>
                             
 <li >
-    <a href="../Docker/">Docker Tasks</a>
+    <a href="tasks/Docker/">Docker Tasks</a>
 </li>
                             
 <li class="active">
-    <a href="./">ApiGen Tasks</a>
+    <a href="tasks/ApiGen/">ApiGen Tasks</a>
+</li>
+                            
+<li >
+    <a href="tasks/Logfile/">Logfile Tasks</a>
 </li>
                         </ul>
-                    </li>
-                    <li >
-                        <a href="../../changelog/">Releases</a>
                     </li>
                 </ul>
 
@@ -149,17 +150,17 @@
                     </a>
                 </li>
                     <li >
-                        <a rel="next" href="../Docker/">
+                        <a rel="next" href="tasks/Docker/">
                             <i class="fa fa-arrow-left"></i> Previous
                         </a>
                     </li>
                     <li >
-                        <a rel="prev" href="../../changelog/">
+                        <a rel="prev" href="tasks/Logfile/">
                             Next <i class="fa fa-arrow-right"></i>
                         </a>
                     </li>
                     <li>
-                        <a href="https://github.com/consolidation/Robo/edit/master/docs/tasks/ApiGen.md"><i class="fa fa-github"></i> Edit on GitHub</a>
+                        <a href="https://github.com/consolidation/robo/edit/master/docs/tasks/ApiGen.md"><i class="fa fa-github"></i> Edit on GitHub</a>
                     </li>
             </ul>
         </div>
@@ -190,47 +191,252 @@ $this-&gt;taskApiGen('./vendor/apigen/apigen.phar')
 ?&gt;
 </code></pre>
 <ul>
-<li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
-<li><code>config($config)</code>   * <code>param string</code> $config</li>
-<li><code>source($src)</code>   * <code>param array|string|\Traversable</code> $src</li>
-<li><code>destination($dest)</code>   * <code>param string</code> $dest</li>
-<li><code>extensions($exts)</code>   * <code>param array|string</code> $exts</li>
-<li><code>exclude($exclude)</code>   * <code>param array|string</code> $exclude</li>
-<li><code>skipDocPath($path)</code>   * <code>param array|string|\Traversable</code> $path</li>
-<li><code>skipDocPrefix($prefix)</code>   * <code>param array|string|\Traversable</code> $prefix</li>
-<li><code>charset($charset)</code>   * <code>param array|string</code> $charset</li>
-<li><code>mainProjectNamePrefix($name)</code>   * <code>param string</code> $name</li>
-<li><code>title($title)</code>   * <code>param string</code> $title</li>
-<li><code>baseUrl($baseUrl)</code>   * <code>param string</code> $baseUrl</li>
-<li><code>googleCseId($id)</code>   * <code>param string</code> $id</li>
-<li><code>googleAnalytics($trackingCode)</code>   * <code>param string</code> $trackingCode</li>
-<li><code>templateConfig($templateConfig)</code>   * <code>param mixed</code> $templateConfig</li>
-<li><code>allowedHtml($tags)</code>   * <code>param array|string</code> $tags</li>
-<li><code>groups($groups)</code>   * <code>param string</code> $groups</li>
-<li><code>autocomplete($types)</code>   * <code>param array|string</code> $types</li>
-<li><code>accessLevels($levels)</code>   * <code>param array|string</code> $levels</li>
-<li><code>internal($internal)</code>   * <code>param boolean|string</code> $internal</li>
-<li><code>php($php)</code>   * <code>param bool|string</code> $php</li>
-<li><code>tree($tree)</code>   * <code>param bool|string</code> $tree</li>
-<li><code>deprecated($dep)</code>   * <code>param bool|string</code> $dep</li>
-<li><code>todo($todo)</code>   * <code>param bool|string</code> $todo</li>
-<li><code>sourceCode($src)</code>   * <code>param bool|string</code> $src</li>
-<li><code>download($zipped)</code>   * <code>param bool|string</code> $zipped</li>
-<li><code>report($path)</code>   * <code>param string</code> $path</li>
-<li><code>wipeout($wipeout)</code>   * <code>param bool|string</code> $wipeout</li>
-<li><code>quiet($quiet)</code>   * <code>param bool|string</code> $quiet</li>
-<li><code>progressbar($bar)</code>   * <code>param bool|string</code> $bar</li>
-<li><code>colors($colors)</code>   * <code>param bool|string</code> $colors</li>
-<li><code>updateCheck($check)</code>   * <code>param bool|string</code> $check</li>
-<li><code>debug($debug)</code>   * <code>param bool|string</code> $debug</li>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
-<li><code>setProcessInput($input)</code>  Pass an input to the process. Can be resource created with fopen() or string</li>
-<li><code>dir($dir)</code>  Changes working directory of command</li>
-<li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
-<li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
-<li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
+<li>
+<p><code>args($args)</code></p>
+</li>
+<li>
+<p><code>param string|string[]</code> $args</p>
+</li>
+<li>
+<p><code>config($config)</code></p>
+</li>
+<li>
+<p><code>param string</code> $config</p>
+</li>
+<li>
+<p><code>source($src)</code></p>
+</li>
+<li>
+<p><code>param array|string|\Traversable</code> $src One or more source values.</p>
+</li>
+<li>
+<p><code>destination($dest)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dest</p>
+</li>
+<li>
+<p><code>extensions($exts)</code></p>
+</li>
+<li>
+<p><code>param array|string</code> $exts One or more extensions.</p>
+</li>
+<li>
+<p><code>exclude($exclude)</code></p>
+</li>
+<li>
+<p><code>param array|string</code> $exclude One or more exclusions.</p>
+</li>
+<li>
+<p><code>skipDocPath($path)</code></p>
+</li>
+<li>
+<p><code>param array|string|\Traversable</code> $path One or more skip-doc-path values.</p>
+</li>
+<li>
+<p><code>skipDocPrefix($prefix)</code></p>
+</li>
+<li>
+<p><code>param array|string|\Traversable</code> $prefix One or more skip-doc-prefix values.</p>
+</li>
+<li>
+<p><code>charset($charset)</code></p>
+</li>
+<li>
+<p><code>param array|string</code> $charset One or more charsets.</p>
+</li>
+<li>
+<p><code>mainProjectNamePrefix($name)</code></p>
+</li>
+<li>
+<p><code>param string</code> $name</p>
+</li>
+<li>
+<p><code>title($title)</code></p>
+</li>
+<li>
+<p><code>param string</code> $title</p>
+</li>
+<li>
+<p><code>baseUrl($baseUrl)</code></p>
+</li>
+<li>
+<p><code>param string</code> $baseUrl</p>
+</li>
+<li>
+<p><code>googleCseId($id)</code></p>
+</li>
+<li>
+<p><code>param string</code> $id</p>
+</li>
+<li>
+<p><code>googleAnalytics($trackingCode)</code></p>
+</li>
+<li>
+<p><code>param string</code> $trackingCode</p>
+</li>
+<li>
+<p><code>templateConfig($templateConfig)</code></p>
+</li>
+<li>
+<p><code>param mixed</code> $templateConfig</p>
+</li>
+<li>
+<p><code>allowedHtml($tags)</code></p>
+</li>
+<li>
+<p><code>param array|string</code> $tags One or more supported html tags.</p>
+</li>
+<li>
+<p><code>groups($groups)</code></p>
+</li>
+<li>
+<p><code>param string</code> $groups</p>
+</li>
+<li>
+<p><code>autocomplete($types)</code></p>
+</li>
+<li>
+<p><code>param array|string</code> $types One or more supported autocomplete types.</p>
+</li>
+<li>
+<p><code>accessLevels($levels)</code></p>
+</li>
+<li>
+<p><code>param array|string</code> $levels One or more access levels.</p>
+</li>
+<li>
+<p><code>internal($internal)</code></p>
+</li>
+<li>
+<p><code>param boolean|string</code> $internal 'yes' or true if internal, 'no' or false if not.</p>
+</li>
+<li>
+<p><code>php($php)</code></p>
+</li>
+<li>
+<p><code>param bool|string</code> $php 'yes' or true to generate documentation for internal php classes, 'no'</p>
+</li>
+<li>
+<p><code>tree($tree)</code></p>
+</li>
+<li>
+<p><code>param bool|string</code> $tree 'yes' or true to generate a tree view of classes, 'no' or false</p>
+</li>
+<li>
+<p><code>deprecated($dep)</code></p>
+</li>
+<li>
+<p><code>param bool|string</code> $dep 'yes' or true to generate documentation for deprecated classes, 'no' or</p>
+</li>
+<li>
+<p><code>todo($todo)</code></p>
+</li>
+<li>
+<p><code>param bool|string</code> $todo 'yes' or true to document tasks, 'no' or false otherwise.</p>
+</li>
+<li>
+<p><code>sourceCode($src)</code></p>
+</li>
+<li>
+<p><code>param bool|string</code> $src 'yes' or true to generate highlighted source code, 'no' or false</p>
+</li>
+<li>
+<p><code>download($zipped)</code></p>
+</li>
+<li>
+<p><code>param bool|string</code> $zipped 'yes' or true to generate downloadable documentation, 'no' or false</p>
+</li>
+<li>
+<p><code>report($path)</code></p>
+</li>
+<li>
+<p><code>param string</code> $path</p>
+</li>
+<li>
+<p><code>wipeout($wipeout)</code></p>
+</li>
+<li>
+<p><code>param bool|string</code> $wipeout 'yes' or true to clear out the destination directory, 'no' or false</p>
+</li>
+<li>
+<p><code>quiet($quiet)</code></p>
+</li>
+<li>
+<p><code>param bool|string</code> $quiet 'yes' or true for quiet, 'no' or false otherwise.</p>
+</li>
+<li>
+<p><code>progressbar($bar)</code></p>
+</li>
+<li>
+<p><code>param bool|string</code> $bar 'yes' or true to display a progress bar, 'no' or false otherwise.</p>
+</li>
+<li>
+<p><code>colors($colors)</code></p>
+</li>
+<li>
+<p><code>param bool|string</code> $colors 'yes' or true colorize the output, 'no' or false otherwise.</p>
+</li>
+<li>
+<p><code>updateCheck($check)</code></p>
+</li>
+<li>
+<p><code>param bool|string</code> $check 'yes' or true to check for updates, 'no' or false otherwise.</p>
+</li>
+<li>
+<p><code>debug($debug)</code></p>
+</li>
+<li>
+<p><code>param bool|string</code> $debug 'yes' or true to enable debug mode, 'no' or false otherwise.</p>
+</li>
+<li>
+<p><code>setProcessInput($input)</code></p>
+</li>
+<li>
+<p><code>param resource|string</code> $input</p>
+</li>
+<li>
+<p><code>dir($dir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dir</p>
+</li>
+<li>
+<p><code>arg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>rawArg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>option($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>options(array $options, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param array</code> $options</p>
+</li>
+<li>
+<p><code>optionList($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul></div>
             
 
@@ -264,8 +470,7 @@ Robo is on <a href="http://twitter.com/robo_php">Twitter</a> and on <a href="htt
         <script>var base_url = '../..';</script>
         <script data-main="../../mkdocs/js/search.js" src="../../mkdocs/js/require.js"></script>
         <script src="../../js/base.js"></script>
-        <script src="../../search/require.js"></script>
-        <script src="../../search/search.js"></script>
+        <script src="../../search/main.js"></script>
 
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
          <div class="modal-dialog">

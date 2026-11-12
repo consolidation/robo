@@ -16,7 +16,7 @@
         <link href="../../css/font-awesome-4.0.3.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
         <link rel="stylesheet" href="../../css/highlight.css">
-        <link href="../..//css/robo.css" rel="stylesheet">
+        <link href="../../css/robo.css" rel="stylesheet">
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -41,7 +41,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="../..">Robo</a>
+            <a class="navbar-brand" href="">Robo</a>
         </div>
 
         <!-- Expanded navigation -->
@@ -56,19 +56,19 @@
                         <ul class="dropdown-menu">
                             
 <li >
-    <a href="../../getting-started/">Getting Started</a>
+    <a href="getting-started/">Getting Started</a>
 </li>
                             
 <li >
-    <a href="../../collections/">Collections</a>
+    <a href="collections/">Collections</a>
 </li>
                             
 <li >
-    <a href="../../extending/">Extending</a>
+    <a href="extending/">Extending</a>
 </li>
                             
 <li >
-    <a href="../../framework/">Robo as Framework</a>
+    <a href="framework/">Robo as Framework</a>
 </li>
                         </ul>
                     </li>
@@ -77,68 +77,69 @@
                         <ul class="dropdown-menu">
                             
 <li >
-    <a href="../Base/">Base Tasks</a>
+    <a href="tasks/Base/">Base Tasks</a>
 </li>
                             
 <li >
-    <a href="../Filesystem/">FileSystem Tasks</a>
+    <a href="tasks/Filesystem/">FileSystem Tasks</a>
 </li>
                             
 <li class="active">
-    <a href="./">File Tasks</a>
+    <a href="tasks/File/">File Tasks</a>
 </li>
                             
 <li >
-    <a href="../Composer/">Composer Tasks</a>
+    <a href="tasks/Composer/">Composer Tasks</a>
 </li>
                             
 <li >
-    <a href="../Vcs/">VCS Tasks</a>
+    <a href="tasks/Vcs/">VCS Tasks</a>
 </li>
                             
 <li >
-    <a href="../Development/">Development Tasks</a>
+    <a href="tasks/Development/">Development Tasks</a>
 </li>
                             
 <li >
-    <a href="../Assets/">Assets Tasks</a>
+    <a href="tasks/Assets/">Assets Tasks</a>
 </li>
                             
 <li >
-    <a href="../Archive/">Archive Tasks</a>
+    <a href="tasks/Archive/">Archive Tasks</a>
 </li>
                             
 <li >
-    <a href="../Remote/">SSH, Rsync Tasks</a>
+    <a href="tasks/Remote/">SSH, Rsync Tasks</a>
 </li>
                             
 <li >
-    <a href="../Testing/">Testing Tasks</a>
+    <a href="tasks/Testing/">Testing Tasks</a>
 </li>
                             
 <li >
-    <a href="../Npm/">NPM Tasks</a>
+    <a href="tasks/Npm/">NPM Tasks</a>
 </li>
                             
 <li >
-    <a href="../Bower/">Bower Tasks</a>
+    <a href="tasks/Bower/">Bower Tasks</a>
 </li>
                             
 <li >
-    <a href="../Gulp/">Gulp Tasks</a>
+    <a href="tasks/Gulp/">Gulp Tasks</a>
 </li>
                             
 <li >
-    <a href="../Docker/">Docker Tasks</a>
+    <a href="tasks/Docker/">Docker Tasks</a>
 </li>
                             
 <li >
-    <a href="../ApiGen/">ApiGen Tasks</a>
+    <a href="tasks/ApiGen/">ApiGen Tasks</a>
+</li>
+                            
+<li >
+    <a href="tasks/Logfile/">Logfile Tasks</a>
 </li>
                         </ul>
-                    </li>
-                    <li >
-                        <a href="../../changelog/">Releases</a>
                     </li>
                 </ul>
 
@@ -149,17 +150,17 @@
                     </a>
                 </li>
                     <li >
-                        <a rel="next" href="../Filesystem/">
+                        <a rel="next" href="tasks/Filesystem/">
                             <i class="fa fa-arrow-left"></i> Previous
                         </a>
                     </li>
                     <li >
-                        <a rel="prev" href="../Composer/">
+                        <a rel="prev" href="tasks/Composer/">
                             Next <i class="fa fa-arrow-right"></i>
                         </a>
                     </li>
                     <li>
-                        <a href="https://github.com/consolidation/Robo/edit/master/docs/tasks/File.md"><i class="fa fa-github"></i> Edit on GitHub</a>
+                        <a href="https://github.com/consolidation/robo/edit/master/docs/tasks/File.md"><i class="fa fa-github"></i> Edit on GitHub</a>
                     </li>
             </ul>
         </div>
@@ -194,8 +195,18 @@ $this-&gt;taskConcat([
 ?&gt;
 </code></pre>
 <ul>
-<li><code>to($dst)</code>  set the destination file</li>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
+<li>
+<p><code>to($dst)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dst</p>
+</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul>
 <h2 id="replace">Replace</h2>
 <p>Performs search and replace inside a files.</p>
@@ -222,12 +233,42 @@ $this-&gt;taskReplaceInFile('box/robo.txt')
 ?&gt;
 </code></pre>
 <ul>
-<li><code>filename($filename)</code>   * <code>param string</code> $filename</li>
-<li><code>from($from)</code>  String(s) to be replaced.</li>
-<li><code>to($to)</code>  Value(s) to be set as a replacement.</li>
-<li><code>regex($regex)</code>  Regex to match string to be replaced.</li>
-<li><code>limit($limit)</code>  If used with $this-&gt;regexp() how many counts will be replaced</li>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
+<li>
+<p><code>filename($filename)</code></p>
+</li>
+<li>
+<p><code>param string</code> $filename</p>
+</li>
+<li>
+<p><code>from($from)</code></p>
+</li>
+<li>
+<p><code>param string|string[]</code> $from</p>
+</li>
+<li>
+<p><code>to($to)</code></p>
+</li>
+<li>
+<p><code>param string|string[]</code> $to</p>
+</li>
+<li>
+<p><code>regex($regex)</code></p>
+</li>
+<li>
+<p><code>param string</code> $regex</p>
+</li>
+<li>
+<p><code>limit($limit)</code></p>
+</li>
+<li>
+<p><code>param int</code> $limit</p>
+</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul>
 <h2 id="tmpfile">TmpFile</h2>
 <p>Create a temporary file that is automatically cleaned up
@@ -247,22 +288,96 @@ $collection-&gt;run();
 ?&gt;
 </code></pre>
 <ul>
-<li><code>complete()</code>  Delete this file when our collection completes.</li>
-<li><code>filename($filename)</code>   * <code>param string</code> $filename</li>
-<li><code>append($append = null)</code>   * <code>param bool</code> $append</li>
-<li><code>line($line)</code>  add a line.</li>
-<li><code>lines(array $lines)</code>  add more lines.</li>
-<li><code>text($text)</code>  add a text.</li>
-<li><code>textFromFile($filename)</code>  add a text from a file.</li>
-<li><code>place($name, $val)</code>  substitute a placeholder with value, placeholder must be enclosed by <code>{}</code>.</li>
-<li><code>replace($string, $replacement)</code>  replace any string with value.</li>
-<li><code>regexReplace($pattern, $replacement)</code>  replace any string with value using regular expression.</li>
-<li><code>appendIfMatches($pattern, $text)</code>  Append the provided text to the end of the buffer if the provided</li>
-<li><code>appendUnlessMatches($pattern, $text)</code>  Append the provided text to the end of the buffer unless the provided</li>
-<li><code>originalContents()</code>  @return string</li>
-<li><code>wouldChange()</code>  @return bool</li>
-<li><code>getPath()</code>  @return string</li>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
+<li><code>complete()</code></li>
+</ul>
+<p>Delete this file when our collection completes.
+* <code>filename($filename)</code></p>
+<ul>
+<li><code>param string</code> $filename</li>
+<li>
+<p><code>append($append = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $append</p>
+</li>
+<li>
+<p><code>line($line)</code></p>
+</li>
+<li>
+<p><code>param string</code> $line</p>
+</li>
+<li>
+<p><code>lines(array $lines)</code></p>
+</li>
+<li>
+<p><code>param array</code> $lines</p>
+</li>
+<li>
+<p><code>text($text)</code></p>
+</li>
+<li>
+<p><code>param string</code> $text</p>
+</li>
+<li>
+<p><code>textFromFile($filename)</code></p>
+</li>
+<li>
+<p><code>param string</code> $filename</p>
+</li>
+<li>
+<p><code>place($name, $val)</code></p>
+</li>
+<li>
+<p><code>param string</code> $name</p>
+</li>
+<li>
+<p><code>replace($string, $replacement)</code></p>
+</li>
+<li>
+<p><code>param string</code> $string</p>
+</li>
+<li>
+<p><code>regexReplace($pattern, $replacement)</code></p>
+</li>
+<li>
+<p><code>param string</code> $pattern</p>
+</li>
+<li>
+<p><code>appendIfMatches($pattern, $text)</code></p>
+</li>
+<li>
+<p><code>param string</code> $pattern</p>
+</li>
+<li>
+<p><code>appendUnlessMatches($pattern, $text)</code></p>
+</li>
+<li>
+<p><code>param string</code> $pattern</p>
+</li>
+<li>
+<p><code>originalContents()</code></p>
+</li>
+<li>
+<p><code>return string</code></p>
+</li>
+<li>
+<p><code>wouldChange()</code></p>
+</li>
+<li>
+<p><code>return bool</code></p>
+</li>
+<li>
+<p><code>getPath()</code></p>
+</li>
+<li>
+<p><code>return string</code></p>
+</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul>
 <h2 id="write">Write</h2>
 <p>Writes to file.</p>
@@ -275,21 +390,96 @@ $this-&gt;taskWriteToFile('blogpost.md')
 ?&gt;
 </code></pre>
 <ul>
-<li><code>filename($filename)</code>   * <code>param string</code> $filename</li>
-<li><code>append($append = null)</code>   * <code>param bool</code> $append</li>
-<li><code>line($line)</code>  add a line.</li>
-<li><code>lines(array $lines)</code>  add more lines.</li>
-<li><code>text($text)</code>  add a text.</li>
-<li><code>textFromFile($filename)</code>  add a text from a file.</li>
-<li><code>place($name, $val)</code>  substitute a placeholder with value, placeholder must be enclosed by <code>{}</code>.</li>
-<li><code>replace($string, $replacement)</code>  replace any string with value.</li>
-<li><code>regexReplace($pattern, $replacement)</code>  replace any string with value using regular expression.</li>
-<li><code>appendIfMatches($pattern, $text)</code>  Append the provided text to the end of the buffer if the provided</li>
-<li><code>appendUnlessMatches($pattern, $text)</code>  Append the provided text to the end of the buffer unless the provided</li>
-<li><code>originalContents()</code>  @return string</li>
-<li><code>wouldChange()</code>  @return bool</li>
-<li><code>getPath()</code>  @return string</li>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
+<li>
+<p><code>filename($filename)</code></p>
+</li>
+<li>
+<p><code>param string</code> $filename</p>
+</li>
+<li>
+<p><code>append($append = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $append</p>
+</li>
+<li>
+<p><code>line($line)</code></p>
+</li>
+<li>
+<p><code>param string</code> $line</p>
+</li>
+<li>
+<p><code>lines(array $lines)</code></p>
+</li>
+<li>
+<p><code>param array</code> $lines</p>
+</li>
+<li>
+<p><code>text($text)</code></p>
+</li>
+<li>
+<p><code>param string</code> $text</p>
+</li>
+<li>
+<p><code>textFromFile($filename)</code></p>
+</li>
+<li>
+<p><code>param string</code> $filename</p>
+</li>
+<li>
+<p><code>place($name, $val)</code></p>
+</li>
+<li>
+<p><code>param string</code> $name</p>
+</li>
+<li>
+<p><code>replace($string, $replacement)</code></p>
+</li>
+<li>
+<p><code>param string</code> $string</p>
+</li>
+<li>
+<p><code>regexReplace($pattern, $replacement)</code></p>
+</li>
+<li>
+<p><code>param string</code> $pattern</p>
+</li>
+<li>
+<p><code>appendIfMatches($pattern, $text)</code></p>
+</li>
+<li>
+<p><code>param string</code> $pattern</p>
+</li>
+<li>
+<p><code>appendUnlessMatches($pattern, $text)</code></p>
+</li>
+<li>
+<p><code>param string</code> $pattern</p>
+</li>
+<li>
+<p><code>originalContents()</code></p>
+</li>
+<li>
+<p><code>return string</code></p>
+</li>
+<li>
+<p><code>wouldChange()</code></p>
+</li>
+<li>
+<p><code>return bool</code></p>
+</li>
+<li>
+<p><code>getPath()</code></p>
+</li>
+<li>
+<p><code>return string</code></p>
+</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul></div>
             
 
@@ -323,8 +513,7 @@ Robo is on <a href="http://twitter.com/robo_php">Twitter</a> and on <a href="htt
         <script>var base_url = '../..';</script>
         <script data-main="../../mkdocs/js/search.js" src="../../mkdocs/js/require.js"></script>
         <script src="../../js/base.js"></script>
-        <script src="../../search/require.js"></script>
-        <script src="../../search/search.js"></script>
+        <script src="../../search/main.js"></script>
 
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
          <div class="modal-dialog">

@@ -16,7 +16,7 @@
         <link href="../../css/font-awesome-4.0.3.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
         <link rel="stylesheet" href="../../css/highlight.css">
-        <link href="../..//css/robo.css" rel="stylesheet">
+        <link href="../../css/robo.css" rel="stylesheet">
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -41,7 +41,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="../..">Robo</a>
+            <a class="navbar-brand" href="">Robo</a>
         </div>
 
         <!-- Expanded navigation -->
@@ -56,19 +56,19 @@
                         <ul class="dropdown-menu">
                             
 <li >
-    <a href="../../getting-started/">Getting Started</a>
+    <a href="getting-started/">Getting Started</a>
 </li>
                             
 <li >
-    <a href="../../collections/">Collections</a>
+    <a href="collections/">Collections</a>
 </li>
                             
 <li >
-    <a href="../../extending/">Extending</a>
+    <a href="extending/">Extending</a>
 </li>
                             
 <li >
-    <a href="../../framework/">Robo as Framework</a>
+    <a href="framework/">Robo as Framework</a>
 </li>
                         </ul>
                     </li>
@@ -77,68 +77,69 @@
                         <ul class="dropdown-menu">
                             
 <li >
-    <a href="../Base/">Base Tasks</a>
+    <a href="tasks/Base/">Base Tasks</a>
 </li>
                             
 <li >
-    <a href="../Filesystem/">FileSystem Tasks</a>
+    <a href="tasks/Filesystem/">FileSystem Tasks</a>
 </li>
                             
 <li >
-    <a href="../File/">File Tasks</a>
+    <a href="tasks/File/">File Tasks</a>
 </li>
                             
 <li >
-    <a href="../Composer/">Composer Tasks</a>
+    <a href="tasks/Composer/">Composer Tasks</a>
 </li>
                             
 <li >
-    <a href="../Vcs/">VCS Tasks</a>
+    <a href="tasks/Vcs/">VCS Tasks</a>
 </li>
                             
 <li class="active">
-    <a href="./">Development Tasks</a>
+    <a href="tasks/Development/">Development Tasks</a>
 </li>
                             
 <li >
-    <a href="../Assets/">Assets Tasks</a>
+    <a href="tasks/Assets/">Assets Tasks</a>
 </li>
                             
 <li >
-    <a href="../Archive/">Archive Tasks</a>
+    <a href="tasks/Archive/">Archive Tasks</a>
 </li>
                             
 <li >
-    <a href="../Remote/">SSH, Rsync Tasks</a>
+    <a href="tasks/Remote/">SSH, Rsync Tasks</a>
 </li>
                             
 <li >
-    <a href="../Testing/">Testing Tasks</a>
+    <a href="tasks/Testing/">Testing Tasks</a>
 </li>
                             
 <li >
-    <a href="../Npm/">NPM Tasks</a>
+    <a href="tasks/Npm/">NPM Tasks</a>
 </li>
                             
 <li >
-    <a href="../Bower/">Bower Tasks</a>
+    <a href="tasks/Bower/">Bower Tasks</a>
 </li>
                             
 <li >
-    <a href="../Gulp/">Gulp Tasks</a>
+    <a href="tasks/Gulp/">Gulp Tasks</a>
 </li>
                             
 <li >
-    <a href="../Docker/">Docker Tasks</a>
+    <a href="tasks/Docker/">Docker Tasks</a>
 </li>
                             
 <li >
-    <a href="../ApiGen/">ApiGen Tasks</a>
+    <a href="tasks/ApiGen/">ApiGen Tasks</a>
+</li>
+                            
+<li >
+    <a href="tasks/Logfile/">Logfile Tasks</a>
 </li>
                         </ul>
-                    </li>
-                    <li >
-                        <a href="../../changelog/">Releases</a>
                     </li>
                 </ul>
 
@@ -149,17 +150,17 @@
                     </a>
                 </li>
                     <li >
-                        <a rel="next" href="../Vcs/">
+                        <a rel="next" href="tasks/Vcs/">
                             <i class="fa fa-arrow-left"></i> Previous
                         </a>
                     </li>
                     <li >
-                        <a rel="prev" href="../Assets/">
+                        <a rel="prev" href="tasks/Assets/">
                             Next <i class="fa fa-arrow-right"></i>
                         </a>
                     </li>
                     <li>
-                        <a href="https://github.com/consolidation/Robo/edit/master/docs/tasks/Development.md"><i class="fa fa-github"></i> Edit on GitHub</a>
+                        <a href="https://github.com/consolidation/robo/edit/master/docs/tasks/Development.md"><i class="fa fa-github"></i> Edit on GitHub</a>
                     </li>
             </ul>
         </div>
@@ -205,17 +206,72 @@ $this-&gt;taskChangelog()
 ?&gt;
 </code></pre>
 <ul>
-<li><code>filename($filename)</code>   * <code>param string</code> $filename</li>
-<li><code>setBody($body)</code>  Sets the changelog body text.</li>
-<li><code>setHeader($header)</code>   * <code>param string</code> $header</li>
-<li><code>log($item)</code>   * <code>param string</code> $item</li>
-<li><code>anchor($anchor)</code>   * <code>param string</code> $anchor</li>
-<li><code>version($version)</code>   * <code>param string</code> $version</li>
-<li><code>changes(array $data)</code>   * <code>param array</code> $data</li>
-<li><code>change($change)</code>   * <code>param string</code> $change</li>
-<li><code>getChanges()</code>  @return array</li>
-<li><code>processLogRow($i)</code>   * <code>param string</code> $i</li>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
+<li>
+<p><code>filename($filename)</code></p>
+</li>
+<li>
+<p><code>param string</code> $filename</p>
+</li>
+<li>
+<p><code>setBody($body)</code></p>
+</li>
+<li>
+<p><code>param string</code> $body</p>
+</li>
+<li>
+<p><code>setHeader($header)</code></p>
+</li>
+<li>
+<p><code>param string</code> $header</p>
+</li>
+<li>
+<p><code>log($item)</code></p>
+</li>
+<li>
+<p><code>param string</code> $item</p>
+</li>
+<li>
+<p><code>anchor($anchor)</code></p>
+</li>
+<li>
+<p><code>param string</code> $anchor</p>
+</li>
+<li>
+<p><code>version($version)</code></p>
+</li>
+<li>
+<p><code>param string</code> $version</p>
+</li>
+<li>
+<p><code>changes(array $data)</code></p>
+</li>
+<li>
+<p><code>param array</code> $data</p>
+</li>
+<li>
+<p><code>change($change)</code></p>
+</li>
+<li>
+<p><code>param string</code> $change</p>
+</li>
+<li>
+<p><code>getChanges()</code></p>
+</li>
+<li>
+<p><code>return array</code></p>
+</li>
+<li>
+<p><code>processLogRow($i)</code></p>
+</li>
+<li>
+<p><code>param string</code> $i</p>
+</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul>
 <h2 id="generatemarkdowndoc">GenerateMarkdownDoc</h2>
 <p>Simple documentation generator from source files.
@@ -245,28 +301,138 @@ $this-&gt;taskGenDoc('models.md')
      })-&gt;run();
 </code></pre>
 <ul>
-<li><code>docClass($item)</code>  Put a class you want to be documented.</li>
-<li><code>filterMethods($filterMethods)</code>  Using a callback function filter out methods that won't be documented.</li>
-<li><code>filterClasses($filterClasses)</code>  Using a callback function filter out classes that won't be documented.</li>
-<li><code>filterProperties($filterProperties)</code>  Using a callback function filter out properties that won't be documented.</li>
-<li><code>processClass($processClass)</code>  Post-process class documentation.</li>
-<li><code>processClassSignature($processClassSignature)</code>  Post-process class signature. Provide <em>false</em> to skip.</li>
-<li><code>processClassDocBlock($processClassDocBlock)</code>  Post-process class docblock contents. Provide <em>false</em> to skip.</li>
-<li><code>processMethod($processMethod)</code>  Post-process method documentation. Provide <em>false</em> to skip.</li>
-<li><code>processMethodSignature($processMethodSignature)</code>  Post-process method signature. Provide <em>false</em> to skip.</li>
-<li><code>processMethodDocBlock($processMethodDocBlock)</code>  Post-process method docblock contents. Provide <em>false</em> to skip.</li>
-<li><code>processProperty($processProperty)</code>  Post-process property documentation. Provide <em>false</em> to skip.</li>
-<li><code>processPropertySignature($processPropertySignature)</code>  Post-process property signature. Provide <em>false</em> to skip.</li>
-<li><code>processPropertyDocBlock($processPropertyDocBlock)</code>  Post-process property docblock contents. Provide <em>false</em> to skip.</li>
-<li><code>reorder($reorder)</code>  Use a function to reorder classes.</li>
-<li><code>reorderMethods($reorderMethods)</code>  Use a function to reorder methods in class.</li>
-<li><code>reorderProperties($reorderProperties)</code>   * <code>param callable</code> $reorderProperties</li>
-<li><code>filename($filename)</code>   * <code>param string</code> $filename</li>
-<li><code>prepend($prepend)</code>  Inserts text at the beginning of markdown file.</li>
-<li><code>append($append)</code>  Inserts text at the end of markdown file.</li>
-<li><code>text($text)</code>   * <code>param string</code> $text</li>
-<li><code>textForClass($item)</code>   * <code>param string</code> $item</li>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
+<li>
+<p><code>docClass($item)</code></p>
+</li>
+<li>
+<p><code>param string</code> $item</p>
+</li>
+<li>
+<p><code>filterMethods($filterMethods)</code></p>
+</li>
+<li>
+<p><code>param callable</code> $filterMethods</p>
+</li>
+<li>
+<p><code>filterClasses($filterClasses)</code></p>
+</li>
+<li>
+<p><code>param callable</code> $filterClasses</p>
+</li>
+<li>
+<p><code>filterProperties($filterProperties)</code></p>
+</li>
+<li>
+<p><code>param callable</code> $filterProperties</p>
+</li>
+<li>
+<p><code>processClass($processClass)</code></p>
+</li>
+<li>
+<p><code>param callable</code> $processClass</p>
+</li>
+<li>
+<p><code>processClassSignature($processClassSignature)</code></p>
+</li>
+<li>
+<p><code>param callable|false</code> $processClassSignature</p>
+</li>
+<li>
+<p><code>processClassDocBlock($processClassDocBlock)</code></p>
+</li>
+<li>
+<p><code>param callable|false</code> $processClassDocBlock</p>
+</li>
+<li>
+<p><code>processMethod($processMethod)</code></p>
+</li>
+<li>
+<p><code>param callable|false</code> $processMethod</p>
+</li>
+<li>
+<p><code>processMethodSignature($processMethodSignature)</code></p>
+</li>
+<li>
+<p><code>param callable|false</code> $processMethodSignature</p>
+</li>
+<li>
+<p><code>processMethodDocBlock($processMethodDocBlock)</code></p>
+</li>
+<li>
+<p><code>param callable|false</code> $processMethodDocBlock</p>
+</li>
+<li>
+<p><code>processProperty($processProperty)</code></p>
+</li>
+<li>
+<p><code>param callable|false</code> $processProperty</p>
+</li>
+<li>
+<p><code>processPropertySignature($processPropertySignature)</code></p>
+</li>
+<li>
+<p><code>param callable|false</code> $processPropertySignature</p>
+</li>
+<li>
+<p><code>processPropertyDocBlock($processPropertyDocBlock)</code></p>
+</li>
+<li>
+<p><code>param callable|false</code> $processPropertyDocBlock</p>
+</li>
+<li>
+<p><code>reorder($reorder)</code></p>
+</li>
+<li>
+<p><code>param callable</code> $reorder</p>
+</li>
+<li>
+<p><code>reorderMethods($reorderMethods)</code></p>
+</li>
+<li>
+<p><code>param callable</code> $reorderMethods</p>
+</li>
+<li>
+<p><code>reorderProperties($reorderProperties)</code></p>
+</li>
+<li>
+<p><code>param callable</code> $reorderProperties</p>
+</li>
+<li>
+<p><code>filename($filename)</code></p>
+</li>
+<li>
+<p><code>param string</code> $filename</p>
+</li>
+<li>
+<p><code>prepend($prepend)</code></p>
+</li>
+<li>
+<p><code>param string</code> $prepend</p>
+</li>
+<li>
+<p><code>append($append)</code></p>
+</li>
+<li>
+<p><code>param string</code> $append</p>
+</li>
+<li>
+<p><code>text($text)</code></p>
+</li>
+<li>
+<p><code>param string</code> $text</p>
+</li>
+<li>
+<p><code>textForClass($item)</code></p>
+</li>
+<li>
+<p><code>param string</code> $item</p>
+</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul>
 <h2 id="generate">Generate</h2>
 <p>Generate a Robo Task that is a wrapper around an existing class.</p>
@@ -275,7 +441,12 @@ $this-&gt;taskGenerateTask('Symfony\Component\Filesystem\Filesystem', 'Filesyste
   -&gt;run();
 </code></pre>
 <ul>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul>
 <h2 id="githubrelease">GitHubRelease</h2>
 <p>Publishes new GitHub release.</p>
@@ -289,22 +460,102 @@ $this-&gt;taskGitHubRelease('0.1.0')
 ?&gt;
 </code></pre>
 <ul>
-<li><code>tag($tag)</code>   * <code>param string</code> $tag</li>
-<li><code>draft($draft)</code>   * <code>param bool</code> $draft</li>
-<li><code>name($name)</code>   * <code>param string</code> $name</li>
-<li><code>description($description)</code>   * <code>param string</code> $description</li>
-<li><code>prerelease($prerelease)</code>   * <code>param bool</code> $prerelease</li>
-<li><code>comittish($comittish)</code>   * <code>param string</code> $comittish</li>
-<li><code>appendDescription($description)</code>   * <code>param string</code> $description</li>
-<li><code>changes(array $changes)</code> </li>
-<li><code>change($change)</code>   * <code>param string</code> $change</li>
-<li><code>repo($repo)</code>   * <code>param string</code> $repo</li>
-<li><code>owner($owner)</code>   * <code>param string</code> $owner</li>
-<li><code>uri($uri)</code>   * <code>param string</code> $uri</li>
-<li><code>user($user)</code>   * <code>param string</code> $user</li>
-<li><code>password($password)</code>   * <code>param string</code> $password</li>
-<li><code>accessToken($token)</code>   * <code>param string</code> $token</li>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
+<li>
+<p><code>tag($tag)</code></p>
+</li>
+<li>
+<p><code>param string</code> $tag</p>
+</li>
+<li>
+<p><code>draft($draft)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $draft</p>
+</li>
+<li>
+<p><code>name($name)</code></p>
+</li>
+<li>
+<p><code>param string</code> $name</p>
+</li>
+<li>
+<p><code>description($description)</code></p>
+</li>
+<li>
+<p><code>param string</code> $description</p>
+</li>
+<li>
+<p><code>prerelease($prerelease)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $prerelease</p>
+</li>
+<li>
+<p><code>comittish($comittish)</code></p>
+</li>
+<li>
+<p><code>param string</code> $comittish</p>
+</li>
+<li>
+<p><code>appendDescription($description)</code></p>
+</li>
+<li>
+<p><code>param string</code> $description</p>
+</li>
+<li>
+<p><code>changes(array $changes)</code></p>
+</li>
+<li>
+<p><code>param array</code> $changes</p>
+</li>
+<li>
+<p><code>change($change)</code></p>
+</li>
+<li>
+<p><code>param string</code> $change</p>
+</li>
+<li>
+<p><code>repo($repo)</code></p>
+</li>
+<li>
+<p><code>param string</code> $repo</p>
+</li>
+<li>
+<p><code>owner($owner)</code></p>
+</li>
+<li>
+<p><code>param string</code> $owner</p>
+</li>
+<li>
+<p><code>uri($uri)</code></p>
+</li>
+<li>
+<p><code>param string</code> $uri</p>
+</li>
+<li>
+<p><code>user($user)</code></p>
+</li>
+<li>
+<p><code>param string</code> $user</p>
+</li>
+<li>
+<p><code>password($password)</code></p>
+</li>
+<li>
+<p><code>param string</code> $password</p>
+</li>
+<li>
+<p><code>accessToken($token)</code></p>
+</li>
+<li>
+<p><code>param string</code> $token</p>
+</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul>
 <h2 id="openbrowser">OpenBrowser</h2>
 <p>Opens the default's user browser
@@ -322,7 +573,12 @@ $this-&gt;taskOpenBrowser([
   -&gt;run();
 </code></pre>
 <ul>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul>
 <h2 id="packphar">PackPhar</h2>
 <p>Creates Phar.</p>
@@ -353,13 +609,48 @@ $pharTask = $this-&gt;taskPackPhar('package/codecept.phar')
 ?&gt;
 </code></pre>
 <ul>
-<li><code>compress($compress = null)</code>   * <code>param bool</code> $compress</li>
-<li><code>stub($stub)</code>   * <code>param string</code> $stub</li>
-<li><code>addStripped($path, $file)</code>   * <code>param string</code> $path</li>
-<li><code>addFile($path, $file)</code>   * <code>param string</code> $path</li>
-<li><code>addFiles($files)</code>   * <code>param \Symfony\Component\Finder\SplFileInfo[]</code> $files</li>
-<li><code>executable($file)</code>   * <code>param string</code> $file</li>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
+<li>
+<p><code>compress($compress = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $compress</p>
+</li>
+<li>
+<p><code>stub($stub)</code></p>
+</li>
+<li>
+<p><code>param string</code> $stub</p>
+</li>
+<li>
+<p><code>addStripped($path, $file)</code></p>
+</li>
+<li>
+<p><code>param string</code> $path</p>
+</li>
+<li>
+<p><code>addFile($path, $file)</code></p>
+</li>
+<li>
+<p><code>param string</code> $path</p>
+</li>
+<li>
+<p><code>addFiles($files)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Finder\SplFileInfo[]</code> $files</p>
+</li>
+<li>
+<p><code>executable($file)</code></p>
+</li>
+<li>
+<p><code>param string</code> $file</p>
+</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul>
 <h2 id="phpserver">PhpServer</h2>
 <p>Runs PHP server and stops it when task finishes.</p>
@@ -381,17 +672,72 @@ $this-&gt;taskServer(8000)
 ?&gt;
 </code></pre>
 <ul>
-<li><code>host($host)</code>   * <code>param string</code> $host</li>
-<li><code>dir($path)</code>   * <code>param string</code> $path</li>
-<li><code>simulate($context)</code>  {@inheritdoc}</li>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
-<li><code>setProcessInput($input)</code>  Pass an input to the process. Can be resource created with fopen() or string</li>
-<li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
-<li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
-<li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
-<li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
+<li>
+<p><code>host($host)</code></p>
+</li>
+<li>
+<p><code>param string</code> $host</p>
+</li>
+<li>
+<p><code>dir($path)</code></p>
+</li>
+<li>
+<p><code>param string</code> $path</p>
+</li>
+<li>
+<p><code>simulate($context)</code></p>
+</li>
+<li>
+<p><code>param</code> $context</p>
+</li>
+<li>
+<p><code>setProcessInput($input)</code></p>
+</li>
+<li>
+<p><code>param resource|string</code> $input</p>
+</li>
+<li>
+<p><code>arg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>args($args)</code></p>
+</li>
+<li>
+<p><code>param string|string[]</code> $args</p>
+</li>
+<li>
+<p><code>rawArg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>option($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>options(array $options, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param array</code> $options</p>
+</li>
+<li>
+<p><code>optionList($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul>
 <h2 id="semver">SemVer</h2>
 <p>Helps to maintain <code>.semver</code> file.</p>
@@ -402,14 +748,54 @@ $this-&gt;taskSemVer('.semver')
 ?&gt;
 </code></pre>
 <ul>
-<li><code>__toString()</code>  @return string</li>
-<li><code>version($version)</code>   * <code>param string</code> $version</li>
-<li><code>setFormat($format)</code>   * <code>param string</code> $format</li>
-<li><code>setMetadataSeparator($separator)</code>   * <code>param string</code> $separator</li>
-<li><code>setPrereleaseSeparator($separator)</code>   * <code>param string</code> $separator</li>
-<li><code>increment($what = null)</code>   * <code>param string</code> $what</li>
-<li><code>prerelease($tag = null)</code>   * <code>param string</code> $tag</li>
-<li><code>metadata($data)</code>   * <code>param array|string</code> $data</li>
+<li>
+<p><code>__toString()</code></p>
+</li>
+<li>
+<p><code>return string</code></p>
+</li>
+<li>
+<p><code>version($version)</code></p>
+</li>
+<li>
+<p><code>param string</code> $version</p>
+</li>
+<li>
+<p><code>setFormat($format)</code></p>
+</li>
+<li>
+<p><code>param string</code> $format</p>
+</li>
+<li>
+<p><code>setMetadataSeparator($separator)</code></p>
+</li>
+<li>
+<p><code>param string</code> $separator</p>
+</li>
+<li>
+<p><code>setPrereleaseSeparator($separator)</code></p>
+</li>
+<li>
+<p><code>param string</code> $separator</p>
+</li>
+<li>
+<p><code>increment($what = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $what</p>
+</li>
+<li>
+<p><code>prerelease($tag = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $tag</p>
+</li>
+<li>
+<p><code>metadata($data)</code></p>
+</li>
+<li>
+<p><code>param array|string</code> $data</p>
+</li>
 </ul></div>
             
 
@@ -443,8 +829,7 @@ Robo is on <a href="http://twitter.com/robo_php">Twitter</a> and on <a href="htt
         <script>var base_url = '../..';</script>
         <script data-main="../../mkdocs/js/search.js" src="../../mkdocs/js/require.js"></script>
         <script src="../../js/base.js"></script>
-        <script src="../../search/require.js"></script>
-        <script src="../../search/search.js"></script>
+        <script src="../../search/main.js"></script>
 
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
          <div class="modal-dialog">

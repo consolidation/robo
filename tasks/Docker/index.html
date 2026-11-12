@@ -16,7 +16,7 @@
         <link href="../../css/font-awesome-4.0.3.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
         <link rel="stylesheet" href="../../css/highlight.css">
-        <link href="../..//css/robo.css" rel="stylesheet">
+        <link href="../../css/robo.css" rel="stylesheet">
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -41,7 +41,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="../..">Robo</a>
+            <a class="navbar-brand" href="">Robo</a>
         </div>
 
         <!-- Expanded navigation -->
@@ -56,19 +56,19 @@
                         <ul class="dropdown-menu">
                             
 <li >
-    <a href="../../getting-started/">Getting Started</a>
+    <a href="getting-started/">Getting Started</a>
 </li>
                             
 <li >
-    <a href="../../collections/">Collections</a>
+    <a href="collections/">Collections</a>
 </li>
                             
 <li >
-    <a href="../../extending/">Extending</a>
+    <a href="extending/">Extending</a>
 </li>
                             
 <li >
-    <a href="../../framework/">Robo as Framework</a>
+    <a href="framework/">Robo as Framework</a>
 </li>
                         </ul>
                     </li>
@@ -77,68 +77,69 @@
                         <ul class="dropdown-menu">
                             
 <li >
-    <a href="../Base/">Base Tasks</a>
+    <a href="tasks/Base/">Base Tasks</a>
 </li>
                             
 <li >
-    <a href="../Filesystem/">FileSystem Tasks</a>
+    <a href="tasks/Filesystem/">FileSystem Tasks</a>
 </li>
                             
 <li >
-    <a href="../File/">File Tasks</a>
+    <a href="tasks/File/">File Tasks</a>
 </li>
                             
 <li >
-    <a href="../Composer/">Composer Tasks</a>
+    <a href="tasks/Composer/">Composer Tasks</a>
 </li>
                             
 <li >
-    <a href="../Vcs/">VCS Tasks</a>
+    <a href="tasks/Vcs/">VCS Tasks</a>
 </li>
                             
 <li >
-    <a href="../Development/">Development Tasks</a>
+    <a href="tasks/Development/">Development Tasks</a>
 </li>
                             
 <li >
-    <a href="../Assets/">Assets Tasks</a>
+    <a href="tasks/Assets/">Assets Tasks</a>
 </li>
                             
 <li >
-    <a href="../Archive/">Archive Tasks</a>
+    <a href="tasks/Archive/">Archive Tasks</a>
 </li>
                             
 <li >
-    <a href="../Remote/">SSH, Rsync Tasks</a>
+    <a href="tasks/Remote/">SSH, Rsync Tasks</a>
 </li>
                             
 <li >
-    <a href="../Testing/">Testing Tasks</a>
+    <a href="tasks/Testing/">Testing Tasks</a>
 </li>
                             
 <li >
-    <a href="../Npm/">NPM Tasks</a>
+    <a href="tasks/Npm/">NPM Tasks</a>
 </li>
                             
 <li >
-    <a href="../Bower/">Bower Tasks</a>
+    <a href="tasks/Bower/">Bower Tasks</a>
 </li>
                             
 <li >
-    <a href="../Gulp/">Gulp Tasks</a>
+    <a href="tasks/Gulp/">Gulp Tasks</a>
 </li>
                             
 <li class="active">
-    <a href="./">Docker Tasks</a>
+    <a href="tasks/Docker/">Docker Tasks</a>
 </li>
                             
 <li >
-    <a href="../ApiGen/">ApiGen Tasks</a>
+    <a href="tasks/ApiGen/">ApiGen Tasks</a>
+</li>
+                            
+<li >
+    <a href="tasks/Logfile/">Logfile Tasks</a>
 </li>
                         </ul>
-                    </li>
-                    <li >
-                        <a href="../../changelog/">Releases</a>
                     </li>
                 </ul>
 
@@ -149,17 +150,17 @@
                     </a>
                 </li>
                     <li >
-                        <a rel="next" href="../Gulp/">
+                        <a rel="next" href="tasks/Gulp/">
                             <i class="fa fa-arrow-left"></i> Previous
                         </a>
                     </li>
                     <li >
-                        <a rel="prev" href="../ApiGen/">
+                        <a rel="prev" href="tasks/ApiGen/">
                             Next <i class="fa fa-arrow-right"></i>
                         </a>
                     </li>
                     <li>
-                        <a href="https://github.com/consolidation/Robo/edit/master/docs/tasks/Docker.md"><i class="fa fa-github"></i> Edit on GitHub</a>
+                        <a href="https://github.com/consolidation/robo/edit/master/docs/tasks/Docker.md"><i class="fa fa-github"></i> Edit on GitHub</a>
                     </li>
             </ul>
         </div>
@@ -200,17 +201,72 @@ $this-&gt;taskDockerBuild('path/to/dir')
 <p>Class Build
 @package Robo\Task\Docker</p>
 <ul>
-<li><code>tag($tag)</code>   * <code>param string</code> $tag</li>
-<li><code>enableBuildKit()</code>   * <code>return</code> $this</li>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
-<li><code>setProcessInput($input)</code>  Pass an input to the process. Can be resource created with fopen() or string</li>
-<li><code>dir($dir)</code>  Changes working directory of command</li>
-<li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
-<li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
-<li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
-<li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
+<li>
+<p><code>tag($tag)</code></p>
+</li>
+<li>
+<p><code>param string</code> $tag</p>
+</li>
+<li>
+<p><code>enableBuildKit()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>setProcessInput($input)</code></p>
+</li>
+<li>
+<p><code>param resource|string</code> $input</p>
+</li>
+<li>
+<p><code>dir($dir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dir</p>
+</li>
+<li>
+<p><code>arg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>args($args)</code></p>
+</li>
+<li>
+<p><code>param string|string[]</code> $args</p>
+</li>
+<li>
+<p><code>rawArg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>option($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>options(array $options, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param array</code> $options</p>
+</li>
+<li>
+<p><code>optionList($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul>
 <h2 id="commit">Commit</h2>
 <p>Commits docker container to an image</p>
@@ -229,16 +285,66 @@ $task-&gt;dockerCommit($result)
      -&gt;run();
 </code></pre>
 <ul>
-<li><code>name($name)</code>   * <code>param string</code> $name</li>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
-<li><code>setProcessInput($input)</code>  Pass an input to the process. Can be resource created with fopen() or string</li>
-<li><code>dir($dir)</code>  Changes working directory of command</li>
-<li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
-<li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
-<li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
-<li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
+<li>
+<p><code>name($name)</code></p>
+</li>
+<li>
+<p><code>param string</code> $name</p>
+</li>
+<li>
+<p><code>setProcessInput($input)</code></p>
+</li>
+<li>
+<p><code>param resource|string</code> $input</p>
+</li>
+<li>
+<p><code>dir($dir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dir</p>
+</li>
+<li>
+<p><code>arg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>args($args)</code></p>
+</li>
+<li>
+<p><code>param string|string[]</code> $args</p>
+</li>
+<li>
+<p><code>rawArg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>option($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>options(array $options, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param array</code> $options</p>
+</li>
+<li>
+<p><code>optionList($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul>
 <h2 id="exec">Exec</h2>
 <p>Executes command inside running Docker container</p>
@@ -261,17 +367,72 @@ $this-&gt;taskDockerExec($test)
 ?&gt;
 </code></pre>
 <ul>
-<li><code>detached()</code>   * <code>return</code> $this</li>
-<li><code>exec($command)</code>   * <code>param string|\Robo\Contract\CommandInterface</code> $command</li>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
-<li><code>setProcessInput($input)</code>  Pass an input to the process. Can be resource created with fopen() or string</li>
-<li><code>dir($dir)</code>  Changes working directory of command</li>
-<li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
-<li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
-<li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
-<li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
+<li>
+<p><code>detached()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>exec($command)</code></p>
+</li>
+<li>
+<p><code>param string|\Robo\Contract\CommandInterface</code> $command</p>
+</li>
+<li>
+<p><code>setProcessInput($input)</code></p>
+</li>
+<li>
+<p><code>param resource|string</code> $input</p>
+</li>
+<li>
+<p><code>dir($dir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dir</p>
+</li>
+<li>
+<p><code>arg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>args($args)</code></p>
+</li>
+<li>
+<p><code>param string|string[]</code> $args</p>
+</li>
+<li>
+<p><code>rawArg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>option($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>options(array $options, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param array</code> $options</p>
+</li>
+<li>
+<p><code>optionList($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul>
 <h2 id="pull">Pull</h2>
 <p>Pulls an image from DockerHub</p>
@@ -282,15 +443,60 @@ $this-&gt;taskDockerPull('wordpress')
 ?&gt;
 </code></pre>
 <ul>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
-<li><code>setProcessInput($input)</code>  Pass an input to the process. Can be resource created with fopen() or string</li>
-<li><code>dir($dir)</code>  Changes working directory of command</li>
-<li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
-<li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
-<li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
-<li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
+<li>
+<p><code>setProcessInput($input)</code></p>
+</li>
+<li>
+<p><code>param resource|string</code> $input</p>
+</li>
+<li>
+<p><code>dir($dir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dir</p>
+</li>
+<li>
+<p><code>arg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>args($args)</code></p>
+</li>
+<li>
+<p><code>param string|string[]</code> $args</p>
+</li>
+<li>
+<p><code>rawArg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>option($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>options(array $options, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param array</code> $options</p>
+</li>
+<li>
+<p><code>optionList($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul>
 <h2 id="remove">Remove</h2>
 <p>Remove docker container</p>
@@ -300,15 +506,60 @@ $this-&gt;taskDockerRemove($container)
 ?&gt;
 </code></pre>
 <ul>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
-<li><code>setProcessInput($input)</code>  Pass an input to the process. Can be resource created with fopen() or string</li>
-<li><code>dir($dir)</code>  Changes working directory of command</li>
-<li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
-<li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
-<li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
-<li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
+<li>
+<p><code>setProcessInput($input)</code></p>
+</li>
+<li>
+<p><code>param resource|string</code> $input</p>
+</li>
+<li>
+<p><code>dir($dir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dir</p>
+</li>
+<li>
+<p><code>arg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>args($args)</code></p>
+</li>
+<li>
+<p><code>param string|string[]</code> $args</p>
+</li>
+<li>
+<p><code>rawArg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>option($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>options(array $options, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param array</code> $options</p>
+</li>
+<li>
+<p><code>optionList($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul>
 <h2 id="run">Run</h2>
 <p>Performs <code>docker run</code> on a container.</p>
@@ -350,27 +601,132 @@ $this-&gt;taskDockerRun('wordpress')
 ?&gt;
 </code></pre>
 <ul>
-<li><code>detached()</code>   * <code>return</code> $this</li>
-<li><code>exec($run)</code>   * <code>param string|\Robo\Contract\CommandInterface</code> $run</li>
-<li><code>volume($from, $to = null)</code>   * <code>param string</code> $from</li>
-<li><code>publish($port = null, $portTo = null)</code>   * <code>param null|int</code> $port</li>
-<li><code>containerWorkdir($dir)</code>   * <code>param string</code> $dir</li>
-<li><code>user($user)</code>   * <code>param string</code> $user</li>
-<li><code>privileged()</code>   * <code>return</code> $this</li>
-<li><code>name($name)</code>   * <code>param string</code> $name</li>
-<li><code>link($name, $alias)</code>   * <code>param string|\Robo\Task\Docker\Result</code> $name</li>
-<li><code>tmpDir($dir)</code>   * <code>param string</code> $dir</li>
-<li><code>getTmpDir()</code>  @return string</li>
-<li><code>getUniqId()</code>  @return string</li>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
-<li><code>setProcessInput($input)</code>  Pass an input to the process. Can be resource created with fopen() or string</li>
-<li><code>dir($dir)</code>  Changes working directory of command</li>
-<li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
-<li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
-<li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
-<li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
+<li>
+<p><code>detached()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>exec($run)</code></p>
+</li>
+<li>
+<p><code>param string|\Robo\Contract\CommandInterface</code> $run</p>
+</li>
+<li>
+<p><code>volume($from, $to = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $from</p>
+</li>
+<li>
+<p><code>publish($port = null, $portTo = null)</code></p>
+</li>
+<li>
+<p><code>param null|int</code> $port</p>
+</li>
+<li>
+<p><code>containerWorkdir($dir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dir</p>
+</li>
+<li>
+<p><code>user($user)</code></p>
+</li>
+<li>
+<p><code>param string</code> $user</p>
+</li>
+<li>
+<p><code>privileged()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>name($name)</code></p>
+</li>
+<li>
+<p><code>param string</code> $name</p>
+</li>
+<li>
+<p><code>link($name, $alias)</code></p>
+</li>
+<li>
+<p><code>param string|\Robo\Task\Docker\Result</code> $name</p>
+</li>
+<li>
+<p><code>tmpDir($dir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dir</p>
+</li>
+<li>
+<p><code>getTmpDir()</code></p>
+</li>
+<li>
+<p><code>return string</code></p>
+</li>
+<li>
+<p><code>getUniqId()</code></p>
+</li>
+<li>
+<p><code>return string</code></p>
+</li>
+<li>
+<p><code>setProcessInput($input)</code></p>
+</li>
+<li>
+<p><code>param resource|string</code> $input</p>
+</li>
+<li>
+<p><code>dir($dir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dir</p>
+</li>
+<li>
+<p><code>arg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>args($args)</code></p>
+</li>
+<li>
+<p><code>param string|string[]</code> $args</p>
+</li>
+<li>
+<p><code>rawArg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>option($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>options(array $options, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param array</code> $options</p>
+</li>
+<li>
+<p><code>optionList($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul>
 <h2 id="start">Start</h2>
 <p>Starts Docker container</p>
@@ -380,15 +736,60 @@ $this-&gt;taskDockerStart($cidOrResult)
 ?&gt;
 </code></pre>
 <ul>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
-<li><code>setProcessInput($input)</code>  Pass an input to the process. Can be resource created with fopen() or string</li>
-<li><code>dir($dir)</code>  Changes working directory of command</li>
-<li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
-<li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
-<li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
-<li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
+<li>
+<p><code>setProcessInput($input)</code></p>
+</li>
+<li>
+<p><code>param resource|string</code> $input</p>
+</li>
+<li>
+<p><code>dir($dir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dir</p>
+</li>
+<li>
+<p><code>arg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>args($args)</code></p>
+</li>
+<li>
+<p><code>param string|string[]</code> $args</p>
+</li>
+<li>
+<p><code>rawArg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>option($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>options(array $options, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param array</code> $options</p>
+</li>
+<li>
+<p><code>optionList($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul>
 <h2 id="stop">Stop</h2>
 <p>Stops Docker container</p>
@@ -398,15 +799,60 @@ $this-&gt;taskDockerStop($cidOrResult)
 ?&gt;
 </code></pre>
 <ul>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
-<li><code>setProcessInput($input)</code>  Pass an input to the process. Can be resource created with fopen() or string</li>
-<li><code>dir($dir)</code>  Changes working directory of command</li>
-<li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
-<li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
-<li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
-<li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
+<li>
+<p><code>setProcessInput($input)</code></p>
+</li>
+<li>
+<p><code>param resource|string</code> $input</p>
+</li>
+<li>
+<p><code>dir($dir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dir</p>
+</li>
+<li>
+<p><code>arg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>args($args)</code></p>
+</li>
+<li>
+<p><code>param string|string[]</code> $args</p>
+</li>
+<li>
+<p><code>rawArg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>option($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>options(array $options, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param array</code> $options</p>
+</li>
+<li>
+<p><code>optionList($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul></div>
             
 
@@ -440,8 +886,7 @@ Robo is on <a href="http://twitter.com/robo_php">Twitter</a> and on <a href="htt
         <script>var base_url = '../..';</script>
         <script data-main="../../mkdocs/js/search.js" src="../../mkdocs/js/require.js"></script>
         <script src="../../js/base.js"></script>
-        <script src="../../search/require.js"></script>
-        <script src="../../search/search.js"></script>
+        <script src="../../search/main.js"></script>
 
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
          <div class="modal-dialog">

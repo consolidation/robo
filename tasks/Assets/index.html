@@ -16,7 +16,7 @@
         <link href="../../css/font-awesome-4.0.3.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
         <link rel="stylesheet" href="../../css/highlight.css">
-        <link href="../..//css/robo.css" rel="stylesheet">
+        <link href="../../css/robo.css" rel="stylesheet">
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -41,7 +41,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="../..">Robo</a>
+            <a class="navbar-brand" href="">Robo</a>
         </div>
 
         <!-- Expanded navigation -->
@@ -56,19 +56,19 @@
                         <ul class="dropdown-menu">
                             
 <li >
-    <a href="../../getting-started/">Getting Started</a>
+    <a href="getting-started/">Getting Started</a>
 </li>
                             
 <li >
-    <a href="../../collections/">Collections</a>
+    <a href="collections/">Collections</a>
 </li>
                             
 <li >
-    <a href="../../extending/">Extending</a>
+    <a href="extending/">Extending</a>
 </li>
                             
 <li >
-    <a href="../../framework/">Robo as Framework</a>
+    <a href="framework/">Robo as Framework</a>
 </li>
                         </ul>
                     </li>
@@ -77,68 +77,69 @@
                         <ul class="dropdown-menu">
                             
 <li >
-    <a href="../Base/">Base Tasks</a>
+    <a href="tasks/Base/">Base Tasks</a>
 </li>
                             
 <li >
-    <a href="../Filesystem/">FileSystem Tasks</a>
+    <a href="tasks/Filesystem/">FileSystem Tasks</a>
 </li>
                             
 <li >
-    <a href="../File/">File Tasks</a>
+    <a href="tasks/File/">File Tasks</a>
 </li>
                             
 <li >
-    <a href="../Composer/">Composer Tasks</a>
+    <a href="tasks/Composer/">Composer Tasks</a>
 </li>
                             
 <li >
-    <a href="../Vcs/">VCS Tasks</a>
+    <a href="tasks/Vcs/">VCS Tasks</a>
 </li>
                             
 <li >
-    <a href="../Development/">Development Tasks</a>
+    <a href="tasks/Development/">Development Tasks</a>
 </li>
                             
 <li class="active">
-    <a href="./">Assets Tasks</a>
+    <a href="tasks/Assets/">Assets Tasks</a>
 </li>
                             
 <li >
-    <a href="../Archive/">Archive Tasks</a>
+    <a href="tasks/Archive/">Archive Tasks</a>
 </li>
                             
 <li >
-    <a href="../Remote/">SSH, Rsync Tasks</a>
+    <a href="tasks/Remote/">SSH, Rsync Tasks</a>
 </li>
                             
 <li >
-    <a href="../Testing/">Testing Tasks</a>
+    <a href="tasks/Testing/">Testing Tasks</a>
 </li>
                             
 <li >
-    <a href="../Npm/">NPM Tasks</a>
+    <a href="tasks/Npm/">NPM Tasks</a>
 </li>
                             
 <li >
-    <a href="../Bower/">Bower Tasks</a>
+    <a href="tasks/Bower/">Bower Tasks</a>
 </li>
                             
 <li >
-    <a href="../Gulp/">Gulp Tasks</a>
+    <a href="tasks/Gulp/">Gulp Tasks</a>
 </li>
                             
 <li >
-    <a href="../Docker/">Docker Tasks</a>
+    <a href="tasks/Docker/">Docker Tasks</a>
 </li>
                             
 <li >
-    <a href="../ApiGen/">ApiGen Tasks</a>
+    <a href="tasks/ApiGen/">ApiGen Tasks</a>
+</li>
+                            
+<li >
+    <a href="tasks/Logfile/">Logfile Tasks</a>
 </li>
                         </ul>
-                    </li>
-                    <li >
-                        <a href="../../changelog/">Releases</a>
                     </li>
                 </ul>
 
@@ -149,17 +150,17 @@
                     </a>
                 </li>
                     <li >
-                        <a rel="next" href="../Development/">
+                        <a rel="next" href="tasks/Development/">
                             <i class="fa fa-arrow-left"></i> Previous
                         </a>
                     </li>
                     <li >
-                        <a rel="prev" href="../Archive/">
+                        <a rel="prev" href="tasks/Archive/">
                             Next <i class="fa fa-arrow-right"></i>
                         </a>
                     </li>
                     <li>
-                        <a href="https://github.com/consolidation/Robo/edit/master/docs/tasks/Assets.md"><i class="fa fa-github"></i> Edit on GitHub</a>
+                        <a href="https://github.com/consolidation/robo/edit/master/docs/tasks/Assets.md"><i class="fa fa-github"></i> Edit on GitHub</a>
                     </li>
             </ul>
         </div>
@@ -182,23 +183,31 @@
 
 <h1 id="assets-tasks">Assets Tasks</h1>
 <h2 id="imageminify">ImageMinify</h2>
-<p>Minifies images. When the required minifier is not installed on the system
-the task will try to download it from the <a href="https://github.com/imagemin">imagemin</a> repository.</p>
-<p>When the task is run without any specified minifier it will compress the images
-based on the extension.</p>
+<p>Minifies images.</p>
+<p>When the task is run without any specified minifier it will compress the
+images based on the extension.</p>
 <pre><code class="language-php">$this-&gt;taskImageMinify('assets/images/*')
     -&gt;to('dist/images/')
     -&gt;run();
 </code></pre>
-<p>This will use the following minifiers:</p>
+<p>This will use the following minifiers based in the extension:</p>
 <ul>
 <li>PNG: optipng</li>
 <li>GIF: gifsicle</li>
 <li>JPG, JPEG: jpegtran</li>
 <li>SVG: svgo</li>
 </ul>
-<p>When the minifier is specified the task will use that for all the input files. In that case
-it is useful to filter the files with the extension:</p>
+<p>When the required minifier is not installed on the system the task will try
+to download it from the <a href="https://github.com/imagemin">imagemin</a> repository
+into a local directory.
+This directory is <code>vendor/bin/</code> by default and may be changed:</p>
+<pre><code class="language-php">$this-&gt;taskImageMinify('assets/images/*')
+    -&gt;setExecutableDir('/tmp/imagemin/bin/)
+    -&gt;to('dist/images/')
+    -&gt;run();
+</code></pre>
+<p>When the minifier is specified the task will use that for all the input
+files. In that case it is useful to filter the files with the extension:</p>
 <pre><code class="language-php">$this-&gt;taskImageMinify('assets/images/*.png')
     -&gt;to('dist/images/')
     -&gt;minifier('pngcrush');
@@ -227,9 +236,30 @@ it is useful to filter the files with the extension:</p>
 <p>This will execute as:
 <code>jpegtran -copy none -progressive -optimize -outfile "dist/images/test.jpg" "/var/www/test/assets/images/test.jpg"</code></p>
 <ul>
-<li><code>to($target)</code>  Sets the target directory where the files will be copied to.</li>
-<li><code>minifier($minifier, array $options = Array ( ) )</code>  Sets the minifier.</li>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
+<li>
+<p><code>setExecutableDir($directory)</code></p>
+</li>
+<li>
+<p><code>param string</code> $directory</p>
+</li>
+<li>
+<p><code>to($target)</code></p>
+</li>
+<li>
+<p><code>param string</code> $target</p>
+</li>
+<li>
+<p><code>minifier($minifier, array $options = array ( ))</code></p>
+</li>
+<li>
+<p><code>param string</code> $minifier</p>
+</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul>
 <h2 id="less">Less</h2>
 <p>Compiles less files.</p>
@@ -258,12 +288,42 @@ $this-&gt;taskLess([
 method named after them and overloading the lessCompilers() method to
 inject the name there.</p>
 <ul>
-<li><code>importDir($dirs)</code>  Sets import directories</li>
-<li><code>addImportPath($dir)</code>  Adds import directory</li>
-<li><code>setImportPaths($dirs)</code>  Sets import directories</li>
-<li><code>setFormatter($formatterName)</code>   * <code>param string</code> $formatterName</li>
-<li><code>compiler($compiler, array $options = Array ( ) )</code>  Sets the compiler.</li>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
+<li>
+<p><code>importDir($dirs)</code></p>
+</li>
+<li>
+<p><code>see</code> CssPreprocessor::setImportPaths</p>
+</li>
+<li>
+<p><code>addImportPath($dir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dir</p>
+</li>
+<li>
+<p><code>setImportPaths($dirs)</code></p>
+</li>
+<li>
+<p><code>param array|string</code> $dirs</p>
+</li>
+<li>
+<p><code>setFormatter($formatterName)</code></p>
+</li>
+<li>
+<p><code>param string</code> $formatterName</p>
+</li>
+<li>
+<p><code>compiler($compiler, array $options = array ( ))</code></p>
+</li>
+<li>
+<p><code>param string</code> $compiler</p>
+</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul>
 <h2 id="minify">Minify</h2>
 <p>Minifies an asset file (CSS or JS).</p>
@@ -277,13 +337,48 @@ $this-&gt;taskMinify('web/assets/theme.css')
 composer require natxet/cssmin:^3.0
 </code></pre>
 <ul>
-<li><code>to($dst)</code>  Sets destination. Tries to guess type from it.</li>
-<li><code>type($type)</code>  Sets type with validation.</li>
-<li><code>singleLine($singleLine)</code>  Single line option for the JS minimisation.</li>
-<li><code>keepImportantComments($keepImportantComments)</code>  keepImportantComments option for the JS minimisation.</li>
-<li><code>specialVarRx($specialVarRx)</code>  Set specialVarRx option for the JS minimisation.</li>
-<li><code>__toString()</code>  @return string</li>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
+<li>
+<p><code>to($dst)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dst</p>
+</li>
+<li>
+<p><code>type($type)</code></p>
+</li>
+<li>
+<p><code>param string</code> $type Allowed values: "css", "js".</p>
+</li>
+<li>
+<p><code>singleLine($singleLine)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $singleLine</p>
+</li>
+<li>
+<p><code>keepImportantComments($keepImportantComments)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $keepImportantComments</p>
+</li>
+<li>
+<p><code>specialVarRx($specialVarRx)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $specialVarRx</p>
+</li>
+<li>
+<p><code>__toString()</code></p>
+</li>
+<li>
+<p><code>return string</code></p>
+</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul>
 <h2 id="scss">Scss</h2>
 <p>Compiles scss files.</p>
@@ -302,12 +397,42 @@ $this-&gt;taskScss([
 method named after them and overloading the scssCompilers() method to
 inject the name there.</p>
 <ul>
-<li><code>setFormatter($formatterName)</code>  Sets the formatter for scssphp</li>
-<li><code>importDir($dirs)</code>  Sets import directories</li>
-<li><code>addImportPath($dir)</code>  Adds import directory</li>
-<li><code>setImportPaths($dirs)</code>  Sets import directories</li>
-<li><code>compiler($compiler, array $options = Array ( ) )</code>  Sets the compiler.</li>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
+<li>
+<p><code>setFormatter($formatterName)</code></p>
+</li>
+<li>
+<p><code>link</code> https://scssphp.github.io/scssphp/docs/#output-formatting</p>
+</li>
+<li>
+<p><code>importDir($dirs)</code></p>
+</li>
+<li>
+<p><code>see</code> CssPreprocessor::setImportPaths</p>
+</li>
+<li>
+<p><code>addImportPath($dir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dir</p>
+</li>
+<li>
+<p><code>setImportPaths($dirs)</code></p>
+</li>
+<li>
+<p><code>param array|string</code> $dirs</p>
+</li>
+<li>
+<p><code>compiler($compiler, array $options = array ( ))</code></p>
+</li>
+<li>
+<p><code>param string</code> $compiler</p>
+</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul></div>
             
 
@@ -341,8 +466,7 @@ Robo is on <a href="http://twitter.com/robo_php">Twitter</a> and on <a href="htt
         <script>var base_url = '../..';</script>
         <script data-main="../../mkdocs/js/search.js" src="../../mkdocs/js/require.js"></script>
         <script src="../../js/base.js"></script>
-        <script src="../../search/require.js"></script>
-        <script src="../../search/search.js"></script>
+        <script src="../../search/main.js"></script>
 
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
          <div class="modal-dialog">

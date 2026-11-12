@@ -16,7 +16,7 @@
         <link href="../../css/font-awesome-4.0.3.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
         <link rel="stylesheet" href="../../css/highlight.css">
-        <link href="../..//css/robo.css" rel="stylesheet">
+        <link href="../../css/robo.css" rel="stylesheet">
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -41,7 +41,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="../..">Robo</a>
+            <a class="navbar-brand" href="">Robo</a>
         </div>
 
         <!-- Expanded navigation -->
@@ -56,19 +56,19 @@
                         <ul class="dropdown-menu">
                             
 <li >
-    <a href="../../getting-started/">Getting Started</a>
+    <a href="getting-started/">Getting Started</a>
 </li>
                             
 <li >
-    <a href="../../collections/">Collections</a>
+    <a href="collections/">Collections</a>
 </li>
                             
 <li >
-    <a href="../../extending/">Extending</a>
+    <a href="extending/">Extending</a>
 </li>
                             
 <li >
-    <a href="../../framework/">Robo as Framework</a>
+    <a href="framework/">Robo as Framework</a>
 </li>
                         </ul>
                     </li>
@@ -77,68 +77,69 @@
                         <ul class="dropdown-menu">
                             
 <li >
-    <a href="../Base/">Base Tasks</a>
+    <a href="tasks/Base/">Base Tasks</a>
 </li>
                             
 <li >
-    <a href="../Filesystem/">FileSystem Tasks</a>
+    <a href="tasks/Filesystem/">FileSystem Tasks</a>
 </li>
                             
 <li >
-    <a href="../File/">File Tasks</a>
+    <a href="tasks/File/">File Tasks</a>
 </li>
                             
 <li class="active">
-    <a href="./">Composer Tasks</a>
+    <a href="tasks/Composer/">Composer Tasks</a>
 </li>
                             
 <li >
-    <a href="../Vcs/">VCS Tasks</a>
+    <a href="tasks/Vcs/">VCS Tasks</a>
 </li>
                             
 <li >
-    <a href="../Development/">Development Tasks</a>
+    <a href="tasks/Development/">Development Tasks</a>
 </li>
                             
 <li >
-    <a href="../Assets/">Assets Tasks</a>
+    <a href="tasks/Assets/">Assets Tasks</a>
 </li>
                             
 <li >
-    <a href="../Archive/">Archive Tasks</a>
+    <a href="tasks/Archive/">Archive Tasks</a>
 </li>
                             
 <li >
-    <a href="../Remote/">SSH, Rsync Tasks</a>
+    <a href="tasks/Remote/">SSH, Rsync Tasks</a>
 </li>
                             
 <li >
-    <a href="../Testing/">Testing Tasks</a>
+    <a href="tasks/Testing/">Testing Tasks</a>
 </li>
                             
 <li >
-    <a href="../Npm/">NPM Tasks</a>
+    <a href="tasks/Npm/">NPM Tasks</a>
 </li>
                             
 <li >
-    <a href="../Bower/">Bower Tasks</a>
+    <a href="tasks/Bower/">Bower Tasks</a>
 </li>
                             
 <li >
-    <a href="../Gulp/">Gulp Tasks</a>
+    <a href="tasks/Gulp/">Gulp Tasks</a>
 </li>
                             
 <li >
-    <a href="../Docker/">Docker Tasks</a>
+    <a href="tasks/Docker/">Docker Tasks</a>
 </li>
                             
 <li >
-    <a href="../ApiGen/">ApiGen Tasks</a>
+    <a href="tasks/ApiGen/">ApiGen Tasks</a>
+</li>
+                            
+<li >
+    <a href="tasks/Logfile/">Logfile Tasks</a>
 </li>
                         </ul>
-                    </li>
-                    <li >
-                        <a href="../../changelog/">Releases</a>
                     </li>
                 </ul>
 
@@ -149,17 +150,17 @@
                     </a>
                 </li>
                     <li >
-                        <a rel="next" href="../File/">
+                        <a rel="next" href="tasks/File/">
                             <i class="fa fa-arrow-left"></i> Previous
                         </a>
                     </li>
                     <li >
-                        <a rel="prev" href="../Vcs/">
+                        <a rel="prev" href="tasks/Vcs/">
                             Next <i class="fa fa-arrow-right"></i>
                         </a>
                     </li>
                     <li>
-                        <a href="https://github.com/consolidation/Robo/edit/master/docs/tasks/Composer.md"><i class="fa fa-github"></i> Edit on GitHub</a>
+                        <a href="https://github.com/consolidation/robo/edit/master/docs/tasks/Composer.md"><i class="fa fa-github"></i> Edit on GitHub</a>
                     </li>
             </ul>
         </div>
@@ -195,29 +196,138 @@ $this-&gt;taskComposerValidate()-&gt;run();
 ?&gt;
 </code></pre>
 <ul>
-<li><code>preferDist($preferDist = null)</code>  adds <code>prefer-dist</code> option to composer</li>
-<li><code>preferSource()</code>  adds <code>prefer-source</code> option to composer</li>
-<li><code>dev($dev = null)</code>  adds <code>dev</code> option to composer</li>
-<li><code>noDev()</code>  adds <code>no-dev</code> option to composer</li>
-<li><code>ansi($ansi = null)</code>  adds <code>ansi</code> option to composer</li>
-<li><code>noAnsi()</code>  adds <code>no-ansi</code> option to composer</li>
-<li><code>interaction($interaction = null)</code>   * <code>param bool</code> $interaction</li>
-<li><code>noInteraction()</code>  adds <code>no-interaction</code> option to composer</li>
-<li><code>optimizeAutoloader($optimize = null)</code>  adds <code>optimize-autoloader</code> option to composer</li>
-<li><code>ignorePlatformRequirements($ignore = null)</code>  adds <code>ignore-platform-reqs</code> option to composer</li>
-<li><code>disablePlugins($disable = null)</code>  disable plugins</li>
-<li><code>noScripts($disable = null)</code>  skip scripts</li>
-<li><code>workingDir($dir)</code>  adds <code>--working-dir $dir</code> option to composer</li>
-<li><code>buildCommand()</code>  Copy class fields into command options as directed.</li>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
-<li><code>setProcessInput($input)</code>  Pass an input to the process. Can be resource created with fopen() or string</li>
-<li><code>dir($dir)</code>  Changes working directory of command</li>
-<li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
-<li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
-<li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
-<li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
+<li>
+<p><code>preferDist($preferDist = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $preferDist</p>
+</li>
+<li>
+<p><code>preferSource()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>dev($dev = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $dev</p>
+</li>
+<li>
+<p><code>noDev()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>ansi($ansi = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $ansi</p>
+</li>
+<li>
+<p><code>noAnsi()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>interaction($interaction = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $interaction</p>
+</li>
+<li>
+<p><code>noInteraction()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>optimizeAutoloader($optimize = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $optimize</p>
+</li>
+<li>
+<p><code>ignorePlatformRequirements($ignore = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $ignore</p>
+</li>
+<li>
+<p><code>disablePlugins($disable = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $disable</p>
+</li>
+<li>
+<p><code>noScripts($disable = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $disable</p>
+</li>
+<li>
+<p><code>workingDir($dir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dir</p>
+</li>
+<li><code>buildCommand()</code></li>
+</ul>
+<p>Copy class fields into command options as directed.
+* <code>setProcessInput($input)</code></p>
+<ul>
+<li><code>param resource|string</code> $input</li>
+<li>
+<p><code>dir($dir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dir</p>
+</li>
+<li>
+<p><code>arg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>args($args)</code></p>
+</li>
+<li>
+<p><code>param string|string[]</code> $args</p>
+</li>
+<li>
+<p><code>rawArg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>option($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>options(array $options, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param array</code> $options</p>
+</li>
+<li>
+<p><code>optionList($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul>
 <h2 id="config">Config</h2>
 <p>Composer Config</p>
@@ -227,35 +337,174 @@ $this-&gt;taskComposerConfig()-&gt;set('bin-dir', 'bin/')-&gt;run();
 ?&gt;
 </code></pre>
 <ul>
-<li><code>set($key, $value)</code>  Set a configuration value.</li>
-<li><code>useGlobal($useGlobal = null)</code>  Operate on the global repository</li>
-<li><code>repository($id, $uri, $repoType = null)</code>   * <code>param string</code> $id</li>
-<li><code>removeRepository($id)</code>   * <code>param string</code> $id</li>
-<li><code>disableRepository($id)</code>   * <code>param string</code> $id</li>
-<li><code>enableRepository($id)</code>   * <code>param string</code> $id</li>
-<li><code>preferDist($preferDist = null)</code>  adds <code>prefer-dist</code> option to composer</li>
-<li><code>preferSource()</code>  adds <code>prefer-source</code> option to composer</li>
-<li><code>dev($dev = null)</code>  adds <code>dev</code> option to composer</li>
-<li><code>noDev()</code>  adds <code>no-dev</code> option to composer</li>
-<li><code>ansi($ansi = null)</code>  adds <code>ansi</code> option to composer</li>
-<li><code>noAnsi()</code>  adds <code>no-ansi</code> option to composer</li>
-<li><code>interaction($interaction = null)</code>   * <code>param bool</code> $interaction</li>
-<li><code>noInteraction()</code>  adds <code>no-interaction</code> option to composer</li>
-<li><code>optimizeAutoloader($optimize = null)</code>  adds <code>optimize-autoloader</code> option to composer</li>
-<li><code>ignorePlatformRequirements($ignore = null)</code>  adds <code>ignore-platform-reqs</code> option to composer</li>
-<li><code>disablePlugins($disable = null)</code>  disable plugins</li>
-<li><code>noScripts($disable = null)</code>  skip scripts</li>
-<li><code>workingDir($dir)</code>  adds <code>--working-dir $dir</code> option to composer</li>
-<li><code>buildCommand()</code>  Copy class fields into command options as directed.</li>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
-<li><code>setProcessInput($input)</code>  Pass an input to the process. Can be resource created with fopen() or string</li>
-<li><code>dir($dir)</code>  Changes working directory of command</li>
-<li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
-<li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
-<li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
-<li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
+<li>
+<p><code>set($key, $value)</code></p>
+</li>
+<li>
+<p><code>param string</code> $key</p>
+</li>
+<li>
+<p><code>useGlobal($useGlobal = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $useGlobal</p>
+</li>
+<li>
+<p><code>repository($id, $uri, $repoType = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $id</p>
+</li>
+<li>
+<p><code>removeRepository($id)</code></p>
+</li>
+<li>
+<p><code>param string</code> $id</p>
+</li>
+<li>
+<p><code>disableRepository($id)</code></p>
+</li>
+<li>
+<p><code>param string</code> $id</p>
+</li>
+<li>
+<p><code>enableRepository($id)</code></p>
+</li>
+<li>
+<p><code>param string</code> $id</p>
+</li>
+<li>
+<p><code>preferDist($preferDist = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $preferDist</p>
+</li>
+<li>
+<p><code>preferSource()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>dev($dev = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $dev</p>
+</li>
+<li>
+<p><code>noDev()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>ansi($ansi = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $ansi</p>
+</li>
+<li>
+<p><code>noAnsi()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>interaction($interaction = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $interaction</p>
+</li>
+<li>
+<p><code>noInteraction()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>optimizeAutoloader($optimize = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $optimize</p>
+</li>
+<li>
+<p><code>ignorePlatformRequirements($ignore = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $ignore</p>
+</li>
+<li>
+<p><code>disablePlugins($disable = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $disable</p>
+</li>
+<li>
+<p><code>noScripts($disable = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $disable</p>
+</li>
+<li>
+<p><code>workingDir($dir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dir</p>
+</li>
+<li><code>buildCommand()</code></li>
+</ul>
+<p>Copy class fields into command options as directed.
+* <code>setProcessInput($input)</code></p>
+<ul>
+<li><code>param resource|string</code> $input</li>
+<li>
+<p><code>dir($dir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dir</p>
+</li>
+<li>
+<p><code>arg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>args($args)</code></p>
+</li>
+<li>
+<p><code>param string|string[]</code> $args</p>
+</li>
+<li>
+<p><code>rawArg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>option($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>options(array $options, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param array</code> $options</p>
+</li>
+<li>
+<p><code>optionList($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul>
 <h2 id="createproject">CreateProject</h2>
 <p>Composer CreateProject</p>
@@ -265,36 +514,180 @@ $this-&gt;taskComposerCreateProject()-&gt;source('foo/bar')-&gt;target('myBar')-
 ?&gt;
 </code></pre>
 <ul>
-<li><code>source($source)</code>   * <code>param string</code> $source</li>
-<li><code>target($target)</code>   * <code>param string</code> $target</li>
-<li><code>version($version)</code>   * <code>param string</code> $version</li>
-<li><code>keepVcs($keep = null)</code>   * <code>param bool</code> $keep</li>
-<li><code>noInstall($noInstall = null)</code>   * <code>param bool</code> $noInstall</li>
-<li><code>repository($repository)</code>   * <code>param string</code> $repository</li>
-<li><code>stability($stability)</code>   * <code>param string</code> $stability</li>
-<li><code>buildCommand()</code>  {@inheritdoc}</li>
-<li><code>preferDist($preferDist = null)</code>  adds <code>prefer-dist</code> option to composer</li>
-<li><code>preferSource()</code>  adds <code>prefer-source</code> option to composer</li>
-<li><code>dev($dev = null)</code>  adds <code>dev</code> option to composer</li>
-<li><code>noDev()</code>  adds <code>no-dev</code> option to composer</li>
-<li><code>ansi($ansi = null)</code>  adds <code>ansi</code> option to composer</li>
-<li><code>noAnsi()</code>  adds <code>no-ansi</code> option to composer</li>
-<li><code>interaction($interaction = null)</code>   * <code>param bool</code> $interaction</li>
-<li><code>noInteraction()</code>  adds <code>no-interaction</code> option to composer</li>
-<li><code>optimizeAutoloader($optimize = null)</code>  adds <code>optimize-autoloader</code> option to composer</li>
-<li><code>ignorePlatformRequirements($ignore = null)</code>  adds <code>ignore-platform-reqs</code> option to composer</li>
-<li><code>disablePlugins($disable = null)</code>  disable plugins</li>
-<li><code>noScripts($disable = null)</code>  skip scripts</li>
-<li><code>workingDir($dir)</code>  adds <code>--working-dir $dir</code> option to composer</li>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
-<li><code>setProcessInput($input)</code>  Pass an input to the process. Can be resource created with fopen() or string</li>
-<li><code>dir($dir)</code>  Changes working directory of command</li>
-<li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
-<li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
-<li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
-<li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
+<li>
+<p><code>source($source)</code></p>
+</li>
+<li>
+<p><code>param string</code> $source</p>
+</li>
+<li>
+<p><code>target($target)</code></p>
+</li>
+<li>
+<p><code>param string</code> $target</p>
+</li>
+<li>
+<p><code>version($version)</code></p>
+</li>
+<li>
+<p><code>param string</code> $version</p>
+</li>
+<li>
+<p><code>keepVcs($keep = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $keep</p>
+</li>
+<li>
+<p><code>noInstall($noInstall = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $noInstall</p>
+</li>
+<li>
+<p><code>repository($repository)</code></p>
+</li>
+<li>
+<p><code>param string</code> $repository</p>
+</li>
+<li>
+<p><code>stability($stability)</code></p>
+</li>
+<li>
+<p><code>param string</code> $stability</p>
+</li>
+<li><code>buildCommand()</code></li>
+</ul>
+<p>{@inheritdoc}
+* <code>preferDist($preferDist = null)</code></p>
+<ul>
+<li><code>param bool</code> $preferDist</li>
+<li>
+<p><code>preferSource()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>dev($dev = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $dev</p>
+</li>
+<li>
+<p><code>noDev()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>ansi($ansi = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $ansi</p>
+</li>
+<li>
+<p><code>noAnsi()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>interaction($interaction = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $interaction</p>
+</li>
+<li>
+<p><code>noInteraction()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>optimizeAutoloader($optimize = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $optimize</p>
+</li>
+<li>
+<p><code>ignorePlatformRequirements($ignore = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $ignore</p>
+</li>
+<li>
+<p><code>disablePlugins($disable = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $disable</p>
+</li>
+<li>
+<p><code>noScripts($disable = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $disable</p>
+</li>
+<li>
+<p><code>workingDir($dir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dir</p>
+</li>
+<li>
+<p><code>setProcessInput($input)</code></p>
+</li>
+<li>
+<p><code>param resource|string</code> $input</p>
+</li>
+<li>
+<p><code>dir($dir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dir</p>
+</li>
+<li>
+<p><code>arg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>args($args)</code></p>
+</li>
+<li>
+<p><code>param string|string[]</code> $args</p>
+</li>
+<li>
+<p><code>rawArg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>option($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>options(array $options, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param array</code> $options</p>
+</li>
+<li>
+<p><code>optionList($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul>
 <h2 id="dumpautoload">DumpAutoload</h2>
 <p>Composer Dump Autoload</p>
@@ -320,30 +713,144 @@ $this-&gt;taskComposerDumpAutoload('path/to/my/composer.phar')
 ?&gt;
 </code></pre>
 <ul>
-<li><code>optimize($optimize = null)</code>   * <code>param bool</code> $optimize</li>
-<li><code>preferDist($preferDist = null)</code>  adds <code>prefer-dist</code> option to composer</li>
-<li><code>preferSource()</code>  adds <code>prefer-source</code> option to composer</li>
-<li><code>dev($dev = null)</code>  adds <code>dev</code> option to composer</li>
-<li><code>noDev()</code>  adds <code>no-dev</code> option to composer</li>
-<li><code>ansi($ansi = null)</code>  adds <code>ansi</code> option to composer</li>
-<li><code>noAnsi()</code>  adds <code>no-ansi</code> option to composer</li>
-<li><code>interaction($interaction = null)</code>   * <code>param bool</code> $interaction</li>
-<li><code>noInteraction()</code>  adds <code>no-interaction</code> option to composer</li>
-<li><code>optimizeAutoloader($optimize = null)</code>  adds <code>optimize-autoloader</code> option to composer</li>
-<li><code>ignorePlatformRequirements($ignore = null)</code>  adds <code>ignore-platform-reqs</code> option to composer</li>
-<li><code>disablePlugins($disable = null)</code>  disable plugins</li>
-<li><code>noScripts($disable = null)</code>  skip scripts</li>
-<li><code>workingDir($dir)</code>  adds <code>--working-dir $dir</code> option to composer</li>
-<li><code>buildCommand()</code>  Copy class fields into command options as directed.</li>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
-<li><code>setProcessInput($input)</code>  Pass an input to the process. Can be resource created with fopen() or string</li>
-<li><code>dir($dir)</code>  Changes working directory of command</li>
-<li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
-<li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
-<li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
-<li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
+<li>
+<p><code>optimize($optimize = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $optimize</p>
+</li>
+<li>
+<p><code>preferDist($preferDist = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $preferDist</p>
+</li>
+<li>
+<p><code>preferSource()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>dev($dev = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $dev</p>
+</li>
+<li>
+<p><code>noDev()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>ansi($ansi = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $ansi</p>
+</li>
+<li>
+<p><code>noAnsi()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>interaction($interaction = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $interaction</p>
+</li>
+<li>
+<p><code>noInteraction()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>optimizeAutoloader($optimize = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $optimize</p>
+</li>
+<li>
+<p><code>ignorePlatformRequirements($ignore = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $ignore</p>
+</li>
+<li>
+<p><code>disablePlugins($disable = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $disable</p>
+</li>
+<li>
+<p><code>noScripts($disable = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $disable</p>
+</li>
+<li>
+<p><code>workingDir($dir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dir</p>
+</li>
+<li><code>buildCommand()</code></li>
+</ul>
+<p>Copy class fields into command options as directed.
+* <code>setProcessInput($input)</code></p>
+<ul>
+<li><code>param resource|string</code> $input</li>
+<li>
+<p><code>dir($dir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dir</p>
+</li>
+<li>
+<p><code>arg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>args($args)</code></p>
+</li>
+<li>
+<p><code>param string|string[]</code> $args</p>
+</li>
+<li>
+<p><code>rawArg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>option($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>options(array $options, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param array</code> $options</p>
+</li>
+<li>
+<p><code>optionList($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul>
 <h2 id="init">Init</h2>
 <p>Composer Init</p>
@@ -353,38 +860,192 @@ $this-&gt;taskComposerInit()-&gt;run();
 ?&gt;
 </code></pre>
 <ul>
-<li><code>projectName($projectName)</code>   * <code>param string</code> $projectName</li>
-<li><code>description($description)</code>   * <code>param string</code> $description</li>
-<li><code>author($author)</code>   * <code>param string</code> $author</li>
-<li><code>projectType($type)</code>   * <code>param string</code> $type</li>
-<li><code>homepage($homepage)</code>   * <code>param string</code> $homepage</li>
-<li><code>dependency($project, $version = null)</code>  'require' is a keyword, so it cannot be a method name.</li>
-<li><code>stability($stability)</code>   * <code>param string</code> $stability</li>
-<li><code>license($license)</code>   * <code>param string</code> $license</li>
-<li><code>repository($repository)</code>   * <code>param string</code> $repository</li>
-<li><code>preferDist($preferDist = null)</code>  adds <code>prefer-dist</code> option to composer</li>
-<li><code>preferSource()</code>  adds <code>prefer-source</code> option to composer</li>
-<li><code>dev($dev = null)</code>  adds <code>dev</code> option to composer</li>
-<li><code>noDev()</code>  adds <code>no-dev</code> option to composer</li>
-<li><code>ansi($ansi = null)</code>  adds <code>ansi</code> option to composer</li>
-<li><code>noAnsi()</code>  adds <code>no-ansi</code> option to composer</li>
-<li><code>interaction($interaction = null)</code>   * <code>param bool</code> $interaction</li>
-<li><code>noInteraction()</code>  adds <code>no-interaction</code> option to composer</li>
-<li><code>optimizeAutoloader($optimize = null)</code>  adds <code>optimize-autoloader</code> option to composer</li>
-<li><code>ignorePlatformRequirements($ignore = null)</code>  adds <code>ignore-platform-reqs</code> option to composer</li>
-<li><code>disablePlugins($disable = null)</code>  disable plugins</li>
-<li><code>noScripts($disable = null)</code>  skip scripts</li>
-<li><code>workingDir($dir)</code>  adds <code>--working-dir $dir</code> option to composer</li>
-<li><code>buildCommand()</code>  Copy class fields into command options as directed.</li>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
-<li><code>setProcessInput($input)</code>  Pass an input to the process. Can be resource created with fopen() or string</li>
-<li><code>dir($dir)</code>  Changes working directory of command</li>
-<li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
-<li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
-<li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
-<li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
+<li>
+<p><code>projectName($projectName)</code></p>
+</li>
+<li>
+<p><code>param string</code> $projectName</p>
+</li>
+<li>
+<p><code>description($description)</code></p>
+</li>
+<li>
+<p><code>param string</code> $description</p>
+</li>
+<li>
+<p><code>author($author)</code></p>
+</li>
+<li>
+<p><code>param string</code> $author</p>
+</li>
+<li>
+<p><code>projectType($type)</code></p>
+</li>
+<li>
+<p><code>param string</code> $type</p>
+</li>
+<li>
+<p><code>homepage($homepage)</code></p>
+</li>
+<li>
+<p><code>param string</code> $homepage</p>
+</li>
+<li>
+<p><code>dependency($project, $version = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $project</p>
+</li>
+<li>
+<p><code>stability($stability)</code></p>
+</li>
+<li>
+<p><code>param string</code> $stability</p>
+</li>
+<li>
+<p><code>license($license)</code></p>
+</li>
+<li>
+<p><code>param string</code> $license</p>
+</li>
+<li>
+<p><code>repository($repository)</code></p>
+</li>
+<li>
+<p><code>param string</code> $repository</p>
+</li>
+<li>
+<p><code>preferDist($preferDist = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $preferDist</p>
+</li>
+<li>
+<p><code>preferSource()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>dev($dev = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $dev</p>
+</li>
+<li>
+<p><code>noDev()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>ansi($ansi = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $ansi</p>
+</li>
+<li>
+<p><code>noAnsi()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>interaction($interaction = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $interaction</p>
+</li>
+<li>
+<p><code>noInteraction()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>optimizeAutoloader($optimize = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $optimize</p>
+</li>
+<li>
+<p><code>ignorePlatformRequirements($ignore = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $ignore</p>
+</li>
+<li>
+<p><code>disablePlugins($disable = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $disable</p>
+</li>
+<li>
+<p><code>noScripts($disable = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $disable</p>
+</li>
+<li>
+<p><code>workingDir($dir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dir</p>
+</li>
+<li><code>buildCommand()</code></li>
+</ul>
+<p>Copy class fields into command options as directed.
+* <code>setProcessInput($input)</code></p>
+<ul>
+<li><code>param resource|string</code> $input</li>
+<li>
+<p><code>dir($dir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dir</p>
+</li>
+<li>
+<p><code>arg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>args($args)</code></p>
+</li>
+<li>
+<p><code>param string|string[]</code> $args</p>
+</li>
+<li>
+<p><code>rawArg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>option($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>options(array $options, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param array</code> $options</p>
+</li>
+<li>
+<p><code>optionList($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul>
 <h2 id="install">Install</h2>
 <p>Composer Install</p>
@@ -404,30 +1065,144 @@ $this-&gt;taskComposerInstall('path/to/my/composer.phar')
 ?&gt;
 </code></pre>
 <ul>
-<li><code>noSuggest($noSuggest = null)</code>  adds <code>no-suggest</code> option to composer</li>
-<li><code>preferDist($preferDist = null)</code>  adds <code>prefer-dist</code> option to composer</li>
-<li><code>preferSource()</code>  adds <code>prefer-source</code> option to composer</li>
-<li><code>dev($dev = null)</code>  adds <code>dev</code> option to composer</li>
-<li><code>noDev()</code>  adds <code>no-dev</code> option to composer</li>
-<li><code>ansi($ansi = null)</code>  adds <code>ansi</code> option to composer</li>
-<li><code>noAnsi()</code>  adds <code>no-ansi</code> option to composer</li>
-<li><code>interaction($interaction = null)</code>   * <code>param bool</code> $interaction</li>
-<li><code>noInteraction()</code>  adds <code>no-interaction</code> option to composer</li>
-<li><code>optimizeAutoloader($optimize = null)</code>  adds <code>optimize-autoloader</code> option to composer</li>
-<li><code>ignorePlatformRequirements($ignore = null)</code>  adds <code>ignore-platform-reqs</code> option to composer</li>
-<li><code>disablePlugins($disable = null)</code>  disable plugins</li>
-<li><code>noScripts($disable = null)</code>  skip scripts</li>
-<li><code>workingDir($dir)</code>  adds <code>--working-dir $dir</code> option to composer</li>
-<li><code>buildCommand()</code>  Copy class fields into command options as directed.</li>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
-<li><code>setProcessInput($input)</code>  Pass an input to the process. Can be resource created with fopen() or string</li>
-<li><code>dir($dir)</code>  Changes working directory of command</li>
-<li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
-<li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
-<li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
-<li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
+<li>
+<p><code>noSuggest($noSuggest = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $noSuggest</p>
+</li>
+<li>
+<p><code>preferDist($preferDist = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $preferDist</p>
+</li>
+<li>
+<p><code>preferSource()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>dev($dev = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $dev</p>
+</li>
+<li>
+<p><code>noDev()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>ansi($ansi = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $ansi</p>
+</li>
+<li>
+<p><code>noAnsi()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>interaction($interaction = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $interaction</p>
+</li>
+<li>
+<p><code>noInteraction()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>optimizeAutoloader($optimize = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $optimize</p>
+</li>
+<li>
+<p><code>ignorePlatformRequirements($ignore = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $ignore</p>
+</li>
+<li>
+<p><code>disablePlugins($disable = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $disable</p>
+</li>
+<li>
+<p><code>noScripts($disable = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $disable</p>
+</li>
+<li>
+<p><code>workingDir($dir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dir</p>
+</li>
+<li><code>buildCommand()</code></li>
+</ul>
+<p>Copy class fields into command options as directed.
+* <code>setProcessInput($input)</code></p>
+<ul>
+<li><code>param resource|string</code> $input</li>
+<li>
+<p><code>dir($dir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dir</p>
+</li>
+<li>
+<p><code>arg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>args($args)</code></p>
+</li>
+<li>
+<p><code>param string|string[]</code> $args</p>
+</li>
+<li>
+<p><code>rawArg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>option($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>options(array $options, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param array</code> $options</p>
+</li>
+<li>
+<p><code>optionList($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul>
 <h2 id="remove">Remove</h2>
 <p>Composer Remove</p>
@@ -437,33 +1212,168 @@ $this-&gt;taskComposerRemove()-&gt;run();
 ?&gt;
 </code></pre>
 <ul>
-<li><code>dev($dev = null)</code>   * <code>param bool</code> $dev</li>
-<li><code>noProgress($noProgress = null)</code>   * <code>param bool</code> $noProgress</li>
-<li><code>noUpdate($noUpdate = null)</code>   * <code>param bool</code> $noUpdate</li>
-<li><code>updateNoDev($updateNoDev = null)</code>   * <code>param bool</code> $updateNoDev</li>
-<li><code>noUpdateWithDependencies($updateWithDependencies = null)</code>   * <code>param bool</code> $updateWithDependencies</li>
-<li><code>preferDist($preferDist = null)</code>  adds <code>prefer-dist</code> option to composer</li>
-<li><code>preferSource()</code>  adds <code>prefer-source</code> option to composer</li>
-<li><code>noDev()</code>  adds <code>no-dev</code> option to composer</li>
-<li><code>ansi($ansi = null)</code>  adds <code>ansi</code> option to composer</li>
-<li><code>noAnsi()</code>  adds <code>no-ansi</code> option to composer</li>
-<li><code>interaction($interaction = null)</code>   * <code>param bool</code> $interaction</li>
-<li><code>noInteraction()</code>  adds <code>no-interaction</code> option to composer</li>
-<li><code>optimizeAutoloader($optimize = null)</code>  adds <code>optimize-autoloader</code> option to composer</li>
-<li><code>ignorePlatformRequirements($ignore = null)</code>  adds <code>ignore-platform-reqs</code> option to composer</li>
-<li><code>disablePlugins($disable = null)</code>  disable plugins</li>
-<li><code>noScripts($disable = null)</code>  skip scripts</li>
-<li><code>workingDir($dir)</code>  adds <code>--working-dir $dir</code> option to composer</li>
-<li><code>buildCommand()</code>  Copy class fields into command options as directed.</li>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
-<li><code>setProcessInput($input)</code>  Pass an input to the process. Can be resource created with fopen() or string</li>
-<li><code>dir($dir)</code>  Changes working directory of command</li>
-<li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
-<li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
-<li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
-<li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
+<li>
+<p><code>dependency($project)</code></p>
+</li>
+<li>
+<p><code>param array|string</code> $project</p>
+</li>
+<li>
+<p><code>dev($dev = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $dev</p>
+</li>
+<li>
+<p><code>noProgress($noProgress = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $noProgress</p>
+</li>
+<li>
+<p><code>noUpdate($noUpdate = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $noUpdate</p>
+</li>
+<li>
+<p><code>updateNoDev($updateNoDev = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $updateNoDev</p>
+</li>
+<li>
+<p><code>noUpdateWithDependencies($updateWithDependencies = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $updateWithDependencies</p>
+</li>
+<li>
+<p><code>preferDist($preferDist = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $preferDist</p>
+</li>
+<li>
+<p><code>preferSource()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>noDev()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>ansi($ansi = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $ansi</p>
+</li>
+<li>
+<p><code>noAnsi()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>interaction($interaction = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $interaction</p>
+</li>
+<li>
+<p><code>noInteraction()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>optimizeAutoloader($optimize = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $optimize</p>
+</li>
+<li>
+<p><code>ignorePlatformRequirements($ignore = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $ignore</p>
+</li>
+<li>
+<p><code>disablePlugins($disable = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $disable</p>
+</li>
+<li>
+<p><code>noScripts($disable = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $disable</p>
+</li>
+<li>
+<p><code>workingDir($dir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dir</p>
+</li>
+<li><code>buildCommand()</code></li>
+</ul>
+<p>Copy class fields into command options as directed.
+* <code>setProcessInput($input)</code></p>
+<ul>
+<li><code>param resource|string</code> $input</li>
+<li>
+<p><code>dir($dir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dir</p>
+</li>
+<li>
+<p><code>arg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>args($args)</code></p>
+</li>
+<li>
+<p><code>param string|string[]</code> $args</p>
+</li>
+<li>
+<p><code>rawArg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>option($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>options(array $options, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param array</code> $options</p>
+</li>
+<li>
+<p><code>optionList($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul>
 <h2 id="requiredependency">RequireDependency</h2>
 <p>Composer Require</p>
@@ -473,31 +1383,156 @@ $this-&gt;taskComposerRequire()-&gt;dependency('foo/bar', '^.2.4.8')-&gt;run();
 ?&gt;
 </code></pre>
 <ul>
-<li><code>dependency($project, $version = null)</code>  'require' is a keyword, so it cannot be a method name.</li>
-<li><code>noSuggest($noSuggest = null)</code>  adds <code>no-suggest</code> option to composer</li>
-<li><code>preferDist($preferDist = null)</code>  adds <code>prefer-dist</code> option to composer</li>
-<li><code>preferSource()</code>  adds <code>prefer-source</code> option to composer</li>
-<li><code>dev($dev = null)</code>  adds <code>dev</code> option to composer</li>
-<li><code>noDev()</code>  adds <code>no-dev</code> option to composer</li>
-<li><code>ansi($ansi = null)</code>  adds <code>ansi</code> option to composer</li>
-<li><code>noAnsi()</code>  adds <code>no-ansi</code> option to composer</li>
-<li><code>interaction($interaction = null)</code>   * <code>param bool</code> $interaction</li>
-<li><code>noInteraction()</code>  adds <code>no-interaction</code> option to composer</li>
-<li><code>optimizeAutoloader($optimize = null)</code>  adds <code>optimize-autoloader</code> option to composer</li>
-<li><code>ignorePlatformRequirements($ignore = null)</code>  adds <code>ignore-platform-reqs</code> option to composer</li>
-<li><code>disablePlugins($disable = null)</code>  disable plugins</li>
-<li><code>noScripts($disable = null)</code>  skip scripts</li>
-<li><code>workingDir($dir)</code>  adds <code>--working-dir $dir</code> option to composer</li>
-<li><code>buildCommand()</code>  Copy class fields into command options as directed.</li>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
-<li><code>setProcessInput($input)</code>  Pass an input to the process. Can be resource created with fopen() or string</li>
-<li><code>dir($dir)</code>  Changes working directory of command</li>
-<li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
-<li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
-<li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
-<li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
+<li>
+<p><code>dependency($project, $version = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $project</p>
+</li>
+<li>
+<p><code>noSuggest($noSuggest = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $noSuggest</p>
+</li>
+<li>
+<p><code>noUpdate()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>preferDist($preferDist = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $preferDist</p>
+</li>
+<li>
+<p><code>preferSource()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>dev($dev = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $dev</p>
+</li>
+<li>
+<p><code>noDev()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>ansi($ansi = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $ansi</p>
+</li>
+<li>
+<p><code>noAnsi()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>interaction($interaction = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $interaction</p>
+</li>
+<li>
+<p><code>noInteraction()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>optimizeAutoloader($optimize = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $optimize</p>
+</li>
+<li>
+<p><code>ignorePlatformRequirements($ignore = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $ignore</p>
+</li>
+<li>
+<p><code>disablePlugins($disable = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $disable</p>
+</li>
+<li>
+<p><code>noScripts($disable = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $disable</p>
+</li>
+<li>
+<p><code>workingDir($dir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dir</p>
+</li>
+<li><code>buildCommand()</code></li>
+</ul>
+<p>Copy class fields into command options as directed.
+* <code>setProcessInput($input)</code></p>
+<ul>
+<li><code>param resource|string</code> $input</li>
+<li>
+<p><code>dir($dir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dir</p>
+</li>
+<li>
+<p><code>arg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>args($args)</code></p>
+</li>
+<li>
+<p><code>param string|string[]</code> $args</p>
+</li>
+<li>
+<p><code>rawArg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>option($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>options(array $options, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param array</code> $options</p>
+</li>
+<li>
+<p><code>optionList($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul>
 <h2 id="update">Update</h2>
 <p>Composer Update</p>
@@ -517,30 +1552,144 @@ $this-&gt;taskComposerUpdate('path/to/my/composer.phar')
 ?&gt;
 </code></pre>
 <ul>
-<li><code>noSuggest($noSuggest = null)</code>  adds <code>no-suggest</code> option to composer</li>
-<li><code>preferDist($preferDist = null)</code>  adds <code>prefer-dist</code> option to composer</li>
-<li><code>preferSource()</code>  adds <code>prefer-source</code> option to composer</li>
-<li><code>dev($dev = null)</code>  adds <code>dev</code> option to composer</li>
-<li><code>noDev()</code>  adds <code>no-dev</code> option to composer</li>
-<li><code>ansi($ansi = null)</code>  adds <code>ansi</code> option to composer</li>
-<li><code>noAnsi()</code>  adds <code>no-ansi</code> option to composer</li>
-<li><code>interaction($interaction = null)</code>   * <code>param bool</code> $interaction</li>
-<li><code>noInteraction()</code>  adds <code>no-interaction</code> option to composer</li>
-<li><code>optimizeAutoloader($optimize = null)</code>  adds <code>optimize-autoloader</code> option to composer</li>
-<li><code>ignorePlatformRequirements($ignore = null)</code>  adds <code>ignore-platform-reqs</code> option to composer</li>
-<li><code>disablePlugins($disable = null)</code>  disable plugins</li>
-<li><code>noScripts($disable = null)</code>  skip scripts</li>
-<li><code>workingDir($dir)</code>  adds <code>--working-dir $dir</code> option to composer</li>
-<li><code>buildCommand()</code>  Copy class fields into command options as directed.</li>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
-<li><code>setProcessInput($input)</code>  Pass an input to the process. Can be resource created with fopen() or string</li>
-<li><code>dir($dir)</code>  Changes working directory of command</li>
-<li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
-<li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
-<li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
-<li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
+<li>
+<p><code>noSuggest($noSuggest = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $noSuggest</p>
+</li>
+<li>
+<p><code>preferDist($preferDist = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $preferDist</p>
+</li>
+<li>
+<p><code>preferSource()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>dev($dev = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $dev</p>
+</li>
+<li>
+<p><code>noDev()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>ansi($ansi = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $ansi</p>
+</li>
+<li>
+<p><code>noAnsi()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>interaction($interaction = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $interaction</p>
+</li>
+<li>
+<p><code>noInteraction()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>optimizeAutoloader($optimize = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $optimize</p>
+</li>
+<li>
+<p><code>ignorePlatformRequirements($ignore = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $ignore</p>
+</li>
+<li>
+<p><code>disablePlugins($disable = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $disable</p>
+</li>
+<li>
+<p><code>noScripts($disable = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $disable</p>
+</li>
+<li>
+<p><code>workingDir($dir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dir</p>
+</li>
+<li><code>buildCommand()</code></li>
+</ul>
+<p>Copy class fields into command options as directed.
+* <code>setProcessInput($input)</code></p>
+<ul>
+<li><code>param resource|string</code> $input</li>
+<li>
+<p><code>dir($dir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dir</p>
+</li>
+<li>
+<p><code>arg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>args($args)</code></p>
+</li>
+<li>
+<p><code>param string|string[]</code> $args</p>
+</li>
+<li>
+<p><code>rawArg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>option($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>options(array $options, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param array</code> $options</p>
+</li>
+<li>
+<p><code>optionList($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul>
 <h2 id="validate">Validate</h2>
 <p>Composer Validate</p>
@@ -550,34 +1699,168 @@ $this-&gt;taskComposerValidate()-&gt;run();
 ?&gt;
 </code></pre>
 <ul>
-<li><code>noCheckAll($noCheckAll = null)</code>   * <code>param bool</code> $noCheckAll</li>
-<li><code>noCheckLock($noCheckLock = null)</code>   * <code>param bool</code> $noCheckLock</li>
-<li><code>noCheckPublish($noCheckPublish = null)</code>   * <code>param bool</code> $noCheckPublish</li>
-<li><code>withDependencies($withDependencies = null)</code>   * <code>param bool</code> $withDependencies</li>
-<li><code>strict($strict = null)</code>   * <code>param bool</code> $strict</li>
-<li><code>preferDist($preferDist = null)</code>  adds <code>prefer-dist</code> option to composer</li>
-<li><code>preferSource()</code>  adds <code>prefer-source</code> option to composer</li>
-<li><code>dev($dev = null)</code>  adds <code>dev</code> option to composer</li>
-<li><code>noDev()</code>  adds <code>no-dev</code> option to composer</li>
-<li><code>ansi($ansi = null)</code>  adds <code>ansi</code> option to composer</li>
-<li><code>noAnsi()</code>  adds <code>no-ansi</code> option to composer</li>
-<li><code>interaction($interaction = null)</code>   * <code>param bool</code> $interaction</li>
-<li><code>noInteraction()</code>  adds <code>no-interaction</code> option to composer</li>
-<li><code>optimizeAutoloader($optimize = null)</code>  adds <code>optimize-autoloader</code> option to composer</li>
-<li><code>ignorePlatformRequirements($ignore = null)</code>  adds <code>ignore-platform-reqs</code> option to composer</li>
-<li><code>disablePlugins($disable = null)</code>  disable plugins</li>
-<li><code>noScripts($disable = null)</code>  skip scripts</li>
-<li><code>workingDir($dir)</code>  adds <code>--working-dir $dir</code> option to composer</li>
-<li><code>buildCommand()</code>  Copy class fields into command options as directed.</li>
-<li><code>setOutput($output)</code>  Sets the Console Output.</li>
-<li><code>setProcessInput($input)</code>  Pass an input to the process. Can be resource created with fopen() or string</li>
-<li><code>dir($dir)</code>  Changes working directory of command</li>
-<li><code>arg($arg)</code>  Pass argument to executable. Its value will be automatically escaped.</li>
-<li><code>args($args)</code>  Pass methods parameters as arguments to executable. Argument values</li>
-<li><code>rawArg($arg)</code>  Pass the provided string in its raw (as provided) form as an argument to executable.</li>
-<li><code>option($option, $value = null, $separator = null)</code>  Pass option to executable. Options are prefixed with <code>--</code> , value can be provided in second parameter.</li>
-<li><code>options(array $options, $separator = null)</code>  Pass multiple options to executable. The associative array contains</li>
-<li><code>optionList($option, $value = null, $separator = null)</code>  Pass an option with multiple values to executable. Value can be a string or array.</li>
+<li>
+<p><code>noCheckAll($noCheckAll = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $noCheckAll</p>
+</li>
+<li>
+<p><code>noCheckLock($noCheckLock = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $noCheckLock</p>
+</li>
+<li>
+<p><code>noCheckPublish($noCheckPublish = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $noCheckPublish</p>
+</li>
+<li>
+<p><code>withDependencies($withDependencies = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $withDependencies</p>
+</li>
+<li>
+<p><code>strict($strict = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $strict</p>
+</li>
+<li>
+<p><code>preferDist($preferDist = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $preferDist</p>
+</li>
+<li>
+<p><code>preferSource()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>dev($dev = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $dev</p>
+</li>
+<li>
+<p><code>noDev()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>ansi($ansi = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $ansi</p>
+</li>
+<li>
+<p><code>noAnsi()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>interaction($interaction = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $interaction</p>
+</li>
+<li>
+<p><code>noInteraction()</code></p>
+</li>
+<li>
+<p><code>return $this</code></p>
+</li>
+<li>
+<p><code>optimizeAutoloader($optimize = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $optimize</p>
+</li>
+<li>
+<p><code>ignorePlatformRequirements($ignore = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $ignore</p>
+</li>
+<li>
+<p><code>disablePlugins($disable = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $disable</p>
+</li>
+<li>
+<p><code>noScripts($disable = null)</code></p>
+</li>
+<li>
+<p><code>param bool</code> $disable</p>
+</li>
+<li>
+<p><code>workingDir($dir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dir</p>
+</li>
+<li><code>buildCommand()</code></li>
+</ul>
+<p>Copy class fields into command options as directed.
+* <code>setProcessInput($input)</code></p>
+<ul>
+<li><code>param resource|string</code> $input</li>
+<li>
+<p><code>dir($dir)</code></p>
+</li>
+<li>
+<p><code>param string</code> $dir</p>
+</li>
+<li>
+<p><code>arg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>args($args)</code></p>
+</li>
+<li>
+<p><code>param string|string[]</code> $args</p>
+</li>
+<li>
+<p><code>rawArg($arg)</code></p>
+</li>
+<li>
+<p><code>param string</code> $arg</p>
+</li>
+<li>
+<p><code>option($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>options(array $options, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param array</code> $options</p>
+</li>
+<li>
+<p><code>optionList($option, $value = null, $separator = null)</code></p>
+</li>
+<li>
+<p><code>param string</code> $option</p>
+</li>
+<li>
+<p><code>setOutput($output)</code></p>
+</li>
+<li>
+<p><code>param \Symfony\Component\Console\Output\OutputInterface</code> $output</p>
+</li>
 </ul></div>
             
 
@@ -611,8 +1894,7 @@ Robo is on <a href="http://twitter.com/robo_php">Twitter</a> and on <a href="htt
         <script>var base_url = '../..';</script>
         <script data-main="../../mkdocs/js/search.js" src="../../mkdocs/js/require.js"></script>
         <script src="../../js/base.js"></script>
-        <script src="../../search/require.js"></script>
-        <script src="../../search/search.js"></script>
+        <script src="../../search/main.js"></script>
 
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
          <div class="modal-dialog">

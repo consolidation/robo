@@ -1,5 +1,9 @@
 # Changelog
 
+### 5.2.1 11/12/2026
+
+* Second attempt to roll a release with Symfony 8 support
+
 ### 5.2.0 11/10/2026
 
 * Support Symfony 8 by Andy Postnikov (#1187)

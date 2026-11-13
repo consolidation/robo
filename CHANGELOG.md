@@ -1,6 +1,38 @@
 # Changelog
 
-### 4.0.2 12/6/2022
+### 5.2.1 11/12/2026
+
+* Second attempt to roll a release with Symfony 8 support
+
+### 5.2.0 11/10/2026
+
+* Support Symfony 8 by Andy Postnikov (#1187)
+* Symfony Console 7.4+ addCommand() compatibility by Paul Babin (#1185)
+* PHP 8.6 (#1192)
+* Fix the phar crashing on startup with consolidation/self-update 3.x
+
+### 5.1.1 11/14/2025
+
+* PHP 8.5
+
+### 5.1.0 10/22/2024
+
+* PHP 8.4 compatibility by Andy Postnikov (#1165)
+* Don't require exact event-dispatcher version (typo fix) by Pierre Rudloff (#1169)
+
+### 5.0.0 4/17/2024
+
+* Support Symfony 7
+* Minimum version of PHP supported is now 8.2
+* BREAKING: Remove consolidation/self-update as a required dependency
+
+### 4.0.4, 4.0.5, 4.0.6 4/30/2023
+
+* Move register command out of runner and into Robo class. (#1143)
+* More PHP 8.2 and 8.1 Fixes (#1131, #1133, #1135, #1141)
+* docs: update getting-started.md (#1139)
+
+### 4.0.2, 4.0.3 12/6/2022
 
 * PHP 8.2 support
 

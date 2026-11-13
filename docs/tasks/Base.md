@@ -22,9 +22,6 @@ if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
 * `simulate($context)`
 
  * `param ` $context
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
@@ -49,6 +46,9 @@ if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
 * `optionList($option, $value = null, $separator = null)`
 
  * `param string` $option
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 ## ExecStack
 
@@ -79,15 +79,15 @@ $this->taskExecStack()
 * `result($result)`
 
  * `param ` $result
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
 * `dir($dir)`
 
  * `param string` $dir
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 ## ParallelExec
 

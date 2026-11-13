@@ -1,4 +1,5 @@
 <?php
+
 use Robo\Common\ResourceExistenceChecker;
 
 class ResourceExistenceCheckerTest extends \Codeception\TestCase\Test

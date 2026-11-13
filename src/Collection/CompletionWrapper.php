@@ -54,7 +54,7 @@ class CompletionWrapper extends BaseTask implements WrappedTaskInterface
      * @param \Robo\Contract\TaskInterface $task
      * @param \Robo\Contract\TaskInterface|null $rollbackTask
      */
-    public function __construct(Collection $collection, TaskInterface $task, TaskInterface $rollbackTask = null)
+    public function __construct(Collection $collection, TaskInterface $task, ?TaskInterface $rollbackTask = null)
     {
         $this->collection = $collection;
         $this->task = ($task instanceof WrappedTaskInterface) ? $task->original() : $task;

@@ -5,14 +5,18 @@ namespace Robo;
 use Composer\Autoload\ClassLoader;
 use League\Container\Argument\Literal\StringArgument;
 use League\Container\Container;
+use League\Container\ContainerAwareInterface;
 use League\Container\Definition\DefinitionInterface;
 use Psr\Container\ContainerInterface;
+use Robo\Collection\CollectionBuilder;
 use Robo\Common\ProcessExecutor;
+use Robo\Contract\BuilderAwareInterface;
 use Consolidation\Config\ConfigInterface;
 use Consolidation\Config\Loader\ConfigProcessor;
 use Consolidation\Config\Loader\YamlConfigLoader;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Application as SymfonyApplication;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Process\Process;
 
 /**
@@ -22,8 +26,8 @@ use Symfony\Component\Process\Process;
  */
 class Robo
 {
-    const APPLICATION_NAME = 'Robo';
-    private const VERSION = '4.0.4-dev';
+    public const APPLICATION_NAME = 'Robo';
+    private const VERSION = '5.2.4-dev';
 
     /**
      * The currently active container object, or NULL if not initialized yet.
@@ -508,5 +512,110 @@ class Robo
     public static function process(Process $process)
     {
         return ProcessExecutor::create(static::getContainer(), $process);
+    }
+
+    /**
+     * @param \Robo\Application $app
+     * @param string|object $handler
+     *
+     * @return array
+     */
+    public static function register($app, $handlers)
+    {
+        if (!is_array($handlers)) {
+            $handlers = [ $handlers ];
+        }
+
+        foreach ($handlers as $handler) {
+            static::registerSingle($app, $handler);
+        }
+    }
+
+    /**
+     * @param \Robo\Application $app
+     * @param string|object $handler
+     *
+     * @return null|object
+     */
+    protected static function registerSingle($app, $handler)
+    {
+        $container = static::getContainer();
+        $instance = static::instantiate($handler);
+        if (!$instance) {
+            return;
+        }
+
+        // If the instance is a Symfony Command, register it with
+        // the application
+        if ($instance instanceof Command) {
+            static::addCommandToApplication($app, $instance);
+            return $instance;
+        }
+
+        // Register commands for all of the public methods in the RoboFile.
+        $commandFactory = $container->get('commandFactory');
+        $commandList = $commandFactory->createCommandsFromClass($instance);
+        foreach ($commandList as $command) {
+            static::addCommandToApplication($app, $command);
+        }
+        return $instance;
+    }
+
+    /**
+     * Add a command to any Symfony Console application.
+     *
+     * Symfony Console < 7.4 has no Application::addCommand(), and $app is not
+     * always a \Robo\Application, which provides it on every version.
+     *
+     * @param \Symfony\Component\Console\Application $app
+     * @param \Symfony\Component\Console\Command\Command $command
+     *
+     * @return null|\Symfony\Component\Console\Command\Command
+     */
+    public static function addCommandToApplication($app, Command $command)
+    {
+        if (method_exists($app, 'addCommand')) {
+            return $app->addCommand($command);
+        }
+        return $app->add($command);
+    }
+
+    /**
+     * @param string|object $handler
+     *
+     * @return null|object
+     */
+    public static function instantiate($handler)
+    {
+        $container = Robo::getContainer();
+
+        // Register the RoboFile with the container and then immediately
+        // fetch it; this ensures that all of the inflectors will run.
+        // If the command class is already an instantiated object, then
+        // just use it exactly as it was provided to us.
+        if (is_string($handler)) {
+            if (!class_exists($handler)) {
+                return;
+            }
+            $reflectionClass = new \ReflectionClass($handler);
+            if ($reflectionClass->isAbstract()) {
+                return;
+            }
+
+            $commandFileName = "{$handler}Commands";
+            Robo::addShared($container, $commandFileName, $handler);
+            $handler = $container->get($commandFileName);
+        }
+        // If the command class is a Builder Aware Interface, then
+        // ensure that it has a builder.  Every command class needs
+        // its own collection builder, as they have references to each other.
+        if ($handler instanceof BuilderAwareInterface) {
+            $builder = CollectionBuilder::create($container, $handler);
+            $handler->setBuilder($builder);
+        }
+        if ($handler instanceof ContainerAwareInterface) {
+            $handler->setContainer($container);
+        }
+        return $handler;
     }
 }

@@ -29,7 +29,7 @@ use Robo\Result;
  */
 class Scss extends CssPreprocessor
 {
-    const FORMAT_NAME = 'scss';
+    public const FORMAT_NAME = 'scss';
 
     /**
      * @var string[]

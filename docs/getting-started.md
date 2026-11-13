@@ -36,7 +36,7 @@ class RoboFile extends \Robo\Tasks
 ?>
 ```
 
-**Note:** The class ConsoleIO *isa* SymfonyStyle, and therefore has access to all of the Symfony styling methods. It also adds a few Robo extensions such as the `say()` and `yell()` output styles. This parameter may be omitted for commands that do not perofrom any output.
+**Note:** The class ConsoleIO *is a* SymfonyStyle, and therefore has access to all of the Symfony styling methods. It also adds a few Robo extensions such as the `say()` and `yell()` output styles. This parameter may be omitted for commands that do not perform any output.
 
 When we run:
 

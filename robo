@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 /**
  * If we're running from phar load the phar autoload,
  * else let the script 'robo' search for the autoloader.
@@ -35,7 +36,7 @@ foreach ($candidates as $candidate) {
     }
 }
 if (!$autoloaderPath) {
-  die("Could not find autoloader. Run 'composer install'.");
+    die("Could not find autoloader. Run 'composer install'.");
 }
 $classLoader = require $autoloaderPath;
 $configFilePath = getenv('ROBO_CONFIG') ?: getenv('HOME') . '/.robo/robo.yml';

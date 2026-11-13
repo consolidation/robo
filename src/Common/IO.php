@@ -23,7 +23,7 @@ trait IO
 
     public function currentState()
     {
-        return new class($this, $this->input, $this->output, $this->io) implements State {
+        return new class ($this, $this->input, $this->output, $this->io) implements State {
             protected $obj;
             protected $input;
             protected $output;
@@ -45,7 +45,7 @@ trait IO
     }
 
     // This should typically only be called by State::restore()
-    public function restoreState(InputInterface $input = null, OutputInterface $output = null, SymfonyStyle $io = null)
+    public function restoreState(?InputInterface $input = null, ?OutputInterface $output = null, ?SymfonyStyle $io = null)
     {
         $this->setInput($input);
         $this->setOutput($output);
@@ -54,14 +54,12 @@ trait IO
         return $this;
     }
 
-    public function setInput(InputInterface $input)
+    public function setInput(InputInterface $input): void
     {
         if ($input != $this->input) {
             $this->io = null;
         }
         $this->input = $input;
-
-        return $this;
     }
 
     public function setOutput(OutputInterface $output)

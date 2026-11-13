@@ -355,9 +355,6 @@ $this->taskServer(8000)
 * `simulate($context)`
 
  * `param ` $context
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
@@ -379,6 +376,9 @@ $this->taskServer(8000)
 * `optionList($option, $value = null, $separator = null)`
 
  * `param string` $option
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 ## SemVer
 

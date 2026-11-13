@@ -63,15 +63,15 @@ $this->taskGitStack()
 * `result($result)`
 
  * `param ` $result
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
 * `dir($dir)`
 
  * `param string` $dir
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 ## HgStack
 
@@ -125,15 +125,15 @@ $this->hgStack
 * `result($result)`
 
  * `param ` $result
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
 * `dir($dir)`
 
  * `param string` $dir
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 
 ## SvnStack
@@ -183,14 +183,14 @@ $this->taskSvnStack('username', 'password')
 * `result($result)`
 
  * `param ` $result
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
 * `dir($dir)`
 
  * `param string` $dir
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 

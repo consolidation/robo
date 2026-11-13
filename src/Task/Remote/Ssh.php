@@ -3,6 +3,7 @@
 namespace Robo\Task\Remote;
 
 use Robo\Contract\CommandInterface;
+use Robo\Contract\PrintedInterface;
 use Robo\Exception\TaskException;
 use Robo\Task\BaseTask;
 use Robo\Contract\SimulatedInterface;
@@ -43,7 +44,7 @@ use Robo\Common\ExecOneCommand;
  * \Robo\Task\Remote\Ssh::configure('remoteDir', '/some-dir');
  * ```
  */
-class Ssh extends BaseTask implements CommandInterface, SimulatedInterface
+class Ssh extends BaseTask implements CommandInterface, SimulatedInterface, PrintedInterface
 {
     use CommandReceiver;
     use ExecOneCommand;

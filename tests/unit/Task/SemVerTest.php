@@ -14,7 +14,8 @@ class SemVerTest extends \Codeception\TestCase\Test
             ->run();
         $this->assertEquals(
             'v1.0.1-RC.1',
-            $res->getMessage());
+            $res->getMessage()
+        );
         $semver->verifyInvoked('dump');
     }
 
@@ -26,13 +27,15 @@ class SemVerTest extends \Codeception\TestCase\Test
             ->run();
         $this->assertEquals(
             'v0.0.1',
-            $res->getMessage());
+            $res->getMessage()
+        );
         $res = (new \Robo\Task\Development\SemVer())
             ->increment('minor')
             ->run();
         $this->assertEquals(
             'v0.1.0',
-            $res->getMessage());
+            $res->getMessage()
+        );
         $semver->verifyInvoked('dump');
     }
 
@@ -44,19 +47,22 @@ class SemVerTest extends \Codeception\TestCase\Test
             ->run();
         $this->assertEquals(
             'v0.0.1',
-            $res->getMessage());
+            $res->getMessage()
+        );
         $res = (new \Robo\Task\Development\SemVer())
             ->increment('minor')
             ->run();
         $this->assertEquals(
             'v0.1.0',
-            $res->getMessage());
+            $res->getMessage()
+        );
         $res = (new \Robo\Task\Development\SemVer())
             ->increment('major')
             ->run();
         $this->assertEquals(
             'v1.0.0',
-            $res->getMessage());
+            $res->getMessage()
+        );
         $semver->verifyInvoked('dump');
     }
 
@@ -70,7 +76,8 @@ class SemVerTest extends \Codeception\TestCase\Test
             ->run();
         $this->assertEquals(
             'v1.0.1-RC.1',
-            $res->getMessage());
+            $res->getMessage()
+        );
         @unlink($fixturePath);
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo;
 
 use Yoast\PHPUnitPolyfills\TestCases\TestCase;

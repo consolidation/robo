@@ -153,12 +153,8 @@ EOF;
         $this->advanceProgressIndicator();
 
         if ($this->compress and in_array('GZ', \Phar::getSupportedCompression())) {
-            if (count($this->files) > 1000) {
-                $this->printTaskInfo('Too many files. Compression DISABLED');
-            } else {
-                $this->printTaskInfo('{filename} compressed', ['filename' => $this->filename]);
-                $this->phar = $this->phar->compressFiles(\Phar::GZ);
-            }
+            $this->printTaskInfo('{filename} compressed', ['filename' => $this->filename]);
+            $this->phar = $this->phar->compressFiles(\Phar::GZ);
         }
         $this->advanceProgressIndicator();
         $this->stopProgressIndicator();

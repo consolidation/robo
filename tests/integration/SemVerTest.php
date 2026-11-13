@@ -41,4 +41,32 @@ class SemVerTest extends TestCase
         $outputFileContents = file_get_contents($outputFile);
         $this->assertStringContainsString('major', $outputFileContents, 'Semver file has expected structure');
     }
+
+    /**
+     * @dataProvider semVerFileMetadataProvider
+     */
+    public function testSemVerFileReadMetadata($metadata, $expected)
+    {
+        $this->fixtures->createAndCdToSandbox();
+
+        $semverFile = '.semver';
+        file_put_contents(
+            $semverFile,
+            sprintf(Task\Development\SemVer::SEMVER, 1, 2, 3, '', $metadata)
+        );
+
+        $result = $this->taskSemVer($semverFile)
+            ->run();
+
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
+        $this->assertEquals($expected, $result->getMessage());
+    }
+
+    public static function semVerFileMetadataProvider()
+    {
+        return [
+            'empty metadata' => ['', 'v1.2.3'],
+            'hyphenated, dot-separated metadata' => ['build-7.x', 'v1.2.3+build-7.x'],
+        ];
+    }
 }

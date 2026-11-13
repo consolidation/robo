@@ -232,7 +232,7 @@ class Changelog extends BaseTask implements BuilderAwareInterface
      */
     protected function generateHeader()
     {
-        return "#### {$this->version}\n\n";
+        return "#### {$this->version} (" . date('Y-m-d') . ")\n\n";
     }
 
     /**
@@ -242,6 +242,6 @@ class Changelog extends BaseTask implements BuilderAwareInterface
      */
     public function processLogRow($i)
     {
-        return "* $i *" . date('Y-m-d') . "*";
+        return "* $i";
     }
 }

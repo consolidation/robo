@@ -6,5 +6,8 @@
         <!-- Symfony 8's EventSubscriberInterface declares getSubscribedEvents(): array, so the return type is
              mandatory there. Adding it is compatible with Symfony 6/7, whose interface has no return type. -->
         <ignored-regex>#\[BC\] CHANGED: The return type of Robo\\GlobalOptionsEventListener::getSubscribedEvents\(\)#</ignored-regex>
+        <!-- SemVer::REGEX was corrected to accept SemVer 2.0.0 build metadata (hyphens, dot-separated
+             identifiers). The constant is an internal parsing detail; the value change is intentional. -->
+        <ignored-regex>#\[BC\] CHANGED: Value of constant Robo\\Task\\Development\\SemVer::REGEX changed#</ignored-regex>
     </baseline>
 </roave-bc-check>

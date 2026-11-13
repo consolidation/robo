@@ -1,4 +1,5 @@
 <?php
+
 namespace Codeception\Module;
 
 use Robo\Robo;

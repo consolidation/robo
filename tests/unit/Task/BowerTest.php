@@ -1,4 +1,5 @@
 <?php
+
 use AspectMock\Test as test;
 
 class BowerTest extends \Codeception\TestCase\Test

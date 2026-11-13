@@ -21,8 +21,8 @@ class Runner implements ContainerAwareInterface
     use IO;
     use ContainerAwareTrait;
 
-    const ROBOCLASS = 'RoboFile';
-    const ROBOFILE = 'RoboFile.php';
+    public const ROBOCLASS = 'RoboFile';
+    public const ROBOFILE = 'RoboFile.php';
 
     /**
      * @var string
@@ -353,7 +353,7 @@ class Runner implements ContainerAwareInterface
         $commandFactory = $container->get('commandFactory');
         $commandList = $commandFactory->createCommandsFromClass($roboCommandFileInstance);
         foreach ($commandList as $command) {
-            $app->add($command);
+            Robo::addCommandToApplication($app, $command);
         }
         return $roboCommandFileInstance;
     }

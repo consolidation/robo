@@ -7,7 +7,7 @@ use Robo\Task\BaseTask;
 
 abstract class GitHub extends BaseTask
 {
-    const GITHUB_URL = 'https://api.github.com';
+    public const GITHUB_URL = 'https://api.github.com';
 
     /**
      * @var string

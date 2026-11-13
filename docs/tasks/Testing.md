@@ -38,9 +38,6 @@ $this->taskAtoum()
 * `directories($directories)`
 
  * `param ` $directories
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
@@ -65,6 +62,9 @@ $this->taskAtoum()
 * `optionList($option, $value = null, $separator = null)`
 
  * `param string` $option
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 ## Behat
 
@@ -105,9 +105,6 @@ $this->taskBehat()
 * `format($formater)`
 
  * `param string` $formater
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
@@ -132,6 +129,9 @@ $this->taskBehat()
 * `optionList($option, $value = null, $separator = null)`
 
  * `param string` $option
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 ## Codecept
 
@@ -201,9 +201,6 @@ $this->taskCodecept()
 * `failGroup($failGroup)`
 
  * `param string` $failGroup
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
@@ -228,6 +225,9 @@ $this->taskCodecept()
 * `optionList($option, $value = null, $separator = null)`
 
  * `param string` $option
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 ## PHPUnit
 
@@ -277,9 +277,6 @@ $this->taskPHPUnit()
 * `file($file)`
 
  * `param string` $file Path to file to test.
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
@@ -304,6 +301,9 @@ $this->taskPHPUnit()
 * `optionList($option, $value = null, $separator = null)`
 
  * `param string` $option
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 ## Phpspec
 
@@ -344,9 +344,6 @@ $this->taskPhpspec()
 * `format($formater)`
 
  * `param string` $formater
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
@@ -371,5 +368,8 @@ $this->taskPhpspec()
 * `optionList($option, $value = null, $separator = null)`
 
  * `param string` $option
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 

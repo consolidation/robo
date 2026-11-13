@@ -23,7 +23,7 @@ trait IO
 
     public function currentState()
     {
-        return new class($this, $this->input, $this->output, $this->io) implements State {
+        return new class ($this, $this->input, $this->output, $this->io) implements State {
             protected $obj;
             protected $input;
             protected $output;

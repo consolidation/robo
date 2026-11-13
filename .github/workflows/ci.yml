@@ -34,7 +34,7 @@ jobs:
       - name: Install dependencies
         run: composer install --no-ansi --no-interaction --no-progress
 
-      - name: Run phpcs
+      - name: Check code style (PSR-12, php-cs-fixer)
         run: composer cs
 
       - name: Run linter
@@ -57,14 +57,16 @@ jobs:
       - name: Install PHP with extensions
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.2
+          # roave/backward-compatibility-check 8.x requires PHP 8.4+; this only affects the checker, not Robo itself.
+          php-version: 8.4
           coverage: none
           extensions: intl
 
       - name: Install roave/backward-compatibility-check
         run: |
           mkdir -p tools
-          composer --working-dir=tools require roave/backward-compatibility-check:^7
+          # 8.11+ reads the baseline in .roave-backward-compatibility-check.xml
+          composer --working-dir=tools require roave/backward-compatibility-check:^8.11
 
       - name: Run roave/backward-compatibility-check
         run: ./tools/vendor/bin/roave-backward-compatibility-check --from=5.0.0
@@ -93,6 +95,22 @@ jobs:
           - locked
 
         include:
+          # Symfony 6.4: same OS/PHP spread as the Symfony 7 jobs ("locked" on 8.2, "highest" on 8.3)
+          - os: ubuntu-latest
+            php-version: "8.2"
+            dependencies: symfony6
+            php-ini-values: assert.exception=1, zend.assertions=1, phar.readonly=false
+
+          - os: windows-latest
+            php-version: "8.2"
+            dependencies: symfony6
+            php-ini-values: assert.exception=1, zend.assertions=1, phar.readonly=false
+
+          - os: ubuntu-latest
+            php-version: "8.3"
+            dependencies: symfony6
+            php-ini-values: assert.exception=1, zend.assertions=1, opcache.enable=1, opcache.enable_cli=1, opcache.optimization_level=-1, opcache.jit_buffer_size=4096M, opcache.jit=1205, phar.readonly=false
+
           - os: ubuntu-latest
             php-version: "8.3"
             dependencies: highest
@@ -100,6 +118,16 @@ jobs:
 
           - os: ubuntu-latest
             php-version: "8.4"
+            dependencies: highest
+            php-ini-values: assert.exception=1, zend.assertions=1, opcache.enable=1, opcache.enable_cli=1, opcache.optimization_level=-1, opcache.jit_buffer_size=4096M, opcache.jit=1205, phar.readonly=false
+
+          - os: ubuntu-latest
+            php-version: "8.5"
+            dependencies: highest
+            php-ini-values: assert.exception=1, zend.assertions=1, opcache.enable=1, opcache.enable_cli=1, opcache.optimization_level=-1, opcache.jit_buffer_size=4096M, opcache.jit=1205, phar.readonly=false
+
+          - os: ubuntu-latest
+            php-version: "8.6"
             dependencies: highest
             php-ini-values: assert.exception=1, zend.assertions=1, opcache.enable=1, opcache.enable_cli=1, opcache.optimization_level=-1, opcache.jit_buffer_size=4096M, opcache.jit=1205, phar.readonly=false
 
@@ -127,7 +155,7 @@ jobs:
         run: Add-Content -Path $ENV:GITHUB_ENV -Value "COMPOSER_CACHE_DIR=~\AppData\Local\Composer"
 
       - name: Cache dependencies installed with composer
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         with:
           path: ${{ env.COMPOSER_CACHE_DIR }}
           key: php${{ matrix.php-version }}-composer-${{ matrix.dependencies }}-${{ hashFiles('**/composer.json') }}
@@ -154,11 +182,36 @@ jobs:
         if: matrix.dependencies == 'highest'
         run: composer config --unset platform.php && composer update --no-ansi --no-interaction --no-progress -W
 
+      - name: Install Symfony 6.4 dependencies with composer
+        if: matrix.dependencies == 'symfony6'
+        shell: bash
+        run: >-
+          composer update --no-ansi --no-interaction --no-progress -W
+          --with 'symfony/console:^6.4'
+          --with 'symfony/event-dispatcher:^6.4'
+          --with 'symfony/filesystem:^6.4'
+          --with 'symfony/finder:^6.4'
+          --with 'symfony/process:^6.4'
+          --with 'symfony/yaml:^6.4'
+
+      - name: Make sure Symfony 6 was installed
+        if: matrix.dependencies == 'symfony6'
+        shell: bash
+        run: composer show symfony/console | grep -E '^versions\s*:\s*\* v6\.4\.'
+
       - name: Show composer dependencies
         run: composer info
-      
+
       - name: Run tests with phpunit
         run: composer unit
+
+      # Some code paths (e.g. self:update registration) only run inside a phar, so the unit tests can't see them.
+      - name: Build and smoke-test the phar
+        if: matrix.os == 'ubuntu-latest' && matrix.dependencies == 'locked'
+        run: |
+          php robo phar:build
+          php robo.phar --version
+          php robo.phar list | grep -q 'self:update'
 
       - name: Publish code coverage to Codecov
         if: matrix.os == 'ubuntu-latest' && matrix.php-version == '8.0'

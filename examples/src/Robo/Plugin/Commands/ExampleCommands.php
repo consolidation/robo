@@ -1,8 +1,8 @@
 <?php
+
 namespace RoboExample\Robo\Plugin\Commands;
 
 use Robo\Result;
-
 use Consolidation\AnnotatedCommand\CommandData;
 use Consolidation\AnnotatedCommand\CommandResult;
 use Consolidation\OutputFormatters\Options\FormatterOptions;
@@ -624,7 +624,7 @@ class ExampleCommands extends \Robo\Tasks
             ->taskForEach($processList)
                 ->iterationMessage('Processing {value}')
                 ->call(
-                    function ($value) use($delay) {
+                    function ($value) use ($delay) {
                         // TaskForEach::call should only be used to do
                         // non-Robo operations. To use Robo tasks in an
                         // iterator, @see TaskForEach::withBuilder.

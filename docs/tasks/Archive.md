@@ -30,12 +30,12 @@ $this->taskExtract($archivePath)
 * `preserveTopDirectory($preserve = null)`
 
  * `param bool` $preserve
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `getBuiltTask($fn, $args)`
 
  * `param string` $fn
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 ## Pack
 

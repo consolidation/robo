@@ -1,11 +1,11 @@
 <?php
-use Symfony\Component\Finder\Finder;
 
+use Symfony\Component\Finder\Finder;
 use Robo\Symfony\ConsoleIO;
 
 class RoboFile extends \Robo\Tasks
 {
-    const MAIN_BRANCH = '4.x';
+    public const MAIN_BRANCH = '5.x';
 
     /**
      * Run the Robo unit tests.
@@ -37,35 +37,43 @@ class RoboFile extends \Robo\Tasks
         }
 
         return $collection;
-     }
+    }
 
     /**
-     * Code sniffer.
+     * Code style check.
      *
-     * Run the PHP Codesniffer on a file or directory.
+     * Check the code style (PSR-12) with PHP CS Fixer, using the rules and
+     * paths configured in .php-cs-fixer.dist.php.
      *
-     * @param string $file
-     *    A file or directory to analyze.
-     * @option $autofix Whether to run the automatic fixer or not.
-     * @option $strict Show warnings as well as errors.
-     *    Default is to show only errors.
+     * @aliases sniff
+     *
+     * @param array $paths
+     *    Files or directories to check. Defaults to the paths configured in
+     *    .php-cs-fixer.dist.php.
+     * @option $autofix Fix the reported violations without asking.
      */
-    public function sniff(
+    public function cs(
         ConsoleIO $io,
-        $file = 'src/',
+        array $paths,
         $options = [
             'autofix' => false,
-            'strict' => false,
         ]
     ) {
-        $strict = $options['strict'] ? '' : '-n';
-        $result = $this->collectionBuilder($io)->taskExec("./vendor/bin/phpcs --standard=PSR2 {$strict} {$file}")->run();
+        $result = $this->collectionBuilder($io)
+            ->taskExec(PHP_BINARY)
+            ->args(__DIR__ . '/vendor/bin/php-cs-fixer', 'check', '--diff')
+            ->args($paths)
+            ->run();
         if (!$result->wasSuccessful()) {
             if (!$options['autofix']) {
-                $options['autofix'] = $this->confirm('Would you like to run phpcbf to fix the reported errors?');
+                $options['autofix'] = $this->confirm('Would you like to run php-cs-fixer to fix the reported violations?');
             }
             if ($options['autofix']) {
-                $result = $this->taskExec("./vendor/bin/phpcbf --standard=PSR2 {$file}")->run();
+                $result = $this->collectionBuilder($io)
+                    ->taskExec(PHP_BINARY)
+                    ->args(__DIR__ . '/vendor/bin/php-cs-fixer', 'fix')
+                    ->args($paths)
+                    ->run();
             }
         }
         return $result;
@@ -95,8 +103,7 @@ class RoboFile extends \Robo\Tasks
         $stable = !$opts['beta'];
         if ($stable) {
             $version = preg_replace('/-.*/', '', $version);
-        }
-        else {
+        } else {
             $version = $this->incrementVersion($version, 'beta');
         }
         $this->writeVersion($this->collectionBuilder($io), $version);
@@ -208,7 +215,7 @@ class RoboFile extends \Robo\Tasks
         $version = preg_replace('/-.*/', '', $version);
         $versionParts = explode('.', $version);
         if ($stable) {
-            $versionParts[count($versionParts)-1]++;
+            $versionParts[count($versionParts) - 1]++;
         }
         $version = implode('.', $versionParts);
         if (!$stable) {
@@ -394,6 +401,7 @@ class RoboFile extends \Robo\Tasks
                 ->noUpdate()
                 ->args($devProjectsToRemove)
             ->taskComposerRequire()
+                ->dir($roboBuildDir)
                 ->dependency('consolidation/self-update', '*')
                 ->noUpdate()
             ->taskComposerInstall()

@@ -29,9 +29,6 @@ $this->taskBowerInstall('path/to/my/bower')
 * `offline()`
 
  * `return $this`
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
@@ -56,6 +53,9 @@ $this->taskBowerInstall('path/to/my/bower')
 * `optionList($option, $value = null, $separator = null)`
 
  * `param string` $option
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 
 
 ## Update
@@ -87,9 +87,6 @@ $this->taskBowerUpdate('path/to/my/bower')
 * `offline()`
 
  * `return $this`
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
 * `setProcessInput($input)`
 
  * `param resource|string` $input
@@ -114,4 +111,7 @@ $this->taskBowerUpdate('path/to/my/bower')
 * `optionList($option, $value = null, $separator = null)`
 
  * `param string` $option
+* `setOutput($output)`
+
+ * `param \Symfony\Component\Console\Output\OutputInterface` $output
 

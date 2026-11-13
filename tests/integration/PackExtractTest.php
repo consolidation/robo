@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo;
 
 use Yoast\PHPUnitPolyfills\TestCases\TestCase;
@@ -43,7 +44,7 @@ class PackExtractTest extends TestCase
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $this->markTestSkipped("Windows image for PHP 8.2+ on GitHub actions does not have zlib");
         }
-        
+
         // Archive directory and then extract it again with Archive and Extract tasks
         $this->fixtures->createAndCdToSandbox();
 

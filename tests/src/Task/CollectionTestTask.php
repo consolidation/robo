@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo\Task;
 
 use Robo\Result;
@@ -46,4 +47,3 @@ class CollectionTestTask extends BaseTask
         return $this->getValue();
     }
 }
-

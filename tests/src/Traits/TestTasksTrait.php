@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo\Traits;
 
 use Robo\Robo;

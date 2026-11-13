@@ -10,10 +10,10 @@ use Robo\Contract\OutputAdapterInterface;
  */
 interface VerbosityThresholdInterface
 {
-    const VERBOSITY_NORMAL = 1;
-    const VERBOSITY_VERBOSE = 2;
-    const VERBOSITY_VERY_VERBOSE = 3;
-    const VERBOSITY_DEBUG = 4;
+    public const VERBOSITY_NORMAL = 1;
+    public const VERBOSITY_VERBOSE = 2;
+    public const VERBOSITY_VERY_VERBOSE = 3;
+    public const VERBOSITY_DEBUG = 4;
 
     /**
      * @param int $verbosityThreshold

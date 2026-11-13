@@ -42,7 +42,7 @@ use Robo\Result;
  */
 class Less extends CssPreprocessor
 {
-    const FORMAT_NAME = 'less';
+    public const FORMAT_NAME = 'less';
 
     /**
      * @var string[]

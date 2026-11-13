@@ -7,7 +7,7 @@ use Robo\Task\BaseTask;
 
 abstract class CssPreprocessor extends BaseTask
 {
-    const FORMAT_NAME = '';
+    public const FORMAT_NAME = '';
 
     /**
      * Default compiler to use.

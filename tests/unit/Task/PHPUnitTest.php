@@ -1,4 +1,5 @@
 <?php
+
 use AspectMock\Test as test;
 
 class PHPUnitTest extends \Codeception\TestCase\Test
@@ -34,7 +35,8 @@ class PHPUnitTest extends \Codeception\TestCase\Test
             ->debug();
         $this->assertEquals(
             'phpunit --bootstrap bootstrap.php --filter Model --group important --log-junit result.xml --debug',
-            $task->getCommand());
+            $task->getCommand()
+        );
         $task->run();
         $this->phpunit->verifyInvoked('executeCommand', ['phpunit --bootstrap bootstrap.php --filter Model --group important --log-junit result.xml --debug']);
     }

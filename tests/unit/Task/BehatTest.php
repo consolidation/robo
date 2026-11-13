@@ -1,4 +1,5 @@
 <?php
+
 use AspectMock\Test as test;
 
 class BehatTest extends \Codeception\TestCase\Test
@@ -36,7 +37,8 @@ class BehatTest extends \Codeception\TestCase\Test
             ->colors();
         $this->assertEquals(
             'behat --stop-on-failure --no-interaction --colors',
-            $task->getCommand());
+            $task->getCommand()
+        );
         $task->run();
         $behat->verifyInvoked('executeCommand', ['behat --stop-on-failure --no-interaction --colors']);
     }

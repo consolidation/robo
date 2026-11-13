@@ -1,4 +1,5 @@
 <?php
+
 require_once codecept_data_dir() . 'TestedRoboFile.php';
 
 use Robo\Robo;
@@ -34,7 +35,7 @@ class ApplicationTest extends \Codeception\TestCase\Test
         $this->app = $container->get('application');
         $config = $container->get('config');
         $this->commandFactory = $container->get('commandFactory');
-        $this->roboCommandFileInstance = new TestedRoboFile;
+        $this->roboCommandFileInstance = new TestedRoboFile();
         $builder = CollectionBuilder::create($container, $this->roboCommandFileInstance);
         $this->roboCommandFileInstance->setBuilder($builder);
         $commandList = $this->commandFactory->createCommandsFromClass($this->roboCommandFileInstance);
@@ -49,18 +50,23 @@ class ApplicationTest extends \Codeception\TestCase\Test
         // this is normally only callable by methods of the
         // commandfile instance.
         $method = new ReflectionMethod($this->roboCommandFileInstance, 'task');
-        $method->setAccessible(true);
+        if (\PHP_VERSION_ID < 80100) {
+            $method->setAccessible(true);
+        }
         $collectionBuilder = $method->invoke($this->roboCommandFileInstance, 'Robo\Task\Base\Exec', 'ls');
         $this->assertEquals(
             'Robo\Collection\CollectionBuilder',
-            get_class($collectionBuilder));
+            get_class($collectionBuilder)
+        );
         $task = $collectionBuilder->getCollectionBuilderCurrentTask();
         $this->assertEquals(
             'Robo\Task\Base\Exec',
-            get_class($task));
+            get_class($task)
+        );
         $this->assertEquals(
             'Robo\Task\Base\Exec',
-            get_class($task));
+            get_class($task)
+        );
     }
 
     public function testAllowEmptyValuesAsDefaultsToOptionalOptions()
@@ -84,7 +90,8 @@ class ApplicationTest extends \Codeception\TestCase\Test
 
         $this->assertEquals(
             'Calculate the fibonacci sequence between two numbers.',
-            $command->getDescription());
+            $command->getDescription()
+        );
     }
 
     public function testCommandCompactDocumentation()
@@ -93,7 +100,8 @@ class ApplicationTest extends \Codeception\TestCase\Test
 
         $this->assertEquals(
             'Compact doc comment',
-            $command->getDescription());
+            $command->getDescription()
+        );
     }
 
     public function testCommandArgumentDocumentation()
@@ -104,13 +112,15 @@ class ApplicationTest extends \Codeception\TestCase\Test
 
         $this->assertEquals(
             'Number to start from',
-            $start->getDescription());
+            $start->getDescription()
+        );
 
         $steps = $command->getDefinition()->getArgument('steps');
 
         $this->assertEquals(
             'Number of steps to perform',
-            $steps->getDescription());
+            $steps->getDescription()
+        );
     }
 
     public function testCommandOptionDocumentation()
@@ -121,7 +131,8 @@ class ApplicationTest extends \Codeception\TestCase\Test
 
         $this->assertEquals(
             'Display the sequence graphically using cube representation',
-            $graphic->getDescription());
+            $graphic->getDescription()
+        );
     }
 
     public function testCommandHelpDocumentation()
@@ -130,7 +141,8 @@ class ApplicationTest extends \Codeception\TestCase\Test
 
         $this->assertContains(
             '+----+---+',
-            $command->getHelp());
+            $command->getHelp()
+        );
     }
 
     public function testCommandNaming()

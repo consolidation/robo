@@ -4,9 +4,9 @@ namespace Robo\Common;
 
 class TimeKeeper
 {
-    const MINUTE = 60;
-    const HOUR = 3600;
-    const DAY = 86400;
+    public const MINUTE = 60;
+    public const HOUR = 3600;
+    public const DAY = 86400;
 
     /**
      * @var float|null

@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo;
 
 use Yoast\PHPUnitPolyfills\TestCases\TestCase;
@@ -45,5 +46,3 @@ class SimulatedTest extends TestCase
     }
 
 }
-
-

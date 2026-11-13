@@ -23,7 +23,6 @@ use Robo\Task\CommandStack;
  */
 class HgStack extends CommandStack
 {
-
     /**
      * @param string $pathToHg
      */

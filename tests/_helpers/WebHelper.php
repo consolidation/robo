@@ -1,4 +1,5 @@
 <?php
+
 namespace Codeception\Module;
 
 // here you can define custom actions
@@ -6,5 +7,4 @@ namespace Codeception\Module;
 
 class WebHelper extends \Codeception\Module
 {
-
 }

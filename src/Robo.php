@@ -547,7 +547,7 @@ class Robo
         // If the instance is a Symfony Command, register it with
         // the application
         if ($instance instanceof Command) {
-            $app->addCommand($instance);
+            static::addCommandToApplication($app, $instance);
             return $instance;
         }
 
@@ -555,9 +555,28 @@ class Robo
         $commandFactory = $container->get('commandFactory');
         $commandList = $commandFactory->createCommandsFromClass($instance);
         foreach ($commandList as $command) {
-            $app->addCommand($command);
+            static::addCommandToApplication($app, $command);
         }
         return $instance;
+    }
+
+    /**
+     * Add a command to any Symfony Console application.
+     *
+     * Symfony Console < 7.4 has no Application::addCommand(), and $app is not
+     * always a \Robo\Application, which provides it on every version.
+     *
+     * @param \Symfony\Component\Console\Application $app
+     * @param \Symfony\Component\Console\Command\Command $command
+     *
+     * @return null|\Symfony\Component\Console\Command\Command
+     */
+    public static function addCommandToApplication($app, Command $command)
+    {
+        if (method_exists($app, 'addCommand')) {
+            return $app->addCommand($command);
+        }
+        return $app->add($command);
     }
 
     /**

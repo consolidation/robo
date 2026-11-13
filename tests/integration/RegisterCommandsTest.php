@@ -54,7 +54,7 @@ class RegisterCommandsTest extends TestCase
 
     public function testAddCommandToApplicationFallsBackToAdd()
     {
-        $app = new class {
+        $app = new class () {
             public $commands = [];
 
             public function add(Command $command): ?Command

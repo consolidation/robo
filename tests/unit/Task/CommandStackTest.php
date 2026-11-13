@@ -1,4 +1,5 @@
 <?php
+
 use Codeception\Util\Stub;
 
 class CommandStackTest extends \Codeception\TestCase\Test

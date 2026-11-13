@@ -172,16 +172,16 @@ class CollectionBuilder extends BaseTask implements NestedCollectionInterface, W
         return $this;
     }
 
-  /**
-   * Add arbitrary code to execute as a task.
-   *
-   * @see \Robo\Collection\CollectionInterface::addCode
-   *
-   * @param callable $code
-   * @param int|string $name
-   *
-   * @return $this
-   */
+    /**
+     * Add arbitrary code to execute as a task.
+     *
+     * @see \Robo\Collection\CollectionInterface::addCode
+     *
+     * @param callable $code
+     * @param int|string $name
+     *
+     * @return $this
+     */
     public function addCode(callable $code, $name = \Robo\Collection\CollectionInterface::UNNAMEDTASK)
     {
         $this->getCollection()->addCode($code, $name);

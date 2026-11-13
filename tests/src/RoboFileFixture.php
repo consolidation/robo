@@ -4,7 +4,6 @@ namespace Robo;
 
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerAwareInterface;
-
 use Consolidation\AnnotatedCommand\Events\CustomEventAwareInterface;
 use Consolidation\AnnotatedCommand\Events\CustomEventAwareTrait;
 use Consolidation\OutputFormatters\StructuredData\PropertyList;

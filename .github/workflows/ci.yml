@@ -34,7 +34,7 @@ jobs:
       - name: Install dependencies
         run: composer install --no-ansi --no-interaction --no-progress
 
-      - name: Run phpcs
+      - name: Check code style (PSR-12, php-cs-fixer)
         run: composer cs
 
       - name: Run linter

@@ -26,7 +26,7 @@ class Build extends Base
      * @var string
      */
     protected $path;
-    
+
     /**
      * @var bool
      */
@@ -62,7 +62,7 @@ class Build extends Base
     {
         return $this->option('-t', $tag);
     }
-    
+
     /**
      * @return $this
      */

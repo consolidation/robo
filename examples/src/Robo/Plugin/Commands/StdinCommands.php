@@ -1,4 +1,5 @@
 <?php
+
 namespace RoboExample\Robo\Plugin\Commands;
 
 use Consolidation\AnnotatedCommand\Input\StdinAwareInterface;

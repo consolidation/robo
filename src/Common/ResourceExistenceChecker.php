@@ -95,25 +95,25 @@ trait ResourceExistenceChecker
         $this->checkResources($targets);
     }
 
-   /**
-    * Wrapper method around phps is_dir()
-    *
-    * @param string $directory
-    *
-    * @return bool
-    */
+    /**
+     * Wrapper method around phps is_dir()
+     *
+     * @param string $directory
+     *
+     * @return bool
+     */
     protected function isDir($directory)
     {
         return is_dir($directory);
     }
 
-   /**
-    * Wrapper method around phps file_exists()
-    *
-    * @param string $file
-    *
-    * @return bool
-    */
+    /**
+     * Wrapper method around phps file_exists()
+     *
+     * @param string $file
+     *
+     * @return bool
+     */
     protected function isFile($file)
     {
         return file_exists($file);

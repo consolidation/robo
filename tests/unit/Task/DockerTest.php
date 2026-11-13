@@ -1,4 +1,5 @@
 <?php
+
 use AspectMock\Test as test;
 
 class DockerTest extends \Codeception\TestCase\Test

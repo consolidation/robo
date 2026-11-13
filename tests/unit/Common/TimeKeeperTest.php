@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace unit\Common;
 
@@ -9,7 +9,6 @@ use Robo\Common\TimeKeeper;
 
 class TimeKeeperTest extends TestCase
 {
-
     public function casesFormatDuration(): array
     {
         return [

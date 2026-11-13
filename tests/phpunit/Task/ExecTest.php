@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 
 class ExecTest extends TestCase
 {
-
     // tests
     public function testBasicCommand()
     {

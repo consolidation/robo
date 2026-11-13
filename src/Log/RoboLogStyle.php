@@ -10,8 +10,8 @@ use Consolidation\Log\LogOutputStyler;
  */
 class RoboLogStyle extends LogOutputStyler
 {
-    const TASK_STYLE_SIMULATED = 'options=reverse;bold';
-    const TASK_STYLE_SUCCESS = 'fg=white;bg=green;options=bold';
+    public const TASK_STYLE_SIMULATED = 'options=reverse;bold';
+    public const TASK_STYLE_SUCCESS = 'fg=white;bg=green;options=bold';
 
     /**
      * RoboLogStyle constructor.

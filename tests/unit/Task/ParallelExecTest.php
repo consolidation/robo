@@ -1,4 +1,5 @@
 <?php
+
 use AspectMock\Test as test;
 
 class ParallelExecTest extends \Codeception\TestCase\Test

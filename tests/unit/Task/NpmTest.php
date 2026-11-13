@@ -1,4 +1,5 @@
 <?php
+
 use AspectMock\Test as test;
 
 class NpmTest extends \Codeception\TestCase\Test

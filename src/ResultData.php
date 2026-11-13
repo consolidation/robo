@@ -13,18 +13,18 @@ class ResultData extends Data implements ExitCodeInterface, OutputDataInterface
      */
     protected $exitCode;
 
-    const EXITCODE_OK = 0;
-    const EXITCODE_ERROR = 1;
+    public const EXITCODE_OK = 0;
+    public const EXITCODE_ERROR = 1;
     /** Symfony Console handles these conditions; Robo returns the status
     code selected by Symfony. These are here for documentation purposes. */
-    const EXITCODE_MISSING_OPTIONS = 2;
-    const EXITCODE_COMMAND_NOT_FOUND = 127;
+    public const EXITCODE_MISSING_OPTIONS = 2;
+    public const EXITCODE_COMMAND_NOT_FOUND = 127;
 
     /** The command was aborted because the user chose to cancel it at some prompt.
     This exit code is arbitrarily the same as EX_TEMPFAIL in sysexits.h, although
     note that shell error codes are distinct from C exit codes, so this alignment
     not particularly meaningful. */
-    const EXITCODE_USER_CANCEL = 75;
+    public const EXITCODE_USER_CANCEL = 75;
 
     /**
      * @param int $exitCode

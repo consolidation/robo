@@ -1,9 +1,10 @@
 <?php
+
 use Robo\Result;
 use Robo\Exception\TaskExitException;
 
-class ResultTest extends \Codeception\TestCase\Test {
-
+class ResultTest extends \Codeception\TestCase\Test
+{
     /**
      * @var \CodeGuy
      */

@@ -1,4 +1,5 @@
 <?php
+
 use AspectMock\Test as test;
 
 class PhpspecTest extends \Codeception\TestCase\Test
@@ -36,7 +37,8 @@ class PhpspecTest extends \Codeception\TestCase\Test
             ->format('pretty');
         $this->assertEquals(
             'phpspec run --stop-on-failure --no-code-generation --quiet -vv --no-ansi --no-interaction --format pretty',
-            $task->getCommand());
+            $task->getCommand()
+        );
         $task->run();
         $this->phpspec->verifyInvoked('executeCommand', ['phpspec run --stop-on-failure --no-code-generation --quiet -vv --no-ansi --no-interaction --format pretty']);
     }

@@ -1,6 +1,6 @@
 <?php
-use Robo\Robo;
 
+use Robo\Robo;
 use Consolidation\Config\Loader\ConfigProcessor;
 use Consolidation\Config\Loader\YamlConfigLoader;
 

@@ -94,6 +94,10 @@ class GenerateMarkdownDocTest extends TestCase
         $contents = file_get_contents('TestedRoboTask.md');
         $this->assertStringContainsString('A test task file. Used for testig documentation generation.', $contents);
         $this->assertStringContainsString('taskTestedRoboTask', $contents);
+        // Default values of untyped parameters must not be rendered as null.
+        $this->assertStringContainsString('* `preserve($preserve = true)`', $contents);
+        $this->assertStringContainsString('* `exclude($exclude = [])`', $contents);
+        $this->assertStringContainsString('* `name($name = null, $mode = PHP_INT_MAX)`', $contents);
         if (PHP_OS_FAMILY === 'Windows') {
             $this->assertStringContainsString('* `to($dst)`', $contents);
             $this->assertStringContainsString('* `param string` $dst', $contents);

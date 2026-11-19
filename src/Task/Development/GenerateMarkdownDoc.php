@@ -691,14 +691,35 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
         }
         $text .= '$' . $param->name;
         if ($param->isDefaultValueAvailable()) {
-            if ($param->allowsNull()) {
-                $text .= ' = null';
-            } else {
-                $text .= ' = ' . str_replace("\n", ' ', var_export($param->getDefaultValue(), true));
-            }
+            $text .= ' = ' . $this->documentDefaultValue($param);
         }
 
         return $text;
+    }
+
+    /**
+     * Render the default value of a parameter.
+     *
+     * Note that ReflectionParameter::allowsNull() is true for every untyped
+     * parameter, so it can't be used to decide whether the default is null.
+     *
+     * @param \ReflectionParameter $param
+     *
+     * @return string
+     */
+    protected function documentDefaultValue(\ReflectionParameter $param)
+    {
+        if ($param->isDefaultValueConstant()) {
+            return (string) $param->getDefaultValueConstantName();
+        }
+        $value = $param->getDefaultValue();
+        if ($value === null) {
+            return 'null';
+        }
+        if ($value === []) {
+            return '[]';
+        }
+        return str_replace("\n", ' ', var_export($value, true));
     }
 
     /**

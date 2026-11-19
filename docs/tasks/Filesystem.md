@@ -212,7 +212,7 @@ Use WorkDir if you do not want the directory to be deleted.
 // Note that in this example, everything is deleted at
 // the end of $collection->run().
 $collection = $this->collectionBuilder();
-$tmpPath = $collection->tmpDir()->getPath();
+$tmpPath = $collection->tmpDir();
 $collection->taskFilesystemStack()
           ->mkdir("$tmpPath/log")
           ->touch("$tmpPath/log/error.txt");
@@ -245,7 +245,7 @@ there is a rollback, then the working directory is deleted.
 ``` php
 <?php
 $collection = $this->collectionBuilder();
-$workingPath = $collection->workDir("build")->getPath();
+$workingPath = $collection->workDir("build");
 $collection->taskFilesystemStack()
           ->mkdir("$workingPath/log")
           ->touch("$workingPath/log/error.txt");

@@ -505,7 +505,7 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
         $doc .= implode("\n", $properties);
 
         $methods = [];
-        foreach ($refl->getMethods() as $reflMethod) {
+        foreach ($this->sortMethods($refl, $refl->getMethods()) as $reflMethod) {
             $methods[$reflMethod->name] = $this->documentMethod($reflMethod);
         }
         if (is_callable($this->reorderMethods)) {
@@ -517,6 +517,49 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
         $doc .= implode("\n", $methods) . "\n";
 
         return $doc;
+    }
+
+    /**
+     * Sort methods into a stable order.
+     *
+     * The order of ReflectionClass::getMethods() for inherited and trait
+     * methods differs between PHP versions (e.g. PHP 8.5 vs. 8.4), which made
+     * the generated documentation depend on the PHP version it was built
+     * with. Methods are sorted by the class that declares them (the documented
+     * class first, then its parents from nearest to oldest), then methods
+     * written in that class's own file before methods from its traits, then
+     * by file and line, so source order is kept.
+     *
+     * @param \ReflectionClass $refl
+     * @param \ReflectionMethod[] $methods
+     *
+     * @return \ReflectionMethod[]
+     */
+    protected function sortMethods(\ReflectionClass $refl, array $methods)
+    {
+        $depth = [];
+        $level = 0;
+        for ($class = $refl; $class; $class = $class->getParentClass()) {
+            $depth[$class->getName()] = $level++;
+        }
+
+        $key = function (\ReflectionMethod $method) use ($depth) {
+            $declaringClass = $method->getDeclaringClass();
+            $file = (string) $method->getFileName();
+            return [
+                $depth[$declaringClass->getName()] ?? PHP_INT_MAX,
+                $file === (string) $declaringClass->getFileName() ? 0 : 1,
+                $file,
+                (int) $method->getStartLine(),
+                $method->getName(),
+            ];
+        };
+
+        usort($methods, function (\ReflectionMethod $a, \ReflectionMethod $b) use ($key) {
+            return $key($a) <=> $key($b);
+        });
+
+        return $methods;
     }
 
     /**

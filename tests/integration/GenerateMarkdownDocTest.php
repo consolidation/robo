@@ -186,4 +186,30 @@ Long description 3
 EOT, $contents);
         }
     }
+
+    public function testMethodOrderIsStable()
+    {
+        $sourceFile = $this->fixtures->dataFile('ClassWithMethodOrder.php');
+        $this->assertFileExists($sourceFile);
+        include $sourceFile;
+        $this->assertTrue(class_exists('ClassWithMethodOrder'));
+
+        $collection = $this->collectionBuilderForTest();
+        $taskGenerator = $collection->taskGenDoc("ClassWithMethodOrder.md");
+        $taskGenerator->docClass('ClassWithMethodOrder');
+        $result = $collection->run();
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
+
+        // Own methods in source order, then trait methods, then inherited methods.
+        $contents = file_get_contents('ClassWithMethodOrder.md');
+        $positions = [];
+        foreach (['zeta', 'alpha', 'fromTrait', 'fromParent'] as $method) {
+            $position = strpos($contents, "* $method()");
+            $this->assertNotFalse($position, "$method() is documented");
+            $positions[] = $position;
+        }
+        $sorted = $positions;
+        sort($sorted);
+        $this->assertSame($sorted, $positions);
+    }
 }

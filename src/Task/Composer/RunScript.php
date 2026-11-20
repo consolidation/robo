@@ -9,7 +9,6 @@ namespace Robo\Task\Composer;
  */
 class RunScript extends Base
 {
-
     /**
      * @var string
      */

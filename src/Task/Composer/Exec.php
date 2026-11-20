@@ -9,7 +9,6 @@ namespace Robo\Task\Composer;
  */
 class Exec extends Base
 {
-
     /**
      * @var string
      */

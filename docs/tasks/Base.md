@@ -19,36 +19,16 @@ if ($this->taskExec('phpunit .')->run()->wasSuccessful()) {
 ?>
 ```
 
-* `simulate($context)`
-
- * `param ` $context
-* `setProcessInput($input)`
-
- * `param resource|string` $input
-* `dir($dir)`
-
- * `param string` $dir
-* `arg($arg)`
-
- * `param string` $arg
-* `args($args)`
-
- * `param string|string[]` $args
-* `rawArg($arg)`
-
- * `param string` $arg
-* `option($option, $value = null, $separator = null)`
-
- * `param string` $option
-* `options(array $options, $separator = null)`
-
- * `param array` $options
-* `optionList($option, $value = null, $separator = null)`
-
- * `param string` $option
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `simulate($context)` {@inheritdoc}
+* `arg($arg)` Pass argument to executable. Its value will be automatically escaped.
+* `args($args)` Pass methods parameters as arguments to executable. Argument values
+* `rawArg($arg)` Pass the provided string in its raw (as provided) form as an argument to executable.
+* `option($option, $value = null, $separator = ' ')` Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
+* `options(array $options, $separator = ' ')` Pass multiple options to executable. The associative array contains
+* `optionList($option, $value = [], $separator = ' ')` Pass an option with multiple values to executable. Value can be a string or array.
+* `setProcessInput($input)` Pass an input to the process. Can be resource created with fopen() or string
+* `dir($dir)` Changes working directory of command
+* `setOutput($output)` Sets the Console Output.
 
 ## ExecStack
 
@@ -68,26 +48,12 @@ $this->taskExecStack()
 ```
 
 * `executable($executable)`
-
- * `param string` $executable
 * `exec($command)`
-
- * `param string|string[]|CommandInterface` $command
-* `stopOnFail($stopOnFail = null)`
-
- * `param bool` $stopOnFail
+* `stopOnFail($stopOnFail = true)`
 * `result($result)`
-
- * `param ` $result
-* `setProcessInput($input)`
-
- * `param resource|string` $input
-* `dir($dir)`
-
- * `param string` $dir
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `setProcessInput($input)` Pass an input to the process. Can be resource created with fopen() or string
+* `dir($dir)` Changes working directory of command
+* `setOutput($output)` Sets the Console Output.
 
 ## ParallelExec
 
@@ -105,14 +71,8 @@ $this->taskParallelExec()
 ```
 
 * `process($command)`
-
- * `param string|\Robo\Contract\CommandInterface` $command
-* `waitInterval($waitInterval)`
-
- * `param int` $waitInterval
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `waitInterval($waitInterval)` Parallel processing will wait `$waitInterval` seconds after launching each process and before
+* `setOutput($output)` Sets the Console Output.
 
 
 ## SymfonyCommand
@@ -136,14 +96,8 @@ $this->taskSymfonyCommand(new ModelGeneratorCommand())
 ```
 
 * `arg($arg, $value)`
-
- * `param string` $arg
 * `opt($option, $value = null)`
-
- * `param ` $option
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `setOutput($output)` Sets the Console Output.
 
 
 ## Watch
@@ -199,10 +153,6 @@ $this
 
 The $event parameter is a [standard Symfony file resource object](https://api.symfony.com/3.1/Symfony/Component/Config/Resource/FileResource.html)
 
-* `monitor($paths, $callable, $events = null)`
-
- * `param string|string[]` $paths
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `monitor($paths, $callable, $events = 2)`
+* `setOutput($output)` Sets the Console Output.
 

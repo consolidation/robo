@@ -14,57 +14,23 @@ $this->taskAtoum()
 ?>
 ```
 
-* `tags($tags)`
-
- * `param string|string[]` $tags
-* `lightReport()`
-
- * `return $this`
-* `tap()`
-
- * `return $this`
-* `bootstrap($file)`
-
- * `param string` $file
-* `configFile($file)`
-
- * `param string` $file
-* `debug()`
-
- * `return $this`
-* `files($files)`
-
- * `param ` $files
-* `directories($directories)`
-
- * `param ` $directories
-* `setProcessInput($input)`
-
- * `param resource|string` $input
-* `dir($dir)`
-
- * `param string` $dir
-* `arg($arg)`
-
- * `param string` $arg
-* `args($args)`
-
- * `param string|string[]` $args
-* `rawArg($arg)`
-
- * `param string` $arg
-* `option($option, $value = null, $separator = null)`
-
- * `param string` $option
-* `options(array $options, $separator = null)`
-
- * `param array` $options
-* `optionList($option, $value = null, $separator = null)`
-
- * `param string` $option
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `tags($tags)` Tag or Tags to filter.
+* `lightReport()` Display result using the light reporter.
+* `tap()` Display result using the tap reporter.
+* `bootstrap($file)` Path to the bootstrap file.
+* `configFile($file)` Path to the config file.
+* `debug()` Use atoum's debug mode.
+* `files($files)` Test file or test files to run.
+* `directories($directories)` Test directory or directories to run.
+* `arg($arg)` Pass argument to executable. Its value will be automatically escaped.
+* `args($args)` Pass methods parameters as arguments to executable. Argument values
+* `rawArg($arg)` Pass the provided string in its raw (as provided) form as an argument to executable.
+* `option($option, $value = null, $separator = ' ')` Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
+* `options(array $options, $separator = ' ')` Pass multiple options to executable. The associative array contains
+* `optionList($option, $value = [], $separator = ' ')` Pass an option with multiple values to executable. Value can be a string or array.
+* `setProcessInput($input)` Pass an input to the process. Can be resource created with fopen() or string
+* `dir($dir)` Changes working directory of command
+* `setOutput($output)` Sets the Console Output.
 
 ## Behat
 
@@ -82,56 +48,22 @@ $this->taskBehat()
 
 
 * `stopOnFail()`
-
- * `return $this`
 * `noInteraction()`
-
- * `return $this`
 * `config($config_file)`
-
- * `param string` $config_file
 * `colors()`
-
- * `return $this`
 * `noColors()`
-
- * `return $this`
 * `suite($suite)`
-
- * `param string` $suite
-* `verbose($level = null)`
-
- * `param string` $level
+* `verbose($level = 'v')`
 * `format($formater)`
-
- * `param string` $formater
-* `setProcessInput($input)`
-
- * `param resource|string` $input
-* `dir($dir)`
-
- * `param string` $dir
-* `arg($arg)`
-
- * `param string` $arg
-* `args($args)`
-
- * `param string|string[]` $args
-* `rawArg($arg)`
-
- * `param string` $arg
-* `option($option, $value = null, $separator = null)`
-
- * `param string` $option
-* `options(array $options, $separator = null)`
-
- * `param array` $options
-* `optionList($option, $value = null, $separator = null)`
-
- * `param string` $option
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `arg($arg)` Pass argument to executable. Its value will be automatically escaped.
+* `args($args)` Pass methods parameters as arguments to executable. Argument values
+* `rawArg($arg)` Pass the provided string in its raw (as provided) form as an argument to executable.
+* `option($option, $value = null, $separator = ' ')` Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
+* `options(array $options, $separator = ' ')` Pass multiple options to executable. The associative array contains
+* `optionList($option, $value = [], $separator = ' ')` Pass an option with multiple values to executable. Value can be a string or array.
+* `setProcessInput($input)` Pass an input to the process. Can be resource created with fopen() or string
+* `dir($dir)` Changes working directory of command
+* `setOutput($output)` Sets the Console Output.
 
 ## Codecept
 
@@ -154,80 +86,30 @@ $this->taskCodecept()
 
 
 * `suite($suite)`
-
- * `param string` $suite
 * `test($testName)`
-
- * `param string` $testName
-* `group($group)`
-
- * `param string` $group
+* `group($group)` set group option. Can be called multiple times
 * `excludeGroup($group)`
-
- * `param string` $group
-* `json($file = null)`
-
- * `param string` $file
-* `xml($file = null)`
-
- * `param string` $file
-* `html($dir = null)`
-
- * `param string` $dir
-* `tap($file = null)`
-
- * `param string` $file
-* `configFile($file)`
-
- * `param string` $file
-* `coverage($cov = null)`
-
- * `param null|string` $cov
-* `coverageXml($xml = null)`
-
- * `param string` $xml
-* `coverageHtml($html = null)`
-
- * `param string` $html
+* `json($file = null)` generate json report
+* `xml($file = null)` generate xml JUnit report
+* `html($dir = null)` Generate html report
+* `tap($file = null)` generate tap report
+* `configFile($file)` provides config file other then default `codeception.yml` with `-c` option
+* `coverage($cov = null)` collect codecoverage in raw format. You may pass name of cov file to save results
+* `coverageXml($xml = null)` collect code coverage in xml format. You may pass name of xml file to save results
+* `coverageHtml($html = null)` collect code coverage and generate html report. You may pass
 * `debug()`
-
- * `return $this`
 * `noRebuild()`
-
- * `return $this`
 * `noExit()`
-
- * `return $this`
 * `failGroup($failGroup)`
-
- * `param string` $failGroup
-* `setProcessInput($input)`
-
- * `param resource|string` $input
-* `dir($dir)`
-
- * `param string` $dir
-* `arg($arg)`
-
- * `param string` $arg
-* `args($args)`
-
- * `param string|string[]` $args
-* `rawArg($arg)`
-
- * `param string` $arg
-* `option($option, $value = null, $separator = null)`
-
- * `param string` $option
-* `options(array $options, $separator = null)`
-
- * `param array` $options
-* `optionList($option, $value = null, $separator = null)`
-
- * `param string` $option
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `arg($arg)` Pass argument to executable. Its value will be automatically escaped.
+* `args($args)` Pass methods parameters as arguments to executable. Argument values
+* `rawArg($arg)` Pass the provided string in its raw (as provided) form as an argument to executable.
+* `option($option, $value = null, $separator = ' ')` Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
+* `options(array $options, $separator = ' ')` Pass multiple options to executable. The associative array contains
+* `optionList($option, $value = [], $separator = ' ')` Pass an option with multiple values to executable. Value can be a string or array.
+* `setProcessInput($input)` Pass an input to the process. Can be resource created with fopen() or string
+* `dir($dir)` Changes working directory of command
+* `setOutput($output)` Sets the Console Output.
 
 ## PHPUnit
 
@@ -245,65 +127,25 @@ $this->taskPHPUnit()
 ```
 
 * `filter($filter)`
-
- * `param string` $filter
 * `group($group)`
-
- * `param string` $group
 * `excludeGroup($group)`
-
- * `param string` $group
-* `json($file = null)`
-
- * `param string` $file
-* `xml($file = null)`
-
- * `param string` $file
-* `tap($file = null)`
-
- * `param string` $file
+* `json($file = null)` adds `log-json` option to runner
+* `xml($file = null)` adds `log-junit` option
+* `tap($file = '')`
 * `bootstrap($file)`
-
- * `param string` $file
 * `configFile($file)`
-
- * `param string` $file
 * `debug()`
-
- * `return $this`
-* `files($files)`
-
- @deprecated
-* `file($file)`
-
- * `param string` $file Path to file to test.
-* `setProcessInput($input)`
-
- * `param resource|string` $input
-* `dir($dir)`
-
- * `param string` $dir
-* `arg($arg)`
-
- * `param string` $arg
-* `args($args)`
-
- * `param string|string[]` $args
-* `rawArg($arg)`
-
- * `param string` $arg
-* `option($option, $value = null, $separator = null)`
-
- * `param string` $option
-* `options(array $options, $separator = null)`
-
- * `param array` $options
-* `optionList($option, $value = null, $separator = null)`
-
- * `param string` $option
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `files($files)` @deprecated
+* `file($file)` Test the provided file.
+* `arg($arg)` Pass argument to executable. Its value will be automatically escaped.
+* `args($args)` Pass methods parameters as arguments to executable. Argument values
+* `rawArg($arg)` Pass the provided string in its raw (as provided) form as an argument to executable.
+* `option($option, $value = null, $separator = ' ')` Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
+* `options(array $options, $separator = ' ')` Pass multiple options to executable. The associative array contains
+* `optionList($option, $value = [], $separator = ' ')` Pass an option with multiple values to executable. Value can be a string or array.
+* `setProcessInput($input)` Pass an input to the process. Can be resource created with fopen() or string
+* `dir($dir)` Changes working directory of command
+* `setOutput($output)` Sets the Console Output.
 
 ## Phpspec
 
@@ -321,55 +163,21 @@ $this->taskPhpspec()
 
 
 * `stopOnFail()`
-
-
 * `noCodeGeneration()`
-
-
 * `quiet()`
-
-
-* `verbose($level = null)`
-
- * `param string` $level
+* `verbose($level = 'v')`
 * `noAnsi()`
-
- * `return $this`
 * `noInteraction()`
-
- * `return $this`
 * `config($config_file)`
-
- * `param string` $config_file
 * `format($formater)`
-
- * `param string` $formater
-* `setProcessInput($input)`
-
- * `param resource|string` $input
-* `dir($dir)`
-
- * `param string` $dir
-* `arg($arg)`
-
- * `param string` $arg
-* `args($args)`
-
- * `param string|string[]` $args
-* `rawArg($arg)`
-
- * `param string` $arg
-* `option($option, $value = null, $separator = null)`
-
- * `param string` $option
-* `options(array $options, $separator = null)`
-
- * `param array` $options
-* `optionList($option, $value = null, $separator = null)`
-
- * `param string` $option
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `arg($arg)` Pass argument to executable. Its value will be automatically escaped.
+* `args($args)` Pass methods parameters as arguments to executable. Argument values
+* `rawArg($arg)` Pass the provided string in its raw (as provided) form as an argument to executable.
+* `option($option, $value = null, $separator = ' ')` Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
+* `options(array $options, $separator = ' ')` Pass multiple options to executable. The associative array contains
+* `optionList($option, $value = [], $separator = ' ')` Pass an option with multiple values to executable. Value can be a string or array.
+* `setProcessInput($input)` Pass an input to the process. Can be resource created with fopen() or string
+* `dir($dir)` Changes working directory of command
+* `setOutput($output)` Sets the Console Output.
 
 

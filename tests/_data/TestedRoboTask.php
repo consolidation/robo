@@ -52,6 +52,43 @@ class TestedRoboTask extends BaseTask
     }
 
     /**
+     * Untyped parameter with a boolean default
+     *
+     * @param bool $preserve
+     *
+     * @return $this
+     */
+    public function preserve($preserve = true)
+    {
+        return $this;
+    }
+
+    /**
+     * Untyped parameter with an array default
+     *
+     * @param array $exclude
+     *
+     * @return $this
+     */
+    public function exclude($exclude = [])
+    {
+        return $this;
+    }
+
+    /**
+     * Parameters with null and constant defaults
+     *
+     * @param string|null $name
+     * @param int $mode
+     *
+     * @return $this
+     */
+    public function name(?string $name = null, $mode = \PHP_INT_MAX)
+    {
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function run()

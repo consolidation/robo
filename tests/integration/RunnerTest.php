@@ -132,7 +132,9 @@ EOT;
         $argv = ['placeholder', 'test:deploy', '--simulate'];
         $this->runner->execute($argv, null, null, $this->capturedOutputStream());
         $this->assertOutputContains('[Simulator] Simulating Remote\\Ssh(\'mysite.com\', null)');
-        $this->assertOutputContains('[Simulator] Running ssh mysite.com \'cd "/var/www/somesite" && git pull\'');
+        // The remote command is escaped for the local shell: single quotes on POSIX, double quotes on Windows.
+        $remoteCommand = \Robo\Common\ProcessUtils::escapeArgument('cd "/var/www/somesite" && git pull');
+        $this->assertOutputContains('[Simulator] Running ssh mysite.com ' . $remoteCommand);
     }
 
     public function testRunnerTryError()

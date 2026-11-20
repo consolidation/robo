@@ -1,15 +1,26 @@
 <?php
 
+use Robo\Common\ProcessUtils;
 use Robo\Robo;
 use PHPUnit\Framework\TestCase;
 
 class SshTest extends TestCase
 {
+    /**
+     * The remote command is passed to ssh as one escaped argument. The
+     * quoting depends on the local OS (single quotes on POSIX, double
+     * quotes on Windows), so build the expected command the same way.
+     */
+    protected function expectedSshCommand($hostSpec, $remoteCommand)
+    {
+        return "ssh {$hostSpec} " . ProcessUtils::escapeArgument($remoteCommand);
+    }
+
     // tests
     public function testBasicCommand()
     {
         $this->assertEquals(
-            "ssh user@remote.example.com 'ls -la && chmod g+x logs'",
+            $this->expectedSshCommand('user@remote.example.com', 'ls -la && chmod g+x logs'),
             (new \Robo\Task\Remote\Ssh('remote.example.com', 'user'))
                 ->exec('ls -la')
                 ->exec('chmod g+x logs')
@@ -17,10 +28,24 @@ class SshTest extends TestCase
         );
     }
 
+    public function testCommandContainingQuotes()
+    {
+        $command = (new \Robo\Task\Remote\Ssh('remote.example.com', 'user'))
+            ->exec("echo 'hi'")
+            ->getCommand();
+        $this->assertEquals(
+            $this->expectedSshCommand('user@remote.example.com', "echo 'hi'"),
+            $command
+        );
+        if ('\\' !== DIRECTORY_SEPARATOR) {
+            $this->assertEquals("ssh user@remote.example.com 'echo '\\''hi'\\'''", $command);
+        }
+    }
+
     public function testStopOnFail()
     {
         $this->assertEquals(
-            "ssh user@remote.example.com 'one ; two'",
+            $this->expectedSshCommand('user@remote.example.com', 'one ; two'),
             (new \Robo\Task\Remote\Ssh('remote.example.com', 'user'))
                 ->stopOnFail(false)
                 ->exec('one')
@@ -37,21 +62,21 @@ class SshTest extends TestCase
         $config = new \Robo\Config\Config();
         \Robo\Task\Remote\Ssh::configure('remoteDir', '/some-dir', $config);
         $this->assertEquals(
-            "ssh user@remote.example.com 'cd \"/some-dir\" && echo test'",
+            $this->expectedSshCommand('user@remote.example.com', 'cd "/some-dir" && echo test'),
             (new \Robo\Task\Remote\Ssh('remote.example.com', 'user'))
                 ->setConfig($config)
                 ->exec('echo test')
                 ->getCommand()
         );
         $this->assertEquals(
-            "ssh user@remote.example.com 'cd \"/other-dir\" && echo test'",
+            $this->expectedSshCommand('user@remote.example.com', 'cd "/other-dir" && echo test'),
             (new \Robo\Task\Remote\Ssh('remote.example.com', 'user'))
                 ->remoteDir('/other-dir')
                 ->exec('echo test')
                 ->getCommand()
         );
         $this->assertEquals(
-            "ssh user@remote.example.com 'cd \"/some-dir\" && echo test'",
+            $this->expectedSshCommand('user@remote.example.com', 'cd "/some-dir" && echo test'),
             (new \Robo\Task\Remote\Ssh('remote.example.com', 'user'))
                 ->setConfig($config)
                 ->exec('echo test')
@@ -59,7 +84,7 @@ class SshTest extends TestCase
         );
         \Robo\Task\Remote\Ssh::configure('remoteDir', null, $config);
         $this->assertEquals(
-            "ssh user@remote.example.com 'echo test'",
+            $this->expectedSshCommand('user@remote.example.com', 'echo test'),
             (new \Robo\Task\Remote\Ssh('remote.example.com', 'user'))
                 ->exec('echo test')
                 ->getCommand()

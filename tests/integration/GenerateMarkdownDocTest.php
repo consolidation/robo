@@ -115,6 +115,26 @@ EOT, $contents);
         }
     }
 
+    public function testUndocumentedMembersUseTheNearestParentDocBlock()
+    {
+        $sourceFile = $this->fixtures->dataFile('ClassWithInheritedDocs.php');
+        $this->assertFileExists($sourceFile);
+        include $sourceFile;
+        $this->assertTrue(class_exists('ClassWithInheritedDocs'));
+
+        $collection = $this->collectionBuilderForTest();
+        $taskGenerator = $collection->taskGenDoc("ClassWithInheritedDocs.md");
+        $taskGenerator->docClass('ClassWithInheritedDocs');
+        $result = $collection->run();
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
+
+        $contents = file_get_contents('ClassWithInheritedDocs.md');
+        $this->assertStringContainsString('Parent method description', $contents);
+        $this->assertStringNotContainsString('Grandparent method description', $contents);
+        $this->assertStringContainsString('Parent property description', $contents);
+        $this->assertStringNotContainsString('Grandparent property description', $contents);
+    }
+
     public function testMarkdownOfUnionType()
     {
         if (version_compare(PHP_VERSION, '8.0') < 0) {

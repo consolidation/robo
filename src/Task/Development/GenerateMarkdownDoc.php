@@ -655,12 +655,15 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
             return "";
         }
         $propertyDoc = $reflectedProperty->getDocComment();
-        // take from parent
+        // take from the nearest parent that documents it
         if (!$propertyDoc) {
             $parent = $reflectedProperty->getDeclaringClass();
             while ($parent = $parent->getParentClass()) {
                 if ($parent->hasProperty($reflectedProperty->name)) {
                     $propertyDoc = $parent->getProperty($reflectedProperty->name)->getDocComment();
+                    if ($propertyDoc) {
+                        break;
+                    }
                 }
             }
         }
@@ -782,12 +785,15 @@ class GenerateMarkdownDoc extends BaseTask implements BuilderAwareInterface
             return "";
         }
         $methodDoc = $reflectedMethod->getDocComment();
-        // take from parent
+        // take from the nearest parent that documents it
         if (!$methodDoc) {
             $parent = $reflectedMethod->getDeclaringClass();
             while ($parent = $parent->getParentClass()) {
                 if ($parent->hasMethod($reflectedMethod->name)) {
                     $methodDoc = $parent->getMethod($reflectedMethod->name)->getDocComment();
+                    if ($methodDoc) {
+                        break;
+                    }
                 }
             }
         }

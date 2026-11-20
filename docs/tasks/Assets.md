@@ -69,18 +69,10 @@ $this->taskImageMinify('assets/images/*.jpg')
 This will execute as:
 `jpegtran -copy none -progressive -optimize -outfile "dist/images/test.jpg" "/var/www/test/assets/images/test.jpg"`
 
-* `setExecutableDir($directory)`
-
- * `param string` $directory
-* `to($target)`
-
- * `param string` $target
-* `minifier($minifier, array $options = array ( ))`
-
- * `param string` $minifier
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `setExecutableDir($directory)` Sets the target directory for executables (`vendor/bin/` by default)
+* `to($target)` Sets the target directory where the files will be copied to.
+* `minifier($minifier, array $options = [])` Sets the minifier.
+* `setOutput($output)` Sets the Console Output.
 
 ## Less
 
@@ -120,24 +112,12 @@ You can implement additional compilers by extending this task and adding a
 method named after them and overloading the lessCompilers() method to
 inject the name there.
 
-* `importDir($dirs)`
-
- * `see` CssPreprocessor::setImportPaths
-* `addImportPath($dir)`
-
- * `param string` $dir
-* `setImportPaths($dirs)`
-
- * `param array|string` $dirs
+* `importDir($dirs)` Sets import directories
+* `addImportPath($dir)` Adds import directory
+* `setImportPaths($dirs)` Sets import directories
 * `setFormatter($formatterName)`
-
- * `param string` $formatterName
-* `compiler($compiler, array $options = array ( ))`
-
- * `param string` $compiler
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `compiler($compiler, array $options = [])` Sets the compiler.
+* `setOutput($output)` Sets the Console Output.
 
 ## Minify
 
@@ -157,27 +137,13 @@ composer require patchwork/jsqueeze:^2.0
 composer require natxet/cssmin:^3.0
 ```
 
-* `to($dst)`
-
- * `param string` $dst
-* `type($type)`
-
- * `param string` $type Allowed values: "css", "js".
-* `singleLine($singleLine)`
-
- * `param bool` $singleLine
-* `keepImportantComments($keepImportantComments)`
-
- * `param bool` $keepImportantComments
-* `specialVarRx($specialVarRx)`
-
- * `param bool` $specialVarRx
+* `to($dst)` Sets destination. Tries to guess type from it.
+* `type($type)` Sets type with validation.
+* `singleLine($singleLine)` Single line option for the JS minimisation.
+* `keepImportantComments($keepImportantComments)` keepImportantComments option for the JS minimisation.
+* `specialVarRx($specialVarRx)` Set specialVarRx option for the JS minimisation.
 * `__toString()`
-
- * `return string`
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `setOutput($output)` Sets the Console Output.
 
 ## Scss
 
@@ -204,23 +170,11 @@ You can implement additional compilers by extending this task and adding a
 method named after them and overloading the scssCompilers() method to
 inject the name there.
 
-* `setFormatter($formatterName)`
-
- * `link` https://scssphp.github.io/scssphp/docs/#output-formatting
-* `importDir($dirs)`
-
- * `see` CssPreprocessor::setImportPaths
-* `addImportPath($dir)`
-
- * `param string` $dir
-* `setImportPaths($dirs)`
-
- * `param array|string` $dirs
-* `compiler($compiler, array $options = array ( ))`
-
- * `param string` $compiler
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `setFormatter($formatterName)` Sets the formatter for scssphp
+* `importDir($dirs)` Sets import directories
+* `addImportPath($dir)` Adds import directory
+* `setImportPaths($dirs)` Sets import directories
+* `compiler($compiler, array $options = [])` Sets the compiler.
+* `setOutput($output)` Sets the Console Output.
 
 

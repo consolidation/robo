@@ -24,18 +24,10 @@ $this->taskExtract($archivePath)
 ?>
 ```
 
-* `to($to)`
-
- * `param string` $to
-* `preserveTopDirectory($preserve = null)`
-
- * `param bool` $preserve
-* `getBuiltTask($fn, $args)`
-
- * `param string` $fn
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `to($to)` Location to store extracted files.
+* `preserveTopDirectory($preserve = true)`
+* `getBuiltTask($fn, $args)` Provides the collection builder with access to all of the
+* `setOutput($output)` Sets the Console Output.
 
 ## Pack
 
@@ -55,22 +47,10 @@ $this->taskPack(
 ```
 
 * `archiveFile($archiveFile)`
-
- * `param string` $archiveFile
-* `addFile($placementLocation, $filesystemLocation)`
-
- * `param string` $placementLocation Relative path and name of item to store in archive.
-* `addDir($placementLocation, $filesystemLocation)`
-
- * `param string` $placementLocation Relative path and name of directory to store in archive.
-* `add($item)`
-
- * `param string|array` $item If given a string, should contain the relative filesystem path to the
-* `exclude($ignoreList)`
-
- * `param ` $ignoreList
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `addFile($placementLocation, $filesystemLocation)` Add an item to the archive. Like file_exists(), the parameter
+* `addDir($placementLocation, $filesystemLocation)` Alias for addFile, in case anyone has angst about using
+* `add($item)` the item to store in archive; this will also be used as the item's
+* `exclude($ignoreList)` Allow files or folder to be excluded from the archive. Use regex, without enclosing slashes.
+* `setOutput($output)` Sets the Console Output.
 
 

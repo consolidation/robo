@@ -17,36 +17,16 @@ $this->taskNpmInstall('path/to/my/npm')
 ?>
 ```
 
-* `noDev()`
-
- * `return $this`
-* `setProcessInput($input)`
-
- * `param resource|string` $input
-* `dir($dir)`
-
- * `param string` $dir
-* `arg($arg)`
-
- * `param string` $arg
-* `args($args)`
-
- * `param string|string[]` $args
-* `rawArg($arg)`
-
- * `param string` $arg
-* `option($option, $value = null, $separator = null)`
-
- * `param string` $option
-* `options(array $options, $separator = null)`
-
- * `param array` $options
-* `optionList($option, $value = null, $separator = null)`
-
- * `param string` $option
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `noDev()` adds `production` option to npm
+* `arg($arg)` Pass argument to executable. Its value will be automatically escaped.
+* `args($args)` Pass methods parameters as arguments to executable. Argument values
+* `rawArg($arg)` Pass the provided string in its raw (as provided) form as an argument to executable.
+* `option($option, $value = null, $separator = ' ')` Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
+* `options(array $options, $separator = ' ')` Pass multiple options to executable. The associative array contains
+* `optionList($option, $value = [], $separator = ' ')` Pass an option with multiple values to executable. Value can be a string or array.
+* `setProcessInput($input)` Pass an input to the process. Can be resource created with fopen() or string
+* `dir($dir)` Changes working directory of command
+* `setOutput($output)` Sets the Console Output.
 
 
 ## Update
@@ -66,34 +46,14 @@ $this->taskNpmUpdate('path/to/my/npm')
 ?>
 ```
 
-* `noDev()`
-
- * `return $this`
-* `setProcessInput($input)`
-
- * `param resource|string` $input
-* `dir($dir)`
-
- * `param string` $dir
-* `arg($arg)`
-
- * `param string` $arg
-* `args($args)`
-
- * `param string|string[]` $args
-* `rawArg($arg)`
-
- * `param string` $arg
-* `option($option, $value = null, $separator = null)`
-
- * `param string` $option
-* `options(array $options, $separator = null)`
-
- * `param array` $options
-* `optionList($option, $value = null, $separator = null)`
-
- * `param string` $option
-* `setOutput($output)`
-
- * `param \Symfony\Component\Console\Output\OutputInterface` $output
+* `noDev()` adds `production` option to npm
+* `arg($arg)` Pass argument to executable. Its value will be automatically escaped.
+* `args($args)` Pass methods parameters as arguments to executable. Argument values
+* `rawArg($arg)` Pass the provided string in its raw (as provided) form as an argument to executable.
+* `option($option, $value = null, $separator = ' ')` Pass option to executable. Options are prefixed with `--` , value can be provided in second parameter.
+* `options(array $options, $separator = ' ')` Pass multiple options to executable. The associative array contains
+* `optionList($option, $value = [], $separator = ' ')` Pass an option with multiple values to executable. Value can be a string or array.
+* `setProcessInput($input)` Pass an input to the process. Can be resource created with fopen() or string
+* `dir($dir)` Changes working directory of command
+* `setOutput($output)` Sets the Console Output.
 

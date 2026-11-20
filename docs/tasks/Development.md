@@ -19,9 +19,13 @@ Changes can be asked from Console
 
 ``` php
 <?php
+$changes = [];
+while ($change = $this->ask('Change (leave empty to finish)')) {
+    $changes[] = $change;
+}
 $this->taskChangelog()
  ->version($version)
- ->askForChanges()
+ ->changes($changes)
  ->run();
 ?>
 ```

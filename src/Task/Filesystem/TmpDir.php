@@ -17,7 +17,7 @@ use Robo\Contract\CompletionInterface;
  * // Note that in this example, everything is deleted at
  * // the end of $collection->run().
  * $collection = $this->collectionBuilder();
- * $tmpPath = $collection->tmpDir()->getPath();
+ * $tmpPath = $collection->tmpDir();
  * $collection->taskFilesystemStack()
  *           ->mkdir("$tmpPath/log")
  *           ->touch("$tmpPath/log/error.txt");

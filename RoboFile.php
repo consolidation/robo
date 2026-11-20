@@ -325,8 +325,21 @@ class RoboFile extends \Robo\Tasks
                 }
             )->processMethodDocBlock(
                 function (\ReflectionMethod $m, $text) {
-
-                    return $text ? ' ' . trim(strtok($text, "\n"), "\n") : '';
+                    // The generator lists the @param/@return tags first
+                    // ("* `param ...`") and the description after them.
+                    // Only keep the first line of the description.
+                    foreach (explode("\n", (string) $text) as $line) {
+                        $line = trim($line);
+                        if ($line !== '' && strpos($line, '* `') !== 0) {
+                            return $line;
+                        }
+                    }
+                    return '';
+                }
+            )->processMethod(
+                function (\ReflectionMethod $m, $text) {
+                    // Put the summary on the same line as the signature.
+                    return rtrim(preg_replace('~\n\n~', ' ', $text, 1));
                 }
             );
         }

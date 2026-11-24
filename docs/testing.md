@@ -60,9 +60,9 @@ The first run is the slowest, because it builds the images and fills the Compose
 
 ### On GitHub Actions
 
-`.github/workflows/docker-integration.yml` runs these tests on every pull request to `5.x`. Pushes don't trigger it. Each environment runs as a separate job, so they all run at the same time and show up as separate checks on the PR. The environments come from `tests/docker/run.sh --list`, so `tests/docker/<suite>/suite.sh` is the only place they're defined.
+`.github/workflows/docker-integration.yml` runs these tests on GitHub, but only when started by hand: they're too slow to run on every push or pull request. Each environment runs as a separate job, so they all run at the same time and each has its own result in the run. The environments come from `tests/docker/run.sh --list`, so `tests/docker/<suite>/suite.sh` is the only place they're defined.
 
-To run it by hand, for example on a release branch before `robo release`, open **Actions → Docker integration tests → Run workflow**. You can pick the branch, and optionally which suites or environments to test, in the same form as for `run.sh` (e.g. `drush 11:8.4 joomla`).
+To run it, for example before `robo release` or on a pull request that could affect Drush or JoRobo, open **Actions → Docker integration tests → Run workflow**, or use the GitHub CLI (`gh workflow run docker-integration.yml --ref BRANCH -f environments="drush joomla"`). This needs write access to the repository, and the branch must be in this repository: to test a pull request from a fork, push its branch here first. You can pick the branch, and optionally which suites or environments to test, in the same form as for `run.sh` (e.g. `drush 11:8.4 joomla`).
 
 The jobs pass the workflow's `GITHUB_TOKEN` to Composer through `COMPOSER_AUTH`, so GitHub doesn't rate-limit its downloads, and keep Composer's cache between runs with `actions/cache`.
 

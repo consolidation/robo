@@ -1,12 +1,12 @@
 # Docker integration tests: downstream projects (Drush, JoRobo/Joomla) tested
 # against this Robo checkout. See docs/testing.md.
+#
+# Run by hand only (Actions → Docker integration tests → Run workflow), for
+# example before a release: these tests are too slow to run on every PR.
 
 name: Docker integration tests
 
 on:
-  pull_request:
-    branches:
-      - 5.x
   workflow_dispatch:
     inputs:
       environments:
@@ -18,7 +18,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:

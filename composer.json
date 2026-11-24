@@ -51,15 +51,33 @@
         "cs-fix": "php-cs-fixer fix",
         "unit": "phpunit",
         "lint": "find src tests/src -name '*.php' -print0 | xargs -0 -n1 -P4 -- php -l",
+        "test-docker": [
+            "Composer\\Config::disableProcessTimeout",
+            "tests/docker/run.sh"
+        ],
+        "test-drush": [
+            "Composer\\Config::disableProcessTimeout",
+            "tests/docker/run.sh drush"
+        ],
+        "test-joomla": [
+            "Composer\\Config::disableProcessTimeout",
+            "tests/docker/run.sh joomla"
+        ],
         "test": [
             "@lint",
             "@unit",
-            "@cs"
+            "@cs",
+            "@test-docker"
         ],
         "phpdoc": "build/tools/phpdoc",
         "install-tools": [
             "if [[ ! -f build/tools/phpdoc ]] ; then mkdir -p build/tools && wget --output-document=build/tools/phpdoc https://phpdoc.org/phpDocumentor.phar && chmod +x build/tools/phpdoc; fi"
         ]
+    },
+    "scripts-descriptions": {
+        "test-docker": "Run the Drush and Joomla Docker integration tests in parallel (see docs/testing.md)",
+        "test-drush": "Install Drupal 10/11 with Drush 13 and this Robo checkout in Docker and run Drush commands",
+        "test-joomla": "Run JoRobo's test suite with this Robo checkout in Docker, then build weblinks with JoRobo and install it into Joomla 6"
     },
     "config": {
         "optimize-autoloader": true,

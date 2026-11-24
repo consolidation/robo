@@ -1,0 +1,68 @@
+# Docker integration tests: downstream projects (Drush, JoRobo/Joomla) tested
+# against this Robo checkout. See docs/testing.md.
+#
+# Run by hand only (Actions → Docker integration tests → Run workflow), for
+# example before a release: these tests are too slow to run on every PR.
+
+name: Docker integration tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      environments:
+        description: 'Suites or environments to test, as for tests/docker/run.sh (e.g. "drush 11:8.4 joomla"). Empty: all.'
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  environments:
+    name: List environments
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.list.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v6
+      - id: list
+        env:
+          ENVIRONMENTS: ${{ inputs.environments }}
+        run: |
+          # Intentionally unquoted: ENVIRONMENTS is a space-separated list.
+          # shellcheck disable=SC2086
+          echo "matrix=$(tests/docker/run.sh --list $ENVIRONMENTS)" >> "$GITHUB_OUTPUT"
+
+  test:
+    name: ${{ matrix.environment }}
+    needs: environments
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        environment: ${{ fromJSON(needs.environments.outputs.matrix) }}
+    env:
+      ROBO_DOCKER_TESTS: required
+      ROBO_DOCKER_COMPOSER_CACHE: ${{ github.workspace }}/.composer-cache
+      # Authenticate Composer's GitHub downloads, to avoid GitHub's rate limit
+      # for anonymous API requests.
+      COMPOSER_AUTH: '{"github-oauth": {"github.com": "${{ github.token }}"}}'
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Cache Composer downloads
+        uses: actions/cache@v5
+        with:
+          path: .composer-cache
+          key: docker-composer-${{ matrix.environment }}-${{ github.run_id }}
+          restore-keys: docker-composer-${{ matrix.environment }}-
+
+      - name: Run tests/docker/run.sh ${{ matrix.environment }}
+        env:
+          ENVIRONMENT: ${{ matrix.environment }}
+        run: tests/docker/run.sh "$ENVIRONMENT"

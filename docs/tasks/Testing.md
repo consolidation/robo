@@ -1,4 +1,7 @@
 # Testing Tasks
+
+These tasks run test tools from a RoboFile. To run the tests of Robo itself, see [Running the Automated Tests](../testing.md).
+
 ## Atoum
 
 

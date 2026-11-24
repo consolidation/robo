@@ -254,11 +254,20 @@ class RoboFile extends \Robo\Tasks
         }
         ksort($docs);
 
+        // Text added under the title of a generated page.
+        $intros = [
+            'Testing' => 'These tasks run test tools from a RoboFile. To run the tests of Robo itself, see [Running the Automated Tests](../testing.md).',
+        ];
+
         foreach ($docs as $ns => $tasks) {
             $taskGenerator = $collection->taskGenDoc("docs/tasks/$ns.md");
+            $prepend = "# $ns Tasks";
+            if (isset($intros[$ns])) {
+                $prepend .= "\n\n" . $intros[$ns] . "\n";
+            }
             $taskGenerator->filterClasses(function (\ReflectionClass $r) {
                 return !($r->isAbstract() || $r->isTrait()) && $r->implementsInterface('Robo\Contract\TaskInterface');
-            })->prepend("# $ns Tasks");
+            })->prepend($prepend);
             sort($tasks);
             foreach ($tasks as $class) {
                 $taskGenerator->docClass($class);

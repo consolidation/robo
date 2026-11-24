@@ -19,6 +19,9 @@ $finder = PhpCsFixer\Finder::create()
 
 return (new PhpCsFixer\Config())
     ->setRiskyAllowed(false)
+    // Allow running on PHP versions newer than php-cs-fixer officially
+    // supports. Robo targets PHP 8.2+, so its code has no newer syntax.
+    ->setUnsupportedPhpVersionAllowed(true)
     ->setRules([
         '@PSR12' => true,
     ])

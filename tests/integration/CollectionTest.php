@@ -540,4 +540,98 @@ class CollectionTest extends TestCase
         $this->assertEquals('2nd', $state['final']);
     }
 
+    protected function taskSubcollectionWithCompletion(\ArrayObject $log)
+    {
+        return $this->collectionBuilder()
+            ->addCode(function () use ($log) {
+                $log[] = 'subtask';
+            })
+            ->completion(
+                $this->collectionBuilder()->addCode(function () use ($log) {
+                    $log[] = 'subtask-completion';
+                })
+            );
+    }
+
+    protected function taskSubcollectionWithOnlyCompletion(\ArrayObject $log)
+    {
+        return $this->collectionBuilder()
+            ->completionCode(function () use ($log) {
+                $log[] = 'only-completion';
+            });
+    }
+
+    protected function taskOuterSubcollectionWithCompletion(\ArrayObject $log)
+    {
+        return $this->collectionBuilder()
+            ->taskSubcollectionWithCompletion($log)
+            ->addCode(function () use ($log) {
+                $log[] = 'outer-subtask';
+            });
+    }
+
+    protected function taskSubcollectionWithRollback(\ArrayObject $log)
+    {
+        return $this->collectionBuilder()
+            ->addCode(function () use ($log) {
+                $log[] = 'subtask';
+            })
+            ->rollbackCode(function () use ($log) {
+                $log[] = 'subtask-rollback';
+            });
+    }
+
+    public function testSubcollectionCompletionRunsInMainCollection()
+    {
+        $log = new \ArrayObject();
+        $result = $this->collectionBuilderForTest()
+            ->taskSubcollectionWithCompletion($log)
+            ->addCode(function () use ($log) {
+                $log[] = 'main';
+            })
+            ->run();
+
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
+        $this->assertEquals(['subtask', 'main', 'subtask-completion'], $log->getArrayCopy());
+    }
+
+    public function testSubcollectionWithOnlyCompletionRunsInMainCollection()
+    {
+        $log = new \ArrayObject();
+        $result = $this->collectionBuilderForTest()
+            ->taskSubcollectionWithOnlyCompletion($log)
+            ->run();
+
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
+        $this->assertEquals(['only-completion'], $log->getArrayCopy());
+    }
+
+    public function testNestedSubcollectionCompletionRunsInMainCollection()
+    {
+        $log = new \ArrayObject();
+        $result = $this->collectionBuilderForTest()
+            ->taskOuterSubcollectionWithCompletion($log)
+            ->addCode(function () use ($log) {
+                $log[] = 'main';
+            })
+            ->run();
+
+        $this->assertTrue($result->wasSuccessful(), $result->getMessage());
+        $this->assertEquals(['subtask', 'outer-subtask', 'main', 'subtask-completion'], $log->getArrayCopy());
+    }
+
+    public function testSubcollectionRollbackRunsInMainCollection()
+    {
+        $log = new \ArrayObject();
+        $result = $this->collectionBuilderForTest()
+            ->taskSubcollectionWithRollback($log)
+            ->addCode(function () use ($log) {
+                $log[] = 'failing-main';
+                return Result::EXITCODE_ERROR;
+            })
+            ->run();
+
+        $this->assertFalse($result->wasSuccessful());
+        $this->assertEquals(['subtask', 'failing-main', 'subtask-rollback'], $log->getArrayCopy());
+    }
 }

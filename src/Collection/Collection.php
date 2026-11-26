@@ -137,13 +137,10 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
      */
     public function completion(TaskInterface $completionTask)
     {
-        $collection = $this;
-        $completionRegistrationTask = new CallableTask(
-            function () use ($collection, $completionTask) {
-
+        $completionRegistrationTask = $this->createRegistrationTask(
+            function (Collection $collection) use ($completionTask) {
                 $collection->registerCompletion($completionTask);
-            },
-            $this
+            }
         );
         $this->addToTaskList(self::UNNAMEDTASK, $completionRegistrationTask);
         return $this;
@@ -196,15 +193,63 @@ class Collection extends BaseTask implements CollectionInterface, CommandInterfa
      */
     protected function wrapAndRegisterRollback(TaskInterface $rollbackTask)
     {
-        $collection = $this;
-        $rollbackRegistrationTask = new CallableTask(
-            function () use ($collection, $rollbackTask) {
+        $rollbackRegistrationTask = $this->createRegistrationTask(
+            function (Collection $collection) use ($rollbackTask) {
                 $collection->registerRollback($rollbackTask);
-            },
-            $this
+            }
         );
         $this->addToTaskList(self::UNNAMEDTASK, $rollbackRegistrationTask);
         return $this;
+    }
+
+    /**
+     * Create a registration task whose target collection is updated to the
+     * executing collection when tasks are nested or transferred.
+     *
+     * @param callable $registerFn
+     *
+     * @return \Robo\Contract\TaskInterface
+     */
+    private function createRegistrationTask(callable $registerFn)
+    {
+        return new class ($this, $registerFn) implements TaskInterface, NestedCollectionInterface {
+            /**
+             * @var \Robo\Collection\NestedCollectionInterface
+             */
+            protected $collection;
+
+            /**
+             * @var callable
+             */
+            protected $registerFn;
+
+            public function __construct(NestedCollectionInterface $collection, callable $registerFn)
+            {
+                $this->collection = $collection;
+                $this->registerFn = $registerFn;
+            }
+
+            /**
+             * {@inheritdoc}
+             */
+            public function setParentCollection(NestedCollectionInterface $parentCollection)
+            {
+                if ($parentCollection instanceof CollectionBuilder) {
+                    $parentCollection = $parentCollection->getCollection();
+                }
+                $this->collection = $parentCollection;
+                return $this;
+            }
+
+            /**
+             * {@inheritdoc}
+             */
+            public function run()
+            {
+                call_user_func($this->registerFn, $this->collection);
+                return Result::success($this->collection instanceof TaskInterface ? $this->collection : $this);
+            }
+        };
     }
 
     /**
